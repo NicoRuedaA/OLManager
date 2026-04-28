@@ -2104,7 +2104,10 @@
       "scout": "Scout",
       "performanceStaff": "Performance Staff",
       "coachingStaff": "Coaching Staff",
-      "academyCoordinator": "Academy Coordinator"
+      "academyCoordinator": "Academy Coordinator",
+      "esportmaniacos": "Esportmaníacos",
+      "allioPodcast": "Al Lío Podcast",
+      "elYuste": "el_yuste"
     },
     "role": {
       "chairman": "Chairman",
@@ -2121,7 +2124,10 @@
       "scout": "Scout",
       "performanceStaff": "Performance Staff",
       "coachingStaff": "Coaching Staff",
-      "academyCoordinator": "Academy Coordinator"
+      "academyCoordinator": "Academy Coordinator",
+      "esportmaniacos": "Panel",
+      "allioPodcast": "Eros",
+      "elYuste": "el_yuste"
     },
     "source": {
       "sportsGazette": "Dot Esports",
@@ -2542,6 +2548,49 @@
         "subject": "Academy weekly report: {{academy}}",
         "body": "Academy weekly summary:\n- Active players: {{activePlayers}}\n- Average OVR: {{avgOvr}}\n- High potential talents (>= 80): {{highPotential}}\n- Highlights: {{highlights}}\n- Current ERL rank: #{{position}} of {{total}}\n- Quick table: {{tablePreview}}",
         "bodyWithPromotion": "Academy weekly summary:\n- Active players: {{activePlayers}}\n- Average OVR: {{avgOvr}}\n- High potential talents (>= 80): {{highPotential}}\n- Highlights: {{highlights}}\n- Current ERL rank: #{{position}} of {{total}}\n- Quick table: {{tablePreview}}\n\nRecommendation: {{promotionCount}} player(s) ready for promotion -> {{promotionList}}."
+      },
+      "esportmaniacos": {
+        "positive": {
+          "subject0": "Esportmaníacos praises {{player}} — the desk is unanimous",
+          "body0": "The Esportmaníacos panel spent a good chunk of today's stream on {{player}} at {{team}}.\n\n\"Nothing to criticize this week. The guy is absolutely dominating.\" The positive coverage should give confidence a boost in the locker room.",
+          "subject1": "Esportmaníacos: {{player}} is carrying {{team}} this split",
+          "body1": "The Esportmaníacos tertulianos rarely agree on anything, but {{player}} got a full pass today: \"Consistent, solid, no dips in form. One of the best players in the league right now. {{team}} should do everything to keep him.\"\n\nGood for morale — and for the market value."
+        },
+        "negative": {
+          "subject0": "Esportmaníacos goes after {{player}} — panel shows no mercy",
+          "body0": "The Esportmaníacos panel did not hold back today on {{player}}: \"The guy has completely disappeared. What happened to him this split? {{team}} can't keep relying on a player performing like this.\"\n\nThis kind of coverage tends to hit morale hard. Worth having a word with the player.",
+          "subject1": "Esportmaníacos questions {{player}}'s consistency at {{team}}",
+          "body1": "Today's Esportmaníacos tertulianos session turned into a full breakdown of {{player}}'s recent form. The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. {{team}} deserves better output from a player in that role.\"\n\nKeep an eye on the player's morale."
+        }
+      },
+      "allio": {
+        "subject0": "Al Lío Podcast — Transfer rumour: {{player}} being tracked",
+        "body0": "Eros dropped a transfer hint on today's Al Lío episode: \"I'm hearing things about {{player}}. Multiple teams have been asking questions. Nothing confirmed yet, but the mercato around {{team}} is heating up.\"\n\nKeep this in mind when planning your squad for next split.",
+        "subject1": "Al Lío Podcast — Eros hints at incoming deal for {{team}}",
+        "body1": "Eros has been dropping hints on the latest Al Lío episode: \"I've been told there are conversations happening around {{team}}. Something is being cooked. I can't give names yet but stay tuned — this mercato is far from over.\"\n\nCould be noise, could be real. Worth watching.",
+        "subject2": "Al Lío Podcast — League format leak, Eros breaks it down",
+        "body2": "Today's Al Lío episode went off-script when Eros revealed a potential leak: \"I've been told the league is planning changes to the split format. Not confirmed, but my sources are usually reliable. This could shake up how teams build their rosters.\"\n\nIf true, this could affect your long-term planning.",
+        "subject3": "Al Lío Podcast — Big move incoming, league shaken up",
+        "body3": "Eros went live on Al Lío with what he called a \"bombazo\": \"There's a significant player movement about to happen in the league that nobody is talking about yet. I'll just say this — some teams are going to have to rethink their rosters completely.\"\n\nStay alert — the market is moving.",
+        "rivalInterest": {
+          "subject": "Al Lío Podcast — {{player}} linked with {{rival}}",
+          "body0": "Eros opened the latest Al Lío episode with a bombshell: \"I have information that {{rival}} have started making moves for {{player}}. Their analysts have been reviewing recent series and solo queue data for weeks. No formal offer yet, but things are heating up fast.\"\n\nWhat's your stance if they make contact?",
+          "body1": "Al Lío Podcast has exclusively reported that {{player}} is now a concrete target for {{rival}}.\n\nAccording to Eros, the player attracted attention after recent stage performances. No formal bid yet, but pressure is building fast.\n\nWhat's your stance?"
+        }
+      },
+      "yuste": {
+        "up": {
+          "subject0": "el_yuste — even Yuste admits: viewership is up this week",
+          "body0": "Yuste surprised his stream with a rare positive take: \"I'll be honest — the numbers are up this week and I'm not going to pretend otherwise. When the matches are good, the audience comes. Simple.\"\n\nA positive moment for the whole scene.",
+          "subject1": "el_yuste — this week's matches actually got Yuste excited",
+          "body1": "Not something you hear every day: Yuste was enthusiastic on his morning stream. \"This week delivered. Real matches, proper stakes, viewers who stayed till the end. This is what the league can be when it tries.\"\n\nGood week to be in esports."
+        },
+        "down": {
+          "subject0": "el_yuste — league viewers are tanking and nobody cares",
+          "body0": "Antonio Yuste opened his morning stream with a full rant: \"The numbers don't lie. Viewership is going down week after week and the league keeps doing the same things expecting different results. C'est fini if nothing changes.\"\n\nJust background noise — but when Yuste talks, the community listens.",
+          "subject1": "el_yuste — the league product is broken, according to Yuste",
+          "body1": "Yuste spent a solid thirty minutes analysing the league's declining engagement on his morning stream: \"I've been saying this for months. The product isn't good enough. The format bores people, the scheduling kills momentum. The data is clear.\"\n\nHarsh, but Yuste's audience takes it seriously."
+        }
       }
     },
     "news": {

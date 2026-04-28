@@ -146,10 +146,10 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 3. Media story (2% chance per day) ---
+    // --- 3. Media story (5% chance per day) ---
     {
         let msg_id = format!("media_{}", today);
-        if !existing_ids.contains(&msg_id) && rng.random_range(0..50) == 0 {
+        if !existing_ids.contains(&msg_id) && rng.random_range(0..20) == 0 {
             let team_name = game
                 .teams
                 .iter()
@@ -339,10 +339,10 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 9. Rival interest in player (2% chance per day) ---
+    // --- 9. Rival interest in player (5% chance per day) ---
     {
         let msg_id = format!("rival_interest_{}", today);
-        if !existing_ids.contains(&msg_id) && rng.random_range(0..50) == 0 {
+        if !existing_ids.contains(&msg_id) && rng.random_range(0..20) == 0 {
             let current_date = game.clock.current_date.date_naive();
             let eligible: Vec<&domain::player::Player> = game
                 .players
@@ -371,6 +371,50 @@ pub fn check_random_events(game: &mut Game) {
                     &today,
                 ));
             }
+        }
+    }
+
+    // --- 10. Al Lío podcast (5% chance per day) ---
+    {
+        let msg_id = format!("allio_{}", today);
+        if !existing_ids.contains(&msg_id) && rng.random_range(0..20) == 0 {
+            let team_name = game
+                .teams
+                .iter()
+                .find(|t| t.id == user_team_id)
+                .map(|t| t.name.as_str())
+                .unwrap_or("Your Club");
+            let team_players: Vec<&domain::player::Player> = game
+                .players
+                .iter()
+                .filter(|p| p.team_id.as_deref() == Some(&user_team_id))
+                .collect();
+            let (player_id, player_name) = if !team_players.is_empty() {
+                let p = team_players[rng.random_range(0..team_players.len())];
+                (Some(p.id.as_str()), Some(p.match_name.as_str()))
+            } else {
+                (None, None)
+            };
+            new_messages.push(message_builders::allio_podcast_message(
+                &msg_id,
+                team_name,
+                player_id,
+                player_name,
+                &today,
+            ));
+        }
+    }
+
+    // --- 11. el_yuste stream (3% chance per day) ---
+    {
+        let msg_id = format!("yuste_{}", today);
+        if !existing_ids.contains(&msg_id) && rng.random_range(0..33) == 0 {
+            let is_positive = rng.random_bool(0.5);
+            new_messages.push(message_builders::yuste_stream_message(
+                &msg_id,
+                is_positive,
+                &today,
+            ));
         }
     }
 
