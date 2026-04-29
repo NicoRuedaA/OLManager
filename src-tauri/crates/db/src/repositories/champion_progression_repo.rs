@@ -29,12 +29,7 @@ pub fn load_state(
             "SELECT champion_masteries_json, champion_patch_json
              FROM champion_progression_state WHERE id = 'singleton'",
             [],
-            |row| {
-                Ok((
-                    row.get::<_, String>(0)?,
-                    row.get::<_, String>(1)?,
-                ))
-            },
+            |row| Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?)),
         )
         .optional()
         .map_err(|e| format!("Failed to load champion progression state: {}", e))?;

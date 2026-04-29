@@ -1,5 +1,5 @@
-use super::*;
 use super::test_helpers::{empty_neutral, test_minion, test_runtime, test_structure};
+use super::*;
 
 #[test]
 fn baron_push_targets_inhib_before_nexus() {
@@ -17,7 +17,15 @@ fn minion_can_target_inhib_after_inhib_tower_is_down() {
     blue.attack_damage = 10.0;
     blue.attack_range = 0.06;
 
-    let mut red_inhib = test_structure("red-inhib-mid", "red", "base", Vec2 { x: 0.7832, y: 0.2240 });
+    let mut red_inhib = test_structure(
+        "red-inhib-mid",
+        "red",
+        "base",
+        Vec2 {
+            x: 0.7832,
+            y: 0.2240,
+        },
+    );
     red_inhib.kind = "inhib".to_string();
     red_inhib.hp = 200.0;
 
@@ -37,14 +45,20 @@ fn minion_cannot_target_nexus_tower_while_lane_inhib_alive() {
         "red-nexus-top-tower",
         "red",
         "base",
-        Vec2 { x: 0.845703125, y: 0.1328125 },
+        Vec2 {
+            x: 0.845703125,
+            y: 0.1328125,
+        },
     );
     red_nexus_top_tower.hp = 200.0;
     let red_inhib_top = test_structure(
         "red-inhib-top",
         "red",
         "base",
-        Vec2 { x: 0.7545572916666666, y: 0.09114583333333333 },
+        Vec2 {
+            x: 0.7545572916666666,
+            y: 0.09114583333333333,
+        },
     );
 
     let mut runtime = test_runtime(
@@ -68,11 +82,19 @@ fn minion_can_target_nexus_tower_after_lane_inhib_is_down() {
         "red-nexus-top-tower",
         "red",
         "base",
-        Vec2 { x: 0.845703125, y: 0.1328125 },
+        Vec2 {
+            x: 0.845703125,
+            y: 0.1328125,
+        },
     );
     red_nexus_top_tower.hp = 200.0;
 
-    let mut runtime = test_runtime(vec![], vec![blue], vec![red_nexus_top_tower], empty_neutral());
+    let mut runtime = test_runtime(
+        vec![],
+        vec![blue],
+        vec![red_nexus_top_tower],
+        empty_neutral(),
+    );
     let hp_before = runtime.structures[0].hp;
     resolve_minion_combat(&mut runtime);
     assert!(runtime.structures[0].hp < hp_before);

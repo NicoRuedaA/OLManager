@@ -2,7 +2,11 @@ use serde_json::{json, Value};
 
 use std::cmp::Ordering;
 
-use super::{champion_is_banished, dist, normalized_team, ChampionRuntime, MinionRuntime, StructureRuntime, StructureSeed, Vec2, STRUCTURE_LAYOUT, INHIBITOR_HP, NEXUS_HP, TOWER_INHIB_HP, TOWER_INNER_HP, TOWER_NEXUS_HP, TOWER_OUTER_HP};
+use super::{
+    champion_is_banished, dist, normalized_team, ChampionRuntime, MinionRuntime, StructureRuntime,
+    StructureSeed, Vec2, INHIBITOR_HP, NEXUS_HP, STRUCTURE_LAYOUT, TOWER_INHIB_HP, TOWER_INNER_HP,
+    TOWER_NEXUS_HP, TOWER_OUTER_HP,
+};
 
 pub(super) enum StructureAttackTarget {
     Minion(usize),
@@ -193,12 +197,9 @@ pub(super) fn select_structure_attack_target(
             )
             .is_none()
         {
-            if let Some(minion_idx) = nearest_enemy_minion_for_structure(
-                minions,
-                &structure.team,
-                structure.pos,
-                range,
-            ) {
+            if let Some(minion_idx) =
+                nearest_enemy_minion_for_structure(minions, &structure.team, structure.pos, range)
+            {
                 return (Some(StructureAttackTarget::Minion(minion_idx)), true);
             }
             if let Some(champion_idx) = nearest_enemy_champion_for_structure(
@@ -213,21 +214,15 @@ pub(super) fn select_structure_attack_target(
         }
     }
 
-    if let Some(minion_idx) = nearest_enemy_minion_for_structure(
-        minions,
-        &structure.team,
-        structure.pos,
-        range,
-    ) {
+    if let Some(minion_idx) =
+        nearest_enemy_minion_for_structure(minions, &structure.team, structure.pos, range)
+    {
         return (Some(StructureAttackTarget::Minion(minion_idx)), false);
     }
 
-    if let Some(champion_idx) = nearest_enemy_champion_for_structure(
-        champions,
-        &structure.team,
-        structure.pos,
-        range,
-    ) {
+    if let Some(champion_idx) =
+        nearest_enemy_champion_for_structure(champions, &structure.team, structure.pos, range)
+    {
         return (Some(StructureAttackTarget::Champion(champion_idx)), false);
     }
 
@@ -323,13 +318,15 @@ pub(super) fn apply_damage_to_structure(
         return;
     }
 
-    let multiplier = super::tower_damage_multiplier(runtime.time_sec, &runtime.structures[structure_idx]);
+    let multiplier =
+        super::tower_damage_multiplier(runtime.time_sec, &runtime.structures[structure_idx]);
     let mut damage = raw_damage.max(0.0) * multiplier;
     if runtime.structures[structure_idx].kind == "tower"
         && runtime.time_sec >= super::EARLY_TOWER_FORTIFICATION_END_AT
     {
         let buffs = super::team_buffs_for_runtime(runtime.extra.get("teamBuffs"), attacker_team);
-        let voidgrub_bonus = (buffs.voidgrub_stacks as f64 * super::VOIDGRUB_TOWER_DAMAGE_PER_STACK)
+        let voidgrub_bonus = (buffs.voidgrub_stacks as f64
+            * super::VOIDGRUB_TOWER_DAMAGE_PER_STACK)
             .min(super::VOIDGRUB_TOWER_DAMAGE_MAX)
             .max(0.0);
         damage *= 1.0 + voidgrub_bonus;

@@ -1,15 +1,14 @@
 use super::{
-    clamp_ratio_01, closest_lane_path_index, dist,
-    is_first_wave_contest_active, lane_anchor_pos, lane_minion_context_distance,
-    lane_path_for, lane_pressure_at, lane_role_profile, lane_wave_front_pos,
-    lane_trade_cooldown_active, lane_recent_trade_lock_active, normalized_lane, normalized_team,
-    should_force_laner_disengage, sigmoid, ChampionRuntime, LanerCombatStateRuntime,
-    MinionRuntime, SimulatorAiMode, SimulatorPolicyConfig, StructureRuntime,
-    TradeConfidenceFeatures, TradeDecisionEvaluation, Vec2, LANE_CHAMPION_TRADE_RADIUS,
-    LANE_CHASE_MINION_CONTEXT_RADIUS, LANE_LOCAL_PRESSURE_RADIUS, LANE_MINION_CONTEXT_RADIUS,
-    TRADE_SCORE_WEIGHT_BIAS, TRADE_SCORE_WEIGHT_CHAMP_NUMBERS, TRADE_SCORE_WEIGHT_ENEMY_HP,
-    TRADE_SCORE_WEIGHT_ENEMY_OVEREXTENDED, TRADE_SCORE_WEIGHT_FIRST_WAVE,
-    TRADE_SCORE_WEIGHT_MINION_NUMBERS, TRADE_SCORE_WEIGHT_SELF_HP,
+    clamp_ratio_01, closest_lane_path_index, dist, is_first_wave_contest_active, lane_anchor_pos,
+    lane_minion_context_distance, lane_path_for, lane_pressure_at, lane_recent_trade_lock_active,
+    lane_role_profile, lane_trade_cooldown_active, lane_wave_front_pos, normalized_lane,
+    normalized_team, should_force_laner_disengage, sigmoid, ChampionRuntime,
+    LanerCombatStateRuntime, MinionRuntime, SimulatorAiMode, SimulatorPolicyConfig,
+    StructureRuntime, TradeConfidenceFeatures, TradeDecisionEvaluation, Vec2,
+    LANE_CHAMPION_TRADE_RADIUS, LANE_CHASE_MINION_CONTEXT_RADIUS, LANE_LOCAL_PRESSURE_RADIUS,
+    LANE_MINION_CONTEXT_RADIUS, TRADE_SCORE_WEIGHT_BIAS, TRADE_SCORE_WEIGHT_CHAMP_NUMBERS,
+    TRADE_SCORE_WEIGHT_ENEMY_HP, TRADE_SCORE_WEIGHT_ENEMY_OVEREXTENDED,
+    TRADE_SCORE_WEIGHT_FIRST_WAVE, TRADE_SCORE_WEIGHT_MINION_NUMBERS, TRADE_SCORE_WEIGHT_SELF_HP,
     TRADE_SCORE_WEIGHT_TOWER_DISTANCE,
 };
 use std::collections::HashMap;
@@ -62,7 +61,14 @@ pub(super) fn evaluate_open_trade_window(
             flipped_by_hybrid: false,
         };
     }
-    if !in_lane_trade_context(champion, champion.pos, false, champions, minions, structures) {
+    if !in_lane_trade_context(
+        champion,
+        champion.pos,
+        false,
+        champions,
+        minions,
+        structures,
+    ) {
         return TradeDecisionEvaluation {
             decision: false,
             rule_decision: false,
@@ -384,7 +390,10 @@ pub(super) fn nearest_enemy_lane_tower_distance(
         .unwrap_or(0.4)
 }
 
-pub(super) fn enemy_overextended_in_lane(champion: &ChampionRuntime, enemy: &ChampionRuntime) -> bool {
+pub(super) fn enemy_overextended_in_lane(
+    champion: &ChampionRuntime,
+    enemy: &ChampionRuntime,
+) -> bool {
     let lane_path = lane_path_for(&champion.team, &champion.lane);
     if lane_path.len() < 2 {
         return false;
@@ -441,7 +450,11 @@ fn trade_confidence_score(features: TradeConfidenceFeatures) -> f64 {
         (features.ally_minions_local as f64 - features.enemy_minions_local as f64 + 5.0) / 10.0,
     );
     let enemy_tower_distance_norm = clamp_ratio_01(features.nearest_enemy_tower_distance / 0.18);
-    let enemy_overextended = if features.enemy_overextended { 1.0 } else { 0.0 };
+    let enemy_overextended = if features.enemy_overextended {
+        1.0
+    } else {
+        0.0
+    };
     let first_wave_window = if features.first_wave_window { 1.0 } else { 0.0 };
 
     let logit = TRADE_SCORE_WEIGHT_BIAS
@@ -492,7 +505,8 @@ fn trade_confidence_features(
         minions,
         LANE_LOCAL_PRESSURE_RADIUS,
     );
-    let nearest_enemy_tower_distance = nearest_enemy_lane_tower_distance(champion, enemy.pos, structures);
+    let nearest_enemy_tower_distance =
+        nearest_enemy_lane_tower_distance(champion, enemy.pos, structures);
 
     TradeConfidenceFeatures {
         self_hp_ratio,

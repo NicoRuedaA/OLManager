@@ -186,7 +186,14 @@ mod tests {
             "AR".to_string(),
         );
 
-        Game::new(GameClock::new(start), manager, vec![], vec![], vec![], vec![])
+        Game::new(
+            GameClock::new(start),
+            manager,
+            vec![],
+            vec![],
+            vec![],
+            vec![],
+        )
     }
 
     #[test]
@@ -242,7 +249,10 @@ mod tests {
         assert_eq!(loaded.champion_patch.current_patch_label, "2026.7");
         assert_eq!(loaded.champion_patch.patch_year, 2026);
         assert_eq!(loaded.champion_patch.patch_index_in_year, 7);
-        assert_eq!(loaded.champion_patch.last_patch_date.as_deref(), Some("2026-07-10"));
+        assert_eq!(
+            loaded.champion_patch.last_patch_date.as_deref(),
+            Some("2026-07-10")
+        );
         assert_eq!(loaded.champion_patch.hidden_meta.len(), 1);
         assert_eq!(loaded.champion_patch.hidden_meta[0].tier, "S");
         assert_eq!(loaded.champion_patch.patch_notes.len(), 1);
