@@ -1365,6 +1365,130 @@ export default function ChampionDraft({
     return pool[randomIndex] ?? null;
   };
 
+  const handleSkipDraftDebug = (): void => {
+    if (finished || loading || champions.length === 0) return;
+
+    let nextBlueBans = [...blueBans];
+    let nextRedBans = [...redBans];
+    let nextBluePicks = [...bluePicks];
+    let nextRedPicks = [...redPicks];
+    const nextHistory = [...draftHistory];
+
+    const pickForStep = (step: DraftAction): ChampionData | null => {
+      const used = new Set<string>(lockedChampionIds);
+      nextBlueBans.forEach((id) => used.add(id));
+      nextRedBans.forEach((id) => used.add(id));
+      nextBluePicks.forEach((pick) => used.add(pick.championId));
+      nextRedPicks.forEach((pick) => used.add(pick.championId));
+
+      const available = champions.filter((champion) => !used.has(champion.id));
+      if (available.length === 0) return null;
+
+      if (step.type === "pick") {
+        const aiSide = step.side;
+        const ownPicks = aiSide === "blue" ? nextBluePicks : nextRedPicks;
+        const enemyPicks = aiSide === "blue" ? nextRedPicks : nextBluePicks;
+        const coveredRoles = assignedRolesForSelections(ownPicks);
+        const missingRoles = ROLE_ORDER.filter((role) => !coveredRoles.has(role));
+
+        const candidates = available.filter((champion) =>
+          canAssignUniqueRoles([...ownPicks, { championId: champion.id }]),
+        );
+        const roleConstrainedCandidates =
+          missingRoles.length > 0
+            ? candidates.filter((champion) => champion.roleHints.some((role) => missingRoles.includes(role)))
+            : [];
+        const scoringPool = roleConstrainedCandidates.length > 0 ? roleConstrainedCandidates : candidates;
+        if (scoringPool.length === 0) return available[0] ?? null;
+
+        let bestChampion: ChampionData | null = null;
+        let bestScore = Number.NEGATIVE_INFINITY;
+
+        scoringPool.forEach((champion) => {
+          const mastery = resolveTeamChampionMastery(aiSide, champion.id);
+          const meta = metaScoreForChampion(champion);
+          const roleNeedBonus =
+            missingRoles.length > 0 && champion.roleHints.some((role) => missingRoles.includes(role)) ? 12 : 0;
+          let counter = 0;
+
+          enemyPicks.forEach((enemyPick) => {
+            counter += counterValue(champion.id, enemyPick.championId) * AI_WEIGHTS.pick.counterAdvantageWeight;
+            counter -= counterValue(enemyPick.championId, champion.id) * AI_WEIGHTS.pick.counterRiskWeight;
+          });
+
+          const score =
+            mastery * AI_WEIGHTS.pick.masteryWeight +
+            meta * AI_WEIGHTS.pick.metaWeight +
+            counter +
+            roleNeedBonus;
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestChampion = champion;
+          }
+        });
+
+        return bestChampion;
+      }
+
+      const targetSide = enemySideFor(step.side);
+      const targetPicks = targetSide === "blue" ? nextBluePicks : nextRedPicks;
+      const alreadyCoveredRoles = assignedRolesForSelections(targetPicks);
+      const roleRelevantCandidates = available.filter((champion) => {
+        if (alreadyCoveredRoles.size === 0) return true;
+        if (champion.roleHints.length === 0) return true;
+        return !champion.roleHints.every((role) => alreadyCoveredRoles.has(role));
+      });
+      const banCandidates = roleRelevantCandidates.length > 0 ? roleRelevantCandidates : available;
+
+      let bestBan: ChampionData | null = null;
+      let bestScore = Number.NEGATIVE_INFINITY;
+
+      banCandidates.forEach((champion) => {
+        const enemyMastery = resolveTeamChampionMastery(targetSide, champion.id);
+        const meta = metaScoreForChampion(champion);
+        const score = enemyMastery * AI_WEIGHTS.ban.enemyMasteryWeight + meta * AI_WEIGHTS.ban.metaWeight;
+        if (score > bestScore) {
+          bestScore = score;
+          bestBan = champion;
+        }
+      });
+
+      return bestBan;
+    };
+
+    let processedSteps = 0;
+    for (let i = stepIndex; i < DRAFT_SEQUENCE.length; i += 1) {
+      const step = DRAFT_SEQUENCE[i];
+      const champion = pickForStep(step);
+      if (!champion) break;
+
+      if (step.type === "ban") {
+        if (step.side === "blue") nextBlueBans = [...nextBlueBans, champion.id];
+        else nextRedBans = [...nextRedBans, champion.id];
+      } else if (step.side === "blue") {
+        nextBluePicks = [...nextBluePicks, { championId: champion.id }];
+      } else {
+        nextRedPicks = [...nextRedPicks, { championId: champion.id }];
+      }
+
+      nextHistory.push(champion.id);
+      processedSteps += 1;
+    }
+
+    if (processedSteps === 0) return;
+
+    setBlueBans(nextBlueBans);
+    setRedBans(nextRedBans);
+    setBluePicks(nextBluePicks);
+    setRedPicks(nextRedPicks);
+    setDraftHistory(nextHistory);
+    setBlueRoleOrder(null);
+    setRedRoleOrder(null);
+    setPendingChampionId(null);
+    setStepIndex(Math.min(DRAFT_SEQUENCE.length, stepIndex + processedSteps));
+  };
+
   const currentStepKey = currentStep
     ? `${stepIndex}-${currentStep.type}-${currentStep.side}-${currentStep.label}`
     : "finished";
@@ -2659,6 +2783,18 @@ export default function ChampionDraft({
                   </span>
                 ) : null}
               </div>
+
+              {!finished ? (
+                <div className="relative flex justify-end">
+                  <button
+                    type="button"
+                    onClick={handleSkipDraftDebug}
+                    className="rounded-md border border-fuchsia-300/60 bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-100 px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-wide"
+                  >
+                    Skip draft (debug)
+                  </button>
+                </div>
+              ) : null}
 
               <div className="relative w-full h-1.5 rounded-full bg-[#121624] overflow-hidden">
                 <div
