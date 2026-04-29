@@ -3,8 +3,14 @@ use std::cmp::Ordering;
 
 pub(super) enum ChampionObjectiveAssistPlan {
     None,
-    HardAssist { objective_key: String, objective_pos: Vec2 },
-    ObjectiveAssist { objective_key: String, objective_pos: Vec2 },
+    HardAssist {
+        objective_key: String,
+        objective_pos: Vec2,
+    },
+    ObjectiveAssist {
+        objective_key: String,
+        objective_pos: Vec2,
+    },
 }
 
 pub(super) fn champion_can_resolve_combat(champion: &ChampionRuntime, now: f64) -> bool {
@@ -26,12 +32,14 @@ pub(super) fn classify_objective_assist_plan(
     let team = normalized_team(&champion.team).to_string();
 
     let is_hard_assist = {
-        let contested = contested_dragon_attempt_for_team(&team, &runtime.champions, neutral_timers);
+        let contested =
+            contested_dragon_attempt_for_team(&team, &runtime.champions, neutral_timers);
         should_hard_assist_contested_dragon(champion, contested)
     };
 
     if is_hard_assist {
-        if let Some(dragon) = contested_dragon_attempt_for_team(&team, &runtime.champions, neutral_timers)
+        if let Some(dragon) =
+            contested_dragon_attempt_for_team(&team, &runtime.champions, neutral_timers)
         {
             return ChampionObjectiveAssistPlan::HardAssist {
                 objective_key: dragon.key.clone(),
@@ -195,10 +203,7 @@ pub(super) fn structure_fallback_score(champion: &ChampionRuntime, distance: f64
     score
 }
 
-pub(super) fn target_priority_rank_for_fight_plan(
-    fight_plan: &str,
-    enemy: &ChampionRuntime,
-) -> u8 {
+pub(super) fn target_priority_rank_for_fight_plan(fight_plan: &str, enemy: &ChampionRuntime) -> u8 {
     let enemy_is_backline = is_backline_champion(enemy);
     match fight_plan {
         "FrontToBack" => {
@@ -453,7 +458,15 @@ pub(super) fn pick_combat_target(
                     && dist(champion.pos, m.pos) <= 0.12
             })
             .min_by(|(idx_a, a), (idx_b, b)| {
-                compare_by_hp_distance_stable(champion.pos, *idx_a, a.hp, a.pos, *idx_b, b.hp, b.pos)
+                compare_by_hp_distance_stable(
+                    champion.pos,
+                    *idx_a,
+                    a.hp,
+                    a.pos,
+                    *idx_b,
+                    b.hp,
+                    b.pos,
+                )
             })
             .map(|(idx, _)| idx);
         return early_lane_minion.map(CombatTarget::Minion);
@@ -641,7 +654,8 @@ pub(super) fn pick_combat_target(
         .filter(|(_, s)| {
             if !(s.alive
                 && normalized_team(&s.team) == enemy_team
-                && (normalized_lane(&s.lane) == normalized_lane(&champion.lane) || s.kind == "nexus")
+                && (normalized_lane(&s.lane) == normalized_lane(&champion.lane)
+                    || s.kind == "nexus")
                 && dist(champion.pos, s.pos) <= LANE_STRUCTURE_PRESSURE_RADIUS
                 && is_structure_targetable(&runtime.structures, &champion.team, s))
             {
@@ -728,7 +742,8 @@ pub(super) fn pick_combat_target(
         .filter(|(_, s)| {
             if !s.alive
                 || normalized_team(&s.team) != enemy_team
-                || !(normalized_lane(&s.lane) == normalized_lane(&champion.lane) || s.kind == "nexus")
+                || !(normalized_lane(&s.lane) == normalized_lane(&champion.lane)
+                    || s.kind == "nexus")
                 || !is_structure_targetable(&runtime.structures, &champion.team, s)
             {
                 return false;

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use super::*;
 use super::test_helpers::{test_champion, test_runtime};
+use super::*;
 
 #[test]
 fn sweeper_is_jgl_sup_only_and_clears_enemy_wards() {

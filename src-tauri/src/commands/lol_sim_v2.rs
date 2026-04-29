@@ -2,9 +2,9 @@ use tauri::State;
 
 use crate::application::lol_sim_v2::{
     dispose, init, reset, run_to_completion, skip_to_end, tick, LolSimV2DisposeRequest,
-    LolSimV2DisposeResponse, LolSimV2ResetRequest,
-    LolSimV2RunToCompletionRequest, LolSimV2RunToCompletionResponse, LolSimV2SkipToEndRequest,
-    LolSimV2SkipToEndResponse, LolSimV2StateResponse, LolSimV2StoreState, LolSimV2TickRequest,
+    LolSimV2DisposeResponse, LolSimV2ResetRequest, LolSimV2RunToCompletionRequest,
+    LolSimV2RunToCompletionResponse, LolSimV2SkipToEndRequest, LolSimV2SkipToEndResponse,
+    LolSimV2StateResponse, LolSimV2StoreState, LolSimV2TickRequest,
 };
 
 #[tauri::command]

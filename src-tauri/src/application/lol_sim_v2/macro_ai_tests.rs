@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use super::*;
 use super::test_helpers::{test_champion, test_neutral_timer, test_runtime};
+use super::*;
 
 #[test]
 fn jgl_disengage_prefers_jungle_camp_fallback() {
@@ -51,7 +51,8 @@ fn red_jungler_macro_prefers_own_side_buffs_first() {
 
     let default_tactics = RuntimeTeamTactics::default();
     let champions = vec![red_jgl.clone(), blue_jgl.clone()];
-    let red_pick = pick_macro_objective_pos(&red_jgl, &champions, &neutral, 120.0, &default_tactics);
+    let red_pick =
+        pick_macro_objective_pos(&red_jgl, &champions, &neutral, 120.0, &default_tactics);
     let blue_pick =
         pick_macro_objective_pos(&blue_jgl, &champions, &neutral, 120.0, &default_tactics);
 

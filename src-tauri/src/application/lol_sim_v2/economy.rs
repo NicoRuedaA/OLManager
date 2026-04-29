@@ -1,4 +1,7 @@
-use super::{ChampionRuntime, CHAMPION_KILL_GOLD, CHAMPION_KILL_GOLD_MAX, CHAMPION_KILL_GOLD_MIN, CHAMPION_KILL_XP, CHAMPION_KILL_XP_MAX, CHAMPION_KILL_XP_MIN};
+use super::{
+    ChampionRuntime, CHAMPION_KILL_GOLD, CHAMPION_KILL_GOLD_MAX, CHAMPION_KILL_GOLD_MIN,
+    CHAMPION_KILL_XP, CHAMPION_KILL_XP_MAX, CHAMPION_KILL_XP_MIN,
+};
 
 pub(super) fn jungle_camp_reward(key: &str) -> Option<(i64, i64)> {
     match key {
@@ -26,7 +29,10 @@ pub(super) fn jungle_camp_cs_reward(key: &str) -> Option<i64> {
     }
 }
 
-pub(super) fn champion_kill_rewards(killer: &ChampionRuntime, victim: &ChampionRuntime) -> (i64, i64) {
+pub(super) fn champion_kill_rewards(
+    killer: &ChampionRuntime,
+    victim: &ChampionRuntime,
+) -> (i64, i64) {
     let level_gap = victim.level - killer.level;
     let victim_streak = (victim.kills as i64 - victim.deaths as i64).max(0);
     let killer_ahead = (killer.kills as i64 - killer.deaths as i64).max(0);

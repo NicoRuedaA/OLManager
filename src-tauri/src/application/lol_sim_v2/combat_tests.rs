@@ -1,10 +1,13 @@
 use std::collections::HashMap;
 
+use super::test_helpers::{
+    test_champion, test_minion, test_neutral_timer, test_runtime, test_structure,
+};
 use super::*;
-use super::test_helpers::{test_champion, test_minion, test_neutral_timer, test_runtime, test_structure};
 
 fn decode_neutral_for_tests(runtime: &RuntimeState) -> NeutralTimersRuntime {
-    decode_neutral_timers_state(&runtime.neutral_timers).unwrap_or_else(neutral_timers_default_runtime_state)
+    decode_neutral_timers_state(&runtime.neutral_timers)
+        .unwrap_or_else(neutral_timers_default_runtime_state)
 }
 
 #[test]
@@ -41,7 +44,14 @@ fn heal_spell_casts_when_self_is_low_hp() {
 #[test]
 fn smite_executes_low_hp_dragon_for_jungler() {
     let mut entities = HashMap::new();
-    let mut dragon = test_neutral_timer("dragon", Vec2 { x: 0.6738, y: 0.7031 }, true);
+    let mut dragon = test_neutral_timer(
+        "dragon",
+        Vec2 {
+            x: 0.6738,
+            y: 0.7031,
+        },
+        true,
+    );
     dragon.hp = 520.0;
     dragon.max_hp = 3600.0;
     entities.insert("dragon".to_string(), dragon);
@@ -156,10 +166,9 @@ fn annie_ultimate_summons_tibbers_with_scaled_stats() {
     let mut runtime = test_runtime(vec![annie], vec![], vec![], neutral);
     resolve_champion_combat(&mut runtime);
 
-    let summon = runtime
-        .minions
-        .iter()
-        .find(|minion| minion.id.contains("tibbers") && minion.owner_champion_id.as_deref() == Some("mid-blue"));
+    let summon = runtime.minions.iter().find(|minion| {
+        minion.id.contains("tibbers") && minion.owner_champion_id.as_deref() == Some("mid-blue")
+    });
     assert!(summon.is_some());
 }
 
@@ -304,7 +313,12 @@ fn global_ultimate_requires_team_vision() {
     });
     let target = test_champion("mid-red", "red", "MID", "mid", Vec2 { x: 0.56, y: 0.40 });
 
-    let mut runtime = test_runtime(vec![caster.clone(), target.clone()], vec![], vec![], neutral.clone());
+    let mut runtime = test_runtime(
+        vec![caster.clone(), target.clone()],
+        vec![],
+        vec![],
+        neutral.clone(),
+    );
     resolve_champion_combat(&mut runtime);
     let cd_without_vision = runtime.champions[0]
         .ultimate
@@ -359,7 +373,12 @@ fn objective_assist_prioritizes_objective_over_farm_lock() {
         extra: HashMap::new(),
     };
 
-    let runtime = test_runtime(vec![adc, jungler, enemy], vec![minion], vec![], neutral.clone());
+    let runtime = test_runtime(
+        vec![adc, jungler, enemy],
+        vec![minion],
+        vec![],
+        neutral.clone(),
+    );
 
     let target = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
     assert!(matches!(target, Some(CombatTarget::Neutral(ref key)) if key == "dragon"));

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use super::*;
 use super::test_helpers::{test_champion, test_minion, test_runtime, test_structure};
+use super::*;
 
 #[test]
 fn nav_grid_routes_around_walls_for_champion_paths() {
@@ -12,8 +12,9 @@ fn nav_grid_routes_around_walls_for_champion_paths() {
 
     assert!(path.len() > 1, "expected non-trivial path around wall");
     assert!(
-        path.iter()
-            .all(|p| !active_nav_walls().iter().any(|w| point_in_polygon(*p, &w.points))),
+        path.iter().all(|p| !active_nav_walls()
+            .iter()
+            .any(|w| point_in_polygon(*p, &w.points))),
         "path should not contain blocked wall nodes"
     );
 }
@@ -163,7 +164,12 @@ fn minion_cannot_target_inhib_while_inhib_tower_alive() {
         },
     );
 
-    let mut runtime = test_runtime(vec![], vec![blue], vec![red_inhib, red_inhib_tower], neutral);
+    let mut runtime = test_runtime(
+        vec![],
+        vec![blue],
+        vec![red_inhib, red_inhib_tower],
+        neutral,
+    );
     let hp_before = runtime.structures[0].hp;
 
     resolve_minion_combat(&mut runtime);
@@ -358,7 +364,12 @@ fn nexus_is_not_targetable_while_nexus_towers_alive() {
         },
     );
 
-    let runtime = test_runtime(vec![laner], vec![], vec![nexus, nexus_tower], neutral.clone());
+    let runtime = test_runtime(
+        vec![laner],
+        vec![],
+        vec![nexus, nexus_tower],
+        neutral.clone(),
+    );
     let target = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
 
     assert!(

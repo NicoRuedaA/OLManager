@@ -168,7 +168,15 @@ pub(super) fn sync_objectives_from_neutral_timers(
     let buffs = runtime_buffs_from_extra(runtime.extra.get("teamBuffs"));
 
     if let Some(dragon_timer) = neutral_timers.entities.get("dragon") {
-        sync_dragon_objective(objectives, neutral_timers, dragon_timer, buffs.blue.dragon_stacks, buffs.red.dragon_stacks, buffs.blue.soul_kind.is_some(), buffs.red.soul_kind.is_some());
+        sync_dragon_objective(
+            objectives,
+            neutral_timers,
+            dragon_timer,
+            buffs.blue.dragon_stacks,
+            buffs.red.dragon_stacks,
+            buffs.blue.soul_kind.is_some(),
+            buffs.red.soul_kind.is_some(),
+        );
     }
 
     if let Some(baron_timer) = neutral_timers.entities.get("baron") {
@@ -272,8 +280,7 @@ pub(super) fn tick_neutral_timers(runtime: &mut RuntimeState) {
             },
         ) {
             let target = team_buffs_mut(&mut buffs, effect.winner_team);
-            target.voidgrub_stacks =
-                (target.voidgrub_stacks + effect.stacks_to_award).clamp(0, 3);
+            target.voidgrub_stacks = (target.voidgrub_stacks + effect.stacks_to_award).clamp(0, 3);
             set_runtime_buffs(runtime, &buffs);
         }
 

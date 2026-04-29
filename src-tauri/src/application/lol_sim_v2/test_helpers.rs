@@ -4,7 +4,13 @@ use super::*;
 
 pub(super) const DEFAULT_TEST_HP: f64 = 100.0;
 
-pub(super) fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> ChampionRuntime {
+pub(super) fn test_champion(
+    id: &str,
+    team: &str,
+    role: &str,
+    lane: &str,
+    pos: Vec2,
+) -> ChampionRuntime {
     ChampionRuntime {
         id: id.to_string(),
         name: id.to_string(),

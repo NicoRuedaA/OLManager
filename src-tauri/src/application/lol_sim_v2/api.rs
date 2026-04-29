@@ -34,12 +34,24 @@ impl Default for SimulatorPolicyConfig {
     }
 }
 
-fn default_no_dive_hp_min() -> f64 { 0.38 }
-fn default_trade_retreat_hp_ratio() -> f64 { 0.36 }
-fn default_trade_hp_disadvantage_allowance() -> f64 { 0.14 }
-fn default_lane_chase_leash_radius() -> f64 { 0.11 }
-fn default_hybrid_open_trade_confidence_high() -> f64 { 0.60 }
-fn default_hybrid_disengage_confidence_low() -> f64 { 0.26 }
+fn default_no_dive_hp_min() -> f64 {
+    0.38
+}
+fn default_trade_retreat_hp_ratio() -> f64 {
+    0.36
+}
+fn default_trade_hp_disadvantage_allowance() -> f64 {
+    0.14
+}
+fn default_lane_chase_leash_radius() -> f64 {
+    0.11
+}
+fn default_hybrid_open_trade_confidence_high() -> f64 {
+    0.60
+}
+fn default_hybrid_disengage_confidence_low() -> f64 {
+    0.26
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -154,9 +166,21 @@ pub struct LolSimV2SkipToEndResponse {
     pub elapsed_simulated_sec: f64,
 }
 
-fn default_run_to_completion_dt_sec() -> f64 { 0.2 }
-fn default_run_to_completion_speed() -> f64 { 12.0 }
-fn default_run_to_completion_max_ticks() -> u64 { 3600 }
-fn default_skip_to_end_dt_sec() -> f64 { default_run_to_completion_dt_sec() }
-fn default_skip_to_end_speed() -> f64 { default_run_to_completion_speed() }
-fn default_skip_to_end_max_ticks() -> u64 { default_run_to_completion_max_ticks() }
+fn default_run_to_completion_dt_sec() -> f64 {
+    0.2
+}
+fn default_run_to_completion_speed() -> f64 {
+    12.0
+}
+fn default_run_to_completion_max_ticks() -> u64 {
+    3600
+}
+fn default_skip_to_end_dt_sec() -> f64 {
+    default_run_to_completion_dt_sec()
+}
+fn default_skip_to_end_speed() -> f64 {
+    default_run_to_completion_speed()
+}
+fn default_skip_to_end_max_ticks() -> u64 {
+    default_run_to_completion_max_ticks()
+}

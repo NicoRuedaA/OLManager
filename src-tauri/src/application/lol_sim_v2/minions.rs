@@ -151,8 +151,11 @@ pub(super) fn resolve_minion_combat(runtime: &mut RuntimeState) {
         let attacker_empowered = minion_is_baron_empowered(runtime, &runtime.minions[i]);
 
         let cadence = minion_stats(&runtime.minions[i].kind).3;
-        let enemy_minion =
-            nearest_enemy_minion_index(&runtime.minions, i, runtime.minions[i].attack_range.max(0.05));
+        let enemy_minion = nearest_enemy_minion_index(
+            &runtime.minions,
+            i,
+            runtime.minions[i].attack_range.max(0.05),
+        );
 
         if let Some(enemy_idx) = enemy_minion {
             let attacker_damage = runtime.minions[i].attack_damage

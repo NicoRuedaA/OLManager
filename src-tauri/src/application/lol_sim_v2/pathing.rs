@@ -156,7 +156,10 @@ pub(super) fn lane_fallback_pos_from_tower(
     }
 }
 
-pub(super) fn lane_pre_wave_hold_pos(champion: &ChampionRuntime, structures: &[StructureRuntime]) -> Vec2 {
+pub(super) fn lane_pre_wave_hold_pos(
+    champion: &ChampionRuntime,
+    structures: &[StructureRuntime],
+) -> Vec2 {
     let lane_path = lane_path_for(&champion.team, &champion.lane);
     let allied_lane_tower = structures
         .iter()
@@ -181,7 +184,6 @@ pub(super) fn lane_pre_wave_hold_pos(champion: &ChampionRuntime, structures: &[S
         .copied()
         .unwrap_or(base_position_for(&champion.team))
 }
-
 
 pub(super) fn lane_wave_front_pos(
     champion: &ChampionRuntime,
@@ -213,10 +215,12 @@ pub(super) fn lane_wave_front_pos(
     let allied_wave = if allied.is_empty() {
         None
     } else {
-        let sum = allied.iter().fold(super::Vec2 { x: 0.0, y: 0.0 }, |acc, m| super::Vec2 {
-            x: acc.x + m.pos.x,
-            y: acc.y + m.pos.y,
-        });
+        let sum = allied
+            .iter()
+            .fold(super::Vec2 { x: 0.0, y: 0.0 }, |acc, m| super::Vec2 {
+                x: acc.x + m.pos.x,
+                y: acc.y + m.pos.y,
+            });
         Some(super::Vec2 {
             x: sum.x / allied.len() as f64,
             y: sum.y / allied.len() as f64,
@@ -226,10 +230,12 @@ pub(super) fn lane_wave_front_pos(
     let enemy_wave = if enemy.is_empty() {
         None
     } else {
-        let sum = enemy.iter().fold(super::Vec2 { x: 0.0, y: 0.0 }, |acc, m| super::Vec2 {
-            x: acc.x + m.pos.x,
-            y: acc.y + m.pos.y,
-        });
+        let sum = enemy
+            .iter()
+            .fold(super::Vec2 { x: 0.0, y: 0.0 }, |acc, m| super::Vec2 {
+                x: acc.x + m.pos.x,
+                y: acc.y + m.pos.y,
+            });
         Some(super::Vec2 {
             x: sum.x / enemy.len() as f64,
             y: sum.y / enemy.len() as f64,
@@ -355,8 +361,9 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
                 &super::team_tactics_for_runtime(team_tactics_snapshot.as_ref(), &champion.team),
                 &super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team),
             );
-            champion.next_decision_at =
-                now + (super::CHAMPION_DECISION_CADENCE_SEC / champion.staff_execution.clamp(0.96, 1.10));
+            champion.next_decision_at = now
+                + (super::CHAMPION_DECISION_CADENCE_SEC
+                    / champion.staff_execution.clamp(0.96, 1.10));
         }
 
         if champion.state == "recall" {
@@ -382,7 +389,11 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
             champion.target_path_index = champion.target_path.len().saturating_sub(1);
         }
 
-        if let Some(target) = champion.target_path.get(champion.target_path_index).copied() {
+        if let Some(target) = champion
+            .target_path
+            .get(champion.target_path_index)
+            .copied()
+        {
             let buffs = super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team);
             let mut speed_multiplier =
                 1.0 + buffs.cloud_stacks as f64 * 0.015 + buffs.hextech_stacks as f64 * 0.01;

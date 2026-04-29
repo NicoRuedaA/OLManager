@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use super::*;
 use super::test_helpers::{test_champion, test_neutral_timer, test_runtime};
+use super::*;
 
 #[test]
 fn dragon_kind_is_mirrored_into_timer_entity_on_tick() {
