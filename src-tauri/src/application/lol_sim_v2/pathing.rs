@@ -15,25 +15,25 @@ pub(super) fn lane_role_profile(champion: &ChampionRuntime) -> Option<LaneRolePr
         "TOP" => Some(LaneRoleProfile {
             chase_leash: 0.11,
             approach_leash: 0.062,
-            retreat_hp: 0.34,
+            retreat_hp: 0.27,
             outnumber_tolerance: 0.25,
         }),
         "MID" => Some(LaneRoleProfile {
             chase_leash: 0.10,
             approach_leash: 0.058,
-            retreat_hp: 0.36,
+            retreat_hp: 0.28,
             outnumber_tolerance: 0.20,
         }),
         "ADC" => Some(LaneRoleProfile {
             chase_leash: 0.095,
             approach_leash: 0.058,
-            retreat_hp: 0.44,
+            retreat_hp: 0.35,
             outnumber_tolerance: 0.08,
         }),
         _ => Some(LaneRoleProfile {
             chase_leash: 0.09,
             approach_leash: 0.055,
-            retreat_hp: 0.41,
+            retreat_hp: 0.33,
             outnumber_tolerance: 0.08,
         }),
     }
@@ -70,7 +70,31 @@ pub(super) fn choose_lane_anchor_index(
         .max_by(|a, b| a.path_index.cmp(&b.path_index));
 
     if let Some(front) = allied_front {
-        return front.path_index.saturating_sub(1).clamp(1, lane_last_idx);
+        let mut idx = front.path_index.saturating_sub(1).clamp(1, lane_last_idx);
+
+        // MID can get pinned too far back when allied-front sampling catches trailing minions.
+        // Bias anchor forward with enemy minion context when available.
+        if champion.role == "MID" {
+            if let Some(enemy_unit) = minions
+                .iter()
+                .filter(|m| {
+                    m.alive
+                        && normalized_team(&m.team) != normalized_team(&champion.team)
+                        && normalized_lane(&m.lane) == normalized_lane(&champion.lane)
+                })
+                .min_by(|a, b| {
+                    dist(a.pos, champion.pos)
+                        .partial_cmp(&dist(b.pos, champion.pos))
+                        .unwrap_or(Ordering::Equal)
+                })
+            {
+                let enemy_idx = closest_lane_path_index(enemy_unit.pos, &lane_path);
+                let enemy_bias = enemy_idx.saturating_sub(1).clamp(1, lane_last_idx);
+                idx = idx.max(enemy_bias);
+            }
+        }
+
+        return idx;
     }
 
     let nearest_enemy_lane_minion = minions
@@ -109,8 +133,16 @@ pub(super) fn choose_lane_anchor_index(
     }
 
     let current_index = closest_lane_path_index(champion.pos, &lane_path);
-    let capped_current = current_index.min(LANE_EMPTY_ANCHOR_PROGRESS_MAX_INDEX);
-    capped_current.clamp(1, lane_last_idx)
+    // Empty-lane fallback was too defensive for MID and could pin under own tower.
+    // Allow MID to keep a more forward neutral anchor even when no minions are nearby.
+    let empty_lane_cap = if champion.role == "MID" {
+        LANE_EMPTY_ANCHOR_PROGRESS_MAX_INDEX + 3
+    } else {
+        LANE_EMPTY_ANCHOR_PROGRESS_MAX_INDEX
+    };
+    let capped_current = current_index.min(empty_lane_cap);
+    let min_floor = if champion.role == "MID" { 3 } else { 1 };
+    capped_current.clamp(min_floor, lane_last_idx)
 }
 
 pub(super) fn lane_anchor_pos(
@@ -344,6 +376,10 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
             }
         }
 
+        if dist(champion.pos, base_position_for(&champion.team)) <= 0.075 {
+            champion.hp = champion.max_hp;
+        }
+
         if now >= champion.next_decision_at {
             super::decide_champion_state(
                 champion,
@@ -360,6 +396,7 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
         }
 
         if champion.state == "recall" {
+            champion.path_stuck_for_sec = 0.0;
             super::tick_recall(
                 champion,
                 now,
@@ -383,6 +420,7 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
         }
 
         if let Some(target) = champion.target_path.get(champion.target_path_index).copied() {
+            let pre_dist = dist(champion.pos, target);
             let buffs = super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team);
             let mut speed_multiplier =
                 1.0 + buffs.cloud_stacks as f64 * 0.015 + buffs.hextech_stacks as f64 * 0.01;
@@ -398,6 +436,32 @@ pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
                 champion.move_speed * speed_multiplier,
                 dt,
             );
+            let post_dist = dist(champion.pos, target);
+            let progress = (pre_dist - post_dist).max(0.0);
+            if pre_dist > 0.012 && progress < super::CHAMPION_STUCK_PROGRESS_EPSILON {
+                champion.path_stuck_for_sec += dt;
+            } else {
+                champion.path_stuck_for_sec = 0.0;
+            }
+
+            if champion.path_stuck_for_sec >= super::CHAMPION_STUCK_TRIGGER_SEC {
+                champion.path_stuck_for_sec = 0.0;
+                champion.next_decision_at = now;
+                if champion.role == "JGL" {
+                    super::start_recall(
+                        champion,
+                        now,
+                        &champion_snapshot,
+                        &runtime.minions,
+                        &runtime.structures,
+                    );
+                    continue;
+                }
+                champion.target_path.clear();
+                champion.target_path_index = 0;
+                continue;
+            }
+
             if dist(champion.pos, target) < 0.01
                 && champion.target_path_index < champion.target_path.len().saturating_sub(1)
             {

@@ -210,6 +210,10 @@ struct ChampionRuntime {
     support_roam_cd_until: f64,
     #[serde(default)]
     support_last_roam_role: String,
+    #[serde(default)]
+    path_stuck_for_sec: f64,
+    #[serde(default)]
+    forced_lane_recall_cd_until: f64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -458,14 +462,15 @@ const FIRST_WAVE_CONTEST_UNTIL: f64 = MINION_FIRST_WAVE_AT + 45.0;
 const CHAMPION_DECISION_CADENCE_SEC: f64 = 0.85;
 const MINION_DAMAGE_TO_MINION_MULTIPLIER: f64 = 0.52;
 const MINION_DAMAGE_TO_CHAMPION_MULTIPLIER: f64 = 0.24;
-const MINION_DAMAGE_TO_STRUCTURE_MULTIPLIER: f64 = 0.42;
-const CHAMPION_DAMAGE_TO_MINION_MULTIPLIER: f64 = 0.6;
+const MINION_DAMAGE_TO_STRUCTURE_MULTIPLIER: f64 = 0.58;
+const CHAMPION_DAMAGE_TO_MINION_MULTIPLIER: f64 = 1.1;
 const RECALL_TRIGGER_HP_RATIO: f64 = 0.34;
 const RECALL_CHANNEL_SEC: f64 = 6.5;
 const RECALL_REACH_BUFFER_SEC: f64 = 0.8;
 const RECALL_SAFE_ENEMY_RADIUS: f64 = 0.2;
+const RECALL_CANCEL_ENEMY_RADIUS: f64 = 0.085;
 const LANE_CHAMPION_TRADE_RADIUS: f64 = 0.19;
-const LANE_REENGAGE_COOLDOWN_SEC: f64 = 2.8;
+const LANE_REENGAGE_COOLDOWN_SEC: f64 = 2.2;
 const LANE_RECENT_TRADE_LOCK_SEC: f64 = 1.7;
 const TRADE_HP_DISADVANTAGE_ALLOWANCE: f64 = 0.2;
 const LANE_LOCAL_PRESSURE_RADIUS: f64 = 0.1;
@@ -487,12 +492,12 @@ const TRADE_SCORE_WEIGHT_TOWER_DISTANCE: f64 = 0.56;
 const TRADE_SCORE_WEIGHT_ENEMY_OVEREXTENDED: f64 = 0.74;
 const TRADE_SCORE_WEIGHT_FIRST_WAVE: f64 = -0.22;
 const ASSIST_RADIUS: f64 = 0.11;
-const CHAMPION_KILL_GOLD: i64 = 260;
+const CHAMPION_KILL_GOLD: i64 = 220;
 const CHAMPION_ASSIST_GOLD_TOTAL: i64 = 110;
 const CHAMPION_KILL_XP: i64 = 180;
 const CHAMPION_LAST_DAMAGE_KILL_CREDIT_SEC: f64 = 60.0;
-const CHAMPION_KILL_GOLD_MIN: i64 = 170;
-const CHAMPION_KILL_GOLD_MAX: i64 = 650;
+const CHAMPION_KILL_GOLD_MIN: i64 = 150;
+const CHAMPION_KILL_GOLD_MAX: i64 = 450;
 const CHAMPION_KILL_XP_MIN: i64 = 150;
 const CHAMPION_KILL_XP_MAX: i64 = 360;
 const CHAMPION_RESPAWN_BASE_SEC: f64 = 18.0;
@@ -506,14 +511,18 @@ const BARON_MINION_DAMAGE_REDUCTION: f64 = 0.22;
 const CHAMPION_MAX_LEVEL: i64 = 18;
 const CHAMPION_LEVEL_UP_HP_GAIN: f64 = 92.0;
 const CHAMPION_LEVEL_UP_AD_GAIN: f64 = 3.8;
-const TOWER_OUTER_HP: f64 = 5000.0;
-const TOWER_INNER_HP: f64 = 3600.0;
-const TOWER_INHIB_HP: f64 = 3400.0;
-const TOWER_NEXUS_HP: f64 = 2700.0;
+const TOWER_OUTER_HP: f64 = 4590.0;
+const TOWER_INNER_HP: f64 = 4590.0;
+const TOWER_INHIB_HP: f64 = 4590.0;
+const TOWER_NEXUS_HP: f64 = 4590.0;
 const INHIBITOR_HP: f64 = 4000.0;
 const NEXUS_HP: f64 = 5500.0;
 const EARLY_TOWER_FORTIFICATION_END_AT: f64 = 14.0 * 60.0;
-const EARLY_TOWER_DAMAGE_REDUCTION: f64 = 0.90;
+const TOWER_FORTIFICATION_REDUCTION_AT_14: f64 = 0.90;
+const TOWER_FORTIFICATION_REDUCTION_AT_20: f64 = 0.80;
+const TOWER_FORTIFICATION_REDUCTION_AT_25: f64 = 0.70;
+const TOWER_FORTIFICATION_REDUCTION_AT_30: f64 = 0.60;
+const TOWER_FORTIFICATION_REDUCTION_AT_35: f64 = 0.35;
 const CHAMPION_ATTACK_CADENCE_SEC: f64 = 1.0;
 const TOWER_SHOT_DAMAGE: f64 = 40.0;
 const TOWER_SHOT_DAMAGE_TO_MINION: f64 = 24.0;
@@ -566,11 +575,13 @@ const OBJECTIVE_SECURE_XP: i64 = 90;
 const VOIDGRUB_TOWER_DAMAGE_PER_STACK: f64 = 0.03;
 const VOIDGRUB_TOWER_DAMAGE_MAX: f64 = 0.09;
 const OBJECTIVE_NEXT_SPAWN_FALLBACK: f64 = 9_999_999.0;
-const NAV_GRID_SIZE: usize = 192;
+const NAV_GRID_SIZE: usize = 196;
 const NAV_PATH_MIN_DIRECT_DIST: f64 = 0.012;
 const NAV_PATH_TRIVIAL_NODE_EPSILON: f64 = 0.0095;
 const CHAMPION_REPATH_MIN_TARGET_DELTA: f64 = 0.018;
-const ITEM_COST_MULTIPLIER: f64 = 0.32;
+const CHAMPION_STUCK_PROGRESS_EPSILON: f64 = 0.00045;
+const CHAMPION_STUCK_TRIGGER_SEC: f64 = 7.0;
+const ITEM_COST_MULTIPLIER: f64 = 1.0;
 const ITEM_COST_MIN: i64 = 300;
 const SUPPORT_CS_MIN_INTERVAL_SEC: f64 = 24.0;
 const MINION_XP_SHARE_RADIUS: f64 = 0.11;
@@ -2410,6 +2421,7 @@ fn set_champion_direct_path(champion: &mut ChampionRuntime, target: Vec2) {
         champion.target_path = path;
     }
     champion.target_path_index = 0;
+    champion.path_stuck_for_sec = 0.0;
 }
 
 fn current_champion_path_target(champion: &ChampionRuntime) -> Option<Vec2> {
@@ -2618,33 +2630,13 @@ fn in_lane_trade_context(
 }
 
 fn is_deep_enemy_tower_zone(
-    champion: &ChampionRuntime,
-    target_pos: Vec2,
-    structures: &[StructureRuntime],
-    minions: &[MinionRuntime],
+    _champion: &ChampionRuntime,
+    _target_pos: Vec2,
+    _structures: &[StructureRuntime],
+    _minions: &[MinionRuntime],
 ) -> bool {
-    let enemy_tower = structures.iter().find(|s| {
-        s.alive
-            && s.kind == "tower"
-            && normalized_team(&s.team) != normalized_team(&champion.team)
-            && normalized_lane(&s.lane) == normalized_lane(&champion.lane)
-            && dist(s.pos, target_pos) <= 0.1
-    });
-
-    let Some(tower) = enemy_tower else {
-        return false;
-    };
-
-    let allied_wave_near_tower = minions
-        .iter()
-        .filter(|m| {
-            m.alive
-                && normalized_team(&m.team) == normalized_team(&champion.team)
-                && normalized_lane(&m.lane) == normalized_lane(&champion.lane)
-                && dist(m.pos, tower.pos) <= 0.085
-        })
-        .count();
-    allied_wave_near_tower < 2
+    // Towers should not block traversal. Walls remain blocked by nav mesh.
+    false
 }
 
 fn is_inside_laner_trade_leash(
@@ -2720,7 +2712,14 @@ fn should_force_laner_disengage(
         minions,
         LANE_LOCAL_PRESSURE_RADIUS,
     );
-    if pressure.enemy_score > pressure.ally_score + profile.outnumber_tolerance {
+    let pressure_margin = if champion.role == "MID" {
+        profile.outnumber_tolerance + 0.20
+    } else {
+        profile.outnumber_tolerance
+    };
+    if pressure.enemy_score > pressure.ally_score + pressure_margin
+        && pressure.enemy_champions >= pressure.ally_champions + 1
+    {
         return true;
     }
 
@@ -3007,6 +3006,14 @@ fn lane_farm_anchor_pos_v2(
                 };
             }
         }
+    }
+
+    // After lane start, MID should play tightly around wave instead of static lane anchor.
+    if champion.role == "MID" && now > FIRST_WAVE_CONTEST_UNTIL {
+        return Vec2 {
+            x: clamp(wave_front.x, 0.01, 0.99),
+            y: clamp(wave_front.y, 0.01, 0.99),
+        };
     }
 
     let to_wave = normalize(Vec2 {
@@ -5316,11 +5323,23 @@ fn add_dragon_stack_for_kind(team_buffs: &mut RuntimeTeamBuffState, kind: &str) 
 }
 
 fn tower_damage_multiplier(at_time_sec: f64, structure: &StructureRuntime) -> f64 {
-    if structure.kind == "tower" && at_time_sec < EARLY_TOWER_FORTIFICATION_END_AT {
-        1.0 - EARLY_TOWER_DAMAGE_REDUCTION
-    } else {
-        1.0
+    if structure.kind != "tower" {
+        return 1.0;
     }
+
+    let reduction = if at_time_sec < 20.0 * 60.0 {
+        TOWER_FORTIFICATION_REDUCTION_AT_14
+    } else if at_time_sec < 25.0 * 60.0 {
+        TOWER_FORTIFICATION_REDUCTION_AT_20
+    } else if at_time_sec < 30.0 * 60.0 {
+        TOWER_FORTIFICATION_REDUCTION_AT_25
+    } else if at_time_sec < 35.0 * 60.0 {
+        TOWER_FORTIFICATION_REDUCTION_AT_30
+    } else {
+        TOWER_FORTIFICATION_REDUCTION_AT_35
+    };
+
+    1.0 - reduction
 }
 
 fn add_gold_xp_to_champion(runtime: &mut RuntimeState, champion_id: &str, gold: i64, xp: i64) {
@@ -5367,14 +5386,14 @@ fn register_minion_death(runtime: &mut RuntimeState, minion_idx: usize) {
     let minion_lane = runtime.minions[minion_idx].lane.clone();
     let minion_pos = runtime.minions[minion_idx].pos;
     let gold = if runtime.minions[minion_idx].kind == "ranged" {
-        16
+        44
     } else {
-        22
+        60
     };
     let xp = if runtime.minions[minion_idx].kind == "ranged" {
-        32
+        40
     } else {
-        58
+        70
     };
 
     // XP soak: allies near the dying minion receive shared XP even without last-hit.
@@ -5594,6 +5613,35 @@ fn category_plan(category: ItemBuildCategory) -> &'static [ItemTemplate; 6] {
         ItemBuildCategory::SupportEnchanter => &SUPPORT_ENCHANTER_ITEM_PLAN,
         ItemBuildCategory::SupportDamage => &SUPPORT_DAMAGE_ITEM_PLAN,
     }
+}
+
+pub(super) fn champion_can_afford_next_item(champion: &ChampionRuntime) -> bool {
+    if champion.items.len() >= 6 || !champion.has_left_base_once {
+        return false;
+    }
+
+    let plan = champion_item_plan(&champion.role, &champion.champion_id);
+    let has_boots = champion.items.iter().any(|item| is_boots_item_key(item));
+    let next_item = if !has_boots {
+        plan
+            .iter()
+            .find(|candidate| is_boots_item_key(candidate.key))
+            .or_else(|| {
+                plan
+                    .iter()
+                    .find(|candidate| !champion.items.iter().any(|owned| owned == candidate.key))
+            })
+    } else {
+        plan
+            .iter()
+            .find(|candidate| !champion.items.iter().any(|owned| owned == candidate.key))
+    };
+
+    let Some(next_item) = next_item else {
+        return false;
+    };
+
+    champion.gold >= effective_item_cost(next_item.cost)
 }
 
 fn classify_item_build(role: &str, champion_id: &str) -> ItemBuildCategory {

@@ -78,7 +78,7 @@ pub(super) const STRUCTURE_LAYOUT: [StructureSeed; 30] = [
 ];
 
 pub(super) const LANE_PATH_TOP_BLUE: [Vec2; 11] = [
-    Vec2 { x: 0.12, y: 0.88 }, Vec2 { x: 0.109, y: 0.76 }, Vec2 { x: 0.104, y: 0.67 }, Vec2 { x: 0.101, y: 0.56 }, Vec2 { x: 0.099, y: 0.43 }, Vec2 { x: 0.098, y: 0.31 }, Vec2 { x: 0.122, y: 0.20 }, Vec2 { x: 0.2, y: 0.11 }, Vec2 { x: 0.28, y: 0.08 }, Vec2 { x: 0.53, y: 0.08 }, Vec2 { x: 0.89, y: 0.12 },
+    Vec2 { x: 0.108, y: 0.88 }, Vec2 { x: 0.096, y: 0.76 }, Vec2 { x: 0.091, y: 0.67 }, Vec2 { x: 0.087, y: 0.56 }, Vec2 { x: 0.084, y: 0.43 }, Vec2 { x: 0.082, y: 0.31 }, Vec2 { x: 0.104, y: 0.20 }, Vec2 { x: 0.182, y: 0.11 }, Vec2 { x: 0.266, y: 0.08 }, Vec2 { x: 0.516, y: 0.08 }, Vec2 { x: 0.89, y: 0.12 },
 ];
 
 pub(super) const LANE_PATH_MID_BLUE: [Vec2; 7] = [

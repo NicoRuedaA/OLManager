@@ -2,13 +2,13 @@ use super::{ChampionRuntime, CHAMPION_KILL_GOLD, CHAMPION_KILL_GOLD_MAX, CHAMPIO
 
 pub(super) fn jungle_camp_reward(key: &str) -> Option<(i64, i64)> {
     match key {
-        "blue-buff-blue" | "blue-buff-red" => Some((95, 150)),
-        "red-buff-blue" | "red-buff-red" => Some((95, 155)),
-        "wolves-blue" | "wolves-red" => Some((70, 110)),
-        "raptors-blue" | "raptors-red" => Some((72, 115)),
-        "gromp-blue" | "gromp-red" => Some((82, 128)),
-        "krugs-blue" | "krugs-red" => Some((86, 132)),
-        "scuttle-top" | "scuttle-bot" => Some((70, 110)),
+        "blue-buff-blue" | "blue-buff-red" => Some((120, 180)),
+        "red-buff-blue" | "red-buff-red" => Some((120, 185)),
+        "wolves-blue" | "wolves-red" => Some((90, 135)),
+        "raptors-blue" | "raptors-red" => Some((92, 140)),
+        "gromp-blue" | "gromp-red" => Some((105, 156)),
+        "krugs-blue" | "krugs-red" => Some((110, 162)),
+        "scuttle-top" | "scuttle-bot" => Some((88, 132)),
         _ => None,
     }
 }
@@ -32,12 +32,12 @@ pub(super) fn champion_kill_rewards(killer: &ChampionRuntime, victim: &ChampionR
     let killer_ahead = (killer.kills as i64 - killer.deaths as i64).max(0);
     let killer_kills = killer.kills.max(0) as i64;
 
-    let mut gold = CHAMPION_KILL_GOLD + level_gap * 18 + victim_streak * 35;
+    let mut gold = CHAMPION_KILL_GOLD + level_gap * 14 + victim_streak * 25;
     if killer_ahead >= 2 {
-        gold -= ((killer_ahead - 1) * 32).min(210);
+        gold -= ((killer_ahead - 1) * 24).min(160);
     }
     if killer_kills >= 6 {
-        gold -= ((killer_kills - 5) * 12).min(84);
+        gold -= ((killer_kills - 5) * 10).min(70);
     }
 
     let mut xp = CHAMPION_KILL_XP + level_gap * 12 + victim_streak * 10;

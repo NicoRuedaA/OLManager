@@ -73,6 +73,8 @@ pub(super) fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: V
         support_roam_uses: 0,
         support_roam_cd_until: 0.0,
         support_last_roam_role: String::new(),
+        path_stuck_for_sec: 0.0,
+        forced_lane_recall_cd_until: 0.0,
     }
 }
 

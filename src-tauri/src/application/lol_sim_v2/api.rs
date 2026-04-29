@@ -35,22 +35,22 @@ impl Default for SimulatorPolicyConfig {
 }
 
 fn default_no_dive_hp_min() -> f64 {
-    0.38
+    0.30
 }
 fn default_trade_retreat_hp_ratio() -> f64 {
-    0.36
+    0.24
 }
 fn default_trade_hp_disadvantage_allowance() -> f64 {
-    0.14
+    0.20
 }
 fn default_lane_chase_leash_radius() -> f64 {
-    0.11
+    0.14
 }
 fn default_hybrid_open_trade_confidence_high() -> f64 {
-    0.60
+    0.55
 }
 fn default_hybrid_disengage_confidence_low() -> f64 {
-    0.26
+    0.22
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

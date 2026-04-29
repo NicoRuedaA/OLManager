@@ -1083,6 +1083,15 @@ pub(super) fn resolve_champion_combat(runtime: &mut RuntimeState) {
                         &runtime.minions,
                     )
                 {
+                    if attacker_after.role == "MID"
+                        && lane_recent_trade_lock_active(
+                            &attacker_after,
+                            now,
+                            &runtime.lane_combat_state_by_champion,
+                        )
+                    {
+                        continue;
+                    }
                     let enemy_pos = runtime.champions[champion_idx].pos;
                     issue_lane_disengage(runtime, idx, enemy_pos);
                 }

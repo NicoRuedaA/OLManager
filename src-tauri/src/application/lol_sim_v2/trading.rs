@@ -326,7 +326,7 @@ pub(super) fn evaluate_disengage_champion_trade(
 
     let allied_pressure = ally_champions as f64 + ally_lane_minions as f64 * 0.5;
     let enemy_pressure = enemy_champions as f64 + enemy_lane_minions as f64 * 0.5;
-    if enemy_pressure > allied_pressure + 0.7 {
+    if enemy_pressure > allied_pressure + 1.05 {
         return TradeDecisionEvaluation {
             decision: true,
             rule_decision: true,
@@ -430,7 +430,7 @@ pub(super) fn should_commit_all_in_trade(
         return true;
     }
 
-    pressure.ally_score >= pressure.enemy_score + 0.9 && self_hp >= enemy_hp
+    pressure.ally_score >= pressure.enemy_score + 0.65 && self_hp >= enemy_hp
 }
 
 fn trade_confidence_score(features: TradeConfidenceFeatures) -> f64 {
@@ -532,13 +532,14 @@ pub(super) fn in_lane_trade_context(
         LANE_LOCAL_PRESSURE_RADIUS,
     );
 
-    let anchor_budget = profile.chase_leash * if for_chase { 1.05 } else { 0.92 };
-    let wave_budget = profile.chase_leash * if for_chase { 1.15 } else { 1.0 };
+    let mid_context_mult = if champion.role == "MID" { 1.18 } else { 1.0 };
+    let anchor_budget = profile.chase_leash * if for_chase { 1.05 * mid_context_mult } else { 0.92 * mid_context_mult };
+    let wave_budget = profile.chase_leash * if for_chase { 1.15 * mid_context_mult } else { 1.0 * mid_context_mult };
     let minion_budget = if for_chase {
         LANE_CHASE_MINION_CONTEXT_RADIUS
     } else {
         LANE_MINION_CONTEXT_RADIUS
-    };
+    } * mid_context_mult;
 
     if dist(pos, lane_anchor) > anchor_budget {
         return false;

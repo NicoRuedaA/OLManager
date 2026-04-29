@@ -4,16 +4,22 @@ use super::{
     base_position_for, clamp, dist, is_first_wave_contest_active, lane_fallback_pos_from_tower,
     lane_farm_anchor_pos_v2, lane_path_for, lane_pressure_at, lane_role_profile,
     lane_pre_wave_hold_pos, lane_wave_front_pos, normalize, normalized_lane, normalized_team,
-    set_champion_direct_path, set_champion_direct_path_hysteresis, start_recall, stat_delta,
+    champion_can_afford_next_item, set_champion_direct_path, set_champion_direct_path_hysteresis,
+    start_recall, stat_delta,
     ChampionRuntime, MinionRuntime, NeutralTimerRuntime, NeutralTimersRuntime, RuntimeTeamBuffState,
     RuntimeTeamTactics, StructureRuntime, Vec2, BASE_DEFENSE_RECALL_DISTANCE,
     LANE_COMBAT_UNLOCK_AT, LANE_HEALTHY_RETREAT_HP_RATIO,
     LANE_LOCAL_PRESSURE_RADIUS, LANE_STRONG_UNFAVORABLE_PRESSURE_DELTA, RECALL_CHANNEL_SEC,
-    RECALL_REACH_BUFFER_SEC, RECALL_SAFE_ENEMY_RADIUS, RECALL_TRIGGER_HP_RATIO,
+    RECALL_CANCEL_ENEMY_RADIUS, RECALL_REACH_BUFFER_SEC, RECALL_TRIGGER_HP_RATIO,
     SUPPORT_OPEN_ROAM_AT_SEC, SUPPORT_ROAM_UNLOCK_AT_SEC,
     MAJOR_OBJECTIVE_TEAM_ASSIST_RADIUS, OBJECTIVE_ASSIST_RADIUS, OBJECTIVE_ATTEMPT_RADIUS,
     OBJECTIVE_PATH_MIN_TARGET_DELTA, NEXUS_DEFENSE_THREAT_RADIUS, MINION_XP_SHARE_RADIUS,
+    FIRST_WAVE_CONTEST_UNTIL,
 };
+
+const FORCED_LANE_RECALL_COOLDOWN_SEC: f64 = 55.0;
+const FORCED_LANE_RECALL_MAX_HP_RATIO: f64 = 0.58;
+const WALK_TO_BASE_HEAL_DISTANCE: f64 = 0.17;
 
 pub(super) fn nearest_enemy_champion_snapshot<'a>(
     champion: &ChampionRuntime,
@@ -37,7 +43,9 @@ pub(super) fn nearest_enemy_champion_snapshot<'a>(
 }
 
 pub(super) fn should_recall_in_place(champion: &ChampionRuntime, champions: &[ChampionRuntime]) -> bool {
-    let nearest = nearest_enemy_champion_snapshot(champion, champions, RECALL_SAFE_ENEMY_RADIUS);
+    // Recall should only be blocked by VERY close enemies.
+    // Distant enemies pushing the wave must not prevent backing.
+    let nearest = nearest_enemy_champion_snapshot(champion, champions, RECALL_CANCEL_ENEMY_RADIUS);
     let Some(enemy) = nearest else {
         return true;
     };
@@ -404,24 +412,24 @@ pub(super) fn lane_retreat_anchor_pos(
     let Some(tower_idx) =
         pick_allied_lane_fallback_tower(champion, threat_pos, emergency, structures, &lane_path_for(&champion.team, &champion.lane))
     else {
+        if champion.state == "recall" {
+            return base_position_for(&champion.team);
+        }
         return farm_anchor;
     };
     let tower = &structures[tower_idx];
 
     let tower_fallback = lane_fallback_pos_from_tower(champion, tower.pos, emergency);
+    if champion.state == "recall" {
+        return tower_fallback;
+    }
     if emergency {
         return tower_fallback;
     }
 
-    let lane_path = lane_path_for(&champion.team, &champion.lane);
-
-    let farm_idx = closest_lane_path_index(farm_anchor, &lane_path);
-    let tower_idx = closest_lane_path_index(tower_fallback, &lane_path);
-    if tower_idx < farm_idx {
-        farm_anchor
-    } else {
-        tower_fallback
-    }
+    // Non-emergency disengage should not pin laners under tower.
+    // Keep pressure/farm behavior unless we are in explicit emergency retreat.
+    farm_anchor
 }
 
 pub(super) fn decide_champion_state(
@@ -438,8 +446,33 @@ pub(super) fn decide_champion_state(
         return;
     }
 
+    if champion_can_afford_next_item(champion) {
+        start_recall(champion, now, champions, minions, structures);
+        return;
+    }
+
     let hp_ratio = if champion.max_hp <= 0.0 { 1.0 } else { champion.hp / champion.max_hp };
     if hp_ratio <= RECALL_TRIGGER_HP_RATIO {
+        let base = base_position_for(&champion.team);
+        if dist(champion.pos, base) <= WALK_TO_BASE_HEAL_DISTANCE {
+            champion.state = "lane".to_string();
+            set_champion_direct_path_hysteresis(champion, base, OBJECTIVE_PATH_MIN_TARGET_DELTA);
+            return;
+        }
+        start_recall(champion, now, champions, minions, structures);
+        return;
+    }
+
+    // Hard anti-stuck rule:
+    // if a laner drifts behind their own lane tower after opening phase,
+    // force immediate recall (ignore threat/range heuristics).
+    if champion.role != "JGL"
+        && now > FIRST_WAVE_CONTEST_UNTIL
+        && now >= champion.forced_lane_recall_cd_until
+        && hp_ratio <= FORCED_LANE_RECALL_MAX_HP_RATIO
+        && is_behind_own_lane_tower(champion, structures)
+    {
+        champion.forced_lane_recall_cd_until = now + FORCED_LANE_RECALL_COOLDOWN_SEC;
         start_recall(champion, now, champions, minions, structures);
         return;
     }
@@ -576,6 +609,35 @@ pub(super) fn decide_champion_state(
     };
 
     set_champion_direct_path(champion, target);
+}
+
+fn is_behind_own_lane_tower(champion: &ChampionRuntime, structures: &[StructureRuntime]) -> bool {
+    let lane_path = lane_path_for(&champion.team, &champion.lane);
+    if lane_path.len() < 2 {
+        return false;
+    }
+
+    let allied_lane_tower = structures
+        .iter()
+        .filter(|s| {
+            s.alive
+                && s.kind == "tower"
+                && normalized_team(&s.team) == normalized_team(&champion.team)
+                && normalized_lane(&s.lane) == normalized_lane(&champion.lane)
+        })
+        .max_by(|a, b| {
+            let idx_a = closest_lane_path_index(a.pos, &lane_path);
+            let idx_b = closest_lane_path_index(b.pos, &lane_path);
+            idx_a.cmp(&idx_b)
+        });
+
+    let Some(tower) = allied_lane_tower else {
+        return false;
+    };
+
+    let champ_idx = closest_lane_path_index(champion.pos, &lane_path);
+    let tower_idx = closest_lane_path_index(tower.pos, &lane_path);
+    champ_idx + 1 < tower_idx
 }
 
 fn post_tower_push_anchor(
