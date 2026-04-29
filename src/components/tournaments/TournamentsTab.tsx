@@ -120,8 +120,8 @@ export default function TournamentsTab({
       <Card accent="primary" className="mb-5">
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-accent-500/20 flex items-center justify-center">
-              <Trophy className="w-7 h-7 text-accent-400" />
+            <div className="w-14 h-14 rounded-xl bg-white/90 flex items-center justify-center p-2">
+              <img src="/lec-logo.png" alt="LEC logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex-1">
               <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">
