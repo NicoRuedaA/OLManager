@@ -23,6 +23,16 @@ OLManager es un manager de esports para League of Legends diseñado para simular
 | **Test Files** | 106 frontend + 21 backend Rust |
 | **i18n** | 7 idiomas configurados |
 | **Commits** | Conventional commits |
+| **PR Activo** | `QoL-UI` - 23 commits, ready for merge |
+
+### Features Recientes (QoL-UI Branch)
+
+✅ **Implementadas:**
+- Role icons system (TOP, JUNGLE, MID, ADC, SUPPORT)
+- Player photos en PlayersList y TransfersTab
+- LEC logo en torneos
+- OVR en perfil de jugador
+- Manager avatar removido (simplificación)
 
 ### Deuda Técnica Identificada
 
