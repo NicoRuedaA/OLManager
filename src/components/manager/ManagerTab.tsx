@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
 import { GameStateData } from "../../store/gameStore";
 import { Card, CardHeader, CardBody, ProgressBar, CountryFlag } from "../ui";
 import { formatDate } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { countryName } from "../../lib/countries";
+import { getAvatarUrl } from "../../lib/managerAvatars";
+
+const FALLBACK_MANAGER_AVATAR = "/manager-avatars/default-manager.svg";
 
 interface ManagerTabProps {
   gameState: GameStateData;
@@ -23,13 +27,34 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     .map((part) => part.charAt(0).toUpperCase())
     .join("") || "M";
 
+  const [avatarSrc, setAvatarSrc] = useState<string>(FALLBACK_MANAGER_AVATAR);
+
+  useEffect(() => {
+    const loadAvatar = async () => {
+      try {
+        const url = await getAvatarUrl(mgr.avatar_path);
+        setAvatarSrc(url);
+      } catch {
+        setAvatarSrc(FALLBACK_MANAGER_AVATAR);
+      }
+    };
+    loadAvatar();
+  }, [mgr.avatar_path]);
+
   return (
     <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
       {/* Profile card */}
       <Card accent="primary" className="md:col-span-3">
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl flex items-center gap-6">
-          <div className="w-20 h-20 rounded-xl bg-primary-500/20 flex items-center justify-center font-heading font-bold text-3xl text-primary-400 border-2 border-primary-500/30">
-            {initials}
+          <div className="w-20 h-20 rounded-xl overflow-hidden bg-primary-500/20 flex items-center justify-center border-2 border-primary-500/30">
+            <img 
+              src={avatarSrc} 
+              alt={displayName}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = FALLBACK_MANAGER_AVATAR;
+              }}
+            />
           </div>
           <div>
             <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">{displayName}</h2>

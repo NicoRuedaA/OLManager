@@ -21,6 +21,8 @@ pub struct Manager {
     pub football_nation: String,
     #[serde(default)]
     pub birth_country: Option<String>,
+    #[serde(default)]
+    pub avatar_path: Option<String>,
     pub reputation: u32,
     pub satisfaction: u8, // 0 to 100
     #[serde(default = "default_fan_approval")]
@@ -81,6 +83,7 @@ impl Manager {
             nationality,
             football_nation,
             birth_country,
+            avatar_path: None,
             reputation: 500,
             satisfaction: 100,
             fan_approval: 50,

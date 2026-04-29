@@ -7,6 +7,7 @@ use domain::team::{
 use log::info;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
+use std::path::PathBuf;
 use std::sync::OnceLock;
 use tauri::Manager as TauriManager;
 use tauri::State;
@@ -1656,6 +1657,7 @@ pub async fn start_new_game(
     dob: String,
     nationality: String,
     world_source: Option<String>,
+    avatar_path: Option<String>,
 ) -> Result<String, String> {
     info!(
         "[cmd] start_new_game: {} {} (nickname={:?}, nationality={}, world_source={:?})",
@@ -1696,6 +1698,7 @@ pub async fn start_new_game(
         nationality,
     );
     manager.nickname = nickname;
+    manager.avatar_path = avatar_path;
 
     use chrono::TimeZone;
     let start_date = chrono::Utc.with_ymd_and_hms(2025, 1, 1, 0, 0, 0).unwrap();
@@ -2013,4 +2016,70 @@ pub async fn exit_to_menu(
     state.clear_save_id();
 
     Ok(())
+}
+
+/// Save manager avatar file to app data directory
+#[tauri::command]
+pub async fn save_manager_avatar(
+    app_handle: tauri::AppHandle,
+    filename: String,
+    data: Vec<u8>,
+) -> Result<String, String> {
+    info!("[cmd] save_manager_avatar: filename={}", filename);
+    
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+    
+    let avatar_dir = app_data_dir.join("manager-avatars");
+    std::fs::create_dir_all(&avatar_dir)
+        .map_err(|e| format!("Failed to create avatar directory: {}", e))?;
+    
+    let file_path = avatar_dir.join(&filename);
+    std::fs::write(&file_path, &data)
+        .map_err(|e| format!("Failed to write avatar file: {}", e))?;
+    
+    info!("[cmd] save_manager_avatar: saved to {:?}", file_path);
+    Ok(file_path.to_string_lossy().to_string())
+}
+
+/// Load manager avatar as base64 data URL
+#[tauri::command]
+pub async fn load_manager_avatar(
+    app_handle: tauri::AppHandle,
+    filename: String,
+) -> Result<String, String> {
+    info!("[cmd] load_manager_avatar: filename={}", filename);
+    
+    let app_data_dir = app_handle
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+    
+    let file_path = app_data_dir.join("manager-avatars").join(&filename);
+    
+    if !file_path.exists() {
+        return Err(format!("Avatar file not found: {}", filename));
+    }
+    
+    let data = std::fs::read(&file_path)
+        .map_err(|e| format!("Failed to read avatar file: {}", e))?;
+    
+    // Determine MIME type from extension
+    let mime_type = match filename.rsplit('.').next() {
+        Some("png") => "image/png",
+        Some("jpg") | Some("jpeg") => "image/jpeg",
+        Some("webp") => "image/webp",
+        Some("svg") => "image/svg+xml",
+        _ => "application/octet-stream",
+    };
+    
+    // Use modern base64 API (0.22+)
+    use base64::Engine;
+    let base64_data = base64::engine::general_purpose::STANDARD.encode(&data);
+    let data_url = format!("data:{};base64,{}", mime_type, base64_data);
+    
+    info!("[cmd] load_manager_avatar: loaded {} bytes", data.len());
+    Ok(data_url)
 }

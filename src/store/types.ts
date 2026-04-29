@@ -674,6 +674,7 @@ export interface GameStateData {
     last_name: string;
     date_of_birth: string;
     nationality: string;
+    avatar_path?: string | null;
     reputation: number;
     satisfaction: number;
     fan_approval: number;

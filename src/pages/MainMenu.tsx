@@ -16,8 +16,11 @@ import {
   ChevronDown,
   Check,
   Power,
+  Upload,
+  XCircle,
 } from "lucide-react";
 import { countryName, allNationalities } from "../lib/countries";
+import { resolveManagerAvatar, validateAvatarFile, generateAvatarFilename } from "../lib/managerAvatars";
 
 const canUseTauriInvoke = () => {
   if (import.meta.env.MODE === "test") return true;
@@ -133,7 +136,12 @@ export default function MainMenu() {
     lastName: "",
     dob: "",
     nationality: "",
+    avatarPath: "",
   });
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [nationalityOpen, setNationalityOpen] = useState(false);
   const [nationalitySearch, setNationalitySearch] = useState("");
@@ -280,6 +288,19 @@ export default function MainMenu() {
 
       const worldSource = "lec-default";
 
+      // Upload avatar if selected
+      let avatarPath: string | null = null;
+      if (avatarFile) {
+        const filename = generateAvatarFilename(avatarFile.name);
+        const arrayBuffer = await avatarFile.arrayBuffer();
+        const bytes = Array.from(new Uint8Array(arrayBuffer));
+        await invoke<string>("save_manager_avatar", {
+          filename,
+          data: bytes,
+        });
+        avatarPath = filename;
+      }
+
       await invoke<string>("start_new_game", {
         nickname: formData.nickname,
         firstName: formData.firstName,
@@ -287,6 +308,7 @@ export default function MainMenu() {
         dob: formData.dob,
         nationality: formData.nationality,
         worldSource,
+        avatarPath,
       });
       const displayName = formData.nickname?.trim() || `${formData.firstName} ${formData.lastName}`;
       setGameActive(true, displayName.trim());
@@ -297,6 +319,36 @@ export default function MainMenu() {
       alert(t("menu.failedStartGame", { error: String(error) }));
     } finally {
       setIsStarting(false);
+    }
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validation = validateAvatarFile(file);
+    if (!validation.valid) {
+      setAvatarError(validation.error || "Archivo inválido");
+      return;
+    }
+
+    setAvatarError(null);
+    setAvatarFile(file);
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setAvatarPreview(event.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleRemoveAvatar = () => {
+    setAvatarFile(null);
+    setAvatarPreview(null);
+    setAvatarError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -709,6 +761,68 @@ export default function MainMenu() {
                   <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
                     <AlertCircle className="w-3 h-3" />
                     {formErrors.nationality}
+                  </p>
+                )}
+              </div>
+
+              {/* Avatar Upload */}
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                  {t("createManager.avatar", "Foto de Perfil")}
+                </label>
+                <div className="flex items-center gap-4">
+                  {/* Avatar Preview */}
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-navy-700 border-2 border-gray-300 dark:border-navy-500 flex items-center justify-center">
+                    {avatarPreview ? (
+                      <img 
+                        src={avatarPreview} 
+                        alt="Avatar preview" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <img 
+                        src={resolveManagerAvatar()} 
+                        alt="Default avatar" 
+                        className="w-full h-full object-cover opacity-50"
+                      />
+                    )}
+                    {avatarPreview && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveAvatar}
+                        className="absolute top-0 right-0 bg-red-500 text-white rounded-bl-md p-0.5 hover:bg-red-600 transition-colors"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Upload Button */}
+                  <div className="flex-1">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
+                      onChange={handleAvatarChange}
+                      className="hidden"
+                      id="avatar-upload"
+                    />
+                    <label
+                      htmlFor="avatar-upload"
+                      className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-navy-700 transition-colors text-sm text-gray-700 dark:text-gray-200"
+                    >
+                      <Upload className="w-4 h-4" />
+                      <span>{t("createManager.uploadAvatar", "Subir imagen")}</span>
+                    </label>
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
+                      PNG, JPG, WebP o SVG (máx. 5MB)
+                    </p>
+                  </div>
+                </div>
+                {avatarError && (
+                  <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {avatarError}
                   </p>
                 )}
               </div>
