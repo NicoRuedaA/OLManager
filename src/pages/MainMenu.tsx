@@ -408,7 +408,7 @@ export default function MainMenu() {
               className="flex flex-col gap-4"
             >
               <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-heading font-bold uppercase tracking-wide text-gray-900 dark:text-white transition-colors">
+                <h2 className="text-xl font-sans font-bold uppercase tracking-wide text-gray-900 dark:text-white transition-colors">
                   {t("createManager.title")}
                 </h2>
                 <button
