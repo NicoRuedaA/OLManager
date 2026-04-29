@@ -12,14 +12,6 @@ import type { MatchState, TeamId } from "../engine/types";
 export type LolSimV1EventType = "kill" | "tower" | "dragon" | "baron" | "nexus" | "spawn" | "recall" | "info";
 export type LolSimV1AiMode = "rules" | "hybrid";
 
-export interface LolSimV1TelemetryConfig {
-  enabled?: boolean;
-  sampleEveryTicks?: number;
-  outcomeWindowTicks?: number;
-  decisionChangeOnly?: boolean;
-  outputPath?: string;
-}
-
 export interface LolChampionUltimateProfile {
   archetype: string;
   icon: string;
@@ -65,7 +57,6 @@ export interface LolSimV1InitRequest {
   seed: string;
   aiMode?: LolSimV1AiMode;
   policy?: LolSimV1PolicyConfig;
-  telemetry?: LolSimV1TelemetryConfig;
   snapshot: MatchSnapshot;
   championByPlayerId: Record<string, string>;
   championProfilesById: Record<string, ChampionCombatProfile>;
@@ -94,7 +85,6 @@ export interface LolSimV1ResetRequest {
   seed: string;
   aiMode?: LolSimV1AiMode;
   policy?: LolSimV1PolicyConfig;
-  telemetry?: LolSimV1TelemetryConfig;
   initialState?: LolSimV1RuntimeState;
 }
 
@@ -111,7 +101,6 @@ export interface LolSimV1RunToCompletionRequest {
   seed: string;
   aiMode?: LolSimV1AiMode;
   policy?: LolSimV1PolicyConfig;
-  telemetry?: LolSimV1TelemetryConfig;
   snapshot: MatchSnapshot;
   championByPlayerId: Record<string, string>;
   championProfilesById: Record<string, ChampionCombatProfile>;

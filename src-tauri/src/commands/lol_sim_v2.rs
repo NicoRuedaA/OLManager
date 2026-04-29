@@ -1,10 +1,8 @@
 use tauri::State;
 
 use crate::application::lol_sim_v2::{
-    clear_default_telemetry_files as clear_telemetry_files_service, init as init_service,
-    reset as reset_service, run_to_completion as run_to_completion_service,
-    skip_to_end as skip_to_end_service, tick as tick_service, ClearTelemetryFilesResponse,
-    LolSimV2DisposeRequest, LolSimV2DisposeResponse, LolSimV2ResetRequest,
+    init as init_service, reset as reset_service, run_to_completion as run_to_completion_service,
+    skip_to_end as skip_to_end_service, tick as tick_service, LolSimV2DisposeRequest, LolSimV2DisposeResponse, LolSimV2ResetRequest,
     LolSimV2RunToCompletionRequest, LolSimV2RunToCompletionResponse, LolSimV2SkipToEndRequest,
     LolSimV2SkipToEndResponse, LolSimV2StateResponse, LolSimV2StoreState, LolSimV2TickRequest,
 };
@@ -39,11 +37,6 @@ pub fn lol_sim_v2_dispose(
     request: LolSimV2DisposeRequest,
 ) -> Result<LolSimV2DisposeResponse, String> {
     crate::application::lol_sim_v2::dispose(&state, request)
-}
-
-#[tauri::command]
-pub fn lol_sim_v2_clear_telemetry_files() -> Result<ClearTelemetryFilesResponse, String> {
-    clear_telemetry_files_service()
 }
 
 #[tauri::command]

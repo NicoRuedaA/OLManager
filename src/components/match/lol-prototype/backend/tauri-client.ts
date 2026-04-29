@@ -41,17 +41,6 @@ export async function lolSimV2SkipToEnd(
   return invoke<LolSimV1SkipToEndResponse>("lol_sim_v2_skip_to_end", { request });
 }
 
-export interface LolSimV2ClearTelemetryResponse {
-  directory: string;
-  deleted_files: number;
-  skipped_entries: number;
-  existed: boolean;
-}
-
-export async function lolSimV2ClearTelemetryFiles(): Promise<LolSimV2ClearTelemetryResponse> {
-  return invoke<LolSimV2ClearTelemetryResponse>("lol_sim_v2_clear_telemetry_files");
-}
-
 function createSessionId() {
   return `lol-sim-v2-${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`;
 }
