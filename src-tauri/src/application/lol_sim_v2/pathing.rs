@@ -3,7 +3,7 @@ use std::cmp::Ordering;
 use super::{
     base_position_for, clamp, closest_lane_path_index, dist, lane_path_for, normalize,
     normalized_lane, normalized_team, ChampionRuntime, LanePressure, LaneRoleProfile,
-    MinionRuntime, StructureRuntime, Vec2, FIRST_WAVE_CONTEST_UNTIL,
+    MinionRuntime, RuntimeState, StructureRuntime, Vec2, FIRST_WAVE_CONTEST_UNTIL,
     LANE_EMPTY_ANCHOR_PROGRESS_MAX_INDEX, MINION_FIRST_WAVE_AT,
 };
 
@@ -299,6 +299,134 @@ pub(super) fn lane_pressure_at(
         enemy_lane_minions,
         ally_score,
         enemy_score,
+    }
+}
+
+pub(super) fn move_champions(runtime: &mut RuntimeState, dt: f64) {
+    let now = runtime.time_sec;
+    let champion_snapshot = runtime.champions.clone();
+    let neutral_timers_snapshot = super::decode_neutral_timers_state(&runtime.neutral_timers);
+    let team_tactics_snapshot = runtime.extra.get("teamTactics").cloned();
+    let team_buffs_snapshot = runtime.extra.get("teamBuffs").cloned();
+
+    for champion in &mut runtime.champions {
+        if champion.realm_banished_until > 0.0 {
+            if now >= champion.realm_banished_until {
+                champion.realm_banished_until = 0.0;
+                if let Some(return_pos) = champion.realm_return_pos {
+                    champion.pos = return_pos;
+                }
+                champion.realm_return_pos = None;
+                champion.target_path.clear();
+                champion.target_path_index = 0;
+                champion.next_decision_at = now;
+                continue;
+            } else {
+                continue;
+            }
+        }
+
+        if !champion.alive {
+            if now >= champion.respawn_at {
+                champion.alive = true;
+                champion.hp = champion.max_hp;
+                champion.pos = base_position_for(&champion.team);
+                super::maybe_upgrade_trinket_to_oracle(champion, now);
+                champion.attack_cd_until = now;
+                champion.state = "lane".to_string();
+                champion.recall_anchor = None;
+                champion.recall_channel_until = 0.0;
+                champion.target_path.clear();
+                champion.target_path_index = 0;
+                champion.next_decision_at = now;
+            } else {
+                continue;
+            }
+        }
+
+        if now >= champion.next_decision_at {
+            super::decide_champion_state(
+                champion,
+                now,
+                &runtime.minions,
+                &runtime.structures,
+                &champion_snapshot,
+                neutral_timers_snapshot.as_ref(),
+                &super::team_tactics_for_runtime(team_tactics_snapshot.as_ref(), &champion.team),
+                &super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team),
+            );
+            champion.next_decision_at =
+                now + (super::CHAMPION_DECISION_CADENCE_SEC / champion.staff_execution.clamp(0.96, 1.10));
+        }
+
+        if champion.state == "recall" {
+            super::tick_recall(
+                champion,
+                now,
+                &champion_snapshot,
+                &runtime.minions,
+                &runtime.structures,
+                &mut runtime.events,
+            );
+            if champion.state == "recall" && champion.recall_channel_until > now {
+                continue;
+            }
+        }
+
+        if champion.target_path.is_empty() {
+            champion.target_path = lane_path_for(&champion.team, &champion.lane);
+            champion.target_path_index = 1;
+        }
+
+        if champion.target_path_index >= champion.target_path.len() {
+            champion.target_path_index = champion.target_path.len().saturating_sub(1);
+        }
+
+        if let Some(target) = champion.target_path.get(champion.target_path_index).copied() {
+            let buffs = super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team);
+            let mut speed_multiplier =
+                1.0 + buffs.cloud_stacks as f64 * 0.015 + buffs.hextech_stacks as f64 * 0.01;
+            if buffs.soul_kind.as_deref() == Some("cloud") {
+                speed_multiplier += 0.08;
+            }
+            if buffs.soul_kind.as_deref() == Some("hextech") {
+                speed_multiplier += 0.04;
+            }
+            super::move_entity(
+                &mut champion.pos,
+                target,
+                champion.move_speed * speed_multiplier,
+                dt,
+            );
+            if dist(champion.pos, target) < 0.01
+                && champion.target_path_index < champion.target_path.len().saturating_sub(1)
+            {
+                champion.target_path_index += 1;
+            }
+        }
+
+        let buffs = super::team_buffs_for_runtime(team_buffs_snapshot.as_ref(), &champion.team);
+        let mut ocean_regen = buffs.ocean_stacks as f64 * 0.45;
+        if buffs.soul_kind.as_deref() == Some("ocean") {
+            ocean_regen += 1.2;
+        }
+        if ocean_regen > 0.0 && (now - champion.last_damaged_at) >= 5.0 {
+            champion.hp = (champion.hp + ocean_regen * dt).min(champion.max_hp);
+        }
+
+        champion.pos.x = clamp(champion.pos.x, 0.01, 0.99);
+        champion.pos.y = clamp(champion.pos.y, 0.01, 0.99);
+
+        if champion.state == "recall" {
+            super::tick_recall(
+                champion,
+                now,
+                &champion_snapshot,
+                &runtime.minions,
+                &runtime.structures,
+                &mut runtime.events,
+            );
+        }
     }
 }
 

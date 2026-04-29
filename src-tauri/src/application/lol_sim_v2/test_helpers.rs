@@ -1,12 +1,10 @@
+use std::collections::HashMap;
+
 use super::*;
 
-#[allow(dead_code)]
-pub(super) fn decode_neutral_for_transition(runtime: &RuntimeState) -> NeutralTimersRuntime {
-    decode_neutral_timers_state(&runtime.neutral_timers)
-        .unwrap_or_else(neutral_timers_default_runtime_state)
-}
+pub(super) const DEFAULT_TEST_HP: f64 = 100.0;
 
-fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> ChampionRuntime {
+pub(super) fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> ChampionRuntime {
     ChampionRuntime {
         id: id.to_string(),
         name: id.to_string(),
@@ -15,8 +13,8 @@ fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> Cha
         role: role.to_string(),
         lane: lane.to_string(),
         pos,
-        hp: 100.0,
-        max_hp: 100.0,
+        hp: DEFAULT_TEST_HP,
+        max_hp: DEFAULT_TEST_HP,
         alive: true,
         respawn_at: 0.0,
         attack_cd_until: 0.0,
@@ -42,8 +40,21 @@ fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> Cha
         iq_score: 70.0,
         competitive_score: 70.0,
         staff_execution: 1.0,
-        summoner_spells: vec![],
-        ultimate: None,
+        summoner_spells: vec![
+            RuntimeSummonerSpellSlot {
+                key: "Flash".to_string(),
+                cd_until: 0.0,
+            },
+            RuntimeSummonerSpellSlot {
+                key: "Ignite".to_string(),
+                cd_until: 0.0,
+            },
+        ],
+        ultimate: Some(RuntimeUltimateSlot {
+            archetype: "burst".to_string(),
+            icon: String::new(),
+            cd_until: 0.0,
+        }),
         ignite_dot_until: 0.0,
         ignite_source_id: None,
         last_damaged_by_champion_id: None,
@@ -65,7 +76,7 @@ fn test_champion(id: &str, team: &str, role: &str, lane: &str, pos: Vec2) -> Cha
     }
 }
 
-fn test_minion(id: &str, team: &str, lane: &str, pos: Vec2) -> MinionRuntime {
+pub(super) fn test_minion(id: &str, team: &str, lane: &str, pos: Vec2) -> MinionRuntime {
     MinionRuntime {
         id: id.to_string(),
         team: team.to_string(),
@@ -88,7 +99,7 @@ fn test_minion(id: &str, team: &str, lane: &str, pos: Vec2) -> MinionRuntime {
     }
 }
 
-fn test_structure(id: &str, team: &str, lane: &str, pos: Vec2) -> StructureRuntime {
+pub(super) fn test_structure(id: &str, team: &str, lane: &str, pos: Vec2) -> StructureRuntime {
     StructureRuntime {
         id: id.to_string(),
         team: team.to_string(),
@@ -104,7 +115,7 @@ fn test_structure(id: &str, team: &str, lane: &str, pos: Vec2) -> StructureRunti
     }
 }
 
-fn test_runtime(
+pub(super) fn test_runtime(
     champions: Vec<ChampionRuntime>,
     minions: Vec<MinionRuntime>,
     structures: Vec<StructureRuntime>,
@@ -131,7 +142,7 @@ fn test_runtime(
     }
 }
 
-fn test_neutral_timer(key: &str, pos: Vec2, alive: bool) -> NeutralTimerRuntime {
+pub(super) fn test_neutral_timer(key: &str, pos: Vec2, alive: bool) -> NeutralTimerRuntime {
     NeutralTimerRuntime {
         key: key.to_string(),
         label: key.to_string(),
@@ -154,72 +165,11 @@ fn test_neutral_timer(key: &str, pos: Vec2, alive: bool) -> NeutralTimerRuntime 
     }
 }
 
-#[test]
-fn transition_bridge_pick_combat_target_wrapper_keeps_signature() {
-    let runtime = RuntimeState::default();
-    let neutral = decode_neutral_for_transition(&runtime);
-    let selected = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
-    assert!(selected.is_none());
-}
-
-#[test]
-fn transition_objective_assist_prioritizes_objective_over_farm_lock() {
-    let adc = test_champion("adc-blue", "blue", "ADC", "bot", Vec2 { x: 0.62, y: 0.73 });
-    let jungler = test_champion("jgl-blue", "blue", "JGL", "bot", Vec2 { x: 0.64, y: 0.71 });
-    let mut enemy = test_champion("mid-red", "red", "MID", "mid", Vec2 { x: 0.82, y: 0.70 });
-    enemy.attack_damage = 1.0;
-
-    let minion = test_minion("m-red-1", "red", "bot", Vec2 { x: 0.625, y: 0.735 });
-
-    let mut entities = HashMap::new();
-    entities.insert(
-        "dragon".to_string(),
-        test_neutral_timer("dragon", Vec2 { x: 0.67, y: 0.70 }, true),
-    );
-    let neutral = NeutralTimersRuntime {
-        dragon_soul_unlocked: false,
-        elder_unlocked: false,
-        entities,
-        extra: HashMap::new(),
-    };
-
-    let runtime = test_runtime(vec![adc, jungler, enemy], vec![minion], vec![], neutral.clone());
-
-    let target = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
-    assert!(matches!(target, Some(CombatTarget::Neutral(ref key)) if key == "dragon"));
-}
-
-#[test]
-fn transition_structure_pressure_blocked_with_two_enemy_minions_near_tower() {
-    let laner = test_champion("top-blue", "blue", "TOP", "top", Vec2 { x: 0.28, y: 0.09 });
-    let tower = test_structure(
-        "red-top-outer",
-        "red",
-        "top",
-        Vec2 {
-            x: 0.275390625,
-            y: 0.07161458333333333,
-        },
-    );
-
-    let allied_wave = test_minion("m-blue-1", "blue", "top", Vec2 { x: 0.29, y: 0.08 });
-    let enemy_wave_1 = test_minion("m-red-1", "red", "top", Vec2 { x: 0.27, y: 0.074 });
-    let enemy_wave_2 = test_minion("m-red-2", "red", "top", Vec2 { x: 0.271, y: 0.073 });
-
-    let neutral = NeutralTimersRuntime {
+pub(super) fn empty_neutral() -> NeutralTimersRuntime {
+    NeutralTimersRuntime {
         dragon_soul_unlocked: false,
         elder_unlocked: false,
         entities: HashMap::new(),
         extra: HashMap::new(),
-    };
-
-    let runtime = test_runtime(
-        vec![laner],
-        vec![allied_wave, enemy_wave_1, enemy_wave_2],
-        vec![tower],
-        neutral.clone(),
-    );
-
-    let target = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
-    assert!(!matches!(target, Some(CombatTarget::Structure(_))));
+    }
 }

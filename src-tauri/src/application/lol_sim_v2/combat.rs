@@ -874,3 +874,267 @@ pub(super) fn pick_combat_target(
         .first()
         .map(|candidate| candidate.target.clone())
 }
+
+pub(super) fn resolve_champion_combat(runtime: &mut RuntimeState) {
+    let now = runtime.time_sec;
+    let mut neutral_timers = decode_neutral_timers_state(&runtime.neutral_timers)
+        .unwrap_or_else(neutral_timers_default_runtime_state);
+
+    tick_ignite_dot_effects(runtime, now);
+
+    for idx in 0..runtime.champions.len() {
+        if !champion_can_resolve_combat(&runtime.champions[idx], now) {
+            continue;
+        }
+
+        let team = normalized_team(&runtime.champions[idx].team).to_string();
+        let attack_range = runtime.champions[idx].attack_range.max(0.04);
+
+        if try_cast_ultimate(runtime, idx, now) {
+            continue;
+        }
+
+        if try_cast_summoner_spells(runtime, &mut neutral_timers, idx, now) {
+            continue;
+        }
+
+        match classify_objective_assist_plan(runtime, idx, &neutral_timers) {
+            ChampionObjectiveAssistPlan::HardAssist {
+                objective_key,
+                objective_pos,
+            } => {
+                if let Some(champion_idx) = nearest_enemy_champion_contesting_objective(
+                    &runtime.champions,
+                    &runtime.champions[idx],
+                    objective_pos,
+                    attack_range,
+                ) {
+                    if should_engage_enemy_champion(runtime, idx, champion_idx) {
+                        attack_enemy_champion(runtime, idx, champion_idx);
+                        continue;
+                    }
+                }
+
+                if attack_neutral_if_in_range(runtime, &mut neutral_timers, idx, &objective_key) {
+                    continue;
+                }
+
+                continue;
+            }
+            ChampionObjectiveAssistPlan::ObjectiveAssist {
+                objective_key,
+                objective_pos,
+            } => {
+                if let Some(champion_idx) = nearest_enemy_champion_contesting_objective(
+                    &runtime.champions,
+                    &runtime.champions[idx],
+                    objective_pos,
+                    attack_range,
+                ) {
+                    if should_engage_enemy_champion(runtime, idx, champion_idx) {
+                        attack_enemy_champion(runtime, idx, champion_idx);
+                        continue;
+                    }
+                }
+
+                if attack_neutral_if_in_range(runtime, &mut neutral_timers, idx, &objective_key) {
+                    continue;
+                }
+
+                continue;
+            }
+            ChampionObjectiveAssistPlan::None => {}
+        }
+
+        let Some(target) = pick_combat_target(runtime, idx, now, &neutral_timers) else {
+            continue;
+        };
+        if !is_local_combat_target(runtime, idx, &target) {
+            continue;
+        }
+
+        let attacker_snapshot = runtime.champions[idx].clone();
+        let Some(target_pos) = combat_target_pos(runtime, &target) else {
+            continue;
+        };
+
+        if dist(attacker_snapshot.pos, target_pos) > attack_range {
+            if let CombatTarget::Champion(enemy_idx) = &target {
+                let target_snapshot = runtime.champions[*enemy_idx].clone();
+                if attacker_snapshot.role != "JGL" {
+                    if should_force_laner_disengage(
+                        &attacker_snapshot,
+                        target_snapshot.pos,
+                        Some(&target_snapshot),
+                        &runtime.champions,
+                        &runtime.minions,
+                        &runtime.structures,
+                    ) || !in_lane_trade_context(
+                        &attacker_snapshot,
+                        target_snapshot.pos,
+                        true,
+                        &runtime.champions,
+                        &runtime.minions,
+                        &runtime.structures,
+                    ) {
+                        issue_lane_disengage(runtime, idx, target_snapshot.pos);
+                        continue;
+                    }
+
+                    let approach = lane_trade_approach_pos(
+                        &attacker_snapshot,
+                        &target_snapshot,
+                        now,
+                        &runtime.champions,
+                        &runtime.minions,
+                        &runtime.structures,
+                    );
+                    set_champion_direct_path(&mut runtime.champions[idx], approach);
+                    continue;
+                }
+            }
+
+            if runtime.champions[idx].state == "objective" {
+                set_champion_direct_path_hysteresis(
+                    &mut runtime.champions[idx],
+                    target_pos,
+                    OBJECTIVE_PATH_MIN_TARGET_DELTA,
+                );
+            } else {
+                set_champion_direct_path(&mut runtime.champions[idx], target_pos);
+            }
+            continue;
+        }
+
+        match target {
+            CombatTarget::Champion(champion_idx) => {
+                let target_snapshot = runtime.champions[champion_idx].clone();
+
+                if attacker_snapshot.role != "JGL" {
+                    let open_eval = evaluate_open_trade_window(
+                        &attacker_snapshot,
+                        &target_snapshot,
+                        now,
+                        &runtime.champions,
+                        &runtime.minions,
+                        &runtime.structures,
+                        &runtime.lane_combat_state_by_champion,
+                        runtime.ai_mode,
+                        &runtime.policy,
+                    );
+                    if open_eval.flipped_by_hybrid {
+                        maybe_log_hybrid_trade_flip(
+                            runtime,
+                            &attacker_snapshot,
+                            "open-trade",
+                            open_eval.confidence,
+                            open_eval.rule_decision,
+                            open_eval.decision,
+                        );
+                    }
+                    if !open_eval.decision {
+                        issue_lane_disengage(runtime, idx, target_snapshot.pos);
+                        continue;
+                    }
+                }
+
+                let disengage_eval = evaluate_disengage_champion_trade(
+                    &attacker_snapshot,
+                    &target_snapshot,
+                    now,
+                    &runtime.champions,
+                    &runtime.minions,
+                    &runtime.structures,
+                    runtime.ai_mode,
+                    &runtime.policy,
+                );
+                if disengage_eval.flipped_by_hybrid {
+                    maybe_log_hybrid_trade_flip(
+                        runtime,
+                        &attacker_snapshot,
+                        "disengage",
+                        disengage_eval.confidence,
+                        disengage_eval.rule_decision,
+                        disengage_eval.decision,
+                    );
+                }
+                if disengage_eval.decision {
+                    issue_lane_disengage(runtime, idx, target_snapshot.pos);
+                    continue;
+                }
+
+                if !should_engage_enemy_champion(runtime, idx, champion_idx) {
+                    if attacker_snapshot.role != "JGL" {
+                        issue_lane_disengage(runtime, idx, target_snapshot.pos);
+                    }
+                    continue;
+                }
+
+                attack_enemy_champion(runtime, idx, champion_idx);
+
+                let attacker_after = runtime.champions[idx].clone();
+                if attacker_after.role != "JGL"
+                    && champion_idx < runtime.champions.len()
+                    && runtime.champions[champion_idx].alive
+                    && !should_commit_all_in_trade(
+                        &attacker_after,
+                        &runtime.champions[champion_idx],
+                        &runtime.champions,
+                        &runtime.minions,
+                    )
+                {
+                    let enemy_pos = runtime.champions[champion_idx].pos;
+                    issue_lane_disengage(runtime, idx, enemy_pos);
+                }
+                continue;
+            }
+            CombatTarget::Minion(minion_idx) => {
+                if minion_idx >= runtime.minions.len() || !runtime.minions[minion_idx].alive {
+                    continue;
+                }
+                let lane_mult = champion_lane_damage_multiplier(&runtime.champions[idx]);
+                let damage = runtime.champions[idx].attack_damage
+                    * CHAMPION_DAMAGE_TO_MINION_MULTIPLIER
+                    * lane_mult;
+                runtime.minions[minion_idx].hp -= damage;
+                runtime.minions[minion_idx].last_hit_by_champion_id =
+                    Some(runtime.champions[idx].id.clone());
+                runtime.champions[idx].attack_cd_until = now + 0.75;
+                if runtime.minions[minion_idx].hp <= 0.0 {
+                    register_minion_death(runtime, minion_idx);
+                }
+                continue;
+            }
+            CombatTarget::Structure(structure_idx) => {
+                if structure_idx >= runtime.structures.len()
+                    || !runtime.structures[structure_idx].alive
+                    || !is_structure_targetable(
+                        &runtime.structures,
+                        &team,
+                        &runtime.structures[structure_idx],
+                    )
+                {
+                    continue;
+                }
+                let structure_mult = champion_structure_focus_multiplier(&runtime.champions[idx]);
+                apply_damage_to_structure(
+                    runtime,
+                    structure_idx,
+                    runtime.champions[idx].attack_damage * structure_mult,
+                    &team,
+                );
+                runtime.champions[idx].attack_cd_until = now + 0.9;
+            }
+            CombatTarget::Neutral(neutral_key) => {
+                if attack_neutral_if_in_range(runtime, &mut neutral_timers, idx, &neutral_key) {
+                    continue;
+                }
+            }
+        }
+    }
+
+    if let Ok(value) = serde_json::to_value(&neutral_timers) {
+        runtime.neutral_timers = value;
+    }
+    sync_objectives_from_neutral_timers(runtime, &neutral_timers);
+}

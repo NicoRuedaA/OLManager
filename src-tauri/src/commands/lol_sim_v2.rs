@@ -1,8 +1,8 @@
 use tauri::State;
 
 use crate::application::lol_sim_v2::{
-    init as init_service, reset as reset_service, run_to_completion as run_to_completion_service,
-    skip_to_end as skip_to_end_service, tick as tick_service, LolSimV2DisposeRequest, LolSimV2DisposeResponse, LolSimV2ResetRequest,
+    dispose, init, reset, run_to_completion, skip_to_end, tick, LolSimV2DisposeRequest,
+    LolSimV2DisposeResponse, LolSimV2ResetRequest,
     LolSimV2RunToCompletionRequest, LolSimV2RunToCompletionResponse, LolSimV2SkipToEndRequest,
     LolSimV2SkipToEndResponse, LolSimV2StateResponse, LolSimV2StoreState, LolSimV2TickRequest,
 };
@@ -12,7 +12,7 @@ pub fn lol_sim_v2_init(
     state: State<'_, LolSimV2StoreState>,
     request: crate::application::lol_sim_v2::LolSimV2InitRequest,
 ) -> Result<LolSimV2StateResponse, String> {
-    init_service(&state, request)
+    init(&state, request)
 }
 
 #[tauri::command]
@@ -20,7 +20,7 @@ pub fn lol_sim_v2_tick(
     state: State<'_, LolSimV2StoreState>,
     request: LolSimV2TickRequest,
 ) -> Result<LolSimV2StateResponse, String> {
-    tick_service(&state, request)
+    tick(&state, request)
 }
 
 #[tauri::command]
@@ -28,7 +28,7 @@ pub fn lol_sim_v2_reset(
     state: State<'_, LolSimV2StoreState>,
     request: LolSimV2ResetRequest,
 ) -> Result<LolSimV2StateResponse, String> {
-    reset_service(&state, request)
+    reset(&state, request)
 }
 
 #[tauri::command]
@@ -36,7 +36,7 @@ pub fn lol_sim_v2_dispose(
     state: State<'_, LolSimV2StoreState>,
     request: LolSimV2DisposeRequest,
 ) -> Result<LolSimV2DisposeResponse, String> {
-    crate::application::lol_sim_v2::dispose(&state, request)
+    dispose(&state, request)
 }
 
 #[tauri::command]
@@ -44,7 +44,7 @@ pub async fn lol_sim_v2_run_to_completion(
     state: State<'_, LolSimV2StoreState>,
     request: LolSimV2RunToCompletionRequest,
 ) -> Result<LolSimV2RunToCompletionResponse, String> {
-    run_to_completion_service(&state, request)
+    run_to_completion(&state, request)
 }
 
 #[tauri::command]
@@ -52,5 +52,5 @@ pub fn lol_sim_v2_skip_to_end(
     state: State<'_, LolSimV2StoreState>,
     request: LolSimV2SkipToEndRequest,
 ) -> Result<LolSimV2SkipToEndResponse, String> {
-    skip_to_end_service(&state, request)
+    skip_to_end(&state, request)
 }

@@ -1,6 +1,11 @@
 use serde_json::Value;
 
-use super::{runtime_buffs_from_extra, NeutralTimerRuntime, NeutralTimersRuntime, RuntimeState, OBJECTIVE_NEXT_SPAWN_FALLBACK};
+use super::{
+    add_dragon_stack_for_kind, decode_neutral_timers_state, log_event,
+    neutral_timers_default_runtime_state, runtime_buffs_from_extra, set_runtime_buffs,
+    team_buffs_mut, team_buffs_ref, NeutralTimerRuntime, NeutralTimersRuntime, RuntimeState,
+    OBJECTIVE_NEXT_SPAWN_FALLBACK,
+};
 
 pub(super) struct NeutralTimerTickResult {
     pub(super) spawn_text: Option<String>,
@@ -237,6 +242,144 @@ pub(super) fn tick_neutral_entity_timer(
         despawn_text,
         voidgrubs_expired_with_remaining_hp,
     }
+}
+
+pub(super) fn tick_neutral_timers(runtime: &mut RuntimeState) {
+    let mut neutral_timers = decode_neutral_timers_state(&runtime.neutral_timers)
+        .unwrap_or_else(neutral_timers_default_runtime_state);
+    let now = runtime.time_sec;
+
+    ensure_dragon_cycle_defaults(
+        runtime.champions.iter().map(|champion| champion.id.clone()),
+        &mut neutral_timers,
+    );
+
+    sync_dragon_timer_kind(&mut neutral_timers);
+    unlock_elder_if_needed(&mut neutral_timers, now);
+
+    let mut keys: Vec<String> = neutral_timers.entities.keys().cloned().collect();
+    keys.sort();
+
+    for key in keys {
+        let timer_tick = tick_neutral_entity_timer(&mut neutral_timers, &key, now);
+
+        let mut buffs = runtime_buffs_from_extra(runtime.extra.get("teamBuffs"));
+        if let Some(effect) = resolve_voidgrub_expiration_effect(
+            timer_tick.voidgrubs_expired_with_remaining_hp,
+            VoidgrubExpirationInput {
+                blue_stacks: buffs.blue.voidgrub_stacks,
+                red_stacks: buffs.red.voidgrub_stacks,
+            },
+        ) {
+            let target = team_buffs_mut(&mut buffs, effect.winner_team);
+            target.voidgrub_stacks =
+                (target.voidgrub_stacks + effect.stacks_to_award).clamp(0, 3);
+            set_runtime_buffs(runtime, &buffs);
+        }
+
+        if let Some(text) = timer_tick.spawn_text {
+            log_event(runtime, &text, "spawn");
+        }
+        if let Some(text) = timer_tick.despawn_text {
+            log_event(runtime, &text, "info");
+        }
+    }
+
+    sync_objectives_from_neutral_timers(runtime, &neutral_timers);
+    if let Ok(value) = serde_json::to_value(&neutral_timers) {
+        runtime.neutral_timers = value;
+    }
+}
+
+pub(super) fn process_dragon_capture(
+    runtime: &mut RuntimeState,
+    neutral_timers: &mut NeutralTimersRuntime,
+    killer_team: &str,
+) -> String {
+    ensure_dragon_cycle_defaults(
+        runtime.champions.iter().map(|champion| champion.id.clone()),
+        neutral_timers,
+    );
+    let dragon_kind = current_dragon_kind(neutral_timers);
+
+    let mut buffs = runtime_buffs_from_extra(runtime.extra.get("teamBuffs"));
+    {
+        let team_buffs = team_buffs_mut(&mut buffs, killer_team);
+        add_dragon_stack_for_kind(team_buffs, &dragon_kind);
+        if team_buffs.dragon_history.len() >= 8 {
+            team_buffs.dragon_history.remove(0);
+        }
+        team_buffs.dragon_history.push(dragon_kind.clone());
+    }
+
+    let total_dragons = buffs.blue.dragon_stacks + buffs.red.dragon_stacks;
+
+    if total_dragons == 1 {
+        neutral_timers.extra.insert(
+            "dragonFirstKind".to_string(),
+            Value::from(dragon_kind.as_str()),
+        );
+        let second_kind = choose_different_dragon_kind(
+            &dragon_kind,
+            runtime.time_sec as i64 + runtime.events.len() as i64,
+        );
+        set_current_dragon_kind(neutral_timers, second_kind);
+    } else if total_dragons == 2 {
+        let first_kind = neutral_timers
+            .extra
+            .get("dragonFirstKind")
+            .and_then(Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .unwrap_or("")
+            .to_string();
+        neutral_timers.extra.insert(
+            "dragonSecondKind".to_string(),
+            Value::from(dragon_kind.as_str()),
+        );
+        let rift_kind = choose_dragon_kind_excluding(
+            &[first_kind.as_str(), dragon_kind.as_str()],
+            runtime.time_sec as i64 + runtime.events.len() as i64 + 37,
+        );
+        neutral_timers
+            .extra
+            .insert("dragonSoulRiftKind".to_string(), Value::from(rift_kind));
+        set_current_dragon_kind(neutral_timers, rift_kind);
+    }
+
+    let soul_rift_kind = neutral_timers
+        .extra
+        .get("dragonSoulRiftKind")
+        .and_then(Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .unwrap_or(dragon_kind.as_str())
+        .to_string();
+
+    let team_dragons = team_buffs_ref(&buffs, killer_team).dragon_stacks;
+    let soul_missing = team_buffs_ref(&buffs, killer_team).soul_kind.is_none();
+
+    if team_dragons >= 4 && soul_missing {
+        team_buffs_mut(&mut buffs, killer_team).soul_kind = Some(soul_rift_kind.clone());
+        neutral_timers.dragon_soul_unlocked = true;
+        neutral_timers.elder_unlocked = true;
+
+        if let Some(dragon) = neutral_timers.entities.get_mut("dragon") {
+            dragon.alive = false;
+            dragon.hp = 0.0;
+            dragon.unlocked = false;
+            dragon.next_spawn_at = None;
+        }
+        if let Some(elder) = neutral_timers.entities.get_mut("elder") {
+            elder.unlocked = true;
+            elder.next_spawn_at = Some(runtime.time_sec + 6.0 * 60.0);
+        }
+    } else if total_dragons != 1 {
+        set_current_dragon_kind(neutral_timers, &soul_rift_kind);
+    }
+
+    set_runtime_buffs(runtime, &buffs);
+    dragon_kind
 }
 
 fn sync_dragon_objective(
