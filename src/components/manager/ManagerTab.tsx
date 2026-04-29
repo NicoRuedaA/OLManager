@@ -5,11 +5,8 @@ import { Card, CardHeader, CardBody, ProgressBar, CountryFlag, Button } from "..
 import { formatDate } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "../../lib/countries";
-import { getAvatarUrl, validateAvatarFile, generateAvatarFilename } from "../../lib/managerAvatars";
 import DashboardModalFrame from "../dashboard/DashboardModalFrame";
-import { Settings, X, Upload, XCircle, ChevronDown, Check, AlertCircle } from "lucide-react";
-
-const FALLBACK_MANAGER_AVATAR = "/manager-avatars/default-manager.svg";
+import { Settings, X, ChevronDown, Check } from "lucide-react";
 
 interface ManagerTabProps {
   gameState: GameStateData;
@@ -31,8 +28,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     .map((part) => part.charAt(0).toUpperCase())
     .join("") || "M";
 
-  const [avatarSrc, setAvatarSrc] = useState<string>(FALLBACK_MANAGER_AVATAR);
-
   // Settings modal state
   const [showSettings, setShowSettings] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -43,10 +38,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     dob: "",
     nationality: "",
   });
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const [avatarError, setAvatarError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [nationalityOpen, setNationalityOpen] = useState(false);
   const [nationalitySearch, setNationalitySearch] = useState("");
   const nationalityRef = useRef<HTMLDivElement>(null);
@@ -72,18 +63,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [nationalityOpen]);
 
-  useEffect(() => {
-    const loadAvatar = async () => {
-      try {
-        const url = await getAvatarUrl(mgr.avatar_path);
-        setAvatarSrc(url);
-      } catch {
-        setAvatarSrc(FALLBACK_MANAGER_AVATAR);
-      }
-    };
-    loadAvatar();
-  }, [mgr]);
-
   // Open settings modal and populate form with current values
   const handleOpenSettings = () => {
     setFormData({
@@ -93,52 +72,12 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
       dob: mgr.date_of_birth,
       nationality: mgr.nationality,
     });
-    setAvatarFile(null);
-    setAvatarPreview(null);
-    setAvatarError(null);
     setShowSettings(true);
-  };
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const validation = validateAvatarFile(file);
-    if (!validation.valid) {
-      setAvatarError(validation.error || "Archivo inválido");
-      return;
-    }
-    setAvatarError(null);
-    setAvatarFile(file);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setAvatarPreview(event.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveAvatar = () => {
-    setAvatarFile(null);
-    setAvatarPreview(null);
-    setAvatarError(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   };
 
   const handleSaveSettings = async () => {
     setIsSaving(true);
     try {
-      let newAvatarPath: string | null = null;
-      
-      // Upload avatar first if selected
-      if (avatarFile) {
-        const filename = generateAvatarFilename(avatarFile.name);
-        const arrayBuffer = await avatarFile.arrayBuffer();
-        const bytes = Array.from(new Uint8Array(arrayBuffer));
-        await invoke<string>("save_manager_avatar", { filename, data: bytes });
-        newAvatarPath = filename;
-      }
-
       // Update manager profile
       await invoke("update_manager_profile", {
         nickname: formData.nickname || null,
@@ -146,7 +85,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
         lastName: formData.lastName || null,
         dob: formData.dob || null,
         nationality: formData.nationality || null,
-        avatarPath: newAvatarPath,
+        avatarPath: null,
       });
 
       // Update local game state to reflect changes immediately
@@ -157,7 +96,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
         last_name: formData.lastName,
         date_of_birth: formData.dob,
         nationality: formData.nationality,
-        avatar_path: newAvatarPath || mgr.avatar_path,
       };
       
       setGameState({
@@ -180,14 +118,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
       <Card accent="primary" className="md:col-span-3">
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl flex items-center gap-6 relative">
           <div className="w-20 h-20 rounded-xl overflow-hidden bg-primary-500/20 flex items-center justify-center border-2 border-primary-500/30">
-            <img 
-              src={avatarSrc} 
-              alt={displayName}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = FALLBACK_MANAGER_AVATAR;
-              }}
-            />
+            <span className="text-2xl font-heading font-bold text-primary-300">{initials}</span>
           </div>
           <div>
             <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">{displayName}</h2>
@@ -230,57 +161,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
               >
                 <X className="w-5 h-5" />
               </button>
-            </div>
-
-            {/* Avatar Upload */}
-            <div>
-              <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                {t("createManager.avatar", "Foto de Perfil")}
-              </label>
-              <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-gray-100 dark:bg-navy-700 border-2 border-gray-300 dark:border-navy-500 flex items-center justify-center">
-                  {avatarPreview ? (
-                    <img src={avatarPreview} alt="Avatar preview" className="w-full h-full object-cover" />
-                  ) : (
-                    <img src={avatarSrc} alt="Current avatar" className="w-full h-full object-cover" />
-                  )}
-                  {avatarPreview && (
-                    <button
-                      type="button"
-                      onClick={handleRemoveAvatar}
-                      className="absolute top-0 right-0 bg-red-500 text-white rounded-bl-md p-0.5 hover:bg-red-600 transition-colors"
-                    >
-                      <XCircle className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml"
-                    onChange={handleAvatarChange}
-                    className="hidden"
-                    id="settings-avatar-upload"
-                  />
-                  <label
-                    htmlFor="settings-avatar-upload"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-navy-700 transition-colors text-sm text-gray-700 dark:text-gray-200"
-                  >
-                    <Upload className="w-4 h-4" />
-                    <span>{t("createManager.uploadAvatar", "Subir imagen")}</span>
-                  </label>
-                  <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">
-                    PNG, JPG, WebP o SVG (máx. 5MB)
-                  </p>
-                </div>
-              </div>
-              {avatarError && (
-                <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                  <AlertCircle className="w-3 h-3" />
-                  {avatarError}
-                </p>
-              )}
             </div>
 
             {/* Nickname */}
