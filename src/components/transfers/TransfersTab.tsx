@@ -589,23 +589,23 @@ export default function TransfersTab({
                         <td className="py-2.5 px-4 text-sm text-gray-600 dark:text-gray-400 tabular-nums">
                           {age}
                         </td>
-                        <td className="py-2.5 px-4">
-                          {player.team_id ? (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onSelectTeam(player.team_id);
-                              }}
-                              className="text-left hover:text-primary-500 transition-colors font-medium text-gray-900 dark:text-gray-100"
-                            >
-                              {getTeamName(gameState, player.team_id)}
-                            </button>
-                          ) : (
-                            <span className="text-gray-500 dark:text-gray-400 italic">
-                              {t("common.freeAgent")}
-                            </span>
-                          )}
-                        </td>
+                      <td className="py-2.5 px-4">
+                        {player.team_id ? (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectTeam(player.team_id!);
+                            }}
+                            className="text-left hover:text-primary-500 transition-colors font-medium text-gray-900 dark:text-gray-100"
+                          >
+                            {getTeamName(gameState.teams, player.team_id!)}
+                          </button>
+                        ) : (
+                          <span className="text-gray-500 dark:text-gray-400 italic">
+                            {t("common.freeAgent")}
+                          </span>
+                        )}
+                      </td>
                         <td className="py-2.5 px-4 text-sm text-gray-600 dark:text-gray-400 font-medium tabular-nums">
                           {formatVal(player.market_value)}
                         </td>
