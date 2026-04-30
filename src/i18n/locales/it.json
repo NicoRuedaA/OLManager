@@ -820,8 +820,8 @@
   "boardObjectives": {
     "objective": {
       "LeaguePosition": "Chiudi tra le prime {{target}}",
-      "Wins": "Vinci almeno {{target}} partite",
-      "GoalsScored": "Segna almeno {{target}} gol"
+      "Wins": "Vinci almeno {{target}} serie",
+      "GoalsScored": "Vinci almeno {{target}} mappe"
     }
   },
   "transfers": {
@@ -1590,6 +1590,10 @@
       "seasonPayout": {
         "subject": "Stagione {{season}} — Premio assegnato",
         "body": "Il consiglio ha confermato un premio di €{{amount}} per il tuo {{position}}º posto in campionato. L'importo è stato aggiunto al saldo del club."
+      },
+      "boardObjectiveReview": {
+        "subject": "Stagione {{season}} — Revisione degli obiettivi della dirigenza",
+        "body": "La dirigenza ha completato la revisione degli obiettivi di fine split. Hai raggiunto {{metCount}}/{{total}} obiettivi.\n\nImpatto sulla soddisfazione del manager: {{satisfactionDelta}}.\n\nQuesta revisione riflette il rendimento competitivo durante lo split: piazzamento finale, vittorie nelle serie, mappe vinte, preparazione del draft ed esecuzione del roster."
       },
       "seasonReview": {
         "subject": "Bilancio della Stagione {{season}}",

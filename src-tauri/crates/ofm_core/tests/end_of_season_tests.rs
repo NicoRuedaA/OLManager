@@ -526,6 +526,108 @@ fn board_objectives_cleared() {
 }
 
 #[test]
+fn board_objectives_recalculated_before_satisfaction_adjustment() {
+    let mut game = make_completed_season_game();
+    game.board_objectives = vec![
+        BoardObjective {
+            id: "obj_position".to_string(),
+            objective_type: ObjectiveType::LeaguePosition,
+            description: "Finish top 1".to_string(),
+            target: 1,
+            met: false,
+        },
+        BoardObjective {
+            id: "obj_wins".to_string(),
+            objective_type: ObjectiveType::Wins,
+            description: "Win 2 series".to_string(),
+            target: 2,
+            met: false,
+        },
+        BoardObjective {
+            id: "obj_maps".to_string(),
+            objective_type: ObjectiveType::GoalsScored,
+            description: "Win 3 maps".to_string(),
+            target: 3,
+            met: false,
+        },
+    ];
+
+    process_end_of_season(&mut game);
+
+    assert_eq!(
+        game.manager.satisfaction, 75,
+        "All three stale objectives should be recalculated as met before applying +15"
+    );
+    assert!(game.board_objectives.is_empty());
+}
+
+#[test]
+fn board_objective_review_message_reports_result_and_satisfaction_delta() {
+    let mut game = make_completed_season_game();
+    game.board_objectives = vec![
+        BoardObjective {
+            id: "obj_position".to_string(),
+            objective_type: ObjectiveType::LeaguePosition,
+            description: "Finish top 1".to_string(),
+            target: 1,
+            met: false,
+        },
+        BoardObjective {
+            id: "obj_wins".to_string(),
+            objective_type: ObjectiveType::Wins,
+            description: "Win 3 series".to_string(),
+            target: 3,
+            met: false,
+        },
+        BoardObjective {
+            id: "obj_maps".to_string(),
+            objective_type: ObjectiveType::GoalsScored,
+            description: "Win 10 maps".to_string(),
+            target: 10,
+            met: false,
+        },
+    ];
+
+    process_end_of_season(&mut game);
+
+    let msg = game
+        .messages
+        .iter()
+        .find(|m| m.id == "board_objective_review_1")
+        .expect("Board objective review message should be visible in the inbox");
+    assert_eq!(
+        msg.subject_key.as_deref(),
+        Some("be.msg.boardObjectiveReview.subject")
+    );
+    assert_eq!(
+        msg.body_key.as_deref(),
+        Some("be.msg.boardObjectiveReview.body")
+    );
+    assert_eq!(
+        msg.sender_key.as_deref(),
+        Some("be.sender.boardOfDirectors")
+    );
+    assert_eq!(msg.sender_role_key.as_deref(), Some("be.role.chairman"));
+    assert_eq!(msg.i18n_params.get("season"), Some(&"1".to_string()));
+    assert_eq!(msg.i18n_params.get("metCount"), Some(&"1".to_string()));
+    assert_eq!(msg.i18n_params.get("total"), Some(&"3".to_string()));
+    assert_eq!(
+        msg.i18n_params.get("satisfactionDelta"),
+        Some(&"-5".to_string())
+    );
+    assert!(msg.subject.contains("Board Objective Review"));
+    assert!(msg.body.contains("1/3 objectives"), "got: {}", msg.body);
+    assert!(
+        msg.body.contains("Manager satisfaction impact: -5"),
+        "got: {}",
+        msg.body
+    );
+    assert!(msg.body.contains("series wins"), "got: {}", msg.body);
+    assert!(msg.body.contains("map wins"), "got: {}", msg.body);
+    assert!(!msg.body.contains("football"), "got: {}", msg.body);
+}
+
+#[test]
 fn news_cleared() {
     let mut game = make_completed_season_game();
     game.news.push(domain::news::NewsArticle::new(
@@ -567,14 +669,14 @@ fn champion_receives_prize_money_and_ledger_entry() {
     process_end_of_season(&mut game);
 
     let team1 = game.teams.iter().find(|team| team.id == "team1").unwrap();
-    assert_eq!(team1.finance, initial_finance + 5_000_000);
-    assert_eq!(team1.season_income, 5_000_000);
+    assert_eq!(team1.finance, initial_finance + 800_000);
+    assert_eq!(team1.season_income, 800_000);
     assert_eq!(team1.financial_ledger.len(), 1);
     assert_eq!(
         team1.financial_ledger[0].kind,
         FinancialTransactionKind::PrizeMoney
     );
-    assert_eq!(team1.financial_ledger[0].amount, 5_000_000);
+    assert_eq!(team1.financial_ledger[0].amount, 800_000);
 }
 
 #[test]
@@ -602,7 +704,7 @@ fn top_half_finish_receives_expected_prize_money() {
     process_end_of_season(&mut game);
 
     let team1 = game.teams.iter().find(|team| team.id == "team1").unwrap();
-    assert_eq!(team1.finance, initial_finance + 3_000_000);
+    assert_eq!(team1.finance, initial_finance + 500_000);
 }
 
 #[test]
@@ -636,7 +738,7 @@ fn lower_table_finish_receives_expected_prize_money() {
     process_end_of_season(&mut game);
 
     let team1 = game.teams.iter().find(|team| team.id == "team1").unwrap();
-    assert_eq!(team1.finance, initial_finance + 150_000);
+    assert_eq!(team1.finance, initial_finance + 50_000);
 }
 
 #[test]

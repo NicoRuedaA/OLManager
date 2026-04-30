@@ -68,7 +68,7 @@ fn build_objectives_message(
         board_message_id(season),
         format!("Season {} — Board Objectives", season),
         format!(
-            "The board has set the following objectives for this season:\n\n1. Finish in the top {}\n2. Win at least {} matches\n3. Score at least {} goals\n\nMeeting these targets will improve the board's confidence in your management. Failure to meet expectations may result in reduced budgets or further consequences.",
+            "The board has set the following objectives for this split:\n\n1. Finish in the top {}\n2. Win at least {} series\n3. Win at least {} maps\n\nMeeting these targets will improve the board's confidence in your roster management, draft preparation, and stage performance. Failure to meet expectations may result in reduced budgets or further consequences.",
             targets.expected_pos, targets.win_target, targets.goals_target
         ),
         "Board of Directors".to_string(),
@@ -95,6 +95,13 @@ fn satisfaction_delta(met_count: usize, total: usize) -> i8 {
     } else {
         -15
     }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ObjectiveEvaluation {
+    pub met_count: usize,
+    pub total: usize,
+    pub satisfaction_delta: i8,
 }
 
 /// Generate board objectives for the current season.
@@ -212,13 +219,25 @@ pub fn update_objective_progress(game: &mut Game) {
 
 /// Evaluate objectives at end of season. Returns satisfaction delta.
 pub fn evaluate_objectives(game: &Game) -> i8 {
+    evaluate_objective_result(game).satisfaction_delta
+}
+
+pub fn evaluate_objective_result(game: &Game) -> ObjectiveEvaluation {
     if game.board_objectives.is_empty() {
-        return 0;
+        return ObjectiveEvaluation {
+            met_count: 0,
+            total: 0,
+            satisfaction_delta: 0,
+        };
     }
     let met_count = game.board_objectives.iter().filter(|o| o.met).count();
     let total = game.board_objectives.len();
 
-    satisfaction_delta(met_count, total)
+    ObjectiveEvaluation {
+        met_count,
+        total,
+        satisfaction_delta: satisfaction_delta(met_count, total),
+    }
 }
 
 #[cfg(test)]
@@ -364,6 +383,10 @@ mod tests {
             message.i18n_params.get("goalsTarget"),
             Some(&"12".to_string())
         );
+        assert!(message.body.contains("Win at least 3 series"));
+        assert!(message.body.contains("Win at least 12 maps"));
+        assert!(!message.body.contains("Score at least"));
+        assert!(!message.body.contains("goals"));
     }
 
     #[test]

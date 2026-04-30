@@ -1168,8 +1168,8 @@
   "boardObjectives": {
     "objective": {
       "LeaguePosition": "Termina entre os primeiros {{target}}",
-      "Wins": "Ganha pelo menos {{target}} jogos",
-      "GoalsScored": "Marca pelo menos {{target}} golos"
+      "Wins": "Ganha pelo menos {{target}} séries",
+      "GoalsScored": "Ganha pelo menos {{target}} mapas"
     }
   },
   "transfers": {
@@ -2199,12 +2199,16 @@
       },
       "boardExpect": {
         "subject": "{{team}} — Objectivos da Época",
-        "body": "O conselho definiu as seguintes expectativas para esta época:\n\n• Terminar na metade superior da tabela\n• Manter a estabilidade financeira\n• Desenvolver jovens talentos da academia\n\nCumprir estes objectivos fortalecerá a sua posição. O incumprimento das expectativas mínimas pode resultar numa revisão do seu mandato.\n\nConfiamos nas suas capacidades.",
+        "body": "O conselho definiu as seguintes expectativas para esta época:\n\n• Terminar na metade superior da tabela da LEC\n• Manter a estabilidade financeira\n• Desenvolver talento da academia para o projeto de roster\n\nCumprir estes objectivos fortalecerá a sua posição. O incumprimento das expectativas mínimas pode resultar numa revisão do seu mandato.\n\nConfiamos nas suas capacidades.",
         "actionAccept": "Aceitar Objectivos"
       },
       "boardObjectives": {
         "subject": "Época {{season}} — Objectivos da Direção",
-        "body": "A direção definiu os seguintes objectivos para esta época:\n\n1. Terminar entre os primeiros {{expectedPos}}\n2. Ganhar pelo menos {{winTarget}} jogos\n3. Marcar pelo menos {{goalsTarget}} golos\n\nCumprir estes objectivos irá melhorar a confiança da direção na sua gestão. O incumprimento das expectativas pode resultar em orçamentos mais baixos ou noutras consequências."
+        "body": "A direção definiu os seguintes objectivos para este split:\n\n1. Terminar entre os primeiros {{expectedPos}}\n2. Ganhar pelo menos {{winTarget}} séries\n3. Ganhar pelo menos {{goalsTarget}} mapas\n\nCumprir estes objectivos irá melhorar a confiança da direção na gestão do roster, preparação de draft e desempenho em palco. O incumprimento das expectativas pode resultar em orçamentos mais baixos ou noutras consequências."
+      },
+      "boardObjectiveReview": {
+        "subject": "Época {{season}} — Revisão dos objectivos da Direção",
+        "body": "A direção concluiu a revisão dos objectivos de fim de split. Cumpriste {{metCount}}/{{total}} objectivos.\n\nImpacto na satisfação do treinador: {{satisfactionDelta}}.\n\nEsta revisão reflete o desempenho competitivo ao longo do split: classificação final, vitórias em séries, mapas ganhos, preparação de draft e execução do roster."
       },
       "financeCritical": {
         "subject": "URGENTE: Clube endividado",

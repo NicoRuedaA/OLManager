@@ -183,9 +183,9 @@ pub fn board_expectations_message(team_name: &str, team_id: &str, date: &str) ->
         "board_expect_1".to_string(),
         format!("{} — Season Objectives", team_name),
         "The board has set the following expectations for this season:\n\n\
-            • Finish in the top half of the table\n\
+            • Reach the top half of the LEC table\n\
             • Maintain financial stability\n\
-            • Develop young talent from the academy\n\n\
+            • Develop academy talent for the roster pipeline\n\n\
             Meeting these objectives will strengthen your position. Failure to meet minimum \
             expectations may result in a review of your tenure.\n\n\
             We trust in your abilities."

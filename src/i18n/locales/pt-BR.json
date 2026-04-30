@@ -1174,8 +1174,8 @@
   "boardObjectives": {
     "objective": {
       "LeaguePosition": "Termine entre os {{target}} primeiros",
-      "Wins": "Vença pelo menos {{target}} partidas",
-      "GoalsScored": "Marque pelo menos {{target}} gols"
+      "Wins": "Vença pelo menos {{target}} séries",
+      "GoalsScored": "Vença pelo menos {{target}} mapas"
     }
   },
   "transfers": {
@@ -2209,12 +2209,16 @@
       },
       "boardExpect": {
         "subject": "{{team}} — Objetivos da Temporada",
-        "body": "A diretoria estabeleceu as seguintes expectativas para esta temporada:\n\n• Terminar na metade de cima da tabela\n• Manter a estabilidade financeira\n• Desenvolver jovens talentos da base\n\nCumprir esses objetivos fortalecerá sua posição. O não cumprimento das expectativas mínimas pode resultar em uma revisão do seu cargo.\n\nConfiamos nas suas habilidades.",
+        "body": "A diretoria estabeleceu as seguintes expectativas para esta temporada:\n\n• Terminar na metade de cima da tabela da LEC\n• Manter a estabilidade financeira\n• Desenvolver talentos da base para o projeto de roster\n\nCumprir esses objetivos fortalecerá sua posição. O não cumprimento das expectativas mínimas pode resultar em uma revisão do seu cargo.\n\nConfiamos nas suas habilidades.",
         "actionAccept": "Aceitar Objetivos"
       },
       "boardObjectives": {
         "subject": "Temporada {{season}} — Objetivos da Diretoria",
-        "body": "A diretoria definiu os seguintes objetivos para esta temporada:\n\n1. Terminar entre os {{expectedPos}} primeiros\n2. Vencer pelo menos {{winTarget}} partidas\n\nCumprir essas metas vai aumentar a confiança da diretoria no seu trabalho. Não atender às expectativas pode resultar em orçamentos menores ou em outras consequências."
+        "body": "A diretoria definiu os seguintes objetivos para este split:\n\n1. Terminar entre os {{expectedPos}} primeiros\n2. Vencer pelo menos {{winTarget}} séries\n3. Vencer pelo menos {{goalsTarget}} mapas\n\nCumprir essas metas vai aumentar a confiança da diretoria na sua gestão de roster, preparação de draft e desempenho no palco. Não atender às expectativas pode resultar em orçamentos menores ou em outras consequências."
+      },
+      "boardObjectiveReview": {
+        "subject": "Temporada {{season}} — Revisão dos objetivos da Diretoria",
+        "body": "A diretoria concluiu a revisão dos objetivos de fim de split. Você cumpriu {{metCount}}/{{total}} objetivos.\n\nImpacto na satisfação do manager: {{satisfactionDelta}}.\n\nEsta revisão reflete o desempenho competitivo ao longo do split: classificação final, vitórias em séries, mapas vencidos, preparação de draft e execução do roster."
       },
       "financeCritical": {
         "subject": "URGENTE: Clube Endividado",

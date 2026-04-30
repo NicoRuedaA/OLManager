@@ -307,7 +307,10 @@ pub(super) fn rival_interest_message(
 
     InboxMessage::new(
         msg_id.to_string(),
-        format!("Al Lío Podcast — {} en la órbita de {}", player_name, rival_name),
+        format!(
+            "Al Lío Podcast — {} en la órbita de {}",
+            player_name, rival_name
+        ),
         variations[idx].clone(),
         "Al Lío Podcast".to_string(),
         date.to_string(),

@@ -1174,8 +1174,8 @@
   "boardObjectives": {
     "objective": {
       "LeaguePosition": "Terminez dans le top {{target}}",
-      "Wins": "Remportez au moins {{target}} matchs",
-      "GoalsScored": "Marquez au moins {{target}} buts"
+      "Wins": "Remportez au moins {{target}} séries",
+      "GoalsScored": "Remportez au moins {{target}} maps"
     }
   },
   "transfers": {
@@ -2207,12 +2207,16 @@
       },
       "boardExpect": {
         "subject": "{{team}} — Objectifs de Saison",
-        "body": "Le conseil a fixé les attentes suivantes pour cette saison :\n\n• Terminer dans la première moitié du classement\n• Maintenir la stabilité financière\n• Développer les jeunes talents de l'académie\n\nAtteindre ces objectifs renforcera votre position. Ne pas atteindre les attentes minimales pourrait entraîner une remise en question de votre mandat.\n\nNous avons confiance en vos capacités.",
+        "body": "Le conseil a fixé les attentes suivantes pour cette saison :\n\n• Terminer dans la première moitié du classement LEC\n• Maintenir la stabilité financière\n• Développer les talents de l'académie pour le projet de roster\n\nAtteindre ces objectifs renforcera votre position. Ne pas atteindre les attentes minimales pourrait entraîner une remise en question de votre mandat.\n\nNous avons confiance en vos capacités.",
         "actionAccept": "Accepter les Objectifs"
       },
       "boardObjectives": {
         "subject": "Saison {{season}} — Objectifs du Conseil",
-        "body": "Le conseil a fixé les objectifs suivants pour cette saison :\n\n1. Terminer dans le top {{expectedPos}}\n2. Remporter au moins {{winTarget}} matchs\n3. Marquer au moins {{goalsTarget}} buts\n\nAtteindre ces objectifs renforcera la confiance du conseil dans votre gestion. Ne pas répondre aux attentes peut entraîner une baisse des budgets ou d'autres conséquences."
+        "body": "Le conseil a fixé les objectifs suivants pour ce split :\n\n1. Terminer dans le top {{expectedPos}}\n2. Remporter au moins {{winTarget}} séries\n3. Remporter au moins {{goalsTarget}} maps\n\nAtteindre ces objectifs renforcera la confiance du conseil dans votre gestion du roster, votre préparation de draft et vos performances sur scène. Ne pas répondre aux attentes peut entraîner une baisse des budgets ou d'autres conséquences."
+      },
+      "boardObjectiveReview": {
+        "subject": "Saison {{season}} — Bilan des objectifs du Conseil",
+        "body": "Le conseil a terminé son bilan des objectifs de fin de split. Vous avez atteint {{metCount}}/{{total}} objectifs.\n\nImpact sur la satisfaction du manager : {{satisfactionDelta}}.\n\nCe bilan reflète les performances compétitives sur l'ensemble du split : classement final, victoires en séries, maps remportées, préparation de draft et exécution du roster."
       },
       "financeCritical": {
         "subject": "URGENT : Club endetté",

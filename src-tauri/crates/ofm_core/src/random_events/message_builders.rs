@@ -142,7 +142,10 @@ pub(super) fn media_story_message(
     let (subject, body, subject_key) = if is_positive {
         match variant {
             0 => (
-                format!("Esportmaníacos praises {} — the desk is unanimous", player_name),
+                format!(
+                    "Esportmaníacos praises {} — the desk is unanimous",
+                    player_name
+                ),
                 format!(
                     "The Esportmaníacos panel spent a good chunk of today's stream on {} at {}.\n\n\
                     \"Nothing to criticize this week. The guy is absolutely dominating.\" \
@@ -152,7 +155,10 @@ pub(super) fn media_story_message(
                 "be.msg.esportmaniacos.positive.subject0",
             ),
             _ => (
-                format!("Esportmaníacos: {} is carrying {} this split", player_name, team_name),
+                format!(
+                    "Esportmaníacos: {} is carrying {} this split",
+                    player_name, team_name
+                ),
                 format!(
                     "The Esportmaníacos tertulianos rarely agree on anything, but {} got a full pass today: \
                     \"Consistent, solid, no dips in form. One of the best players in the league right now. \
@@ -166,7 +172,10 @@ pub(super) fn media_story_message(
     } else {
         match variant {
             0 => (
-                format!("Esportmaníacos goes after {} — panel shows no mercy", player_name),
+                format!(
+                    "Esportmaníacos goes after {} — panel shows no mercy",
+                    player_name
+                ),
                 format!(
                     "The Esportmaníacos panel did not hold back today on {}: \
                     \"The guy has completely disappeared. What happened to him this split? \
@@ -177,7 +186,10 @@ pub(super) fn media_story_message(
                 "be.msg.esportmaniacos.negative.subject0",
             ),
             _ => (
-                format!("Esportmaníacos questions {}'s consistency at {}", player_name, team_name),
+                format!(
+                    "Esportmaníacos questions {}'s consistency at {}",
+                    player_name, team_name
+                ),
                 format!(
                     "Today's Esportmaníacos tertulianos session turned into a full breakdown of {}'s recent form. \
                     The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. \
@@ -256,7 +268,10 @@ pub fn build_media_story_from_narrative(
     let (subject, body, subject_key, priority) = if is_positive {
         match variant {
             0 => (
-                format!("Esportmaníacos praises {} — the desk is unanimous", player_name),
+                format!(
+                    "Esportmaníacos praises {} — the desk is unanimous",
+                    player_name
+                ),
                 format!(
                     "The Esportmaníacos panel spent a good chunk of today's stream on {} at {}.\n\n\
                     \"Nothing to criticize this week. The guy is absolutely dominating.\" \
@@ -267,7 +282,10 @@ pub fn build_media_story_from_narrative(
                 MessagePriority::Low,
             ),
             _ => (
-                format!("Esportmaníacos: {} is carrying {} this split", player_name, team_name),
+                format!(
+                    "Esportmaníacos: {} is carrying {} this split",
+                    player_name, team_name
+                ),
                 format!(
                     "The Esportmaníacos tertulianos rarely agree on anything, but {} got a full pass today: \
                     \"Consistent, solid, no dips in form. One of the best players in the league right now. \
@@ -282,7 +300,10 @@ pub fn build_media_story_from_narrative(
     } else {
         match variant {
             0 => (
-                format!("Esportmaníacos goes after {} — panel shows no mercy", player_name),
+                format!(
+                    "Esportmaníacos goes after {} — panel shows no mercy",
+                    player_name
+                ),
                 format!(
                     "The Esportmaníacos panel did not hold back today on {}: \
                     \"The guy has completely disappeared. What happened to him this split? \
@@ -294,7 +315,10 @@ pub fn build_media_story_from_narrative(
                 MessagePriority::Normal,
             ),
             _ => (
-                format!("Esportmaníacos questions {}'s consistency at {}", player_name, team_name),
+                format!(
+                    "Esportmaníacos questions {}'s consistency at {}",
+                    player_name, team_name
+                ),
                 format!(
                     "Today's Esportmaníacos tertulianos session turned into a full breakdown of {}'s recent form. \
                     The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. \
@@ -444,7 +468,12 @@ pub(super) fn allio_podcast_message(
     .with_category(MessageCategory::Media)
     .with_priority(MessagePriority::Normal)
     .with_sender_role("Eros")
-    .with_action(action("ack", "Noted", "be.msg.event.ack", ActionType::Acknowledge))
+    .with_action(action(
+        "ack",
+        "Noted",
+        "be.msg.event.ack",
+        ActionType::Acknowledge,
+    ))
     .with_i18n(
         subject_key,
         body_key,
@@ -464,11 +493,7 @@ pub(super) fn allio_podcast_message(
     msg
 }
 
-pub(super) fn yuste_stream_message(
-    msg_id: &str,
-    is_positive: bool,
-    date: &str,
-) -> InboxMessage {
+pub(super) fn yuste_stream_message(msg_id: &str, is_positive: bool, date: &str) -> InboxMessage {
     let mut rng = rand::rng();
     let variant = rng.random_range(0..2usize);
 
@@ -526,7 +551,12 @@ pub(super) fn yuste_stream_message(
     .with_category(MessageCategory::Media)
     .with_priority(MessagePriority::Low)
     .with_sender_role("el_yuste")
-    .with_action(action("ack", "Noted", "be.msg.event.ack", ActionType::Acknowledge))
+    .with_action(action(
+        "ack",
+        "Noted",
+        "be.msg.event.ack",
+        ActionType::Acknowledge,
+    ))
     .with_i18n(subject_key, body_key, params(&[]))
     .with_sender_i18n("be.sender.elYuste", "be.role.elYuste")
 }

@@ -135,6 +135,8 @@ fn prize_money_for_position(position: u32) -> i64 {
 /// Process end-of-season: record history, compute awards, reset stats, generate next season.
 /// Returns a summary struct for the frontend to display.
 pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
+    crate::board_objectives::update_objective_progress(game);
+
     let league = match &game.league {
         Some(l) => l,
         None => return EndOfSeasonSummary::default(),
@@ -353,7 +355,8 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
     }
 
     // 6b. Evaluate board objectives and adjust satisfaction
-    let obj_delta = crate::board_objectives::evaluate_objectives(game);
+    let objective_result = crate::board_objectives::evaluate_objective_result(game);
+    let obj_delta = objective_result.satisfaction_delta;
     let new_sat = (game.manager.satisfaction as i16 + obj_delta as i16).clamp(0, 100) as u8;
     game.manager.satisfaction = new_sat;
     // Clear objectives for next season (will be regenerated on first process_day)
@@ -369,12 +372,18 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
         .iter()
         .map(|standing| standing.team_id.clone())
         .collect();
+    let expected_round_count = team_ids.len().saturating_sub(1);
+    let next_round_offsets = if round_offsets.len() == expected_round_count {
+        Some(round_offsets.as_slice())
+    } else {
+        None
+    };
     let mut new_league = generate_single_round_league_with_offsets_and_bo(
         &next_league_name,
         next_season,
         &team_ids,
         next_start,
-        Some(&round_offsets),
+        next_round_offsets,
         regular_best_of(next_split),
     );
     if !user_team_id.is_empty() {
@@ -444,6 +453,40 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
 
     let existing_ids: std::collections::HashSet<String> =
         game.messages.iter().map(|m| m.id.clone()).collect();
+
+    let objective_msg_id = format!("board_objective_review_{}", season);
+    if objective_result.total > 0 && !existing_ids.contains(&objective_msg_id) {
+        let delta_label = if obj_delta > 0 {
+            format!("+{}", obj_delta)
+        } else {
+            obj_delta.to_string()
+        };
+        let objective_message = InboxMessage::new(
+            objective_msg_id,
+            format!("Season {} — Board Objective Review", season),
+            format!(
+                "The board has completed its end-of-split objective review. You delivered {}/{} objectives.\n\nManager satisfaction impact: {}.\n\nThis review reflects competitive performance across the split: final standing, series wins, map wins, draft preparation, and roster execution.",
+                objective_result.met_count,
+                objective_result.total,
+                delta_label
+            ),
+            "Board of Directors".to_string(),
+            last_fixture_date.clone(),
+        )
+        .with_category(MessageCategory::BoardDirective)
+        .with_priority(MessagePriority::High)
+        .with_sender_role("Chairman")
+        .with_i18n("be.msg.boardObjectiveReview.subject", "be.msg.boardObjectiveReview.body", {
+            let mut params = std::collections::HashMap::new();
+            params.insert("season".to_string(), season.to_string());
+            params.insert("metCount".to_string(), objective_result.met_count.to_string());
+            params.insert("total".to_string(), objective_result.total.to_string());
+            params.insert("satisfactionDelta".to_string(), delta_label);
+            params
+        })
+        .with_sender_i18n("be.sender.boardOfDirectors", "be.role.chairman");
+        game.messages.push(objective_message);
+    }
 
     let payout_msg_id = format!("season_payout_{}", season);
     let user_prize_money = prize_money_for_position(user_position);

@@ -1168,8 +1168,8 @@
   "boardObjectives": {
     "objective": {
       "LeaguePosition": "Beende die Saison unter den Top {{target}}",
-      "Wins": "Gewinne mindestens {{target}} Spiele",
-      "GoalsScored": "Erziele mindestens {{target}} Tore"
+      "Wins": "Gewinne mindestens {{target}} Serien",
+      "GoalsScored": "Gewinne mindestens {{target}} Maps"
     }
   },
   "transfers": {
@@ -2199,12 +2199,16 @@
       },
       "boardExpect": {
         "subject": "{{team}} — Saisonziele",
-        "body": "Der Vorstand hat folgende Erwartungen für diese Saison festgelegt:\n\n• In der oberen Tabellenhälfte abschließen\n• Finanzielle Stabilität wahren\n• Junge Talente aus der Akademie fördern\n\nDas Erreichen dieser Ziele wird Ihre Position stärken. Das Verfehlen der Mindesterwartungen kann zu einer Überprüfung Ihres Amtes führen.\n\nWir vertrauen auf Ihre Fähigkeiten.",
+        "body": "Der Vorstand hat folgende Erwartungen für diese Saison festgelegt:\n\n• In der oberen Hälfte der LEC-Tabelle abschließen\n• Finanzielle Stabilität wahren\n• Akademietalente für die Roster-Pipeline entwickeln\n\nDas Erreichen dieser Ziele wird Ihre Position stärken. Das Verfehlen der Mindesterwartungen kann zu einer Überprüfung Ihres Amtes führen.\n\nWir vertrauen auf Ihre Fähigkeiten.",
         "actionAccept": "Ziele akzeptieren"
       },
       "boardObjectives": {
         "subject": "Saison {{season}} — Vorstandsziele",
-        "body": "Der Vorstand hat für diese Saison folgende Ziele festgelegt:\n\n1. Unter den Top {{expectedPos}} abschließen\n2. Mindestens {{winTarget}} Spiele gewinnen\n3. Mindestens {{goalsTarget}} Tore erzielen\n\nDas Erreichen dieser Ziele stärkt das Vertrauen des Vorstands in deine Arbeit. Das Verfehlen der Erwartungen kann zu geringeren Budgets oder weiteren Konsequenzen führen."
+        "body": "Der Vorstand hat für diesen Split folgende Ziele festgelegt:\n\n1. Unter den Top {{expectedPos}} abschließen\n2. Mindestens {{winTarget}} Serien gewinnen\n3. Mindestens {{goalsTarget}} Maps gewinnen\n\nDas Erreichen dieser Ziele stärkt das Vertrauen des Vorstands in dein Roster-Management, deine Draft-Vorbereitung und deine Bühnenleistung. Das Verfehlen der Erwartungen kann zu geringeren Budgets oder weiteren Konsequenzen führen."
+      },
+      "boardObjectiveReview": {
+        "subject": "Saison {{season}} — Überprüfung der Vorstandsziele",
+        "body": "Der Vorstand hat seine Zielüberprüfung zum Split-Ende abgeschlossen. Du hast {{metCount}}/{{total}} Ziele erfüllt.\n\nAuswirkung auf die Managerzufriedenheit: {{satisfactionDelta}}.\n\nDiese Bewertung spiegelt die Wettbewerbsleistung über den Split hinweg wider: Abschlussplatzierung, Seriensiege, gewonnene Maps, Draft-Vorbereitung und Roster-Ausführung."
       },
       "financeCritical": {
         "subject": "DRINGEND: Verein verschuldet",

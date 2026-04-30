@@ -40,9 +40,9 @@ function boardObjectiveFallback(objective: BoardObjective): string {
     case 'LeaguePosition':
       return `Finish in the top ${objective.target}`;
     case 'Wins':
-      return `Win at least ${objective.target} matches`;
+      return `Win at least ${objective.target} series`;
     case 'GoalsScored':
-      return `Score at least ${objective.target} goals`;
+      return `Win at least ${objective.target} maps`;
     default:
       return objective.description;
   }

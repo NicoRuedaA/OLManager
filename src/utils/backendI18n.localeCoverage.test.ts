@@ -50,6 +50,8 @@ const REQUIRED_KEYS = [
   "be.msg.jobHired.body",
   "be.msg.jobRejection.subject",
   "be.msg.jobRejection.body",
+  "be.msg.boardObjectiveReview.subject",
+  "be.msg.boardObjectiveReview.body",
   "boardObjectives.objective.LeaguePosition",
   "boardObjectives.objective.Wins",
   "boardObjectives.objective.GoalsScored",

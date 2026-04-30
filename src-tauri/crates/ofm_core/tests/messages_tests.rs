@@ -277,7 +277,8 @@ fn board_expectations_message_fields() {
     let msg = messages::board_expectations_message("Test FC", "team1", "2025-06-01");
     assert_eq!(msg.id, "board_expect_1");
     assert!(msg.subject.contains("Test FC"));
-    assert!(msg.body.contains("top half"));
+    assert!(msg.body.contains("LEC table"));
+    assert!(msg.body.contains("roster pipeline"));
     assert_eq!(msg.sender_role, "Chairman");
 }
 
