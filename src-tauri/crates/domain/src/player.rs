@@ -338,6 +338,10 @@ fn default_transfer_offer_round() -> u8 {
     0
 }
 
+fn default_transfer_offer_destination_team_id() -> Option<String> {
+    None
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(default)]
 pub struct PlayerSeasonStats {
@@ -372,6 +376,8 @@ pub struct CareerEntry {
 pub struct TransferOffer {
     pub id: String,
     pub from_team_id: String,
+    #[serde(default = "default_transfer_offer_destination_team_id")]
+    pub destination_team_id: Option<String>,
     pub fee: u64,
     pub wage_offered: u32,
     #[serde(default)]

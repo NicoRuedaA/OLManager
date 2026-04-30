@@ -27,6 +27,7 @@ describe("transfersService", () => {
     expect(mockedInvoke).toHaveBeenCalledWith("make_transfer_bid", {
       playerId: "player-1",
       fee: 1500000,
+      destination: "main",
     });
   });
 
@@ -62,6 +63,7 @@ describe("transfersService", () => {
     expect(mockedInvoke).toHaveBeenCalledWith("preview_transfer_bid_financial_impact", {
       playerId: "player-1",
       fee: 1000000,
+      destination: "main",
     });
   });
 });

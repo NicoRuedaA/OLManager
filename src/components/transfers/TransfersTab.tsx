@@ -45,6 +45,7 @@ import {
   makeTransferBid,
   previewTransferBidFinancialImpact,
   respondToOffer,
+  type TransferDestinationData,
   type TransferBidProjectionData,
   type TransferNegotiationResponseData,
 } from "../../services/transfersService";
@@ -125,6 +126,8 @@ export default function TransfersTab({
   const [bidResult, setBidResult] = useState<
     TransferNegotiationResponseData["decision"] | "error" | null
   >(null);
+  const [bidDestination, setBidDestination] =
+    useState<TransferDestinationData>("main");
   const [bidLoading, setBidLoading] = useState(false);
   const [bidFeedback, setBidFeedback] =
     useState<TransferNegotiationFeedbackData | null>(null);
@@ -144,8 +147,18 @@ export default function TransfersTab({
 
   const openBidNegotiation = (player: PlayerData) => {
     const existingOffer = getOutgoingNegotiationOffer(player, userTeamId);
+    const userAcademyTeamId = gameState.teams.find(
+      (team) => team.id === userTeamId,
+    )?.academy_team_id ?? gameState.teams.find(
+      (team) => team.team_kind === "Academy" && team.parent_team_id === userTeamId,
+    )?.id;
 
     setBidTarget(player);
+    setBidDestination(
+      existingOffer?.destination_team_id === userAcademyTeamId
+        ? "academy"
+        : "main",
+    );
     setBidAmount(
       String(
         Math.round(
@@ -183,7 +196,7 @@ export default function TransfersTab({
     setBidFeedback(null);
     try {
       const fee = Math.round(parseFloat(bidAmount));
-      const res = await makeTransferBid(bidTarget.id, fee);
+      const res = await makeTransferBid(bidTarget.id, fee, bidDestination);
       setBidResult(res.decision);
       setBidFeedback(res.feedback);
       if (onGameUpdate) onGameUpdate(res.game);
@@ -260,6 +273,11 @@ export default function TransfersTab({
   const myTeam = gameState.teams.find(
     (team) => team.id === gameState.manager.team_id,
   );
+  const academyTeam = gameState.teams.find(
+    (team) => team.id === myTeam?.academy_team_id,
+  ) ?? gameState.teams.find(
+    (team) => team.team_kind === "Academy" && team.parent_team_id === myTeam?.id,
+  ) ?? null;
   const activeBidOffer = bidTarget
     ? getOutgoingNegotiationOffer(bidTarget, userTeamId)
     : null;
@@ -367,6 +385,7 @@ export default function TransfersTab({
         const result = await previewTransferBidFinancialImpact(
           bidTarget.id,
           bidFee,
+          bidDestination,
         );
 
         if (!cancelled) {
@@ -384,7 +403,7 @@ export default function TransfersTab({
     return () => {
       cancelled = true;
     };
-  }, [bidFee, bidTarget]);
+  }, [bidDestination, bidFee, bidTarget]);
 
   const bidSubmitDisabled =
     bidLoading ||
@@ -816,6 +835,9 @@ export default function TransfersTab({
           teams={gameState.teams}
           bidAmount={bidAmount}
           onBidAmountChange={setBidAmount}
+          destination={bidDestination}
+          onDestinationChange={setBidDestination}
+          academyTeam={academyTeam}
           myTeam={myTeam ?? null}
           bidFee={bidFee}
           bidProjection={bidProjection}

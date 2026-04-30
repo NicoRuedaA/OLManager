@@ -131,24 +131,24 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
                 <p className="text-xs font-heading font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">
                   {userTeam?.name}
                 </p>
+                <p className="text-[11px] font-heading font-bold uppercase tracking-widest text-primary-500 mb-4">
+                  {t("endOfSeason.regularPhaseSummary")}
+                </p>
                 <div className="flex items-center justify-center gap-6 mb-4">
                   <div>
                     <p className="text-4xl font-heading font-bold text-gray-900 dark:text-gray-100">{posLabel(userPosition)}</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase">{t('endOfSeason.position')}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase">{t('endOfSeason.finalPosition')}</p>
                   </div>
                   <div className="w-px h-12 bg-gray-200 dark:bg-navy-600" />
                   <div>
-                    <p className="text-4xl font-heading font-bold text-primary-500">{userStanding?.points || 0}</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase">{t('endOfSeason.points')}</p>
+                    <p className="text-4xl font-heading font-bold text-green-500">{userStanding?.won || 0}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase">{t('common.won')}</p>
                   </div>
-                </div>
-                <div className="flex items-center justify-center gap-8 text-sm">
-                  <span className="text-green-500 font-heading font-bold">{userStanding?.won || 0}{t('common.won')}</span>
-                  <span className="text-gray-500 font-heading font-bold">{userStanding?.drawn || 0}{t('common.drawn')}</span>
-                  <span className="text-red-500 font-heading font-bold">{userStanding?.lost || 0}{t('common.lost')}</span>
-                  <span className="text-gray-400">
-                    {userStanding?.goals_for || 0} {t('common.gf')} — {userStanding?.goals_against || 0} {t('common.ga')}
-                  </span>
+                  <div className="w-px h-12 bg-gray-200 dark:bg-navy-600" />
+                  <div>
+                    <p className="text-4xl font-heading font-bold text-red-500">{userStanding?.lost || 0}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase">{t('common.lost')}</p>
+                  </div>
                 </div>
               </div>
             </CardBody>
@@ -166,20 +166,18 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
             <Card className="mb-6">
               <CardBody>
                 <h3 className="font-heading font-bold text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
-                  <Trophy className="w-4 h-4 text-accent-500" /> {t('endOfSeason.finalStandings')}
+                  <Trophy className="w-4 h-4 text-accent-500" /> {t('endOfSeason.regularPhaseStandings')}
                 </h3>
                 <div className="divide-y divide-gray-100 dark:divide-navy-600">
                   {standings.slice(0, 5).map((entry, idx) => {
                     const teamName = gameState.teams.find(t => t.id === entry.team_id)?.name || "";
                     const isUser = entry.team_id === userTeamId;
-                    const gd = entry.goals_for - entry.goals_against;
                     return (
                       <div key={entry.team_id} className={`flex items-center py-2.5 gap-3 ${isUser ? "bg-primary-50/50 dark:bg-primary-500/5 -mx-2 px-2 rounded-lg" : ""}`}>
                         <span className={`font-heading font-bold text-sm w-6 text-center ${idx === 0 ? "text-accent-500" : "text-gray-400"}`}>{idx + 1}</span>
                         <span className={`flex-1 text-sm font-semibold ${isUser ? "text-primary-600 dark:text-primary-400" : "text-gray-800 dark:text-gray-200"}`}>{teamName}</span>
-                        <span className="text-xs text-gray-500 dark:text-gray-400 tabular-nums w-16 text-center">{entry.won}W {entry.drawn}D {entry.lost}L</span>
-                        <span className={`text-xs font-semibold tabular-nums w-8 text-center ${gd > 0 ? "text-primary-500" : gd < 0 ? "text-red-500" : "text-gray-500"}`}>{gd > 0 ? `+${gd}` : gd}</span>
-                        <span className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100 tabular-nums w-8 text-right">{entry.points}</span>
+                        <span className="text-xs text-green-500 font-heading font-bold tabular-nums w-12 text-center">{entry.won}{t('common.won')}</span>
+                        <span className="text-xs text-red-500 font-heading font-bold tabular-nums w-12 text-center">{entry.lost}{t('common.lost')}</span>
                       </div>
                     );
                   })}

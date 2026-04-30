@@ -25,7 +25,10 @@ impl GameDatabase {
             format!("Database migration failed: {}", e)
         })?;
         ensure_compatible_schema(&conn).map_err(|e| {
-            error!("[game_db] schema compatibility repair failed for {:?}: {}", path, e);
+            error!(
+                "[game_db] schema compatibility repair failed for {:?}: {}",
+                path, e
+            );
             format!("Database schema compatibility repair failed: {}", e)
         })?;
 
@@ -50,7 +53,10 @@ impl GameDatabase {
             format!("Database migration failed: {}", e)
         })?;
         ensure_compatible_schema(&conn).map_err(|e| {
-            error!("[game_db] schema compatibility repair failed for in-memory db: {}", e);
+            error!(
+                "[game_db] schema compatibility repair failed for in-memory db: {}",
+                e
+            );
             format!("Database schema compatibility repair failed: {}", e)
         })?;
 

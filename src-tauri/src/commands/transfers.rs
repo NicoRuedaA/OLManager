@@ -5,7 +5,8 @@ use tauri::State;
 use ofm_core::game::Game;
 use ofm_core::state::StateManager;
 use ofm_core::transfers::{
-    TransferBidFinancialProjection, TransferNegotiationDecision, TransferNegotiationOutcome,
+    TransferBidFinancialProjection, TransferDestination, TransferNegotiationDecision,
+    TransferNegotiationOutcome,
 };
 
 #[derive(Debug, Clone, serde::Serialize)]
@@ -70,8 +71,9 @@ pub fn make_transfer_bid(
     state: State<'_, StateManager>,
     player_id: String,
     fee: u64,
+    destination: Option<TransferDestination>,
 ) -> Result<TransferNegotiationCommandResponse, String> {
-    make_transfer_bid_internal(&state, &player_id, fee)
+    make_transfer_bid_internal(&state, &player_id, fee, destination.unwrap_or_default())
 }
 
 #[tauri::command]
@@ -79,14 +81,21 @@ pub fn preview_transfer_bid_financial_impact(
     state: State<'_, StateManager>,
     player_id: String,
     fee: u64,
+    destination: Option<TransferDestination>,
 ) -> Result<TransferBidFinancialProjectionCommandResponse, String> {
-    preview_transfer_bid_financial_impact_internal(&state, &player_id, fee)
+    preview_transfer_bid_financial_impact_internal(
+        &state,
+        &player_id,
+        fee,
+        destination.unwrap_or_default(),
+    )
 }
 
 fn make_transfer_bid_internal(
     state: &StateManager,
     player_id: &str,
     fee: u64,
+    destination: TransferDestination,
 ) -> Result<TransferNegotiationCommandResponse, String> {
     info!(
         "[cmd] make_transfer_bid: player_id={}, fee={}",
@@ -96,7 +105,7 @@ fn make_transfer_bid_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let result = ofm_core::transfers::make_transfer_bid(&mut game, player_id, fee)?;
+    let result = ofm_core::transfers::make_transfer_bid(&mut game, player_id, fee, destination)?;
     state.set_game(game.clone());
 
     Ok(map_transfer_negotiation_response(result, game))
@@ -106,6 +115,7 @@ fn preview_transfer_bid_financial_impact_internal(
     state: &StateManager,
     player_id: &str,
     fee: u64,
+    destination: TransferDestination,
 ) -> Result<TransferBidFinancialProjectionCommandResponse, String> {
     info!(
         "[cmd] preview_transfer_bid_financial_impact: player_id={}, fee={}",
@@ -116,8 +126,12 @@ fn preview_transfer_bid_financial_impact_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let projection =
-        ofm_core::transfers::project_transfer_bid_financial_impact(&game, player_id, fee)?;
+    let projection = ofm_core::transfers::project_transfer_bid_financial_impact(
+        &game,
+        player_id,
+        fee,
+        destination,
+    )?;
 
     Ok(TransferBidFinancialProjectionCommandResponse { projection })
 }
@@ -243,7 +257,7 @@ mod tests {
     use ofm_core::clock::GameClock;
     use ofm_core::game::Game;
     use ofm_core::state::StateManager;
-    use ofm_core::transfers::TransferNegotiationDecision;
+    use ofm_core::transfers::{TransferDestination, TransferNegotiationDecision};
 
     fn default_attrs() -> PlayerAttributes {
         PlayerAttributes {
@@ -316,6 +330,7 @@ mod tests {
         player.transfer_offers.push(TransferOffer {
             id: "offer-1".to_string(),
             from_team_id: "team-2".to_string(),
+            destination_team_id: None,
             fee: 900_000,
             wage_offered: 0,
             last_manager_fee: None,
@@ -462,7 +477,9 @@ mod tests {
         let state = StateManager::new();
         state.set_game(make_bid_game());
 
-        let response = make_transfer_bid_internal(&state, "player-2", 1_050_000).expect("response");
+        let response =
+            make_transfer_bid_internal(&state, "player-2", 1_050_000, TransferDestination::Main)
+                .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::Accepted);
         assert_eq!(response.game.players[0].team_id.as_deref(), Some("team-1"));
@@ -488,7 +505,9 @@ mod tests {
         let state = StateManager::new();
         state.set_game(make_bid_game());
 
-        let response = make_transfer_bid_internal(&state, "player-2", 900_000).expect("response");
+        let response =
+            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main)
+                .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::CounterOffer);
         assert_eq!(response.suggested_fee, Some(950_000));
@@ -512,11 +531,15 @@ mod tests {
         let state = StateManager::new();
         state.set_game(make_bid_game());
 
-        let first = make_transfer_bid_internal(&state, "player-2", 900_000).expect("first bid");
+        let first =
+            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main)
+                .expect("first bid");
         assert_eq!(first.decision, TransferNegotiationDecision::CounterOffer);
         assert_eq!(first.feedback.round, 1);
 
-        let second = make_transfer_bid_internal(&state, "player-2", 950_000).expect("second bid");
+        let second =
+            make_transfer_bid_internal(&state, "player-2", 950_000, TransferDestination::Main)
+                .expect("second bid");
 
         assert_eq!(second.decision, TransferNegotiationDecision::Accepted);
         assert_eq!(second.feedback.round, 2);
@@ -529,7 +552,8 @@ mod tests {
         state.set_game(make_free_agent_bid_game());
 
         let response =
-            make_transfer_bid_internal(&state, "player-fa-1", 450_000).expect("response");
+            make_transfer_bid_internal(&state, "player-fa-1", 450_000, TransferDestination::Main)
+                .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::Accepted);
         assert_eq!(response.game.players[0].team_id.as_deref(), Some("team-1"));
@@ -619,9 +643,13 @@ mod tests {
         let state = StateManager::new();
         state.set_game(make_bid_game());
 
-        let response =
-            preview_transfer_bid_financial_impact_internal(&state, "player-2", 1_000_000)
-                .expect("response");
+        let response = preview_transfer_bid_financial_impact_internal(
+            &state,
+            "player-2",
+            1_000_000,
+            TransferDestination::Main,
+        )
+        .expect("response");
 
         assert_eq!(response.projection.transfer_budget_before, 2_000_000);
         assert_eq!(response.projection.transfer_budget_after, 1_000_000);

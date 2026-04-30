@@ -392,6 +392,7 @@ export interface ChampionPatchStateData {
 export interface TransferOfferData {
   id: string;
   from_team_id: string;
+  destination_team_id?: string | null;
   fee: number;
   wage_offered: number;
   last_manager_fee: number | null;

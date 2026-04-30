@@ -2,6 +2,8 @@ import { invoke } from "@tauri-apps/api/core";
 
 import type { GameStateData } from "../store/gameStore";
 
+export type TransferDestinationData = "main" | "academy";
+
 export interface TransferNegotiationFeedbackData {
   mood: "calm" | "firm" | "tense" | "positive" | "guarded";
   headline_key: string;
@@ -38,10 +40,12 @@ export interface TransferBidProjectionData {
 export async function makeTransferBid(
   playerId: string,
   fee: number,
+  destination: TransferDestinationData = "main",
 ): Promise<TransferNegotiationResponseData> {
   return invoke<TransferNegotiationResponseData>("make_transfer_bid", {
     playerId,
     fee,
+    destination,
   });
 }
 
@@ -72,12 +76,14 @@ export async function counterOffer(
 export async function previewTransferBidFinancialImpact(
   playerId: string,
   fee: number,
+  destination: TransferDestinationData = "main",
 ): Promise<TransferBidProjectionData> {
   return invoke<TransferBidProjectionData>(
     "preview_transfer_bid_financial_impact",
     {
       playerId,
       fee,
+      destination,
     },
   );
 }

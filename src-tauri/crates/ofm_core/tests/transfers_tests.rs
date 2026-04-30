@@ -10,8 +10,8 @@ use domain::team::{Team, TeamKind};
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 use ofm_core::transfers::{
-    TransferNegotiationDecision, counter_offer, generate_incoming_transfer_offers,
-    make_transfer_bid, respond_to_offer,
+    TransferDestination, TransferNegotiationDecision, counter_offer,
+    generate_incoming_transfer_offers, make_transfer_bid, respond_to_offer,
 };
 
 fn default_attrs() -> PlayerAttributes {
@@ -87,6 +87,7 @@ fn make_pending_incoming_offer(id: &str, fee: u64) -> TransferOffer {
     TransferOffer {
         id: id.to_string(),
         from_team_id: "team-2".to_string(),
+        destination_team_id: None,
         fee,
         wage_offered: 0,
         last_manager_fee: None,
@@ -187,8 +188,13 @@ fn transfer_bid_is_rejected_when_window_is_closed() {
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
     game.season_context.transfer_window.status = TransferWindowStatus::Closed;
 
-    let error = make_transfer_bid(&mut game, "player-bid-closed", 1_000_000)
-        .expect_err("closed transfer window should reject bids");
+    let error = make_transfer_bid(
+        &mut game,
+        "player-bid-closed",
+        1_000_000,
+        TransferDestination::Main,
+    )
+    .expect_err("closed transfer window should reject bids");
 
     assert_eq!(error, "Transfer window is closed");
 }
@@ -200,8 +206,13 @@ fn expiring_contract_lowers_resistance_to_sale() {
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
 
-    let result = make_transfer_bid(&mut game, "player-expiring", 1_000_000)
-        .expect("bid should be evaluated");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-expiring",
+        1_000_000,
+        TransferDestination::Main,
+    )
+    .expect("bid should be evaluated");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     assert_eq!(
@@ -214,6 +225,67 @@ fn expiring_contract_lowers_resistance_to_sale() {
 }
 
 #[test]
+fn accepted_transfer_bid_can_assign_player_to_academy_and_charge_parent_club() {
+    let mut player = make_player("player-academy-destination");
+    player.contract_end = Some("2026-08-31".to_string());
+    player.transfer_listed = true;
+
+    let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
+    game.teams[0].academy_team_id = Some("team-academy".to_string());
+
+    let mut academy = Team::new(
+        "team-academy".to_string(),
+        "User Academy".to_string(),
+        "UAC".to_string(),
+        "England".to_string(),
+        "London".to_string(),
+        "Academy Ground".to_string(),
+        5_000,
+    );
+    academy.team_kind = TeamKind::Academy;
+    academy.parent_team_id = Some("team-1".to_string());
+    academy.finance = 100_000;
+    academy.transfer_budget = 100_000;
+    game.teams.push(academy);
+
+    let academy_finance_before = game
+        .teams
+        .iter()
+        .find(|team| team.id == "team-academy")
+        .map(|team| team.finance)
+        .unwrap();
+
+    let result = make_transfer_bid(
+        &mut game,
+        "player-academy-destination",
+        1_000_000,
+        TransferDestination::Academy,
+    )
+    .expect("academy destination bid should be evaluated");
+
+    assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
+    let player = game
+        .players
+        .iter()
+        .find(|player| player.id == "player-academy-destination")
+        .unwrap();
+    assert_eq!(player.team_id.as_deref(), Some("team-academy"));
+    assert_eq!(
+        player.transfer_offers[0].destination_team_id.as_deref(),
+        Some("team-academy")
+    );
+    assert_eq!(game.teams[0].finance, 4_000_000);
+    assert_eq!(game.teams[0].transfer_budget, 1_000_000);
+    assert_eq!(
+        game.teams
+            .iter()
+            .find(|team| team.id == "team-academy")
+            .map(|team| team.finance),
+        Some(academy_finance_before)
+    );
+}
+
+#[test]
 fn key_player_is_harder_to_buy_than_fringe_player() {
     let mut star = make_player("player-star");
     star.attributes.shooting = 88;
@@ -222,13 +294,23 @@ fn key_player_is_harder_to_buy_than_fringe_player() {
 
     let mut star_game =
         make_game_with_player(star, vec!["player-star".to_string()], 5_000_000, 2_000_000);
-    let star_result =
-        make_transfer_bid(&mut star_game, "player-star", 1_250_000).expect("star bid");
+    let star_result = make_transfer_bid(
+        &mut star_game,
+        "player-star",
+        1_250_000,
+        TransferDestination::Main,
+    )
+    .expect("star bid");
 
     let fringe = make_player("player-fringe");
     let mut fringe_game = make_game_with_player(fringe, vec![], 5_000_000, 2_000_000);
-    let fringe_result =
-        make_transfer_bid(&mut fringe_game, "player-fringe", 1_250_000).expect("fringe bid");
+    let fringe_result = make_transfer_bid(
+        &mut fringe_game,
+        "player-fringe",
+        1_250_000,
+        TransferDestination::Main,
+    )
+    .expect("fringe bid");
 
     assert_eq!(
         star_result.decision,
@@ -250,8 +332,13 @@ fn repeated_bid_advances_transfer_negotiation_round() {
     game.teams[0].reputation = 700;
     game.teams[1].reputation = 350;
 
-    let first_result =
-        make_transfer_bid(&mut game, "player-repeat-bid", 900_000).expect("first bid");
+    let first_result = make_transfer_bid(
+        &mut game,
+        "player-repeat-bid",
+        900_000,
+        TransferDestination::Main,
+    )
+    .expect("first bid");
 
     assert_eq!(
         first_result.decision,
@@ -260,8 +347,13 @@ fn repeated_bid_advances_transfer_negotiation_round() {
     assert_eq!(first_result.feedback.round, 1);
     assert_eq!(first_result.suggested_fee, Some(950_000));
 
-    let second_result =
-        make_transfer_bid(&mut game, "player-repeat-bid", 950_000).expect("second bid");
+    let second_result = make_transfer_bid(
+        &mut game,
+        "player-repeat-bid",
+        950_000,
+        TransferDestination::Main,
+    )
+    .expect("second bid");
 
     assert_eq!(
         second_result.decision,
@@ -285,6 +377,7 @@ fn stale_outgoing_transfer_negotiation_is_withdrawn_before_new_bid() {
     player.transfer_offers.push(TransferOffer {
         id: "offer-stale".to_string(),
         from_team_id: "team-1".to_string(),
+        destination_team_id: Some("team-1".to_string()),
         fee: 900_000,
         wage_offered: 0,
         last_manager_fee: Some(900_000),
@@ -298,7 +391,13 @@ fn stale_outgoing_transfer_negotiation_is_withdrawn_before_new_bid() {
     game.teams[0].reputation = 700;
     game.teams[1].reputation = 350;
 
-    let result = make_transfer_bid(&mut game, "player-stale-bid", 900_000).expect("new bid");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-stale-bid",
+        900_000,
+        TransferDestination::Main,
+    )
+    .expect("new bid");
 
     assert_eq!(result.decision, TransferNegotiationDecision::CounterOffer);
     assert_eq!(result.feedback.round, 1);
@@ -326,8 +425,13 @@ fn low_transfer_budget_cannot_behave_unrealistically() {
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 400_000);
 
-    let error = make_transfer_bid(&mut game, "player-budget", 900_000)
-        .expect_err("bid should be blocked by transfer budget");
+    let error = make_transfer_bid(
+        &mut game,
+        "player-budget",
+        900_000,
+        TransferDestination::Main,
+    )
+    .expect_err("bid should be blocked by transfer budget");
 
     assert_eq!(error, "Transfer budget too low");
 }
@@ -370,6 +474,7 @@ fn does_not_duplicate_pending_incoming_offer_from_same_club() {
     player.transfer_offers.push(TransferOffer {
         id: "offer-existing".to_string(),
         from_team_id: "team-2".to_string(),
+        destination_team_id: None,
         fee: 900_000,
         wage_offered: 0,
         last_manager_fee: None,
@@ -637,8 +742,13 @@ fn unhappy_player_with_bigger_ambition_gap_is_easier_to_buy() {
     let mut open_game = make_game_with_player(open_player, vec![], 5_000_000, 2_000_000);
     open_game.teams[0].reputation = 700;
     open_game.teams[1].reputation = 350;
-    let open_result =
-        make_transfer_bid(&mut open_game, "player-open", 1_050_000).expect("open-player bid");
+    let open_result = make_transfer_bid(
+        &mut open_game,
+        "player-open",
+        1_050_000,
+        TransferDestination::Main,
+    )
+    .expect("open-player bid");
 
     let mut content_player = make_player("player-content");
     content_player.contract_end = Some("2028-06-30".to_string());
@@ -648,8 +758,13 @@ fn unhappy_player_with_bigger_ambition_gap_is_easier_to_buy() {
     let mut content_game = make_game_with_player(content_player, vec![], 5_000_000, 2_000_000);
     content_game.teams[0].reputation = 700;
     content_game.teams[1].reputation = 350;
-    let content_result = make_transfer_bid(&mut content_game, "player-content", 1_050_000)
-        .expect("content-player bid");
+    let content_result = make_transfer_bid(
+        &mut content_game,
+        "player-content",
+        1_050_000,
+        TransferDestination::Main,
+    )
+    .expect("content-player bid");
 
     assert_eq!(open_result.decision, TransferNegotiationDecision::Accepted);
     assert_eq!(
@@ -728,8 +843,13 @@ fn accepted_major_transfer_generates_news_article() {
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
 
-    let result = make_transfer_bid(&mut game, "player-news-major", 1_700_000)
-        .expect("major transfer bid should succeed");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-news-major",
+        1_700_000,
+        TransferDestination::Main,
+    )
+    .expect("major transfer bid should succeed");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     let article = game
@@ -753,8 +873,13 @@ fn smaller_completed_transfer_does_not_generate_news_article() {
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
 
-    let result = make_transfer_bid(&mut game, "player-news-small", 300_000)
-        .expect("small transfer bid should succeed");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-news-small",
+        300_000,
+        TransferDestination::Main,
+    )
+    .expect("small transfer bid should succeed");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     assert!(game.news.is_empty());
@@ -779,8 +904,13 @@ fn completed_transfer_news_is_not_duplicated_when_article_already_exists() {
         .with_players(vec!["player-news-dup".to_string()]),
     );
 
-    let result = make_transfer_bid(&mut game, "player-news-dup", 1_700_000)
-        .expect("major transfer bid should succeed");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-news-dup",
+        1_700_000,
+        TransferDestination::Main,
+    )
+    .expect("major transfer bid should succeed");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     assert_eq!(
@@ -798,8 +928,13 @@ fn academy_sale_replenishes_roster_and_role_coverage() {
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
     game.teams[1].team_kind = TeamKind::Academy;
 
-    let result = make_transfer_bid(&mut game, "player-academy-sale", 1_500_000)
-        .expect("academy transfer bid should succeed");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-academy-sale",
+        1_500_000,
+        TransferDestination::Main,
+    )
+    .expect("academy transfer bid should succeed");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     assert_eq!(
@@ -891,8 +1026,13 @@ fn academy_sale_routes_fee_to_parent_club_owner() {
         .map(|team| team.finance)
         .unwrap();
 
-    let result = make_transfer_bid(&mut game, "player-academy-owner", 1_200_000)
-        .expect("academy transfer should succeed");
+    let result = make_transfer_bid(
+        &mut game,
+        "player-academy-owner",
+        1_200_000,
+        TransferDestination::Main,
+    )
+    .expect("academy transfer should succeed");
 
     assert_eq!(result.decision, TransferNegotiationDecision::Accepted);
     let academy_finance_after = game

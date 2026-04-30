@@ -20,7 +20,10 @@ fn add_column_if_missing(
     definition: &str,
 ) -> rusqlite::Result<()> {
     if !column_exists(tx, table, column)? {
-        tx.execute(&format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"), [])?;
+        tx.execute(
+            &format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"),
+            [],
+        )?;
     }
     Ok(())
 }
@@ -59,7 +62,10 @@ fn connection_add_column_if_missing(
     definition: &str,
 ) -> rusqlite::Result<()> {
     if !connection_column_exists(conn, table, column)? {
-        conn.execute(&format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"), [])?;
+        conn.execute(
+            &format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"),
+            [],
+        )?;
     }
     Ok(())
 }

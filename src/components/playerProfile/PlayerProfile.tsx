@@ -44,6 +44,7 @@ import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIden
 import {
   makeTransferBid,
   releasePlayerContract,
+  type TransferDestinationData,
   type TransferNegotiationFeedbackData,
 } from "../../services/transfersService";
 import { formatVal } from "../../lib/helpers";
@@ -263,6 +264,8 @@ export default function PlayerProfile({
   const [showTransferOfferModal, setShowTransferOfferModal] = useState(false);
   const [transferActionSubmitting, setTransferActionSubmitting] = useState(false);
   const [transferOfferAmount, setTransferOfferAmount] = useState("");
+  const [transferOfferDestination, setTransferOfferDestination] =
+    useState<TransferDestinationData>("main");
   const [transferOfferError, setTransferOfferError] = useState<string | null>(null);
   const [transferOfferFeedback, setTransferOfferFeedback] =
     useState<TransferOfferFeedbackState | null>(null);
@@ -480,6 +483,7 @@ export default function PlayerProfile({
 
     const initialFee = Math.max(1, Math.round(player.market_value));
     setTransferOfferAmount(String(initialFee));
+    setTransferOfferDestination("main");
     setTransferOfferError(null);
     setTransferOfferFeedback(null);
     setShowTransferOfferModal(true);
@@ -504,7 +508,7 @@ export default function PlayerProfile({
     setTransferOfferFeedback(null);
     setTransferActionSubmitting(true);
     try {
-      const result = await makeTransferBid(player.id, fee);
+      const result = await makeTransferBid(player.id, fee, transferOfferDestination);
       onGameUpdate(result.game);
       setTransferOfferFeedback({
         decision: result.decision,
@@ -990,6 +994,36 @@ export default function PlayerProfile({
               {t("playerProfile.makeTransferOffer")}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">{player.full_name}</p>
+            <div>
+              <label
+                htmlFor="transfer-offer-destination"
+                className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1"
+              >
+                {t("playerProfile.transferOfferDestination", {
+                  defaultValue: "Destination",
+                })}
+              </label>
+              <select
+                id="transfer-offer-destination"
+                value={transferOfferDestination}
+                onChange={(event) =>
+                  setTransferOfferDestination(
+                    event.target.value as TransferDestinationData,
+                  )
+                }
+                className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+              >
+                <option value="main">
+                  {gameState.teams.find((team) => team.id === managerTeamId)?.name ??
+                    t("playerProfile.transferOfferMainTeam", {
+                      defaultValue: "Main team",
+                    })}
+                </option>
+                {managerAcademyTeam ? (
+                  <option value="academy">{managerAcademyTeam.name}</option>
+                ) : null}
+              </select>
+            </div>
             <div>
               <label
                 htmlFor="transfer-offer-amount"

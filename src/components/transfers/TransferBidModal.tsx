@@ -11,6 +11,7 @@ import {
   positionBadgeVariant,
 } from "../../lib/helpers";
 import type {
+  TransferDestinationData,
   TransferBidProjectionData,
   TransferNegotiationResponseData,
 } from "../../services/transfersService";
@@ -26,6 +27,9 @@ interface TransferBidModalProps {
   teams: TeamData[];
   bidAmount: string;
   onBidAmountChange: (value: string) => void;
+  destination: TransferDestinationData;
+  onDestinationChange: (value: TransferDestinationData) => void;
+  academyTeam: TeamData | null;
   myTeam: TeamData | null;
   bidFee: number | null;
   bidProjection: TransferBidProjectionData["projection"] | null;
@@ -44,6 +48,9 @@ export default function TransferBidModal({
   teams,
   bidAmount,
   onBidAmountChange,
+  destination,
+  onDestinationChange,
+  academyTeam,
   myTeam,
   bidFee,
   bidProjection,
@@ -92,6 +99,34 @@ export default function TransferBidModal({
             {t("transfers.resumeNegotiationHint")}
           </p>
         ) : null}
+        <label
+          htmlFor="transfer-destination"
+          className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block"
+        >
+          {t("transfers.destination", {
+            defaultValue: "Destination",
+          })}
+        </label>
+        <select
+          id="transfer-destination"
+          value={destination}
+          onChange={(event) =>
+            onDestinationChange(event.target.value as TransferDestinationData)
+          }
+          className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 mb-3 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+        >
+          <option value="main">
+            {myTeam?.name ??
+              t("transfers.mainTeamDestination", {
+                defaultValue: "Main team",
+              })}
+          </option>
+          {academyTeam ? (
+            <option value="academy">
+              {academyTeam.name}
+            </option>
+          ) : null}
+        </select>
         <label
           htmlFor="bid-amount"
           className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block"

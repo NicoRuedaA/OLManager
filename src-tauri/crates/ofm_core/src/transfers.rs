@@ -51,6 +51,14 @@ pub struct TransferBidFinancialProjection {
     pub exceeds_finance: bool,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum TransferDestination {
+    #[default]
+    Main,
+    Academy,
+}
+
 enum PlayerImportance {
     Key,
     Regular,
@@ -394,6 +402,7 @@ fn transfer_negotiation_metrics(round: u8, stalled: bool, respected_signal: bool
 fn upsert_transfer_offer(
     player: &mut domain::player::Player,
     from_team_id: &str,
+    destination_team_id: Option<&str>,
     fee: u64,
     status: TransferOfferStatus,
     date: &str,
@@ -405,6 +414,7 @@ fn upsert_transfer_offer(
         offer.from_team_id == from_team_id && offer.status == TransferOfferStatus::Pending
     }) {
         offer.fee = fee;
+        offer.destination_team_id = destination_team_id.map(str::to_string);
         offer.status = status;
         offer.date = date.to_string();
         offer.last_manager_fee = last_manager_fee;
@@ -417,6 +427,7 @@ fn upsert_transfer_offer(
     player.transfer_offers.push(domain::player::TransferOffer {
         id: offer_id.clone(),
         from_team_id: from_team_id.to_string(),
+        destination_team_id: destination_team_id.map(str::to_string),
         fee,
         wage_offered: 0,
         last_manager_fee,
@@ -433,6 +444,38 @@ fn transfer_window_is_open(game: &Game) -> bool {
         game.season_context.transfer_window.status,
         TransferWindowStatus::Open | TransferWindowStatus::DeadlineDay
     )
+}
+
+fn user_academy_team_id(game: &Game, user_team_id: &str) -> Option<String> {
+    game.teams
+        .iter()
+        .find(|team| team.id == user_team_id)
+        .and_then(|team| team.academy_team_id.clone())
+        .or_else(|| {
+            game.teams
+                .iter()
+                .find(|team| {
+                    team.team_kind == TeamKind::Academy
+                        && team.parent_team_id.as_deref() == Some(user_team_id)
+                })
+                .map(|team| team.id.clone())
+        })
+}
+
+fn resolve_user_transfer_destination(
+    game: &Game,
+    user_team_id: &str,
+    destination: TransferDestination,
+) -> Result<String, String> {
+    match destination {
+        TransferDestination::Main => Ok(user_team_id.to_string()),
+        TransferDestination::Academy => user_academy_team_id(game, user_team_id)
+            .ok_or_else(|| "Academy team not found".to_string()),
+    }
+}
+
+fn is_managed_team_id(game: &Game, user_team_id: &str, team_id: &str) -> bool {
+    team_id == user_team_id || user_academy_team_id(game, user_team_id).as_deref() == Some(team_id)
 }
 
 pub fn generate_incoming_transfer_offers(game: &mut Game) {
@@ -607,6 +650,7 @@ pub fn generate_incoming_transfer_offers(game: &mut Game) {
         player.transfer_offers.push(domain::player::TransferOffer {
             id: offer_id.clone(),
             from_team_id: buyer_id.clone(),
+            destination_team_id: None,
             fee: chosen_fee,
             wage_offered: 0,
             last_manager_fee: None,
@@ -906,6 +950,7 @@ pub fn project_transfer_bid_financial_impact(
     game: &Game,
     player_id: &str,
     fee: u64,
+    destination: TransferDestination,
 ) -> Result<TransferBidFinancialProjection, String> {
     let user_team_id = game
         .manager
@@ -913,41 +958,53 @@ pub fn project_transfer_bid_financial_impact(
         .clone()
         .ok_or_else(|| "No user team".to_string())?;
 
+    let destination_team_id = resolve_user_transfer_destination(game, &user_team_id, destination)?;
+
     let player = game
         .players
         .iter()
         .find(|player| player.id == player_id)
         .ok_or_else(|| "Player not found".to_string())?;
 
-    if player.team_id.as_deref() == Some(user_team_id.as_str()) {
+    if player
+        .team_id
+        .as_deref()
+        .is_some_and(|team_id| is_managed_team_id(game, &user_team_id, team_id))
+    {
         return Err("Cannot bid on your own player".to_string());
     }
 
-    let team = game
+    let paying_team = game
         .teams
         .iter()
         .find(|team| team.id == user_team_id)
         .ok_or_else(|| "User team not found".to_string())?;
+    let destination_team = game
+        .teams
+        .iter()
+        .find(|team| team.id == destination_team_id)
+        .ok_or_else(|| "Destination team not found".to_string())?;
 
-    let annual_wage_bill_before = calc_annual_wages(game, &team.id);
+    let annual_wage_bill_before = calc_annual_wages(game, &destination_team.id);
     let annual_wage_bill_after = annual_wage_bill_before + player.wage as i64;
-    let projected_wage_budget_usage_pct = if team.wage_budget > 0 {
-        ((annual_wage_bill_after as f64 / team.wage_budget as f64) * 100.0).round() as i64
+    let projected_wage_budget_usage_pct = if destination_team.wage_budget > 0 {
+        ((annual_wage_bill_after as f64 / destination_team.wage_budget as f64) * 100.0).round()
+            as i64
     } else {
         0
     };
 
-    let transfer_budget_after = team.transfer_budget - fee as i64;
-    let finance_after = team.finance - fee as i64;
+    let transfer_budget_after = paying_team.transfer_budget - fee as i64;
+    let finance_after = paying_team.finance - fee as i64;
 
     Ok(TransferBidFinancialProjection {
-        transfer_budget_before: team.transfer_budget,
+        transfer_budget_before: paying_team.transfer_budget,
         transfer_budget_after,
-        finance_before: team.finance,
+        finance_before: paying_team.finance,
         finance_after,
         annual_wage_bill_before,
         annual_wage_bill_after,
-        annual_wage_budget: team.wage_budget,
+        annual_wage_budget: destination_team.wage_budget,
         projected_wage_budget_usage_pct,
         exceeds_transfer_budget: transfer_budget_after < 0,
         exceeds_finance: finance_after < 0,
@@ -960,6 +1017,7 @@ pub fn make_transfer_bid(
     game: &mut Game,
     player_id: &str,
     fee: u64,
+    destination: TransferDestination,
 ) -> Result<TransferNegotiationOutcome, String> {
     expire_stale_transfer_offers(game);
 
@@ -968,6 +1026,7 @@ pub fn make_transfer_bid(
     }
 
     let user_team_id = game.manager.team_id.clone().ok_or("No user team")?;
+    let destination_team_id = resolve_user_transfer_destination(game, &user_team_id, destination)?;
 
     let player = game
         .players
@@ -975,7 +1034,11 @@ pub fn make_transfer_bid(
         .find(|p| p.id == player_id)
         .ok_or("Player not found")?;
 
-    if player.team_id.as_deref() == Some(&user_team_id) {
+    if player
+        .team_id
+        .as_deref()
+        .is_some_and(|team_id| is_managed_team_id(game, &user_team_id, team_id))
+    {
         return Err("Cannot bid on your own player".into());
     }
 
@@ -1000,6 +1063,7 @@ pub fn make_transfer_bid(
             upsert_transfer_offer(
                 p,
                 &user_team_id,
+                Some(&destination_team_id),
                 fee,
                 TransferOfferStatus::Accepted,
                 &date,
@@ -1009,7 +1073,13 @@ pub fn make_transfer_bid(
             );
         }
 
-        execute_free_agent_signing(game, player_id, &user_team_id, fee)?;
+        execute_free_agent_signing_with_payer(
+            game,
+            player_id,
+            &destination_team_id,
+            &user_team_id,
+            fee,
+        )?;
 
         let player_name = game
             .players
@@ -1085,6 +1155,7 @@ pub fn make_transfer_bid(
                 upsert_transfer_offer(
                     p,
                     &user_team_id,
+                    Some(&destination_team_id),
                     fee,
                     TransferOfferStatus::Rejected,
                     &date,
@@ -1114,6 +1185,7 @@ pub fn make_transfer_bid(
             upsert_transfer_offer(
                 p,
                 &user_team_id,
+                Some(&destination_team_id),
                 fee,
                 TransferOfferStatus::Accepted,
                 &date,
@@ -1124,7 +1196,14 @@ pub fn make_transfer_bid(
         }
 
         // Execute transfer
-        execute_transfer(game, player_id, &user_team_id, &owner_team_id, fee)?;
+        execute_transfer_with_payer(
+            game,
+            player_id,
+            &destination_team_id,
+            &owner_team_id,
+            fee,
+            &user_team_id,
+        )?;
 
         // Generate message
         let player_name = game
@@ -1159,6 +1238,7 @@ pub fn make_transfer_bid(
             upsert_transfer_offer(
                 p,
                 &user_team_id,
+                Some(&destination_team_id),
                 fee,
                 TransferOfferStatus::Pending,
                 &date,
@@ -1200,6 +1280,7 @@ pub fn make_transfer_bid(
         upsert_transfer_offer(
             p,
             &user_team_id,
+            Some(&destination_team_id),
             fee,
             TransferOfferStatus::Rejected,
             &date,
@@ -1231,6 +1312,16 @@ fn execute_free_agent_signing(
     to_team_id: &str,
     fee: u64,
 ) -> Result<(), String> {
+    execute_free_agent_signing_with_payer(game, player_id, to_team_id, to_team_id, fee)
+}
+
+fn execute_free_agent_signing_with_payer(
+    game: &mut Game,
+    player_id: &str,
+    to_team_id: &str,
+    payer_team_id: &str,
+    fee: u64,
+) -> Result<(), String> {
     if let Some(player) = game
         .players
         .iter_mut()
@@ -1250,9 +1341,12 @@ fn execute_free_agent_signing(
         return Err("Player not found".to_string());
     }
 
-    if let Some(team) = game.teams.iter_mut().find(|team| team.id == to_team_id) {
+    if let Some(team) = game.teams.iter_mut().find(|team| team.id == payer_team_id) {
         team.finance -= fee as i64;
         team.transfer_budget -= fee as i64;
+    }
+
+    if let Some(team) = game.teams.iter_mut().find(|team| team.id == to_team_id) {
         if let Some(pos) = team.starting_xi_ids.iter().position(|id| id == player_id) {
             team.starting_xi_ids.remove(pos);
         }
@@ -1829,6 +1923,17 @@ fn execute_transfer(
     from_team_id: &str,
     fee: u64,
 ) -> Result<(), String> {
+    execute_transfer_with_payer(game, player_id, to_team_id, from_team_id, fee, to_team_id)
+}
+
+fn execute_transfer_with_payer(
+    game: &mut Game,
+    player_id: &str,
+    to_team_id: &str,
+    from_team_id: &str,
+    fee: u64,
+    payer_team_id: &str,
+) -> Result<(), String> {
     let player_snapshot = game
         .players
         .iter()
@@ -1886,10 +1991,13 @@ fn execute_transfer(
         }
     }
 
-    // Debit buying team
-    if let Some(t) = game.teams.iter_mut().find(|t| t.id == to_team_id) {
+    // Debit the paying club; user academy signings are funded by the parent club.
+    if let Some(t) = game.teams.iter_mut().find(|t| t.id == payer_team_id) {
         t.finance -= fee as i64;
         t.transfer_budget -= fee as i64;
+    }
+
+    if let Some(t) = game.teams.iter_mut().find(|t| t.id == to_team_id) {
         // Remove from starting XI if player was there
         if let Some(pos) = t.starting_xi_ids.iter().position(|id| id == player_id) {
             t.starting_xi_ids.remove(pos);

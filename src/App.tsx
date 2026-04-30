@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSettingsStore } from "./store/settingsStore";
 import i18n from "./i18n";
 import "./App.css";
@@ -115,7 +115,16 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/match" element={<MatchSimulation />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/world-editor" element={<WorldEditor />} />
+          <Route
+            path="/world-editor"
+            element={
+              loaded ? (
+                settings.debug_tools_enabled ? <WorldEditor /> : <Navigate to="/" replace />
+              ) : (
+                <LazyFallback />
+              )
+            }
+          />
         </Routes>
       </Suspense>
     </BrowserRouter>
