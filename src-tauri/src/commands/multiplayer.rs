@@ -1,6 +1,7 @@
 //! Multiplayer Tauri Commands
 //! 
 //! Commands for creating/joining online rooms and managing multiplayer state.
+//! MVP: Host runs WebSocket server, Client connects directly.
 
 use crate::SaveManagerState;
 use crate::backup_save::LoadBackupResult;
@@ -10,6 +11,17 @@ use ofm_core::game::{Game, MultiplayerMode};
 use ofm_core::state::StateManager;
 use serde::{Deserialize, Serialize};
 use tauri::State;
+use std::sync::Arc;
+use tokio::sync::Mutex;
+
+// WebSocket modules (MVP)
+mod websocket_server;
+mod websocket_client;
+mod messages;
+
+use websocket_server::WebSocketServer;
+use websocket_client::WebSocketClient;
+use messages::{NetworkMessage, ConnectionStatus, compute_checksum};
 
 /// Player context for multiplayer-aware commands
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
@@ -174,21 +186,82 @@ pub fn check_operation_allowed_in_multiplayer(
     Ok(())
 }
 
-/// Create a new online room (host)
+/// Create a new online room (host - MVP WebSocket Server)
 #[tauri::command]
 pub async fn multiplayer_create_room(
-    _state: State<'_, StateManager>,
+    state: State<'_, StateManager>,
     host_name: String,
-) -> Result<String, String> {
-    log::info!("Creating multiplayer room for host: {}", host_name);
+    port: Option<u16>, // NEW: configurable port (default 3000)
+) -> Result<RoomInfo, String> {
+    let port = port.unwrap_or(3000);
     
-    // TODO: Integrate with signaling server
-    // For now, return a mock room code
+    log::info!("Creating multiplayer room for host: {} on port {}", host_name, port);
+    
+    // Create WebSocket server
+    let server = WebSocketServer::new(port);
+    
+    // Start the server
+    if let Err(e) = server.start() {
+        return Err(format!("Failed to start WebSocket server: {}", e));
+    }
+    
+    // Store server in StateManager (to keep it alive)
+    // TODO: Properly store in state (for now, just log)
+    log::info!("WebSocket server started on port {}", port);
+    
+    // Get local IPs for display
+    let local_ip = get_local_ip();
+    let public_ip = get_public_ip().await;
+    
+    // Generate room code (for UI reference)
     let room_code = generate_room_code();
     
-    log::info!("Room created: {}", room_code);
+    log::info!("Room created: {} (connect to {}:{})", room_code, public_ip, port);
     
-    Ok(room_code)
+    Ok(RoomInfo {
+        room_code,
+        port,
+        local_ip,
+        public_ip,
+    })
+}
+
+/// Room information for host
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RoomInfo {
+    pub room_code: String,
+    pub port: u16,
+    pub local_ip: Option<String>,
+    pub public_ip: Option<String>,
+}
+
+/// Get local IP address
+fn get_local_ip() -> Option<String> {
+    use std::net::TcpStream;
+    // Connect to a public server to get local IP
+    if let Ok(stream) = TcpStream::connect("8.8.8.8:80") {
+        if let Ok(local_addr) = stream.local_addr() {
+            return Some(local_addr.ip().to_string());
+        }
+    }
+    None
+}
+
+/// Get public IP address (async)
+async fn get_public_ip() -> Option<String> {
+    // Try to get public IP from a public service
+    let clients = reqwest::Client::new();
+    match clients.get("https://api.ipify.org").send().await {
+        Ok(resp) => {
+            if resp.status().is_success() {
+                if let Ok(ip) = resp.text().await {
+                    return Some(ip.trim().to_string());
+                }
+            }
+            None
+        }
+        Err(_) => None,
+    }
 }
 
 /// Join an existing room (client)

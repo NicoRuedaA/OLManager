@@ -35,9 +35,7 @@ chrono = "0.4.44"
 rand = "0.10"
 base64 = "0.22"
 
-# Multiplayer networking (Week 1)
-axum = { version = "0.7", features = ["macros"] }
+# Multiplayer networking (MVP WebSocket)
 tokio = { version = "1", features = ["full"] }
-tower-http = { version = "0.5", features = ["cors"] }
 uuid = { version = "1.21.0", features = ["v4"] }
-webrtc = "0.9"
+tokio-tungstenite = "0.20"
