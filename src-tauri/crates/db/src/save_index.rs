@@ -217,7 +217,7 @@ pub fn load_or_rebuild_index(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::repositories::meta_repo::{GameMeta, upsert_meta};
+    use crate::repositories::meta_repo::{upsert_meta, GameMeta};
 
     #[test]
     fn test_save_index_new() {
@@ -393,6 +393,9 @@ mod tests {
                 game_date: "2026-08-01".to_string(),
                 created_at: "2026-01-01".to_string(),
                 last_played_at: "2026-01-02".to_string(),
+                multiplayer_mode: "Offline".to_string(),
+                player2_manager_id: None,
+                room_code: None,
             },
         )
         .unwrap();
@@ -499,6 +502,9 @@ mod tests {
                 game_date: "2026-08-01".to_string(),
                 created_at: "2026-01-01".to_string(),
                 last_played_at: "2026-01-02".to_string(),
+                multiplayer_mode: "Offline".to_string(),
+                player2_manager_id: None,
+                room_code: None,
             },
         )
         .unwrap();

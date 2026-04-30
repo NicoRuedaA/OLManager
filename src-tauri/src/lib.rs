@@ -174,7 +174,28 @@ pub fn run() {
             lol_sim_v2_skip_to_end,
             save_manager_avatar,
             load_manager_avatar,
-            update_manager_profile
+            update_manager_profile,
+            // Multiplayer commands
+            multiplayer_create_room,
+            multiplayer_join_room,
+            multiplayer_disconnect,
+            mark_day_ready,
+            get_connection_status,
+            get_room_status,
+            // Full state sync (triggers backup)
+            multiplayer_receive_full_sync,
+            // State Sync commands
+            multiplayer_start_sync,
+            multiplayer_send_checksum,
+            multiplayer_request_sync,
+            multiplayer_get_sync_status,
+            multiplayer_verify_checksum,
+            multiplayer_force_sync,
+            // Backup Save commands
+            multiplayer_create_backup,
+            multiplayer_load_backup,
+            multiplayer_has_backup,
+            multiplayer_delete_backup
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

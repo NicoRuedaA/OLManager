@@ -7,6 +7,8 @@ use ofm_core::game::Game;
 use ofm_core::potential;
 use ofm_core::state::StateManager;
 
+use crate::commands::multiplayer::{get_team_id_for_context, resolve_player_context};
+
 fn scrim_slot_weekdays(schedule: &domain::team::TrainingSchedule) -> Vec<u8> {
     match schedule {
         domain::team::TrainingSchedule::Intense => vec![1, 1, 2, 2, 3, 3],
@@ -16,17 +18,19 @@ fn scrim_slot_weekdays(schedule: &domain::team::TrainingSchedule) -> Vec<u8> {
 }
 
 #[tauri::command]
-pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Result<Game, String> {
+pub fn set_formation(
+    state: State<'_, StateManager>,
+    formation: String,
+    manager_id: Option<String>,
+) -> Result<Game, String> {
     info!("[cmd] set_formation: {}", formation);
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     // Parse formation into (def, mid, fwd) counts
     let parts: Vec<usize> = formation
@@ -92,17 +96,16 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
 pub fn set_starting_xi(
     state: State<'_, StateManager>,
     player_ids: Vec<String>,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] set_starting_xi: {} players", player_ids.len());
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
         team.starting_xi_ids = player_ids;
@@ -113,17 +116,19 @@ pub fn set_starting_xi(
 }
 
 #[tauri::command]
-pub fn set_play_style(state: State<'_, StateManager>, play_style: String) -> Result<Game, String> {
+pub fn set_play_style(
+    state: State<'_, StateManager>,
+    play_style: String,
+    manager_id: Option<String>,
+) -> Result<Game, String> {
     info!("[cmd] set_play_style: {}", play_style);
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let style = match play_style.as_str() {
         "Attacking" => domain::team::PlayStyle::Attacking,
@@ -146,17 +151,16 @@ pub fn set_play_style(state: State<'_, StateManager>, play_style: String) -> Res
 pub fn set_lol_tactics(
     state: State<'_, StateManager>,
     lol_tactics: domain::team::LolTactics,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] set_lol_tactics");
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
         team.lol_tactics = lol_tactics;
@@ -170,17 +174,16 @@ pub fn set_lol_tactics(
 pub fn set_team_match_roles(
     state: State<'_, StateManager>,
     match_roles: domain::team::MatchRoles,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] set_team_match_roles");
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
         team.match_roles = match_roles;
@@ -195,6 +198,7 @@ pub fn set_training(
     state: State<'_, StateManager>,
     focus: String,
     intensity: String,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!(
         "[cmd] set_training: focus={}, intensity={}",
@@ -204,11 +208,9 @@ pub fn set_training(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let training_focus = domain::team::TrainingFocus::from_id(&focus).unwrap_or_default();
 
@@ -232,17 +234,16 @@ pub fn set_training(
 pub fn set_training_schedule(
     state: State<'_, StateManager>,
     schedule: String,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] set_training_schedule: {}", schedule);
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let training_schedule = match schedule.as_str() {
         "Intense" => domain::team::TrainingSchedule::Intense,
@@ -263,17 +264,16 @@ pub fn set_training_schedule(
 pub fn set_training_groups(
     state: State<'_, StateManager>,
     groups: Vec<domain::team::TrainingGroup>,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] set_training_groups: {} groups", groups.len());
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let team_id = get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
         team.training_groups = groups;
@@ -287,6 +287,7 @@ pub fn set_training_groups(
 pub fn set_weekly_scrims(
     state: State<'_, StateManager>,
     opponent_team_ids: Vec<String>,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!(
         "[cmd] set_weekly_scrims: {} opponents",
@@ -296,11 +297,10 @@ pub fn set_weekly_scrims(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let manager_team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let manager_team_id =
+        get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let known_team_ids: std::collections::HashSet<String> =
         game.teams.iter().map(|team| team.id.clone()).collect();
@@ -420,6 +420,7 @@ pub fn reroll_player_lol_role(
     state: State<'_, StateManager>,
     player_id: String,
     role: String,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!(
         "[cmd] reroll_player_lol_role: player={}, role={}",
@@ -430,11 +431,10 @@ pub fn reroll_player_lol_role(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let manager_team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let manager_team_id =
+        get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let (next_natural, next_position) = match role.as_str() {
         "TOP" => (

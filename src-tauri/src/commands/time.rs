@@ -4,8 +4,12 @@ use tauri::State;
 use crate::application::time_advancement::advance_time_with_mode as advance_time_with_mode_service;
 pub use crate::application::time_advancement::AdvanceTimeWithModeResponse;
 use crate::application::time_blockers::compute_blocking_actions as compute_blocking_actions_service;
-use ofm_core::game::Game;
+use ofm_core::game::{Game, MultiplayerMode};
 use ofm_core::state::StateManager;
+
+use crate::commands::multiplayer::{
+    check_operation_allowed_in_multiplayer, resolve_player_context,
+};
 
 fn advance_time_internal(state: &StateManager) -> Result<Game, String> {
     let mut current_game = state
@@ -41,16 +45,41 @@ fn advance_time_with_mode_internal(
 /// mode: "live" | "spectator" | "delegate" | "instant"
 /// If mode is "live" or "spectator" and there's a user match today,
 /// it sets up the live match session instead of auto-simulating.
+///
+/// NOTE: In multiplayer mode, this is blocked - use mark_day_ready + host advances
 #[tauri::command]
 pub fn advance_time_with_mode(
     state: State<'_, StateManager>,
     mode: String,
 ) -> Result<AdvanceTimeWithModeResponse, String> {
+    // Check if operation is allowed in multiplayer mode
+    let game = state
+        .get_game(|g| g.clone())
+        .ok_or("No active game session")?;
+
+    if game.multiplayer_mode != MultiplayerMode::Offline {
+        // In multiplayer, use mark_day_ready instead
+        return Err("In multiplayer mode, use mark_day_ready + host advances. Direct advance_time is not allowed.".to_string());
+    }
+
     advance_time_with_mode_internal(&state, &mode)
 }
 
 #[tauri::command]
-pub fn advance_time(state: State<'_, StateManager>) -> Result<Game, String> {
+pub fn advance_time(
+    state: State<'_, StateManager>,
+    manager_id: Option<String>,
+) -> Result<Game, String> {
+    // Check if operation is allowed in multiplayer mode
+    let game = state
+        .get_game(|g| g.clone())
+        .ok_or("No active game session")?;
+
+    if game.multiplayer_mode != MultiplayerMode::Offline {
+        // In multiplayer, use mark_day_ready instead
+        return Err("In multiplayer mode, use mark_day_ready + host advances. Direct advance_time is not allowed.".to_string());
+    }
+
     advance_time_internal(&state)
 }
 

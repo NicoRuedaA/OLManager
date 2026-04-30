@@ -149,6 +149,7 @@
   "menu": {
     "newGame": "New Game",
     "loadGame": "Load Game",
+    "multiplayer": "Multiplayer",
     "settings": "Settings",
     "exitGame": "Exit Game",
     "noSaves": "No saved games found.",

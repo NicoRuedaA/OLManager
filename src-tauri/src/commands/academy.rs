@@ -14,6 +14,7 @@ use tauri::State;
 use crate::commands::game::{
     academy_seed_team_id, ensure_example_academy_pool, example_academy_seed_catalog,
 };
+use crate::commands::multiplayer::{get_team_id_for_context, resolve_player_context};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct AcademyAcquisitionOptionsResponse {
@@ -76,17 +77,17 @@ pub fn acquire_academy_team(
 pub fn promote_academy_player(
     state: State<'_, StateManager>,
     player_id: String,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!("[cmd] promote_academy_player: player_id={}", player_id);
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
 
-    let parent_team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let parent_team_id =
+        get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let academy_team_id = resolve_manager_academy_team_id(&game, &parent_team_id)?;
 
@@ -123,6 +124,7 @@ pub fn promote_academy_player(
 pub fn demote_main_player_to_academy(
     state: State<'_, StateManager>,
     player_id: String,
+    manager_id: Option<String>,
 ) -> Result<Game, String> {
     info!(
         "[cmd] demote_main_player_to_academy: player_id={}",
@@ -132,11 +134,10 @@ pub fn demote_main_player_to_academy(
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
 
-    let parent_team_id = game
-        .manager
-        .team_id
-        .clone()
-        .ok_or("No team assigned".to_string())?;
+    // Resolve player context and get team_id
+    let context = resolve_player_context(&game, manager_id.as_deref());
+    let parent_team_id =
+        get_team_id_for_context(&game, context).ok_or("No team assigned".to_string())?;
 
     let academy_team_id = resolve_manager_academy_team_id(&game, &parent_team_id)?;
 

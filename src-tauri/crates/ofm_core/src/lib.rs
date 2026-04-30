@@ -7,6 +7,7 @@ pub mod contract_wage_policy;
 pub mod contracts;
 pub mod delegated_renewals;
 pub mod end_of_season;
+pub mod error;
 pub mod finances;
 pub mod firing;
 pub mod football_identity;

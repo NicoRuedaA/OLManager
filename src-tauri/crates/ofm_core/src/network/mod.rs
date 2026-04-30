@@ -135,6 +135,119 @@ pub enum NetworkMessage {
 
     /// Error message
     Error { code: String, message: String },
+
+    // ========== State Sync (NEW - Task 2.3) ==========
+    /// Periodic checksum from host to client
+    SyncChecksum {
+        checksum: GameStateChecksum,
+    },
+
+    /// Full state transfer (host → client)
+    SyncState {
+        state: FullGameState,
+    },
+
+    /// State diff for optimization (host → client)
+    SyncDiff {
+        diffs: Vec<StateDiff>,
+    },
+
+    /// Client requests sync from host
+    RequestSync {
+        reason: SyncReason,
+        request_id: RequestId,
+    },
+
+    /// Client detected checksum mismatch
+    ChecksumMismatch {
+        expected: u64,
+        received: u64,
+        request_id: RequestId,
+    },
+}
+
+/// Checksum structure for game state validation
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct GameStateChecksum {
+    pub team_checksum: u64,
+    pub league_checksum: u64,
+    pub transfers_checksum: u64,
+    pub finances_checksum: u64,
+    pub timestamp: u64,
+    /// Combined hash for quick comparison
+    pub combined: u64,
+}
+
+impl GameStateChecksum {
+    /// Create a new checksum from game state
+    pub fn from_game(game: &Game) -> Self {
+        let team_checksum = compute_team_checksum(game);
+        let league_checksum = compute_league_checksum(game);
+        let transfers_checksum = compute_transfers_checksum(game);
+        let finances_checksum = compute_finances_checksum(game);
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+
+        // Combined hash for quick comparison
+        let combined = team_checksum
+            .wrapping_mul(31)
+            .wrapping_add(league_checksum)
+            .wrapping_mul(37)
+            .wrapping_add(transfers_checksum)
+            .wrapping_mul(41)
+            .wrapping_add(finances_checksum);
+
+        Self {
+            team_checksum,
+            league_checksum,
+            transfers_checksum,
+            finances_checksum,
+            timestamp,
+            combined,
+        }
+    }
+
+    /// Check if checksums match
+    pub fn matches(&self, other: &GameStateChecksum) -> bool {
+        self.combined == other.combined
+    }
+}
+
+/// Full game state for initial sync
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct FullGameState {
+    pub game: Game,
+    pub checksum: GameStateChecksum,
+    pub timestamp: u64,
+}
+
+/// Individual state change for diff sync
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StateDiff {
+    pub entity_type: String,
+    pub entity_id: String,
+    pub field: String,
+    pub old_value: serde_json::Value,
+    pub new_value: serde_json::Value,
+    pub timestamp: u64,
+}
+
+/// Reason for sync request
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub enum SyncReason {
+    OnJoin,
+    ChecksumMismatch,
+    PeriodicRequest,
+    ManualRefresh,
+}
+
+impl Default for SyncReason {
+    fn default() -> Self {
+        SyncReason::PeriodicRequest
+    }
 }
 
 /// Summary of game state for handshake (lightweight)
@@ -256,6 +369,101 @@ pub fn compute_checksum(game: &Game) -> String {
     }
 
     format!("{:016x}", hasher.finish())
+}
+
+/// Compute checksum for teams (players, formations, etc.)
+fn compute_team_checksum(game: &Game) -> u64 {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+
+    let mut hasher = DefaultHasher::new();
+
+    // Hash all teams
+    for team in &game.teams {
+        team.id.hash(&mut hasher);
+        team.starting_xi_ids.hash(&mut hasher);
+        team.formation.hash(&mut hasher);
+        team.finance.hash(&mut hasher);
+        team.reputation.hash(&mut hasher);
+    }
+
+    // Hash player states - use individual attributes instead of overall
+    for player in &game.players {
+        player.id.hash(&mut hasher);
+        player.team_id.hash(&mut hasher);
+        // Hash key attributes for quick comparison
+        player.attributes.pace.hash(&mut hasher);
+        player.attributes.shooting.hash(&mut hasher);
+        player.attributes.dribbling.hash(&mut hasher);
+    }
+
+    hasher.finish()
+}
+
+/// Compute checksum for league/standings
+fn compute_league_checksum(game: &Game) -> u64 {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+
+    let mut hasher = DefaultHasher::new();
+
+    if let Some(ref league) = game.league {
+        league.id.hash(&mut hasher);
+        league.season.hash(&mut hasher);
+        for standing in &league.standings {
+            standing.team_id.hash(&mut hasher);
+            standing.points.hash(&mut hasher);
+            standing.played.hash(&mut hasher);
+            standing.won.hash(&mut hasher);
+            standing.drawn.hash(&mut hasher);
+            standing.lost.hash(&mut hasher);
+        }
+    }
+
+    hasher.finish()
+}
+
+/// Compute checksum for transfers
+fn compute_transfers_checksum(game: &Game) -> u64 {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+
+    let mut hasher = DefaultHasher::new();
+
+    // Hash transfer-listed players
+    for player in &game.players {
+        if player.transfer_listed || player.loan_listed {
+            player.id.hash(&mut hasher);
+            player.market_value.hash(&mut hasher);
+        }
+        
+        // Hash transfer offers (using from_team_id instead of player_id)
+        for offer in &player.transfer_offers {
+            offer.id.hash(&mut hasher);
+            offer.from_team_id.hash(&mut hasher);
+            offer.fee.hash(&mut hasher);
+        }
+    }
+
+    hasher.finish()
+}
+
+/// Compute checksum for finances
+fn compute_finances_checksum(game: &Game) -> u64 {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+
+    let mut hasher = DefaultHasher::new();
+
+    // Hash finance state for all teams (direct finance: i64)
+    for team in &game.teams {
+        team.id.hash(&mut hasher);
+        team.finance.hash(&mut hasher);
+        team.wage_budget.hash(&mut hasher);
+        team.transfer_budget.hash(&mut hasher);
+    }
+
+    hasher.finish()
 }
 
 #[cfg(test)]

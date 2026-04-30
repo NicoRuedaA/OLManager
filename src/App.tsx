@@ -9,6 +9,10 @@ const TeamSelection = lazy(() => import("./pages/TeamSelection"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const MatchSimulation = lazy(() => import("./pages/MatchSimulation"));
 const Settings = lazy(() => import("./pages/Settings"));
+// Multiplayer routes
+const MultiplayerMenu = lazy(() => import("./components/multiplayer/MultiplayerMenu"));
+const MultiplayerLobby = lazy(() => import("./routes/MultiplayerLobby"));
+const MultiplayerGame = lazy(() => import("./routes/MultiplayerGame"));
 
 function LazyFallback() {
   return (
@@ -114,6 +118,10 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/match" element={<MatchSimulation />} />
           <Route path="/settings" element={<Settings />} />
+          {/* Multiplayer Routes */}
+          <Route path="/multiplayer" element={<MultiplayerMenu />} />
+          <Route path="/multiplayer-lobby" element={<MultiplayerLobby />} />
+          <Route path="/multiplayer-game" element={<MultiplayerGame />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

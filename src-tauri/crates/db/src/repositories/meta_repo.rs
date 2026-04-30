@@ -95,6 +95,9 @@ mod tests {
             game_date: "2026-07-15T00:00:00Z".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-05T19:00:00Z".to_string(),
+            multiplayer_mode: "Offline".to_string(),
+            player2_manager_id: None,
+            room_code: None,
         };
 
         upsert_meta(db.conn(), &meta).unwrap();
@@ -124,6 +127,9 @@ mod tests {
             game_date: "2026-07-15T00:00:00Z".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-05T19:00:00Z".to_string(),
+            multiplayer_mode: "Offline".to_string(),
+            player2_manager_id: None,
+            room_code: None,
         };
         upsert_meta(db.conn(), &meta1).unwrap();
 
@@ -135,6 +141,9 @@ mod tests {
             game_date: "2026-08-01T00:00:00Z".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-06T10:00:00Z".to_string(),
+            multiplayer_mode: "Offline".to_string(),
+            player2_manager_id: None,
+            room_code: None,
         };
         upsert_meta(db.conn(), &meta2).unwrap();
 
