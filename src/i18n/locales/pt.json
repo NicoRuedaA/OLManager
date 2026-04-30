@@ -209,6 +209,7 @@
     "players": "Jogadores",
     "teams": "Equipas",
     "tournaments": "Torneios",
+    "champions_world": "Campeões",
     "schedule": "Calendário",
     "news": "Notícias",
     "settings": "Definições",
@@ -265,7 +266,18 @@
     "high": "Alto",
     "moderate": "Moderado",
     "low": "Baixo",
-    "discoveryProgress": "Progresso de descoberta"
+    "discoveryProgress": "Progresso de descoberta",
+    "loading": "Carregando campeões...",
+    "error": "Erro ao carregar",
+    "empty": "Nenhum campeão disponível",
+    "counterpicks": "Counterpicks",
+    "synergies": "Sinergias",
+    "noData": "Sem informação de counterpicks ou sinergias disponível.",
+    "worldTitle": "Campeões do Mundo",
+    "allChampions": "Todos os Campeões",
+    "worldDescription": "Explore todos os campeões do League of Legends",
+    "totalChampions": "Total",
+    "170": "170+"
   },
   "exitConfirm": {
     "title": "Sair para o Menu Principal?",

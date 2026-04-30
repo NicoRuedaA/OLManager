@@ -15,6 +15,7 @@ import InboxTab from "../inbox/InboxTab";
 import ManagerTab from "../manager/ManagerTab";
 import NewsTab from "../news/NewsTab";
 import ChampionsTab from "../champions/ChampionsTab";
+import ChampionsWorldTab from "../world/ChampionsWorldTab";
 import EndOfSeasonScreen from "../EndOfSeasonScreen";
 import { Card, CardBody } from "../ui";
 import type { DashboardTabContentModel } from "./dashboardTabContentModel";
@@ -119,6 +120,10 @@ export default function DashboardTabContent({
         <TournamentsTab gameState={gameState} onSelectTeam={onSelectTeam} />
       )}
 
+      {activeTab === "ChampionsWorld" && (
+        <ChampionsWorldTab />
+      )}
+
       {activeTab === "Staff" && (
         <StaffTab gameState={gameState} onGameUpdate={onGameUpdate} />
       )}
@@ -167,6 +172,7 @@ export default function DashboardTabContent({
         "Players",
         "Teams",
         "Tournaments",
+        "ChampionsWorld",
         "Staff",
         "Scouting",
         "Youth",

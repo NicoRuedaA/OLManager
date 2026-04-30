@@ -4,10 +4,13 @@ use domain::stats::StatsState;
 use ofm_core::clock::GameClock;
 use ofm_core::game::{BoardObjective, Game, ObjectiveType, ScoutingAssignment};
 
+use std::fs;
+use std::path::Path;
+
 use crate::game_database::GameDatabase;
 use crate::repositories::{
-    champion_progression_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo,
-    objective_repo, player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
+    champion_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo, objective_repo,
+    player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
 };
 
 pub struct GamePersistenceWriter;
@@ -71,11 +74,18 @@ impl GamePersistenceWriter {
             .collect();
         scouting_repo::upsert_scouting_list(conn, &scouting_rows)?;
 
-        champion_progression_repo::upsert_state(
-            conn,
-            &game.champion_masteries,
-            &game.champion_patch,
-        )?;
+        // Seed champions from JSON file if it exists
+        let champions_path = Path::new("../../../data/lec/draft/champions.json");
+        if let Ok(json_content) = fs::read_to_string(champions_path) {
+            if let Err(e) = champion_repo::seed_from_json(conn, &json_content) {
+                log::warn!("Failed to seed champions: {}", e);
+            }
+        } else {
+            log::warn!(
+                "Champions JSON file not found at {:?}, skipping seed",
+                champions_path
+            );
+        }
 
         Ok(())
     }

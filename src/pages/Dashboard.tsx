@@ -48,6 +48,8 @@ import { useSettingsStore } from "../store/settingsStore";
 
 const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Champions", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
 
+const WORLD_TABS = new Set(["Players", "Teams", "Tournaments", "ChampionsWorld"]);
+
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
   Inbox: "dashboard.inbox",
@@ -62,6 +64,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Players: "dashboard.players",
   Teams: "dashboard.teams",
   Tournaments: "dashboard.tournaments",
+  ChampionsWorld: "dashboard.champions_world",
   Schedule: "dashboard.schedule",
   News: "dashboard.news",
   Scouting: "dashboard.scouting",

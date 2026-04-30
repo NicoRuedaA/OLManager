@@ -135,6 +135,7 @@ export default function DashboardSidebar({
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
     },
+    { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
   ];
   const toggleSidebarLabel = collapsed
     ? t("dashboard.expandSidebar")
