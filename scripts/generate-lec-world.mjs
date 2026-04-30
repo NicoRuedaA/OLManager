@@ -14,7 +14,7 @@ const TEAM_ID_TO_WORLD_SLUG = {
   kc: "karmine-corp",
   mkoi: "mad-lions",
   navi: "natus-vincere",
-  sft: "shifters",
+  shft: "shifters",
   sk: "sk-gaming",
   th: "team-heretics-lec",
   vit: "team-vitality",

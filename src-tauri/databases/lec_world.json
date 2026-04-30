@@ -275,10 +275,10 @@
     {
       "id": "lec-shifters",
       "name": "Shifters",
-      "short_name": "SFT",
-      "country": "EUN",
-      "football_nation": "EUN",
-      "city": "Berlin",
+      "short_name": "SHFT",
+      "country": "CH",
+      "football_nation": "CH",
+      "city": "Geneva",
       "stadium_name": "Shifters Arena",
       "stadium_capacity": 28000,
       "finance": 3000000,
@@ -5098,7 +5098,7 @@
     },
     {
       "id": "lec-shifters-staff-0",
-      "first_name": "SFT",
+      "first_name": "SHFT",
       "last_name": "Staff 1",
       "date_of_birth": "1988-01-01",
       "nationality": "EUN",
@@ -5118,7 +5118,7 @@
     },
     {
       "id": "lec-shifters-staff-1",
-      "first_name": "SFT",
+      "first_name": "SHFT",
       "last_name": "Staff 2",
       "date_of_birth": "1988-01-01",
       "nationality": "EUN",
@@ -5138,7 +5138,7 @@
     },
     {
       "id": "lec-shifters-staff-2",
-      "first_name": "SFT",
+      "first_name": "SHFT",
       "last_name": "Staff 3",
       "date_of_birth": "1988-01-01",
       "nationality": "EUN",
@@ -5158,7 +5158,7 @@
     },
     {
       "id": "lec-shifters-staff-3",
-      "first_name": "SFT",
+      "first_name": "SHFT",
       "last_name": "Staff 4",
       "date_of_birth": "1988-01-01",
       "nationality": "EUN",
