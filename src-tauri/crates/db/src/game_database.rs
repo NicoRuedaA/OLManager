@@ -2,7 +2,7 @@ use log::{debug, error, info};
 use rusqlite::Connection;
 use std::path::{Path, PathBuf};
 
-use crate::migrations::{MIGRATION_COUNT, all_migrations};
+use crate::migrations::{MIGRATION_COUNT, all_migrations, ensure_compatible_schema};
 
 /// Represents an open per-save game database with migrations applied.
 pub struct GameDatabase {
@@ -24,6 +24,10 @@ impl GameDatabase {
             error!("[game_db] migration failed for {:?}: {}", path, e);
             format!("Database migration failed: {}", e)
         })?;
+        ensure_compatible_schema(&conn).map_err(|e| {
+            error!("[game_db] schema compatibility repair failed for {:?}: {}", path, e);
+            format!("Database schema compatibility repair failed: {}", e)
+        })?;
 
         info!("[game_db] database ready at {:?}", path);
         Ok(Self {
@@ -44,6 +48,10 @@ impl GameDatabase {
         migrations.to_latest(&mut conn).map_err(|e| {
             error!("[game_db] migration failed for in-memory db: {}", e);
             format!("Database migration failed: {}", e)
+        })?;
+        ensure_compatible_schema(&conn).map_err(|e| {
+            error!("[game_db] schema compatibility repair failed for in-memory db: {}", e);
+            format!("Database schema compatibility repair failed: {}", e)
         })?;
 
         Ok(Self { conn, path: None })

@@ -1,7 +1,78 @@
-use rusqlite_migration::{M, Migrations};
+use rusqlite::{Connection, Transaction};
+use rusqlite_migration::{HookResult, M, Migrations};
+
+fn column_exists(tx: &Transaction<'_>, table: &str, column: &str) -> rusqlite::Result<bool> {
+    let mut stmt = tx.prepare(&format!("PRAGMA table_info({table})"))?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        let name: String = row.get(1)?;
+        if name == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn add_column_if_missing(
+    tx: &Transaction<'_>,
+    table: &str,
+    column: &str,
+    definition: &str,
+) -> rusqlite::Result<()> {
+    if !column_exists(tx, table, column)? {
+        tx.execute(&format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"), [])?;
+    }
+    Ok(())
+}
+
+fn migrate_profile_image_urls(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "players", "profile_image_url", "TEXT")?;
+    add_column_if_missing(tx, "staff", "profile_image_url", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_manager_avatar_path(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "managers", "avatar_path", "TEXT")?;
+    Ok(())
+}
+
+fn connection_column_exists(
+    conn: &Connection,
+    table: &str,
+    column: &str,
+) -> rusqlite::Result<bool> {
+    let mut stmt = conn.prepare(&format!("PRAGMA table_info({table})"))?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        let name: String = row.get(1)?;
+        if name == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn connection_add_column_if_missing(
+    conn: &Connection,
+    table: &str,
+    column: &str,
+    definition: &str,
+) -> rusqlite::Result<()> {
+    if !connection_column_exists(conn, table, column)? {
+        conn.execute(&format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"), [])?;
+    }
+    Ok(())
+}
+
+pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
+    connection_add_column_if_missing(conn, "managers", "avatar_path", "TEXT")?;
+    connection_add_column_if_missing(conn, "players", "profile_image_url", "TEXT")?;
+    connection_add_column_if_missing(conn, "staff", "profile_image_url", "TEXT")?;
+    Ok(())
+}
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 29;
+pub const MIGRATION_COUNT: usize = 30;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -62,11 +133,11 @@ pub fn all_migrations() -> Migrations<'static> {
         // V27: Persist academy team kind, affiliation links, and ERL metadata
         M::up(include_str!("sql/v027_academy_team_metadata.sql")),
         // V28: Add avatar_path column to managers table for profile avatar persistence
-        M::up(include_str!("sql/v028_avatar_path.sql")),
-        // V28: Champion mastery + patch progression persistence
+        M::up_with_hook("SELECT 1;", migrate_manager_avatar_path),
+        // V29: Champion mastery + patch progression persistence
         M::up(include_str!("sql/v028_champion_progression_state.sql")),
-        // V29: Optional unified profile image URLs for players and staff
-        M::up(include_str!("sql/v029_profile_image_urls.sql")),
+        // V30: Optional unified profile image URLs for players and staff
+        M::up_with_hook("SELECT 1;", migrate_profile_image_urls),
     ])
 }
 
@@ -168,5 +239,36 @@ mod tests {
             "expected schema version {} after migrations",
             MIGRATION_COUNT
         );
+    }
+
+    #[test]
+    fn test_profile_image_url_migration_tolerates_existing_columns() {
+        let mut conn = Connection::open_in_memory().unwrap();
+        let migrations = all_migrations();
+        migrations
+            .to_version(&mut conn, MIGRATION_COUNT - 1)
+            .expect("migrations before profile image URLs should apply");
+
+        conn.execute("ALTER TABLE players ADD COLUMN profile_image_url TEXT", [])
+            .unwrap();
+        conn.execute("ALTER TABLE staff ADD COLUMN profile_image_url TEXT", [])
+            .unwrap();
+
+        migrations
+            .to_latest(&mut conn)
+            .expect("profile image URL migration should skip existing columns");
+    }
+
+    #[test]
+    fn test_compatible_schema_repairs_missing_avatar_path() {
+        let mut conn = Connection::open_in_memory().unwrap();
+        let migrations = all_migrations();
+        migrations
+            .to_version(&mut conn, 27)
+            .expect("migrations before avatar_path should apply");
+
+        assert!(!connection_column_exists(&conn, "managers", "avatar_path").unwrap());
+        ensure_compatible_schema(&conn).expect("compatibility repair should add avatar_path");
+        assert!(connection_column_exists(&conn, "managers", "avatar_path").unwrap());
     }
 }
