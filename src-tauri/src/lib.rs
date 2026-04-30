@@ -1,12 +1,14 @@
 mod application;
 mod commands;
 mod signaling_server;  // NEW: Multiplayer signaling
+mod multiplayer_state;  // NEW: MVP WebSocket state
 use commands::*;
 
 use application::lol_sim_v2::LolSimV2StoreState;
 use db::save_manager::SaveManager;
 use ofm_core::state::StateManager;
 use std::sync::Mutex;
+use multiplayer_state::MultiplayerState;
 
 /// Tauri-managed wrapper around SaveManager.
 pub struct SaveManagerState(pub Mutex<SaveManager>);
@@ -36,6 +38,7 @@ pub fn run() {
         )
         .manage(StateManager::new())
         .manage(LolSimV2StoreState::default())
+        .manage(MultiplayerState::default())  // NEW: MVP WebSocket state
         .setup(|app| {
             use tauri::Manager as TauriManager;
             let app_data_dir = app

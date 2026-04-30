@@ -190,6 +190,7 @@ pub fn check_operation_allowed_in_multiplayer(
 #[tauri::command]
 pub async fn multiplayer_create_room(
     state: State<'_, StateManager>,
+    mp_state: State<'_, MultiplayerState>, // NEW: MVP state
     host_name: String,
     port: Option<u16>, // NEW: configurable port (default 3000)
 ) -> Result<RoomInfo, String> {
@@ -205,8 +206,10 @@ pub async fn multiplayer_create_room(
         return Err(format!("Failed to start WebSocket server: {}", e));
     }
     
-    // Store server in StateManager (to keep it alive)
-    // TODO: Properly store in state (for now, just log)
+    // Store server in MultiplayerState
+    let mut mp = mp_state.inner_mut().unwrap();
+    mp.set_host(server);
+    
     log::info!("WebSocket server started on port {}", port);
     
     // Get local IPs for display
@@ -267,6 +270,7 @@ async fn get_public_ip() -> Option<String> {
 /// Join an existing room (client - MVP WebSocket)
 #[tauri::command]
 pub async fn multiplayer_join_room(
+    mp_state: State<'_, MultiplayerState>, // NEW: MVP state
     host_ip: String,
     port: Option<u16>,
     client_name: String,
@@ -309,6 +313,10 @@ pub async fn multiplayer_join_room(
         .map_err(|_| "Connection timeout".to_string())?
         .map_err(|e| format!("Handshake failed: {}", e))?;
     
+    // Store client in MultiplayerState
+    let mut mp = mp_state.inner_mut().unwrap();
+    mp.set_client(client);
+    
     log::info!("Connected to {}:{} as {}", host_ip, port, client_name);
     
     Ok(status)
@@ -322,6 +330,7 @@ pub async fn multiplayer_join_room(
 pub async fn multiplayer_disconnect(
     state: State<'_, StateManager>,
     save_manager: State<'_, SaveManagerState>,
+    mp_state: State<'_, MultiplayerState>, // NEW: MVP state
     is_client: bool,
 ) -> Result<Option<LoadBackupResult>, String> {
     log::info!("Disconnecting from multiplayer session (is_client: {})", is_client);
@@ -346,8 +355,13 @@ pub async fn multiplayer_disconnect(
         }
         
         // Disconnect WebSocket client
-        // TODO: Get actual client instance from state
-        log::info!("Disconnecting WebSocket client");
+        let mut mp = mp_state.inner_mut().unwrap();
+        if let Some(client) = mp.client_mut() {
+            client.disconnect("User disconnected").await;
+        }
+        mp.clear();
+        
+        log::info!("WebSocket client disconnected");
         
         // Try to load the backup
         match crate::commands::backup_save::multiplayer_load_backup(
@@ -366,8 +380,12 @@ pub async fn multiplayer_disconnect(
     } else {
         // Host: stop WebSocket server
         log::info!("Host disconnecting - stopping WebSocket server");
-        // TODO: Get server instance from state and call stop()
-        // For now, just log
+        
+        let mut mp = mp_state.inner_mut().unwrap();
+        // Stop the server (this will drop the Arc, stopping the task)
+        mp.clear();
+        
+        log::info!("WebSocket server stopped");
         
         Ok(None)
     }
@@ -418,14 +436,21 @@ pub async fn mark_day_ready(
 #[tauri::command]
 pub async fn get_connection_status(
     _state: State<'_, StateManager>,
+    mp_state: State<'_, MultiplayerState>,
 ) -> Result<ConnectionStatus, String> {
-    // TODO: Get actual status from WebSocket server/client
-    // For now, return disconnected (will be updated when state is integrated)
+    let mp = mp_state.inner().unwrap();
+    
+    // Get actual status from MultiplayerState
+    let connected = mp.is_connected();
+    let is_host = mp.is_host;
+    
+    // TODO: Get peer name from handshake
+    // For now, just return connection status
     
     Ok(ConnectionStatus {
-        connected: false,  // TODO: Check WebSocket connection
-        is_host: false,     // TODO: Check if we're host
-        peer_name: None,
+        connected,
+        is_host,
+        peer_name: None, // TODO: Store peer name in MultiplayerState
         last_error: None,
     })
 }
