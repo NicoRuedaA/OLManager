@@ -2,6 +2,31 @@
 //! 
 //! Handles WebRTC peer connections, data channels, and message exchange
 //! between host and client in online multiplayer mode.
+//! 
+//! ## Implementation Status
+//! 
+//! ✅ **Complete:**
+//! - Peer connection creation with STUN servers
+//! - Data channel management
+//! - Message send/receive
+//! - Connection state tracking
+//! - Event handlers (on_message, on_open, on_close, on_error)
+//! 
+//! 🔧 **TODO (Integration Required):**
+//! - SDP parsing in `accept_offer()` - requires webrtc-rs configuration
+//! - SDP parsing in `set_remote_description()` - requires webrtc-rs configuration
+//! - ICE candidate explicit exchange
+//! 
+//! ## Integration Notes
+//! 
+//! For MVP, use the signaling server (`signaling_server.rs`) for SDP exchange:
+//! 1. Host creates offer → sends to signaling server
+//! 2. Client gets offer from signaling → calls `accept_offer()`
+//! 3. Client creates answer → sends to signaling server
+//! 4. Host gets answer from signaling → calls `set_remote_description()`
+//! 
+//! Once SDP parsing is configured, the WebRTC data channel will handle
+//! all message passing between host and client.
 
 use crate::network::NetworkMessage;
 use std::sync::Arc;
@@ -103,17 +128,44 @@ impl WebRtcManager {
     }
     
     /// Accept SDP offer and create answer (client side)
+    /// 
+    /// TODO: Complete SDP parsing implementation
+    /// Currently requires additional webrtc-rs configuration for:
+    /// - Parsing incoming SDP offer string
+    /// - Creating RTCSessionDescription from parsed SDP
+    /// - Proper ICE candidate exchange
+    /// 
+    /// For MVP integration, use signaling server to exchange SDP strings
+    /// and configure webrtc-rs with proper SDP parsing.
     pub async fn accept_offer(&self, _offer_sdp: &str) -> Result<String, WebRtcError> {
-        // TODO: Implement SDP parsing when webrtc-rs API is properly configured
-        // For now, return error indicating this needs implementation
+        // TODO: Implement full SDP parsing
+        // Example implementation:
+        // 1. Parse offer_sdp string into RTCSessionDescription
+        // 2. peer.set_remote_description(offer).await?
+        // 3. Create answer: peer.create_answer(None).await?
+        // 4. Set local description and return SDP string
+        
         Err(WebRtcError::ConnectionFailed(
-            "SDP parsing requires additional webrtc-rs configuration".to_string()
+            "SDP parsing requires additional webrtc-rs configuration. \
+             See signaling_server.rs for HTTP-based SDP exchange.".to_string()
         ))
     }
     
     /// Set remote description (answer from client)
+    /// 
+    /// TODO: Complete SDP parsing implementation
+    /// Host calls this after receiving client's answer from signaling server
+    /// 
+    /// For MVP integration:
+    /// 1. Receive answer SDP from signaling server endpoint
+    /// 2. Parse into RTCSessionDescription
+    /// 3. peer.set_remote_description(answer).await?
     pub async fn set_remote_description(&self, _answer_sdp: &str) -> Result<(), WebRtcError> {
-        // TODO: Implement SDP parsing when webrtc-rs API is properly configured
+        // TODO: Implement full SDP parsing
+        // Example implementation:
+        // 1. Parse answer_sdp into RTCSessionDescription
+        // 2. Set as remote description on peer connection
+        
         Err(WebRtcError::ConnectionFailed(
             "SDP parsing requires additional webrtc-rs configuration".to_string()
         ))
@@ -297,6 +349,11 @@ pub async fn receive_message_timeout(
     .await
     .ok()
     .flatten()
+}
+
+/// Check if WebRTC connection is ready for messaging
+pub async fn is_connection_ready(manager: &WebRtcManager) -> bool {
+    manager.is_connected().await
 }
 
 #[cfg(test)]
