@@ -1,4 +1,4 @@
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 use serde::{Deserialize, Serialize};
 
 /// Game metadata stored as a singleton row in `game_meta`.
@@ -11,13 +11,20 @@ pub struct GameMeta {
     pub game_date: String,
     pub created_at: String,
     pub last_played_at: String,
+    // Multiplayer fields (V29)
+    #[serde(default)]
+    pub player2_manager_id: Option<String>,
+    #[serde(default)]
+    pub multiplayer_mode: String, // "offline", "hotseat", "online"
+    #[serde(default)]
+    pub room_code: Option<String>,
 }
 
 /// Insert or replace the singleton game_meta row.
 pub fn upsert_meta(conn: &Connection, meta: &GameMeta) -> Result<(), String> {
     conn.execute(
-        "INSERT OR REPLACE INTO game_meta (id, save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at)
-         VALUES ('singleton', ?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        "INSERT OR REPLACE INTO game_meta (id, save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at, player2_manager_id, multiplayer_mode, room_code)
+         VALUES ('singleton', ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
         params![
             meta.save_id,
             meta.save_name,
@@ -26,6 +33,9 @@ pub fn upsert_meta(conn: &Connection, meta: &GameMeta) -> Result<(), String> {
             meta.game_date,
             meta.created_at,
             meta.last_played_at,
+            meta.player2_manager_id,
+            meta.multiplayer_mode,
+            meta.room_code,
         ],
     )
     .map_err(|e| format!("Failed to upsert game_meta: {}", e))?;
@@ -36,8 +46,8 @@ pub fn upsert_meta(conn: &Connection, meta: &GameMeta) -> Result<(), String> {
 pub fn load_meta(conn: &Connection) -> Result<Option<GameMeta>, String> {
     let mut stmt = conn
         .prepare(
-            "SELECT save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at
-             FROM game_meta WHERE id = 'singleton'",
+            "SELECT save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at, player2_manager_id, multiplayer_mode, room_code
+              FROM game_meta WHERE id = 'singleton'",
         )
         .map_err(|e| format!("Failed to prepare meta query: {}", e))?;
 
@@ -51,6 +61,9 @@ pub fn load_meta(conn: &Connection) -> Result<Option<GameMeta>, String> {
                 game_date: row.get(4)?,
                 created_at: row.get(5)?,
                 last_played_at: row.get(6)?,
+                player2_manager_id: row.get(7)?,
+                multiplayer_mode: row.get(8)?,
+                room_code: row.get(9)?,
             })
         })
         .map_err(|e| format!("Failed to query meta: {}", e))?;

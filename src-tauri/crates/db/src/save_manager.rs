@@ -13,7 +13,7 @@ use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
 use crate::game_database::GameDatabase;
 use crate::game_persistence::{GamePersistenceReader, GamePersistenceWriter};
 use crate::repositories::league_repo;
-use crate::save_index::{SaveEntry, compute_checksum};
+use crate::save_index::{compute_checksum, SaveEntry};
 use crate::save_index_manager::SaveIndexManager;
 
 /// Manages save sessions: creating, loading, saving, deleting, and listing.
@@ -496,6 +496,13 @@ mod tests {
             days_since_last_job_offer: None,
             champion_masteries: vec![],
             champion_patch: Default::default(),
+            // Multiplayer fields (default to offline/single-player for tests)
+            player2_manager: None,
+            multiplayer_mode: ofm_core::game::MultiplayerMode::Offline,
+            current_player: 1,
+            player1_day_ready: false,
+            player2_day_ready: false,
+            room_code: None,
         }
     }
 
@@ -857,12 +864,10 @@ mod tests {
 
         assert_eq!(
             starting_xi_ids,
-            vec![
-                "gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"
-            ]
-            .into_iter()
-            .map(str::to_string)
-            .collect::<Vec<_>>()
+            vec!["gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"]
+                .into_iter()
+                .map(str::to_string)
+                .collect::<Vec<_>>()
         );
     }
 
@@ -899,12 +904,10 @@ mod tests {
 
         assert_eq!(
             team.starting_xi_ids,
-            vec![
-                "gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"
-            ]
-            .into_iter()
-            .map(str::to_string)
-            .collect::<Vec<_>>()
+            vec!["gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"]
+                .into_iter()
+                .map(str::to_string)
+                .collect::<Vec<_>>()
         );
 
         let db = GameDatabase::open(&db_path).unwrap();

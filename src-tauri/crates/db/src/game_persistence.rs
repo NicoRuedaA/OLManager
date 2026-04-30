@@ -32,10 +32,24 @@ impl GamePersistenceWriter {
                 game_date: game.clock.current_date.to_rfc3339(),
                 created_at: now.clone(),
                 last_played_at: now,
+                // Multiplayer fields
+                player2_manager_id: game.player2_manager.as_ref().map(|m| m.id.clone()),
+                multiplayer_mode: match game.multiplayer_mode {
+                    ofm_core::game::MultiplayerMode::Hotseat => "hotseat".to_string(),
+                    ofm_core::game::MultiplayerMode::Online => "online".to_string(),
+                    _ => "offline".to_string(),
+                },
+                room_code: game.room_code.clone(),
             },
         )?;
 
         manager_repo::upsert_manager(conn, &game.manager)?;
+
+        // Save player2_manager if exists
+        if let Some(ref p2_mgr) = game.player2_manager {
+            manager_repo::upsert_manager(conn, p2_mgr)?;
+        }
+
         team_repo::upsert_teams(conn, &game.teams)?;
         player_repo::upsert_players(conn, &game.players)?;
         staff_repo::upsert_staff_list(conn, &game.staff)?;
@@ -102,6 +116,14 @@ impl GamePersistenceReader {
 
         let manager = manager_repo::load_manager(conn, &meta.manager_id)?
             .ok_or_else(|| format!("Manager '{}' not found", meta.manager_id))?;
+
+        // Load player2_manager if exists
+        let player2_manager = if let Some(p2_id) = &meta.player2_manager_id {
+            manager_repo::load_manager(conn, p2_id)?
+        } else {
+            None
+        };
+
         let teams = team_repo::load_all_teams(conn)?;
         let players = player_repo::load_all_players(conn)?;
         let staff = staff_repo::load_all_staff(conn)?;
@@ -148,6 +170,17 @@ impl GamePersistenceReader {
             days_since_last_job_offer: None,
             champion_masteries: vec![],
             champion_patch: ofm_core::champions::ChampionPatchState::default(),
+            // Multiplayer fields from meta
+            player2_manager,
+            multiplayer_mode: match meta.multiplayer_mode.as_str() {
+                "hotseat" => ofm_core::game::MultiplayerMode::Hotseat,
+                "online" => ofm_core::game::MultiplayerMode::Online,
+                _ => ofm_core::game::MultiplayerMode::Offline,
+            },
+            current_player: 1,
+            player1_day_ready: false,
+            player2_day_ready: false,
+            room_code: meta.room_code,
         };
         ofm_core::season_context::refresh_game_context(&mut game);
 
