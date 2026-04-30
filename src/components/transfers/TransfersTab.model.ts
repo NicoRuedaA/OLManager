@@ -1,4 +1,5 @@
 import type { GameStateData, PlayerData } from "../../store/gameStore";
+import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
 
 function normalizePlayerKey(player: PlayerData): string {
@@ -189,4 +190,33 @@ export function filterTransferPlayers(
 
     return true;
   });
+}
+
+export type TransferSortKey = "value" | "wage" | "ovr";
+export type TransferSortDirection = "asc" | "desc";
+
+export interface TransferSortState {
+  key: TransferSortKey;
+  direction: TransferSortDirection;
+}
+
+export function sortTransferPlayers(
+  players: PlayerData[],
+  sort: TransferSortState | null,
+): PlayerData[] {
+  if (!sort) return players;
+
+  const factor = sort.direction === "asc" ? 1 : -1;
+  const getValue = (player: PlayerData): number => {
+    switch (sort.key) {
+      case "value":
+        return player.market_value;
+      case "wage":
+        return player.wage;
+      case "ovr":
+        return calculateLolOvr(player);
+    }
+  };
+
+  return [...players].sort((a, b) => (getValue(a) - getValue(b)) * factor);
 }

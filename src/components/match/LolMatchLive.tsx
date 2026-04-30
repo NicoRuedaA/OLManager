@@ -7,11 +7,13 @@ import { NavGrid } from "./lol-prototype/engine/navigation";
 import { PrototypeSimulation } from "./lol-prototype/engine/simulation";
 import type { ChampionCombatProfile } from "./lol-prototype/engine/simulation";
 import type { MatchState } from "./lol-prototype/engine/types";
-import type {
-  LolChampionUltimateProfile,
-  LolSimV1AiMode,
-  LolSimV1PolicyConfig,
-  LolSimV1RuntimeState,
+import {
+  createDefaultObjectivesState,
+  createEmptyNeutralTimersState,
+  type LolChampionUltimateProfile,
+  type LolSimV1AiMode,
+  type LolSimV1PolicyConfig,
+  type LolSimV1RuntimeState,
 } from "./lol-prototype/backend/contract-v1";
 import { LolSimV2Client } from "./lol-prototype/backend/tauri-client";
 import { renderSimulation } from "./lol-prototype/ui/render";
@@ -942,8 +944,8 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
         champions: stateNow?.champions ?? [],
         minions: stateNow?.minions ?? [],
         structures: stateNow?.structures ?? [],
-        objectives: stateNow?.objectives ?? {},
-        neutralTimers: stateNow?.neutralTimers ?? {},
+        objectives: stateNow?.objectives ?? createDefaultObjectivesState(),
+        neutralTimers: stateNow?.neutralTimers ?? createEmptyNeutralTimersState(),
         stats: stateNow?.stats ?? {
           blue: { kills: 0, towers: 0, dragons: 0, barons: 0, gold: 0 },
           red: { kills: 0, towers: 0, dragons: 0, barons: 0, gold: 0 },

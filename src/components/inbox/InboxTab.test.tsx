@@ -22,6 +22,10 @@ const mockTranslationState = vi.hoisted(function () {
     translations: {
       en: {
         "inbox.effectOutcomeLabel": "Outcome",
+        "inbox.sortByDate": "Sort messages by date",
+        "inbox.sortOldest": "Oldest first",
+        "inbox.chooseResponseOutcomeVaries":
+          "Choose your response — outcome varies",
       },
       "pt-BR": {
         "inbox.effectOutcomeLabel": "Desfecho",
@@ -72,7 +76,9 @@ vi.mock("react-i18next", async (importOriginal) => {
 
 const mockedInvoke = vi.mocked(invoke);
 
-beforeAll(function defineMatchMedia(): void {
+beforeAll(async function setupTestEnvironment(): Promise<void> {
+  await i18n.changeLanguage("en");
+
   Object.defineProperty(window, "matchMedia", {
     writable: true,
     value: vi.fn().mockImplementation((query: string) => ({

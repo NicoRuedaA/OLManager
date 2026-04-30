@@ -6,8 +6,8 @@ use ofm_core::game::{BoardObjective, Game, ObjectiveType, ScoutingAssignment};
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
-    league_repo, manager_repo, message_repo, meta_repo, news_repo, objective_repo, player_repo,
-    scouting_repo, staff_repo, stats_repo, team_repo,
+    champion_progression_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo,
+    objective_repo, player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
 };
 
 pub struct GamePersistenceWriter;
@@ -71,6 +71,12 @@ impl GamePersistenceWriter {
             .collect();
         scouting_repo::upsert_scouting_list(conn, &scouting_rows)?;
 
+        champion_progression_repo::upsert_state(
+            conn,
+            &game.champion_masteries,
+            &game.champion_patch,
+        )?;
+
         Ok(())
     }
 }
@@ -132,6 +138,9 @@ impl GamePersistenceReader {
             })
             .collect();
 
+        let (champion_masteries, champion_patch) = champion_progression_repo::load_state(conn)?
+            .unwrap_or_else(|| (vec![], ofm_core::champions::ChampionPatchState::default()));
+
         let mut game = Game {
             clock,
             manager,
@@ -146,12 +155,122 @@ impl GamePersistenceReader {
             board_objectives,
             season_context: domain::season::SeasonContext::default(),
             days_since_last_job_offer: None,
-            champion_masteries: vec![],
-            champion_patch: ofm_core::champions::ChampionPatchState::default(),
+            champion_masteries,
+            champion_patch,
         };
         ofm_core::season_context::refresh_game_context(&mut game);
 
         Ok(game)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{GamePersistenceReader, GamePersistenceWriter};
+    use crate::game_database::GameDatabase;
+    use chrono::{TimeZone, Utc};
+    use ofm_core::champions::{
+        ChampionMasteryEntry, ChampionMetaEntry, ChampionPatchChange, ChampionPatchNote,
+        ChampionPatchState,
+    };
+    use ofm_core::clock::GameClock;
+    use ofm_core::game::Game;
+
+    fn sample_game() -> Game {
+        let start = Utc.with_ymd_and_hms(2026, 7, 1, 0, 0, 0).unwrap();
+        let manager = domain::manager::Manager::new(
+            "mgr-test".to_string(),
+            "John".to_string(),
+            "Smith".to_string(),
+            "1990-01-01".to_string(),
+            "AR".to_string(),
+        );
+
+        Game::new(GameClock::new(start), manager, vec![], vec![], vec![], vec![])
+    }
+
+    #[test]
+    fn test_champion_progression_roundtrip_is_preserved() {
+        let db = GameDatabase::open_in_memory().unwrap();
+        let mut game = sample_game();
+
+        game.champion_masteries = vec![
+            ChampionMasteryEntry {
+                player_id: "p-001".to_string(),
+                champion_id: "Ahri".to_string(),
+                mastery: 74,
+                last_active_on: "2026-07-07".to_string(),
+            },
+            ChampionMasteryEntry {
+                player_id: "p-002".to_string(),
+                champion_id: "LeeSin".to_string(),
+                mastery: 88,
+                last_active_on: "2026-07-09".to_string(),
+            },
+        ];
+
+        game.champion_patch = ChampionPatchState {
+            current_patch: 7,
+            current_patch_label: "2026.7".to_string(),
+            patch_year: 2026,
+            patch_index_in_year: 7,
+            last_patch_date: Some("2026-07-10".to_string()),
+            hidden_meta: vec![ChampionMetaEntry {
+                champion_id: "Ahri".to_string(),
+                role: "Mid".to_string(),
+                tier: "S".to_string(),
+            }],
+            patch_notes: vec![ChampionPatchNote {
+                champion_id: "Ahri".to_string(),
+                role: "Mid".to_string(),
+                change: ChampionPatchChange::Buff,
+            }],
+            discovered_champion_ids: vec!["Ahri".to_string(), "LeeSin".to_string()],
+            rng_seed: 42,
+        };
+
+        GamePersistenceWriter::write_game(&db, &game, "save-1", "Career").unwrap();
+        let loaded = GamePersistenceReader::read_game(&db).unwrap();
+
+        assert_eq!(loaded.champion_masteries.len(), 2);
+        assert_eq!(loaded.champion_masteries[0].champion_id, "Ahri");
+        assert_eq!(loaded.champion_masteries[0].mastery, 74);
+        assert_eq!(loaded.champion_masteries[1].champion_id, "LeeSin");
+        assert_eq!(loaded.champion_masteries[1].mastery, 88);
+
+        assert_eq!(loaded.champion_patch.current_patch, 7);
+        assert_eq!(loaded.champion_patch.current_patch_label, "2026.7");
+        assert_eq!(loaded.champion_patch.patch_year, 2026);
+        assert_eq!(loaded.champion_patch.patch_index_in_year, 7);
+        assert_eq!(loaded.champion_patch.last_patch_date.as_deref(), Some("2026-07-10"));
+        assert_eq!(loaded.champion_patch.hidden_meta.len(), 1);
+        assert_eq!(loaded.champion_patch.hidden_meta[0].tier, "S");
+        assert_eq!(loaded.champion_patch.patch_notes.len(), 1);
+        assert!(matches!(
+            loaded.champion_patch.patch_notes[0].change,
+            ChampionPatchChange::Buff
+        ));
+        assert_eq!(loaded.champion_patch.discovered_champion_ids.len(), 2);
+        assert_eq!(loaded.champion_patch.rng_seed, 42);
+    }
+
+    #[test]
+    fn test_champion_progression_defaults_when_absent() {
+        let db = GameDatabase::open_in_memory().unwrap();
+        let game = sample_game();
+
+        GamePersistenceWriter::write_game(&db, &game, "save-1", "Career").unwrap();
+        db.conn()
+            .execute("DELETE FROM champion_progression_state", [])
+            .unwrap();
+
+        let loaded = GamePersistenceReader::read_game(&db).unwrap();
+
+        assert!(loaded.champion_masteries.is_empty());
+        assert_eq!(loaded.champion_patch.current_patch, 0);
+        assert!(loaded.champion_patch.hidden_meta.is_empty());
+        assert!(loaded.champion_patch.patch_notes.is_empty());
+        assert!(loaded.champion_patch.discovered_champion_ids.is_empty());
     }
 }
 

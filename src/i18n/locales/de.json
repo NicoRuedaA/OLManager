@@ -1100,6 +1100,7 @@
     "important": "Wichtig",
     "effectOutcomeLabel": "Ergebnis",
     "chooseResponse": "Wähle deine Antwort",
+    "chooseResponseOutcomeVaries": "Wähle deine Antwort — das Ergebnis kann variieren",
     "responded": "Antwort gesendet",
     "markAllRead": "Alle als gelesen markieren",
     "clearOld": "Alte löschen",
@@ -1186,6 +1187,9 @@
     "noTransferMarket": "Keine Spieler zum Transfer verfügbar.",
     "noErlMarket": "No ERL players currently available for transfer.",
     "noLoanMarket": "Keine Spieler zur Leihe verfügbar.",
+    "sortByValue": "Nach Wert sortieren",
+    "sortByWage": "Nach Gehalt sortieren",
+    "sortByOvr": "Nach OVR sortieren",
     "transfer": "Transfer",
     "loan": "Leihe",
     "none": "Keine",
@@ -1239,6 +1243,16 @@
     "noSchedule": "Kein Ligaspielplan verfügbar.",
     "noLeague": "Kein Ligaspielplan verfügbar.",
     "fixtures": "Spiele",
+    "calendar": "Kalender",
+    "today": "Heute",
+    "previousMonth": "Vorheriger Monat",
+    "nextMonth": "Nächster Monat",
+    "moreMatches": "mehr",
+    "matchesOnDay": "Spiele dieses Tages",
+    "playoffsStartEstimate": "Playoffs-Start (vorl.)",
+    "playoffsStartEstimateHint": "Geschätztes Datum — die Paarungen werden nach dem Ende der regulären Saison erstellt.",
+    "seasonStart": "Saisonstart",
+    "seasonStartHint": "Erster Tag der regulären Saison.",
     "standings": "Tabelle",
     "viewResult": "View result",
     "matchday": "Spieltag {{number}}",
@@ -2104,7 +2118,10 @@
       "scout": "Scout",
       "performanceStaff": "Performance Staff",
       "coachingStaff": "Coaching Staff",
-      "academyCoordinator": "Academy Coordinator"
+      "academyCoordinator": "Academy Coordinator",
+      "esportmaniacos": "Esportmaníacos",
+      "allioPodcast": "Al Lío Podcast",
+      "elYuste": "el_yuste"
     },
     "role": {
       "chairman": "Vorsitzender",
@@ -2121,7 +2138,10 @@
       "scout": "Scout",
       "performanceStaff": "Performance Staff",
       "coachingStaff": "Coaching Staff",
-      "academyCoordinator": "Academy Coordinator"
+      "academyCoordinator": "Academy Coordinator",
+      "esportmaniacos": "Panel",
+      "allioPodcast": "Eros",
+      "elYuste": "el_yuste"
     },
     "source": {
       "sportsGazette": "Esports Gazette",
@@ -2542,6 +2562,49 @@
         "subject": "Academy weekly report: {{academy}}",
         "body": "Academy weekly summary:\n- Active players: {{activePlayers}}\n- Average OVR: {{avgOvr}}\n- High potential talents (>= 80): {{highPotential}}\n- Highlights: {{highlights}}\n- Current ERL rank: #{{position}} of {{total}}\n- Quick table: {{tablePreview}}",
         "bodyWithPromotion": "Academy weekly summary:\n- Active players: {{activePlayers}}\n- Average OVR: {{avgOvr}}\n- High potential talents (>= 80): {{highPotential}}\n- Highlights: {{highlights}}\n- Current ERL rank: #{{position}} of {{total}}\n- Quick table: {{tablePreview}}\n\nRecommendation: {{promotionCount}} player(s) ready for promotion -> {{promotionList}}."
+      },
+      "esportmaniacos": {
+        "positive": {
+          "subject0": "Esportmaníacos lobt {{player}} — das Panel ist sich einig",
+          "body0": "Die Tertulianos von Esportmaníacos haben einen guten Teil des heutigen Streams damit verbracht, über {{player}} bei {{team}} zu reden.\n\n„Diese Woche gibt es nichts zu kritisieren. Der Typ dominiert einfach.“ Schwer zu widersprechen. Die positive Berichterstattung sollte die Stimmung in der Kabine heben.",
+          "subject1": "Esportmaníacos: {{player}} trägt {{team}} in diesem Split",
+          "body1": "Die Tertulianos von Esportmaníacos sind selten einer Meinung, aber {{player}} bekam heute einen Freifahrtschein: „Konstant, solide, keine Formkrise. Einer der besten Spieler der Liga im Moment. {{team}} sollte alles tun, um ihn zu halten.“\n\nGut für die Moral — und für den Marktwert."
+        },
+        "negative": {
+          "subject0": "Esportmaníacos greift {{player}} an — das Panel kennt keine Gnade",
+          "body0": "Die Tertulianos von Esportmaníacos haben heute kein Blatt vor den Mund genommen bei {{player}}: „Der Typ ist völlig verschwunden. Was ist ihm in diesem Split passiert? {{team}} kann nicht weiterhin von einem Spieler abhängen, der so performed.“\n\nDiese Art von Berichterstattung trifft die Moral hart. Ein Gespräch mit dem Spieler wäre sinnvoll.",
+          "subject1": "Esportmaníacos zweifelt an der Konstanz von {{player}} bei {{team}}",
+          "body1": "Die heutige Tertulianos-Session von Esportmaníacos entwickelte sich zu einer vollständigen Analyse von {{player}}s jüngster Form. Das Urteil: „Inkonstant. Keine Regelmäßigkeit. Manchmal auf Top-Level, dann wieder unsichtbar. {{team}} verdient mehr von einem Spieler in dieser Rolle.“\n\nBehalte die Moral des Spielers im Blick."
+        }
+      },
+      "allio": {
+        "subject0": "Al Lío Podcast — Transfergerücht: {{player}} wird beobachtet",
+        "body0": "Eros hat im letzten Al-Lío-Episode einen Markttipp fallen lassen: „Ich höre Dinge über {{player}}. Mehrere Teams haben Fragen gestellt. Noch nichts bestätigt, aber der Mercato rund um {{team}} heizt sich auf.“\n\nBehalte das im Hinterkopf, wenn du deinen Kader für das nächste Split planst.",
+        "subject1": "Al Lío Podcast — Eros deutet eine eingehende Verpflichtung für {{team}} an",
+        "body1": "Eros lässt seit Tagen Hinweise auf Al Lío fallen: „Mir wurde gesagt, dass rund um {{team}} Gespräche stattfinden. Etwas wird gekocht. Ich kann noch keine Namen nennen, aber bleibt dran — dieser Mercato ist noch nicht vorbei.“\n\nKann Lärm sein, kann real sein. Es lohnt sich, aufzupassen.",
+        "subject2": "Al Lío Podcast — Liga-Format-Leak, Eros erklärt alles",
+        "body2": "Die heutige Al-Lío-Episode lief aus dem Ruder, als Eros einen möglichen Leak enthüllte: „Mir wurde gesagt, dass die Liga Formatänderungen für das nächste Split plant. Nicht offiziell, aber meine Quellen sind normalerweise zuverlässig. Das könnte die Art und Weise ändern, wie Teams ihre Kader aufbauen.“\n\nWenn es stimmt, könnte das deine langfristige Planung beeinflussen.",
+        "subject3": "Al Lío Podcast — Großer Transfer im Anmarsch, die Liga wird aufgewühlt",
+        "body3": "Eros ging live auf Al Lío mit dem, was er einen „Bombazo“ nannte: „Es steht eine bedeutende Spielerbewegung in der Liga bevor, über die noch niemand spricht. Ich sage nur das — einige Teams werden ihren Kader komplett überdenken müssen.“\n\nBleibt wachsam — der Markt bewegt sich.",
+        "rivalInterest": {
+          "subject": "Al Lío Podcast — {{player}} im Visier von {{rival}}",
+          "body0": "Eros eröffnete die letzte Al-Lío-Episode mit einer Bombe: 'Ich habe Informationen, dass {{rival}} begonnen hat, sich um {{player}} zu bemühen. Ihre Analysten überprüfen seit Wochen die letzten Serien und Solo-Queue-Daten. Noch kein formales Angebot, aber es wird schnell heiss.'\n\nWas ist eure Haltung, wenn sie Kontakt aufnehmen?",
+          "body1": "Al Lío Podcast hat exklusiv berichtet, dass {{player}} jetzt ein konkretes Ziel für {{rival}} ist.\n\nLaut Eros hat der Spieler nach jüngsten Bühnenauftritten Aufmerksamkeit erregt. Noch kein offizielles Angebot, aber der Druck steigt schnell.\n\nWas ist deine Haltung?"
+        }
+      },
+      "yuste": {
+        "up": {
+          "subject0": "el_yuste — sogar Yuste gibt zu: Viewer steigen diese Woche",
+          "body0": "Yuste überraschte seinen Stream mit einer seltenen positiven Meinung: „Ich bin ehrlich — die Zahlen steigen diese Woche und ich werde nicht so tun als ob nicht. Wenn die Matches gut sind, kommt das Publikum. So einfach ist das.“\n\nEin positiver Moment für die ganze Szene.",
+          "subject1": "el_yuste — die Matches dieser Woche haben sogar Yuste begeistert",
+          "body1": "Nicht etwas, das man jeden Tag hört: Yuste war in seinem Morgen-Stream enthusiastisch. „Diese Woche hat geliefert. Echte Matches, echte Stakes, Viewer, die bis zum Ende geblieben sind. Das ist das, was die Liga sein kann, wenn sie es versucht.“\n\nGute Woche für Esports."
+        },
+        "down": {
+          "subject0": "el_yuste — Liga-Viewerzahlen im freien Fall und niemand tut etwas",
+          "body0": "Antonio Yuste eröffnete seinen Morgen-Stream mit einer richtigen Beschwerde: „Die Zahlen lügen nicht. Die Viewer fallen Woche für Woche und die Liga macht weiterhin dasselbe und erwartet andere Ergebnisse. C'est fini, wenn sich nichts ändert.“\n\nNur Hintergrundrauschen — aber wenn Yuste spricht, hört die Community zu.",
+          "subject1": "el_yuste — das Liga-Produkt ist kaputt, laut Yuste",
+          "body1": "Yuste hat eine gute halbe Stunde seines Morgen-Streams damit verbracht, das sinkende Engagement der Liga zu analysieren: „Ich sage das seit Monaten. Das Produkt ist nicht gut genug. Das Format langweilt, der Spielplan killt den Schwung. Die Daten sind eindeutig.“\n\nHart, aber Yustes Publikum nimmt es ernst."
+        }
       }
     },
     "news": {

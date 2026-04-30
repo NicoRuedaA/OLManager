@@ -166,6 +166,73 @@ describe("ScoutingTab.model", () => {
     expect(lastPage.players).toHaveLength(5);
   });
 
+  it("filters by nationality name in any supported language", () => {
+    const teams = [
+      createTeam(),
+      createTeam({ id: "team-2", name: "Beta FC", short_name: "BET", manager_id: "manager-2" }),
+      createTeam({ id: "team-3", name: "Gamma FC", short_name: "GAM", manager_id: "manager-3" }),
+    ];
+    const players = [
+      createPlayer({ id: "british", team_id: "team-2", full_name: "John Smith", nationality: "GB" }),
+      createPlayer({ id: "brazilian", team_id: "team-3", full_name: "Carlos Goal", nationality: "BR" }),
+    ];
+
+    // Search by English country name
+    expect(
+      filterScoutablePlayers({
+        players,
+        teams,
+        myTeamId: "team-1",
+        posFilter: "All",
+        searchQuery: "brazil",
+      }).map((player) => player.id),
+    ).toEqual(["brazilian"]);
+
+    // Search by Spanish country name
+    expect(
+      filterScoutablePlayers({
+        players,
+        teams,
+        myTeamId: "team-1",
+        posFilter: "All",
+        searchQuery: "brasil",
+      }).map((player) => player.id),
+    ).toEqual(["brazilian"]);
+
+    // Search by Portuguese country name
+    expect(
+      filterScoutablePlayers({
+        players,
+        teams,
+        myTeamId: "team-1",
+        posFilter: "All",
+        searchQuery: "brasil",
+      }).map((player) => player.id),
+    ).toEqual(["brazilian"]);
+
+    // Search by ISO code should still work
+    expect(
+      filterScoutablePlayers({
+        players,
+        teams,
+        myTeamId: "team-1",
+        posFilter: "All",
+        searchQuery: "BR",
+      }).map((player) => player.id),
+    ).toEqual(["brazilian"]);
+
+    // Search by English country name for UK
+    expect(
+      filterScoutablePlayers({
+        players,
+        teams,
+        myTeamId: "team-1",
+        posFilter: "All",
+        searchQuery: "united kingdom",
+      }).map((player) => player.id),
+    ).toEqual(["british"]);
+  });
+
   it("builds the set of already scouted player ids", () => {
     const ids = buildAlreadyScoutingIds([
       createAssignment({ player_id: "player-1" }),

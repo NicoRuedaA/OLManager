@@ -77,9 +77,9 @@
         "startingBudget": 1550000
       },
       {
-        "id": "sft",
+        "id": "shft",
         "name": "Shifters",
-        "shortName": "SFT",
+        "shortName": "shft",
         "logo": "/images/teams/SFT.webp",
         "region": "EMEA",
         "competition": "LEC",

@@ -146,15 +146,22 @@ vi.mock("../components/match/LolResultScreen", () => ({
 vi.mock("../components/match/DraftResultScreen", () => ({
   default: ({
     onContinue,
+    onPressConference,
     result,
   }: {
     onContinue?: () => void;
+    onPressConference?: () => void;
     result?: unknown;
   }) => (
     <div>
       <div data-testid="postmatch-round-summary">
         {result ? JSON.stringify(result) : "null"}
       </div>
+      {onPressConference ? (
+        <button data-testid="postmatch-press" onClick={onPressConference}>
+          Press Conference
+        </button>
+      ) : null}
       <button data-testid="postmatch-finish" onClick={onContinue}>
         Finish Match
       </button>
@@ -788,6 +795,8 @@ describe("MatchSimulation", function (): void {
     await waitFor(function (): void {
       expect(screen.getByTestId("postmatch-finish")).toBeInTheDocument();
     });
+
+    expect(screen.queryByTestId("postmatch-press")).not.toBeInTheDocument();
 
     expect(mockedInvoke).not.toHaveBeenCalledWith(
       "finish_live_match",

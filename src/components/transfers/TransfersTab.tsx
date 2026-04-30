@@ -16,6 +16,9 @@ import {
   Gavel,
   Check,
   X,
+  ArrowUp,
+  ArrowDown,
+  ArrowUpDown,
 } from "lucide-react";
 import {
   getTeamName,
@@ -57,6 +60,9 @@ import {
   deriveTransferCollections,
   filterTransferPlayers,
   getCurrentTransferList,
+  sortTransferPlayers,
+  type TransferSortKey,
+  type TransferSortState,
   type TransferTabView,
 } from "./TransfersTab.model";
 
@@ -88,6 +94,32 @@ export default function TransfersTab({
   const [view, setView] = useState<TransferTabView>("my_list");
   const [search, setSearch] = useState("");
   const [posFilter, setPosFilter] = useState<string | null>(null);
+  const [sort, setSort] = useState<TransferSortState | null>(null);
+
+  const toggleSort = (key: TransferSortKey) => {
+    setSort((current) => {
+      if (!current || current.key !== key) {
+        return { key, direction: "desc" };
+      }
+      if (current.direction === "desc") {
+        return { key, direction: "asc" };
+      }
+      return null;
+    });
+  };
+
+  const renderSortIcon = (key: TransferSortKey) => {
+    if (!sort || sort.key !== key) {
+      return (
+        <ArrowUpDown className="w-3 h-3 text-gray-400 dark:text-gray-500 opacity-60 group-hover/sort:opacity-100 transition-opacity" />
+      );
+    }
+    return sort.direction === "desc" ? (
+      <ArrowDown className="w-3 h-3 text-primary-500" />
+    ) : (
+      <ArrowUp className="w-3 h-3 text-primary-500" />
+    );
+  };
   const [bidTarget, setBidTarget] = useState<PlayerData | null>(null);
   const [bidAmount, setBidAmount] = useState("");
   const [bidResult, setBidResult] = useState<
@@ -310,7 +342,10 @@ export default function TransfersTab({
     ];
 
   const currentList = getCurrentTransferList(view, transferCollections);
-  const filteredList = filterTransferPlayers(currentList, search, posFilter);
+  const filteredList = sortTransferPlayers(
+    filterTransferPlayers(currentList, search, posFilter),
+    sort,
+  );
   const weeklyWageBudget = myTeam
     ? annualAmountToWeeklyCommitment(myTeam.wage_budget)
     : 0;
@@ -522,13 +557,37 @@ export default function TransfersTab({
                       {t("common.team")}
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.value")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("value")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByValue", "Ordenar por valor")}
+                      >
+                        {t("common.value")}
+                        {renderSortIcon("value")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.wage")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("wage")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByWage", "Ordenar por salario")}
+                      >
+                        {t("common.wage")}
+                        {renderSortIcon("wage")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.ovr")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("ovr")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByOvr", "Ordenar por OVR")}
+                      >
+                        {t("common.ovr")}
+                        {renderSortIcon("ovr")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                       {t("common.status")}

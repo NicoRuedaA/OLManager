@@ -21,7 +21,8 @@ countries.registerLocale(frLocale);
 countries.registerLocale(deLocale);
 countries.registerLocale(itLocale);
 
-type SupportedLocale = "en" | "es" | "pt" | "fr" | "de" | "it";
+export type SupportedLocale = "en" | "es" | "pt" | "fr" | "de" | "it";
+export const SUPPORTED_LOCALES: SupportedLocale[] = ["en", "es", "pt", "fr", "de", "it"];
 
 interface FootballIdentityDefinition {
   code: string;

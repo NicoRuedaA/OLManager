@@ -5,6 +5,7 @@ import type { GameStateData } from "../../store/gameStore";
 import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 import teamsSeed from "../../../data/lec/draft/teams.json";
 import playersSeed from "../../../data/lec/draft/players.json";
 import championsSeed from "../../../data/lec/draft/champions.json";
@@ -479,6 +480,27 @@ function roleOrderedSnapshotPlayers<T extends { position: string; id: string }>(
   return [...ordered, ...remainder].slice(0, 5);
 }
 
+function roleOrderedSnapshotPlayersWithResolver<T extends { position: string; id: string }>(
+  players: T[],
+  resolveRole: (player: T) => Role,
+): T[] {
+  const byRole = new Map<Role, T>();
+  const used = new Set<string>();
+
+  for (const role of ROLE_ORDER) {
+    const player = players.find(
+      (candidate) => !used.has(candidate.id) && resolveRole(candidate) === role,
+    );
+    if (!player) continue;
+    byRole.set(role, player);
+    used.add(player.id);
+  }
+
+  const remainder = players.filter((candidate) => !used.has(candidate.id));
+  const ordered = ROLE_ORDER.map((role) => byRole.get(role)).filter((value): value is T => !!value);
+  return [...ordered, ...remainder].slice(0, 5);
+}
+
 function tierToMetaScore(tier: string): number {
   const normalized = tier.toUpperCase();
   if (normalized === "S") return 20;
@@ -815,12 +837,52 @@ export default function ChampionDraft({
       : t("match.draft.sides.red");
 
   const bluePlayers = useMemo(
-    () => roleOrderedSnapshotPlayers(snapshot.home_team.players),
-    [snapshot.home_team.players],
+    () => {
+      const homeSeed = TEAM_SEEDS.find(
+        (team) => normalizeKey(team.name) === normalizeKey(snapshot.home_team.name),
+      );
+      const homeSeedByIgn = new Map(
+        PLAYER_SEEDS
+          .filter((entry) => entry.teamId === homeSeed?.id)
+          .map((entry) => [normalizeKey(entry.ign), entry]),
+      );
+
+      return roleOrderedSnapshotPlayersWithResolver(snapshot.home_team.players, (player) => {
+        const fromState = gameState?.players.find((candidate) => candidate.id === player.id);
+        if (fromState) return resolvePlayerLolRole(fromState) as Role;
+
+        const fromSeed = homeSeedByIgn.get(normalizeKey((player as { name?: string }).name ?? ""));
+        const mappedSeedRole = fromSeed ? mapSeedRoleToDraftRole(String(fromSeed.role ?? "")) : null;
+        if (mappedSeedRole) return mappedSeedRole;
+
+        return mapSnapshotPositionToDraftRole(player.position);
+      });
+    },
+    [gameState?.players, snapshot.home_team.name, snapshot.home_team.players],
   );
   const redPlayers = useMemo(
-    () => roleOrderedSnapshotPlayers(snapshot.away_team.players),
-    [snapshot.away_team.players],
+    () => {
+      const awaySeed = TEAM_SEEDS.find(
+        (team) => normalizeKey(team.name) === normalizeKey(snapshot.away_team.name),
+      );
+      const awaySeedByIgn = new Map(
+        PLAYER_SEEDS
+          .filter((entry) => entry.teamId === awaySeed?.id)
+          .map((entry) => [normalizeKey(entry.ign), entry]),
+      );
+
+      return roleOrderedSnapshotPlayersWithResolver(snapshot.away_team.players, (player) => {
+        const fromState = gameState?.players.find((candidate) => candidate.id === player.id);
+        if (fromState) return resolvePlayerLolRole(fromState) as Role;
+
+        const fromSeed = awaySeedByIgn.get(normalizeKey((player as { name?: string }).name ?? ""));
+        const mappedSeedRole = fromSeed ? mapSeedRoleToDraftRole(String(fromSeed.role ?? "")) : null;
+        if (mappedSeedRole) return mappedSeedRole;
+
+        return mapSnapshotPositionToDraftRole(player.position);
+      });
+    },
+    [gameState?.players, snapshot.away_team.name, snapshot.away_team.players],
   );
   const bluePlayerLabels = useMemo(
     () => bluePlayers.map((player) => player.name.toUpperCase()),
@@ -886,6 +948,55 @@ export default function ChampionDraft({
 
     permute([...availableIndices], 0);
     return bestOrder;
+  };
+
+  const championAssignableRoles = (championId: string): Role[] => {
+    const hints = championById.get(championId)?.roleHints ?? [];
+    return hints.length > 0 ? hints : ROLE_ORDER;
+  };
+
+  const canAssignUniqueRoles = (selections: DraftSelection[]): boolean => {
+    if (selections.length === 0) return true;
+    if (selections.length > ROLE_ORDER.length) return false;
+
+    const options = selections
+      .map((selection) => championAssignableRoles(selection.championId))
+      .sort((left, right) => left.length - right.length);
+
+    const search = (index: number, used: Set<Role>): boolean => {
+      if (index >= options.length) return true;
+      const roles = options[index] ?? [];
+      for (const role of roles) {
+        if (used.has(role)) continue;
+        used.add(role);
+        if (search(index + 1, used)) return true;
+        used.delete(role);
+      }
+      return false;
+    };
+
+    return search(0, new Set<Role>());
+  };
+
+  const assignedRolesForSelections = (selections: DraftSelection[]): Set<Role> => {
+    const result = new Set<Role>();
+    const search = (index: number, used: Set<Role>): boolean => {
+      if (index >= selections.length) {
+        used.forEach((role) => result.add(role));
+        return true;
+      }
+      const roles = championAssignableRoles(selections[index].championId);
+      for (const role of roles) {
+        if (used.has(role)) continue;
+        used.add(role);
+        if (search(index + 1, used)) return true;
+        used.delete(role);
+      }
+      return false;
+    };
+
+    search(0, new Set<Role>());
+    return result;
   };
 
   const buildOrderedPicks = (
@@ -1146,26 +1257,24 @@ export default function ChampionDraft({
       const aiSide = currentStep.side;
       const ownPicks = aiSide === "blue" ? bluePicks : redPicks;
       const enemyPicks = aiSide === "blue" ? redPicks : bluePicks;
-      const expectedRole = ROLE_ORDER[ownPicks.length] ?? null;
-      const coveredRoles = new Set<Role>();
-      ownPicks.forEach((pick) => {
-        const champion = championById.get(pick.championId);
-        champion?.roleHints.forEach((role) => coveredRoles.add(role));
-      });
+      const coveredRoles = assignedRolesForSelections(ownPicks);
       const missingRoles = ROLE_ORDER.filter((role) => !coveredRoles.has(role));
 
-      const roleLockedCandidates =
-        expectedRole === null
-          ? []
-          : available.filter((champion) => champion.roleHints.includes(expectedRole));
-      const candidates = roleLockedCandidates.length > 0 ? roleLockedCandidates : available;
+      const candidates = available.filter((champion) =>
+        canAssignUniqueRoles([...ownPicks, { championId: champion.id }]),
+      );
+      const roleConstrainedCandidates =
+        missingRoles.length > 0
+          ? candidates.filter((champion) => champion.roleHints.some((role) => missingRoles.includes(role)))
+          : [];
+      const scoringPool = roleConstrainedCandidates.length > 0 ? roleConstrainedCandidates : candidates;
 
-      if (candidates.length === 0) return available[0] ?? null;
+      if (scoringPool.length === 0) return available[0] ?? null;
 
       let bestChampion: ChampionData | null = null;
       let bestScore = Number.NEGATIVE_INFINITY;
 
-      candidates.forEach((champion) => {
+      scoringPool.forEach((champion) => {
         const mastery = resolveTeamChampionMastery(aiSide, champion.id);
         const meta = metaScoreForChampion(champion);
         const roleNeedBonus =
@@ -1193,11 +1302,7 @@ export default function ChampionDraft({
 
     const targetSide = enemySideFor(currentStep.side);
     const targetPicks = targetSide === "blue" ? bluePicks : redPicks;
-    const alreadyCoveredRoles = new Set<Role>(
-      targetPicks
-        .map((pick) => pick.role)
-        .filter((role): role is Role => ROLE_ORDER.includes(role as Role)) as Role[],
-    );
+    const alreadyCoveredRoles = assignedRolesForSelections(targetPicks);
     const roleRelevantCandidates = available.filter((champion) => {
       if (alreadyCoveredRoles.size === 0) return true;
       if (champion.roleHints.length === 0) return true;
@@ -1240,25 +1345,21 @@ export default function ChampionDraft({
     }
 
     const ownPicks = controlledSide === "blue" ? bluePicks : redPicks;
-    const expectedRole = ROLE_ORDER[ownPicks.length] ?? null;
-    const coveredRoles = new Set<Role>();
-    ownPicks.forEach((pick) => {
-      const champion = championById.get(pick.championId);
-      champion?.roleHints.forEach((role) => coveredRoles.add(role));
-    });
+    const coveredRoles = assignedRolesForSelections(ownPicks);
     const missingRoles = ROLE_ORDER.filter((role) => !coveredRoles.has(role));
     const roleCandidates = available.filter((champion) =>
       missingRoles.some((role) => champion.roleHints.includes(role)),
     );
 
-    const roleLockedCandidates =
-      expectedRole === null
-        ? []
-        : available.filter((champion) => champion.roleHints.includes(expectedRole));
-    const pool = roleLockedCandidates.length > 0
-      ? roleLockedCandidates
-      : roleCandidates.length > 0
-        ? roleCandidates
+    const feasibleCandidates = available.filter((champion) =>
+      canAssignUniqueRoles([...ownPicks, { championId: champion.id }]),
+    );
+    const feasibleIds = new Set(feasibleCandidates.map((champion) => champion.id));
+    const prioritizedRoleCandidates = roleCandidates.filter((champion) => feasibleIds.has(champion.id));
+    const pool = prioritizedRoleCandidates.length > 0
+      ? prioritizedRoleCandidates
+      : feasibleCandidates.length > 0
+        ? feasibleCandidates
         : available;
     const randomIndex = Math.floor(Math.random() * pool.length);
     return pool[randomIndex] ?? null;

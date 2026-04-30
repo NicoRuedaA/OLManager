@@ -6,6 +6,18 @@ import type {
 import { getTeamName } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
+import { countryName, SUPPORTED_LOCALES } from "../../lib/countries";
+
+function getAllCountryNames(code: string): Set<string> {
+  const names = new Set<string>();
+  for (const locale of SUPPORTED_LOCALES) {
+    const name = countryName(code, locale);
+    if (name) {
+      names.add(name.toLowerCase());
+    }
+  }
+  return names;
+}
 
 interface FilterScoutablePlayersParams {
   players: PlayerData[];
@@ -40,6 +52,9 @@ export function filterScoutablePlayers({
         player.match_name.toLowerCase().includes(query) ||
         player.full_name.toLowerCase().includes(query) ||
         player.nationality.toLowerCase().includes(query) ||
+        [...getAllCountryNames(player.nationality)].some((name) =>
+          name.includes(query),
+        ) ||
         (player.team_id &&
           getTeamName(teams, player.team_id).toLowerCase().includes(query))
       );

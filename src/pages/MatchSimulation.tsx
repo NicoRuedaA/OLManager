@@ -28,10 +28,12 @@ import {
 import {
   lolSimV2RunToCompletion,
 } from "../components/match/lol-prototype/backend/tauri-client";
-import type {
-  LolSimV1MatchReportInput,
-  LolSimV1PolicyConfig,
-  LolSimV1RuntimeState,
+import {
+  createDefaultObjectivesState,
+  createEmptyNeutralTimersState,
+  type LolSimV1MatchReportInput,
+  type LolSimV1PolicyConfig,
+  type LolSimV1RuntimeState,
 } from "../components/match/lol-prototype/backend/contract-v1";
 import { computeRoleModifiers, ROLE_ORDER, type DraftRole } from "../lib/lolTactics";
 import { getLolStaffEffectsForTeam } from "../lib/lolStaffEffects";
@@ -1108,6 +1110,7 @@ export default function MatchSimulation() {
 
   const targetSeriesWins = seriesLength === 1 ? 1 : seriesLength === 3 ? 2 : 3;
   const isSeriesComplete = seriesLength === 1 || userSeriesWins >= targetSeriesWins || opponentSeriesWins >= targetSeriesWins;
+  const canOpenPressConference = seriesLength <= 1 || isSeriesComplete;
 
   // Callbacks for stage transitions
   const handleStartMatch = useCallback(() => {
@@ -1493,8 +1496,8 @@ export default function MatchSimulation() {
           champions: [],
           minions: [],
           structures: [],
-          objectives: {},
-          neutralTimers: {},
+          objectives: createDefaultObjectivesState(),
+          neutralTimers: createEmptyNeutralTimersState(),
           stats: {
             blue: { kills: simulated.blueKills, towers: 0, dragons: 0, barons: 0, gold: 0 },
             red: { kills: simulated.redKills, towers: 0, dragons: 0, barons: 0, gold: 0 },
@@ -1538,8 +1541,8 @@ export default function MatchSimulation() {
         champions: [],
         minions: [],
         structures: [],
-        objectives: {},
-        neutralTimers: {},
+        objectives: createDefaultObjectivesState(),
+        neutralTimers: createEmptyNeutralTimersState(),
         stats: {
           blue: { kills: 0, towers: 0, dragons: 0, barons: 0, gold: 0 },
           red: { kills: 0, towers: 0, dragons: 0, barons: 0, gold: 0 },
@@ -1588,8 +1591,12 @@ export default function MatchSimulation() {
 
   const handlePressConference = useCallback(() => {
     console.info("[MatchSimulation] handlePressConference");
+    if (!canOpenPressConference) {
+      return;
+    }
+
     setStage("press");
-  }, []);
+  }, [canOpenPressConference]);
 
   const handleFinishMatch = useCallback(async () => {
     console.info("[MatchSimulation] handleFinishMatch:start");
@@ -1733,7 +1740,7 @@ export default function MatchSimulation() {
               seriesGameIndex={Math.max(1, seriesGameIndex)}
               userSeriesWins={userSeriesWins}
               opponentSeriesWins={opponentSeriesWins}
-              onPressConference={handlePressConference}
+              onPressConference={canOpenPressConference ? handlePressConference : undefined}
               onContinue={handleDraftResultContinue}
             />
           );

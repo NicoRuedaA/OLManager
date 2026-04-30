@@ -289,17 +289,17 @@ pub(super) fn rival_interest_message(
     let mut rng = rand::rng();
     let variations = [
         format!(
-            "We've received word that {} have started making moves for {}.\n\n\
-            Their staff were seen reviewing recent series and solo queue data, and our sources \
-            suggest a formal approach may arrive soon.\n\n\
-            How would you like us to respond if they make contact?",
+            "Eros ha abierto el último episodio de Al Lío con una bomba: \"Tengo información de que {} ha empezado a moverse por {}. \
+            Sus analistas llevan semanas revisando sus últimas series y datos de solo queue. \
+            No hay oferta formal todavía, pero la cosa se está calentando rápido.\"\n\n\
+            ¿Cuál es vuestra postura si hacen contacto?",
             rival_name, player_name
         ),
         format!(
-            "Esports media are reporting that {} is now a concrete target for {}.\n\n\
-            According to sources, the player has attracted attention after recent stage performances. \
-            No formal bid yet, but pressure is building fast.\n\n\
-            What's your stance?",
+            "Al Lío Podcast ha publicado en exclusiva que {} está en la órbita concreta de {}.\n\n\
+            Según Eros, el jugador llamó la atención por sus últimos rendimientos en stage. \
+            Aún no hay oferta oficial, pero la presión viene creciendo rápido.\n\n\
+            ¿Cuál es tu postura?",
             player_name, rival_name
         ),
     ];
@@ -307,14 +307,14 @@ pub(super) fn rival_interest_message(
 
     InboxMessage::new(
         msg_id.to_string(),
-        format!("Roster Rumour — {} linked with {}", player_name, rival_name),
+        format!("Al Lío Podcast — {} en la órbita de {}", player_name, rival_name),
         variations[idx].clone(),
-        "Director of Football".to_string(),
+        "Al Lío Podcast".to_string(),
         date.to_string(),
     )
     .with_category(MessageCategory::Transfer)
     .with_priority(MessagePriority::Normal)
-    .with_sender_role("Director of Football")
+    .with_sender_role("Eros")
     .with_action(action(
         "respond",
         "Respond",
@@ -358,9 +358,9 @@ pub(super) fn rival_interest_message(
         ..Default::default()
     })
     .with_i18n(
-        "be.msg.rivalInterest.subject",
-        &format!("be.msg.rivalInterest.body{}", idx),
+        "be.msg.allio.rivalInterest.subject",
+        &format!("be.msg.allio.rivalInterest.body{}", idx),
         params(&[("player", player_name), ("rival", rival_name)]),
     )
-    .with_sender_i18n("be.sender.directorOfFootball", "be.role.directorOfFootball")
+    .with_sender_i18n("be.sender.allioPodcast", "be.role.allioPodcast")
 }

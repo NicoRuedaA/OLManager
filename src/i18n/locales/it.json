@@ -752,6 +752,7 @@
     "important": "Importante",
     "effectOutcomeLabel": "Esito",
     "chooseResponse": "Scegli la tua risposta",
+    "chooseResponseOutcomeVaries": "Scegli la tua risposta — l'esito può variare",
     "responded": "Risposta inviata",
     "markAllRead": "Segna tutto come letto",
     "clearOld": "Pulisci vecchi",
@@ -836,6 +837,9 @@
     "noOffers": "Nessuna offerta di trasferimento attiva al momento.",
     "noTransferMarket": "Nessun giocatore attualmente disponibile per il trasferimento.",
     "noLoanMarket": "Nessun giocatore attualmente disponibile per il prestito.",
+    "sortByValue": "Ordina per valore",
+    "sortByWage": "Ordina per salario",
+    "sortByOvr": "Ordina per OVR",
     "transfer": "Trasferimento",
     "loan": "Prestito",
     "none": "Nessuno",
@@ -888,6 +892,16 @@
     "noSchedule": "Nessun calendario di campionato disponibile.",
     "noLeague": "Nessun calendario di campionato disponibile.",
     "fixtures": "Partite",
+    "calendar": "Calendario",
+    "today": "Oggi",
+    "previousMonth": "Mese precedente",
+    "nextMonth": "Mese successivo",
+    "moreMatches": "altri",
+    "matchesOnDay": "Partite del giorno",
+    "playoffsStartEstimate": "Inizio playoff (st.)",
+    "playoffsStartEstimateHint": "Data stimata — gli accoppiamenti vengono generati al termine della stagione regolare.",
+    "seasonStart": "Inizio stagione",
+    "seasonStartHint": "Primo giorno della stagione regolare.",
     "standings": "Classifica",
     "matchday": "Giornata {{number}}",
     "season": "Stagione {{number}}"
@@ -1505,7 +1519,10 @@
       "intlLiaison": "Responsabile relazioni internazionali",
       "player": "Giocatore",
       "pressOfficer": "Addetto stampa",
-      "scout": "Osservatore"
+      "scout": "Osservatore",
+      "esportmaniacos": "Esportmaníacos",
+      "allioPodcast": "Al Lío Podcast",
+      "elYuste": "el_yuste"
     },
     "role": {
       "chairman": "Presidente",
@@ -1519,7 +1536,10 @@
       "directorOfFootball": "Direttore sportivo",
       "intlLiaison": "Responsabile relazioni internazionali",
       "player": "Giocatore",
-      "scout": "Osservatore"
+      "scout": "Osservatore",
+      "esportmaniacos": "Panel",
+      "allioPodcast": "Eros",
+      "elYuste": "el_yuste"
     },
     "source": {
       "sportsGazette": "Esports Gazette",
@@ -1864,6 +1884,49 @@
       "jobRejection": {
         "subject": "Aggiornamento Candidatura — {{team}}",
         "body": "Grazie per il tuo interesse per la posizione di allenatore al {{team}}. Dopo un'attenta valutazione, abbiamo deciso di proseguire con altri candidati. Ti auguriamo il meglio per la tua futura carriera."
+      },
+      "esportmaniacos": {
+        "positive": {
+          "subject0": "Esportmaníacos elogia {{player}} — il panel è unanime",
+          "body0": "I tertulianos di Esportmaníacos hanno dedicato una buona parte dello stream di oggi a parlare di {{player}} per {{team}}.\n\n«Nulla da criticare questa settimana. Il tizio sta dominando in modo impressionante.» Difficile contradire questo. La copertura positiva dovrebbe aumentare il morale nello spogliatoio.",
+          "subject1": "Esportmaníacos: {{player}} porta {{team}} sulle spalle in questo split",
+          "body1": "I tertulianos di Esportmaníacos raramente concordano, ma {{player}} ha ottenuto un giudizio senza riserve oggi: «Costante, solido, senza cali di forma. Uno dei migliori giocatori della lega in questo momento. {{team}} dovrebbe fare di tutto per tenerlo.»\n\nBene per il morale — e per il valore di mercato."
+        },
+        "negative": {
+          "subject0": "Esportmaníacos attacca {{player}} — il panel senza pietà",
+          "body0": "I tertulianos di Esportmaníacos non si sono trattenuti oggi su {{player}}: «Il tizio è completamente sparito. Cosa gli è successo in questo split? {{team}} non può continuare a dipendere da un giocatore che performa così.»\n\nQuesto tipo di copertura tende a colpire duramente il morale. Vale la pena parlare con il giocatore.",
+          "subject1": "Esportmaníacos mette in discussione la costanza di {{player}} in {{team}}",
+          "body1": "La sessione tertulianos di Esportmaníacos di oggi si è trasformata in un'analisi completa delle prestazioni recenti di {{player}}. Verdetto: «Irregolare. Nessuna costanza. Certi giorni al top, altri completamente invisibile. {{team}} merita di più da un giocatore in quel ruolo.»\n\nTieni d'occhio il morale del giocatore."
+        }
+      },
+      "allio": {
+        "subject0": "Al Lío Podcast — Rumor di trasferimento: {{player}} nel mirino",
+        "body0": "Eros ha lasciato cadere un suggerimento di mercato nell'ultimo episodio di Al Lío: «Sto sentendo cose su {{player}}. Diverse squadre hanno fatto domande. Niente di confermato ancora, ma il mercato intorno a {{team}} si sta scaldando.»\n\nTienitelo in mente quando pianifichi la tua rosa per il prossimo split.",
+        "subject1": "Al Lío Podcast — Eros suggerisce un movimento in entrata per {{team}}",
+        "body1": "Eros da giorni lascia indizi su Al Lío: «Mi è stato detto che ci sono conversazioni intorno a {{team}}. Qualcosa si sta cucinando. Non posso ancora dare nomi, ma restate sintonizzati — questo mercato non è finito.»\n\nPotrebbe essere rumore, potrebbe essere reale. Vale la pena stare attenti.",
+        "subject2": "Al Lío Podcast — Leak sul formato della lega, Eros spiega tutto",
+        "body2": "L'episodio di Al Lío di oggi è andato fuori copione quando Eros ha rivelato un possibile leak: «Mi è stato detto che la lega sta pianificando cambiamenti al formato dello split. Non è ufficiale, ma le mie fonti sono di solito affidabili. Questo potrebbe cambiare il modo in cui le squadre costruiscono i loro roster.»\n\nSe fosse vero, potrebbe influenzare la tua pianificazione a lungo termine.",
+        "subject3": "Al Lío Podcast — Grande movimento in arrivo, la lega si agita",
+        "body3": "Eros è andato live su Al Lío con quello che ha chiamato un «bombazo»: «Sta per succedere un importante movimento di giocatore nella lega di cui nessuno parla ancora. Dirò solo questo — alcune squadre dovranno ripensare completamente i loro roster.»\n\nRimani all'erta — il mercato si muove.",
+        "rivalInterest": {
+          "subject": "Al Lío Podcast — {{player}} nel mirino di {{rival}}",
+          "body0": "Eros ha aperto l'ultimo episodio di Al Lío con una bomba: «Ho informazioni che {{rival}} ha iniziato a muoversi per {{player}}. I loro analisti stanno esaminando le ultime serie e i dati di solo queue da settimane. Nessuna offerta formale ancora, ma le cose si stanno scaldando velocemente.»\n\nQual è la vostra posizione se prendono contatto?",
+          "body1": "Al Lío Podcast ha riportato in esclusiva che {{player}} è ora un obiettivo concreto per {{rival}}.\n\nSecondo Eros, il giocatore ha attirato attenzione dopo le recenti prestazioni sul palco. Ancora nessuna offerta ufficiale, ma la pressione cresce velocemente.\n\nQual è la tua posizione?"
+        }
+      },
+      "yuste": {
+        "up": {
+          "subject0": "el_yuste — perfino Yuste ammette: gli spettatori salgono questa settimana",
+          "body0": "Yuste ha sorpreso il suo stream con un raro parere positivo: «Sarò onesto — i numeri stanno salendo questa settimana e non farò finta di non vederlo. Quando i match sono buoni, il pubblico torna. Semplice.»\n\nUn momento positivo per tutta la scena.",
+          "subject1": "el_yuste — i match di questa settimana hanno entusiasmato perfino Yuste",
+          "body1": "Non è una cosa che si sente ogni giorno: Yuste era entusiasta nel suo stream mattutino. «Questa settimana ha consegnato. Match veri, posta vera, spettatori rimasti fino alla fine. Questo è quello che può essere la lega quando ci prova.»\n\nBuona settimana per gli esports."
+        },
+        "down": {
+          "subject0": "el_yuste — gli spettatori della lega crollano e nessuno fa niente",
+          "body0": "Antonio Yuste ha aperto il suo stream mattutino con una vera lamentela: «I numeri non mentono. Gli spettatori calano settimana dopo settimana e la lega continua a fare le stesse cose aspettandosi risultati diversi. C'est fini se non cambia niente.»\n\nSolo rumore di fondo — ma quando Yuste parla, la community ascolta.",
+          "subject1": "el_yuste — il prodotto della lega è rotto, secondo Yuste",
+          "body1": "Yuste ha dedicato una buona mezz'ora del suo stream mattutino ad analizzare il calo di engagement della lega: «Lo dico da mesi. Il prodotto non è abbastanza buono. Il formato annoia, il calendario uccide il momentum. I dati sono chiari.»\n\nDuro, ma l'audience di Yuste lo prende sul serio."
+        }
       }
     },
     "news": {
