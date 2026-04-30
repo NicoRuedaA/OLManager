@@ -14,8 +14,8 @@
 Implementar un modo online para 2 jugadores donde cada jugador controla un equipo diferente en la misma partida, manteniendo 100% de compatibilidad con el modo single-player existente.
 
 **Propuesta en 2 fases:**
-1. **Fase 1 (Hotseat Local)**: 2 jugadores en la misma máquina, turnándose
-2. **Fase 2 (Online P2P)**: 2 jugadores conectados vía WebRTC
+1. **Fase 1 (Foundation)**: ✅ COMPLETADA - Estructura de datos + persistencia
+2. **Fase 2 (Online P2P)**: 2 jugadores conectados vía WebRTC (cada uno en su PC)
 
 ---
 
@@ -104,48 +104,126 @@ pub enum MultiplayerMode {
 
 ## Implementation Plan
 
-### Phase 1: Foundation (Non-Breaking)
-**Duration**: 2-3 days  
-**Risk**: None
+### Phase 1: Foundation (Non-Breaking) ✅ COMPLETADA
+**Duration**: 2-3 días  
+**Risk**: None  
+**Status**: ✅ **DONE** (branch `online-mvp`)
 
-- [ ] Add `player2_manager: Option<Manager>` to `Game` struct
-- [ ] Add `multiplayer_mode` enum
-- [ ] Add `player1_day_ready` / `player2_day_ready` flags
-- [ ] Create database migration V29 (additive only)
-- [ ] Update serde serialization tests
+- [x] Add `player2_manager: Option<Manager>` to `Game` struct
+- [x] Add `multiplayer_mode` enum
+- [x] Add `player1_day_ready` / `player2_day_ready` flags
+- [x] Create database migration V29 (additive only)
+- [x] Update serde serialization tests
+- [x] 7 unit tests passing, 4 migration tests passing
 
-### Phase 2: Hotseat Mode (Local Multiplayer)
-**Duration**: 1-2 weeks  
-**Risk**: Low (behind feature flag)
-
-- [ ] Add player selector UI (header)
-- [ ] Implement "End Turn" button
-- [ ] Day advancement waits for both players
-- [ ] Each player sees only their team's data
-- [ ] Feature flag: `MULTIPLAYER_HOTSEAT`
-
-### Phase 3: Online P2P Infrastructure
-**Duration**: 2-3 weeks  
+### Phase 2: Online P2P Mode
+**Duration**: 3-4 semanas  
 **Risk**: Medium
 
-- [ ] WebRTC integration (`webrtc-rs` crate)
-- [ ] Signaling server (minimal, for handshake)
-- [ ] Room code system (create/join)
-- [ ] Host-client state synchronization
-- [ ] Connection status UI
+#### 2.1 Network Infrastructure
+- [ ] WebRTC integration (`webrtc-rs` crate) - P2P directo entre jugadores
+- [ ] Signaling server (HTTP simple) - Solo para handshake inicial
+- [ ] Room code system - Crear/unirse con código de 6 dígitos
+- [ ] Connection management - Reconexión, timeout, disconnect handling
 
-### Phase 4: Multiplayer-Aware Game Logic
-**Duration**: 2-3 weeks  
-**Risk**: Medium
+#### 2.2 Host-Client Architecture
+- [ ] Host: ejecuta lógica de juego, guarda partida
+- [ ] Client: envía acciones, recibe estado actualizado
+- [ ] State sync: Host → Client después de cada acción
+- [ ] Action forwarding: Client → Host para todas las acciones
+- [ ] Backup save en Client: por si Host se desconecta
 
-- [ ] Refactor `process_day()` for multiple managers
-- [ ] Transfer bidding system (both players see offers)
-- [ ] Staff hiring locks (prevent conflicts)
-- [ ] PvP match simulation (host simulates, both see result)
-- [ ] Conflict resolution rules
+#### 2.3 Frontend UI Components
 
-### Phase 5: Polish & Release
-**Duration**: 1 week  
+**Multiplayer Menu**:
+```
+┌─────────────────────────────────────────────────┐
+│  Multiplayer                                    │
+│                                                 │
+│  [Create Online Room]                           │
+│                                                 │
+│  Room Code: _____  [Join Room]                  │
+│                                                 │
+│  ─────────────────────────────────────────────  │
+│  Or play single-player [Back]                   │
+└─────────────────────────────────────────────────┘
+```
+
+**Room Lobby (Host)**:
+```
+┌─────────────────────────────────────────────────┐
+│  Room: ABC123 (Waiting for opponent...)         │
+│                                                 │
+│  Your Team: [Select Team ▼]                     │
+│                                                 │
+│  Opponent: Not connected yet...                 │
+│                                                 │
+│  Room Code: ABC123 (Share with friend)          │
+│  [Copy] [Cancel]                                │
+└─────────────────────────────────────────────────┘
+```
+
+**Room Lobby (Client)**:
+```
+┌─────────────────────────────────────────────────┐
+│  Joining room: ABC123...                        │
+│                                                 │
+│  Host: PlayerName                               │
+│  Their Team: Fnatic                             │
+│                                                 │
+│  Your Team: [Select Team ▼]                     │
+│  (Cannot select Fnatic - already chosen)        │
+│                                                 │
+│  [Join Game] [Cancel]                           │
+└─────────────────────────────────────────────────┘
+```
+
+**Connection Status (In-Game)**:
+```
+┌─────────────────────────────────────────────────┐
+│  Day 15  |  🟢 Opponent connected              │
+└─────────────────────────────────────────────────┘
+
+Or if disconnected:
+┌─────────────────────────────────────────────────┐
+│  Day 15  |  🔴 Opponent disconnected            │
+│                                                 │
+│  Game saved locally. You can:                  │
+│  - [Continue Offline]                           │
+│  - [Wait for Reconnection]                      │
+└─────────────────────────────────────────────────┘
+```
+
+#### 2.4 Game Logic Modifications
+- [ ] Day advancement: Ambos jugadores deben marcar "Ready"
+- [ ] Host procesa `process_day()` y sync a Client
+- [ ] PvP matches: Host simula, ambos ven mismo resultado
+- [ ] Transfer market: Ambos ven todas las ofertas
+- [ ] Staff hiring: Lock cuando un jugador hace oferta
+- [ ] Conflict resolution: Host tiene autoridad final
+
+#### 2.5 Tauri Commands (New)
+```rust
+// Network
+#[tauri::command]
+pub fn multiplayer_create_room() -> Result<String, String>  // Returns room code
+#[tauri::command]
+pub fn multiplayer_join_room(code: String) -> Result<(), String>
+#[tauri::command]
+pub fn multiplayer_disconnect() -> Result<(), String>
+
+// Game state sync (Host → Client)
+#[tauri::command]
+pub fn multiplayer_sync_state() -> Result<Game, String>
+
+// Day readiness (both players)
+#[tauri::command]
+pub fn mark_day_ready() -> Result<Game, String>
+// Modified to work for both host and client
+```
+
+### Phase 3: Polish & Release
+**Duration**: 1 semana  
 **Risk**: Low
 
 - [ ] Testing (network conditions, edge cases)
