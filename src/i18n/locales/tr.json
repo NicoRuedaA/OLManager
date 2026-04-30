@@ -1099,6 +1099,7 @@
     "important": "Önemli",
     "effectOutcomeLabel": "Sonuç",
     "chooseResponse": "Yanıtınızı seçin",
+    "chooseResponseOutcomeVaries": "Yanıtınızı seçin — sonuç değişebilir",
     "responded": "Yanıt gönderildi",
     "markAllRead": "Tümünü okundu işaretle",
     "clearOld": "Eskileri temizle",
@@ -1185,6 +1186,9 @@
     "noTransferMarket": "Şu anda transfere uygun oyuncu yok.",
     "noErlMarket": "Şu anda transfere uygun ERL oyuncusu yok.",
     "noLoanMarket": "Şu anda kiralanmaya uygun oyuncu yok.",
+    "sortByValue": "Değere göre sırala",
+    "sortByWage": "Maaşa göre sırala",
+    "sortByOvr": "OVR'ye göre sırala",
     "transfer": "Transfer",
     "loan": "Kiralık",
     "none": "Hiçbiri",
@@ -1238,12 +1242,23 @@
     "noSchedule": "Lig fikstürü bulunmuyor.",
     "noLeague": "Lig fikstürü bulunmuyor.",
     "fixtures": "Fikstür",
+    "calendar": "Takvim",
+    "today": "Bugün",
+    "previousMonth": "Önceki ay",
+    "nextMonth": "Sonraki ay",
+    "moreMatches": "daha fazla",
+    "matchesOnDay": "Bu gündeki maçlar",
+    "playoffsStartEstimate": "Playoff başlangıcı (tahmini)",
+    "playoffsStartEstimateHint": "Tahmini tarih — eşleşmeler normal sezon sona erdiğinde oluşturulur.",
+    "seasonStart": "Sezon başlangıcı",
+    "seasonStartHint": "Normal sezonun ilk günü.",
     "standings": "Puan Durumu",
     "viewResult": "Sonucu gör",
     "matchday": "{{number}}. Maç Günü",
     "playoffs": "Playofflar",
     "round": "{{number}}. Tur",
-    "season": "Sezon {{number}}"
+    "season": "Sezon {{number}}",
+    "lastResult": "Son sonuç"
   },
   "players": {
     "searchPlaceholder": "İsme veya uyruğa göre ara...",
@@ -1290,6 +1305,8 @@
     "winRateShort": "WR",
     "killsShort": "K",
     "deathsShort": "D",
+    "mapScore": "Harita Skoru",
+    "mapsDiff": "Harita +/-",
     "playoffBracketTitle": "Playoff ağacı",
     "upperBracket": "Üst Grup (Upper Bracket)",
     "lowerBracket": "Alt Grup (Lower Bracket)",
@@ -1804,6 +1821,10 @@
       "bestOfMatch": "Maçın en iyisi",
       "goldAdvantage": "Altın avantajı",
       "duration": "Süre",
+      "finalGold": "Final",
+      "evenGold": "Eşit",
+      "peakGold": "Zirve",
+      "goldScale": "Ölçek",
       "performance": "Performans",
       "gameTimeline": "Oyun zaman çizelgesi",
       "blueNext": "Sonraki Mavi",
@@ -1853,6 +1874,7 @@
     "viewDetails": "Detayları gör",
     "matchDetails": "Maç Detayları",
     "scorers": "Skorerler",
+    "tactics": "Taktik Hazırlığı",
     "noGoals": "Skor üretilmedi.",
     "matchComplete": "Maç tamamlandı.",
     "addressPress": "Basına konuşun veya geri dönün.",
@@ -2062,7 +2084,10 @@
     "seasonComplete": "Sezon Tamamlandı",
     "champions": "Şampiyonlar!",
     "position": "Sıra",
+    "finalPosition": "Final sıralaması",
     "points": "Puan",
+    "regularPhaseSummary": "Normal sezon özeti",
+    "regularPhaseStandings": "Normal sezon puan durumu (İlk 5)",
     "finalStandings": "Son Puan Durumu (İlk 5)",
     "leagueChampions": "Lig Şampiyonları",
     "startNextSeason": "Sonraki Sezona Başla",
@@ -2103,7 +2128,10 @@
       "scout": "Gözlemci (Scout)",
       "performanceStaff": "Performans Ekibi",
       "coachingStaff": "Teknik Ekip",
-      "academyCoordinator": "Akademi Koordinatörü"
+      "academyCoordinator": "Akademi Koordinatörü",
+      "esportmaniacos": "Esportmaníacos",
+      "allioPodcast": "Al Lío Podcast",
+      "elYuste": "el_yuste"
     },
     "role": {
       "chairman": "Başkan",
@@ -2120,7 +2148,10 @@
       "scout": "Gözlemci",
       "performanceStaff": "Performans Ekibi",
       "coachingStaff": "Teknik Ekip",
-      "academyCoordinator": "Akademi Koordinatörü"
+      "academyCoordinator": "Akademi Koordinatörü",
+      "esportmaniacos": "Panel",
+      "allioPodcast": "Eros",
+      "elYuste": "el_yuste"
     },
     "source": {
       "sportsGazette": "Dot Esports",
@@ -2184,6 +2215,10 @@
       "boardObjectives": {
         "subject": "Sezon {{season}} — Yönetim Hedefleri",
         "body": "Yönetim bu sezon için aşağıdaki hedefleri belirledi:\n\n1. İlk {{expectedPos}} içinde bitir\n2. En az {{winTarget}} maç kazan\n3. En az {{goalsTarget}} skor üret\n\nBu hedeflere ulaşmak, yönetimin size olan güvenini artıracaktır. Beklentilerin karşılanmaması bütçe kesintilerine veya daha ciddi sonuçlara yol açabilir."
+      },
+      "boardObjectiveReview": {
+        "subject": "Sezon {{season}} — Yönetim Hedefleri Değerlendirmesi",
+        "body": "Yönetim, mevsim sonu hedef değerlendirmesini tamamladı. {{metCount}}/{{total}} hedefi gerçekleştirdiniz.\n\nMenajer memnuniyeti etkisi: {{satisfactionDelta}}.\n\nBu değerlendirme mevsim boyunca rekabetçi performansı yansıtır: final sıralaması, seri galibiyetleri, harita galibiyetleri, draft hazırlığı ve kadro uygulaması."
       },
       "financeCritical": {
         "subject": "ACİL: Kulüp Borçta",
@@ -2541,6 +2576,49 @@
         "subject": "Akademi haftalık raporu: {{academy}}",
         "body": "Akademi haftalık özeti:\n- Aktif oyuncular: {{activePlayers}}\n- Ortalama OVR: {{avgOvr}}\n- Yüksek potansiyelli yetenekler (>= 80): {{highPotential}}\n- Önemli anlar: {{highlights}}\n- Mevcut ERL sırası: {{total}} takım içinde #{{position}}.\n- Hızlı tablo: {{tablePreview}}",
         "bodyWithPromotion": "Akademi haftalık özeti:\n- Aktif oyuncular: {{activePlayers}}\n- Ortalama OVR: {{avgOvr}}\n- Yüksek potansiyelli yetenekler (>= 80): {{highPotential}}\n- Önemli anlar: {{highlights}}\n- Mevcut ERL sırası: {{total}} takım içinde #{{position}}.\n- Hızlı tablo: {{tablePreview}}\n\nÖneri: {{promotionCount}} oyuncu as takıma çıkmaya hazır -> {{promotionList}}."
+      },
+      "esportmaniacos": {
+        "positive": {
+          "subject0": "Esportmaníacos, {{player}} oyuncusunu övüyor — masa hemfikir",
+          "body0": "Esportmaníacos paneli bugünkü yayının önemli bir bölümünü {{team}} takımındaki {{player}} hakkında konuşarak geçirdi.\n\n\"Bu hafta eleştirilecek hiçbir şey yok. Çocuk resmen domine ediyor.\" Bu olumlu haber soyunma odasında özgüveni artırmalı.",
+          "subject1": "Esportmaníacos: {{player}}, bu mevsim {{team}} takımını taşıyor",
+          "body1": "Esportmaníacos yorumcuları nadiren herhangi bir konuda aynı fikirde olur, ama {{player}} bugün tam not aldı: \"İstikrarlı, sağlam, form düşüşü yok. Şu anda ligin en iyi oyuncularından biri. {{team}} onu tutmak için elinden geleni yapmalı.\"\n\nMoral için de piyasa değeri için de iyi."
+        },
+        "negative": {
+          "subject0": "Esportmaníacos, {{player}} üzerine gidiyor — panel acımadı",
+          "body0": "Esportmaníacos paneli bugün {{player}} konusunda kendini tutmadı: \"Çocuk tamamen kayboldu. Bu mevsim ona ne oldu? {{team}}, böyle performans gösteren bir oyuncuya güvenmeye devam edemez.\"\n\nBu tür haberler morali sert vurur. Oyuncuyla konuşmaya değer.",
+          "subject1": "Esportmaníacos, {{team}} takımındaki {{player}} oyuncusunun istikrarını sorguluyor",
+          "body1": "Bugünkü Esportmaníacos yorumcu oturumu, {{player}} oyuncusunun son formunun tam bir analizine dönüştü. Karar: \"İstikrarsız. Düzen yok. Bazı günler üst seviyede, bazı günler tamamen görünmez. {{team}}, bu roldeki bir oyuncudan daha iyi çıktı hak ediyor.\"\n\nOyuncunun moralini takip edin."
+        }
+      },
+      "allio": {
+        "subject0": "Al Lío Podcast — Transfer dedikodusu: {{player}} takip ediliyor",
+        "body0": "Eros bugünkü Al Lío bölümünde transfer iması yaptı: \"{{player}} hakkında bazı şeyler duyuyorum. Birden fazla takım soru sordu. Henüz doğrulanmış bir şey yok ama {{team}} etrafındaki mercato ısınıyor.\"\n\nGelecek mevsim kadronuzu planlarken bunu aklınızda bulundurun.",
+        "subject1": "Al Lío Podcast — Eros, {{team}} için yaklaşan bir hamleye işaret ediyor",
+        "body1": "Eros, son Al Lío bölümünde ipuçları vermeye devam etti: \"{{team}} etrafında bazı görüşmeler yapıldığı söylendi. Bir şeyler pişiyor. Henüz isim veremem ama takipte kalın — bu mercato bitmekten çok uzak.\"\n\nGürültü de olabilir, gerçek de. İzlemeye değer.",
+        "subject2": "Al Lío Podcast — Lig formatı sızıntısı, Eros detaylandırıyor",
+        "body2": "Bugünkü Al Lío bölümü, Eros'un potansiyel bir sızıntıyı açıklamasıyla plan dışına çıktı: \"Ligin split formatında değişiklikler planladığı söylendi. Doğrulanmadı ama kaynaklarım genelde güvenilirdir. Bu, takımların kadrolarını kurma şeklini sarsabilir.\"\n\nDoğruysa uzun vadeli planlamanızı etkileyebilir.",
+        "subject3": "Al Lío Podcast — Büyük hamle geliyor, lig sarsılıyor",
+        "body3": "Eros, Al Lío canlı yayınında \"bombazo\" dediği haberi verdi: \"Ligde kimsenin henüz konuşmadığı önemli bir oyuncu hareketi olmak üzere. Sadece şunu söyleyeyim — bazı takımlar kadrolarını tamamen yeniden düşünmek zorunda kalacak.\"\n\nDikkatli olun — piyasa hareketleniyor.",
+        "rivalInterest": {
+          "subject": "Al Lío Podcast — {{player}}, {{rival}} ile anılıyor",
+          "body0": "Eros son Al Lío bölümünü bomba gibi bir haberle açtı: \"{{rival}} takımının {{player}} için hamle yapmaya başladığı bilgisine sahibim. Analistleri haftalardır son serileri ve solo queue verilerini inceliyor. Henüz resmi teklif yok ama işler hızla ısınıyor.\"\n\nTemasa geçerlerse tavrınız ne olacak?",
+          "body1": "Al Lío Podcast, {{player}} oyuncusunun artık {{rival}} için somut bir hedef olduğunu özel olarak bildirdi.\n\nEros'a göre oyuncu, son sahne performanslarının ardından dikkat çekti. Henüz resmi teklif yok ama baskı hızla artıyor.\n\nTavrınız ne?"
+        }
+      },
+      "yuste": {
+        "up": {
+          "subject0": "el_yuste — Yuste bile kabul ediyor: bu hafta izlenme arttı",
+          "body0": "Yuste yayınında nadir görülen olumlu bir yorumla herkesi şaşırttı: \"Dürüst olayım — rakamlar bu hafta yükseldi ve bunun aksini iddia etmeyeceğim. Maçlar iyi olduğunda izleyici geliyor. Bu kadar basit.\"\n\nTüm sahne için olumlu bir an.",
+          "subject1": "el_yuste — bu haftaki maçlar Yuste'yi gerçekten heyecanlandırdı",
+          "body1": "Her gün duyacağınız bir şey değil: Yuste sabah yayınında hevesliydi. \"Bu hafta hakkını verdi. Gerçek maçlar, ciddi bahisler, sonuna kadar kalan izleyiciler. Lig uğraştığında böyle olabilir.\"\n\nEsporda olmak için iyi bir hafta."
+        },
+        "down": {
+          "subject0": "el_yuste — lig izlenmeleri çakılıyor ve kimse umursamıyor",
+          "body0": "Antonio Yuste sabah yayınını tam bir rant ile açtı: \"Rakamlar yalan söylemez. İzlenme haftadan haftaya düşüyor ve lig farklı sonuçlar bekleyerek aynı şeyleri yapmaya devam ediyor. Bir şey değişmezse c'est fini.\"\n\nSadece arka plan gürültüsü — ama Yuste konuştuğunda topluluk dinler.",
+          "subject1": "el_yuste — Yuste'ye göre lig ürünü bozuk",
+          "body1": "Yuste sabah yayınında ligin düşen etkileşimini analiz etmek için otuz dakika harcadı: \"Bunu aylardır söylüyorum. Ürün yeterince iyi değil. Format insanları sıkıyor, programlama momentumu öldürüyor. Veri net.\"\n\nSert, ama Yuste'nin kitlesi bunu ciddiye alıyor."
+        }
       }
     },
     "news": {
