@@ -264,25 +264,60 @@ async fn get_public_ip() -> Option<String> {
     }
 }
 
-/// Join an existing room (client)
+/// Join an existing room (client - MVP WebSocket)
 #[tauri::command]
 pub async fn multiplayer_join_room(
-    _state: State<'_, StateManager>,
-    room_code: String,
+    host_ip: String,
+    port: Option<u16>,
     client_name: String,
-) -> Result<(), String> {
-    log::info!("Joining room {} as {}", room_code, client_name);
+) -> Result<ConnectionStatus, String> {
+    let port = port.unwrap_or(3000);
     
-    // TODO: Integrate with signaling server
-    // For now, just log the attempt
+    log::info!("Joining {}:{} as {}", host_ip, port, client_name);
     
-    Ok(())
+    // Create WebSocket client
+    let mut client = WebSocketClient::new();
+    
+    // Connect to Host's WebSocket server
+    client.connect(&host_ip, port).await?;
+    
+    // Send handshake
+    let handshake = NetworkMessage::Handshake {
+        player_name: client_name.clone(),
+        player_num: 2, // Client is always player 2
+    };
+    
+    client.send(&handshake).await?;
+    
+    // Wait for handshake response (with timeout)
+    let status = tokio::time::timeout(
+        tokio::time::Duration::from_secs(10),
+        async {
+            while let Some(msg) = client.receive().await? {
+                if let NetworkMessage::HandshakeResponse { success, game_state, error } = msg {
+                    return Ok(ConnectionStatus {
+                        connected: success,
+                        is_host: false,
+                        peer_name: Some(client_name.clone()),
+                        last_error: error,
+                    });
+                }
+            }
+            Err("No response from host".to_string())
+        }
+    ).await
+        .map_err(|_| "Connection timeout".to_string())?
+        .map_err(|e| format!("Handshake failed: {}", e))?;
+    
+    log::info!("Connected to {}:{} as {}", host_ip, port, client_name);
+    
+    Ok(status)
 }
 
 /// Disconnect from current room
 /// 
 /// On Client: creates a final backup before disconnecting
-/// On Host: just cleans up the connection
+/// On Host: stops WebSocket server and cleans up
 #[tauri::command]
 pub async fn multiplayer_disconnect(
     state: State<'_, StateManager>,
@@ -310,6 +345,10 @@ pub async fn multiplayer_disconnect(
             }
         }
         
+        // Disconnect WebSocket client
+        // TODO: Get actual client instance from state
+        log::info!("Disconnecting WebSocket client");
+        
         // Try to load the backup
         match crate::commands::backup_save::multiplayer_load_backup(
             state.clone(),
@@ -325,9 +364,10 @@ pub async fn multiplayer_disconnect(
             }
         }
     } else {
-        // Host: just clean up
-        // TODO: Clean up WebRTC connection
-        // TODO: Notify signaling server
+        // Host: stop WebSocket server
+        log::info!("Host disconnecting - stopping WebSocket server");
+        // TODO: Get server instance from state and call stop()
+        // For now, just log
         
         Ok(None)
     }
@@ -374,37 +414,41 @@ pub async fn mark_day_ready(
     Ok(game.clone())
 }
 
-/// Get current connection status
+/// Get current connection status (MVP WebSocket)
 #[tauri::command]
 pub async fn get_connection_status(
     _state: State<'_, StateManager>,
 ) -> Result<ConnectionStatus, String> {
-    // TODO: Get actual status from WebRTC manager
-    // For now, return disconnected
+    // TODO: Get actual status from WebSocket server/client
+    // For now, return disconnected (will be updated when state is integrated)
     
     Ok(ConnectionStatus {
-        connected: false,
-        is_host: false,
-        room_code: None,
-        opponent_name: None,
+        connected: false,  // TODO: Check WebSocket connection
+        is_host: false,     // TODO: Check if we're host
+        peer_name: None,
+        last_error: None,
     })
 }
 
-/// Get room status from signaling server
+/// Get room status (MVP - simplified)
 #[tauri::command]
 pub async fn get_room_status(
     room_code: String,
 ) -> Result<RoomStatusResponse, String> {
-    // TODO: Call signaling server API
-    // For now, return mock data
+    // MVP: Room status is local (no signaling server)
+    // TODO: If using Relay Server in future, call API
     
     Ok(RoomStatusResponse {
         room_code,
-        status: "waiting".to_string(),
+        status: "waiting".to_string(), // TODO: Check actual status
         host_name: None,
         client_name: None,
     })
 }
+
+/// Internal helper: Store WebSocket server in state (TODO: proper state management)
+/// For now, server is started in local scope of multiplayer_create_room
+/// In production, this should be stored in StateManager or similar
 
 /// Room status response
 #[derive(Debug, Clone, Serialize, Deserialize)]
