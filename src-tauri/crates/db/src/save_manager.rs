@@ -180,15 +180,9 @@ impl SaveManager {
     }
 
     pub fn load_stats_state(&mut self, save_id: &str) -> Result<StatsState, String> {
-        let entry = self
-            .save_index
-            .find(save_id)
-            .ok_or_else(|| format!("Save '{}' not found", save_id))?
-            .clone();
-
-        let db_path = self.saves_dir.join(&entry.db_filename);
-        let db = GameDatabase::open(&db_path)?;
-        GamePersistenceReader::read_stats_state(&db)
+        // Use cached database connection to avoid reopening on every read
+        let db = self.open_game_db(save_id)?;
+        GamePersistenceReader::read_stats_state(db)
     }
 
     /// Load a Game from a save database.

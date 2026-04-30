@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import ChampionsGrid from "../champions/ChampionsGrid";
 import ChampionProfile, { type Champion } from "../champions/ChampionProfile";
 
@@ -7,13 +7,13 @@ export default function ChampionsWorldTab() {
     null,
   );
 
-  function handleChampionClick(champion: Champion) {
+  const handleChampionClick = useCallback((champion: Champion) => {
     setSelectedChampion(champion);
-  }
+  }, []);
 
-  function handleCloseProfile() {
+  const handleCloseProfile = useCallback(() => {
     setSelectedChampion(null);
-  }
+  }, []);
 
   return (
     <div className="space-y-6">
