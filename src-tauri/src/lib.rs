@@ -1,5 +1,6 @@
 mod application;
 mod commands;
+mod signaling_server;  // NEW: Multiplayer signaling
 use commands::*;
 
 use application::lol_sim_v2::LolSimV2StoreState;
