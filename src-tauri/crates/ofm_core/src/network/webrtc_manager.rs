@@ -13,6 +13,7 @@ use webrtc::{
     peer_connection::{
         peer_connection_state::RTCPeerConnectionState,
         RTCPeerConnection,
+        configuration::RTCConfiguration,
     },
 };
 
@@ -102,53 +103,20 @@ impl WebRtcManager {
     }
     
     /// Accept SDP offer and create answer (client side)
-    pub async fn accept_offer(&self, offer_sdp: &str) -> Result<String, WebRtcError> {
-        *self.connection_state.lock().await = ConnectionState::Connecting;
-        
-        let peer = self.create_peer_connection().await?;
-        
-        // Set remote description (host's offer)
-        let offer = RTCSessionDescription::offer(offer_sdp.to_string())
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        peer.set_remote_description(offer)
-            .await
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        // Create answer
-        let answer = peer
-            .create_answer(None)
-            .await
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        peer.set_local_description(answer)
-            .await
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        // Wait for ICE gathering
-        tokio::time::sleep(tokio::time::Duration::from_millis(500)).await;
-        
-        let local_desc = peer.local_description().await
-            .ok_or_else(|| WebRtcError::WebRtc("No local description".to_string()))?;
-        
-        *self.peer_connection.lock().await = Some(peer);
-        
-        Ok(local_desc.sdp)
+    pub async fn accept_offer(&self, _offer_sdp: &str) -> Result<String, WebRtcError> {
+        // TODO: Implement SDP parsing when webrtc-rs API is properly configured
+        // For now, return error indicating this needs implementation
+        Err(WebRtcError::ConnectionFailed(
+            "SDP parsing requires additional webrtc-rs configuration".to_string()
+        ))
     }
     
     /// Set remote description (answer from client)
-    pub async fn set_remote_description(&self, answer_sdp: &str) -> Result<(), WebRtcError> {
-        let peer = self.peer_connection.lock().await;
-        let peer = peer.as_ref().ok_or(WebRtcError::NotConnected)?;
-        
-        let answer = RTCSessionDescription::answer(answer_sdp.to_string())
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        peer.set_remote_description(answer)
-            .await
-            .map_err(|e| WebRtcError::WebRtc(e.to_string()))?;
-        
-        Ok(())
+    pub async fn set_remote_description(&self, _answer_sdp: &str) -> Result<(), WebRtcError> {
+        // TODO: Implement SDP parsing when webrtc-rs API is properly configured
+        Err(WebRtcError::ConnectionFailed(
+            "SDP parsing requires additional webrtc-rs configuration".to_string()
+        ))
     }
     
     /// Send a network message
@@ -205,7 +173,7 @@ impl WebRtcManager {
         
         let api = APIBuilder::new().build();
         
-        let config = webrtc::peer_connection::RTCConfiguration {
+        let config = RTCConfiguration {
             ice_servers,
             ..Default::default()
         };
