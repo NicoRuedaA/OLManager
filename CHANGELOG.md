@@ -39,7 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Thanks to @drumst0ck (Jose Sánchez) for the NeutralTimersState TypeScript fix, amd the help in changing some content in the events of the game to use real media!
 - Thanks to @nicoruedaa (Nico Rueda) for all the changes to QoL in UI related to transfers, player list and team icons.
-- Thanks to @mcfarah for the help in PT_BR translations.
+- Thanks to @rcfarah for the help in PT_BR translations.
 
 
 ## [0.1.1] - 2026-04-28
