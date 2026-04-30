@@ -1,9 +1,9 @@
 # Online Multiplayer Mode - Technical Specification
 
-**Version**: 1.0  
+**Version**: 2.0 (MVP)  
 **Date**: 2026-04-30  
-**Status**: Draft  
-**Confidence**: High (based on codebase analysis)
+**Status**: Draft - MVP Implementation  
+**Confidence**: High
 
 ---
 
@@ -20,7 +20,8 @@
 9. [Save/Load System](#9-saveload-system)
 10. [Testing Strategy](#10-testing-strategy)
 11. [Implementation Checklist](#11-implementation-checklist)
-12. [Appendix: Code Analysis](#12-appendix-code-analysis)
+12. [Migration to Relay Server](#12-migration-to-relay-server)
+13. [Appendix: Code Analysis](#13-appendix-code-analysis)
 
 ---
 
@@ -30,22 +31,33 @@
 
 Implement a 2-player online mode where each player controls a different team in the same game session, maintaining full backward compatibility with single-player mode.
 
-### 1.2 Constraints
+### 1.2 Architecture Decision (MVP)
+
+**MVP Strategy**: Replace complex WebRTC P2P with **Host-as-WebSocket-Server** architecture.
+
+- **Host** runs a WebSocket server within the Tauri app
+- **Client** connects directly to Host's public IP + port
+- **Simple JSON protocol** over WebSocket
+- **Future**: Migrate to Relay Server for better UX (no port forwarding required)
+
+### 1.3 Constraints
 
 - **DO NOT** change `game.manager: Manager` to `Vec<Manager>` (breaks 142+ usages)
 - **DO NOT** break existing single-player saves
-- **DO NOT** modify game loop without feature flag
 - **MUST** be host-authoritative (simplifies sync)
-- **MUST** support hotseat (local) and online (P2P) modes
+- **MUST** support hotseat (local) and online (WebSocket) modes
+- **MVP LIMITATION**: Requires port forwarding (3000) on Host router
+- **MVP LIMITATION**: Does not work behind CGNAT (carrier-grade NAT)
 
-### 1.3 Definitions
+### 1.4 Definitions
 
 | Term | Definition |
 |------|------------|
-| **Host** | Player who creates the game, owns authoritative state |
-| **Client/Joiner** | Player who joins via room code |
+| **Host** | Player who creates the game, runs WebSocket server, owns authoritative state |
+| **Client/Joiner** | Player who joins by connecting to Host's IP:port |
 | **Hotseat** | Local multiplayer, players take turns on same machine |
-| **Online** | Networked P2P via WebRTC |
+| **Online (MVP)** | Host runs WebSocket server, Client connects directly |
+| **Online (Future)** | Both connect to cloud Relay Server (no port forwarding) |
 | **Day Readiness** | Flag indicating player has finished their day actions |
 | **PvP Match** | Match between Player 1's team and Player 2's team |
 
@@ -53,50 +65,46 @@ Implement a 2-player online mode where each player controls a different team in 
 
 ## 2. Architecture
 
-### 2.1 High-Level Architecture
+### 2.1 MVP Architecture (Host-as-WebSocket-Server)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         HOST CLIENT                             │
+│                         HOST (PC 1)                           │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │   Frontend   │  │   Backend    │  │    P2P       │          │
-│  │   (React)    │◄─┤   (Rust)     │◄─┤   (WebRTC)   │◄────┐    │
-│  │              │  │              │  │              │     │    │
-│  │  - UI        │  │  - Game      │  │  - Data      │     │    │
-│  │  - Player    │  │  - Logic     │  │  - Sync      │     │    │
-│  │    Selector  │  │  - Save      │  │  - Messages  │     │    │
-│  └──────────────┘  └──────────────┘  └──────────────┘     │    │
-│         ▲                 ▲                                 │    │
-│         │                 │                                 │    │
-│    ┌────┴────┐       ┌────┴────┐                       │    │
-│    │ Game    │       │  Game   │                       │    │
-│    │ Store   │       │  State  │                       │    │
-│    │(Zustand)│       │(Mutex)  │                       │    │
-│    └─────────┘       └─────────┘                       │    │
-│         ▲                                                  │    │
-│         │                                                  │    │
-│    ┌────┴─────────────────────────────┐                    │    │
-│    │         SAVE SYSTEM              │                    │    │
-│    │  (SQLite in app_data_dir/saves)  │                    │    │
-│    └──────────────────────────────────┘                    │    │
-│                                                            │    │
-└────────────────────────────────────────────────────────────┼────┘
-                                                             │
-                           WebRTC Data Channel               │
-                           (Game State Sync)                 │
-                           - State updates                   │
-                           - Player actions                  │
-                           - Ready signals                   │
-                                                             │
-┌────────────────────────────────────────────────────────────┼────┐
-│                        CLIENT (JOINER)                     │    │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │    │
-│  │   Frontend   │  │   Backend    │  │    P2P       │─────┘    │
-│  │   (React)    │◄─┤   (Rust)     │◄─┤   (WebRTC)   │          │
+│  │   Frontend   │  │   Backend    │  │   WebSocket  │          │
+│  │   (React)    │◄─┤   (Rust)     │◄─┤   Server     │          │
+│  │              │  │              │  │   (Port 3000) │          │
+│  │  - UI        │  │  - Game      │  │              │          │
+│  │  - Player    │  │  - Logic     │  │  Listens on  │          │
+│  │    Selector  │  │  - Save      │  │  0.0.0.0:3000│          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│         ▲                 ▲                                          │
+│         │                 │                                          │
+│    ┌────┴────┐       ┌────┴────┐                                    │
+│    │ Game    │       │  Game   │                                    │
+│    │ Store   │       │  State  │                                    │
+│    │(Zustand)│       │(Mutex)  │                                    │
+│    └─────────┘       └─────────┘                                    │
+│         ▲                                                              │
+│         │                                                              │
+│    ┌────┴─────────────────────────────┐                              │
+│    │         SAVE SYSTEM              │                              │
+│    │  (SQLite in app_data_dir/saves)  │                              │
+│    └──────────────────────────────────┘                              │
+└────────────────────────────────────────────────────────────┬─────────┘
+                                                          │
+                                    Internet (public IP)   │
+                                                          │
+                                                          ▼
+┌────────────────────────────────────────────────────────────┬─────────┐
+│                         CLIENT (PC 2)                   │         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │   Frontend   │  │   Backend    │  │   WebSocket  │          │
+│  │   (React)    │◄─┤   (Rust)     │◄─┤   Client     │──────────┘
 │  │              │  │              │  │              │          │
-│  │  - UI        │  │  - Game      │  │  - Data      │          │
-│  │  - Player    │  │  - Logic     │  │  - Sync      │          │
-│  │    Selector  │  │  - (Read-    │  │  - Messages  │          │
+│  │  - UI        │  │  - Game      │  │  Connects to │          │
+│  │  - Player    │  │  - Logic     │  │  Host IP:3000│          │
+│  │    Selector  │  │  - (Read-    │  │              │          │
 │  └──────────────┘  │    only)     │  └──────────────┘          │
 │                    └──────────────┘                            │
 │         ▲                                                      │
@@ -110,28 +118,28 @@ Implement a 2-player online mode where each player controls a different team in 
 │  (Local backup save for disconnect recovery)              │
 │                                                           │
 └───────────────────────────────────────────────────────────┘
-
-                        ┌─────────────────┐
-                        │ SIGNALING SERVER │
-                        │  (Simple HTTP    │
-                        │   or WebSocket)  │
-                        │                  │
-                        │  - POST /room    │
-                        │    → {code}      │
-                        │  - GET /room/:id │
-                        │    → {host_sdp}  │
-                        │  - POST /join    │
-                        │    → exchange    │
-                        └─────────────────┘
 ```
 
-### 2.2 Design Principles
+### 2.2 Design Principles (MVP)
 
 1. **Host is Authoritative**: Only host runs game logic, client receives state updates
-2. **Additive Changes**: New fields with `#[serde(default)]`, no modifications to existing fields
-3. **Feature Flag**: Multiplayer behind `MULTIPLAYER` flag, single-player unaffected
-4. **Graceful Degradation**: If network fails, client can continue offline with backup save
-5. **Minimal Refactoring**: Reuse existing game loop, add multiplayer layer on top
+2. **Simple WebSocket Protocol**: JSON messages over WebSocket (no WebRTC complexity)
+3. **Host Runs Server**: Host's Tauri app includes a WebSocket server on port 3000
+4. **Client Connects Directly**: Client connects to `ws://host-public-ip:3000`
+5. **MVP Limitation**: Requires port forwarding (3000) on host router
+6. **MVP Limitation**: Does not work behind CGNAT (carrier-grade NAT)
+7. **Future Migration**: Replace with Relay Server for zero-config user experience
+
+### 2.3 Future Architecture (Post-MVP - Relay Server)
+
+```
+[Host] → connects to → [Relay Server] ← connects ← [Client]
+                    (wss://olmanager-relay.onrender.com)
+                    
+* Zero port forwarding required
+* Works behind any NAT/CGNAT
+* Same WebSocket protocol, different endpoint
+```
 
 ---
 
@@ -404,14 +412,14 @@ let multiplayer_mode: String = conn.query_row(
 
 ## 4. Network Layer
 
-### 4.1 Technology Stack
+### 4.1 Technology Stack (MVP)
 
 | Component | Library | Version | Purpose |
 |-----------|---------|---------|---------|
-| WebRTC | `webrtc-rs` | Latest | P2P data channels |
+| WebSocket Server | `tokio-tungstenite` | Latest | Host server (port 3000) |
+| WebSocket Client | `tokio-tungstenite` | Latest | Client connection to host |
 | Async Runtime | `tokio` | Existing | Async I/O |
 | Serialization | `serde_json` | Existing | Message format |
-| Signaling | `axum` | Latest | HTTP signaling server |
 
 ### 4.2 Cargo Dependencies
 
@@ -421,34 +429,44 @@ let multiplayer_mode: String = conn.query_row(
 [dependencies]
 # ... existing dependencies ...
 
-# WebRTC for P2P
-webrtc = "0.9"
+# WebSocket for MVP (Host-as-Server)
+tokio-tungstenite = "0.20"  # Or compatible version
 tokio = { version = "1", features = ["full"] }
-
-# Signaling server (optional, host can run minimal server)
-axum = "0.7"
-tower-http = { version = "0.5", features = ["cors"] }
 ```
 
-### 4.3 Message Protocol
+**Note**: Removed `webrtc`, `axum`, and `tower-http` (signaling server) dependencies. These will be re-added only when migrating to Relay Server architecture.
 
-All messages are JSON-encoded and sent over WebRTC data channels:
+### 4.3 Message Protocol (JSON over WebSocket)
+
+All messages are JSON-encoded and sent over WebSocket:
 
 ```rust
+// File: src-tauri/src/network/messages.rs
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type")]
 pub enum NetworkMessage {
     // Connection
-    HandshakeRequest { room_code: String },
-    HandshakeResponse { success: bool, error: Option<String> },
+    Handshake { 
+        player_name: String,
+        player_num: u8,  // 1 = Host, 2 = Client
+    },
+    HandshakeResponse { 
+        success: bool, 
+        game_state: Option<Game>,  // Host sends initial state
+        error: Option<String> 
+    },
     
-    // Game State Sync
-    GameStateUpdate { game: Game },  // Host → Client
-    GameStateRequest,                 // Client → Host
+    // Game State Sync (Host → Client)
+    GameStateUpdate { 
+        game: Game,
+        checksum: u64,  // For verification
+    },
+    GameStateRequest,         // Client → Host (request full sync)
     
     // Day Advancement
-    ReadyToAdvance { player_num: u8 },  // Client → Host
-    DayAdvanced { new_day: u32 },       // Host → All
+    ReadyToAdvance { player_num: u8 },  // Both → Host
+    DayAdvanced { new_day: u32 },         // Host → Client
     
     // Player Actions (Client → Host)
     PlayerAction {
@@ -457,9 +475,9 @@ pub enum NetworkMessage {
     },
     
     // Connection Status
-    Ping,
-    Pong,
-    Disconnect,
+    Ping { timestamp: u64 },
+    Pong { timestamp: u64 },
+    Disconnect { reason: String },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -469,67 +487,70 @@ pub enum PlayerActionType {
     SetStartingXi { player_ids: Vec<String> },
     MakeTransferBid { player_id: String, amount: u64 },
     HireStaff { staff_id: String },
-    // ... all other actions
+    // ... all other actions (same as single-player commands)
 }
 ```
 
-### 4.4 WebRTC Manager
+### 4.4 WebSocket Server (Host)
 
-**File**: `crates/ofm_core/src/network/webrtc_manager.rs`
+**File**: `src-tauri/src/network/websocket_server.rs`
 
 ```rust
-pub struct WebRtcManager {
-    peer_connection: Arc<Mutex<Option<RTCPeerConnection>>>,
-    data_channel: Arc<Mutex<Option<RTCDataChannel>>>,
-    is_host: bool,
-    message_rx: mpsc::UnboundedReceiver<NetworkMessage>,
-    message_tx: mpsc::UnboundedSender<NetworkMessage>,
+use tokio::net::TcpListener;
+use tokio_tungstenite::accept_async;
+use std::net::SocketAddr;
+
+pub struct WebSocketServer {
+    addr: SocketAddr,
+    host_game_state: Arc<Mutex<Game>>,
 }
 
-impl WebRtcManager {
-    pub fn new(is_host: bool) -> Self {
-        let (message_tx, message_rx) = mpsc::unbounded_channel();
+impl WebSocketServer {
+    pub fn new(port: u16) -> Self {
+        let addr = SocketAddr::from(([0, 0, 0, 0], port));
         Self {
-            peer_connection: Arc::new(Mutex::new(None)),
-            data_channel: Arc::new(Mutex::new(None)),
-            is_host,
-            message_rx,
-            message_tx,
+            addr,
+            host_game_state: Arc::new(Mutex::new(Game::default())),
         }
     }
     
-    /// Create room and get room code
-    pub async fn create_room(&self) -> Result<String, NetworkError> {
-        // Call signaling server to create room
-        // Return room code
-    }
-    
-    /// Join room with code
-    pub async fn join_room(&self, room_code: &str) -> Result<(), NetworkError> {
-        // Call signaling server to join room
-        // Exchange SDP offers/answers
-        // Establish WebRTC connection
-    }
-    
-    /// Send message to peer
-    pub async fn send(&self, message: NetworkMessage) -> Result<(), NetworkError> {
-        let dc = self.data_channel.lock().await;
-        if let Some(channel) = dc.as_ref() {
-            let data = serde_json::to_vec(&message)?;
-            channel.send(&data).await?;
+    /// Start the WebSocket server
+    pub async fn start(&self) -> Result<(), Box<dyn std::error::Error>> {
+        let listener = TcpListener::bind(self.addr).await?;
+        log::info!("WebSocket server listening on {}", self.addr);
+        
+        while let Ok((stream, addr)) = listener.accept().await {
+            log::info!("New connection from {}", addr);
+            
+            // Spawn a task to handle this connection
+            let game_state = self.host_game_state.clone();
+            tokio::spawn(async move {
+                let ws_stream = accept_async(stream).await.expect("Failed to accept");
+                handle_client(ws_stream, game_state).await;
+            });
         }
+        
         Ok(())
     }
+}
+
+/// Handle a single client connection
+async fn handle_client(ws: WebSocket, game_state: Arc<Mutex<Game>>) {
+    let (mut write, mut read) = ws.split();
     
-    /// Receive messages from peer
-    pub async fn receive(&mut self) -> Option<NetworkMessage> {
-        self.message_rx.recv().await
-    }
-    
-    /// Close connection
-    pub async fn disconnect(&self) {
-        // Close data channel
-        // Close peer connection
+    while let Some(msg) = read.next().await {
+        match msg {
+            Ok(Message::Text(text)) => {
+                let msg: NetworkMessage = serde_json::from_str(&text).unwrap();
+                handle_message(msg, &mut write, &game_state).await;
+            }
+            Ok(Message::Close(_)) => break,
+            Err(e) => {
+                log::error!("WebSocket error: {}", e);
+                break;
+            }
+            _ => {}
+        }
     }
 }
 ```
@@ -1319,41 +1340,41 @@ async fn test_online_connection() {
 
 ---
 
-## 11. Implementation Checklist
+## 11. Implementation Checklist (MVP)
 
-### Phase 1: Foundation (Days 1-3)
+### Phase 1: Foundation (Week 1)
 
 - [ ] Add `player2_manager: Option<Manager>` to `Game` struct
-- [ ] Add `multiplayer_mode` enum
+- [ ] Add `multiplayer_mode` enum (Offline, Hotseat, Online)
 - [ ] Add `current_player`, `player1_day_ready`, `player2_day_ready`
 - [ ] Add helper methods (`manager_for_player`, `can_advance_day`, etc.)
 - [ ] Create database migration V29
 - [ ] Update `GamePersistenceReader` and `GamePersistenceWriter`
 - [ ] Add serde tests for backward compatibility
 
-### Phase 2: Hotseat Mode (Days 4-14)
+### Phase 2: Hotseat Mode (Week 2)
 
 - [ ] Add `switch_current_player` command
 - [ ] Update `advance_time` to check both ready
 - [ ] Add player selector UI component
-- [ ] Add "End Turn" button
+- [ ] Add "End Turn" button for hotseat
 - [ ] Update game loop to process both managers
-- [ ] Add feature flag `MULTIPLAYER_HOTSEAT`
 - [ ] Test hotseat full session
 
-### Phase 3: Online Infrastructure (Days 15-35)
+### Phase 3: Online MVP - WebSocket Server (Week 3)
 
-- [ ] Add WebRTC dependencies
-- [ ] Implement `WebRtcManager`
-- [ ] Create signaling server
-- [ ] Add `create_room` and `join_room` commands
-- [ ] Implement message protocol
-- [ ] Add state sync (host → client)
-- [ ] Add action forwarding (client → host)
-- [ ] Add connection status UI
-- [ ] Test connection establishment
+- [ ] Remove WebRTC dependencies (`webrtc`, `axum`, `tower-http`)
+- [ ] Add `tokio-tungstenite` dependency
+- [ ] Implement WebSocket Server in Host (`websocket_server.rs`)
+- [ ] Implement WebSocket Client (`websocket_client.rs`)
+- [ ] Modify `multiplayer_create_room` to start WebSocket server
+- [ ] Modify `multiplayer_join_room` to connect to Host IP:port
+- [ ] Define JSON message protocol (`messages.rs`)
+- [ ] Implement state sync (host → client via WebSocket)
+- [ ] Add connection status UI (Connected/Disconnected)
+- [ ] Test connection with ZeroTier (no port forwarding needed)
 
-### Phase 4: Multiplayer Game Logic (Days 36-56)
+### Phase 4: Multiplayer Game Logic (Week 4)
 
 - [ ] Refactor `process_day()` for multiple managers
 - [ ] Implement transfer bidding system
@@ -1364,16 +1385,62 @@ async fn test_online_connection() {
 - [ ] Test PvP matches
 - [ ] Test conflict scenarios
 
-### Phase 5: Polish & Release (Days 57-63)
+### Phase 5: Polish & Testing (Week 5)
 
-- [ ] Add host disconnect handling
-- [ ] Add client backup save
-- [ ] Add reconnection logic
+- [ ] Add host disconnect handling + backup save
+- [ ] Add client backup save / offline recovery
 - [ ] Performance optimization
-- [ ] Documentation
-- [ ] Remove feature flag
-- [ ] Release notes
-- [ ] Final testing
+- [ ] Update documentation (this doc + user guide)
+- [ ] Manual testing guide (port forwarding, ZeroTier)
+- [ ] Final testing with 2 PCs (real internet)
+
+---
+
+## 12. Migration to Relay Server (Post-MVP)
+
+### Why Migrate?
+
+The MVP requires users to:
+1. Open port 3000 on their router (hard for non-tech users)
+2. Share their public IP (privacy concern)
+3. Cannot host if behind CGNAT (common with mobile ISPs)
+
+**Relay Server solves all this**: Both Host and Client connect to a cloud server (no port forwarding, works behind any NAT).
+
+### Architecture Change
+
+```
+MVP:
+[Host:3000] ←── [Client]  (Direct connection, port forwarding required)
+
+Relay Server:
+[Host] → [Cloud Relay Server] ← [Client]  (No port forwarding)
+```
+
+### Migration Steps (Future)
+
+1. **Deploy Relay Server**:
+   - Use existing `signaling_server.rs` code (modify for WebSocket relay)
+   - Deploy to Render.com / Railway ($5-7/month)
+   - See `docs/deployment/SIGNALING_SERVER_DEPLOYMENT.md`
+
+2. **Update Client Code**:
+   - Change connection endpoint: `ws://host:3000` → `wss://relay-server.com`
+   - Same message protocol (JSON over WebSocket)
+   - Only change the connection URL
+
+3. **Update Host Code**:
+   - Host also connects as a "client" to Relay Server
+   - No longer runs local WebSocket server
+   - Server relays messages between both players
+
+4. **Update Documentation**:
+   - Mark MVP as "Legacy"
+   - Update user guide for zero-config experience
+
+### Code Reuse
+
+**Good news**: The WebSocket message protocol (`messages.rs`) is IDENTICAL for MVP and Relay Server. Only the connection endpoint changes.
 
 ---
 

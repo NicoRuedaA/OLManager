@@ -1,6 +1,6 @@
-# Online Multiplayer Mode - User Guide
+# Online Multiplayer Mode - User Guide (MVP)
 
-**Version**: 1.0  
+**Version**: 2.0 (MVP)  
 **Last Updated**: 2026-04-30
 
 ---
@@ -9,11 +9,14 @@
 
 1. [What is Online Multiplayer?](#what-is-online-multiplayer)
 2. [System Requirements](#system-requirements)
-3. [How to Create a Game](#how-to-create-a-game)
-4. [How to Join a Game](#how-to-join-a-game)
+3. [How to Create a Game (Host)](#how-to-create-a-game-host)
+4. [How to Join a Game (Client)](#how-to-join-a-game-client)
 5. [How to Play](#how-to-play)
-6. [Troubleshooting](#troubleshooting)
-7. [FAQ](#faq)
+6. [Port Forwarding Guide](#port-forwarding-guide)
+7. [Testing with ZeroTier (No Router Config)](#testing-with-zerotier)
+8. [Troubleshooting](#troubleshooting)
+9. [FAQ](#faq)
+10. [Future: Relay Server Mode](#future-relay-server-mode)
 
 ---
 
@@ -21,9 +24,10 @@
 
 Online Multiplayer Mode allows you to play OLManager with a friend over the internet. Each player controls their own team, and you compete in the same league with AI-controlled teams.
 
-### Key Features
+### Key Features (MVP)
 
-- **2-Player Online**: Play against a friend in real-time
+- **2-Player Online**: Play against a friend over the internet
+- **Host-Runs-Server**: The host's game includes a WebSocket server
 - **Host-Authoritative**: The host's game is the source of truth
 - **State Synchronization**: Game state is automatically synced between players
 - **Disconnect Recovery**: Continue playing offline if your opponent disconnects
@@ -34,7 +38,8 @@ Online Multiplayer Mode allows you to play OLManager with a friend over the inte
 |------|-------------|
 | **Offline** | Single-player mode (existing) |
 | **Hotseat** | Two players taking turns on the same device |
-| **Online** | Two players playing over the internet |
+| **Online (MVP)** | Host runs server, Client connects via IP:port |
+| **Online (Future)** | Both connect to cloud Relay Server (no config) |
 
 ---
 
@@ -48,25 +53,32 @@ Online Multiplayer Mode allows you to play OLManager with a friend over the inte
 - **Storage**: 500 MB available space
 - **Network**: Internet connection required (minimum 5 Mbps)
 
-### Network Requirements
+### Network Requirements (MVP)
 
-- **TCP/UDP Ports**: 3478, 3479, 3480 (for WebRTC)
-- **HTTPS**: Required for signaling server connection
-- **Firewall**: Must allow outbound connections to signaling server
+**For the Host**:
+- **Port Forwarding**: Must open port **3000** on their router
+- **Public IP**: Needed for Client to connect
+- **Firewall**: Must allow OLManager through firewall
 
-### Signalling Server
+**For the Client**:
+- **Internet Connection**: Just needs to be online
+- **No port forwarding** required
 
-The game connects to a signaling server to establish P2P connections. The default server is hosted at:
+> **⚠️ MVP Limitation**: This version requires the Host to open a port on their router. 
+> For a zero-config experience, see [Future: Relay Server Mode](#future-relay-server-mode).
 
-```
-wss://olmanager-signaling.example.com
-```
+### Quick Test Option: ZeroTier (No Port Forwarding)
 
-> **Note**: Your host must deploy their own signaling server for private games. See [SIGNALING_SERVER_DEPLOYMENT.md](../deployment/SIGNALING_SERVER_DEPLOYMENT.md) for details.
+For testing with friends without router configuration, use **ZeroTier** (free VPN):
+1. Both players install ZeroTier
+2. Join the same ZeroTier network
+3. Connect using ZeroTier virtual IPs (no port forwarding needed!)
+
+See [Testing with ZeroTier](#testing-with-zerotier) for details.
 
 ---
 
-## How to Create a Game
+## How to Create a Game (Host)
 
 Follow these steps to create an online game as the host:
 
@@ -74,75 +86,76 @@ Follow these steps to create an online game as the host:
 
 1. Launch OLManager
 2. From the main menu, click **"Multiplayer"**
+3. Click the **"Create Room"** tab
 
-![Main Menu](screenshots/main-menu-multiplayer.png)
+### Step 2: Configure Host Settings
 
-### Step 2: Create a Room
+1. Enter a name for your game (e.g., "My League")
+2. **Port**: Default is `3000` (or set a custom port)
+3. Click **"Create Room"**
 
-1. The Multiplayer Menu will open
-2. Ensure the **"Create Game"** tab is selected
-3. Enter a name for your game (e.g., "My League")
-4. Click **"Create Room"**
+### Step 3: Configure Your Router (Port Forwarding)
 
-![Create Game Tab](screenshots/create-game-tab.png)
+⚠️ **IMPORTANT**: You MUST open port `3000` (or your custom port) on your router.
 
-### Step 3: Share Room Code
+1. Access your router settings (usually `192.168.1.1` or `192.168.0.1`)
+2. Find "Port Forwarding" section
+3. Add rule: **External Port 3000 → Internal Port 3000 → Your PC's Local IP**
+4. Save changes
 
-1. A 6-character room code will be displayed (e.g., `ABC123`)
-2. Click **"Copy to Clipboard"** to copy the code
-3. Share this code with your opponent
+> **Need help?** See [Port Forwarding Guide](#port-forwarding-guide) below.
 
-![Room Code](screenshots/room-code.png)
+### Step 4: Share Your Public IP
 
-### Step 4: Wait for Opponent
+1. The game will display your **Public IP** and **Port** (e.g., `181.23.45.67:3000`)
+2. Share this information with your friend (the Client)
+3. You'll see "Waiting for Player..." status
 
-1. The game will wait for your opponent to join
-2. You can see "Waiting for Player..." status
-3. Click **"Cancel"** to cancel and return to the menu
+> **Testing without port forwarding?** Use [ZeroTier](#testing-with-zerotier) for testing.
 
 ### Step 5: Player Selection
 
-Once your opponent joins:
+Once your friend joins:
 
 1. Both players will see the Player Selection screen
 2. **You are Player 1 (Host)** - your team is pre-selected
 3. Click **"Confirm Selection"** to lock in your player
-
-![Player Selection](screenshots/player-selection.png)
 
 ### Step 6: Start the Game
 
 1. When both players have confirmed their selection
 2. Click **"Start Game"** to begin
 
-![Start Game](screenshots/start-game.png)
-
 ---
 
-## How to Join a Game
+## How to Join a Game (Client)
 
 Follow these steps to join a game as a client:
 
-### Step 1: Get Room Code
+### Step 1: Get Connection Info
 
-1. Ask your friend for the 6-character room code
-2. Make sure they've created a room and are waiting
+Ask your friend (the Host) for:
+1. **Their Public IP** (e.g., `181.23.45.67`)
+2. **Port** (default: `3000`)
+3. Make sure they've created a room and are waiting
 
-### Step 2: Join the Room
+> **Testing without port forwarding?** Use [ZeroTier](#testing-with-zerotier) and ask for the ZeroTier IP (e.g., `10.147.17.5`)
+
+### Step 2: Join the Game
 
 1. Launch OLManager
 2. Click **"Multiplayer"**
 3. Click the **"Join Game"** tab
-4. Enter the room code (e.g., `ABC123`)
-5. Click **"Join Room"**
-
-![Join Game Tab](screenshots/join-game-tab.png)
+4. Enter the **Host's IP** (e.g., `181.23.45.67`)
+5. Enter the **Port** (default: `3000`)
+6. Click **"Join Room"**
 
 ### Step 3: Connect
 
-1. The game will connect to your friend's room
+1. The game will connect to the Host's IP:Port
 2. You'll see "Connecting..." while establishing the connection
-3. Once connected, you'll see the Player Selection screen
+3. Once connected: **"Connected!"**
+4. You'll see the Player Selection screen
 
 ### Step 4: Player Selection
 
@@ -205,28 +218,38 @@ State synchronization happens automatically:
 
 ---
 
-## Troubleshooting
+## Troubleshooting (MVP)
 
 ### Connection Issues
 
-#### "Failed to connect to room"
+#### "Failed to connect to host"
 
-**Cause**: The signaling server is unreachable or room doesn't exist.
+**Cause**: Cannot reach the Host's IP:port.
 
 **Solutions**:
-1. Check your internet connection
-2. Verify the room code is correct
-3. Ask the host to restart their game
-4. Check firewall settings
+1. **Host**: Verify port 3000 is open on your router (see [Port Forwarding Guide](#port-forwarding-guide))
+2. **Client**: Double-check the Host's IP address
+3. **Both**: Check firewall allows OLManager
+4. **Both**: Try [ZeroTier](#testing-with-zerotier) for testing
 
 #### "Connection timed out"
 
-**Cause**: Network latency or P2P connection failure.
+**Cause**: Host's port is not open or firewall blocking.
 
 **Solutions**:
-1. Wait a few seconds and try again
-2. Check NAT traversal settings on your router
-3. Use a different network (e.g., mobile hotspot)
+1. **Host**: Re-check port forwarding settings
+2. **Host**: Verify your public IP hasn't changed
+3. **Client**: Try to ping the Host's IP
+4. **Alternative**: Use [ZeroTier](#testing-with-zerotier) to bypass router config
+
+#### "Host behind CGNAT"
+
+**Cause**: Your ISP uses Carrier-Grade NAT (can't open ports).
+
+**Solutions**:
+1. **Best option**: Use [ZeroTier](#testing-with-zerotier) for testing
+2. **Future**: Wait for Relay Server mode (no port forwarding needed)
+3. **Alternative**: Use mobile hotspot (some mobile carriers allow incoming connections)
 
 #### "Room is full"
 
@@ -366,6 +389,119 @@ Day Start
 
 ---
 
+## Port Forwarding Guide
+
+If you're the **Host**, you MUST open a port on your router. Here's how:
+
+### Step 1: Access Your Router
+
+1. Open browser, go to: `192.168.1.1` or `192.168.0.1`
+2. Login (check router label for credentials)
+
+### Step 2: Find Port Forwarding
+
+Look for: "Port Forwarding", "NAT Forwarding", or "Virtual Server"
+
+### Step 3: Add Rule
+
+| Field | Value |
+|-------|-------|
+| **External Port** | `3000` (or custom port) |
+| **Internal Port** | `3000` (same as above) |
+| **Internal IP** | Your PC's local IP (e.g., `192.168.1.5`) |
+| **Protocol** | `TCP` (or `Both`) |
+
+### Step 4: Save & Test
+
+1. Save the rule
+2. **Host**: Run `ipconfig` (Windows) or `ifconfig` (Mac/Linux) to get your **Public IP**
+3. **Client**: Try to connect using the Public IP
+
+> **Still not working?** See [Testing with ZeroTier](#testing-with-zerotier) for a no-config alternative.
+
+---
+
+## Testing with ZeroTier (No Port Forwarding)
+
+For testing without router configuration, use **ZeroTier** (free VPN):
+
+### Step 1: Install ZeroTier
+
+1. Download from [zerotier.com](https://www.zerotier.com/)
+2. Install on **both PCs** (Host and Client)
+
+### Step 2: Create Network
+
+1. Go to [my.zerotier.com](https://my.zerotier.com/)
+2. Create account (free)
+3. Click "Create a Network"
+4. Copy the **Network ID** (e.g., `a1b2c3d4e5`)
+
+### Step 3: Join Network
+
+**On both PCs**:
+1. Open ZeroTier (system tray icon)
+2. Click "Join Network"
+3. Enter the **Network ID** from Step 2
+4. Wait for "Authorized" status (may need approval in my.zerotier.com)
+
+### Step 4: Get ZeroTier IPs
+
+**On both PCs**, run:
+- **Windows**: `ipconfig` → Look for "ZeroTier" adapter
+- **Mac/Linux**: `ifconfig` → Look for `zt0` interface
+
+Example IP: `10.147.17.5`
+
+### Step 5: Play!
+
+1. **Host**: Create room (uses ZeroTier IP automatically)
+2. **Client**: Connect using Host's ZeroTier IP (e.g., `ws://10.147.17.5:3000`)
+3. **No port forwarding needed!**
+
+> **Note**: ZeroTier is for testing only. For production, see [Future: Relay Server Mode](#future-relay-server-mode).
+
+---
+
+## Future: Relay Server Mode
+
+The MVP requires port forwarding, which is hard for many users. **Future versions will use a Relay Server:**
+
+### What Changes?
+
+| MVP (Current) | Relay Server (Future) |
+|--------------|---------------------|
+| Host opens port 3000 | ✅ No port forwarding |
+| Client connects to Host IP | ✅ Both connect to cloud server |
+| CGNAT = can't host | ✅ Works behind any NAT |
+| User must configure router | ✅ Zero configuration |
+
+### How It Works
+
+```
+MVP:
+[Host:3000] ←── [Client]
+
+Relay Server:
+[Host] → [Cloud Relay Server] ← [Client]
+          (wss://olmanager-relay.onrender.com)
+```
+
+### Benefits
+
+- ✅ **Zero config** for users
+- ✅ **Works everywhere** (CGNAT, corporate networks, etc.)
+- ✅ **Same protocol** (WebSocket, just different endpoint)
+- ✅ **Cost**: ~$5-7/month (Render.com / Railway)
+
+### Timeline
+
+- ✅ **Now**: MVP with WebSocket Server (port forwarding)
+- 🔨 **Next**: Deploy Relay Server for testing
+- 🎯 **v1.0**: Relay Server as default mode
+
+---
+
 ## Support
 
 If you encounter issues not covered in this guide:
@@ -380,6 +516,6 @@ If you encounter issues not covered in this guide:
 
 ---
 
-**Document Version**: 1.0  
+**Document Version**: 2.0 (MVP)  
 **Last Updated**: 2026-04-30  
-**Game Version**: 0.1.1+ (with online-mvp branch)
+**Game Version**: 0.1.1+ (MVP WebSocket Server)

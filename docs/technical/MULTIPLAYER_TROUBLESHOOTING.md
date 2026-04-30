@@ -1,6 +1,6 @@
-# Multiplayer Troubleshooting Guide
+# Multiplayer Troubleshooting Guide (MVP)
 
-**Version**: 1.0  
+**Version**: 2.0 (MVP - WebSocket Server)  
 **Last Updated**: 2026-04-30
 
 ---
@@ -9,92 +9,95 @@
 
 1. [Common Errors](#common-errors)
 2. [Network Connectivity Issues](#network-connectivity-issues)
-3. [WebRTC Troubleshooting](#webrtc-troubleshooting)
-4. [Backup Recovery Guide](#backup-recovery-guide)
-5. [Performance Optimization](#performance-optimization)
-6. [Debug Mode](#debug-mode)
+3. [WebSocket Troubleshooting](#websocket-troubleshooting)
+4. [Port Forwarding Issues](#port-forwarding-issues)
+5. [Testing with ZeroTier](#testing-with-zerotier)
+6. [Backup Recovery Guide](#backup-recovery-guide)
+7. [Performance Optimization](#performance-optimization)
+8. [Debug Mode](#debug-mode)
 
 ---
 
-## Common Errors
+## Common Errors (MVP - WebSocket Server)
 
 ### Error: "Failed to create room"
 
-**Description**: Unable to create a multiplayer room.
+**Description**: Unable to start WebSocket server on host.
 
 **Possible Causes**:
-1. Signaling server is down
-2. Network connection issue
-3. Internal server error
+1. Port 3000 already in use
+2. No administrator permissions (rare on Windows)
+3. Firewall blocking
 
 **Solutions**:
 ```bash
-# 1. Check server status
-curl https://your-signaling-server.com/health
+# 1. Check if port is in use
+netstat -an | findstr :3000
 
-# 2. Check network connection
-ping your-signaling-server.com
+# 2. Try a different port
+# In the UI, set custom port (e.g., 3001, 3002)
 
-# 3. Check firewall settings
-# Ensure ports 3478-3480 are open
+# 3. Check firewall
+# Allow OLManager through Windows Firewall
 ```
 
 **Prevention**:
-- Use a reliable signaling server
-- Implement retry logic in the client
-- Show user-friendly error messages
+- Use default port 3000 (or let user configure)
+- Show clear error message with port number
+- Suggest alternative ports
 
 ---
 
-### Error: "Failed to join room"
+### Error: "Failed to join room" / "Connection refused"
 
-**Description**: Cannot connect to an existing room.
+**Description**: Cannot connect to host's IP:port.
 
 **Possible Causes**:
-1. Invalid room code
-2. Room is full
-3. Room has expired
-4. Network connectivity issue
+1. Host's port 3000 not open on router
+2. Wrong IP address
+3. Host behind CGNAT (can't port forward)
+4. Firewall blocking
 
 **Solutions**:
 ```bash
-# Verify room code format
-# Should be 6 alphanumeric characters
+# 1. Verify host's public IP
+# Host: Visit https://whatismyipaddress.com
 
-# Check if room exists
-curl https://your-signaling-server.com/room/ABC123
+# 2. Host must open port 3000
+# See Port Forwarding Issues section below
 
-# Ask host to verify room is active
+# 3. Try ZeroTier (no port forwarding needed)
+# See Testing with ZeroTier section
 ```
 
 ---
 
-### Error: "Connection lost"
+### Error: "Connection lost" / "WebSocket closed"
 
-**Description**: WebRTC connection dropped during gameplay.
+**Description**: Connection dropped during gameplay.
 
 **Possible Causes**:
-1. Network interruption
-2. Firewall blocking connection
-3. NAT traversal failure
-4. High network latency
+1. Host's internet unstable
+2. Client's internet unstable
+3. Host's PC went to sleep
+4. Router closed idle connection
 
 **Solutions**:
 ```bash
-# 1. Check local network
+# 1. Check both network connections
 ping 8.8.8.8
 
-# 2. Check firewall
-# Add exception for OLManager
+# 2. Disable power saving (Host)
+# Control Panel → Power Options → High Performance
 
-# 3. Try different network
-# Use mobile hotspot if available
+# 3. Reconnect manually
+# Click "Reconnect" in the UI
 ```
 
 **Auto-recovery**:
 - Client attempts reconnection for 60 seconds
 - If failed, show recovery modal
-- User can choose to continue offline
+- User can choose to continue offline (load backup)
 
 ---
 
@@ -105,7 +108,7 @@ ping 8.8.8.8
 **Possible Causes**:
 1. Sync failed during transfer
 2. Network packet loss
-3. Concurrent modifications
+3. Host modified game while client was connecting
 
 **Solutions**:
 ```bash
@@ -113,15 +116,35 @@ ping 8.8.8.8
 # Click "Request Sync" in the UI
 
 # 2. Check network stability
-# Run a speed test
+# Run a speed test (need >5 Mbps)
 
-# 3. Verify no firewall interference
+# 3. Restart if persistent
+# Host: Restart game, Client: Rejoin
 ```
 
 **Prevention**:
 - Automatic sync every 30 seconds
 - Checksum verification after each sync
 - Retry mechanism for failed syncs
+
+---
+
+### Error: "Host behind CGNAT"
+
+**Description**: Host cannot port forward (ISP uses Carrier-Grade NAT).
+
+**Solutions**:
+```bash
+# 1. Test for CGNAT
+# Visit https://whatismyipaddress.com
+# If IP shown ≠ IP from router admin page → CGNAT
+
+# 2. Use ZeroTier (recommended for testing)
+# See Testing with ZeroTier section
+
+# 3. Use mobile hotspot (some carriers allow incoming)
+# Host: Connect to mobile hotspot, try again
+```
 
 ---
 
@@ -150,12 +173,12 @@ ping 8.8.8.8
 ```bash
 # Cannot recover game state
 # Must start new game
-# Consider saving more frequently
+# Consider saving more frequently (host should save often)
 ```
 
 ---
 
-## Network Connectivity Issues
+## Network Connectivity Issues (MVP - WebSocket Server)
 
 ### Symptoms
 
@@ -163,20 +186,227 @@ ping 8.8.8.8
 - Packet loss
 - Frequent disconnects
 - Slow state synchronization
+- "Connection refused" errors
 
 ### Diagnosis
 
-#### Step 1: Test Basic Connectivity
+#### Step 1: Test Host Connectivity (from Client PC)
 
 ```bash
-# Test DNS resolution
-nslookup your-signaling-server.com
+# Test if Host's IP is reachable
+ping <host-public-ip>
 
-# Test ping
-ping your-signaling-server.com
+# Test if port 3000 is open
+# Windows:
+Test-NetConnection -ComputerName <host-public-ip> -Port 3000
 
-# Test port connectivity
-nc -zv your-signaling-server.com 443
+# Linux/Mac:
+nc -zv <host-public-ip> 3000
+```
+
+#### Step 2: Check Network Latency
+
+```bash
+# Test to Host's IP
+ping -n 100 <host-public-ip>
+# Look for: "Lost = 0%" (or low packet loss)
+```
+
+#### Step 3: Check Host's Public IP
+
+```bash
+# Host: Visit https://whatismyipaddress.com
+# Compare with router admin page IP
+# If different → Host is behind CGNAT (can't port forward)
+```
+
+### Common Solutions
+
+#### Port Forwarding Not Working
+
+**Cause**: Port 3000 not open on Host's router.
+
+**Solutions**:
+1. **Verify router settings**: Port 3000 → Host's local IP (e.g., 192.168.1.5)
+2. **Check Host's firewall**: Allow OLManager through Windows Firewall
+3. **Test locally**: Host can try `telnet localhost 3000` to verify server is running
+4. **Use ZeroTier**: See [Testing with ZeroTier](#testing-with-zerotier) to bypass port forwarding
+
+#### CGNAT Issues
+
+**Cause**: ISP uses Carrier-Grade NAT (can't receive incoming connections).
+
+**Solutions**:
+1. **Try ZeroTier**: Free VPN that bypasses CGNAT (see section below)
+2. **Mobile hotspot**: Host connects to mobile hotspot (some carriers allow incoming)
+3. **Future**: Wait for Relay Server mode (no port forwarding needed)
+
+#### Firewall Blocking
+
+Firewalls may block connections.
+
+**Solutions**:
+```bash
+# Windows (Host):
+# Allow OLManager through Windows Firewall
+# Or temporarily disable firewall for testing
+
+# Windows (Client):
+# Ensure OLManager can access network
+```
+
+#### VPN Issues
+
+VPNs can cause connectivity problems.
+
+**Solutions**:
+1. Disable VPN during gameplay
+2. Use split tunneling to exclude the game
+3. Try a different VPN protocol
+
+---
+
+## Port Forwarding Issues
+
+### How to Verify Port is Open
+
+#### Step 1: Host - Check Local Server
+
+```bash
+# Windows (in PowerShell):
+Test-NetConnection -ComputerName localhost -Port 3000
+
+# Should show: TcpTestSucceeded: True
+```
+
+#### Step 2: Host - Check Public IP
+
+```bash
+# Visit: https://whatismyipaddress.com
+# Note: Public IP (e.g., 181.23.45.67)
+```
+
+#### Step 3: Client - Test Connection
+
+```bash
+# Windows (in PowerShell):
+Test-NetConnection -ComputerName <host-public-ip> -Port 3000
+
+# If TcpTestSucceeded: False → Port not open
+```
+
+### Common Problems
+
+| Problem | Solution |
+|----------|----------|
+| Router admin page not accessible | Try 192.168.0.1, 10.0.0.1, or check router label |
+| Port forwarding option not found | Look for "NAT", "Virtual Server", "Gaming" |
+| Saved but not working | Restart router after saving settings |
+| IP changed after restart | Set static local IP on Host PC |
+
+---
+
+## Testing with ZeroTier (No Port Forwarding)
+
+### When to Use ZeroTier
+
+- Host can't open ports (CGNAT)
+- Router configuration is too complex
+- Quick testing with friends
+
+### Step 1: Install on Both PCs
+
+1. Download: [zerotier.com/download](https://www.zerotier.com/download/)
+2. Install and restart if needed.
+
+### Step 2: Create Network (One-time Setup)
+
+1. Go to [my.zerotier.com](https://my.zerotier.com/)
+2. Create account (free)
+3. Click "Create a Network"
+4. Copy the **Network ID** (e.g., `a1b2c3d4e5f6g7h8`)
+
+### Step 3: Join Network (Both PCs)
+
+1. Click ZeroTier icon in system tray
+2. Click "Join Network"
+3. Enter the **Network ID**
+4. Wait for "Authorized" status (may need approval in my.zerotier.com)
+
+### Step 4: Get ZeroTier IPs
+
+**On both PCs**:
+```bash
+# Windows (PowerShell):
+ipconfig | findstr "ZeroTier"
+# Look for: IPv4 Address (e.g., 10.147.17.5)
+
+# Mac/Linux:
+ifconfig | grep "zt0"
+```
+
+### Step 5: Play!
+
+1. **Host**: Create room (uses ZeroTier IP automatically)
+2. **Client**: Connect using Host's ZeroTier IP (e.g., `ws://10.147.17.5:3000`)
+3. **No port forwarding needed!**
+
+> **Note**: ZeroTier is for testing. For production, use Relay Server (see User Guide).
+
+---
+
+## WebSocket Troubleshooting (MVP)
+
+### Understanding WebSocket Connection
+
+OLManager MVP uses simple WebSocket connections (not WebRTC).
+
+### Connection Flow
+
+```
+1. Host starts WebSocket server on port 3000
+2. Host shares Public IP + Port with Client
+3. Client connects to ws://<host-ip>:3000
+4. WebSocket connection established
+5. Game state syncs over WebSocket
+```
+
+### Common WebSocket Errors
+
+#### Error: "Connection refused"
+
+**Cause**: Host's port 3000 not accessible.
+
+**Solutions**:
+1. Verify port forwarding on Host's router
+2. Check Host's firewall allows port 3000
+3. Try ZeroTier to bypass router config
+
+#### Error: "WebSocket closed unexpectedly"
+
+**Cause**: Connection lost.
+
+**Solutions**:
+1. Check both internet connections
+2. Host: Disable power saving (PC going to sleep)
+3. Implement auto-reconnect in settings
+
+#### Error: "Host behind CGNAT"
+
+**Cause**: Can't receive incoming connections.
+
+**Solutions**:
+1. Use ZeroTier (see section above)
+2. Wait for Relay Server mode (future)
+
+### Debugging WebSocket
+
+Check Host's server logs:
+
+```bash
+# Look for:
+# "WebSocket server listening on 0.0.0.0:3000"
+# "New connection from <client-ip>"
 ```
 
 #### Step 2: Check Network Latency
