@@ -298,7 +298,8 @@ export interface PlayerData {
   full_name: string;
   date_of_birth: string;
   nationality: string;
-  football_nation?: string;
+  nationality_code?: string;
+  competitive_region?: string;
   birth_country?: string | null;
   profile_image_url?: string | null;
   position: string;
