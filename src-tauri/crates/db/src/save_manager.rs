@@ -184,7 +184,7 @@ impl SaveManager {
             needs_resave = true;
         }
 
-        if ofm_core::football_identity::upgrade_game_football_identities(&mut game) {
+        if ofm_core::identity_upgrade::upgrade_game_football_identities(&mut game) {
             info!(
                 "[save_manager] upgraded football identity fields for save {}",
                 save_id

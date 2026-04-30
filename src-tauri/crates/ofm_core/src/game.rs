@@ -88,7 +88,7 @@ impl Game {
             champion_masteries: vec![],
             champion_patch: ChampionPatchState::default(),
         };
-        crate::football_identity::upgrade_game_football_identities(&mut game);
+        crate::identity_upgrade::upgrade_game_football_identities(&mut game);
         crate::season_context::refresh_game_context(&mut game);
         game
     }

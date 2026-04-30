@@ -9,7 +9,7 @@ pub mod delegated_renewals;
 pub mod end_of_season;
 pub mod finances;
 pub mod firing;
-pub mod football_identity;
+pub mod identity_upgrade;
 pub mod game;
 pub mod generator;
 pub mod job_offers;

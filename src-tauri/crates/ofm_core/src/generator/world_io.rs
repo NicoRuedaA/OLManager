@@ -4,7 +4,7 @@ use super::definitions::{WorldData, WorldDatabaseInfo};
 /// If `data_dir` is provided, tries to load definition files from that directory.
 pub fn generate_world_data(data_dir: Option<&std::path::Path>) -> WorldData {
     let (mut teams, mut players, mut staff) = super::generate_world(data_dir);
-    crate::football_identity::upgrade_world_football_identities(
+    crate::identity_upgrade::upgrade_world_football_identities(
         &mut teams,
         &mut players,
         &mut staff,
@@ -26,7 +26,7 @@ pub fn generate_world_data(data_dir: Option<&std::path::Path>) -> WorldData {
 pub fn load_world_from_json(json: &str) -> Result<WorldData, String> {
     let mut world: WorldData =
         serde_json::from_str(json).map_err(|e| format!("Failed to parse world database: {}", e))?;
-    crate::football_identity::upgrade_world_football_identities(
+    crate::identity_upgrade::upgrade_world_football_identities(
         &mut world.teams,
         &mut world.players,
         &mut world.staff,
@@ -37,7 +37,7 @@ pub fn load_world_from_json(json: &str) -> Result<WorldData, String> {
 /// Serialise a `WorldData` to a pretty-printed JSON string.
 pub fn export_world_to_json(world: &WorldData) -> Result<String, String> {
     let mut normalized = world.clone();
-    crate::football_identity::upgrade_world_football_identities(
+    crate::identity_upgrade::upgrade_world_football_identities(
         &mut normalized.teams,
         &mut normalized.players,
         &mut normalized.staff,
