@@ -397,6 +397,7 @@ pub async fn multiplayer_disconnect(
 #[tauri::command]
 pub async fn mark_day_ready(
     state: State<'_, StateManager>,
+    mp_state: State<'_, MultiplayerState>,
     manager_id: Option<String>,
 ) -> Result<ofm_core::game::Game, String> {
     let mut game_guard = state
@@ -420,13 +421,40 @@ pub async fn mark_day_ready(
     // In single-player mode, player_num is 0 which is invalid - use 1
     let player_num = if player_num == 0 { 1 } else { player_num };
     
-    let can_advance = game.mark_player_ready(player_num);
-    
-    if can_advance {
-        log::info!("Both players ready to advance day");
-        // Day will be advanced by the game loop
+    // In multiplayer mode, send WebSocket message to Host (if client)
+    if game.multiplayer_mode == MultiplayerMode::Online {
+        let mp = mp_state.inner().unwrap();
+        
+        if !mp.is_host {
+            // We are the client - send ReadyToAdvance to Host
+            if let Some(client) = &mp.client {
+                let msg = NetworkMessage::ReadyToAdvance { player_num };
+                if let Err(e) = client.send(&msg).await {
+                    log::error!("Failed to send ReadyToAdvance: {}", e);
+                } else {
+                    log::info!("Sent ReadyToAdvance for player {}", player_num);
+                }
+            }
+        } else {
+            // We are the host - process locally
+            let can_advance = game.mark_player_ready(player_num);
+            
+            if can_advance {
+                log::info!("Both players ready to advance day");
+                // Day will be advanced by the game loop
+            } else {
+                log::info!("Player {} ready, waiting for opponent", player_num);
+            }
+        }
     } else {
-        log::info!("Player {} ready, waiting for opponent", player_num);
+        // Offline mode - process directly
+        let can_advance = game.mark_player_ready(player_num);
+        
+        if can_advance {
+            log::info!("Both players ready to advance day");
+        } else {
+            log::info!("Player {} ready, waiting for opponent", player_num);
+        }
     }
     
     Ok(game.clone())
