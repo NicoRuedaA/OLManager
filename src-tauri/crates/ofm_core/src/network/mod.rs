@@ -1,10 +1,12 @@
 //! Network messaging for online multiplayer mode.
-//!
+//! 
 //! This module defines the protocol for communication between host and client
 //! in P2P online multiplayer games.
 
-use crate::game::Game;
+pub mod webrtc_manager;  // NEW: WebRTC Manager
+
 use serde::{Deserialize, Serialize};
+use crate::game::Game;
 
 /// Unique request ID for tracking action confirmations
 pub type RequestId = String;
