@@ -1528,7 +1528,17 @@
     "fullscreen": "Vollbild",
     "fullscreenDesc": "Vollbildmodus umschalten",
     "enterFullscreen": "Aktivieren",
-    "exitFullscreen": "Beenden"
+    "exitFullscreen": "Beenden",
+    "updates": "Aktualisierungen",
+    "currentVersion": "Aktuelle Version",
+    "currentVersionDesc": "Die installierte Version des Spiels",
+    "checkForUpdates": "Nach Aktualisierungen suchen",
+    "checkForUpdatesDesc": "Manuell prüfen, ob eine neue Version verfügbar ist",
+    "checking": "Prüfe...",
+    "updateAvailable": "Aktualisierung verfügbar",
+    "checkNow": "Jetzt prüfen",
+    "updateAvailableDetail": "Version {{version}} ist verfügbar",
+    "upToDate": "Du hast die neueste Version"
   },
   "preMatch": {
     "formationFit": "Formationsanpassung",
@@ -2799,5 +2809,14 @@
     "noJobs": "Derzeit keine Stellen verfügbar.",
     "leaguePosition": "Letzte Saison: {{position}}",
     "refresh": "Nach neuen Stellen suchen"
+  },
+  "updater": {
+    "title": "Aktualisierung verfügbar",
+    "description": "Eine neue Version ({{version}}) ist verfügbar. Deine Spielstände bleiben erhalten.",
+    "downloading": "Lade herunter...",
+    "preparing": "Bereite Aktualisierung vor...",
+    "installing": "Installiere...",
+    "installAndRestart": "Installieren & Neustarten",
+    "playWithoutUpdating": "Ohne Aktualisierung spielen"
   }
 }

@@ -1536,7 +1536,17 @@
     "fullscreen": "Plein Écran",
     "fullscreenDesc": "Basculer en mode plein écran",
     "enterFullscreen": "Entrer",
-    "exitFullscreen": "Quitter"
+    "exitFullscreen": "Quitter",
+    "updates": "Mises à jour",
+    "currentVersion": "Version Actuelle",
+    "currentVersionDesc": "La version installée du jeu",
+    "checkForUpdates": "Vérifier les Mises à Jour",
+    "checkForUpdatesDesc": "Vérifier manuellement si une nouvelle version est disponible",
+    "checking": "Vérification...",
+    "updateAvailable": "Mise à Jour Disponible",
+    "checkNow": "Vérifier Maintenant",
+    "updateAvailableDetail": "La version {{version}} est disponible",
+    "upToDate": "Vous êtes à jour"
   },
   "preMatch": {
     "formationFit": "Ajustement Formation",
@@ -1883,7 +1893,7 @@
     "viewDetails": "Voir les détails",
     "matchDetails": "Détails du Match",
     "scorers": "Buteurs",
-    "tactics":"Prépa et Tactique",
+    "tactics": "Prépa et Tactique",
     "noGoals": "Aucun but marqué.",
     "matchComplete": "Match terminé.",
     "addressPress": "Répondez à la presse ou rentrez.",
@@ -2807,5 +2817,14 @@
     "noJobs": "Aucun poste disponible actuellement.",
     "leaguePosition": "Dernière saison : {{position}}",
     "refresh": "Vérifier les nouvelles offres"
+  },
+  "updater": {
+    "title": "Mise à Jour Disponible",
+    "description": "Une nouvelle version ({{version}}) est disponible. Vos parties sauvegardées seront conservées.",
+    "downloading": "Téléchargement...",
+    "preparing": "Préparation de la mise à jour...",
+    "installing": "Installation...",
+    "installAndRestart": "Installer & Redémarrer",
+    "playWithoutUpdating": "Jouer Sans Mettre à Jour"
   }
 }

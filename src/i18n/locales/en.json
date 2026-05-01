@@ -1528,7 +1528,17 @@
     "fullscreen": "Fullscreen",
     "fullscreenDesc": "Toggle fullscreen mode for an immersive experience",
     "enterFullscreen": "Enter",
-    "exitFullscreen": "Exit"
+    "exitFullscreen": "Exit",
+    "updates": "Updates",
+    "currentVersion": "Current Version",
+    "currentVersionDesc": "The installed version of the game",
+    "checkForUpdates": "Check for Updates",
+    "checkForUpdatesDesc": "Manually check if a new version is available",
+    "checking": "Checking...",
+    "updateAvailable": "Update Available",
+    "checkNow": "Check Now",
+    "updateAvailableDetail": "Version {{version}} is available",
+    "upToDate": "You're up to date"
   },
   "preMatch": {
     "formationFit": "Formation Fit",
@@ -2804,5 +2814,14 @@
     "noJobs": "No positions currently available.",
     "leaguePosition": "Last Season: {{position}}",
     "refresh": "Check for new positions"
+  },
+  "updater": {
+    "title": "Update Available",
+    "description": "A new version ({{version}}) is available. Your save games will be preserved.",
+    "downloading": "Downloading...",
+    "preparing": "Preparing update...",
+    "installing": "Installing...",
+    "installAndRestart": "Install & Restart",
+    "playWithoutUpdating": "Play Without Updating"
   }
 }

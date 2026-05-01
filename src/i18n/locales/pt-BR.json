@@ -1536,7 +1536,17 @@
     "fullscreen": "Tela Cheia",
     "fullscreenDesc": "Ativar modo tela cheia para uma experiência imersiva",
     "enterFullscreen": "Entrar",
-    "exitFullscreen": "Sair"
+    "exitFullscreen": "Sair",
+    "updates": "Atualizações",
+    "currentVersion": "Versão Atual",
+    "currentVersionDesc": "A versão instalada do jogo",
+    "checkForUpdates": "Verificar Atualizações",
+    "checkForUpdatesDesc": "Verificar manualmente se há uma nova versão disponível",
+    "checking": "Verificando...",
+    "updateAvailable": "Atualização Disponível",
+    "checkNow": "Verificar Agora",
+    "updateAvailableDetail": "A versão {{version}} está disponível",
+    "upToDate": "Você está na versão mais recente"
   },
   "preMatch": {
     "formationFit": "Ajuste da Formação",
@@ -1842,7 +1852,7 @@
     "viewDetails": "Ver detalhes",
     "matchDetails": "Detalhes da Partida",
     "scorers": "Artilheiros",
-    "tactics":"Preparo de tática",
+    "tactics": "Preparo de tática",
     "noGoals": "Nenhum gol marcado.",
     "matchComplete": "Partida completa.",
     "addressPress": "Fale com a imprensa ou volte ao painel.",
@@ -2809,5 +2819,14 @@
     "noJobs": "Nenhuma posição disponível no momento.",
     "leaguePosition": "Última temporada: {{position}}",
     "refresh": "Verificar novas vagas"
+  },
+  "updater": {
+    "title": "Atualização Disponível",
+    "description": "Uma nova versão ({{version}}) está disponível. Seus jogos salvos serão preservados.",
+    "downloading": "Baixando...",
+    "preparing": "Preparando atualização...",
+    "installing": "Instalando...",
+    "installAndRestart": "Instalar e Reiniciar",
+    "playWithoutUpdating": "Jogar Sem Atualizar"
   }
 }
