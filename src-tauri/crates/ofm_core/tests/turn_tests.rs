@@ -6,8 +6,8 @@ use domain::player::{
     PlayerPromiseKind, Position,
 };
 use domain::team::Team;
-use engine::Side;
 use engine::report::{GoalDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
+use engine::Side;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 use ofm_core::turn;
@@ -560,7 +560,7 @@ fn apply_match_report_updates_player_stats() {
 
     let scorer = game.players.iter().find(|p| p.id == "t1_fwd0").unwrap();
     assert_eq!(scorer.stats.appearances, 1);
-    assert_eq!(scorer.stats.goals, 2);
+    assert_eq!(scorer.stats.kills, 2);
     assert_eq!(scorer.stats.shots, 3);
     assert_eq!(scorer.stats.shots_on_target, 2);
     assert_eq!(scorer.stats.passes_completed, 30);
@@ -1463,9 +1463,9 @@ fn make_round_summary_game() -> Game {
     game.players
         .iter_mut()
         .for_each(|player| match player.id.as_str() {
-            "t1_fwd0" => player.stats.goals = 5,
-            "t2_fwd0" => player.stats.goals = 3,
-            "t3_fwd0" => player.stats.goals = 6,
+            "t1_fwd0" => player.stats.kills = 5,
+            "t2_fwd0" => player.stats.kills = 3,
+            "t3_fwd0" => player.stats.kills = 6,
             _ => {}
         });
 

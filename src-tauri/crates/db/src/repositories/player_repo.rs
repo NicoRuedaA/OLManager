@@ -1,6 +1,6 @@
 use domain::player::{Footedness, Player, PlayerAttributes, Position};
 use domain::team::TrainingFocus;
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace a player row.
 pub fn upsert_player(conn: &Connection, p: &Player) -> Result<(), String> {
@@ -458,7 +458,7 @@ mod tests {
         let db = test_db();
         let mut player = sample_player("p-001", None);
         player.stats.appearances = 20;
-        player.stats.goals = 5;
+        player.stats.kills = 5;
         player.stats.assists = 8;
         player.stats.shots = 42;
         player.stats.shots_on_target = 21;
@@ -472,7 +472,7 @@ mod tests {
         let loaded = load_all_players(db.conn()).unwrap();
 
         assert_eq!(loaded[0].stats.appearances, 20);
-        assert_eq!(loaded[0].stats.goals, 5);
+        assert_eq!(loaded[0].stats.kills, 5);
         assert_eq!(loaded[0].stats.assists, 8);
         assert_eq!(loaded[0].stats.shots, 42);
         assert_eq!(loaded[0].stats.shots_on_target, 21);
@@ -506,7 +506,7 @@ mod tests {
             .unwrap();
 
         assert_eq!(loaded_player.stats.appearances, 12);
-        assert_eq!(loaded_player.stats.goals, 4);
+        assert_eq!(loaded_player.stats.kills, 4);
         assert_eq!(loaded_player.stats.assists, 6);
         assert_eq!(loaded_player.stats.minutes_played, 900);
         assert_eq!(loaded_player.stats.shots, 0);

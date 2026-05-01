@@ -346,7 +346,7 @@ fn default_transfer_offer_destination_team_id() -> Option<String> {
 #[serde(default)]
 pub struct PlayerSeasonStats {
     pub appearances: u32,
-    pub goals: u32,
+    pub kills: u32,
     pub assists: u32,
     pub clean_sheets: u32,
     pub yellow_cards: u32,

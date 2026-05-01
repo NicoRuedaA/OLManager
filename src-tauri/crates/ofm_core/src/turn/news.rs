@@ -170,14 +170,14 @@ fn unbeaten_run_length(form: &[String]) -> u32 {
 fn top_scorer_summary(game: &Game) -> Option<(String, u32)> {
     game.players
         .iter()
-        .filter(|player| player.stats.goals > 0)
+        .filter(|player| player.stats.kills > 0)
         .max_by(|a, b| {
             a.stats
-                .goals
-                .cmp(&b.stats.goals)
+                .kills
+                .cmp(&b.stats.kills)
                 .then_with(|| a.match_name.cmp(&b.match_name))
         })
-        .map(|player| (player.match_name.clone(), player.stats.goals))
+        .map(|player| (player.match_name.clone(), player.stats.kills))
 }
 
 fn weekly_storyline_articles(
@@ -794,20 +794,18 @@ mod tests {
 
         generate_weekly_digest_news(&mut game, "2025-08-12");
 
-        assert!(
-            game.news
-                .iter()
-                .all(|article| !article.id.starts_with("weekly_digest_"))
-        );
+        assert!(game
+            .news
+            .iter()
+            .all(|article| !article.id.starts_with("weekly_digest_")));
 
         set_current_date(&mut game, 2025, 8, 11);
         generate_weekly_digest_news(&mut game, "2025-08-11");
 
-        assert!(
-            game.news
-                .iter()
-                .any(|article| article.id.starts_with("weekly_digest_"))
-        );
+        assert!(game
+            .news
+            .iter()
+            .any(|article| article.id.starts_with("weekly_digest_")));
     }
 
     #[test]
@@ -818,16 +816,14 @@ mod tests {
 
         generate_weekly_digest_news(&mut game, "2025-08-11");
 
-        assert!(
-            game.news
-                .iter()
-                .all(|article| !article.id.starts_with("weekly_digest_"))
-        );
-        assert!(
-            game.news
-                .iter()
-                .all(|article| !article.id.starts_with("storyline_"))
-        );
+        assert!(game
+            .news
+            .iter()
+            .all(|article| !article.id.starts_with("weekly_digest_")));
+        assert!(game
+            .news
+            .iter()
+            .all(|article| !article.id.starts_with("storyline_")));
     }
 
     #[test]

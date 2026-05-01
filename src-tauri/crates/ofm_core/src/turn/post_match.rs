@@ -386,7 +386,7 @@ fn apply_player_stats(
     for player in game.players.iter_mut() {
         if let Some(ps) = report.player_stats.get(&player.id) {
             player.stats.appearances += 1;
-            player.stats.goals += ps.kills as u32;
+            player.stats.kills += ps.kills as u32;
             player.stats.assists += ps.assists as u32;
             player.stats.minutes_played += ps.duration_seconds / 60;
 

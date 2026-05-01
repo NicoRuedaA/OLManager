@@ -378,7 +378,7 @@ fn player_stats_reset() {
 
     let p1 = game.players.iter().find(|p| p.id == "p1").unwrap();
     assert_eq!(p1.stats.appearances, 0);
-    assert_eq!(p1.stats.goals, 0);
+    assert_eq!(p1.stats.kills, 0);
     assert_eq!(p1.stats.assists, 0);
 }
 
