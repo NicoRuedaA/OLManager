@@ -25,7 +25,7 @@ pub fn run() {
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
-                .level_for("openfootmanager_lib", log::LevelFilter::Debug)
+                .level_for("olmanager_lib", log::LevelFilter::Debug)
                 .level_for("ofm_core", log::LevelFilter::Debug)
                 .level_for("engine", log::LevelFilter::Debug)
                 .level_for("db", log::LevelFilter::Debug)
