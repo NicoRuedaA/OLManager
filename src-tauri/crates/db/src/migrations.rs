@@ -1,7 +1,7 @@
 use rusqlite_migration::{Migrations, M};
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 32;
+pub const MIGRATION_COUNT: usize = 33;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -104,6 +104,9 @@ pub fn all_migrations() -> Migrations<'static> {
             }
             Ok(())
         }),
+        // V33: Add profile_image_url column to players table for profile images
+        // Required for load_all_players - old saves don't have this column
+        M::up(include_str!("sql/v033_player_profile_image_url.sql")),
     ])
 }
 
