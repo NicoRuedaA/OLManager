@@ -2,7 +2,7 @@ use domain::team::{
     AcademyMetadata, Facilities, FinancialTransaction, LolTactics, PlayStyle, Sponsorship, Team,
     TeamColors, TeamKind, TrainingFocus, TrainingIntensity, TrainingSchedule,
 };
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace a team row.
 pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {

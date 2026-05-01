@@ -1,4 +1,4 @@
-// pub mod champion_progression_repo;
+pub mod champion_progression_repo;
 pub mod champion_repo;
 pub mod league_repo;
 pub mod manager_repo;

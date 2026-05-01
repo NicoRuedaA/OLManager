@@ -1,5 +1,5 @@
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace the league row and its fixtures + standings.
 pub fn upsert_league(conn: &Connection, league: &League) -> Result<(), String> {

@@ -6,8 +6,8 @@ use ofm_core::game::{BoardObjective, Game, ObjectiveType, ScoutingAssignment};
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
-    champion_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo, objective_repo,
-    player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
+    champion_progression_repo, champion_repo, league_repo, manager_repo, message_repo, meta_repo,
+    news_repo, objective_repo, player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
 };
 
 pub struct GamePersistenceWriter;

@@ -1,7 +1,7 @@
 use rusqlite_migration::{Migrations, M};
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 31;
+pub const MIGRATION_COUNT: usize = 32;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -212,18 +212,5 @@ mod tests {
         migrations
             .to_latest(&mut conn)
             .expect("profile image URL migration should skip existing columns");
-    }
-
-    #[test]
-    fn test_compatible_schema_repairs_missing_avatar_path() {
-        let mut conn = Connection::open_in_memory().unwrap();
-        let migrations = all_migrations();
-        migrations
-            .to_version(&mut conn, 27)
-            .expect("migrations before avatar_path should apply");
-
-        assert!(!connection_column_exists(&conn, "managers", "avatar_path").unwrap());
-        ensure_compatible_schema(&conn).expect("compatibility repair should add avatar_path");
-        assert!(connection_column_exists(&conn, "managers", "avatar_path").unwrap());
     }
 }

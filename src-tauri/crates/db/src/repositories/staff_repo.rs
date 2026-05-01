@@ -1,5 +1,5 @@
 use domain::staff::{CoachingSpecialization, Staff, StaffAttributes, StaffRole};
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace a staff row.
 pub fn upsert_staff(conn: &Connection, s: &Staff) -> Result<(), String> {

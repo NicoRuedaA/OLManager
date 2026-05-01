@@ -27,13 +27,6 @@ impl GameDatabase {
             error!("[game_db] migration failed for {:?}: {}", path, e);
             format!("Database migration failed: {}", e)
         })?;
-        ensure_compatible_schema(&conn).map_err(|e| {
-            error!(
-                "[game_db] schema compatibility repair failed for {:?}: {}",
-                path, e
-            );
-            format!("Database schema compatibility repair failed: {}", e)
-        })?;
 
         info!("[game_db] database ready at {:?}", path);
         Ok(Self {
@@ -55,13 +48,6 @@ impl GameDatabase {
         migrations.to_latest(&mut conn).map_err(|e| {
             error!("[game_db] migration failed for in-memory db: {}", e);
             format!("Database migration failed: {}", e)
-        })?;
-        ensure_compatible_schema(&conn).map_err(|e| {
-            error!(
-                "[game_db] schema compatibility repair failed for in-memory db: {}",
-                e
-            );
-            format!("Database schema compatibility repair failed: {}", e)
         })?;
 
         Ok(Self {
