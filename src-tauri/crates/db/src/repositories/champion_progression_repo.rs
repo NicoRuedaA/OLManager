@@ -24,6 +24,19 @@ pub fn upsert_state(
 pub fn load_state(
     conn: &Connection,
 ) -> Result<Option<(Vec<ChampionMasteryEntry>, ChampionPatchState)>, String> {
+    // Check if table exists first (old saves may not have it)
+    let table_exists: bool = conn
+        .query_row(
+            "SELECT COUNT(*) > 0 FROM sqlite_master WHERE type='table' AND name='champion_progression_state'",
+            [],
+            |row| row.get(0),
+        )
+        .unwrap_or(false);
+
+    if !table_exists {
+        return Ok(None);
+    }
+
     let row = conn
         .query_row(
             "SELECT champion_masteries_json, champion_patch_json
