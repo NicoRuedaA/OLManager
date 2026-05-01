@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,10 @@ import {
   Type,
   Maximize,
   Minimize,
+  RefreshCw,
+  CheckCircle2,
 } from "lucide-react";
+import { useUpdater } from "../hooks/useUpdater";
 
 const CURRENCY_OPTIONS = [
   { value: "EUR", label: "Euro (€)", symbol: "€" },
@@ -38,12 +41,20 @@ export default function Settings() {
   const { t, i18n } = useTranslation();
   const { settings, loaded, loadSettings, updateSettings } = useSettingsStore();
   const { theme, toggleTheme } = useTheme();
+  const {
+    updateAvailable,
+    updateInfo,
+    checking: checkingUpdate,
+    check: checkUpdate,
+  } = useUpdater(false);
   const [confirmClear, setConfirmClear] = useState(false);
   const [clearSuccess, setClearSuccess] = useState(false);
   const [exportPath, setExportPath] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(
     !!document.fullscreenElement,
   );
+  const [showUpToDate, setShowUpToDate] = useState(false);
+  const prevChecking = useRef(checkingUpdate);
   const selectedLanguage = SUPPORTED_LANGUAGES.some(
     (lang) => lang.code === settings.language,
   )
@@ -79,6 +90,16 @@ export default function Settings() {
       i18n.changeLanguage(selectedLanguage);
     }
   }, [loaded, selectedLanguage, i18n]);
+
+  // Show "up to date" feedback when a manual check completes with no update
+  useEffect(() => {
+    if (prevChecking.current && !checkingUpdate && !updateAvailable) {
+      setShowUpToDate(true);
+      const timer = setTimeout(() => setShowUpToDate(false), 3000);
+      return () => clearTimeout(timer);
+    }
+    prevChecking.current = checkingUpdate;
+  }, [checkingUpdate, updateAvailable]);
 
   const handleUpdate = (partial: Partial<AppSettings>) => {
     updateSettings(partial);
@@ -431,6 +452,63 @@ export default function Settings() {
               )}
             </SettingRow>
           </div>
+        </Section>
+
+        {/* ─── Updates ─── */}
+        <Section
+          title={t("settings.updates")}
+          icon={<RefreshCw className="w-5 h-5" />}
+        >
+          <SettingRow
+            label={t("settings.currentVersion")}
+            description={t("settings.currentVersionDesc")}
+          >
+            <span className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              {updateInfo?.version ?? t("app.version")}
+            </span>
+          </SettingRow>
+
+          <SettingRow
+            label={t("settings.checkForUpdates")}
+            description={t("settings.checkForUpdatesDesc")}
+          >
+            <button
+              onClick={checkUpdate}
+              disabled={checkingUpdate}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500/10 text-primary-600 dark:text-primary-400 hover:bg-primary-500/20 text-sm font-heading font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
+            >
+              {checkingUpdate ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : updateAvailable ? (
+                <CheckCircle2 className="w-4 h-4" />
+              ) : (
+                <RefreshCw className="w-4 h-4" />
+              )}
+              {checkingUpdate
+                ? t("settings.checking")
+                : updateAvailable
+                  ? t("settings.updateAvailable")
+                  : t("settings.checkNow")}
+            </button>
+          </SettingRow>
+
+          {updateAvailable && updateInfo && (
+            <div className="rounded-lg bg-primary-500/5 border border-primary-500/20 p-3">
+              <p className="text-xs text-primary-600 dark:text-primary-400 font-medium">
+                {t("settings.updateAvailableDetail", {
+                  version: updateInfo.version,
+                })}
+              </p>
+            </div>
+          )}
+
+          {showUpToDate && (
+            <div className="rounded-lg bg-green-500/5 border border-green-500/20 p-3">
+              <p className="text-xs text-green-600 dark:text-green-400 font-medium">
+                {t("settings.upToDate")}
+              </p>
+            </div>
+          )}
         </Section>
 
         {/* ─── About ─── */}

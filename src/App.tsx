@@ -1,6 +1,8 @@
 import { useEffect, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSettingsStore } from "./store/settingsStore";
+import { useUpdater } from "./hooks/useUpdater";
+import UpdateModal from "./components/updater/UpdateModal";
 import i18n from "./i18n";
 import "./App.css";
 
@@ -29,6 +31,16 @@ const SCALE_MAP: Record<string, string> = {
 
 function App() {
   const { settings, loaded, loadSettings } = useSettingsStore();
+  const {
+    updateAvailable,
+    updateInfo,
+    downloading,
+    progress,
+    error,
+    dismissed,
+    install,
+    dismiss,
+  } = useUpdater(true);
 
   useEffect(() => {
     if (!loaded) loadSettings();
@@ -127,6 +139,16 @@ function App() {
           />
         </Routes>
       </Suspense>
+      {updateAvailable && !dismissed && updateInfo && (
+        <UpdateModal
+          updateInfo={updateInfo}
+          downloading={downloading}
+          progress={progress}
+          error={error}
+          onInstall={install}
+          onDismiss={dismiss}
+        />
+      )}
     </BrowserRouter>
   );
 }
