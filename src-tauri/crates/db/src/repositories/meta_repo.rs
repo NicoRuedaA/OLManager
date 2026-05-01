@@ -9,6 +9,7 @@ pub struct GameMeta {
     pub manager_id: String,
     pub start_date: String,
     pub game_date: String,
+    pub day_phase: String,
     pub created_at: String,
     pub last_played_at: String,
 }
@@ -16,14 +17,15 @@ pub struct GameMeta {
 /// Insert or replace the singleton game_meta row.
 pub fn upsert_meta(conn: &Connection, meta: &GameMeta) -> Result<(), String> {
     conn.execute(
-        "INSERT OR REPLACE INTO game_meta (id, save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at)
-         VALUES ('singleton', ?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        "INSERT OR REPLACE INTO game_meta (id, save_id, save_name, manager_id, start_date, game_date, day_phase, created_at, last_played_at)
+         VALUES ('singleton', ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
         params![
             meta.save_id,
             meta.save_name,
             meta.manager_id,
             meta.start_date,
             meta.game_date,
+            meta.day_phase,
             meta.created_at,
             meta.last_played_at,
         ],
@@ -36,7 +38,7 @@ pub fn upsert_meta(conn: &Connection, meta: &GameMeta) -> Result<(), String> {
 pub fn load_meta(conn: &Connection) -> Result<Option<GameMeta>, String> {
     let mut stmt = conn
         .prepare(
-            "SELECT save_id, save_name, manager_id, start_date, game_date, created_at, last_played_at
+            "SELECT save_id, save_name, manager_id, start_date, game_date, day_phase, created_at, last_played_at
              FROM game_meta WHERE id = 'singleton'",
         )
         .map_err(|e| format!("Failed to prepare meta query: {}", e))?;
@@ -49,8 +51,9 @@ pub fn load_meta(conn: &Connection) -> Result<Option<GameMeta>, String> {
                 manager_id: row.get(2)?,
                 start_date: row.get(3)?,
                 game_date: row.get(4)?,
-                created_at: row.get(5)?,
-                last_played_at: row.get(6)?,
+                day_phase: row.get(5)?,
+                created_at: row.get(6)?,
+                last_played_at: row.get(7)?,
             })
         })
         .map_err(|e| format!("Failed to query meta: {}", e))?;
@@ -80,6 +83,7 @@ mod tests {
             manager_id: "mgr_user".to_string(),
             start_date: "2026-07-01T00:00:00Z".to_string(),
             game_date: "2026-07-15T00:00:00Z".to_string(),
+            day_phase: "ScrimBlock".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-05T19:00:00Z".to_string(),
         };
@@ -90,6 +94,7 @@ mod tests {
         assert_eq!(loaded.save_id, "save-001");
         assert_eq!(loaded.save_name, "Test Career");
         assert_eq!(loaded.manager_id, "mgr_user");
+        assert_eq!(loaded.day_phase, "ScrimBlock");
         assert_eq!(loaded.game_date, "2026-07-15T00:00:00Z");
     }
 
@@ -109,6 +114,7 @@ mod tests {
             manager_id: "mgr_user".to_string(),
             start_date: "2026-07-01T00:00:00Z".to_string(),
             game_date: "2026-07-15T00:00:00Z".to_string(),
+            day_phase: "Morning".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-05T19:00:00Z".to_string(),
         };
@@ -120,6 +126,7 @@ mod tests {
             manager_id: "mgr_user".to_string(),
             start_date: "2026-07-01T00:00:00Z".to_string(),
             game_date: "2026-08-01T00:00:00Z".to_string(),
+            day_phase: "Evening".to_string(),
             created_at: "2026-03-05T18:00:00Z".to_string(),
             last_played_at: "2026-03-06T10:00:00Z".to_string(),
         };

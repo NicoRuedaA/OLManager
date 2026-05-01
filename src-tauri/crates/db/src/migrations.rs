@@ -39,6 +39,31 @@ fn migrate_manager_avatar_path(tx: &Transaction<'_>) -> HookResult {
     Ok(())
 }
 
+fn migrate_day_phase(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(
+        tx,
+        "game_meta",
+        "day_phase",
+        "TEXT NOT NULL DEFAULT 'Morning'",
+    )?;
+    Ok(())
+}
+
+fn migrate_scrim_reports(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_reports", "TEXT NOT NULL DEFAULT '[]'")?;
+    Ok(())
+}
+
+fn migrate_scrim_weekly_objective(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_weekly_objective", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_scrim_setup_lock_week_key(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_setup_locked_week_key", "TEXT")?;
+    Ok(())
+}
+
 fn connection_column_exists(
     conn: &Connection,
     table: &str,
@@ -74,11 +99,44 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
     connection_add_column_if_missing(conn, "managers", "avatar_path", "TEXT")?;
     connection_add_column_if_missing(conn, "players", "profile_image_url", "TEXT")?;
     connection_add_column_if_missing(conn, "staff", "profile_image_url", "TEXT")?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "weekly_scrim_plan_team_ids",
+        "TEXT NOT NULL DEFAULT '[]'",
+    )?;
+    connection_add_column_if_missing(conn, "teams", "scrim_weekly_objective", "TEXT")?;
+    connection_add_column_if_missing(conn, "teams", "scrim_setup_locked_week_key", "TEXT")?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_weekly_slots",
+        "INTEGER NOT NULL DEFAULT 0",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_reputation",
+        "INTEGER NOT NULL DEFAULT 50",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_weekly_cancellations",
+        "INTEGER NOT NULL DEFAULT 0",
+    )?;
+    connection_add_column_if_missing(conn, "teams", "scrim_reports", "TEXT NOT NULL DEFAULT '[]'")?;
+    connection_add_column_if_missing(
+        conn,
+        "game_meta",
+        "day_phase",
+        "TEXT NOT NULL DEFAULT 'Morning'",
+    )?;
     Ok(())
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 30;
+pub const MIGRATION_COUNT: usize = 34;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -144,6 +202,14 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v028_champion_progression_state.sql")),
         // V30: Optional unified profile image URLs for players and staff
         M::up_with_hook("SELECT 1;", migrate_profile_image_urls),
+        // V31: Persist day phase for phase-based advancement
+        M::up_with_hook("SELECT 1;", migrate_day_phase),
+        // V32: Enriched scrim reports for gameplay consequences
+        M::up_with_hook("SELECT 1;", migrate_scrim_reports),
+        // V33: Optional weekly scrim objective for planning intent
+        M::up_with_hook("SELECT 1;", migrate_scrim_weekly_objective),
+        // V34: Optional weekly setup lock marker key
+        M::up_with_hook("SELECT 1;", migrate_scrim_setup_lock_week_key),
     ])
 }
 
@@ -252,7 +318,7 @@ mod tests {
         let mut conn = Connection::open_in_memory().unwrap();
         let migrations = all_migrations();
         migrations
-            .to_version(&mut conn, MIGRATION_COUNT - 1)
+            .to_version(&mut conn, 29)
             .expect("migrations before profile image URLs should apply");
 
         conn.execute("ALTER TABLE players ADD COLUMN profile_image_url TEXT", [])

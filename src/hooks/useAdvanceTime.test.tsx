@@ -5,6 +5,7 @@ import { invoke } from "@tauri-apps/api/core";
 
 import type { GameStateData } from "../store/gameStore";
 import { useAdvanceTime } from "./useAdvanceTime";
+import { delegateScrimDecision } from "../services/trainingService";
 
 const navigateMock = vi.fn();
 
@@ -16,15 +17,22 @@ vi.mock("react-router-dom", () => ({
   useNavigate: () => navigateMock,
 }));
 
+vi.mock("../services/trainingService", () => ({
+  delegateScrimDecision: vi.fn(),
+}));
+
 const mockedInvoke = vi.mocked(invoke);
+const mockedDelegateScrimDecision = vi.mocked(delegateScrimDecision);
 
 function HookHarness(props: {
   defaultMatchMode?: "live" | "spectator" | "delegate";
+  scrimReviewMode?: "manual" | "assistant";
   hasMatchToday: boolean;
 }): JSX.Element {
   const [, setGameState] = useState<GameStateData | null>(null);
   const {
     blockerModal,
+    autoDelegationNotice,
     handleConfirmMatch,
     handleContinue,
     handleSkipToMatchDay,
@@ -34,6 +42,7 @@ function HookHarness(props: {
       (state) => setGameState(state),
       props.hasMatchToday,
       props.defaultMatchMode,
+      props.scrimReviewMode ?? "manual",
       true,
       false,
     );
@@ -47,6 +56,7 @@ function HookHarness(props: {
       <div data-testid="blocker-count">
         {blockerModal?.blockers.length ?? 0}
       </div>
+      <div data-testid="auto-delegation-notice">{autoDelegationNotice ?? ""}</div>
     </div>
   );
 }
@@ -54,6 +64,7 @@ function HookHarness(props: {
 describe("useAdvanceTime", function (): void {
   beforeEach(function resetMocks(): void {
     mockedInvoke.mockReset();
+    mockedDelegateScrimDecision.mockReset();
     navigateMock.mockReset();
   });
 
@@ -182,5 +193,219 @@ describe("useAdvanceTime", function (): void {
 
     expect(screen.getByTestId("blocker-count")).toHaveTextContent("1");
     expect(mockedInvoke).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows scrim decision blocker when backend returns blocked_scrim_decision", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_decision",
+        game: { clock: { current_date: "2026-07-02", start_date: "2026-07-01" } },
+      });
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(1, "check_blocking_actions");
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "advance_time_with_mode", {
+        mode: "live",
+      });
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("1");
+  });
+
+  it("shows scrim setup blocker when backend returns blocked_scrim_setup", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_setup",
+        game: { clock: { current_date: "2026-07-02", start_date: "2026-07-01" } },
+      });
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(1, "check_blocking_actions");
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "advance_time_with_mode", {
+        mode: "live",
+      });
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("1");
+  });
+
+  it("auto-delegates scrim decision and retries advance when mode is assistant", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_decision",
+        game: { clock: { current_date: "2026-07-02", start_date: "2026-07-01" } },
+      })
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: { clock: { current_date: "2026-07-03", start_date: "2026-07-01" } },
+      });
+    mockedDelegateScrimDecision.mockResolvedValue({
+      clock: { current_date: "2026-07-02", start_date: "2026-07-01" },
+    } as GameStateData);
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" scrimReviewMode="assistant" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "advance_time_with_mode", { mode: "live" });
+      expect(mockedDelegateScrimDecision).toHaveBeenCalledTimes(1);
+      expect(mockedInvoke).toHaveBeenNthCalledWith(3, "advance_time_with_mode", { mode: "live" });
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("0");
+    expect(screen.getByTestId("auto-delegation-notice")).toHaveTextContent("Assistant Coach resolvió automáticamente");
+  });
+
+  it("bypasses pre-check scrim blockers in assistant mode and auto-resolves on continue", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([
+        {
+          id: "scrim_decision_required",
+          severity: "warn",
+          tab: "Scrims",
+          text: "Debes tomar una decision de scrims antes de continuar.",
+        },
+      ])
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_decision",
+        game: { clock: { current_date: "2026-07-02", start_date: "2026-07-01" } },
+      })
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: { clock: { current_date: "2026-07-03", start_date: "2026-07-01" } },
+      });
+    mockedDelegateScrimDecision.mockResolvedValue({
+      clock: { current_date: "2026-07-02", start_date: "2026-07-01" },
+    } as GameStateData);
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" scrimReviewMode="assistant" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(1, "check_blocking_actions");
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "advance_time_with_mode", { mode: "live" });
+      expect(mockedDelegateScrimDecision).toHaveBeenCalledTimes(1);
+      expect(mockedInvoke).toHaveBeenNthCalledWith(3, "advance_time_with_mode", { mode: "live" });
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("0");
+    expect(screen.getByTestId("auto-delegation-notice")).toHaveTextContent("Assistant Coach resolvió automáticamente");
+  });
+
+  it("assistant continue resolves chained scrim blockers across days in one click", async function (): Promise<void> {
+    const gameStateWithDate = (current_date: string) => ({
+      clock: { current_date, start_date: "2026-07-01" },
+      manager: { team_id: "lec-mad" },
+      teams: [{ id: "lec-mad", scrim_weekly_slots: 4 }],
+    });
+
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_decision",
+        game: gameStateWithDate("2026-07-01"),
+      })
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: gameStateWithDate("2026-07-02"),
+      })
+      .mockResolvedValueOnce({
+        action: "blocked_scrim_decision",
+        game: gameStateWithDate("2026-07-02"),
+      })
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: gameStateWithDate("2026-07-03"),
+      });
+
+    mockedDelegateScrimDecision
+      .mockResolvedValueOnce(gameStateWithDate("2026-07-01") as GameStateData)
+      .mockResolvedValueOnce(gameStateWithDate("2026-07-02") as GameStateData);
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" scrimReviewMode="assistant" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedDelegateScrimDecision).toHaveBeenCalledTimes(1);
+      expect(mockedInvoke).toHaveBeenCalledWith("advance_time_with_mode", { mode: "live" });
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("0");
+    expect(screen.getByTestId("auto-delegation-notice")).toHaveTextContent("Assistant Coach resolvió automáticamente");
+  });
+
+  it("assistant continue advances exactly one day when there are no scrims", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: { clock: { current_date: "2026-07-03", start_date: "2026-07-01" } },
+      });
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" scrimReviewMode="assistant" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(1, "check_blocking_actions");
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "advance_time_with_mode", { mode: "live" });
+    });
+
+    expect(mockedInvoke).toHaveBeenCalledTimes(2);
+    expect(mockedDelegateScrimDecision).not.toHaveBeenCalled();
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("0");
+  });
+
+  it("auto-delegates scrim decision and retries skip-to-match-day when blocked", async function (): Promise<void> {
+    mockedInvoke
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce({
+        action: "blocked",
+        game: { clock: { current_date: "2026-07-02", start_date: "2026-07-01" } },
+        blockers: [
+          {
+            id: "scrim_decision_required",
+            severity: "warn",
+            tab: "Scrims",
+            text: "Debes tomar una decision de scrims antes de continuar.",
+          },
+        ],
+      })
+      .mockResolvedValueOnce({
+        action: "advanced",
+        game: { clock: { current_date: "2026-07-06", start_date: "2026-07-01" } },
+        days_skipped: 4,
+      });
+    mockedDelegateScrimDecision.mockResolvedValue({
+      clock: { current_date: "2026-07-02", start_date: "2026-07-01" },
+    } as GameStateData);
+
+    render(<HookHarness hasMatchToday={false} defaultMatchMode="live" scrimReviewMode="assistant" />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Skip" }));
+
+    await waitFor(function (): void {
+      expect(mockedInvoke).toHaveBeenNthCalledWith(1, "check_blocking_actions");
+      expect(mockedInvoke).toHaveBeenNthCalledWith(2, "skip_to_match_day");
+      expect(mockedDelegateScrimDecision).toHaveBeenCalledTimes(1);
+      expect(mockedInvoke).toHaveBeenNthCalledWith(3, "skip_to_match_day");
+    });
+
+    expect(screen.getByTestId("blocker-count")).toHaveTextContent("0");
+    expect(screen.getByTestId("auto-delegation-notice")).toHaveTextContent("Assistant Coach resolvió automáticamente");
   });
 });

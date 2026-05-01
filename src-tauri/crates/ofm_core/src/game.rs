@@ -11,6 +11,48 @@ use domain::team::Team;
 
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+pub enum DayPhase {
+    #[default]
+    Morning,
+    ScrimBlock,
+    ReviewBlock,
+    TrainingBlock,
+    Evening,
+}
+
+impl DayPhase {
+    pub fn as_id(&self) -> &'static str {
+        match self {
+            Self::Morning => "Morning",
+            Self::ScrimBlock => "ScrimBlock",
+            Self::ReviewBlock => "ReviewBlock",
+            Self::TrainingBlock => "TrainingBlock",
+            Self::Evening => "Evening",
+        }
+    }
+
+    pub fn from_id(value: &str) -> Self {
+        match value {
+            "ScrimBlock" => Self::ScrimBlock,
+            "ReviewBlock" => Self::ReviewBlock,
+            "TrainingBlock" => Self::TrainingBlock,
+            "Evening" => Self::Evening,
+            _ => Self::Morning,
+        }
+    }
+
+    pub fn next(&self) -> Self {
+        match self {
+            Self::Morning => Self::ScrimBlock,
+            Self::ScrimBlock => Self::ReviewBlock,
+            Self::ReviewBlock => Self::TrainingBlock,
+            Self::TrainingBlock => Self::Evening,
+            Self::Evening => Self::Evening,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ObjectiveType {
     LeaguePosition,
@@ -38,6 +80,8 @@ pub struct ScoutingAssignment {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Game {
     pub clock: GameClock,
+    #[serde(default)]
+    pub day_phase: DayPhase,
     pub manager: Manager,
     pub teams: Vec<Team>,
     pub players: Vec<Player>,
@@ -73,6 +117,7 @@ impl Game {
     ) -> Self {
         let mut game = Self {
             clock,
+            day_phase: DayPhase::Morning,
             manager,
             teams,
             players,

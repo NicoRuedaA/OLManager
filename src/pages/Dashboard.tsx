@@ -46,7 +46,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "../store/settingsStore";
 
-const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Champions", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
+const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Scrims", "Champions", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
@@ -55,6 +55,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Squad: "dashboard.squad",
   Tactics: "dashboard.tactics",
   Training: "dashboard.training",
+  Scrims: "dashboard.scrims",
   Champions: "dashboard.champions",
   Staff: "dashboard.staff",
   Finances: "dashboard.finances",
@@ -194,6 +195,7 @@ export default function Dashboard(): JSX.Element {
     setMatchMode,
     blockerModal,
     setBlockerModal,
+    autoDelegationNotice,
     handleContinue,
     handleConfirmMatch,
     handleSkipToMatchDay,
@@ -201,6 +203,7 @@ export default function Dashboard(): JSX.Element {
     setGameState,
     hasMatchToday,
     settings.default_match_mode,
+    settings.scrim_review_mode,
     settingsLoaded,
     isUnemployed ?? false,
   );
@@ -389,6 +392,14 @@ export default function Dashboard(): JSX.Element {
   const myTeamName = getManagerTeamName(gameState);
   const searchResults = getDashboardSearchResults(gameState, searchQuery);
   const dashboardAlerts = getDashboardAlerts(gameState, hasMatchToday, t);
+  if (autoDelegationNotice) {
+    dashboardAlerts.unshift({
+      id: "scrim_auto_delegate_notice",
+      text: autoDelegationNotice,
+      tab: "Scrims",
+      severity: "info",
+    });
+  }
   const hasProfileHistory = hasDashboardProfileHistory(profileNavigation);
   const activeTabLabel = TAB_TRANSLATION_KEYS[profileNavigation.activeTab]
     ? t(TAB_TRANSLATION_KEYS[profileNavigation.activeTab])

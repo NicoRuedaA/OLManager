@@ -202,6 +202,7 @@
     "squad": "Plantilla",
     "tactics": "Táctica",
     "training": "Entrenamiento",
+    "scrims": "Scrims",
     "champions": "Campeones",
     "staff": "Staff",
     "finances": "Finanzas",
@@ -348,7 +349,10 @@
     "income": "Ingresos",
     "expenses": "Gastos",
     "noUpcomingPlayoffMatch": "No hay próximo partido de playoff.",
-    "fullRoster": "Plantilla completa"
+    "fullRoster": "Plantilla completa",
+    "todayScrimReviewVs": "Review vs {{team}}",
+    "todayScrimReview": "Review post-scrim",
+    "todayScrimReviewDetail": "Elegí cómo convertir el scrim de hoy en aprendizaje."
   },
   "season": {
     "preseasonStatus": "Estado de la pretemporada",
@@ -970,7 +974,39 @@
       "autoRandom": "Auto-random activo",
       "noOpponent": "Aleatorio",
       "randomResolved": "Aleatorio -> {{team}}",
-      "opponentLogoAlt": "Logo rival"
+      "opponentLogoAlt": "Logo rival",
+      "slot": "Slot",
+      "planA": "Plan A",
+      "planB": "Plan B",
+      "planC": "Plan C",
+      "noFallback": "Sin alternativa",
+      "pending": "Pendiente",
+      "weeklyObjective": "Objetivo semanal",
+      "weeklyObjectiveDescription": "Definí qué querés aprender esta semana. El objetivo guía los reportes y hace que Plan A/B/C tenga intención.",
+      "staffSuggestions": "Sugerencias del staff",
+      "objectives": {
+        "none": "Sin objetivo definido",
+        "draftPrep": "Mejorar control del mapa",
+        "championPool": "Expandir champion pool",
+        "earlyGame": "Arreglar early game",
+        "teamfighting": "Mejorar teamfights",
+        "macro": "Pulir macro y objetivos",
+        "mental": "Estabilizar mental"
+      },
+      "staff": {
+        "pickObjective": "Elegí un objetivo semanal antes de tocar rivales: sin intención, el volumen solo genera ruido.",
+        "mentalReset": "Priorizá Mental Reset o VOD Review: la racha ya está afectando la calidad de aprendizaje.",
+        "reduceCancellations": "Bajá cancelaciones esta semana; la reputación de scrims también es infraestructura competitiva.",
+        "moreVolumeForPool": "Para expandir champion pool necesitás al menos 4 bloques; dos scrims no dan muestra suficiente.",
+        "noPlannedOpponents": "El objetivo está bien, pero no hay rivales fijados: cerrá al menos Plan A para que la semana tenga dirección.",
+        "draftPrepPlan": "Usá Plan A/B/C contra equipos fuertes: querés castigar draft, no farmear confianza barata.",
+        "strongerOpponents": "Para este objetivo te faltan rivales que te incomoden; buscá al menos un bloque contra un equipo más fuerte.",
+        "softerMentalWeek": "Semana mental: no abras con todos los rivales por encima de tu nivel. Mezclá un bloque controlado para reconstruir confianza.",
+        "addFallbacksForReputation": "Tus rivales planificados tienen mejor reputación de scrims; agregá Plan B/C o vas a comerte rechazos evitables.",
+        "macroReview": "Marcá un bloque de VOD Review: si el issue es setup de objetivos, más scrims sin revisión repiten el error.",
+        "narrowFocus": "La calidad promedio está baja; mantené volumen, pero estrechá el foco antes de sumar más rivales.",
+        "keepPlan": "El plan actual está sano: mantené el objetivo, elegí rivales exigentes y revisá el primer reporte antes de aumentar volumen."
+      }
     }
   },
   "staff": {
@@ -1822,6 +1858,24 @@
     "simulatingFromTactics": "Simulando la partida...",
     "simulateFailed": "No se pudo simular la partida. Volvé a intentarlo.",
     "startLive": "Ir al live",
+    "scrimPrep": {
+      "title": "La preparación de scrims llegó al partido",
+      "summary": "Los scrims recientes le dieron a este lado una pequeña señal de ejecución en {{focus}}. Afecta timing y comfort, no garantiza el resultado.",
+      "details": {
+        "opponentPrep": "Preparación vs rival +{{value}}",
+        "championComfort": "Comfort de campeones +{{value}}",
+        "focus": "Foco: {{focus}}"
+      },
+      "focus": {
+        "draftPrep": "draft prep",
+        "championPool": "champion pool",
+        "earlyGame": "early game",
+        "teamfighting": "teamfighting",
+        "macro": "macro",
+        "mental": "reset mental",
+        "general": "preparación general"
+      }
+    },
     "draftResult": {
       "mvp": "MVP",
       "series": "Serie",
@@ -2569,7 +2623,31 @@
       },
       "scrimWeekly": {
         "subject": "Informe semanal de scrims",
-        "body": "Informe semanal de scrims:\n\nJugados: {{played}}\nGanados: {{wins}}\nPerdidos: {{losses}}\nRacha actual de derrotas: {{lossStreak}}\n\nEl progreso de scrim cuenta incluso en derrotas, pero las rachas largas están afectando la moral."
+        "body": "Informe semanal de scrims:\n\nJugados: {{played}}\nGanados: {{wins}}\nPerdidos: {{losses}}\nCancelaciones: {{cancellations}}\nCalidad promedio: {{avgQuality}}\nRacha actual de derrotas: {{lossStreak}}\n\nFoco principal: {{topFocus}}\nIssue recurrente: {{recurringIssue}}\nCampeón más practicado: {{topChampion}}\n\nRecomendación: {{recommendation}}",
+        "focus": {
+          "draftPrep": "Preparación de draft",
+          "championPool": "Pool de campeones",
+          "earlyGame": "Juego temprano",
+          "teamfighting": "Teamfights",
+          "macro": "Macro",
+          "mental": "Mental"
+        },
+        "issues": {
+          "draftGap": "Brecha de draft",
+          "lanePressure": "Presión de línea",
+          "objectiveSetup": "Setup de objetivos",
+          "teamfightExecution": "Ejecución de teamfights",
+          "championComfort": "Comodidad de campeones",
+          "tilt": "Tilt"
+        },
+        "recommendations": {
+          "lockPlans": "Cerrá Plan A/B/C más temprano la semana que viene para que el staff tenga datos útiles de preparación.",
+          "reduceCancellations": "Reducí cancelaciones la semana que viene; la reputación de scrims es parte de tu infraestructura competitiva.",
+          "resetBeforeVolume": "Abrí la semana que viene con Reset Mental o VOD Review antes de sumar más volumen.",
+          "narrowFocus": "Mantené el volumen, pero ajustá el foco alrededor del issue recurrente; la calidad está demasiado ruidosa.",
+          "targetedDrills": "Programá Targeted Drills para el issue recurrente y mantené estable el bloque principal de preparación.",
+          "keepPlan": "Mantené el plan actual: está generando reps útiles sin sobrecargar al roster."
+        }
       },
       "patchNotes": {
         "subject": "Notas del parche {{label}}",

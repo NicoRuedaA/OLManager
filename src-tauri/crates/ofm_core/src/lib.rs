@@ -24,6 +24,7 @@ pub mod potential;
 pub mod random_events;
 pub mod schedule;
 pub mod scouting;
+pub mod scrim_flow;
 pub mod season_awards;
 pub mod season_context;
 pub mod staff_effects;

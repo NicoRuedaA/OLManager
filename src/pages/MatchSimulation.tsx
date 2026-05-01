@@ -37,6 +37,7 @@ import {
 } from "../components/match/lol-prototype/backend/contract-v1";
 import { computeRoleModifiers, ROLE_ORDER, type DraftRole } from "../lib/lolTactics";
 import { getLolStaffEffectsForTeam } from "../lib/lolStaffEffects";
+import { buildLolScrimPrepPayload } from "../lib/lolScrimPrep";
 
 // ---------------------------------------------------------------------------
 // Multi-stage Match Day Orchestrator
@@ -83,7 +84,11 @@ const DEFAULT_LOL_TACTICS: LolTacticsData = {
   support_roaming: "Lane",
 };
 
-function attachLolTacticsToSnapshot(snapshot: MatchSnapshot, gameState: GameStateData): MatchSnapshot {
+function attachLolTacticsToSnapshot(
+  snapshot: MatchSnapshot,
+  gameState: GameStateData,
+  championSelections?: ChampionSelectionByPlayer | null,
+): MatchSnapshot {
   const homeTeam = gameState.teams.find((team) => team.id === snapshot.home_team.id);
   const awayTeam = gameState.teams.find((team) => team.id === snapshot.away_team.id);
 
@@ -148,6 +153,9 @@ function attachLolTacticsToSnapshot(snapshot: MatchSnapshot, gameState: GameStat
       home: homeStaffEffects,
       away: awayStaffEffects,
     },
+    // extra payload consumed by Rust sim v2: small scrim-derived execution signal
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    lol_scrim_prep: buildLolScrimPrepPayload(gameState, snapshot, championSelections),
   } as MatchSnapshot;
 }
 
@@ -1159,8 +1167,8 @@ export default function MatchSimulation() {
   const renderSnapshot = activeSnapshot ?? snapshot;
   const renderSnapshotWithTactics = useMemo(() => {
     if (!renderSnapshot || !gameState) return renderSnapshot;
-    return attachLolTacticsToSnapshot(renderSnapshot, gameState);
-  }, [gameState, renderSnapshot]);
+    return attachLolTacticsToSnapshot(renderSnapshot, gameState, championSelections);
+  }, [championSelections, gameState, renderSnapshot]);
 
   const userSeriesWins =
     managerTeamId && currentFixture

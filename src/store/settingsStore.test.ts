@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS = {
   language: "es",
   currency: "EUR",
   default_match_mode: "live",
+  scrim_review_mode: "manual",
   auto_save: true,
   match_speed: "normal",
   show_match_commentary: true,

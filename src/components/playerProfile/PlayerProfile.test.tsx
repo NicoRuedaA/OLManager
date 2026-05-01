@@ -101,7 +101,7 @@ vi.mock("react-i18next", () => ({
       if (key === "playerProfile.championPoolTitle") return "Champion Pool";
       if (key === "playerProfile.championInsignia") return "Insignia";
       if (key === "playerProfile.championWinRateShort") return "WR";
-      if (key === "playerProfile.championMasteryLabel") return "Mastery";
+      if (key === "playerProfile.championMasteryLabel") return `Mastery ${params?.value}`;
       if (key === "playerProfile.championGames") return "games";
       if (key === "finances.wagePerWeek") return "Wage/wk";
       return key;
@@ -314,6 +314,41 @@ describe("PlayerProfile contract surfaces", () => {
         hasWeeklyWage(element?.textContent ?? "", 230),
       ).length,
     ).toBeGreaterThan(0);
+  });
+
+  it("uses persisted champion masteries in the champion pool card", () => {
+    const player = createPlayer({ match_name: "Unseeded Player" });
+    const gameState = {
+      ...createGameState(player),
+      champion_masteries: [
+        {
+          player_id: player.id,
+          champion_id: "Azir",
+          mastery: 82,
+          last_active_on: "2026-08-01",
+        },
+        {
+          player_id: player.id,
+          champion_id: "Orianna",
+          mastery: 74,
+          last_active_on: "2026-08-01",
+        },
+      ],
+    } satisfies GameStateData;
+
+    render(
+      <PlayerProfile
+        player={player}
+        gameState={gameState}
+        isOwnClub
+        onClose={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Azir")).toBeInTheDocument();
+    expect(screen.getByText("Mastery 82")).toBeInTheDocument();
+    expect(screen.getByText("Orianna")).toBeInTheDocument();
+    expect(screen.getByText("Mastery 74")).toBeInTheDocument();
   });
 
   it("shows discovered scouting attributes for players outside your club", () => {

@@ -2,7 +2,7 @@ use chrono::Utc;
 use domain::stats::StatsState;
 
 use ofm_core::clock::GameClock;
-use ofm_core::game::{BoardObjective, Game, ObjectiveType, ScoutingAssignment};
+use ofm_core::game::{BoardObjective, DayPhase, Game, ObjectiveType, ScoutingAssignment};
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
@@ -30,6 +30,7 @@ impl GamePersistenceWriter {
                 manager_id: game.manager.id.clone(),
                 start_date: game.clock.start_date.to_rfc3339(),
                 game_date: game.clock.current_date.to_rfc3339(),
+                day_phase: game.day_phase.as_id().to_string(),
                 created_at: now.clone(),
                 last_played_at: now,
             },
@@ -143,6 +144,7 @@ impl GamePersistenceReader {
 
         let mut game = Game {
             clock,
+            day_phase: DayPhase::from_id(&meta.day_phase),
             manager,
             teams,
             players,

@@ -3,6 +3,7 @@
 import type { TFunction } from "i18next";
 import type { LolRole } from "../../store/gameStore";
 import type { LolStaffEffectsData } from "../../lib/lolStaffEffects";
+import type { LolScrimPrepPayload } from "../../lib/lolScrimPrep";
 
 export interface MatchEvent {
   minute: number;
@@ -184,6 +185,7 @@ export interface MatchSnapshot {
     home: LolStaffEffectsData;
     away: LolStaffEffectsData;
   };
+  lol_scrim_prep?: LolScrimPrepPayload;
 }
 
 export interface MinuteResult {

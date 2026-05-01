@@ -85,4 +85,17 @@ describe("Select", () => {
     expect(hiddenInput).not.toBeNull();
     expect(hiddenInput?.value).toBe("pt");
   });
+
+  it("can render the option list above the trigger", () => {
+    render(
+      <Select defaultValue="en" aria-label="Language" dropdownPlacement="top">
+        <option value="en">English</option>
+        <option value="pt">Português</option>
+      </Select>,
+    );
+
+    fireEvent.click(screen.getByRole("combobox", { name: "Language" }));
+
+    expect(screen.getByRole("listbox").parentElement?.className).toContain("bottom-full");
+  });
 });

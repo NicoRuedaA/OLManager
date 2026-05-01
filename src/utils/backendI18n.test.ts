@@ -32,6 +32,9 @@ beforeAll(async () => {
     "test.headline": "Breaking: {{team}} wins!",
     "test.newsBody": "Match report for {{team}}.",
     "test.source": "OFM Sports",
+    "test.recommendation": "Translated recommendation",
+    "test.focus": "Translated focus",
+    "test.issue": "Translated issue",
     "boardObjectives.objective.LeaguePosition": "Finish in the top {{target}}",
     "boardObjectives.objective.Wins": "Win at least {{target}} series",
     "boardObjectives.objective.GoalsScored": "Win at least {{target}} maps",
@@ -279,6 +282,32 @@ describe("resolveMessage", () => {
     expect(result.body).toBe("My Body");
     expect(result.sender).toBe("Someone");
     expect(result.sender_role).toBe("Staff");
+  });
+
+  it("resolves i18n keys passed as message params", () => {
+    const msg = makeMessage({
+      subject: "raw",
+      body: "Recommendation: test.recommendation",
+      body_key: "be.msg.scrimWeekly.body",
+      i18n_params: {
+        played: "2",
+        wins: "1",
+        losses: "1",
+        cancellations: "0",
+        avgQuality: "76",
+        lossStreak: "1",
+        topFocus: "test.focus",
+        recurringIssue: "test.issue",
+        topChampion: "Azir",
+        recommendation: "test.recommendation",
+      },
+    });
+
+    const result = resolveMessage(msg);
+
+    expect(result.body).toContain("Main focus: Translated focus");
+    expect(result.body).toContain("Recurring issue: Translated issue");
+    expect(result.body).toContain("Recommendation: Translated recommendation");
   });
 
   it("resolves board objective review messages with persisted params", () => {

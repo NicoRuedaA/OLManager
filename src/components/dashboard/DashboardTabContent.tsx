@@ -15,6 +15,7 @@ import InboxTab from "../inbox/InboxTab";
 import ManagerTab from "../manager/ManagerTab";
 import NewsTab from "../news/NewsTab";
 import ChampionsTab from "../champions/ChampionsTab";
+import ScrimsTab from "../scrims/ScrimsTab";
 import EndOfSeasonScreen from "../EndOfSeasonScreen";
 import { Card, CardBody } from "../ui";
 import type { DashboardTabContentModel } from "./dashboardTabContentModel";
@@ -76,6 +77,10 @@ export default function DashboardTabContent({
 
       {activeTab === "Training" && (
         <TrainingTab gameState={gameState} onGameUpdate={onGameUpdate} />
+      )}
+
+      {activeTab === "Scrims" && (
+        <ScrimsTab gameState={gameState} onGameUpdate={onGameUpdate} />
       )}
 
       {activeTab === "Champions" && (
@@ -160,6 +165,7 @@ export default function DashboardTabContent({
         "Squad",
         "Tactics",
         "Training",
+        "Scrims",
         "Champions",
         "Schedule",
         "Finances",

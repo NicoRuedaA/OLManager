@@ -1,2 +1,6 @@
 ALTER TABLE teams ADD COLUMN weekly_scrim_opponent_ids TEXT NOT NULL DEFAULT '[]';
+ALTER TABLE teams ADD COLUMN weekly_scrim_plan_team_ids TEXT NOT NULL DEFAULT '[]';
+ALTER TABLE teams ADD COLUMN scrim_weekly_slots INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE teams ADD COLUMN scrim_reputation INTEGER NOT NULL DEFAULT 50;
+ALTER TABLE teams ADD COLUMN scrim_weekly_cancellations INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE teams ADD COLUMN scrim_loss_streak INTEGER NOT NULL DEFAULT 0;

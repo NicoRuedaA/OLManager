@@ -183,7 +183,7 @@ mod tests {
     use domain::stats::StatsState;
     use domain::team::Team;
     use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
+    use ofm_core::game::{DayPhase, Game};
     use ofm_core::state::StateManager;
     use serde_json::Value;
 
@@ -750,5 +750,81 @@ mod tests {
         assert!(round_summary.is_complete);
         assert_eq!(round_summary.pending_fixture_count, 0);
         assert_eq!(round_summary.completed_results.len(), 2);
+    }
+
+    #[test]
+    fn advance_time_with_mode_advances_phase_before_processing_non_match_day() {
+        let state = StateManager::new();
+        let game = make_game(11);
+        let start_date = game.clock.current_date;
+        state.set_game(game);
+
+        let response =
+            advance_time_with_mode_internal(&state, "delegate").expect("phase advance response");
+
+        assert_eq!(response.action, "phase_advanced");
+        let game = response.game.expect("game response");
+        assert_eq!(game.day_phase, DayPhase::ScrimBlock);
+        assert_eq!(game.clock.current_date, start_date);
+    }
+
+    #[test]
+    fn advance_time_with_mode_resolves_scrims_when_entering_scrim_block() {
+        let state = StateManager::new();
+        let mut game = make_game(22);
+        game.clock.current_date = Utc.with_ymd_and_hms(2025, 6, 17, 12, 0, 0).unwrap();
+        game.teams[0].scrim_weekly_slots = 2;
+        game.teams[0].weekly_scrim_plan_team_ids = vec![vec!["team2".to_string()]];
+
+        let mut opponent_team = Team::new(
+            "team2".to_string(),
+            "Rival FC".to_string(),
+            "RIV".to_string(),
+            "England".to_string(),
+            "Rivaltown".to_string(),
+            "Rival Ground".to_string(),
+            21_000,
+        );
+        opponent_team.starting_xi_ids = game
+            .players
+            .iter()
+            .skip(11)
+            .take(11)
+            .map(|player| player.id.clone())
+            .collect();
+        for player in game.players.iter_mut().skip(11) {
+            player.team_id = Some("team2".to_string());
+        }
+        game.teams.push(opponent_team);
+        state.set_game(game);
+
+        let response = advance_time_with_mode_internal(&state, "delegate")
+            .expect("scrim block phase response");
+
+        assert_eq!(response.action, "phase_advanced");
+        let game = response.game.expect("game response");
+        assert_eq!(game.day_phase, DayPhase::ScrimBlock);
+        assert_eq!(game.teams[0].scrim_reports.len(), 1);
+        assert_eq!(game.teams[0].scrim_reports[0].opponent_team_id, "team2");
+    }
+
+    #[test]
+    fn advance_time_with_mode_processes_day_from_evening_phase() {
+        let state = StateManager::new();
+        let mut game = make_game(11);
+        let start_date = game.clock.current_date;
+        game.day_phase = DayPhase::Evening;
+        state.set_game(game);
+
+        let response =
+            advance_time_with_mode_internal(&state, "delegate").expect("day advance response");
+
+        assert_eq!(response.action, "advanced");
+        let game = response.game.expect("game response");
+        assert_eq!(game.day_phase, DayPhase::Morning);
+        assert_eq!(
+            game.clock.current_date,
+            start_date + chrono::Duration::days(1)
+        );
     }
 }

@@ -24,7 +24,6 @@ import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/l
 import type { GameStateData } from "../../store/gameStore";
 import { setTraining, setTrainingSchedule } from "../../services/trainingService";
 import { Card, CardBody, CardHeader, ProgressBar } from "../ui";
-import TrainingScrimsCard from "./TrainingScrimsCard";
 import TrainingSettingsPanel from "./TrainingSettingsPanel";
 import { getTrainingStaffAdvice } from "./trainingAdvice";
 
@@ -223,13 +222,6 @@ export default function TrainingTab({
           intensityColors={INTENSITY_COLORS}
         />
 
-        <TrainingScrimsCard
-          gameState={gameState}
-          onGameUpdate={onGameUpdate}
-          isSaving={isSaving}
-          setIsSaving={setIsSaving}
-          currentSchedule={currentSchedule}
-        />
       </div>
 
       <div className="flex flex-col gap-5">

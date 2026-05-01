@@ -94,6 +94,7 @@ export default function DashboardWorkspaceContent({
             "Squad",
             "Tactics",
             "Training",
+            "Scrims",
             "Champions",
             "Schedule",
             "Finances",

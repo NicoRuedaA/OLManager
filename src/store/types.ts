@@ -156,11 +156,17 @@ export interface TeamData {
   training_intensity: string;
   training_schedule: string;
   weekly_scrim_opponent_ids?: string[];
+  weekly_scrim_plan_team_ids?: string[][];
+  scrim_weekly_objective?: ScrimFocus | null;
+  scrim_weekly_slots?: number;
+  scrim_reputation?: number;
+  scrim_weekly_cancellations?: number;
   scrim_loss_streak?: number;
   scrim_weekly_played?: number;
   scrim_weekly_wins?: number;
   scrim_weekly_losses?: number;
   scrim_slot_results?: ScrimSlotResultData[];
+  scrim_reports?: ScrimReportData[];
   founded_year: number;
   colors: TeamColors;
   facilities?: FacilitiesData;
@@ -356,6 +362,35 @@ export interface ScrimSlotResultData {
   opponent_team_id: string;
   won: boolean;
   simulated_on: string;
+}
+
+export type ScrimStatus = "Pending" | "Accepted" | "Rejected" | "Cancelled" | "Played";
+export type ScrimFocus = "DraftPrep" | "ChampionPool" | "EarlyGame" | "Teamfighting" | "Macro" | "Mental";
+export type ScrimIssue = "DraftGap" | "LanePressure" | "ObjectiveSetup" | "TeamfightExecution" | "ChampionComfort" | "Tilt";
+export type PostScrimDecision = "ContinuePlan" | "VodReview" | "MentalReset" | "TargetedDrills" | "PushThrough" | "DayOff";
+
+export interface ScrimChampionPickData {
+  player_id: string;
+  champion_id: string;
+  role: string;
+}
+
+export interface ScrimReportData {
+  date: string;
+  week_key: string;
+  slot_index: number;
+  weekday: number;
+  team_id: string;
+  opponent_team_id: string;
+  status: ScrimStatus;
+  won: boolean | null;
+  focus: ScrimFocus;
+  issue: ScrimIssue | null;
+  severity: number;
+  quality: number;
+  player_champion_picks: ScrimChampionPickData[];
+  post_decision: PostScrimDecision | null;
+  created_on: string;
 }
 
 export interface ChampionMasteryEntryData {
@@ -611,6 +646,7 @@ export interface LeagueData {
 export type SeasonPhase = "Preseason" | "InSeason" | "PostSeason";
 
 export type TransferWindowStatus = "Closed" | "Open" | "DeadlineDay";
+export type DayPhase = "Morning" | "ScrimBlock" | "ReviewBlock" | "TrainingBlock" | "Evening";
 
 export interface TransferWindowContextData {
   status: TransferWindowStatus;
@@ -672,6 +708,7 @@ export interface GameStateData {
     current_date: string;
     start_date: string;
   };
+  day_phase?: DayPhase;
   manager: {
     id: string;
     nickname?: string;

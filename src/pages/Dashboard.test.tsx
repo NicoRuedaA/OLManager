@@ -209,6 +209,7 @@ vi.mock("../store/settingsStore", () => ({
     settings: {
       language: "en",
       default_match_mode: "live",
+      scrim_review_mode: "manual",
     },
     loaded: true,
     loadSettings: loadSettingsMock,
@@ -226,6 +227,7 @@ vi.mock("../hooks/useAdvanceTime", () => ({
     setMatchMode: vi.fn(),
     blockerModal: null,
     setBlockerModal: vi.fn(),
+    autoDelegationNotice: null,
     handleContinue: vi.fn(),
     handleConfirmMatch: vi.fn(),
     handleSkipToMatchDay: vi.fn(),
