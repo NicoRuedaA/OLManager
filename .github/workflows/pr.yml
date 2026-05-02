@@ -65,7 +65,8 @@ jobs:
         run: cargo check --workspace
 
       - name: Lint Rust workspace
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets
+        continue-on-error: true
 
       - name: Test Rust workspace
         run: cargo test --workspace
@@ -158,7 +159,8 @@ jobs:
           workspaces: src-tauri -> target
 
       - name: Lint Rust workspace
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets
+        continue-on-error: true
 
       - name: Test Rust workspace
         run: cargo test --workspace

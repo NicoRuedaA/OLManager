@@ -2050,24 +2050,28 @@ pub async fn load_game(
     save_id: String,
 ) -> Result<String, String> {
     info!("[cmd] load_game: save_id={}", save_id);
-    
+
     let mut sm = sm_state
         .0
         .lock()
         .map_err(|e| format!("Lock error: {}", e))?;
-        
+
     info!("[cmd] load_game: loading game data from save");
     let mut game = sm.load_game(&save_id)?;
-    info!("[cmd] load_game: game loaded, players={}, teams={}", game.players.len(), game.teams.len());
-    
+    info!(
+        "[cmd] load_game: game loaded, players={}, teams={}",
+        game.players.len(),
+        game.teams.len()
+    );
+
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);
     ofm_core::champions::bootstrap_champion_state(&mut game);
-    
+
     info!("[cmd] load_game: loading stats state");
     let stats_state = sm.load_stats_state(&save_id)?;
     info!("[cmd] load_game: stats state loaded");
-    
+
     ofm_core::season_context::refresh_game_context(&mut game);
     info!("[cmd] load_game: context refreshed");
 
@@ -2079,20 +2083,22 @@ pub async fn load_game(
     state.set_game(game);
     state.set_stats_state(stats_state);
     info!("[cmd] load_game: state set, returning manager name");
-    
+
     Ok(mgr_name)
 }
 
 #[tauri::command]
 pub async fn get_active_game(state: State<'_, StateManager>) -> Result<Game, String> {
     log::info!("[cmd] get_active_game: start");
-    let game = state
-        .get_game(|g: &Game| g.clone())
-        .ok_or_else(|| {
-            log::error!("[cmd] get_active_game: no active game in state");
-            "No active game session".to_string()
-        })?;
-    log::info!("[cmd] get_active_game: found game with {} players, {} teams", game.players.len(), game.teams.len());
+    let game = state.get_game(|g: &Game| g.clone()).ok_or_else(|| {
+        log::error!("[cmd] get_active_game: no active game in state");
+        "No active game session".to_string()
+    })?;
+    log::info!(
+        "[cmd] get_active_game: found game with {} players, {} teams",
+        game.players.len(),
+        game.teams.len()
+    );
     ofm_core::champions::bootstrap_champion_state(&mut game.clone());
     Ok(game)
 }
@@ -2194,12 +2200,16 @@ pub async fn save_manager_avatar(
 
     let file_path = avatar_dir.join(&safe_name);
     // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path.canonicalize()
+    let canonical = file_path
+        .canonicalize()
         .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
-    let canonical_dir = avatar_dir.canonicalize()
+    let canonical_dir = avatar_dir
+        .canonicalize()
         .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
     if !canonical.starts_with(&canonical_dir) {
-        return Err(AppError::Validation("Avatar path traversal detected".into()));
+        return Err(AppError::Validation(
+            "Avatar path traversal detected".into(),
+        ));
     }
 
     std::fs::write(&file_path, &data)
@@ -2227,16 +2237,23 @@ pub async fn load_manager_avatar(
     let avatar_dir = app_data_dir.join("manager-avatars");
     let file_path = avatar_dir.join(&safe_name);
     // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path.canonicalize()
+    let canonical = file_path
+        .canonicalize()
         .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
-    let canonical_dir = avatar_dir.canonicalize()
+    let canonical_dir = avatar_dir
+        .canonicalize()
         .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
     if !canonical.starts_with(&canonical_dir) {
-        return Err(AppError::Validation("Avatar path traversal detected".into()));
+        return Err(AppError::Validation(
+            "Avatar path traversal detected".into(),
+        ));
     }
 
     if !file_path.exists() {
-        return Err(AppError::NotFound(format!("Avatar file not found: {}", safe_name)));
+        return Err(AppError::NotFound(format!(
+            "Avatar file not found: {}",
+            safe_name
+        )));
     }
 
     let data = std::fs::read(&file_path)
@@ -2305,7 +2322,9 @@ pub async fn update_manager_profile(
         nationality: nationality.clone(),
         avatar_path: avatar_path.clone(),
     };
-    input.validate().map_err(|e| AppError::Validation(format!("Validation failed: {}", e)))?;
+    input
+        .validate()
+        .map_err(|e| AppError::Validation(format!("Validation failed: {}", e)))?;
 
     let mut game = state
         .get_game(|g: &Game| g.clone())

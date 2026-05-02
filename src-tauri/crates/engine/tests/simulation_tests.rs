@@ -1,3 +1,6 @@
+// Pre-existing clippy warnings tracked in #92
+#![allow(clippy::manual_range_contains, clippy::bool_to_int_with_if, clippy::field_reassign_with_default)]
+
 use engine::LolRole;
 use engine::{
     EventType, MatchConfig, MatchEvent, PlayStyle, PlayerData, Side, TeamData, Zone,

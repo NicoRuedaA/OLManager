@@ -1,6 +1,6 @@
 use engine::ai::{AiProfile, ai_decide};
 use engine::{
-    EventType, LiveMatchState, LolRole, MatchCommand, MatchConfig, MatchPhase, MatchSnapshot,
+    EventType, LiveMatchState, LolRole, MatchCommand, MatchConfig, MatchPhase,
     MinuteResult, PlayStyle, PlayerData, Side, TeamData,
 };
 use rand::SeedableRng;

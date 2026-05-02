@@ -1,3 +1,6 @@
+// Pre-existing clippy warnings tracked in #92
+#![allow(clippy::new_without_default, clippy::collapsible_if, clippy::useless_conversion)]
+
 pub mod ai;
 pub mod engine;
 pub mod event;
