@@ -19,6 +19,8 @@ use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 use ofm_core::state::StateManager;
 
+use crate::application::game_setup::avatar;
+use crate::error::AppError;
 use crate::SaveManagerState;
 
 #[derive(Debug, Clone, Serialize)]
@@ -2169,63 +2171,38 @@ pub async fn exit_to_menu(
     Ok(())
 }
 
-/// Validate and sanitize an avatar filename to prevent path traversal.
-/// Accepts only safe filenames with allowed image extensions,
-/// rejects any path separators, null bytes, or parent directory references.
-fn safe_avatar_filename(input: &str) -> Result<String, String> {
-    let bytes = input.as_bytes();
-    if input.is_empty() || input.len() > 128 {
-        return Err("Invalid avatar filename length".into());
-    }
-    if bytes.iter().any(|&b| b == b'/' || b == b'\\' || b == 0) {
-        return Err("Avatar filename contains invalid characters".into());
-    }
-    if input.contains("..") || input.starts_with('.') {
-        return Err("Avatar filename contains path traversal".into());
-    }
-    let ext_ok = matches!(
-        input.rsplit('.').next(),
-        Some("png") | Some("jpg") | Some("jpeg") | Some("webp")
-    );
-    if !ext_ok {
-        return Err("Unsupported avatar file extension (use png, jpg, jpeg, webp)".into());
-    }
-    Ok(input.to_string())
-}
-
 /// Save manager avatar file to app data directory
 #[tauri::command]
 pub async fn save_manager_avatar(
     app_handle: tauri::AppHandle,
     filename: String,
     data: Vec<u8>,
-) -> Result<String, String> {
+) -> Result<String, AppError> {
     info!("[cmd] save_manager_avatar: filename={}", filename);
 
-    let safe_name = safe_avatar_filename(&filename)?;
+    let safe_name = avatar::safe_avatar_filename(&filename)?;
 
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
 
     let avatar_dir = app_data_dir.join("manager-avatars");
     std::fs::create_dir_all(&avatar_dir)
-        .map_err(|e| format!("Failed to create avatar directory: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to create avatar directory: {}", e)))?;
 
     let file_path = avatar_dir.join(&safe_name);
     // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path.canonicalize().map_err(|e| {
-        format!("Failed to resolve avatar path: {}", e)
-    })?;
-    let canonical_dir = avatar_dir.canonicalize().map_err(|e| {
-        format!("Failed to resolve avatar directory: {}", e)
-    })?;
+    let canonical = file_path.canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
+    let canonical_dir = avatar_dir.canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
     if !canonical.starts_with(&canonical_dir) {
-        return Err("Avatar path traversal detected".into());
+        return Err(AppError::Validation("Avatar path traversal detected".into()));
     }
 
-    std::fs::write(&file_path, &data).map_err(|e| format!("Failed to write avatar file: {}", e))?;
+    std::fs::write(&file_path, &data)
+        .map_err(|e| AppError::Io(format!("Failed to write avatar file: {}", e)))?;
 
     info!("[cmd] save_manager_avatar: saved to {:?}", file_path);
     Ok(safe_name)
@@ -2236,35 +2213,33 @@ pub async fn save_manager_avatar(
 pub async fn load_manager_avatar(
     app_handle: tauri::AppHandle,
     filename: String,
-) -> Result<String, String> {
+) -> Result<String, AppError> {
     info!("[cmd] load_manager_avatar: filename={}", filename);
 
-    let safe_name = safe_avatar_filename(&filename)?;
+    let safe_name = avatar::safe_avatar_filename(&filename)?;
 
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
 
     let avatar_dir = app_data_dir.join("manager-avatars");
     let file_path = avatar_dir.join(&safe_name);
     // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path.canonicalize().map_err(|e| {
-        format!("Failed to resolve avatar path: {}", e)
-    })?;
-    let canonical_dir = avatar_dir.canonicalize().map_err(|e| {
-        format!("Failed to resolve avatar directory: {}", e)
-    })?;
+    let canonical = file_path.canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
+    let canonical_dir = avatar_dir.canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
     if !canonical.starts_with(&canonical_dir) {
-        return Err("Avatar path traversal detected".into());
+        return Err(AppError::Validation("Avatar path traversal detected".into()));
     }
 
     if !file_path.exists() {
-        return Err(format!("Avatar file not found: {}", safe_name));
+        return Err(AppError::NotFound(format!("Avatar file not found: {}", safe_name)));
     }
 
-    let data =
-        std::fs::read(&file_path).map_err(|e| format!("Failed to read avatar file: {}", e))?;
+    let data = std::fs::read(&file_path)
+        .map_err(|e| AppError::Io(format!("Failed to read avatar file: {}", e)))?;
 
     // Determine MIME type from extension
     let mime_type = match safe_name.rsplit('.').next() {

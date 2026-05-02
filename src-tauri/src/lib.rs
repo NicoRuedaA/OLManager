@@ -1,5 +1,6 @@
 mod application;
 mod commands;
+pub mod error;
 use commands::*;
 
 use application::lol_sim_v2::LolSimV2StoreState;
