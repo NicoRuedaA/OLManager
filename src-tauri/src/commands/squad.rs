@@ -167,11 +167,11 @@ pub fn set_lol_tactics(
 }
 
 #[tauri::command]
-pub fn set_team_match_roles(
+pub fn set_team_roles(
     state: State<'_, StateManager>,
-    match_roles: domain::team::MatchRoles,
+    team_roles: domain::team::TeamRoles,
 ) -> Result<Game, String> {
-    info!("[cmd] set_team_match_roles");
+    info!("[cmd] set_team_roles");
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
@@ -183,7 +183,7 @@ pub fn set_team_match_roles(
         .ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
-        team.match_roles = match_roles;
+        team.team_roles = team_roles;
     }
 
     state.set_game(game.clone());
@@ -478,23 +478,21 @@ pub fn reroll_player_lol_role(
 }
 
 #[tauri::command]
-pub fn auto_select_set_pieces(
+pub fn auto_select_team_roles(
     state: State<'_, StateManager>,
     player_ids: Vec<String>,
 ) -> Result<serde_json::Value, String> {
-    log::debug!("[cmd] auto_select_set_pieces: {} players", player_ids.len());
+    log::debug!("[cmd] auto_select_team_roles: {} players", player_ids.len());
     let game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let (captain, penalty, free_kick, corner) =
-        ofm_core::live_match_manager::auto_select_set_pieces(&game, &player_ids);
+    let (captain, shotcaller) =
+        ofm_core::live_match_manager::auto_select_team_roles(&game, &player_ids);
 
     Ok(serde_json::json!({
         "captain": captain,
-        "penalty_taker": penalty,
-        "free_kick_taker": free_kick,
-        "corner_taker": corner,
+        "shotcaller": shotcaller,
     }))
 }
 

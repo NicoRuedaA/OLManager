@@ -59,7 +59,7 @@ fn legacy_team_rows_load_as_main_without_academy_metadata() {
               season_income, season_expenses, formation, play_style,
               training_focus, training_intensity, training_schedule,
               founded_year, colors_primary, colors_secondary,
-              starting_xi_ids, match_roles, form, history, training_groups,
+              starting_xi_ids, team_roles, form, history, training_groups,
               weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played,
               scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results,
               financial_ledger, sponsorship, facilities)
@@ -69,7 +69,7 @@ fn legacy_team_rows_load_as_main_without_academy_metadata() {
               0, 0, '5v5', 'Balanced',
               'Scrims', 'Medium', 'Balanced',
               2012, '#111111', '#eeeeee',
-              '[]', '{"captain":null,"vice_captain":null,"penalty_taker":null,"free_kick_taker":null,"corner_taker":null}', '[]', '[]', '[]',
+               '[]', '{"captain":null,"shotcaller":null}', '[]', '[]', '[]',
               '[]', 0, 0, 0, 0, '[]',
               '[]', 'null', '{"training":1,"medical":1,"scouting":1}')"#,
             [],

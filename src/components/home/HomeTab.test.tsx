@@ -70,12 +70,9 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
       secondary: "#ffffff",
     },
     starting_xi_ids: [],
-    match_roles: {
+    team_roles: {
       captain: null,
-      vice_captain: null,
-      penalty_taker: null,
-      free_kick_taker: null,
-      corner_taker: null,
+      shotcaller: null,
     },
     form: [],
     history: [],

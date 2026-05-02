@@ -412,12 +412,9 @@ for (const teamSeed of teamSeeds) {
     colors: { primary: "#1f2937", secondary: "#f3f4f6" },
     training_groups: [],
     starting_xi_ids: [],
-    match_roles: {
+    team_roles: {
       captain: null,
-      vice_captain: null,
-      penalty_taker: null,
-      free_kick_taker: null,
-      corner_taker: null,
+      shotcaller: null,
     },
     form: [],
     history: [],

@@ -1596,20 +1596,11 @@ fn remove_player_from_team_references(team: &mut domain::team::Team, player_id: 
         group.player_ids.retain(|id| id != player_id);
     }
 
-    if team.match_roles.captain.as_deref() == Some(player_id) {
-        team.match_roles.captain = None;
+    if team.team_roles.captain.as_deref() == Some(player_id) {
+        team.team_roles.captain = None;
     }
-    if team.match_roles.vice_captain.as_deref() == Some(player_id) {
-        team.match_roles.vice_captain = None;
-    }
-    if team.match_roles.penalty_taker.as_deref() == Some(player_id) {
-        team.match_roles.penalty_taker = None;
-    }
-    if team.match_roles.free_kick_taker.as_deref() == Some(player_id) {
-        team.match_roles.free_kick_taker = None;
-    }
-    if team.match_roles.corner_taker.as_deref() == Some(player_id) {
-        team.match_roles.corner_taker = None;
+    if team.team_roles.shotcaller.as_deref() == Some(player_id) {
+        team.team_roles.shotcaller = None;
     }
 }
 

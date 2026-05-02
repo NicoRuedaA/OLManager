@@ -5,7 +5,7 @@ import type { GameStateData } from './types';
 export type {
   TeamColors,
   TeamSeasonRecord,
-  TeamMatchRolesData,
+  TeamRolesData,
   TeamKind,
   AcademyLifecycle,
   ErlAssignmentRule,

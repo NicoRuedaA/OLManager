@@ -81,7 +81,7 @@ pub struct Team {
     pub starting_xi_ids: Vec<String>,
 
     #[serde(default)]
-    pub match_roles: MatchRoles,
+    pub team_roles: TeamRoles,
 
     // Recent form: last 5 results as "W", "D", "L" (most recent last)
     #[serde(default)]
@@ -218,12 +218,9 @@ pub enum SupportRoaming {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default, PartialEq)]
-pub struct MatchRoles {
+pub struct TeamRoles {
     pub captain: Option<String>,
-    pub vice_captain: Option<String>,
-    pub penalty_taker: Option<String>,
-    pub free_kick_taker: Option<String>,
-    pub corner_taker: Option<String>,
+    pub shotcaller: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
@@ -1038,7 +1035,7 @@ impl Team {
                 secondary: "#ffffff".to_string(),
             },
             starting_xi_ids: Vec::new(),
-            match_roles: MatchRoles::default(),
+            team_roles: TeamRoles::default(),
             form: Vec::new(),
             history: Vec::new(),
         }

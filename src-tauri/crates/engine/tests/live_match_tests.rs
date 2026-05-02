@@ -446,7 +446,7 @@ fn change_play_style_works() {
 }
 
 #[test]
-fn set_piece_takers_are_no_ops() {
+fn team_roles_are_no_ops() {
     let mut state = make_live_match(false);
     let mut rng = seeded_rng(42);
     state.step_minute(&mut rng);
@@ -462,7 +462,7 @@ fn set_piece_takers_are_no_ops() {
         .clone();
 
     state
-        .apply_command(MatchCommand::SetPenaltyTaker {
+        .apply_command(MatchCommand::SetShotcaller {
             side: Side::Home,
             player_id: fwd_id.clone(),
         })
@@ -476,9 +476,9 @@ fn set_piece_takers_are_no_ops() {
         .unwrap();
 
     let snap = state.snapshot();
-    // Set piece taker commands are no-ops in LoL mode; snapshot always returns defaults.
-    assert_eq!(snap.home_set_pieces.penalty_taker, None);
-    assert_eq!(snap.home_set_pieces.captain, None);
+    // Team role commands are no-ops in LoL mode; snapshot always returns defaults.
+    assert_eq!(snap.home_roles.shotcaller, None);
+    assert_eq!(snap.home_roles.captain, None);
 }
 
 // ===========================================================================
@@ -889,11 +889,11 @@ fn formation_invalid_falls_back_to_442() {
 }
 
 // ===========================================================================
-// Tests: Set piece takers (free kick, corner)
+// Tests: Team roles (captain, shotcaller)
 // ===========================================================================
 
 #[test]
-fn set_free_kick_taker_is_no_op() {
+fn set_shotcaller_is_no_op() {
     let mut state = make_live_match(false);
     let mut rng = seeded_rng(42);
     state.step_minute(&mut rng);
@@ -909,43 +909,15 @@ fn set_free_kick_taker_is_no_op() {
         .clone();
 
     state
-        .apply_command(MatchCommand::SetFreeKickTaker {
+        .apply_command(MatchCommand::SetShotcaller {
             side: Side::Home,
             player_id: mid_id.clone(),
         })
         .unwrap();
 
     let snap = state.snapshot();
-    // Set piece taker commands are no-ops in LoL mode.
-    assert_eq!(snap.home_set_pieces.free_kick_taker, None);
-}
-
-#[test]
-fn set_corner_taker_is_no_op() {
-    let mut state = make_live_match(false);
-    let mut rng = seeded_rng(42);
-    state.step_minute(&mut rng);
-
-    let snap = state.snapshot();
-    let mid_id = snap
-        .home_team
-        .players
-        .iter()
-        .find(|p| p.role == LolRole::Jungle)
-        .unwrap()
-        .id
-        .clone();
-
-    state
-        .apply_command(MatchCommand::SetCornerTaker {
-            side: Side::Home,
-            player_id: mid_id.clone(),
-        })
-        .unwrap();
-
-    let snap = state.snapshot();
-    // Set piece taker commands are no-ops in LoL mode.
-    assert_eq!(snap.home_set_pieces.corner_taker, None);
+    // Team role commands are no-ops in LoL mode.
+    assert_eq!(snap.home_roles.shotcaller, None);
 }
 
 // ===========================================================================
@@ -1261,7 +1233,7 @@ fn step_after_finished_returns_finished() {
 // ===========================================================================
 
 #[test]
-fn away_set_pieces_are_no_ops() {
+fn away_team_roles_are_no_ops() {
     let mut state = make_live_match(false);
     let mut rng = seeded_rng(42);
     state.step_minute(&mut rng);
@@ -1277,19 +1249,7 @@ fn away_set_pieces_are_no_ops() {
         .clone();
 
     state
-        .apply_command(MatchCommand::SetFreeKickTaker {
-            side: Side::Away,
-            player_id: fwd_id.clone(),
-        })
-        .unwrap();
-    state
-        .apply_command(MatchCommand::SetCornerTaker {
-            side: Side::Away,
-            player_id: fwd_id.clone(),
-        })
-        .unwrap();
-    state
-        .apply_command(MatchCommand::SetPenaltyTaker {
+        .apply_command(MatchCommand::SetShotcaller {
             side: Side::Away,
             player_id: fwd_id.clone(),
         })
@@ -1302,11 +1262,9 @@ fn away_set_pieces_are_no_ops() {
         .unwrap();
 
     let snap = state.snapshot();
-    // All set piece commands are no-ops in LoL mode.
-    assert_eq!(snap.away_set_pieces.free_kick_taker, None);
-    assert_eq!(snap.away_set_pieces.corner_taker, None);
-    assert_eq!(snap.away_set_pieces.penalty_taker, None);
-    assert_eq!(snap.away_set_pieces.captain, None);
+    // All team role commands are no-ops in LoL mode.
+    assert_eq!(snap.away_roles.shotcaller, None);
+    assert_eq!(snap.away_roles.captain, None);
 }
 
 // ===========================================================================

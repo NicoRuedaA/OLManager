@@ -34,12 +34,9 @@ export interface TeamSeasonRecord {
   goals_against: number;
 }
 
-export interface TeamMatchRolesData {
+export interface TeamRolesData {
   captain: string | null;
-  vice_captain: string | null;
-  penalty_taker: string | null;
-  free_kick_taker: string | null;
-  corner_taker: string | null;
+  shotcaller: string | null;
 }
 
 export type TeamKind = "Main" | "Academy";
@@ -166,7 +163,7 @@ export interface TeamData {
   facilities?: FacilitiesData;
   sponsorship?: SponsorshipData | null;
   starting_xi_ids: string[];
-  match_roles?: TeamMatchRolesData;
+  team_roles?: TeamRolesData;
   form: string[];
   history: TeamSeasonRecord[];
   team_kind?: TeamKind;

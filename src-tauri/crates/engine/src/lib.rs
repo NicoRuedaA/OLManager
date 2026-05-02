@@ -14,7 +14,7 @@ pub use engine::simulate_lol;
 pub use event::{EventType, MatchEvent};
 pub use live_match::LolRole;
 pub use live_match::{
-    LiveMatchState, MatchCommand, MatchPhase, MatchSnapshot, MinuteResult, SetPieceTakers,
+    LiveMatchState, MatchCommand, MatchPhase, MatchSnapshot, MinuteResult, TeamRoles,
     SubstitutionRecord,
 };
 pub use report::{

@@ -125,7 +125,7 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 40;
+pub const MIGRATION_COUNT: usize = 41;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -213,6 +213,8 @@ pub fn all_migrations() -> Migrations<'static> {
         // V39: (reserved for future — remove football_nation from tables)
         // V40: Audit football legacy columns in teams (non-destructive)
         M::up_with_hook("SELECT 1;", migrate_audit_teams_legacy),
+        // V41: Add team_roles column (replaces match_roles)
+        M::up(include_str!("sql/v041_team_roles.sql")),
     ])
 }
 
