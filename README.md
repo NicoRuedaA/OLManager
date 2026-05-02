@@ -1,5 +1,3 @@
-[Leer en Español](ES.md)
-
 <h1 align="center">Open League Manager</h1>
 
 <p align="center">
