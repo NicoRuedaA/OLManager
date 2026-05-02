@@ -2,6 +2,8 @@ use crate::league::FixtureCompetition;
 use serde::de::Visitor;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt;
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 /// Stats state container
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -19,6 +21,8 @@ impl StatsState {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum MatchOutcome {
     Win,
     #[serde(alias = "Draw")]
@@ -38,6 +42,8 @@ impl MatchOutcome {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum TeamSide {
     #[serde(alias = "Home")]
     #[default]
@@ -49,6 +55,8 @@ pub enum TeamSide {
 /// LoL role enum - replaces the legacy Position enum from player.rs
 /// Custom deserialization handles both new LolRole strings and legacy Position strings
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(rename_all = "UPPERCASE")]
 pub enum LolRole {
     Top,
@@ -213,6 +221,8 @@ impl<'de> Deserialize<'de> for LolRole {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerMatchStatsRecord {
     pub fixture_id: String,
@@ -240,6 +250,8 @@ pub struct PlayerMatchStatsRecord {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct TeamMatchStatsRecord {
     pub fixture_id: String,
