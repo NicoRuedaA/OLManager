@@ -48,7 +48,8 @@ pub enum TeamSide {
 
 /// LoL role enum - replaces the legacy Position enum from player.rs
 /// Custom deserialization handles both new LolRole strings and legacy Position strings
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize)]
+#[serde(rename_all = "UPPERCASE")]
 pub enum LolRole {
     Top,
     Jungle,
@@ -174,14 +175,14 @@ impl<'de> Deserialize<'de> for LolRole {
             where
                 E: serde::de::Error,
             {
-                // First try direct LolRole match
+                // First try direct LolRole match (handles PascalCase, UPPERCASE, lowercase)
                 match value {
-                    "Top" | "top" => Ok(LolRole::Top),
-                    "Jungle" | "jungle" => Ok(LolRole::Jungle),
-                    "Mid" | "mid" => Ok(LolRole::Mid),
+                    "Top" | "TOP" | "top" => Ok(LolRole::Top),
+                    "Jungle" | "JUNGLE" | "jungle" => Ok(LolRole::Jungle),
+                    "Mid" | "MID" | "mid" => Ok(LolRole::Mid),
                     "Adc" | "ADC" | "adc" => Ok(LolRole::Adc),
-                    "Support" | "support" => Ok(LolRole::Support),
-                    "Unknown" | "unknown" => Ok(LolRole::Unknown),
+                    "Support" | "SUPPORT" | "support" => Ok(LolRole::Support),
+                    "Unknown" | "UNKNOWN" | "unknown" => Ok(LolRole::Unknown),
                     _ => {
                         // Fall back to legacy position mapping
                         let role = match value {

@@ -107,14 +107,18 @@ export default function Dashboard(): JSX.Element {
 
   // Fetch initial state
   useEffect(() => {
+    console.log("[Dashboard] mounted, hasActiveGame:", hasActiveGame);
     if (!hasActiveGame) {
+      console.log("[Dashboard] no active game, redirecting to /");
       navigate("/");
       return;
     }
 
     const fetchState = async () => {
       try {
+        console.log("[Dashboard] calling get_active_game...");
         const state = await invoke<GameStateData>("get_active_game");
+        console.log("[Dashboard] get_active_game returned:", state ? "success" : "null");
         setGameState(state);
       } catch (err) {
         console.error("Failed to fetch game state:", err);

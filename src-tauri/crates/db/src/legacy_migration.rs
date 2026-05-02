@@ -357,7 +357,7 @@ mod tests {
                     aerial: 70,
                 },
             );
-            player.natural_position = position;
+            player.natural_position = position.into();
             player.footedness = footedness;
             player.weak_foot = 1;
             player.team_id = Some("team-001".to_string());
@@ -865,13 +865,13 @@ mod tests {
             .find(|player| player.id == "p-001")
             .unwrap();
 
-        assert_eq!(player.natural_position, domain::player::Position::LeftBack);
+        assert_eq!(player.natural_position, domain::stats::LolRole::Top);
         assert_eq!(player.footedness, domain::player::Footedness::Left);
         assert!(player.weak_foot >= 2);
         assert!(
             player
                 .alternate_positions
-                .contains(&domain::player::Position::LeftWingBack)
+                .contains(&domain::stats::LolRole::Top)
         );
     }
 

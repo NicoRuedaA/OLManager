@@ -148,6 +148,7 @@ fn parse_academy_metadata(json: Option<String>) -> Option<AcademyMetadata> {
 }
 
 fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
+    log::debug!("[team_repo] row_to_team: parsing row...");
     let starting_xi_json: String = row.get(23)?;
     let match_roles_json: String = row.get(24)?;
     let form_json: String = row.get(25)?;
@@ -223,27 +224,92 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
 
 /// Load all teams.
 pub fn load_all_teams(conn: &Connection) -> Result<Vec<Team>, String> {
-    let mut stmt = conn
-        .prepare(
-            "SELECT id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
+    log::info!("[team_repo] load_all_teams: preparing query...");
+    let query = "SELECT id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
                     finance, manager_id, reputation, wage_budget, transfer_budget,
                     season_income, season_expenses, formation, play_style,
                     training_focus, training_intensity, training_schedule,
                     founded_year, colors_primary, colors_secondary,
                     starting_xi_ids, match_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
                     team_kind, parent_team_id, academy_team_id, academy_metadata
-             FROM teams",
-        )
-        .map_err(|e| format!("Failed to prepare teams query: {}", e))?;
+             FROM teams";
+
+    log::info!(
+        "[team_repo] load_all_teams: executing query on {} columns...",
+        41
+    );
+
+    let mut stmt = match conn.prepare(query) {
+        Ok(s) => s,
+        Err(e) => {
+            log::error!("[team_repo] load_all_teams: PREPARE FAILED: {}", e);
+            // Try to identify which column is missing
+            let error_msg = format!("{}", e);
+            if error_msg.contains("no such column") {
+                // Check each column
+                let test_columns = vec![
+                    "team_kind",
+                    "parent_team_id",
+                    "academy_team_id",
+                    "academy_metadata",
+                    "weekly_scrim_opponent_ids",
+                    "scrim_loss_streak",
+                    "scrim_weekly_played",
+                    "scrim_weekly_wins",
+                    "scrim_weekly_losses",
+                    "scrim_slot_results",
+                    "financial_ledger",
+                    "sponsorship",
+                    "facilities",
+                ];
+                for col in test_columns {
+                    if conn
+                        .query_row(
+                            &format!("SELECT {} FROM teams LIMIT 1", col),
+                            [],
+                            |_| Ok(()),
+                        )
+                        .is_err()
+                    {
+                        log::error!("[team_repo] MISSING COLUMN: {}", col);
+                    }
+                }
+            }
+            return Err(format!("Failed to prepare teams query: {}", e));
+        }
+    };
+    log::info!("[team_repo] load_all_teams: query prepared successfully");
 
     let rows = stmt
         .query_map([], row_to_team)
         .map_err(|e| format!("Failed to query teams: {}", e))?;
 
+    log::info!("[team_repo] load_all_teams: iterating rows...");
     let mut teams = Vec::new();
-    for row in rows {
-        teams.push(row.map_err(|e| format!("Failed to read team row: {}", e))?);
+    for (idx, row) in rows.enumerate() {
+        match row {
+            Ok(team) => {
+                log::info!(
+                    "[team_repo] load_all_teams: loaded team {} ({})",
+                    team.name,
+                    team.id
+                );
+                teams.push(team);
+            }
+            Err(e) => {
+                log::error!(
+                    "[team_repo] load_all_teams: failed to read team row {}: {}",
+                    idx,
+                    e
+                );
+                return Err(format!("Failed to read team row {}: {}", idx, e));
+            }
+        }
     }
+    log::info!(
+        "[team_repo] load_all_teams: done, {} teams loaded",
+        teams.len()
+    );
     Ok(teams)
 }
 

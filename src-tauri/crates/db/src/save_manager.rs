@@ -4,9 +4,8 @@ use log::{debug, info};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::sync::{Arc, Mutex};
 
-use domain::player::{Player, Position};
+use domain::player::{LolRole, Player};
 use ofm_core::game::Game;
 use ofm_core::player_identity;
 use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
@@ -21,10 +20,6 @@ use crate::save_index_manager::SaveIndexManager;
 pub struct SaveManager {
     saves_dir: PathBuf,
     save_index: SaveIndexManager,
-    /// Cached database connections, keyed by save_id.
-    /// Uses Arc<Mutex<GameDatabase>> to allow shared ownership
-    /// across threads and avoid borrow checker issues.
-    db_cache: HashMap<String, Arc<Mutex<GameDatabase>>>,
 }
 
 impl SaveManager {
@@ -37,49 +32,12 @@ impl SaveManager {
         Ok(Self {
             saves_dir: saves_dir.to_path_buf(),
             save_index,
-            db_cache: HashMap::new(),
         })
     }
 
     /// List all save entries.
     pub fn list_saves(&self) -> &[SaveEntry] {
         self.save_index.list_saves()
-    }
-
-    /// Open the GameDatabase for a specific save_id.
-    /// Returns the open database for reading champion data, etc.
-    /// Uses a cache to avoid re-opening and re-migrating on every call.
-    /// Returns Arc<Mutex<GameDatabase>> to avoid borrow checker issues
-    /// with returning references to HashMap values, and to be Send+Sync.
-    pub fn open_game_db(&mut self, save_id: &str) -> Result<Arc<Mutex<GameDatabase>>, String> {
-        use std::collections::hash_map::Entry;
-
-        // Ensure the save exists first
-        let save_entry = self
-            .save_index
-            .find(save_id)
-            .ok_or_else(|| format!("Save '{}' not found", save_id))?;
-
-        // Use Entry API - if cached, return the existing Arc
-        // If not, open the database and wrap in Arc<Mutex<>>
-        match self.db_cache.entry(save_id.to_string()) {
-            Entry::Occupied(cache_entry) => Ok(Arc::clone(cache_entry.get())),
-            Entry::Vacant(cache_entry) => {
-                let db_path = self.saves_dir.join(&save_entry.db_filename);
-                let db = GameDatabase::open(&db_path)?;
-                let db_arc = Arc::new(Mutex::new(db));
-                // insert returns &mut V, need to clone the Arc
-                cache_entry.insert(Arc::clone(&db_arc));
-                Ok(db_arc)
-            }
-        }
-    }
-
-    /// Invalidate the cached database for a save_id.
-    /// Call this after modifying the save (e.g., after save_game).
-    pub fn invalidate_cache(&mut self, save_id: &str) {
-        debug!("[save_manager] invalidating cache for save {}", save_id);
-        self.db_cache.remove(save_id);
     }
 
     /// Create a new save from the current in-memory Game state.
@@ -137,9 +95,6 @@ impl SaveManager {
         GamePersistenceWriter::write_game(&db, &persisted_game, save_id, &save_name)?;
         drop(db);
 
-        // Invalidate cached connection so next read gets fresh data
-        self.db_cache.remove(save_id);
-
         let checksum = compute_checksum(&db_path)?;
         let now = Utc::now().to_rfc3339();
         let manager_name = game.manager.display_name();
@@ -170,9 +125,6 @@ impl SaveManager {
         GamePersistenceWriter::write_stats_state(&db, stats)?;
         drop(db);
 
-        // Invalidate cached connection so next read gets fresh data
-        self.db_cache.remove(save_id);
-
         let checksum = compute_checksum(&db_path)?;
         let now = Utc::now().to_rfc3339();
         self.save_index.update_save(SaveEntry {
@@ -189,14 +141,20 @@ impl SaveManager {
     }
 
     pub fn load_stats_state(&mut self, save_id: &str) -> Result<StatsState, String> {
-        // Use cached database connection to avoid reopening on every read
-        let db_arc = self.open_game_db(save_id)?;
-        let db = db_arc.lock().map_err(|e| format!("Lock error: {}", e))?;
+        let entry = self
+            .save_index
+            .find(save_id)
+            .ok_or_else(|| format!("Save '{}' not found", save_id))?
+            .clone();
+
+        let db_path = self.saves_dir.join(&entry.db_filename);
+        let db = GameDatabase::open(&db_path)?;
         GamePersistenceReader::read_stats_state(&db)
     }
 
     /// Load a Game from a save database.
     pub fn load_game(&mut self, save_id: &str) -> Result<Game, String> {
+        info!("[save_manager] load_game: start for {}", save_id);
         let entry = self
             .save_index
             .find(save_id)
@@ -205,10 +163,21 @@ impl SaveManager {
 
         let db_path = self.saves_dir.join(&entry.db_filename);
         let save_name = entry.name.clone();
-        debug!("[save_manager] loading game from {}", save_id);
+        info!(
+            "[save_manager] load_game: found save '{}', db_path={:?}",
+            save_name, db_path
+        );
 
-        let mut db = GameDatabase::open(&db_path)?;
-        let mut game = GamePersistenceReader::read_game(&mut db)?;
+        info!("[save_manager] load_game: opening database...");
+        let db = GameDatabase::open(&db_path)?;
+        info!("[save_manager] load_game: database opened, reading game...");
+
+        let mut game = GamePersistenceReader::read_game(&db)?;
+        info!(
+            "[save_manager] load_game: game read, players={}, teams={}",
+            game.players.len(),
+            game.teams.len()
+        );
         let mut needs_resave = false;
 
         if canonicalize_game_starting_xi_ids(&mut game) {
@@ -253,9 +222,6 @@ impl SaveManager {
             GamePersistenceWriter::write_game(&db, &game, save_id, &save_name)?;
             drop(db);
 
-            // Invalidate cached connection so next read gets fresh data
-            self.db_cache.remove(save_id);
-
             let checksum = compute_checksum(&db_path)?;
             let now = Utc::now().to_rfc3339();
             let manager_name = game.manager.display_name();
@@ -286,9 +252,6 @@ impl SaveManager {
             fs::remove_file(&db_path).map_err(|e| format!("Failed to delete save file: {}", e))?;
             debug!("[save_manager] deleted file {:?}", db_path);
         }
-
-        // Invalidate cached connection
-        self.db_cache.remove(save_id);
 
         self.save_index.remove_save(save_id)?;
         info!("[save_manager] deleted save {}", save_id);
@@ -436,14 +399,10 @@ fn formation_row_lengths(formation: &str) -> Vec<usize> {
     }
 }
 
-fn is_mirrored_side_pair(left_position: &Position, right_position: &Position) -> bool {
-    matches!(
-        (left_position, right_position),
-        (Position::LeftBack, Position::RightBack)
-            | (Position::LeftWingBack, Position::RightWingBack)
-            | (Position::LeftMidfielder, Position::RightMidfielder)
-            | (Position::LeftWinger, Position::RightWinger)
-    )
+fn is_mirrored_side_pair(_left_position: &LolRole, _right_position: &LolRole) -> bool {
+    // In LoL, there's no strict left/right position pairing like in football.
+    // All roles can potentially be swapped, so we always return true.
+    true
 }
 
 #[cfg(test)]
@@ -687,7 +646,7 @@ mod tests {
                 aerial: 70,
             },
         );
-        player.natural_position = position;
+        player.natural_position = position.into();
         player.footedness = footedness;
         player.weak_foot = 1;
         player.team_id = Some("team-001".to_string());

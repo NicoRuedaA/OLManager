@@ -1,8 +1,4 @@
--- V31: Fix champion counterpicks/synergies data
--- Previous seed stored ALL counterpicks/synergies in EVERY champion.
--- This migration clears the champion table data so it can be reseeded correctly.
--- The application-level seed function (seed_from_json) will re-run on next game load
--- because it checks if the table is empty.
--- NOTE: This migration is now handled programmatically in migrations.rs (up_with_func)
--- to safely check if the table exists before deleting.
--- This file is kept for reference but is no longer used.
+-- V31: Fix champion seed data (re-seed champions table)
+-- This is idempotent - safe to run on existing databases
+DELETE FROM champions;
+-- Re-insert will happen via game_database.rs ensure_champions()

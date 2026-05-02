@@ -44,12 +44,12 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
     }
 
     // Reassign positions for outfield players on this team
+    // In LoL, filter out Support role (the "goalkeeper" equivalent)
     let player_ids: Vec<String> = game
         .players
         .iter()
         .filter(|p| {
-            p.team_id.as_deref() == Some(&team_id)
-                && p.position != domain::player::Position::Goalkeeper
+            p.team_id.as_deref() == Some(&team_id) && p.position != domain::player::LolRole::Support
         })
         .map(|p| p.id.clone())
         .collect();
@@ -68,14 +68,14 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
         def_b.cmp(&def_a)
     });
 
-    // Assign positions
+    // Assign positions - map to LoL roles
     for (slot, pid) in sorted_ids.iter().enumerate() {
         let new_pos = if slot < num_def {
-            domain::player::Position::Defender
+            domain::player::LolRole::Top
         } else if slot < num_def + num_mid {
-            domain::player::Position::Midfielder
+            domain::player::LolRole::Mid
         } else if slot < num_def + num_mid + num_fwd {
-            domain::player::Position::Forward
+            domain::player::LolRole::Adc
         } else {
             continue;
         };
@@ -436,29 +436,15 @@ pub fn reroll_player_lol_role(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let (next_natural, next_position) = match role.as_str() {
-        "TOP" => (
-            domain::player::Position::Defender,
-            domain::player::Position::Defender,
-        ),
-        "JUNGLE" => (
-            domain::player::Position::Midfielder,
-            domain::player::Position::Midfielder,
-        ),
-        "MID" => (
-            domain::player::Position::AttackingMidfielder,
-            domain::player::Position::Midfielder,
-        ),
-        "ADC" => (
-            domain::player::Position::Forward,
-            domain::player::Position::Forward,
-        ),
-        "SUPPORT" => (
-            domain::player::Position::DefensiveMidfielder,
-            domain::player::Position::Midfielder,
-        ),
+    let next_natural = match role.as_str() {
+        "TOP" => domain::player::LolRole::Top,
+        "JUNGLE" => domain::player::LolRole::Jungle,
+        "MID" => domain::player::LolRole::Mid,
+        "ADC" => domain::player::LolRole::Adc,
+        "SUPPORT" => domain::player::LolRole::Support,
         _ => return Err(format!("Unknown LoL role: {}", role)),
     };
+    let next_position = next_natural; // In LoL, natural and current position are the same
 
     let player = game
         .players
@@ -470,7 +456,7 @@ pub fn reroll_player_lol_role(
         return Err("Player does not belong to manager team".to_string());
     }
 
-    let previous_natural = player.natural_position.clone();
+    let previous_natural = player.natural_position;
 
     if previous_natural != next_natural
         && !player

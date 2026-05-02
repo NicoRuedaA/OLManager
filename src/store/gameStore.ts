@@ -80,10 +80,13 @@ export const useGameStore = create<GameStore>((set) => ({
   gameState: null,
   isDirty: false,
   showFiredModal: false,
-  setGameActive: (active, managerName) => set({
-    hasActiveGame: active,
-    managerName: managerName || null
-  }),
+  setGameActive: (active, managerName) => {
+    console.log("[store] setGameActive called:", { active, managerName });
+    set({
+      hasActiveGame: active,
+      managerName: managerName || null
+    });
+  },
   setGameState: (state) => set({
     gameState: state,
     isDirty: true,

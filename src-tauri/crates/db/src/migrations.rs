@@ -1,7 +1,108 @@
-use rusqlite_migration::{Migrations, M};
+use rusqlite::{Connection, Transaction};
+use rusqlite_migration::{HookResult, Migrations, M};
+
+fn column_exists(tx: &Transaction<'_>, table: &str, column: &str) -> rusqlite::Result<bool> {
+    let mut stmt = tx.prepare(&format!("PRAGMA table_info({table})"))?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        let name: String = row.get(1)?;
+        if name == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn add_column_if_missing(
+    tx: &Transaction<'_>,
+    table: &str,
+    column: &str,
+    definition: &str,
+) -> rusqlite::Result<()> {
+    if !column_exists(tx, table, column)? {
+        tx.execute(
+            &format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"),
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+fn migrate_profile_image_urls(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "players", "profile_image_url", "TEXT")?;
+    add_column_if_missing(tx, "staff", "profile_image_url", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_manager_avatar_path(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "managers", "avatar_path", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_stadium_to_arena(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "arena_name", "TEXT")?;
+    // Only migrate data if the legacy column exists (old save files)
+    if column_exists(tx, "teams", "stadium_name")? {
+        tx.execute(
+            "UPDATE teams SET arena_name = COALESCE(stadium_name, 'Unknown Arena') WHERE arena_name IS NULL",
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+fn migrate_stadium_to_arena_capacity(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "arena_capacity", "INTEGER")?;
+    // Only migrate data if the legacy column exists (old save files)
+    if column_exists(tx, "teams", "stadium_capacity")? {
+        tx.execute(
+            "UPDATE teams SET arena_capacity = COALESCE(stadium_capacity, 0) WHERE arena_capacity IS NULL",
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+fn connection_column_exists(
+    conn: &Connection,
+    table: &str,
+    column: &str,
+) -> rusqlite::Result<bool> {
+    let mut stmt = conn.prepare(&format!("PRAGMA table_info({table})"))?;
+    let mut rows = stmt.query([])?;
+    while let Some(row) = rows.next()? {
+        let name: String = row.get(1)?;
+        if name == column {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn connection_add_column_if_missing(
+    conn: &Connection,
+    table: &str,
+    column: &str,
+    definition: &str,
+) -> rusqlite::Result<()> {
+    if !connection_column_exists(conn, table, column)? {
+        conn.execute(
+            &format!("ALTER TABLE {table} ADD COLUMN {column} {definition}"),
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
+    connection_add_column_if_missing(conn, "managers", "avatar_path", "TEXT")?;
+    connection_add_column_if_missing(conn, "players", "profile_image_url", "TEXT")?;
+    connection_add_column_if_missing(conn, "staff", "profile_image_url", "TEXT")?;
+    Ok(())
+}
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 34;
+pub const MIGRATION_COUNT: usize = 37;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -62,54 +163,25 @@ pub fn all_migrations() -> Migrations<'static> {
         // V27: Persist academy team kind, affiliation links, and ERL metadata
         M::up(include_str!("sql/v027_academy_team_metadata.sql")),
         // V28: Add avatar_path column to managers table for profile avatar persistence
-        M::up(include_str!("sql/v028_avatar_path.sql")),
-        // V29: Champion progression state (patch + masteries)
-        // Conditional — only creates table if it doesn't exist
-        M::up_with_hook("SELECT 1;", |tx: &rusqlite::Transaction| {
-            let exists: bool = tx.query_row(
-                "SELECT COUNT(*) > 0 FROM sqlite_master WHERE type='table' AND name='champion_progression_state'",
-                [],
-                |row| row.get(0),
-            )?;
-            if !exists {
-                tx.execute_batch(include_str!("sql/v028_champion_progression_state.sql"))?;
-            }
-            Ok(())
-        }),
-        // V30: Champions table for world champions catalog
+        M::up_with_hook("SELECT 1;", migrate_manager_avatar_path),
+        // V29: Champion mastery + patch progression persistence
+        M::up(include_str!("sql/v028_champion_progression_state.sql")),
+        // V30: Optional unified profile image URLs for players and staff
+        M::up_with_hook("SELECT 1;", migrate_profile_image_urls),
+        // V30: Champions table for LoL champion data
         M::up(include_str!("sql/v030_champions_table.sql")),
-        // V31: Fix champion counterpicks/synergies seed (was storing all data in every champion)
-        // Uses up_with_hook to safely check if table exists before deleting
-        M::up_with_hook("SELECT 1;", |tx: &rusqlite::Transaction| {
-            let exists: bool = tx.query_row(
-                "SELECT COUNT(*) > 0 FROM sqlite_master WHERE type='table' AND name='champions'",
-                [],
-                |row| row.get(0),
-            )?;
-            if exists {
-                tx.execute("DELETE FROM champions", [])?;
-            }
-            Ok(())
-        }),
-        // V32: Re-seed champions with fixed name generation (camelCase bug: 'Taliyah' -> '. aliyah')
-        // Also conditional — only deletes if table exists
-        M::up_with_hook("SELECT 1;", |tx: &rusqlite::Transaction| {
-            let exists: bool = tx.query_row(
-                "SELECT COUNT(*) > 0 FROM sqlite_master WHERE type='table' AND name='champions'",
-                [],
-                |row| row.get(0),
-            )?;
-            if exists {
-                tx.execute("DELETE FROM champions", [])?;
-            }
-            Ok(())
-        }),
-        // V33: Add profile_image_url column to players table for profile images
-        // Required for load_all_players - old saves don't have this column
-        M::up(include_str!("sql/v033_player_profile_image_url.sql")),
-        // V34: Add profile_image_url column to staff table for profile images
-        // Required for load_all_staff - old saves don't have this column
-        M::up(include_str!("sql/v034_staff_profile_image_url.sql")),
+        // V31: Fix champion seed data
+        M::up(include_str!("sql/v031_fix_champion_seed.sql")),
+        // V32: Fix champion names
+        M::up(include_str!("sql/v032_fix_champion_names.sql")),
+        // V33: Add profile_image_url to players (idempotent, handled by hook)
+        M::up("SELECT 1;"),
+        // V34: Add profile_image_url to staff (idempotent, handled by hook)
+        M::up("SELECT 1;"),
+        // V35: Rename stadium_name to arena_name for LoL terminology
+        M::up_with_hook("SELECT 1;", migrate_stadium_to_arena),
+        // V36: Rename stadium_capacity to arena_capacity for LoL terminology
+        M::up_with_hook("SELECT 1;", migrate_stadium_to_arena_capacity),
     ])
 }
 
@@ -217,17 +289,33 @@ mod tests {
     fn test_profile_image_url_migration_tolerates_existing_columns() {
         let mut conn = Connection::open_in_memory().unwrap();
         let migrations = all_migrations();
+        // Apply up to V29 (index 28 = 29 migrations), BEFORE the profile_image_url hook at V30
         migrations
-            .to_version(&mut conn, MIGRATION_COUNT - 1)
+            .to_version(&mut conn, 29)
             .expect("migrations before profile image URLs should apply");
 
+        // Manually add columns BEFORE running the V30 hook
         conn.execute("ALTER TABLE players ADD COLUMN profile_image_url TEXT", [])
             .unwrap();
         conn.execute("ALTER TABLE staff ADD COLUMN profile_image_url TEXT", [])
             .unwrap();
 
+        // Apply remaining migrations (V30 onwards) — V30 hook uses add_column_if_missing
         migrations
             .to_latest(&mut conn)
             .expect("profile image URL migration should skip existing columns");
+    }
+
+    #[test]
+    fn test_compatible_schema_repairs_missing_avatar_path() {
+        let mut conn = Connection::open_in_memory().unwrap();
+        let migrations = all_migrations();
+        migrations
+            .to_version(&mut conn, 27)
+            .expect("migrations before avatar_path should apply");
+
+        assert!(!connection_column_exists(&conn, "managers", "avatar_path").unwrap());
+        ensure_compatible_schema(&conn).expect("compatibility repair should add avatar_path");
+        assert!(connection_column_exists(&conn, "managers", "avatar_path").unwrap());
     }
 }

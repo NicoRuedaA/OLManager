@@ -6,6 +6,8 @@ use crate::board_objectives;
 use crate::champions;
 use crate::end_of_season;
 use crate::game::Game;
+use domain::player::LolRole as DomainLolRole;
+use engine::LolRole as EngineLolRole;
 use crate::player_events;
 use crate::potential;
 use crate::random_events;
@@ -16,7 +18,7 @@ use crate::transfers;
 use chrono::Datelike;
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, MatchResult};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::player::Position as DomainPosition;
+use domain::player::LolRole;
 use domain::stats::StatsState;
 use domain::team::{Team, TeamKind, TeamSeasonRecord};
 use log::{debug, info};
@@ -173,18 +175,10 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         .iter()
         .filter(|p| p.team_id.as_deref() == Some(team_id))
         .map(|p| {
-            let pos = match p.position.to_group_position() {
-                DomainPosition::Goalkeeper => engine::Position::Goalkeeper,
-                DomainPosition::Defender => engine::Position::Defender,
-                DomainPosition::Midfielder => engine::Position::Midfielder,
-                DomainPosition::Forward => engine::Position::Forward,
-                _ => engine::Position::Midfielder,
-            };
             engine::PlayerData {
                 id: p.id.clone(),
                 name: p.match_name.clone(),
-                position: pos,
-                lol_role: Some(lol_role_from_position(&p.natural_position).to_string()),
+                role: to_engine_role(p.natural_position),
                 condition: p.condition,
                 fitness: p.fitness,
                 pace: p.attributes.pace,
@@ -232,6 +226,18 @@ fn academy_player_ovr(player: &domain::player::Player) -> u32 {
         + u32::from(attrs.composure)
         + u32::from(attrs.stamina);
     (total + 4) / 9
+}
+
+/// Convert domain::player::LolRole to engine::LolRole
+fn to_engine_role(role: DomainLolRole) -> EngineLolRole {
+    match role {
+        DomainLolRole::Top => EngineLolRole::Top,
+        DomainLolRole::Jungle => EngineLolRole::Jungle,
+        DomainLolRole::Mid => EngineLolRole::Mid,
+        DomainLolRole::Adc => EngineLolRole::Adc,
+        DomainLolRole::Support => EngineLolRole::Support,
+        DomainLolRole::Unknown => EngineLolRole::Top,
+    }
 }
 
 fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
@@ -390,9 +396,9 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
         .iter()
         .filter(|player| player.team_id.as_deref() == Some(parent_team.id.as_str()))
         .collect();
-    let mut main_best_by_role: HashMap<&'static str, u32> = HashMap::new();
+    let mut main_best_by_role: HashMap<EngineLolRole, u32> = HashMap::new();
     for player in main_players {
-        let role = lol_role_from_position(&player.natural_position);
+        let role = to_engine_role(player.natural_position);
         let ovr = academy_player_ovr(player);
         let entry = main_best_by_role.entry(role).or_insert(0);
         if ovr > *entry {
@@ -402,8 +408,8 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
     let promotion_ready: Vec<String> = academy_players
         .iter()
         .filter_map(|player| {
-            let role = lol_role_from_position(&player.natural_position);
-            let main_ref = main_best_by_role.get(role).copied().unwrap_or(75);
+            let role = to_engine_role(player.natural_position);
+            let main_ref = main_best_by_role.get(&role).copied().unwrap_or(75);
             let academy_ovr = academy_player_ovr(player);
             (academy_ovr >= main_ref.saturating_sub(2)).then(|| player.match_name.clone())
         })
@@ -1136,26 +1142,6 @@ fn next_winter_playoff_pairings(
     }
 
     None
-}
-
-fn lol_role_from_position(position: &DomainPosition) -> &'static str {
-    match position {
-        DomainPosition::Defender
-        | DomainPosition::RightBack
-        | DomainPosition::CenterBack
-        | DomainPosition::LeftBack
-        | DomainPosition::RightWingBack
-        | DomainPosition::LeftWingBack => "TOP",
-        DomainPosition::AttackingMidfielder
-        | DomainPosition::RightMidfielder
-        | DomainPosition::LeftMidfielder => "MID",
-        DomainPosition::Forward
-        | DomainPosition::RightWinger
-        | DomainPosition::LeftWinger
-        | DomainPosition::Striker => "ADC",
-        DomainPosition::Goalkeeper | DomainPosition::DefensiveMidfielder => "SUPPORT",
-        DomainPosition::Midfielder | DomainPosition::CentralMidfielder => "JUNGLE",
-    }
 }
 
 // ---------------------------------------------------------------------------

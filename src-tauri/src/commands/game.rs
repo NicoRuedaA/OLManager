@@ -2047,33 +2047,50 @@ pub async fn load_game(
     save_id: String,
 ) -> Result<String, String> {
     info!("[cmd] load_game: save_id={}", save_id);
+    
     let mut sm = sm_state
         .0
         .lock()
         .map_err(|e| format!("Lock error: {}", e))?;
+        
+    info!("[cmd] load_game: loading game data from save");
     let mut game = sm.load_game(&save_id)?;
+    info!("[cmd] load_game: game loaded, players={}, teams={}", game.players.len(), game.teams.len());
+    
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);
     ofm_core::champions::bootstrap_champion_state(&mut game);
+    
+    info!("[cmd] load_game: loading stats state");
     let stats_state = sm.load_stats_state(&save_id)?;
+    info!("[cmd] load_game: stats state loaded");
+    
     ofm_core::season_context::refresh_game_context(&mut game);
+    info!("[cmd] load_game: context refreshed");
 
     let mgr_name = game.manager.display_name();
+    info!("[cmd] load_game: manager={}", mgr_name);
 
+    info!("[cmd] load_game: setting state");
     state.set_save_id(save_id);
     state.set_game(game);
     state.set_stats_state(stats_state);
+    info!("[cmd] load_game: state set, returning manager name");
+    
     Ok(mgr_name)
 }
 
 #[tauri::command]
 pub async fn get_active_game(state: State<'_, StateManager>) -> Result<Game, String> {
-    log::debug!("[cmd] get_active_game");
-    let mut game = state
+    log::info!("[cmd] get_active_game: start");
+    let game = state
         .get_game(|g: &Game| g.clone())
-        .ok_or("No active game session".to_string())?;
-    ofm_core::champions::bootstrap_champion_state(&mut game);
-    state.set_game(game.clone());
+        .ok_or_else(|| {
+            log::error!("[cmd] get_active_game: no active game in state");
+            "No active game session".to_string()
+        })?;
+    log::info!("[cmd] get_active_game: found game with {} players, {} teams", game.players.len(), game.teams.len());
+    ofm_core::champions::bootstrap_champion_state(&mut game.clone());
     Ok(game)
 }
 

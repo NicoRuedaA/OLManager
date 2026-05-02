@@ -324,10 +324,13 @@ export default function MainMenu() {
   };
 
   const handleLoadGame = async (saveId: string) => {
+    console.log("[MainMenu] handleLoadGame start, saveId:", saveId);
     setLoadingSaveId(saveId);
     try {
       const managerName = await invoke<string>("load_game", { saveId });
+      console.log("[MainMenu] load_game returned, managerName:", managerName);
       setGameActive(true, managerName);
+      console.log("[MainMenu] setGameActive called, navigating to /dashboard");
       navigate("/dashboard");
     } catch (error) {
       console.error("Failed to load game:", error);
