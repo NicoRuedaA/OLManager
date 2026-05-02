@@ -19,6 +19,8 @@
   <img src="https://img.shields.io/badge/Status-Pre--alpha-yellow" />
 </p>
 
+<img src="https://github.com/OpenLeagueManager/.github/raw/main/Game-Banner.png">
+
 ---
 
 > **Current Status:** Pre-alpha — expect incomplete gameplay systems, evolving save formats, and frequent documentation updates.  
