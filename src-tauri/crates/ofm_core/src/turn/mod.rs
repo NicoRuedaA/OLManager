@@ -681,7 +681,13 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
     for (fixture_index, home_team_id, away_team_id) in fixtures_to_play {
         let home_data = build_engine_team(game, &home_team_id);
         let away_data = build_engine_team(game, &away_team_id);
-        let report = engine::simulate(&home_data, &away_data, &engine::MatchConfig::default());
+        let mut rng = rand::rng();
+        let report = engine::simulate_lol(
+            &home_data,
+            &away_data,
+            &engine::MatchConfig::default(),
+            &mut rng,
+        );
         simulated_results.push((
             fixture_index,
             home_team_id,
@@ -1224,7 +1230,8 @@ where
     let away_data = build_engine_team(game, &away_team_id);
     let config = engine::MatchConfig::default();
     let report = if best_of <= 1 {
-        engine::simulate(&home_data, &away_data, &config)
+        let mut rng = rand::rng();
+        engine::simulate_lol(&home_data, &away_data, &config, &mut rng)
     } else {
         simulate_series(&home_data, &away_data, &config, best_of)
     };
@@ -1242,22 +1249,23 @@ fn simulate_series(
     config: &engine::MatchConfig,
     best_of: u8,
 ) -> engine::MatchReport {
+    let mut rng = rand::rng();
     let target_wins = (best_of / 2) + 1;
     let mut home_wins = 0_u8;
     let mut away_wins = 0_u8;
     let mut reports: Vec<engine::MatchReport> = Vec::new();
 
     while home_wins < target_wins && away_wins < target_wins {
-        let report = engine::simulate(home_data, away_data, config);
+        let report = engine::simulate_lol(home_data, away_data, config, &mut rng);
         home_wins = home_wins.saturating_add(report.home_wins);
         away_wins = away_wins.saturating_add(report.away_wins);
         reports.push(report);
     }
 
-    let mut merged = reports
-        .last()
-        .cloned()
-        .unwrap_or_else(|| engine::simulate(home_data, away_data, config));
+    let mut merged = match reports.last() {
+        Some(report) => report.clone(),
+        None => engine::simulate_lol(home_data, away_data, config, &mut rng),
+    };
     merged.home_wins = home_wins;
     merged.away_wins = away_wins;
 

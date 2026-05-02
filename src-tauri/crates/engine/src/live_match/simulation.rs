@@ -1,6 +1,7 @@
 use rand::Rng;
 
 use crate::event::{EventType, MatchEvent};
+use crate::report::MatchReport;
 use crate::types::{Side, Zone};
 
 use super::{LiveMatchState, MatchPhase, MinuteResult};
@@ -93,5 +94,16 @@ impl LiveMatchState {
             ball_zone: self.ball_zone,
             is_finished: true,
         }
+    }
+
+    /// Run the match to completion using the given RNG and return the match report.
+    pub fn run_to_completion<R: Rng>(mut self, rng: &mut R) -> MatchReport {
+        loop {
+            let result = self.step_minute(rng);
+            if result.is_finished {
+                break;
+            }
+        }
+        self.into_report()
     }
 }

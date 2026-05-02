@@ -10,8 +10,7 @@ pub(crate) mod shared;
 pub mod types;
 
 // Re-export key types for convenience
-pub use engine::simulate;
-pub use engine::simulate_with_rng;
+pub use engine::simulate_lol;
 pub use event::{EventType, MatchEvent};
 pub use live_match::LolRole;
 pub use live_match::{
