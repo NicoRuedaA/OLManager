@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle,
   BedDouble,
@@ -21,11 +21,145 @@ import {
   normalizeTrainingFocus,
 } from "../../lib/trainingFocus";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import type { GameStateData } from "../../store/gameStore";
 import { setTraining, setTrainingSchedule } from "../../services/trainingService";
 import { Card, CardBody, CardHeader, ProgressBar } from "../ui";
 import TrainingSettingsPanel from "./TrainingSettingsPanel";
 import { getTrainingStaffAdvice } from "./trainingAdvice";
+
+type SoloQTier = "Challenger" | "Grandmaster" | "Master";
+
+const SOLOQ_POINTS_BASELINE = 3000;
+const SOLOQ_POINTS_MIN = 3000;
+const SOLOQ_POINTS_MAX = 7000;
+const SOLOQ_GRANDMASTER_LP_CUTOFF = 800;
+const SOLOQ_CHALLENGER_LP_CUTOFF = 1300;
+
+function hashText(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
+
+function daysBetween(startIso: string, endIso: string): number {
+  const start = new Date(startIso).getTime();
+  const end = new Date(endIso).getTime();
+  if (!Number.isFinite(start) || !Number.isFinite(end)) return 0;
+  return Math.max(0, Math.floor((end - start) / (24 * 60 * 60 * 1000)));
+}
+
+function addDays(iso: string, days: number): string {
+  const date = new Date(iso);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString();
+}
+
+function weekdayFromIso(iso: string): number {
+  const date = new Date(iso);
+  return (date.getUTCDay() + 6) % 7;
+}
+
+function isSoloQDay(dateIso: string, schedule: string): boolean {
+  const activeDays = SCHEDULE_TRAINING_DAYS[schedule] ?? SCHEDULE_TRAINING_DAYS.Balanced;
+  return activeDays.includes(weekdayFromIso(dateIso));
+}
+
+function intensityMultiplier(intensity: string): number {
+  if (intensity === "High") return 1.25;
+  if (intensity === "Low") return 0.75;
+  return 1.0;
+}
+
+function focusMultiplier(focus: string | null | undefined): number {
+  if (!focus) return 0.85;
+  if (focus === "ChampionPoolPractice") return 1.25;
+  if (focus === "IndividualCoaching") return 1.0;
+  if (focus === "Scrims") return 0.85;
+  if (focus === "MacroSystems") return 0.75;
+  if (focus === "VODReview") return 0.7;
+  return 0.85;
+}
+
+function computeSoloQ(
+  player: GameStateData["players"][number],
+  gameState: GameStateData,
+  masterySignal: number,
+  focus: string | null | undefined,
+  intensity: string,
+  schedule: string,
+): { tier: SoloQTier; lp: number; delta: number } {
+  const ovr = Math.round((
+    player.attributes.dribbling +
+    player.attributes.shooting +
+    player.attributes.teamwork +
+    player.attributes.vision +
+    player.attributes.decisions +
+    player.attributes.leadership +
+    player.attributes.agility +
+    player.attributes.composure +
+    player.attributes.stamina
+  ) / 9);
+  const dayIndex = daysBetween(gameState.clock.start_date, gameState.clock.current_date);
+  const baseline = 3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);
+
+  let points = baseline;
+  const focusMult = focusMultiplier(focus);
+  const intensityMult = intensityMultiplier(intensity);
+  for (let day = 1; day <= dayIndex; day += 1) {
+    const currentIso = addDays(gameState.clock.start_date, day);
+    if (!isSoloQDay(currentIso, schedule)) continue;
+    const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
+    const gain = Math.round(baseGain * intensityMult * focusMult);
+    points += Math.max(-20, Math.min(30, gain));
+    points = Math.max(SOLOQ_POINTS_MIN, Math.min(SOLOQ_POINTS_MAX, points));
+  }
+
+  const lp = Math.max(0, Math.round(points - SOLOQ_POINTS_BASELINE));
+  let delta = 0;
+  if (dayIndex > 0) {
+    const yesterdayIso = addDays(gameState.clock.start_date, dayIndex);
+    if (isSoloQDay(yesterdayIso, schedule)) {
+      const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
+      delta = Math.max(-20, Math.min(30, Math.round(baseGain * intensityMult * focusMult)));
+    }
+  }
+
+  if (lp >= SOLOQ_CHALLENGER_LP_CUTOFF) return { tier: "Challenger", lp, delta };
+  if (lp >= SOLOQ_GRANDMASTER_LP_CUTOFF) return { tier: "Grandmaster", lp, delta };
+  return { tier: "Master", lp, delta };
+}
+
+function soloQTierClass(tier: SoloQTier): string {
+  if (tier === "Challenger") return "text-yellow-300";
+  if (tier === "Grandmaster") return "text-red-300";
+  return "text-fuchsia-300";
+}
+
+function soloQEmblemUrl(tier: SoloQTier): string {
+  if (tier === "Challenger") {
+    return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/challenger.png";
+  }
+  if (tier === "Grandmaster") {
+    return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/grandmaster.png";
+  }
+  return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/master.png";
+}
+
+type UiRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
+
+function inferRoleIcon(player: GameStateData["players"][number]): string {
+  const key = String(player.natural_position || player.position || "").toLowerCase().replace(/[^a-z]/g, "");
+  let role: UiRole = "SUPPORT";
+  if (key.includes("defender") && !key.includes("midfielder")) role = "TOP";
+  else if (key.includes("midfielder") && !key.includes("attacking")) role = "JUNGLE";
+  else if (key.includes("attackingmidfielder")) role = "MID";
+  else if (key.includes("forward") || key.includes("striker")) role = "ADC";
+  return ROLE_ICON_PATHS[role];
+}
 
 interface TrainingTabProps {
   gameState: GameStateData;
@@ -97,6 +231,21 @@ export default function TrainingTab({
   const [isSaving, setIsSaving] = useState(false);
 
   const roster = gameState.players.filter((player) => player.team_id === myTeam.id);
+  const masterySignalByPlayer = useMemo(() => {
+    const bucket = new Map<string, number[]>();
+    (gameState.champion_masteries ?? []).forEach((entry) => {
+      const list = bucket.get(entry.player_id) ?? [];
+      list.push(Number(entry.mastery ?? 25));
+      bucket.set(entry.player_id, list);
+    });
+    const signal = new Map<string, number>();
+    bucket.forEach((values, playerId) => {
+      const top = [...values].sort((a, b) => b - a).slice(0, 3);
+      const avg = top.length > 0 ? top.reduce((sum, value) => sum + value, 0) / top.length : 25;
+      signal.set(playerId, Math.max(0, avg - 60));
+    });
+    return signal;
+  }, [gameState.champion_masteries]);
   const avgCondition =
     roster.length > 0
       ? Math.round(
@@ -154,7 +303,7 @@ export default function TrainingTab({
   const staffEffects = getLolStaffEffectsForTeam(gameState, myTeam.id);
   const staffImpactRows = [
     { label: t("training.staffImpact.learning", "Learning"), value: staffEffects.development },
-    { label: t("training.staffImpact.scrims", "Scrim prep"), value: (staffEffects.tactics * 0.55) + (staffEffects.analysis * 0.45) },
+    { label: t("training.staffImpact.scrims", "SoloQ prep"), value: (staffEffects.tactics * 0.55) + (staffEffects.analysis * 0.45) },
     { label: t("training.staffImpact.recovery", "Recovery"), value: staffEffects.recovery },
   ];
 
@@ -226,6 +375,69 @@ export default function TrainingTab({
 
       <div className="flex flex-col gap-5">
         <Card accent="primary">
+          <CardHeader>{t("training.soloQRanks", "Rango actual")}</CardHeader>
+          <CardBody>
+            <div className="space-y-2">
+              {roster
+                .slice()
+                .sort((a, b) => a.match_name.localeCompare(b.match_name))
+                .map((player) => {
+                  const playerFocus = normalizeTrainingFocus(player.training_focus ?? currentFocus);
+                  const soloQ = computeSoloQ(
+                    player,
+                    gameState,
+                    masterySignalByPlayer.get(player.id) ?? 0,
+                    playerFocus,
+                    currentIntensity,
+                    currentSchedule,
+                  );
+                  return (
+                    <div key={player.id} className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 px-3 py-2 dark:border-navy-600">
+                      <div className="flex min-w-0 items-center gap-2">
+                        <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
+                          <img
+                            src={resolvePlayerPhoto(player.id)}
+                            alt={player.match_name}
+                            className="h-full w-full object-cover"
+                            loading="lazy"
+                            onError={(event) => {
+                              event.currentTarget.style.display = "none";
+                            }}
+                          />
+                          <img
+                            src={inferRoleIcon(player)}
+                            alt="role"
+                            className="absolute bottom-0 left-0 h-4 w-4 rounded-tr bg-navy-900/90 p-0.5"
+                            loading="lazy"
+                          />
+                        </div>
+                        <p className="truncate text-sm font-heading font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
+                          {player.match_name}
+                        </p>
+                        <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
+                          {soloQ.tier} · {soloQ.lp} LP
+                          <span className={`ml-1 ${soloQ.delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
+                            {soloQ.delta >= 0 ? `+${soloQ.delta}` : soloQ.delta}
+                          </span>
+                        </p>
+                      </div>
+                      <img
+                        src={soloQEmblemUrl(soloQ.tier)}
+                        alt={soloQ.tier}
+                        className="h-7 w-7 shrink-0 object-contain"
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.style.display = "none";
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card accent="primary">
           <CardHeader>{t("training.staffImpact.title", "Staff impact")}</CardHeader>
           <CardBody>
             <div className="space-y-2 text-sm">
@@ -293,37 +505,6 @@ export default function TrainingTab({
           </CardBody>
         </Card>
 
-        <Card>
-          <CardHeader>{t("training.playerFitness")}</CardHeader>
-          <CardBody className="p-0 max-h-64 overflow-y-auto">
-            <div className="divide-y divide-gray-100 dark:divide-navy-600">
-              {[...roster]
-                .sort((left, right) => left.condition - right.condition)
-                .map((player) => (
-                  <div key={player.id} className="flex items-center px-4 py-2 gap-3">
-                    <span
-                      className={`text-sm font-medium flex-1 truncate ${
-                        player.condition < 25
-                          ? "text-red-600 dark:text-red-400"
-                          : player.condition < 40
-                            ? "text-amber-600 dark:text-amber-400"
-                            : "text-gray-800 dark:text-gray-200"
-                      }`}
-                    >
-                      {player.match_name}
-                    </span>
-                    <ProgressBar
-                      value={player.condition}
-                      variant="auto"
-                      size="sm"
-                      showLabel
-                      className="w-24"
-                    />
-                  </div>
-                ))}
-            </div>
-          </CardBody>
-        </Card>
       </div>
     </div>
   );

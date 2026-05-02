@@ -201,9 +201,9 @@
     "manager": "Head Coach",
     "squad": "Plantilla",
     "tactics": "Táctica",
-    "training": "Entrenamiento",
+    "training": "SoloQ",
     "scrims": "Scrims",
-    "champions": "Campeones",
+    "champions": "Meta",
     "staff": "Staff",
     "finances": "Finanzas",
     "transfers": "Fichajes",
@@ -566,18 +566,18 @@
       "Light": "Ligero"
     },
     "trainingFocuses": {
-      "Scrims": "Scrims",
-      "VODReview": "Revisión de VOD",
-      "IndividualCoaching": "Coaching individual",
-      "ChampionPoolPractice": "Práctica de champion pool",
-      "MacroSystems": "Sistemas macro",
-      "MentalResetRecovery": "Reset mental / Recuperación",
-      "Physical": "Scrims",
-      "Technical": "Práctica de champion pool",
-      "Tactical": "Sistemas macro",
-      "Defending": "Revisión de VOD",
-      "Attacking": "Coaching individual",
-      "Recovery": "Reset mental / Recuperación",
+      "Scrims": "Grind de ranked",
+      "VODReview": "Review de SoloQ",
+      "IndividualCoaching": "Micro y trading",
+      "ChampionPoolPractice": "Pool de campeones",
+      "MacroSystems": "Laning y macro personal",
+      "MentalResetRecovery": "Reset mental",
+      "Physical": "Grind de ranked",
+      "Technical": "Pool de campeones",
+      "Tactical": "Laning y macro personal",
+      "Defending": "Review de SoloQ",
+      "Attacking": "Micro y trading",
+      "Recovery": "Reset mental",
       "General": "General"
     },
     "attributes": {
@@ -844,7 +844,7 @@
   },
   "training": {
     "weeklySchedule": "Calendario Semanal",
-    "trainingFocus": "Enfoque del Entrenamiento",
+    "trainingFocus": "Enfoque de SoloQ",
     "intensity": "Intensidad",
     "squadFitness": "Estado Físico del Equipo",
     "playerFitness": "Estado Físico de Jugadores",
@@ -879,28 +879,28 @@
     },
     "focuses": {
       "Scrims": {
-        "label": "Scrims",
-        "desc": "Partidas de práctica para ejecución y coordinación"
+        "label": "Grind de ranked",
+        "desc": "Volumen de SoloQ para ritmo, reflejos y velocidad de decisión"
       },
       "VODReview": {
-        "label": "Revisión de VOD",
-        "desc": "Revisar decisiones, visión y posicionamiento"
+        "label": "Review de SoloQ",
+        "desc": "Analizar tus repeticiones para corregir errores repetidos"
       },
       "IndividualCoaching": {
-        "label": "Coaching individual",
-        "desc": "Pulir mecánicas y consistencia"
+        "label": "Micro y trading",
+        "desc": "Pulir ejecución mecánica, tradeos y disciplina en línea"
       },
       "ChampionPoolPractice": {
-        "label": "Práctica de champion pool",
-        "desc": "Refinar picks de confort y patrones mecánicos"
+        "label": "Pool de campeones",
+        "desc": "Expandir picks jugables y preparar matchups clave"
       },
       "MacroSystems": {
-        "label": "Sistemas macro",
-        "desc": "Mejorar mapa, rotaciones y decisiones de equipo"
+        "label": "Laning y macro personal",
+        "desc": "Mejorar control de oleadas, tempo y rotaciones individuales"
       },
       "MentalResetRecovery": {
-        "label": "Reset mental / Recuperación",
-        "desc": "Carga baja con recuperación máxima"
+        "label": "Reset mental",
+        "desc": "Carga baja para cortar tilt y recuperar enfoque"
       }
     },
     "intensities": {

@@ -201,9 +201,9 @@
     "manager": "Head Coach",
     "squad": "Squad",
     "tactics": "Tactics",
-    "training": "Training",
+    "training": "SoloQ",
     "scrims": "Scrims",
-    "champions": "Champions",
+    "champions": "Meta",
     "staff": "Staff",
     "finances": "Finances",
     "transfers": "Transfers",
@@ -566,18 +566,18 @@
       "Light": "Light"
     },
     "trainingFocuses": {
-      "Scrims": "Scrims",
-      "VODReview": "VOD Review",
-      "IndividualCoaching": "Individual Coaching",
-      "ChampionPoolPractice": "Champion Pool Practice",
-      "MacroSystems": "Macro Systems",
-      "MentalResetRecovery": "Mental Reset / Recovery",
-      "Physical": "Scrims",
-      "Technical": "Champion Pool Practice",
-      "Tactical": "Macro Systems",
-      "Defending": "VOD Review",
-      "Attacking": "Individual Coaching",
-      "Recovery": "Mental Reset / Recovery",
+      "Scrims": "Ranked Grind",
+      "VODReview": "SoloQ Review",
+      "IndividualCoaching": "Micro & Trading",
+      "ChampionPoolPractice": "Champion Pool",
+      "MacroSystems": "Laning & Personal Macro",
+      "MentalResetRecovery": "Mental Reset",
+      "Physical": "Ranked Grind",
+      "Technical": "Champion Pool",
+      "Tactical": "Laning & Personal Macro",
+      "Defending": "SoloQ Review",
+      "Attacking": "Micro & Trading",
+      "Recovery": "Mental Reset",
       "General": "General"
     },
     "attributes": {
@@ -844,7 +844,7 @@
   },
   "training": {
     "weeklySchedule": "Weekly Schedule",
-    "trainingFocus": "Training Focus",
+    "trainingFocus": "SoloQ Focus",
     "intensity": "Intensity",
     "squadFitness": "Squad Fitness",
     "playerFitness": "Player Fitness",
@@ -879,28 +879,28 @@
     },
     "focuses": {
       "Scrims": {
-        "label": "Scrims",
-        "desc": "Team reps for execution and coordination"
+        "label": "Ranked Grind",
+        "desc": "SoloQ volume for tempo, reactions, and decision speed"
       },
       "VODReview": {
-        "label": "VOD Review",
-        "desc": "Review decisions, vision, and positioning"
+        "label": "SoloQ Review",
+        "desc": "Review your replays to fix repeated mistakes"
       },
       "IndividualCoaching": {
-        "label": "Individual Coaching",
-        "desc": "Sharpen mechanics and consistency"
+        "label": "Micro & Trading",
+        "desc": "Sharpen mechanics, lane trading, and discipline"
       },
       "ChampionPoolPractice": {
-        "label": "Champion Pool Practice",
-        "desc": "Refine comfort picks and micro patterns"
+        "label": "Champion Pool",
+        "desc": "Expand playable picks and key matchup reps"
       },
       "MacroSystems": {
-        "label": "Macro Systems",
-        "desc": "Improve map play and team decisions"
+        "label": "Laning & Personal Macro",
+        "desc": "Improve wave control, tempo, and personal rotations"
       },
       "MentalResetRecovery": {
-        "label": "Mental Reset / Recovery",
-        "desc": "Low-load reset with max recovery"
+        "label": "Mental Reset",
+        "desc": "Low load to reset tilt and recover focus"
       }
     },
     "intensities": {
