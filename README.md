@@ -225,4 +225,4 @@ Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), then review:
 
 ---
 
-<i>Built with Rust + Tauri + React + TypeScript + community</i>
+<i>Built with Rust + Tauri + React + TypeScript + Community + Passion</i>
