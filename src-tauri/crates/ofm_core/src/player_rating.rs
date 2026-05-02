@@ -236,7 +236,7 @@ mod tests {
     #[test]
     fn effective_rating_for_assignment() {
         let player = make_player(LolRole::Mid);
-        let rating = effective_rating_for_assignment(&player, &LolRole::Mid);
+        let rating = super::effective_rating_for_assignment(&player, &LolRole::Mid);
         assert!(rating > 0.0);
     }
 }

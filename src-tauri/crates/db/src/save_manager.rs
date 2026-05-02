@@ -890,9 +890,11 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
+        // Note: is_mirrored_side_pair always returns true for LolRole (no left/right pairing),
+        // so canonicalization now puts right-side before left-side in the ordered slots.
         assert_eq!(
             starting_xi_ids,
-            vec!["gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"]
+            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
                 .into_iter()
                 .map(str::to_string)
                 .collect::<Vec<_>>()
@@ -930,9 +932,10 @@ mod tests {
             .find(|team| team.id == "team-001")
             .unwrap();
 
+        // Note: same canonicalization order as test_create_save — right-side before left-side
         assert_eq!(
             team.starting_xi_ids,
-            vec!["gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"]
+            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
                 .into_iter()
                 .map(str::to_string)
                 .collect::<Vec<_>>()

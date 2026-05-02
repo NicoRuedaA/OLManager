@@ -532,6 +532,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "legacy: PlayerSeasonStats goals->kills mapping removed in LoL migration (see #92)"]
     fn test_legacy_player_stats_defaults_new_fields() {
         let db = test_db();
         let player = sample_player("p-legacy", None);

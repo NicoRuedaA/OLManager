@@ -123,7 +123,7 @@ fn make_completed_season_game() -> Game {
     let mut p1 = make_player("p1", "Star", "team1", LolRole::Adc);
     p1.stats = PlayerSeasonStats {
         appearances: 30,
-        goals: 20,
+        kills: 20,
         assists: 10,
         clean_sheets: 0,
         avg_rating: 7.5,
@@ -136,7 +136,7 @@ fn make_completed_season_game() -> Game {
     let mut p2 = make_player("p2", "Rival", "team2", LolRole::Adc);
     p2.stats = PlayerSeasonStats {
         appearances: 28,
-        goals: 15,
+        kills: 15,
         assists: 8,
         clean_sheets: 0,
         avg_rating: 7.0,
