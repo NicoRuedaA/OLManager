@@ -49,7 +49,7 @@ import ChampionPage from "../pages/ChampionPage";
 
 const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
 
-const WORLD_TABS = new Set(["Players", "Teams", "Tournaments"]);
+const WORLD_TABS = new Set(["Players", "Teams", "Tournaments", "ChampionsWorld"]);
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",

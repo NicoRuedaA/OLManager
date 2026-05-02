@@ -173,6 +173,7 @@ export default function DashboardTabContent({
         "Players",
         "Teams",
         "Tournaments",
+        "ChampionsWorld",
         "Staff",
         "Scouting",
         "Youth",
