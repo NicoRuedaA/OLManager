@@ -182,12 +182,10 @@ fn make_game_with_match() -> Game {
     game
 }
 
-fn empty_report(home_goals: u8, away_goals: u8) -> MatchReport {
+fn empty_report(home_wins: u8, away_wins: u8) -> MatchReport {
     MatchReport {
-        home_goals,
-        away_goals,
-        home_wins: home_goals,
-        away_wins: away_goals,
+        home_wins,
+        away_wins,
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
@@ -200,7 +198,7 @@ fn empty_report(home_goals: u8, away_goals: u8) -> MatchReport {
     }
 }
 
-fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Side) -> MatchReport {
+fn report_with_scorer(home_wins: u8, away_wins: u8, scorer_id: &str, side: Side) -> MatchReport {
     let mut player_stats = HashMap::new();
     player_stats.insert(
         scorer_id.to_string(),
@@ -217,7 +215,7 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
             ..Default::default()
         },
     );
-    let goals = (0..home_goals)
+    let goals = (0..home_wins)
         .map(|i| KillDetail {
             minute: 10 + i * 20,
             killer_id: if side == Side::Home {
@@ -229,7 +227,7 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
             assist_id: None,
             side: Side::Home,
         })
-        .chain((0..away_goals).map(|i| KillDetail {
+        .chain((0..away_wins).map(|i| KillDetail {
             minute: 15 + i * 20,
             killer_id: if side == Side::Away {
                 scorer_id.to_string()
@@ -243,10 +241,8 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
         .collect();
 
     MatchReport {
-        home_goals,
-        away_goals,
-        home_wins: home_goals,
-        away_wins: away_goals,
+        home_wins,
+        away_wins,
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
@@ -261,7 +257,7 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
 
 /// Creates a match report where all 22 players played the full 90 minutes.
 /// Use this for stamina depletion tests.
-fn full_squad_report(home_goals: u8, away_goals: u8) -> MatchReport {
+fn full_squad_report(home_wins: u8, away_wins: u8) -> MatchReport {
     let prefixes = ["t1_gk", "t2_gk"];
     let mut player_stats: HashMap<String, PlayerMatchStats> = HashMap::new();
     // Add GKs
@@ -303,10 +299,8 @@ fn full_squad_report(home_goals: u8, away_goals: u8) -> MatchReport {
         }
     }
     MatchReport {
-        home_goals,
-        away_goals,
-        home_wins: home_goals,
-        away_wins: away_goals,
+        home_wins,
+        away_wins,
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
@@ -575,8 +569,6 @@ fn apply_match_report_gk_clean_sheet() {
         },
     );
     let report = MatchReport {
-        home_goals: 1,
-        away_goals: 0,
         player_stats,
         ..empty_report(1, 0)
     };
@@ -599,8 +591,6 @@ fn apply_match_report_gk_no_clean_sheet_on_conceding() {
         },
     );
     let report = MatchReport {
-        home_goals: 1,
-        away_goals: 2,
         player_stats,
         ..empty_report(1, 2)
     };

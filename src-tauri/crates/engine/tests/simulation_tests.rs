@@ -270,8 +270,8 @@ fn simulation_deterministic_with_same_seed() {
     let report1 = simulate_with_rng(&home, &away, &config, &mut seeded_rng(123));
     let report2 = simulate_with_rng(&home, &away, &config, &mut seeded_rng(123));
 
-    assert_eq!(report1.home_goals, report2.home_goals);
-    assert_eq!(report1.away_goals, report2.away_goals);
+    assert_eq!(report1.home_wins, report2.home_wins);
+    assert_eq!(report1.away_wins, report2.away_wins);
     assert_eq!(report1.events.len(), report2.events.len());
 }
 
@@ -285,7 +285,7 @@ fn simulation_different_seeds_vary() {
     let mut results = std::collections::HashSet::new();
     for seed in 0..50 {
         let report = simulate_with_rng(&home, &away, &config, &mut seeded_rng(seed));
-        results.insert((report.home_goals, report.away_goals));
+        results.insert((report.home_wins, report.away_wins));
     }
     assert!(
         results.len() > 1,
@@ -399,9 +399,9 @@ fn strong_team_wins_more_often() {
     let trials = 100;
     for seed in 0..trials {
         let report = simulate_with_rng(&strong, &weak, &config, &mut seeded_rng(seed));
-        if report.home_goals > report.away_goals {
+        if report.home_wins > report.away_wins {
             strong_wins += 1;
-        } else if report.away_goals > report.home_goals {
+        } else if report.away_wins > report.home_wins {
             weak_wins += 1;
         }
     }
@@ -425,9 +425,9 @@ fn equal_teams_roughly_even() {
     let trials = 200;
     for seed in 0..trials {
         let report = simulate_with_rng(&team_a, &team_b, &config, &mut seeded_rng(seed));
-        if report.home_goals > report.away_goals {
+        if report.home_wins > report.away_wins {
             a_wins += 1;
-        } else if report.away_goals > report.home_goals {
+        } else if report.away_wins > report.home_wins {
             b_wins += 1;
         }
     }
@@ -461,10 +461,10 @@ fn home_advantage_helps() {
     for seed in 0..trials {
         let r1 = simulate_with_rng(&team, &team, &config_with, &mut seeded_rng(seed));
         let r2 = simulate_with_rng(&team, &team, &config_without, &mut seeded_rng(seed));
-        if r1.home_goals > r1.away_goals {
+        if r1.home_wins > r1.away_wins {
             home_wins_with += 1;
         }
-        if r2.home_goals > r2.away_goals {
+        if r2.home_wins > r2.away_wins {
             home_wins_without += 1;
         }
     }
@@ -653,13 +653,13 @@ fn average_goals_realistic() {
     let mut total_goals = 0u32;
     for seed in 0..trials {
         let report = simulate_with_rng(&home, &away, &config, &mut seeded_rng(seed));
-        total_goals += (report.home_goals + report.away_goals) as u32;
+        total_goals += (report.home_stats.kills + report.away_stats.kills) as u32;
     }
     let avg = total_goals as f64 / trials as f64;
-    // Real football averages ~2.5 goals/game. Allow a wide range for a simulation.
+    // LoL averages ~20-40 kills per game. Allow a wide range for the simulation.
     assert!(
-        avg > 0.5 && avg < 8.0,
-        "Average goals per game should be reasonable: {avg:.2}"
+        avg > 0.5 && avg < 80.0,
+        "Average kills per game should be reasonable: {avg:.2}"
     );
 }
 
@@ -747,7 +747,7 @@ fn extreme_skill_disparity_no_crash() {
         assert!(report.total_minutes >= 90);
         // Elite team should generally score more
         assert!(
-            report.home_goals >= report.away_goals || seed > 0,
+            report.home_wins >= report.away_wins || seed > 0,
             "Seed {seed}: elite team lost?"
         );
     }

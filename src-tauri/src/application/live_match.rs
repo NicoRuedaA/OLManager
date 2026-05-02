@@ -257,8 +257,6 @@ fn build_match_report_from_lol_sim(input: LolSimMatchReportInput) -> MatchReport
     };
 
     MatchReport {
-        home_goals: home_wins,
-        away_goals: away_wins,
         home_wins,
         away_wins,
         home_stats: TeamStats {

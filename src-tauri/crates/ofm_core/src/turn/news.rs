@@ -499,12 +499,10 @@ mod tests {
         player
     }
 
-    fn make_report(kills: Vec<KillDetail>, home_goals: u8, away_goals: u8) -> MatchReport {
+    fn make_report(kills: Vec<KillDetail>, home_wins: u8, away_wins: u8) -> MatchReport {
         MatchReport {
-            home_goals,
-            away_goals,
-            home_wins: home_goals,
-            away_wins: away_goals,
+            home_wins,
+            away_wins,
             home_stats: TeamStats::default(),
             away_stats: TeamStats::default(),
             events: vec![],

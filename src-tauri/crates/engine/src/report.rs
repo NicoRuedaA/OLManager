@@ -72,10 +72,6 @@ pub struct KillDetail {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MatchReport {
-    #[serde(default, skip_serializing)]
-    pub home_goals: u8,
-    #[serde(default, skip_serializing)]
-    pub away_goals: u8,
     pub home_wins: u8,
     pub away_wins: u8,
     pub home_stats: TeamStats,
@@ -287,10 +283,7 @@ impl MatchReport {
             Side::Away => (0, 1),
         };
 
-
         Self {
-            home_goals: home_wins,
-            away_goals: away_wins,
             home_wins,
             away_wins,
             home_stats,
