@@ -119,7 +119,7 @@ La Fase 1 de hardening y foundation está completa. Ver `docs/proposals/analisis
 - [x] **Engine crate cleanup (#109)**: terminología de fútbol eliminada del engine (EventType, TeamStats, MatchConfig, Snapshot, PlayerMatchStats, fouls.rs). PR #110 mergeado.
 - [ ] **Remover home_goals/away_goals de MatchReport (#111)**: campos duplicados con home_wins/away_wins
 - [ ] **Replace SetPieceTakers con LoL roles (#112)**: renombrar free_kick_taker/corner_taker/penalty_taker en engine + domain + DB + frontend
-- [ ] **Replace legacy football engine para AI (#113)**: engine::simulate() usa halves/stoppage/football zones. Opciones: reemplazar con LoL simulation o limpiar
+- [x] **Replace legacy football engine para AI (#113)**: engine::simulate() reemplazado por simulate_lol(). resolution.rs eliminado. PR #117
 - [ ] **Domain football fields cleanup (#114)**: eliminar goals/yellow_cards/red_cards/fouls_committed de PlayerSeasonStats + DB migration
 - [ ] **Fix `ChampionRuntime` visibility**: warning `private_interfaces` en `lol_sim_v2.rs`
 - [ ] **Rust profile tuning**: añadir `[profile.release]` con LTO, strip, panic=abort
