@@ -406,7 +406,7 @@ mod tests {
     use domain::news::NewsCategory;
     use domain::player::{Player, PlayerAttributes, Position};
     use domain::team::Team;
-    use engine::{GoalDetail, MatchReport, MatchReportEndReason, Side, TeamStats};
+    use engine::{KillDetail, MatchReport, MatchReportEndReason, Side, TeamStats};
     use std::collections::HashMap;
 
     fn make_team(id: &str, name: &str) -> Team {
@@ -499,7 +499,7 @@ mod tests {
         player
     }
 
-    fn make_report(goals: Vec<GoalDetail>, home_goals: u8, away_goals: u8) -> MatchReport {
+    fn make_report(kills: Vec<KillDetail>, home_goals: u8, away_goals: u8) -> MatchReport {
         MatchReport {
             home_goals,
             away_goals,
@@ -508,8 +508,7 @@ mod tests {
             home_stats: TeamStats::default(),
             away_stats: TeamStats::default(),
             events: vec![],
-            goals,
-            kill_feed: vec![],
+            kill_feed: kills,
             player_stats: HashMap::new(),
             home_possession: 50.0,
             total_minutes: 90,
@@ -665,18 +664,18 @@ mod tests {
 
         let report = make_report(
             vec![
-                GoalDetail {
+                KillDetail {
                     minute: 10,
-                    scorer_id: "p1".to_string(),
+                    killer_id: "p1".to_string(),
+                    victim_id: None,
                     assist_id: None,
-                    is_penalty: false,
                     side: Side::Home,
                 },
-                GoalDetail {
+                KillDetail {
                     minute: 74,
-                    scorer_id: "ghost9".to_string(),
+                    killer_id: "ghost9".to_string(),
+                    victim_id: None,
                     assist_id: None,
-                    is_penalty: false,
                     side: Side::Away,
                 },
             ],

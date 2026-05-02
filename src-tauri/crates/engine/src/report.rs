@@ -84,15 +84,7 @@ pub struct KillDetail {
     pub minute: u8,
     pub killer_id: String,
     pub victim_id: Option<String>,
-    pub side: Side,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GoalDetail {
-    pub minute: u8,
-    pub scorer_id: String,
     pub assist_id: Option<String>,
-    pub is_penalty: bool,
     pub side: Side,
 }
 
@@ -107,8 +99,6 @@ pub struct MatchReport {
     pub home_stats: TeamStats,
     pub away_stats: TeamStats,
     pub events: Vec<MatchEvent>,
-    #[serde(default, skip_serializing)]
-    pub goals: Vec<GoalDetail>,
     pub kill_feed: Vec<KillDetail>,
     pub player_stats: HashMap<String, PlayerMatchStats>,
     pub home_possession: f64,
@@ -211,6 +201,7 @@ impl MatchReport {
                         minute: event.minute,
                         killer_id: pid.to_string(),
                         victim_id: event.secondary_player_id.clone(),
+                        assist_id: None,
                         side: event.side,
                     });
 
@@ -319,16 +310,6 @@ impl MatchReport {
             Side::Home => (1, 0),
             Side::Away => (0, 1),
         };
-        let goals = kill_feed
-            .iter()
-            .map(|kill| GoalDetail {
-                minute: kill.minute,
-                scorer_id: kill.killer_id.clone(),
-                assist_id: None,
-                is_penalty: false,
-                side: kill.side,
-            })
-            .collect();
         home_stats.goals = home_wins.into();
         away_stats.goals = away_wins.into();
 
@@ -340,7 +321,6 @@ impl MatchReport {
             home_stats,
             away_stats,
             events,
-            goals,
             kill_feed,
             player_stats,
             home_possession,

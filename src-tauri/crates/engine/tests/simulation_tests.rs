@@ -323,8 +323,8 @@ fn goals_in_report_match_score() {
     for seed in 0..20 {
         let report = simulate_with_rng(&home, &away, &config, &mut seeded_rng(seed));
 
-        let home_goal_count = report.goals.iter().filter(|g| g.side == Side::Home).count() as u8;
-        let away_goal_count = report.goals.iter().filter(|g| g.side == Side::Away).count() as u8;
+        let home_goal_count = report.kill_feed.iter().filter(|g| g.side == Side::Home).count() as u8;
+        let away_goal_count = report.kill_feed.iter().filter(|g| g.side == Side::Away).count() as u8;
 
         assert_eq!(
             report.home_goals, home_goal_count,
@@ -353,11 +353,11 @@ fn goal_events_have_scorer() {
 
     let report = simulate_with_rng(&home, &away, &config, &mut seeded_rng(99));
 
-    for goal in &report.goals {
+    for kill in &report.kill_feed {
         assert!(
-            !goal.scorer_id.is_empty(),
-            "Goal at minute {} has empty scorer",
-            goal.minute
+            !kill.killer_id.is_empty(),
+            "Kill at minute {} has empty killer",
+            kill.minute
         );
     }
 }

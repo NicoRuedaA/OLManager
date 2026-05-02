@@ -7,7 +7,7 @@ use domain::player::{
 };
 use domain::stats::LolRole;
 use domain::team::Team;
-use engine::report::{GoalDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
+use engine::report::{KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
 use engine::Side;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
@@ -191,7 +191,6 @@ fn empty_report(home_goals: u8, away_goals: u8) -> MatchReport {
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
-        goals: vec![],
         kill_feed: vec![],
         player_stats: HashMap::new(),
         home_possession: 50.0,
@@ -227,26 +226,26 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
         },
     );
     let goals = (0..home_goals)
-        .map(|i| GoalDetail {
+        .map(|i| KillDetail {
             minute: 10 + i * 20,
-            scorer_id: if side == Side::Home {
+            killer_id: if side == Side::Home {
                 scorer_id.to_string()
             } else {
                 "other".to_string()
             },
+            victim_id: None,
             assist_id: None,
-            is_penalty: false,
             side: Side::Home,
         })
-        .chain((0..away_goals).map(|i| GoalDetail {
+        .chain((0..away_goals).map(|i| KillDetail {
             minute: 15 + i * 20,
-            scorer_id: if side == Side::Away {
+            killer_id: if side == Side::Away {
                 scorer_id.to_string()
             } else {
                 "other".to_string()
             },
+            victim_id: None,
             assist_id: None,
-            is_penalty: false,
             side: Side::Away,
         }))
         .collect();
@@ -259,8 +258,7 @@ fn report_with_scorer(home_goals: u8, away_goals: u8, scorer_id: &str, side: Sid
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
-        goals,
-        kill_feed: vec![],
+        kill_feed: goals,
         player_stats,
         home_possession: 55.0,
         total_minutes: 90,
@@ -320,7 +318,6 @@ fn full_squad_report(home_goals: u8, away_goals: u8) -> MatchReport {
         home_stats: TeamStats::default(),
         away_stats: TeamStats::default(),
         events: vec![],
-        goals: vec![],
         kill_feed: vec![],
         player_stats,
         home_possession: 50.0,

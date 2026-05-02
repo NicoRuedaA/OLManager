@@ -19,6 +19,6 @@ pub use live_match::{
     SubstitutionRecord,
 };
 pub use report::{
-    GoalDetail, KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats,
+    KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats,
 };
 pub use types::{MatchConfig, PlayStyle, PlayerData, Side, TeamData, Zone};

@@ -290,8 +290,7 @@ fn build_match_report_from_lol_sim(input: LolSimMatchReportInput) -> MatchReport
             ..Default::default()
         },
         events,
-        goals: Vec::new(),
-        kill_feed: Vec::new(),
+        kill_feed: vec![],
         player_stats,
         home_possession: 50.0,
         total_minutes: (input.time_sec / 60.0).round().clamp(0.0, 255.0) as u8,
