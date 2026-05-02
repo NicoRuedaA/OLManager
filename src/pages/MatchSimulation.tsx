@@ -1240,7 +1240,7 @@ export default function MatchSimulation() {
           if (!pick) continue;
 
           const exact = players.find(
-            (entry) => !usedPlayerIds.has(entry.id) && inferRole(entry.position) === role,
+            (entry) => !usedPlayerIds.has(entry.id) && inferRole(entry.role ?? entry.position ?? "") === role,
           );
           const slot = players[roleOrder[role]];
           const slotCandidate = slot && !usedPlayerIds.has(slot.id) ? slot : null;
