@@ -162,10 +162,10 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
     let financial_ledger_json: String = row.get(33)?;
     let sponsorship_json: String = row.get(34)?;
     let facilities_json: String = row.get(35)?;
-    let play_style_str: String = row.get(16)?;
-    let training_focus_str: String = row.get(17)?;
-    let training_intensity_str: String = row.get(18)?;
-    let training_schedule_str: String = row.get(19)?;
+    let play_style_str: String = row.get(15)?;
+    let training_focus_str: String = row.get(16)?;
+    let training_intensity_str: String = row.get(17)?;
+    let training_schedule_str: String = row.get(18)?;
     let team_kind_str: String = row.get(36)?;
     let parent_team_id: Option<String> = row.get(37)?;
     let academy_team_id: Option<String> = row.get(38)?;
