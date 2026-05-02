@@ -296,11 +296,11 @@ fn step_many_stops_at_finish() {
 }
 
 // ---------------------------------------------------------------------------
-// auto_select_set_pieces
+// auto_select_team_roles
 // ---------------------------------------------------------------------------
 
 #[test]
-fn auto_select_set_pieces_picks_captain() {
+fn auto_select_team_roles_picks_captain() {
     let game = make_game_with_fixture();
     let player_ids: Vec<String> = game
         .players
@@ -309,60 +309,24 @@ fn auto_select_set_pieces_picks_captain() {
         .map(|p| p.id.clone())
         .collect();
 
-    let (captain, penalty, free_kick, corner) =
-        live_match_manager::auto_select_set_pieces(&game, &player_ids);
+    let (captain, shotcaller) =
+        live_match_manager::auto_select_team_roles(&game, &player_ids);
 
     assert!(captain.is_some(), "Should pick a captain");
-    assert!(penalty.is_some(), "Should pick a penalty taker");
-    assert!(free_kick.is_some(), "Should pick a free kick taker");
-    assert!(corner.is_some(), "Should pick a corner taker");
+    assert!(shotcaller.is_some(), "Should pick a shotcaller");
 }
 
 #[test]
-fn auto_select_set_pieces_excludes_gk_from_penalty() {
+fn auto_select_team_roles_empty_ids_returns_none() {
     let game = make_game_with_fixture();
-    let player_ids: Vec<String> = game
-        .players
-        .iter()
-        .filter(|p| p.team_id.as_deref() == Some("team1"))
-        .map(|p| p.id.clone())
-        .collect();
-
-    let (_, penalty, free_kick, corner) =
-        live_match_manager::auto_select_set_pieces(&game, &player_ids);
-
-    // None of the set piece takers (except captain) should be GK
-    let gk_ids: Vec<String> = game
-        .players
-        .iter()
-        .filter(|p| p.team_id.as_deref() == Some("team1") && p.position == LolRole::Support)
-        .map(|p| p.id.clone())
-        .collect();
-
-    if let Some(pk) = &penalty {
-        assert!(!gk_ids.contains(pk), "GK should not be penalty taker");
-    }
-    if let Some(fk) = &free_kick {
-        assert!(!gk_ids.contains(fk), "GK should not be free kick taker");
-    }
-    if let Some(ck) = &corner {
-        assert!(!gk_ids.contains(ck), "GK should not be corner taker");
-    }
-}
-
-#[test]
-fn auto_select_set_pieces_empty_ids_returns_none() {
-    let game = make_game_with_fixture();
-    let (captain, penalty, free_kick, corner) =
-        live_match_manager::auto_select_set_pieces(&game, &[]);
+    let (captain, shotcaller) =
+        live_match_manager::auto_select_team_roles(&game, &[]);
     assert!(captain.is_none());
-    assert!(penalty.is_none());
-    assert!(free_kick.is_none());
-    assert!(corner.is_none());
+    assert!(shotcaller.is_none());
 }
 
 #[test]
-fn auto_select_set_pieces_prefers_high_leadership_captain() {
+fn auto_select_team_roles_prefers_high_leadership_captain() {
     let mut game = make_game_with_fixture();
     // Give one player very high leadership
     let leader = game
@@ -380,30 +344,8 @@ fn auto_select_set_pieces_prefers_high_leadership_captain() {
         .map(|p| p.id.clone())
         .collect();
 
-    let (captain, _, _, _) = live_match_manager::auto_select_set_pieces(&game, &player_ids);
+    let (captain, _) = live_match_manager::auto_select_team_roles(&game, &player_ids);
     assert_eq!(captain, Some("team1_mid0".to_string()));
-}
-
-#[test]
-fn auto_select_set_pieces_prefers_high_shooting_penalty() {
-    let mut game = make_game_with_fixture();
-    let shooter = game
-        .players
-        .iter_mut()
-        .find(|p| p.id == "team1_fwd0")
-        .unwrap();
-    shooter.attributes.shooting = 99;
-    shooter.attributes.composure = 99;
-
-    let player_ids: Vec<String> = game
-        .players
-        .iter()
-        .filter(|p| p.team_id.as_deref() == Some("team1"))
-        .map(|p| p.id.clone())
-        .collect();
-
-    let (_, penalty, _, _) = live_match_manager::auto_select_set_pieces(&game, &player_ids);
-    assert_eq!(penalty, Some("team1_fwd0".to_string()));
 }
 
 // ---------------------------------------------------------------------------

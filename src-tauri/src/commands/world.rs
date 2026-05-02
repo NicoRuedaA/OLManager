@@ -404,7 +404,7 @@ mod tests {
               "founded_year": 1900,
               "colors": { "primary": "#ffffff", "secondary": "#000000" },
               "starting_xi_ids": [],
-              "match_roles": { "captain": null, "vice_captain": null, "penalty_taker": null, "free_kick_taker": null, "corner_taker": null },
+              "match_roles": { "captain": null, "shotcaller": null },
               "form": [],
               "history": []
             }

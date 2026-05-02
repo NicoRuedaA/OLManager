@@ -53,19 +53,11 @@ pub enum MatchCommand {
         side: Side,
         play_style: PlayStyle,
     },
-    SetFreeKickTaker {
-        side: Side,
-        player_id: String,
-    },
-    SetCornerTaker {
-        side: Side,
-        player_id: String,
-    },
-    SetPenaltyTaker {
-        side: Side,
-        player_id: String,
-    },
     SetCaptain {
+        side: Side,
+        player_id: String,
+    },
+    SetShotcaller {
         side: Side,
         player_id: String,
     },
@@ -84,15 +76,13 @@ pub struct SubstitutionRecord {
 }
 
 // ---------------------------------------------------------------------------
-// SetPieceTakers — designated set piece takers for a side
+// TeamRoles — designated roles for a side
 // ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SetPieceTakers {
-    pub free_kick_taker: Option<String>,
-    pub corner_taker: Option<String>,
-    pub penalty_taker: Option<String>,
+pub struct TeamRoles {
     pub captain: Option<String>,
+    pub shotcaller: Option<String>,
 }
 
 // ---------------------------------------------------------------------------
@@ -133,8 +123,8 @@ pub struct MatchSnapshot {
     pub home_subs_made: u8,
     pub away_subs_made: u8,
     pub max_subs: u8,
-    pub home_set_pieces: SetPieceTakers,
-    pub away_set_pieces: SetPieceTakers,
+    pub home_roles: TeamRoles,
+    pub away_roles: TeamRoles,
     pub substitutions: Vec<SubstitutionRecord>,
     pub allows_extra_time: bool,
     pub lol_map: LolMapState,
@@ -260,19 +250,11 @@ impl LiveMatchState {
                 self.team_mut(side).play_style = play_style;
                 Ok(())
             }
-            MatchCommand::SetFreeKickTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
-            MatchCommand::SetCornerTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
-            MatchCommand::SetPenaltyTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
             MatchCommand::SetCaptain { side, player_id } => {
+                let _ = (side, player_id);
+                Ok(())
+            }
+            MatchCommand::SetShotcaller { side, player_id } => {
                 let _ = (side, player_id);
                 Ok(())
             }

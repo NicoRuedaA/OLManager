@@ -129,24 +129,19 @@ fn lol_role_rank(role: &DomainLolRole) -> u8 {
     }
 }
 
-/// Auto-select set-piece takers from a set of player IDs.
-/// Returns (captain_id, penalty_taker_id, free_kick_taker_id, corner_taker_id).
-pub fn auto_select_set_pieces(
+/// Auto-select team roles from a set of player IDs.
+/// Returns (captain_id, shotcaller_id).
+pub fn auto_select_team_roles(
     game: &Game,
     player_ids: &[String],
-) -> (
-    Option<String>,
-    Option<String>,
-    Option<String>,
-    Option<String>,
-) {
+) -> (Option<String>, Option<String>) {
     let players: Vec<&domain::player::Player> = player_ids
         .iter()
         .filter_map(|id| game.players.iter().find(|p| &p.id == id))
         .collect();
 
     if players.is_empty() {
-        return (None, None, None, None);
+        return (None, None);
     }
 
     // Captain: highest leadership + teamwork
@@ -155,38 +150,16 @@ pub fn auto_select_set_pieces(
         .max_by_key(|p| (p.attributes.leadership as u16) + (p.attributes.teamwork as u16))
         .map(|p| p.id.clone());
 
-    // Penalty taker: highest shooting + composure (exclude Support)
-    let penalty = players
-        .iter()
-        .filter(|p| p.position != DomainLolRole::Support)
-        .max_by_key(|p| (p.attributes.shooting as u16) + (p.attributes.composure as u16))
-        .map(|p| p.id.clone());
-
-    // Free kick taker: highest passing + vision + shooting (exclude Support)
-    let free_kick = players
+    // Shotcaller: highest shooting + vision + passing (exclude Support)
+    let shotcaller = players
         .iter()
         .filter(|p| p.position != DomainLolRole::Support)
         .max_by_key(|p| {
-            (p.attributes.passing as u16)
+            (p.attributes.shooting as u16)
                 + (p.attributes.vision as u16)
-                + (p.attributes.shooting as u16) / 2
+                + (p.attributes.passing as u16)
         })
         .map(|p| p.id.clone());
 
-    // Corner taker: highest passing + vision (exclude Support, prefer different from FK)
-    let corner = players
-        .iter()
-        .filter(|p| p.position != DomainLolRole::Support)
-        .max_by_key(|p| {
-            let base = (p.attributes.passing as u16) + (p.attributes.vision as u16);
-            // Small penalty if same as free kick taker to encourage variety
-            if free_kick.as_ref() == Some(&p.id) {
-                base.saturating_sub(5)
-            } else {
-                base
-            }
-        })
-        .map(|p| p.id.clone());
-
-    (captain, penalty, free_kick, corner)
+    (captain, shotcaller)
 }
