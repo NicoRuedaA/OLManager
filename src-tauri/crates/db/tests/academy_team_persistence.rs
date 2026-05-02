@@ -54,7 +54,7 @@ fn legacy_team_rows_load_as_main_without_academy_metadata() {
     db.conn()
         .execute(
             r#"INSERT INTO teams
-             (id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
+             (id, name, short_name, country, city, arena_name, arena_capacity,
               finance, manager_id, reputation, wage_budget, transfer_budget,
               season_income, season_expenses, formation, play_style,
               training_focus, training_intensity, training_schedule,
