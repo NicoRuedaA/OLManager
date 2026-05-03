@@ -254,13 +254,7 @@ export default function PlayersListTab({
             <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                    <SortHeader
-                      label=""
-                      sortKey="photo"
-                      current={sortKey}
-                      asc={sortAsc}
-                      onClick={handleSort}
-                    />
+                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-14"></th>
                     <SortHeader
                       label={t("common.position")}
                       sortKey="position"

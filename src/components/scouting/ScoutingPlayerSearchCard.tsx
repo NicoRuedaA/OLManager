@@ -1,4 +1,5 @@
-import { ChevronLeft, ChevronRight, ScanSearch, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronLeft, ChevronRight, ScanSearch, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { countryName } from "../../lib/countries";
@@ -59,6 +60,61 @@ export default function ScoutingPlayerSearchCard({
 }: ScoutingPlayerSearchCardProps) {
   const { t, i18n } = useTranslation();
 
+  type SortKey = "name" | "position" | "age" | "team" | "value";
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortAsc, setSortAsc] = useState(false);
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      if (sortAsc) {
+        setSortKey(null);
+        setSortAsc(false);
+      } else {
+        setSortAsc(true);
+      }
+    } else {
+      setSortKey(key);
+      setSortAsc(false);
+    }
+  };
+
+  const renderSortIcon = (key: SortKey) => {
+    if (sortKey !== key) {
+      return <ArrowUpDown className="w-3 h-3 text-gray-300 dark:text-navy-600" />;
+    }
+    return sortAsc
+      ? <ArrowUp className="w-3 h-3 text-primary-500" />
+      : <ArrowDown className="w-3 h-3 text-primary-500" />;
+  };
+
+  const sortedPlayers = useMemo(() => {
+    if (!sortKey) return players;
+    const factor = sortAsc ? 1 : -1;
+    return [...players].sort((a, b) => {
+      switch (sortKey) {
+        case "name":
+          return a.match_name.localeCompare(b.match_name) * factor;
+        case "position": {
+          const roleA = getLolRoleForPlayer(a);
+          const roleB = getLolRoleForPlayer(b);
+          const order: Record<string, number> = { TOP: 1, JUNGLE: 2, MID: 3, ADC: 4, SUPPORT: 5 };
+          return ((order[roleA] ?? 0) - (order[roleB] ?? 0)) * factor;
+        }
+        case "age":
+          return (calcAge(a.date_of_birth) - calcAge(b.date_of_birth)) * factor;
+        case "team": {
+          const teamA = getTeamName(teams, a.team_id);
+          const teamB = getTeamName(teams, b.team_id);
+          return teamA.localeCompare(teamB) * factor;
+        }
+        case "value":
+          return (a.market_value - b.market_value) * factor;
+        default:
+          return 0;
+      }
+    });
+  }, [players, sortKey, sortAsc, teams]);
+
   return (
     <Card>
       <CardHeader>
@@ -98,17 +154,27 @@ export default function ScoutingPlayerSearchCard({
           <table className="w-full text-sm">
             <thead>
               <tr className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider border-b border-gray-100 dark:border-navy-700">
-                <th className="text-left py-2 px-2 w-10"></th>
-                <th className="text-left py-2 px-2">{t("scouting.player")}</th>
-                <th className="text-left py-2 px-1">{t("scouting.pos")}</th>
-                <th className="text-center py-2 px-1">{t("scouting.age")}</th>
-                <th className="text-left py-2 px-1">{t("scouting.team")}</th>
-                <th className="text-center py-2 px-1">{t("scouting.value")}</th>
+                <th className="text-left py-2 px-2 w-14"></th>
+                <th className="text-left py-2 px-2 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort("name")}>
+                  <span className="flex items-center gap-1">{t("scouting.player")}{renderSortIcon("name")}</span>
+                </th>
+                <th className="text-left py-2 px-1 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort("position")}>
+                  <span className="flex items-center gap-1">{t("scouting.pos")}{renderSortIcon("position")}</span>
+                </th>
+                <th className="text-center py-2 px-1 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort("age")}>
+                  <span className="flex items-center gap-1">{t("scouting.age")}{renderSortIcon("age")}</span>
+                </th>
+                <th className="text-left py-2 px-1 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort("team")}>
+                  <span className="flex items-center gap-1">{t("scouting.team")}{renderSortIcon("team")}</span>
+                </th>
+                <th className="text-center py-2 px-1 cursor-pointer hover:text-gray-700 dark:hover:text-gray-200 transition-colors select-none" onClick={() => toggleSort("value")}>
+                  <span className="flex items-center gap-1">{t("scouting.value")}{renderSortIcon("value")}</span>
+                </th>
                 <th className="text-right py-2 px-2">{t("scouting.action")}</th>
               </tr>
             </thead>
             <tbody>
-              {players.map((player) => {
+              {sortedPlayers.map((player) => {
                 const isScouting = alreadyScoutingIds.has(player.id);
                 const team = player.team_id
                   ? getTeamName(teams, player.team_id)
