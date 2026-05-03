@@ -4,17 +4,18 @@ import { useTranslation } from "react-i18next";
 import { countryName } from "../../lib/countries";
 import { calcAge, formatVal, getTeamName } from "../../lib/helpers";
 import type { PlayerData, TeamData } from "../../store/gameStore";
-import { Badge, Card, CardBody, CardHeader, CountryFlag } from "../ui";
+import { Card, CardBody, CardHeader, CountryFlag } from "../ui";
 import { getLolRoleForPlayer, type LolRole } from "../squad/SquadTab.helpers";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 
 const POSITION_FILTERS = ["All", "TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
-const LOL_ROLE_BADGE_VARIANT: Record<LolRole, "accent" | "primary" | "success" | "danger" | "neutral"> = {
-  TOP: "primary",
-  JUNGLE: "success",
-  MID: "accent",
-  ADC: "danger",
-  SUPPORT: "neutral",
+const LOL_ROLE_ICON_URLS: Record<LolRole, string> = {
+  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
+  JUNGLE: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
+  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
+  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
+  SUPPORT: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
 };
 
 interface ScoutingPlayerSearchCardProps {
@@ -97,6 +98,7 @@ export default function ScoutingPlayerSearchCard({
           <table className="w-full text-sm">
             <thead>
               <tr className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider border-b border-gray-100 dark:border-navy-700">
+                <th className="text-left py-2 px-2 w-10"></th>
                 <th className="text-left py-2 px-2">{t("scouting.player")}</th>
                 <th className="text-left py-2 px-1">{t("scouting.pos")}</th>
                 <th className="text-center py-2 px-1">{t("scouting.age")}</th>
@@ -112,12 +114,26 @@ export default function ScoutingPlayerSearchCard({
                   ? getTeamName(teams, player.team_id)
                   : t("common.freeAgent");
                 const lolRole = getLolRoleForPlayer(player);
+                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
 
                 return (
                   <tr
                     key={player.id}
                     className="border-b border-gray-50 dark:border-navy-700/50 hover:bg-gray-50 dark:hover:bg-navy-700/30 transition-colors"
                   >
+                    <td className="py-2 px-2">
+                      {photoUrl ? (
+                        <img
+                          src={photoUrl}
+                          alt={player.match_name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
+                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                        </div>
+                      )}
+                    </td>
                     <td className="py-2 px-2">
                       <button
                         onClick={() => onSelectPlayer?.(player.id)}
@@ -138,12 +154,12 @@ export default function ScoutingPlayerSearchCard({
                       </div>
                     </td>
                     <td className="py-2 px-1">
-                      <Badge
-                        variant={LOL_ROLE_BADGE_VARIANT[lolRole]}
-                        size="sm"
-                      >
-                        {lolRole}
-                      </Badge>
+                      <img
+                        src={LOL_ROLE_ICON_URLS[lolRole]}
+                        alt={lolRole}
+                        className="w-5 h-5 object-contain"
+                        title={lolRole}
+                      />
                     </td>
                     <td className="text-center py-2 px-1 text-gray-600 dark:text-gray-400">
                       {calcAge(player.date_of_birth)}
