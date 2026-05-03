@@ -24,11 +24,12 @@ function avg(...values: number[]): number {
 function lolRoleFromPlayer(player: PlayerData): "top" | "jungle" | "mid" | "bottom" | "support" | "unknown" {
   const position = (player.natural_position || player.position || "").toLowerCase();
 
-  if (position.includes("defender") && !position.includes("midfielder")) return "top";
-  if (position === "midfielder") return "jungle";
-  if (position.includes("attackingmidfielder")) return "mid";
-  if (position.includes("forward")) return "bottom";
-  if (position.includes("defensivemidfielder") || position.includes("goalkeeper")) return "support";
+  // position is already a LolRole ("TOP", "JUNGLE", "MID", "ADC", "SUPPORT")
+  if (position === "top") return "top";
+  if (position === "jungle") return "jungle";
+  if (position === "mid") return "mid";
+  if (position === "adc" || position === "bot" || position === "bottom") return "bottom";
+  if (position === "support" || position === "sup") return "support";
   return "unknown";
 }
 

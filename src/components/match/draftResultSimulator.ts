@@ -159,12 +159,13 @@ function mapSeedRoleToDraftRole(role: string): Role | null {
 }
 
 function gameStatePositionToDraftRole(position: string): Role | null {
+  // position is already a LolRole ("TOP", "JUNGLE", "MID", "ADC", "SUPPORT")
   const normalized = normalizeKey(position);
-  if (normalized === "defender") return "TOP";
-  if (normalized === "midfielder") return "JUNGLE";
-  if (normalized === "attackingmidfielder") return "MID";
-  if (normalized === "forward") return "ADC";
-  if (normalized === "defensivemidfielder" || normalized === "goalkeeper") return "SUPPORT";
+  if (normalized === "top") return "TOP";
+  if (normalized === "jungle") return "JUNGLE";
+  if (normalized === "mid") return "MID";
+  if (normalized === "adc" || normalized === "bot" || normalized === "bottom") return "ADC";
+  if (normalized === "support" || normalized === "sup") return "SUPPORT";
   return null;
 }
 
