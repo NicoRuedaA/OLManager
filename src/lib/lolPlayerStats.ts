@@ -67,26 +67,41 @@ export function getLolVisibleStatValue(player: PlayerData, statId: LolVisibleSta
   }
 }
 
-export function calculateLolOvr(player: PlayerData): number {
-  const mechanics = getLolVisibleStatValue(player, "mechanics");
-  const laning = getLolVisibleStatValue(player, "laning");
-  const teamfighting = getLolVisibleStatValue(player, "teamfighting");
-  const macro = getLolVisibleStatValue(player, "macro");
-  const consistency = getLolVisibleStatValue(player, "consistency");
-  const shotcalling = getLolVisibleStatValue(player, "shotcalling");
-  const championPool = getLolVisibleStatValue(player, "championPool");
-  const discipline = getLolVisibleStatValue(player, "discipline");
-  const mentalResilience = getLolVisibleStatValue(player, "mentalResilience");
-
+/** Shared OVR formula — takes raw stat values so any data source can use it. */
+export function calcOvr(
+  dribbling: number,
+  shooting: number,
+  teamwork: number,
+  vision: number,
+  decisions: number,
+  leadership: number,
+  agility: number,
+  composure: number,
+  stamina: number,
+): number {
   return clampOvr(
-    (mechanics +
-      laning +
-      teamfighting +
-      macro +
-      consistency +
-      shotcalling +
-      championPool +
-      discipline +
-      mentalResilience) / 9,
+    (dribbling +
+      shooting +
+      teamwork +
+      vision +
+      decisions +
+      leadership +
+      agility +
+      composure +
+      stamina) / 9,
+  );
+}
+
+export function calculateLolOvr(player: PlayerData): number {
+  return calcOvr(
+    getLolVisibleStatValue(player, "mechanics"),
+    getLolVisibleStatValue(player, "laning"),
+    getLolVisibleStatValue(player, "teamfighting"),
+    getLolVisibleStatValue(player, "macro"),
+    getLolVisibleStatValue(player, "consistency"),
+    getLolVisibleStatValue(player, "shotcalling"),
+    getLolVisibleStatValue(player, "championPool"),
+    getLolVisibleStatValue(player, "discipline"),
+    getLolVisibleStatValue(player, "mentalResilience"),
   );
 }

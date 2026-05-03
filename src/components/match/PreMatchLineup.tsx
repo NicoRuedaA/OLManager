@@ -3,6 +3,7 @@ import { MatchSnapshot, EnginePlayerData } from "./types";
 import { Badge } from "../ui";
 import { ArrowUpDown, AlertTriangle, Wand2 } from "lucide-react";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { calcOvr } from "../../lib/lolPlayerStats";
 
 export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -50,19 +51,19 @@ export function getPlayerLolRole(player: EnginePlayerData): LolRole {
   return "JUNGLE";
 }
 
+/** Delegates to the shared OVR formula so every view uses the same calculation. */
 export function getPositionOvr(p: EnginePlayerData): number {
-  const avg =
-    (p.dribbling +
-      p.shooting +
-      p.teamwork +
-      p.vision +
-      p.decisions +
-      p.leadership +
-      p.agility +
-      p.composure +
-      p.stamina) /
-    9;
-  return Math.max(1, Math.min(99, Math.round(avg)));
+  return calcOvr(
+    p.dribbling,
+    p.shooting,
+    p.teamwork,
+    p.vision,
+    p.decisions,
+    p.leadership,
+    p.agility,
+    p.composure,
+    p.stamina,
+  );
 }
 
 export function condColor(c: number): string {
