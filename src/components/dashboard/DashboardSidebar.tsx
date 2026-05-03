@@ -54,9 +54,7 @@ function NavItem({
   label,
   onClick,
 }: NavItemProps): JSX.Element {
-  const buttonClassName = `relative flex w-full items-center rounded-lg p-3 transition-all duration-200 ${
-    collapsed ? "justify-center" : "justify-start gap-3"
-  } ${
+  const buttonClassName = `relative flex w-full items-center justify-start rounded-lg p-3 transition-all duration-200 gap-3 ${
     active
       ? "bg-linear-to-r from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20"
       : "text-gray-400 hover:bg-white/5 hover:text-white"
@@ -71,7 +69,7 @@ function NavItem({
     >
       <div className="[&>svg]:w-5 [&>svg]:h-5 shrink-0">{icon}</div>
       <span
-        className={`overflow-hidden whitespace-nowrap transition-all duration-200 ${
+        className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
           collapsed
             ? "max-w-0 opacity-0"
             : "max-w-40 opacity-100 delay-150"
@@ -145,53 +143,55 @@ export default function DashboardSidebar({
       }`}
     >
       {/* Brand */}
-      <div
-        className={`border-b border-navy-700 p-5`}
-      >
-        <div
-          className={`flex ${collapsed ? "flex-col items-start gap-3" : "items-center justify-between gap-3"}`}
-        >
+      <div className="border-b border-navy-700 p-5">
+        {/* Always a row — no layout change between states */}
+        <div className="flex items-center">
           <div
-            className={`flex ${collapsed ? "items-center justify-center" : "items-start gap-2"}`}
+            className="w-8 h-8 flex items-center justify-center shrink-0"
+            onClick={collapsed ? onToggleCollapse : undefined}
+            role={collapsed ? "button" : undefined}
+            tabIndex={collapsed ? 0 : undefined}
+            onKeyDown={collapsed ? (e) => { if (e.key === "Enter" || e.key === " ") onToggleCollapse(); } : undefined}
+            title={collapsed ? t("dashboard.expandSidebar") : undefined}
           >
-            <div
-              className="w-8 h-8 flex items-center justify-center"
-              onClick={collapsed ? onToggleCollapse : undefined}
-              role={collapsed ? "button" : undefined}
-              tabIndex={collapsed ? 0 : undefined}
-              onKeyDown={collapsed ? (e) => { if (e.key === "Enter" || e.key === " ") onToggleCollapse(); } : undefined}
-              title={collapsed ? t("dashboard.expandSidebar") : undefined}
-            >
-              {teamLogo ? (
-                <img
-                  src={teamLogo}
-                  alt={teamName ?? "Logo"}
-                  className="w-8 h-8 object-contain"
-                />
-              ) : (
-                <img
-                  src="../../lec-logo.svg"
-                  alt="Logo"
-                  className="w-8 h-8"
-                />
-              )}
-            </div>
-            <div
-              className={`overflow-hidden whitespace-nowrap transition-all duration-200 ${
-                collapsed
-                  ? "max-w-0 opacity-0"
-                  : "max-w-40 opacity-100 delay-150"
-              }`}
-            >
-              <h1 className="text-sm font-heading font-semibold text-white uppercase tracking-wider">
-                Open League
-              </h1>
-              <h1 className="font-bold font-heading text-accent-400 uppercase tracking-wider">
-                Manager
-              </h1>
-            </div>
+            {teamLogo ? (
+              <img
+                src={teamLogo}
+                alt={teamName ?? "Logo"}
+                className="w-8 h-8 object-contain"
+              />
+            ) : (
+              <img
+                src="../../lec-logo.svg"
+                alt="Logo"
+                className="w-8 h-8"
+              />
+            )}
           </div>
-          {collapsed ? null : (
+          <div
+            className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+              collapsed
+                ? "max-w-0 opacity-0 ml-0"
+                : "max-w-40 opacity-100 ml-3 delay-150"
+            }`}
+          >
+            <h1 className="text-sm font-heading font-semibold text-white uppercase tracking-wider">
+              Open League
+            </h1>
+            <h1 className="font-bold font-heading text-accent-400 uppercase tracking-wider">
+              Manager
+            </h1>
+          </div>
+          <div className={`flex-1 min-w-0 transition-all duration-200 ${
+            collapsed ? "opacity-0" : "opacity-100 delay-150"
+          }`} />
+          <div
+            className={`overflow-hidden shrink-0 transition-all duration-200 ${
+              collapsed
+                ? "max-w-0 opacity-0"
+                : "max-w-10 opacity-100 delay-150"
+            }`}
+          >
             <button
               type="button"
               onClick={onToggleCollapse}
@@ -201,7 +201,7 @@ export default function DashboardSidebar({
             >
               <PanelLeftClose className="h-5 w-5" />
             </button>
-          )}
+          </div>
         </div>
         <button
           onClick={() => onNavClick("Manager")}
