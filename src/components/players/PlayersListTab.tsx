@@ -30,7 +30,7 @@ interface PlayersListTabProps {
   onSelectTeam: (id: string) => void;
 }
 
-type SortKey = "photo" | "name" | "position" | "age" | "ovr" | "value" | "team";
+type SortKey = "photo" | "name" | "position" | "age" | "ovr" | "value" | "team" | "status";
 
 function normalizeNick(value: string): string {
   return value
@@ -147,6 +147,16 @@ export default function PlayersListTab({
           getTeamName(gameState.teams, b.team_id),
         );
         break;
+      case "status": {
+        const statusVal = (p: typeof a) => {
+          if (p.loan_listed) return 3;
+          if (p.transfer_listed) return 2;
+          if (p.injury) return 1;
+          return 0;
+        };
+        cmp = statusVal(b) - statusVal(a);
+        break;
+      }
     }
     return sortAsc ? cmp : -cmp;
   });
@@ -296,9 +306,13 @@ export default function PlayersListTab({
                       asc={sortAsc}
                       onClick={handleSort}
                     />
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.status")}
-                    </th>
+                    <SortHeader
+                      label={t("common.status")}
+                      sortKey="status"
+                      current={sortKey}
+                      asc={sortAsc}
+                      onClick={handleSort}
+                    />
                   </tr>
                 </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
