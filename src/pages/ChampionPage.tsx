@@ -271,7 +271,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
               {/* Champion Info */}
               <div className="flex-1">
                 <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
-                  {champion.name}
+                  {champion.name.replace(/^[.\s]+/, "") || champion.champion_key}
                 </h2>
                 <div className="flex items-center gap-3 mt-2">
                   {roles.map((role) => {
@@ -295,9 +295,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                     );
                   })}
                 </div>
-                <p className="text-gray-400 text-sm mt-2 flex items-center gap-1.5">
-                  {champion.champion_key}
-                </p>
+
               </div>
 
               {/* QuickStats - Desktop (solo WR, PR, BR en banner) */}
