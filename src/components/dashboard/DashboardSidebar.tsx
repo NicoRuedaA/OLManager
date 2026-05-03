@@ -69,10 +69,10 @@ function NavItem({
     >
       <div className="[&>svg]:w-5 [&>svg]:h-5 shrink-0">{icon}</div>
       <span
-        className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+        className={`min-w-0 min-h-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
           collapsed
-            ? "max-w-0 opacity-0"
-            : "max-w-40 opacity-100 delay-150"
+            ? "max-w-0 max-h-0 opacity-0"
+            : "max-w-40 max-h-6 opacity-100 delay-150"
         } font-heading font-semibold text-sm uppercase tracking-wider`}
       >
         {label}
@@ -145,7 +145,7 @@ export default function DashboardSidebar({
       {/* Brand */}
       <div className="border-b border-navy-700 p-5">
         {/* Always a row — no layout change between states */}
-        <div className="flex items-center">
+        <div className="flex items-start h-8 overflow-visible">
           <div
             className="w-8 h-8 flex items-center justify-center shrink-0"
             onClick={collapsed ? onToggleCollapse : undefined}
@@ -169,27 +169,27 @@ export default function DashboardSidebar({
             )}
           </div>
           <div
-            className={`min-w-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+            className={`min-w-0 min-h-0 overflow-hidden transition-all duration-200 ${
               collapsed
-                ? "max-w-0 opacity-0 ml-0"
-                : "max-w-40 opacity-100 ml-3 delay-150"
+                ? "max-w-0 max-h-0 opacity-0 ml-0"
+                : "max-w-40 max-h-12 opacity-100 ml-3 delay-150"
             }`}
           >
-            <h1 className="text-sm font-heading font-semibold text-white uppercase tracking-wider">
+            <h1 className="text-sm font-heading font-semibold text-white uppercase tracking-wider whitespace-nowrap">
               Open League
             </h1>
-            <h1 className="font-bold font-heading text-accent-400 uppercase tracking-wider">
+            <h1 className="font-bold font-heading text-accent-400 uppercase tracking-wider whitespace-nowrap">
               Manager
             </h1>
           </div>
-          <div className={`flex-1 min-w-0 transition-all duration-200 ${
+          <div className={`flex-1 min-w-0 min-h-0 transition-all duration-200 ${
             collapsed ? "opacity-0" : "opacity-100 delay-150"
           }`} />
           <div
-            className={`overflow-hidden shrink-0 transition-all duration-200 ${
+            className={`min-w-0 min-h-0 overflow-hidden shrink-0 transition-all duration-200 ${
               collapsed
-                ? "max-w-0 opacity-0"
-                : "max-w-10 opacity-100 delay-150"
+                ? "max-w-0 max-h-0 opacity-0"
+                : "max-w-10 max-h-10 opacity-100 delay-150"
             }`}
           >
             <button
@@ -207,27 +207,28 @@ export default function DashboardSidebar({
           onClick={() => onNavClick("Manager")}
           title={collapsed ? t("dashboard.manager") : undefined}
           aria-label={t("dashboard.manager")}
-          className={`hover:bg-white/5 mt-3 w-full rounded-lg transition-colors hover:cursor-pointer min-h-[4.5rem] ${
-            collapsed
-              ? "flex justify-center px-0 py-2 text-gray-300"
-              : "-mx-1 border-t border-navy-700 px-1 py-1 pt-3 text-left"
+          className={`hover:bg-white/5 mt-3 w-full rounded-lg transition-colors hover:cursor-pointer min-h-[4.5rem] flex items-start gap-3 justify-start -mx-1 border-t border-navy-700 px-1 py-1 pt-3 ${
+            collapsed ? "text-gray-300" : "text-left"
           }`}
         >
-          {collapsed ? (
-            <User className="h-5 w-5" />
-          ) : (
-            <>
-              <p className="text-xs text-gray-400 uppercase tracking-wider">
-                {t("dashboard.manager")}
-              </p>
-              <p className="text-sm font-semibold text-white mt-0.5">
-                {managerName}
-              </p>
-              {teamName && (
-                <p className="text-xs text-primary-400 mt-0.5">{teamName}</p>
-              )}
-            </>
-          )}
+          <User className="h-5 w-5 shrink-0 mt-0.5" />
+          <div
+            className={`min-w-0 min-h-0 overflow-hidden transition-all duration-200 ${
+              collapsed
+                ? "max-w-0 max-h-0 opacity-0"
+                : "max-w-60 max-h-24 opacity-100 delay-150"
+            }`}
+          >
+            <p className="text-xs text-gray-400 uppercase tracking-wider">
+              {t("dashboard.manager")}
+            </p>
+            <p className="text-sm font-semibold text-white mt-0.5">
+              {managerName}
+            </p>
+            {teamName && (
+              <p className="text-xs text-primary-400 mt-0.5">{teamName}</p>
+            )}
+          </div>
         </button>
       </div>
 
