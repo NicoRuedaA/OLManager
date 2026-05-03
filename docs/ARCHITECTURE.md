@@ -6,18 +6,44 @@ OLManager is a desktop game built with **Tauri v2**: a **React + TypeScript** fr
 
 ## System overview
 
-```text
-React UI (src/)
-  pages, components, hooks, stores, services
-        │
-        │ @tauri-apps/api invoke("command_name")
-        ▼
-Tauri command layer (src-tauri/src/commands/)
-        │
-        ├─ application services (src-tauri/src/application/)
-        ├─ in-memory session state (ofm_core::state::StateManager)
-        ├─ domain/gameplay crates (domain, ofm_core, engine)
-        └─ persistence crate (db, SQLite save files)
+```mermaid
+C4Context
+  Person(user, "Player", "Desktop game user managing an esports team")
+
+  System_Boundary(frontend, "WebView (React 19 + TS)") {
+    System(ui, "Pages & Components", "src/pages/, src/components/")
+    System(store, "Zustand stores", "src/store/ (game, settings)")
+    System(svc, "IPC Services", "src/services/ (typed invoke wrappers)")
+  }
+
+  System_Boundary(backend, "Tauri v2 Backend (Rust)") {
+    System(cmd, "Command layer", "src-tauri/src/commands/ (thin handlers)")
+    System(app, "Application services", "src-tauri/src/application/")
+    System(sm, "StateManager", "ofm_core::state (unified Session)")
+    System_db(db, "Persistence", "db crate (SQLite per-save)")
+  }
+
+  System_Boundary(crates, "Rust Crates") {
+    System(domain, "domain", "Model types (Player, Team, etc.)")
+    System(engine, "engine", "Match simulation (pure, no I/O)")
+    System(ofm, "ofm_core", "Gameplay orchestration, turn logic")
+  }
+
+  System_Ext(leaguepedia, "Leaguepedia API", "External data (optional)")
+
+  Rel(ui, store, "reads/writes")
+  Rel(ui, svc, "calls")
+  Rel(svc, cmd, "invoke('cmd', payload)")
+  Rel(cmd, app, "delegates to")
+  Rel(cmd, sm, "reads/writes state")
+  Rel(cmd, db, "loads/saves games")
+  Rel(app, ofm, "orchestrates gameplay")
+  Rel(ofm, engine, "runs simulation")
+  Rel(ofm, domain, "uses types")
+  Rel(db, ofm, "persists/loads domain objects")
+  Rel(ui, leaguepedia, "fetches champion data", "optional")
+
+  UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
 ```
 
 The frontend should present state, collect user intent, and call typed service functions. The backend owns authoritative game state, simulations, save/load, and mutations that affect the career.
@@ -51,7 +77,7 @@ Use this boundary deliberately:
 
 The backend keeps process-level state with Tauri-managed objects:
 
-- `ofm_core::state::StateManager` stores the active `Game`, stats state, live match session, and active save id behind mutexes.
+- `ofm_core::state::StateManager` stores the active `Game`, stats state, live match session, and active save id within a single `Mutex<Session>` (unified lock — no deadlock risk).
 - `SaveManagerState` wraps `db::save_manager::SaveManager` for save listing/loading/saving/deleting.
 
 ## Rust workspace and crate responsibilities

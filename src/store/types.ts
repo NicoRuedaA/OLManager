@@ -30,16 +30,13 @@ export interface TeamSeasonRecord {
   won: number;
   drawn: number;
   lost: number;
-  goals_for: number;
-  goals_against: number;
+  kills_for: number;
+  kills_against: number;
 }
 
-export interface TeamMatchRolesData {
+export interface TeamRolesData {
   captain: string | null;
-  vice_captain: string | null;
-  penalty_taker: string | null;
-  free_kick_taker: string | null;
-  corner_taker: string | null;
+  shotcaller: string | null;
 }
 
 export type TeamKind = "Main" | "Academy";
@@ -166,7 +163,7 @@ export interface TeamData {
   facilities?: FacilitiesData;
   sponsorship?: SponsorshipData | null;
   starting_xi_ids: string[];
-  match_roles?: TeamMatchRolesData;
+  team_roles?: TeamRolesData;
   form: string[];
   history: TeamSeasonRecord[];
   team_kind?: TeamKind;
@@ -390,6 +387,20 @@ export interface ChampionPatchStateData {
   rng_seed?: number;
 }
 
+/**
+ * Champion data from the backend - represents a League of Legends champion
+ */
+export interface ChampionData {
+  id: number;
+  name: string;
+  champion_key: string;
+  roles_json: string;
+  counterpicks_json: string | null;
+  synergies_json: string | null;
+  image_tile_url: string | null;
+  image_splash_url: string | null;
+}
+
 export interface TransferOfferData {
   id: string;
   from_team_id: string;
@@ -596,8 +607,8 @@ export interface StandingData {
   won: number;
   drawn: number;
   lost: number;
-  goals_for: number;
-  goals_against: number;
+  kills_for: number;
+  kills_against: number;
   points: number;
 }
 
@@ -700,4 +711,5 @@ export interface GameStateData {
   season_context?: SeasonContextData;
   champion_masteries?: ChampionMasteryEntryData[];
   champion_patch?: ChampionPatchStateData;
+  champions?: ChampionData[];
 }

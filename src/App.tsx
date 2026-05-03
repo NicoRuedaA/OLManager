@@ -9,7 +9,6 @@ const TeamSelection = lazy(() => import("./pages/TeamSelection"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const MatchSimulation = lazy(() => import("./pages/MatchSimulation"));
 const Settings = lazy(() => import("./pages/Settings"));
-const WorldEditor = lazy(() => import("./pages/WorldEditor"));
 
 function LazyFallback() {
   return (
@@ -115,16 +114,6 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/match" element={<MatchSimulation />} />
           <Route path="/settings" element={<Settings />} />
-          <Route
-            path="/world-editor"
-            element={
-              loaded ? (
-                settings.debug_tools_enabled ? <WorldEditor /> : <Navigate to="/" replace />
-              ) : (
-                <LazyFallback />
-              )
-            }
-          />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -1,3 +1,4 @@
+pub mod game_setup;
 pub mod live_match;
 pub mod lol_sim_v2;
 pub mod team_talk;

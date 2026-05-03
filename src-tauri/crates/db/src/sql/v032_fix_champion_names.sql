@@ -1,0 +1,2 @@
+-- V32: Fix champion names (camelCase to PascalCase)
+-- This is a no-op migration - actual fix happens in seeding

@@ -116,7 +116,7 @@ export default function DashboardSidebar({
     { icon: <Users />, label: t("dashboard.squad"), tab: "Squad" },
     { icon: <Crosshair />, label: t("dashboard.tactics"), tab: "Tactics" },
     { icon: <Dumbbell />, label: t("dashboard.training"), tab: "Training" },
-    { icon: <Gamepad2 />, label: t("dashboard.champions"), tab: "Champions" },
+    { icon: <Gamepad2 />, label: t("dashboard.meta"), tab: "Meta" },
     { icon: <UserCog />, label: t("dashboard.staff"), tab: "Staff" },
     { icon: <Eye />, label: t("dashboard.scouting"), tab: "Scouting" },
     {
@@ -135,6 +135,7 @@ export default function DashboardSidebar({
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
     },
+    { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
   ];
   const toggleSidebarLabel = collapsed
     ? t("dashboard.expandSidebar")
