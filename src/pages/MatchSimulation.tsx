@@ -87,14 +87,13 @@ function attachLolTacticsToSnapshot(snapshot: MatchSnapshot, gameState: GameStat
   const homeTeam = gameState.teams.find((team) => team.id === snapshot.home_team.id);
   const awayTeam = gameState.teams.find((team) => team.id === snapshot.away_team.id);
 
-  const normalizePosition = (position: string) => position.toLowerCase().replace(/[^a-z]/g, "");
-  const positionToRole = (position: string): DraftRole | null => {
-    const normalized = normalizePosition(position);
-    if (normalized === "defender") return "TOP";
-    if (normalized === "midfielder") return "JUNGLE";
-    if (normalized === "attackingmidfielder") return "MID";
-    if (normalized === "forward") return "ADC";
-    if (normalized === "defensivemidfielder" || normalized === "goalkeeper") return "SUPPORT";
+  const engineRoleToDraftRole = (role: string): DraftRole | null => {
+    const normalized = role.toLowerCase();
+    if (normalized === "top") return "TOP";
+    if (normalized === "jungle") return "JUNGLE";
+    if (normalized === "mid") return "MID";
+    if (normalized === "adc") return "ADC";
+    if (normalized === "support") return "SUPPORT";
     return null;
   };
 
@@ -106,7 +105,7 @@ function attachLolTacticsToSnapshot(snapshot: MatchSnapshot, gameState: GameStat
     const byRole = new Map<DraftRole, MatchSnapshot["home_team"]["players"][number]>();
 
     players.forEach((player) => {
-      const role = positionToRole(player.position);
+      const role = engineRoleToDraftRole(player.role ?? "");
       if (!role || byRole.has(role)) return;
       byRole.set(role, player);
     });
@@ -812,12 +811,22 @@ export default function MatchSimulation() {
     if (!gameState || !snapshot) return;
     const utid = gameState.manager.team_id;
     if (!utid) {
+      console.warn("[MatchSimulation] resolveSide: no manager team_id, forcing spectator");
       setIsSpectator(true);
       return;
     }
-    if (snapshot.home_team.id === utid) setUserSide("Home");
-    else if (snapshot.away_team.id === utid) setUserSide("Away");
-    else setIsSpectator(true);
+    const isHome = snapshot.home_team.id === utid;
+    const isAway = snapshot.away_team.id === utid;
+    if (isHome) setUserSide("Home");
+    else if (isAway) setUserSide("Away");
+    else {
+      console.warn("[MatchSimulation] resolveSide: team_id mismatch", {
+        managerTeamId: utid,
+        homeTeamId: snapshot.home_team.id,
+        awayTeamId: snapshot.away_team.id,
+      });
+      setIsSpectator(true);
+    }
 
     // If mode is spectator, force spectator regardless of team
     if (effectiveMatchMode === "spectator") setIsSpectator(true);
@@ -827,12 +836,8 @@ export default function MatchSimulation() {
       homeTeamId: snapshot.home_team.id,
       matchMode,
       managerTeamId: utid,
-      resolvedUserSide:
-        snapshot.home_team.id === utid
-          ? "Home"
-          : snapshot.away_team.id === utid
-            ? "Away"
-            : null,
+      resolvedUserSide: isHome ? "Home" : isAway ? "Away" : null,
+      isSpectator: !isHome && !isAway,
     });
   }, [effectiveMatchMode, gameState, snapshot?.home_team.id, snapshot?.away_team.id]);
 
@@ -864,6 +869,7 @@ export default function MatchSimulation() {
           homeTeam: snap.home_team.name,
           phase: snap.phase,
         });
+        console.debug("[MatchSimulation] fetchSnapshot:full", JSON.parse(JSON.stringify(snap)));
         if (!isCancelled) {
           setSnapshot(snap);
         }
@@ -914,13 +920,6 @@ export default function MatchSimulation() {
       isCancelled = true;
     };
   }, [effectiveMatchMode, navigate, routeState?.fixtureIndex]);
-
-  // Skip pre-match for spectators
-  useEffect(() => {
-    if (isSpectator && stage === "prematch") {
-      setStage("draft");
-    }
-  }, [isSpectator, stage]);
 
   const currentFixture =
     gameState && snapshot
@@ -1240,7 +1239,7 @@ export default function MatchSimulation() {
           if (!pick) continue;
 
           const exact = players.find(
-            (entry) => !usedPlayerIds.has(entry.id) && inferRole(entry.position) === role,
+            (entry) => !usedPlayerIds.has(entry.id) && inferRole(entry.role ?? "") === role,
           );
           const slot = players[roleOrder[role]];
           const slotCandidate = slot && !usedPlayerIds.has(slot.id) ? slot : null;
@@ -1768,6 +1767,9 @@ export default function MatchSimulation() {
       currentMinute: snap.current_minute,
       homePlayers: snap.home_team.players.length,
       phase: snap.phase,
+      homeRoles: snap.home_roles,
+      awayRoles: snap.away_roles,
+      hasLolMap: !!snap.lol_map,
     });
     setSnapshot(snap);
   }, []);
@@ -1796,8 +1798,11 @@ export default function MatchSimulation() {
   }
 
   // Render the current stage
-  switch (stage) {
+  console.debug("[MatchSimulation] render:stage", { stage, hasSnapshot: !!snapshot, hasGameState: !!gameState, userSide });
+  try {
+    switch (stage) {
     case "prematch":
+      console.debug("[MatchSimulation] render:prematch", { userSide, currentFixture });
       return (
         <PreMatchSetup
           snapshot={snapshot}
@@ -1810,6 +1815,7 @@ export default function MatchSimulation() {
       );
 
     case "draft":
+      console.debug("[MatchSimulation] render:draft", { userSide, allAi: effectiveMatchMode === "spectator" });
       return (
         <ChampionDraft
           snapshot={renderSnapshotWithTactics ?? renderSnapshot ?? snapshot}
@@ -1917,6 +1923,25 @@ export default function MatchSimulation() {
       );
 
     default:
+      console.warn("[MatchSimulation] unknown stage", { stage });
       return null;
+  }
+  } catch (renderError) {
+    console.error("[MatchSimulation] render:error", { stage, error: renderError });
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-navy-900 flex items-center justify-center p-8">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-2xl">
+          <h2 className="text-lg font-heading font-bold text-red-700 dark:text-red-400 mb-2">
+            Render Error
+          </h2>
+          <p className="text-red-600 dark:text-red-300 text-sm font-mono whitespace-pre-wrap">
+            {String(renderError)}
+          </p>
+          <p className="text-gray-500 dark:text-gray-400 text-xs mt-4">
+            Stage: {stage}
+          </p>
+        </div>
+      </div>
+    );
   }
 }

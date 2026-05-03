@@ -124,11 +124,10 @@ export function normalizeLolScore(
     return rawHome > rawAway ? { home: 1, away: 0 } : { home: 0, away: 1 };
   }
 
-  const targetWins = bo === 3 ? 2 : 3;
-  const resultHomeWins = rawHomeWins !== null ? Math.min(targetWins, rawHomeWins) : null;
-  const resultAwayWins = rawAwayWins !== null ? Math.min(targetWins, rawAwayWins) : null;
-  const preferredHomeWins = storedHomeWins !== null ? Math.min(targetWins, storedHomeWins) : null;
-  const preferredAwayWins = storedAwayWins !== null ? Math.min(targetWins, storedAwayWins) : null;
+  const resultHomeWins = rawHomeWins;
+  const resultAwayWins = rawAwayWins;
+  const preferredHomeWins = storedHomeWins;
+  const preferredAwayWins = storedAwayWins;
 
   if (preferredHomeWins !== null && preferredAwayWins !== null) {
     return { home: preferredHomeWins, away: preferredAwayWins };

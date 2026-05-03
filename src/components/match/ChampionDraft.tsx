@@ -454,8 +454,17 @@ function mapSeedRoleToDraftRole(role: string): Role | null {
   return null;
 }
 
-function mapSnapshotPositionToDraftRole(position: string): Role {
-  const key = normalizeKey(position);
+function mapSnapshotPositionToDraftRole(role: string): Role {
+  // Handle PascalCase engine roles (Top, Jungle, Mid, Adc, Support) directly
+  const engineKey = role.toLowerCase().replace(/[^a-z]/g, "");
+  if (engineKey === "top") return "TOP";
+  if (engineKey === "jungle") return "JUNGLE";
+  if (engineKey === "mid") return "MID";
+  if (engineKey === "adc") return "ADC";
+  if (engineKey === "support") return "SUPPORT";
+
+  // Fallback: map football positions to LoL roles
+  const key = normalizeKey(role);
   if (key.includes("top") || key === "defender") return "TOP";
   if (key.includes("jung") || key === "midfielder" || key === "centralmidfielder") return "JUNGLE";
   if (key.includes("attackingmidfielder") || key === "mid") return "MID";
@@ -463,13 +472,13 @@ function mapSnapshotPositionToDraftRole(position: string): Role {
   return "SUPPORT";
 }
 
-function roleOrderedSnapshotPlayers<T extends { position: string; id: string }>(players: T[]): T[] {
+function roleOrderedSnapshotPlayers<T extends { role?: string; id: string; name?: string }>(players: T[]): T[] {
   const byRole = new Map<Role, T>();
   const used = new Set<string>();
 
   for (const role of ROLE_ORDER) {
     const player = players.find(
-      (candidate) => !used.has(candidate.id) && mapSnapshotPositionToDraftRole(candidate.position) === role,
+      (candidate) => !used.has(candidate.id) && mapSnapshotPositionToDraftRole(candidate.role ?? "") === role,
     );
     if (!player) continue;
     byRole.set(role, player);
@@ -481,7 +490,7 @@ function roleOrderedSnapshotPlayers<T extends { position: string; id: string }>(
   return [...ordered, ...remainder].slice(0, 5);
 }
 
-function roleOrderedSnapshotPlayersWithResolver<T extends { position: string; id: string }>(
+function roleOrderedSnapshotPlayersWithResolver<T extends { role?: string; id: string; name?: string }>(
   players: T[],
   resolveRole: (player: T) => Role,
 ): T[] {
@@ -853,13 +862,22 @@ export default function ChampionDraft({
 
       return roleOrderedSnapshotPlayersWithResolver(snapshot.home_team.players, (player) => {
         const fromState = gameState?.players.find((candidate) => candidate.id === player.id);
-        if (fromState) return resolvePlayerLolRole(fromState) as Role;
+        if (fromState) {
+          const role = resolvePlayerLolRole(fromState) as Role;
+          console.debug("[ChampionDraft] resolve:fromState", { playerId: player.id, name: player.name, naturalPosition: fromState.natural_position, role, fromStateId: fromState.id, snapRole: player.role });
+          return role;
+        }
 
         const fromSeed = homeSeedByIgn.get(normalizeKey((player as { name?: string }).name ?? ""));
         const mappedSeedRole = fromSeed ? mapSeedRoleToDraftRole(String(fromSeed.role ?? "")) : null;
-        if (mappedSeedRole) return mappedSeedRole;
+        if (mappedSeedRole) {
+          console.debug("[ChampionDraft] resolve:fromSeed", { playerId: player.id, name: player.name, seedRole: fromSeed?.role, mappedRole: mappedSeedRole });
+          return mappedSeedRole;
+        }
 
-        return mapSnapshotPositionToDraftRole(player.position);
+        const fallbackRole = mapSnapshotPositionToDraftRole(player.role ?? "");
+        console.debug("[ChampionDraft] resolve:fallback", { playerId: player.id, name: player.name, engineRole: player.role, fallbackRole });
+        return fallbackRole;
       });
     },
     [gameState?.players, snapshot.home_team.name, snapshot.home_team.players],
@@ -883,7 +901,7 @@ export default function ChampionDraft({
         const mappedSeedRole = fromSeed ? mapSeedRoleToDraftRole(String(fromSeed.role ?? "")) : null;
         if (mappedSeedRole) return mappedSeedRole;
 
-        return mapSnapshotPositionToDraftRole(player.position);
+        return mapSnapshotPositionToDraftRole(player.role ?? "");
       });
     },
     [gameState?.players, snapshot.away_team.name, snapshot.away_team.players],

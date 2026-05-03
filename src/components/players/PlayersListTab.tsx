@@ -17,6 +17,7 @@ import {
 } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
+import { getAllCountryNames } from "../../lib/countries";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import {
   getLolRoleForPlayer,
@@ -94,10 +95,13 @@ export default function PlayersListTab({
   let filtered = dedupedPlayers.filter((p) => {
     if (search.length >= 2) {
       const q = search.toLowerCase();
+      const matchesNationality =
+        p.nationality.toLowerCase().includes(q) ||
+        [...getAllCountryNames(p.nationality)].some((name) => name.includes(q));
       if (
         !p.full_name.toLowerCase().includes(q) &&
         !p.match_name.toLowerCase().includes(q) &&
-        !p.nationality.toLowerCase().includes(q)
+        !matchesNationality
       )
         return false;
     }

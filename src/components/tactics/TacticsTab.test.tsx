@@ -500,13 +500,10 @@ describe("TacticsTab", () => {
     );
 
     await waitFor(() => {
-      expect(mockedInvoke).toHaveBeenCalledWith("set_team_match_roles", {
-        matchRoles: expect.objectContaining({
+      expect(mockedInvoke).toHaveBeenCalledWith("set_team_roles", {
+        teamRoles: expect.objectContaining({
           captain: expect.any(String),
-          vice_captain: expect.any(String),
-          penalty_taker: expect.any(String),
-          free_kick_taker: expect.any(String),
-          corner_taker: expect.any(String),
+          shotcaller: expect.any(String),
         }),
       });
     });

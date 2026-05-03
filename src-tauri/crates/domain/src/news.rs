@@ -1,7 +1,11 @@
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum NewsCategory {
     MatchReport,
     LeagueRoundup,
@@ -14,6 +18,8 @@ pub enum NewsCategory {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct NewsArticle {
     pub id: String,
     pub headline: String,
@@ -43,6 +49,8 @@ pub struct NewsArticle {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct NewsMatchScore {
     pub home_team_id: String,
     pub away_team_id: String,

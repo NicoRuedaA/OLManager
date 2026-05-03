@@ -216,7 +216,7 @@ export function SubPanel({
                 {positions.map((pos, rowIdx) => {
                   const players = team.players.filter(
                     (p) =>
-                      p.position === pos && !snapshot.sent_off.includes(p.id),
+                      (p.role ?? "") === pos && !snapshot.sent_off.includes(p.id),
                   );
                   const y = [85, 62, 38, 14][rowIdx];
                   return (
@@ -281,8 +281,8 @@ export function SubPanel({
                           Forward: 4,
                         };
                         return (
-                          (posOrd[a.position] || 99) -
-                            (posOrd[b.position] || 99) ||
+                          (posOrd[a.role ?? ""] || 99) -
+                            (posOrd[b.role ?? ""] || 99) ||
                           a.name.localeCompare(b.name)
                         );
                       })
@@ -321,7 +321,7 @@ export function SubPanel({
                             </td>
                             <td className="py-2 w-12 text-center">
                                <span className="text-xs font-heading text-gray-500 dark:text-gray-400">
-                                {translatePositionAbbreviation(t, p.position)}
+                                {translatePositionAbbreviation(t, p.role ?? "")}
                               </span>
                             </td>
                              <td className="py-2 w-12 text-center font-heading font-bold text-gray-500 dark:text-gray-400">
@@ -468,7 +468,7 @@ export function SubPanel({
                         const ovr = getOvr(p);
                         // Off-position indicator: compare with selected player's position
                         const posMatch = selectedPlayer
-                          ? p.position === selectedPlayer.position
+                          ? (p.role ?? "") === (selectedPlayer.role ?? "")
                           : true;
                         return (
                           <tr
@@ -498,7 +498,7 @@ export function SubPanel({
                               <span
                                    className={`text-xs font-heading ${!posMatch && selectedOff ? "text-yellow-400" : "text-gray-500 dark:text-gray-400"}`}
                               >
-                                {translatePositionAbbreviation(t, p.position)}
+                                {translatePositionAbbreviation(t, p.role ?? "")}
                                 {!posMatch && selectedOff && " !"}
                               </span>
                             </td>

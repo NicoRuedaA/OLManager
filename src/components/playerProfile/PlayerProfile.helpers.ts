@@ -25,7 +25,7 @@ export function getPlayerTeamName(
 
 export function getPlayerAge(
     dateOfBirth: string,
-    asOfDate: string = "2026-07-01",
+    asOfDate: string,
 ): number {
     const birthDate = new Date(dateOfBirth);
     const currentDate = new Date(asOfDate);

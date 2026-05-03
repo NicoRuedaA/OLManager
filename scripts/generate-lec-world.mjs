@@ -94,22 +94,23 @@ const TEAM_OVERRIDES = {
 };
 
 function roleToPosition(role) {
+  // Returns LoL role directly (no more football position conversion)
   switch (String(role || "").toLowerCase()) {
     case "top":
-      return "Defender";
+      return "Top";
     case "jungle":
-      return "Midfielder";
+      return "Jungle";
     case "mid":
-      return "AttackingMidfielder";
+      return "Mid";
     case "bot":
     case "bottom":
     case "adc":
-      return "Forward";
+      return "Adc";
     case "sup":
     case "support":
-      return "DefensiveMidfielder";
+      return "Support";
     default:
-      return "Midfielder";
+      return "Jungle";
   }
 }
 
@@ -412,12 +413,9 @@ for (const teamSeed of teamSeeds) {
     colors: { primary: "#1f2937", secondary: "#f3f4f6" },
     training_groups: [],
     starting_xi_ids: [],
-    match_roles: {
+    team_roles: {
       captain: null,
-      vice_captain: null,
-      penalty_taker: null,
-      free_kick_taker: null,
-      corner_taker: null,
+      shotcaller: null,
     },
     form: [],
     history: [],
