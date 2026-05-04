@@ -108,11 +108,13 @@ describe("PreMatchLineup helpers", () => {
 });
 
 describe("PreMatchLineup component", () => {
+  const homeTeam = makeTeam();
+  const awayTeam = makeTeam({ id: "away", name: "Rival United" });
   const defaultProps = {
-    userTeam: makeTeam(),
-    userBench: [makePlayer({ id: "b1", name: "Bench One", role: "Top", condition: 90 })],
-    oppTeam: makeTeam({ id: "opp", name: "Rival United" }),
-    userColor: "#00ff00",
+    homeTeam,
+    homeBench: [makePlayer({ id: "b1", name: "Bench One", role: "Top", condition: 90 })],
+    awayTeam,
+    awayBench: [makePlayer({ id: "ab1", name: "Away Bench", role: "Mid", condition: 85 })],
     homeTeamColor: "#ff0000",
     awayTeamColor: "#0000ff",
     userSide: "Home" as const,
@@ -123,17 +125,21 @@ describe("PreMatchLineup component", () => {
     onAutoSelect: vi.fn(),
   };
 
-  it("renders 5 LoL starters and bench", () => {
+  it("renders both teams' 5 LoL starters and bench", () => {
     render(<PreMatchLineup {...defaultProps} />);
+    // Home team players
     expect(screen.getAllByText("Top One").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Jg One").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Mid One").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Adc One").length).toBeGreaterThan(0);
     expect(screen.getAllByText("Sup One").length).toBeGreaterThan(0);
+    // Home bench
     expect(screen.getByText("Bench One")).toBeInTheDocument();
+    // Away bench
+    expect(screen.getByText("Away Bench")).toBeInTheDocument();
   });
 
-  it("calls callbacks for auto-select, starter select and swap", () => {
+  it("calls callbacks for auto-select, starter select and swap on user side", () => {
     const onAutoSelect = vi.fn();
     const onSelectStarter = vi.fn();
     const onSwap = vi.fn();
