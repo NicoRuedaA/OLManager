@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GraduationCap, Sparkles, Star, TrendingUp, Users, ArrowUpDown, ArrowUp, ArrowDown, Info } from "lucide-react";
+import { GraduationCap, Search, Sparkles, Star, TrendingUp, Users, ArrowUpDown, ArrowUp, ArrowDown, Info, EyeOff } from "lucide-react";
 
 import { calcAge } from "../../lib/helpers";
 import { acquireAcademyTeam, getAcademyAcquisitionOptions, promoteAcademyPlayer } from "../../services/academyService";
@@ -160,6 +160,20 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
       }
     });
   }, [youthPlayers, sortKey, sortDir]);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const filteredPlayers = useMemo(
+    () => sortedPlayers.filter((p) => {
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        (p.match_name || "").toLowerCase().includes(q) ||
+        (p.full_name || "").toLowerCase().includes(q) ||
+        (p.position || "").toLowerCase().includes(q)
+      );
+    }),
+    [sortedPlayers, searchQuery],
+  );
 
   if (!myTeam) {
     return (
@@ -397,7 +411,19 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
               <p className="text-sm text-gray-500 dark:text-gray-400">{t("youthAcademy.noYouthPlayers")}</p>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse">
+            <>
+              {/* Search bar */}
+              <div className="relative px-4 pt-4 pb-2">
+                <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={t("youthAcademy.searchPlaceholder", "Buscar por nombre o posición...")}
+                  className="w-full pl-9 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 text-gray-800 dark:text-gray-100 placeholder-gray-400"
+                />
+              </div>
+              <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
                   <th className="py-3 px-4 w-14" />
@@ -473,7 +499,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
-                {sortedPlayers.map((player) => {
+                {filteredPlayers.map((player) => {
                   const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                   return (
                     <tr
@@ -513,15 +539,34 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                         <span className="font-heading font-bold text-gray-800 dark:text-gray-100">{player.ovr}</span>
                       </td>
                       <td className="py-2.5 px-4 text-center">
-                        <span className="font-heading font-bold text-accent-500">{player.potential ?? "??"}</span>
+                        {player.potential != null ? (
+                          <span className="font-heading font-bold text-accent-500">{player.potential}</span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 text-accent-500/60" title={t("youthAcademy.potentialHiddenHint", "Potencial oculto — requiere investigación")}>
+                            <EyeOff className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-heading font-bold">{t("youthAcademy.hidden", "Oculto")}</span>
+                          </span>
+                        )}
                       </td>
-                      <td className="py-2.5 px-4 text-center text-sm font-medium text-gray-700 dark:text-gray-300">
-                        {player.condition}%
+                      <td className="py-2.5 px-4 text-center">
+                        <div className="flex items-center gap-1.5 justify-center">
+                          <div className="w-10 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${(player.condition ?? 0) >= 70 ? "bg-success-400" : (player.condition ?? 0) >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                              style={{ width: `${player.condition ?? 0}%` }}
+                            />
+                          </div>
+                          <span className="text-[11px] font-medium tabular-nums text-gray-700 dark:text-gray-300">
+                            {player.condition}%
+                          </span>
+                        </div>
                       </td>
                       <td className="py-2.5 px-4 text-center">
                         <Button
                           size="sm"
+                          variant={promotingPlayerId === player.id ? "outline" : "primary"}
                           disabled={promotingPlayerId === player.id}
+                          title={promotingPlayerId === player.id ? t("youthAcademy.promoting", "Subiendo...") : t("youthAcademy.promoteTitle", "Promocionar al primer equipo")}
                           onClick={async (event) => {
                             event.stopPropagation();
                             try {
@@ -541,6 +586,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                 })}
               </tbody>
             </table>
+            </>
           )}
         </CardBody>
       </Card>
