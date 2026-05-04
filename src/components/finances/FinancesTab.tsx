@@ -456,8 +456,8 @@ export default function FinancesTab({
         <CardHeader>{t("finances.wagePressure")}</CardHeader>
         <CardBody>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 space-y-3">
-              <p className="font-heading font-bold text-2xl text-gray-900 dark:text-gray-100">
+            <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 flex flex-col justify-center items-center gap-3">
+              <p className="font-heading font-bold text-2xl text-gray-900 dark:text-gray-100 text-center">
                 {t("finances.wageBudgetUsed", {
                   percent: wageBudgetUsagePercent,
                 })}
