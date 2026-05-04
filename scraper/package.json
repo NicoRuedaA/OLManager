@@ -5,8 +5,9 @@
   "description": "Leaguepedia scraper for OLManager — extracts players, teams, and images from all pro LoL leagues",
   "type": "module",
   "scripts": {
-    "scrape": "tsx src/index.ts",
-    "dev": "tsx --watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "scrape": "tsx src/index.ts --skip-images",
+    "scrape:full": "tsx src/index.ts",
     "explore": "tsx src/explore.ts",
     "typecheck": "tsc --noEmit"
   },
