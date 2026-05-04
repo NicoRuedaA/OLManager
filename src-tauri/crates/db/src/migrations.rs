@@ -64,6 +64,11 @@ fn migrate_scrim_setup_lock_week_key(tx: &Transaction<'_>) -> HookResult {
     Ok(())
 }
 
+fn migrate_social_post_media_url(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "social_posts", "media_url", "TEXT")?;
+    Ok(())
+}
+
 fn connection_column_exists(
     conn: &Connection,
     table: &str,
@@ -136,7 +141,7 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 34;
+pub const MIGRATION_COUNT: usize = 37;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -210,6 +215,12 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up_with_hook("SELECT 1;", migrate_scrim_weekly_objective),
         // V34: Optional weekly setup lock marker key
         M::up_with_hook("SELECT 1;", migrate_scrim_setup_lock_week_key),
+        // V35: Persist humorous social feed posts per save
+        M::up(include_str!("sql/v035_social_posts.sql")),
+        // V36: Add optional media URL to social posts
+        M::up_with_hook("SELECT 1;", migrate_social_post_media_url),
+        // V37: Persist social accounts and templates for editor workflows
+        M::up(include_str!("sql/v036_social_registry.sql")),
     ])
 }
 
@@ -273,6 +284,18 @@ mod tests {
         );
         assert!(tables.contains(&"messages".to_string()), "missing messages");
         assert!(tables.contains(&"news".to_string()), "missing news");
+        assert!(
+            tables.contains(&"social_posts".to_string()),
+            "missing social_posts"
+        );
+        assert!(
+            tables.contains(&"social_accounts".to_string()),
+            "missing social_accounts"
+        );
+        assert!(
+            tables.contains(&"social_templates".to_string()),
+            "missing social_templates"
+        );
         assert!(
             tables.contains(&"board_objectives".to_string()),
             "missing board_objectives"

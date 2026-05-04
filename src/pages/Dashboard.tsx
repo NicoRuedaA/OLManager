@@ -65,6 +65,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Tournaments: "dashboard.tournaments",
   Schedule: "dashboard.schedule",
   News: "dashboard.news",
+  Social: "dashboard.social",
   Scouting: "dashboard.scouting",
   Youth: "dashboard.youthAcademy",
 };

@@ -212,6 +212,7 @@
     "tournaments": "Tournaments",
     "schedule": "Schedule",
     "news": "News",
+    "social": "Social",
     "settings": "Settings",
     "exitToMenu": "Exit to Menu",
     "continue": "Continue",
@@ -1370,6 +1371,13 @@
       "Editorial": "Editorial",
       "ManagerialChange": "Managerial"
     }
+  },
+  "social": {
+    "title": "Social",
+    "subtitle": "Community timeline",
+    "description": "No gameplay effects. Just teams, players, fans and meme accounts being normal online.",
+    "emptyTitle": "The timeline is quiet",
+    "emptyBody": "Play matches and the community will start posting banter, hot takes, and questionable analysis."
   },
   "playerProfile": {
     "contractInfo": "Contract & Info",

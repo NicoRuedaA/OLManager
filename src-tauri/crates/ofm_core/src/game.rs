@@ -6,6 +6,7 @@ use domain::message::InboxMessage;
 use domain::news::NewsArticle;
 use domain::player::Player;
 use domain::season::SeasonContext;
+use domain::social::{SocialAccount, SocialPost, SocialTemplate};
 use domain::staff::Staff;
 use domain::team::Team;
 
@@ -89,6 +90,12 @@ pub struct Game {
     pub messages: Vec<InboxMessage>,
     #[serde(default)]
     pub news: Vec<NewsArticle>,
+    #[serde(default)]
+    pub social_posts: Vec<SocialPost>,
+    #[serde(default)]
+    pub social_accounts: Vec<SocialAccount>,
+    #[serde(default)]
+    pub social_templates: Vec<SocialTemplate>,
     pub league: Option<League>,
     #[serde(default)]
     pub academy_league: Option<League>,
@@ -124,6 +131,9 @@ impl Game {
             staff,
             messages,
             news: vec![],
+            social_posts: vec![],
+            social_accounts: vec![],
+            social_templates: vec![],
             league: None,
             academy_league: None,
             scouting_assignments: vec![],

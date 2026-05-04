@@ -16,6 +16,7 @@ import {
   Building2,
   UserCog,
   Newspaper,
+  MessageCircle,
   LogOut,
   GraduationCap,
   PanelLeftClose,
@@ -246,6 +247,13 @@ export default function DashboardSidebar({
           active={activeTab === "News"}
           collapsed={collapsed}
           onClick={() => onNavClick("News")}
+        />
+        <NavItem
+          icon={<MessageCircle />}
+          label={t("dashboard.social", { defaultValue: "Social" })}
+          active={activeTab === "Social"}
+          collapsed={collapsed}
+          onClick={() => onNavClick("Social")}
         />
         <NavItem
           icon={<CalendarIcon />}

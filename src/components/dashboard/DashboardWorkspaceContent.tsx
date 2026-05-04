@@ -109,6 +109,7 @@ export default function DashboardWorkspaceContent({
             "Inbox",
             "Manager",
             "News",
+            "Social",
           ].includes(dashboardTabContentModel.activeTab) ? (
             <Card>
               <CardBody>

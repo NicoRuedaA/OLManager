@@ -33,7 +33,13 @@ fn first_scrim_weekday_for_team(team: &domain::team::Team) -> u8 {
             domain::team::TrainingSchedule::Light => 2,
         }
     };
-    let slots = if raw_slots <= 2 { 2 } else if raw_slots <= 4 { 4 } else { 6 };
+    let slots = if raw_slots <= 2 {
+        2
+    } else if raw_slots <= 4 {
+        4
+    } else {
+        6
+    };
     let all = match slots {
         0..=2 => vec![2_u8, 2_u8],
         3..=4 => vec![2_u8, 2_u8, 3_u8, 3_u8],
@@ -57,7 +63,8 @@ fn has_no_weekly_scrim_setup(game: &Game) -> bool {
         .find(|team| &team.id == team_id)
         .map(|team| {
             let first_day = first_scrim_weekday_for_team(team);
-            let in_scrim_start_window = current_weekday == first_day && game.day_phase == DayPhase::Morning;
+            let in_scrim_start_window =
+                current_weekday == first_day && game.day_phase == DayPhase::Morning;
             if !in_scrim_start_window {
                 return false;
             }

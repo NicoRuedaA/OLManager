@@ -172,7 +172,10 @@ fn slot_label_parts(weekdays: &[u8], slot_index: usize) -> (u8, String) {
         .take(slot_index)
         .filter(|candidate| **candidate == day)
         .count();
-    let total_same_day = weekdays.iter().filter(|candidate| **candidate == day).count();
+    let total_same_day = weekdays
+        .iter()
+        .filter(|candidate| **candidate == day)
+        .count();
     let suffix = if total_same_day > 1 {
         ((b'A' + previous_same_day as u8) as char).to_string()
     } else {
@@ -188,13 +191,16 @@ fn is_push_through_recommended(
     own_scrim_reputation: u8,
     opponent_scrim_reputation: u8,
 ) -> bool {
-    !won
-        && (severity >= 3
-            || own_loss_streak >= 3
-            || own_scrim_reputation >= opponent_scrim_reputation.saturating_add(10))
+    !won && (severity >= 3
+        || own_loss_streak >= 3
+        || own_scrim_reputation >= opponent_scrim_reputation.saturating_add(10))
 }
 
-fn daily_slot_position(team: &domain::team::Team, current_weekday: u8, slot_index: u8) -> Option<usize> {
+fn daily_slot_position(
+    team: &domain::team::Team,
+    current_weekday: u8,
+    slot_index: u8,
+) -> Option<usize> {
     let slot_days = scrim_slot_weekdays(effective_scrim_slots(
         team.scrim_weekly_slots,
         &team.training_schedule,
@@ -257,7 +263,9 @@ fn apply_post_scrim_decision_internal(
             .scrim_reports
             .iter()
             .position(|report| {
-                report.date == today && report.slot_index == slot_index && report.post_decision.is_none()
+                report.date == today
+                    && report.slot_index == slot_index
+                    && report.post_decision.is_none()
             })
             .ok_or("No unresolved scrim report found for this slot".to_string())?;
 
@@ -325,18 +333,22 @@ fn apply_post_scrim_decision_internal(
 
             if let Some(0) = current_position {
                 if let Some(next_slot_index) = todays_slot_indices.get(1).copied() {
-                    let already_resolved_next = team
-                        .scrim_reports
-                        .iter()
-                        .any(|entry| entry.date == today && entry.slot_index == next_slot_index as u8);
+                    let already_resolved_next = team.scrim_reports.iter().any(|entry| {
+                        entry.date == today && entry.slot_index == next_slot_index as u8
+                    });
                     if !already_resolved_next {
-                        if let Some(next_opponent) = team.weekly_scrim_opponent_ids.get_mut(next_slot_index) {
+                        if let Some(next_opponent) =
+                            team.weekly_scrim_opponent_ids.get_mut(next_slot_index)
+                        {
                             *next_opponent = String::new();
                         }
-                        if let Some(next_plan) = team.weekly_scrim_plan_team_ids.get_mut(next_slot_index) {
+                        if let Some(next_plan) =
+                            team.weekly_scrim_plan_team_ids.get_mut(next_slot_index)
+                        {
                             next_plan.clear();
                         }
-                        team.scrim_weekly_cancellations = team.scrim_weekly_cancellations.saturating_add(1);
+                        team.scrim_weekly_cancellations =
+                            team.scrim_weekly_cancellations.saturating_add(1);
                         team.scrim_reputation = team.scrim_reputation.saturating_sub(5);
                     } else {
                         // If next block was already simulated, convert this choice into a hard cancel of that block.
@@ -350,19 +362,25 @@ fn apply_post_scrim_decision_internal(
                             if removed.won.unwrap_or(false) {
                                 team.scrim_weekly_wins = team.scrim_weekly_wins.saturating_sub(1);
                             } else {
-                                team.scrim_weekly_losses = team.scrim_weekly_losses.saturating_sub(1);
+                                team.scrim_weekly_losses =
+                                    team.scrim_weekly_losses.saturating_sub(1);
                             }
                             team.scrim_slot_results.retain(|entry| {
                                 !(entry.week_key == week_key
                                     && entry.slot_index == next_slot_index as u8)
                             });
-                            if let Some(next_opponent) = team.weekly_scrim_opponent_ids.get_mut(next_slot_index) {
+                            if let Some(next_opponent) =
+                                team.weekly_scrim_opponent_ids.get_mut(next_slot_index)
+                            {
                                 *next_opponent = String::new();
                             }
-                            if let Some(next_plan) = team.weekly_scrim_plan_team_ids.get_mut(next_slot_index) {
+                            if let Some(next_plan) =
+                                team.weekly_scrim_plan_team_ids.get_mut(next_slot_index)
+                            {
                                 next_plan.clear();
                             }
-                            team.scrim_weekly_cancellations = team.scrim_weekly_cancellations.saturating_add(1);
+                            team.scrim_weekly_cancellations =
+                                team.scrim_weekly_cancellations.saturating_add(1);
                             team.scrim_reputation = team.scrim_reputation.saturating_sub(5);
                         }
                     }
@@ -394,11 +412,15 @@ fn apply_post_scrim_decision_internal(
             || own_scrim_reputation >= opponent_scrim_reputation.saturating_add(10));
 
     for pick in &picks {
-        let Some(player) = game.players.iter_mut().find(|player| player.id == pick.player_id) else {
+        let Some(player) = game
+            .players
+            .iter_mut()
+            .find(|player| player.id == pick.player_id)
+        else {
             continue;
         };
 
-            match decision {
+        match decision {
             domain::team::PostScrimDecision::ContinuePlan => {
                 player.morale = player.morale.saturating_add(1).min(100);
             }
@@ -414,7 +436,10 @@ fn apply_post_scrim_decision_internal(
                 player.condition = player.condition.saturating_sub(3);
             }
             domain::team::PostScrimDecision::PushThrough => {
-                player.condition = player.condition.saturating_sub(if severe_or_context_push { 8 } else { 6 });
+                player.condition =
+                    player
+                        .condition
+                        .saturating_sub(if severe_or_context_push { 8 } else { 6 });
                 if severe_or_context_push {
                     player.morale = player.morale.saturating_sub(2);
                 } else if !won && severity >= 3 {
@@ -743,7 +768,8 @@ pub fn set_weekly_scrims(
             game.clock.current_date.iso_week().year(),
             game.clock.current_date.iso_week().week()
         );
-        let (setup_locked, _) = weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
+        let (setup_locked, _) =
+            weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
         if setup_locked {
             return Err("Weekly scrim setup is locked for this week".to_string());
         }
@@ -822,7 +848,8 @@ pub fn set_weekly_scrim_plans(
             game.clock.current_date.iso_week().year(),
             game.clock.current_date.iso_week().week()
         );
-        let (setup_locked, _) = weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
+        let (setup_locked, _) =
+            weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
         if setup_locked {
             return Err("Weekly scrim setup is locked for this week".to_string());
         }
@@ -884,7 +911,8 @@ pub fn set_weekly_scrim_slots(state: State<'_, StateManager>, slots: u8) -> Resu
             game.clock.current_date.iso_week().year(),
             game.clock.current_date.iso_week().week()
         );
-        let (setup_locked, _) = weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
+        let (setup_locked, _) =
+            weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
         if setup_locked {
             return Err("Weekly scrim setup is locked for this week".to_string());
         }
@@ -929,7 +957,8 @@ pub fn set_weekly_scrim_objective(
             game.clock.current_date.iso_week().year(),
             game.clock.current_date.iso_week().week()
         );
-        let (setup_locked, _) = weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
+        let (setup_locked, _) =
+            weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
         if setup_locked {
             return Err("Weekly scrim setup is locked for this week".to_string());
         }
@@ -980,7 +1009,8 @@ pub fn auto_configure_weekly_scrim_setup(state: State<'_, StateManager>) -> Resu
             return Ok(game);
         }
 
-        let effective_slots = effective_scrim_slots(team.scrim_weekly_slots, &team.training_schedule);
+        let effective_slots =
+            effective_scrim_slots(team.scrim_weekly_slots, &team.training_schedule);
         team.scrim_weekly_slots = effective_slots;
 
         if team.scrim_weekly_objective.is_none() {
@@ -1015,7 +1045,10 @@ pub fn auto_configure_weekly_scrim_setup(state: State<'_, StateManager>) -> Resu
                     .map(|(id, _)| id.clone())
                     .collect()
             }
-            _ => rivals_by_strength.iter().map(|(id, _)| id.clone()).collect(),
+            _ => rivals_by_strength
+                .iter()
+                .map(|(id, _)| id.clone())
+                .collect(),
         };
 
         let slot_count = effective_slots as usize;
@@ -1209,7 +1242,11 @@ pub fn choose_daily_scrim_action(
     let report = team
         .scrim_reports
         .iter()
-        .find(|report| report.date == today && report.slot_index == slot_index && report.post_decision.is_none())
+        .find(|report| {
+            report.date == today
+                && report.slot_index == slot_index
+                && report.post_decision.is_none()
+        })
         .ok_or("No unresolved scrim report found for this slot".to_string())?;
 
     let state_for_action = match position {
@@ -1311,9 +1348,7 @@ pub fn delegate_scrim_decision(state: State<'_, StateManager>) -> Result<Game, S
         .unwrap_or(50);
 
     let decision = if !won
-        && (severity >= 3
-            || own_loss_streak >= 3
-            || own_rep >= opponent_rep.saturating_add(10))
+        && (severity >= 3 || own_loss_streak >= 3 || own_rep >= opponent_rep.saturating_add(10))
     {
         domain::team::PostScrimDecision::MentalReset
     } else if matches!(
@@ -1359,7 +1394,9 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
     let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
     let capacity = effective_scrim_slots(team.scrim_weekly_slots, &team.training_schedule);
     let weekdays = scrim_slot_weekdays(capacity);
-    let slot_index = weekdays.iter().position(|weekday| *weekday == current_weekday);
+    let slot_index = weekdays
+        .iter()
+        .position(|weekday| *weekday == current_weekday);
     let week_key = format!(
         "{}-W{}",
         game.clock.current_date.iso_week().year(),
@@ -1544,7 +1581,11 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
                 .find(|entry| entry.week_key == week_key && entry.slot_index == index as u8)
                 .cloned();
             let has_past_lock = weekdays.get(index).copied().unwrap_or(0) < current_weekday;
-            let status = if report.as_ref().and_then(|entry| entry.post_decision.as_ref()).is_some() {
+            let status = if report
+                .as_ref()
+                .and_then(|entry| entry.post_decision.as_ref())
+                .is_some()
+            {
                 "Reviewed"
             } else if report.is_some() || result.is_some() {
                 "Played"
@@ -1580,14 +1621,12 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
                 status: status.to_string(),
                 can_edit: !setup_locked
                     && !has_past_lock
-                    && team
-                        .scrim_reports
-                        .iter()
-                        .all(|entry| !(entry.week_key == week_key && entry.slot_index == index as u8))
-                    && team
-                        .scrim_slot_results
-                        .iter()
-                        .all(|entry| !(entry.week_key == week_key && entry.slot_index == index as u8)),
+                    && team.scrim_reports.iter().all(|entry| {
+                        !(entry.week_key == week_key && entry.slot_index == index as u8)
+                    })
+                    && team.scrim_slot_results.iter().all(|entry| {
+                        !(entry.week_key == week_key && entry.slot_index == index as u8)
+                    }),
             }
         })
         .collect();
@@ -1615,7 +1654,10 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         let Some(issue) = report.issue.clone() else {
             continue;
         };
-        if let Some((_, count)) = issue_counts.iter_mut().find(|(candidate, _)| candidate == &issue) {
+        if let Some((_, count)) = issue_counts
+            .iter_mut()
+            .find(|(candidate, _)| candidate == &issue)
+        {
             *count += 1;
         } else {
             issue_counts.push((issue, 1));
@@ -1626,22 +1668,19 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         .max_by_key(|(_, count)| *count)
         .map(|(issue, _)| issue);
 
-    let next_official_fixture = game
-        .league
-        .as_ref()
-        .and_then(|league| {
-            let mut fixtures: Vec<&domain::league::Fixture> = league
-                .fixtures
-                .iter()
-                .filter(|fixture| {
-                    fixture.status == domain::league::FixtureStatus::Scheduled
-                        && (fixture.home_team_id == team.id || fixture.away_team_id == team.id)
-                        && fixture.date >= game.clock.current_date.to_rfc3339()
-                })
-                .collect();
-            fixtures.sort_by(|left, right| left.date.cmp(&right.date));
-            fixtures.into_iter().next()
-        });
+    let next_official_fixture = game.league.as_ref().and_then(|league| {
+        let mut fixtures: Vec<&domain::league::Fixture> = league
+            .fixtures
+            .iter()
+            .filter(|fixture| {
+                fixture.status == domain::league::FixtureStatus::Scheduled
+                    && (fixture.home_team_id == team.id || fixture.away_team_id == team.id)
+                    && fixture.date >= game.clock.current_date.to_rfc3339()
+            })
+            .collect();
+        fixtures.sort_by(|left, right| left.date.cmp(&right.date));
+        fixtures.into_iter().next()
+    });
 
     let weekly_context = WeeklyScrimContextResponse {
         week_key: week_key.clone(),

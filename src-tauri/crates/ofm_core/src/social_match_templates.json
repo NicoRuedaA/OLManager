@@ -1,0 +1,92 @@
+{
+  "templates": [
+    {
+      "id": "team-generic-banter",
+      "slot": "TeamBanter",
+      "weight": 3,
+      "variants": [
+        "{score}. No era un scrim, pero gracias por practicar con nosotros.",
+        "GG {loser_short_name}. Terminamos rapido porque teniamos cena.",
+        "Nos dijeron que hoy habia partido. Aun seguimos esperando. {score}",
+        "{score} y seguimos. La proxima vez traed wards.",
+        "Respeto para {loser_name}, pero hoy el guion lo escribimos nosotros."
+      ],
+      "tags": ["match", "banter"]
+    },
+    {
+      "id": "team-g2-banter",
+      "slot": "TeamBanter",
+      "weight": 7,
+      "conditions": {
+        "winner_team_slug": "g2"
+      },
+      "variants": [
+        "{score}. EZ clap administrativo.",
+        "No era un scrim, pero si quereis repetimos manana.",
+        "Termino el partido y todavia estamos esperando el early game rival.",
+        "Gracias {loser_short_name} por venir. La proxima vez traed draft."
+      ],
+      "tags": ["match", "banter", "g2"]
+    },
+    {
+      "id": "fan-stomp",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "conditions": {
+        "requires_stomp": true
+      },
+      "variants": [
+        "{loser_short_name} mirando el minimapa como si fuera DLC pago.",
+        "Esto no fue un {score}. Fue un speedrun de sufrimiento.",
+        "{winner_short_name} gano draft, early, mid game y tambien el debate de Twitter.",
+        "Soy fan neutral y aun asi me dolio ver esto."
+      ],
+      "tags": ["fan", "stomp"]
+    },
+    {
+      "id": "fan-close-game",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "conditions": {
+        "requires_stomp": false
+      },
+      "variants": [
+        "{winner_short_name} gano, pero mi presion arterial perdio.",
+        "Partido igualado. El macro fue una montana rusa sin cinturon.",
+        "{winner_short_name} se lleva el {score} y el chat se lleva otro dia normal de caos.",
+        "No se si fue buen League, pero fue entretenimiento premium."
+      ],
+      "tags": ["fan", "close-game"]
+    },
+    {
+      "id": "analyst-manu-match-take",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "{winner_name} no gano por casualidad: controlo {winner_objectives} objetivos y nunca solto el tempo.",
+        "La diferencia entre {winner_short_name} y {loser_short_name} hoy fue claridad. Uno jugo el mapa y el otro reacciono tarde.",
+        "Si tu plan B es esperar a que el rival se desconecte, pasan estas cosas."
+      ],
+      "tags": ["analysis", "match"]
+    },
+    {
+      "id": "player-generic-reaction",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": {
+        "requires_player_name": true
+      },
+      "variants": [
+        "GGs, seguimos trabajando. Orgulloso del equipo.",
+        "Buena victoria con el equipo. Gracias por el apoyo.",
+        "Hoy salio lo que practicamos. Vamos {winner_short_name}.",
+        "Una mas. Manana volvemos a entrenar.",
+        "{player_name} woke up and chose LP."
+      ],
+      "tags": ["player", "reaction"]
+    }
+  ]
+}

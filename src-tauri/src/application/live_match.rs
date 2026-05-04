@@ -355,6 +355,8 @@ pub fn finish_live_match(
         state.append_stats_state(capture);
     }
 
+    ofm_core::social::generate_match_social_posts(&mut game, fixture_index, &report);
+
     let round_summary = build_round_summary_dto(&game, round_matchday, &round_previous_standings);
 
     ofm_core::turn::finish_live_match_day(&mut game);

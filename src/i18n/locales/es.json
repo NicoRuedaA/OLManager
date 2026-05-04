@@ -212,6 +212,7 @@
     "tournaments": "Torneos",
     "schedule": "Calendario",
     "news": "Noticias",
+    "social": "Social",
     "settings": "Configuración",
     "exitToMenu": "Salir al Menú",
     "continue": "Continuar",
@@ -1376,6 +1377,13 @@
       "Editorial": "Editorial",
       "ManagerialChange": "Cambio de Entrenador"
     }
+  },
+  "social": {
+    "title": "Social",
+    "subtitle": "Timeline de la comunidad",
+    "description": "Sin efectos de gameplay. Solo equipos, jugadores, fans y cuentas meme siendo gente normal de internet.",
+    "emptyTitle": "El timeline esta tranquilo",
+    "emptyBody": "Jugá partidos y la comunidad va a empezar a postear banter, hot takes y análisis dudoso."
   },
   "playerProfile": {
     "contractInfo": "Contrato e Info",

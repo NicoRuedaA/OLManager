@@ -688,6 +688,75 @@ export interface NewsArticle {
   i18n_params?: Record<string, string>;
 }
 
+export type SocialAuthorType =
+  | "Team"
+  | "Player"
+  | "Fan"
+  | "Analyst"
+  | "Journalist"
+  | "MemeAccount"
+  | "Manager";
+
+export type SocialSentiment =
+  | "Hype"
+  | "Calm"
+  | "Worried"
+  | "Angry"
+  | "Meltdown"
+  | "Copium";
+
+export type SocialPostCategory =
+  | "MatchResult"
+  | "Banter"
+  | "PlayerReaction"
+  | "FanOpinion"
+  | "MediaTake"
+  | "Meme"
+  | "ManagerPost";
+
+export interface SocialPostData {
+  id: string;
+  date: string;
+  author_name: string;
+  author_handle: string;
+  author_type: SocialAuthorType;
+  body: string;
+  likes: number;
+  reposts: number;
+  replies: number;
+  sentiment: SocialSentiment;
+  category: SocialPostCategory;
+  tags: string[];
+  team_ids: string[];
+  player_ids: string[];
+  fixture_id: string | null;
+  media_url?: string | null;
+  read: boolean;
+}
+
+export interface SocialAccountData {
+  id: string;
+  language: string;
+  display_name: string;
+  handle: string;
+  author_type: SocialAuthorType;
+  profile_image_url?: string | null;
+  favorite_team_ids: string[];
+  active: boolean;
+}
+
+export interface SocialTemplateData {
+  id: string;
+  language: string;
+  slot: string;
+  author_id?: string | null;
+  conditions_json: string;
+  variants: string[];
+  tags: string[];
+  weight: number;
+  active: boolean;
+}
+
 export interface BoardObjective {
   id: string;
   description: string;
@@ -729,6 +798,9 @@ export interface GameStateData {
   staff: StaffData[];
   messages: MessageData[];
   news: NewsArticle[];
+  social_posts?: SocialPostData[];
+  social_accounts?: SocialAccountData[];
+  social_templates?: SocialTemplateData[];
   league: LeagueData | null;
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];
