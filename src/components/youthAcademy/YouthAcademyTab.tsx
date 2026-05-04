@@ -138,7 +138,21 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
   return (
     <div className="max-w-5xl mx-auto flex flex-col gap-5">
       <div className="flex items-center gap-3 flex-wrap">
-        <GraduationCap className="w-5 h-5 text-primary-500" />
+        {(() => {
+          const academyLogo = academyTeam ? resolveExampleTeamLogo(academyTeam.name) : null;
+          if (academyLogo) {
+            return (
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+                <img src={academyLogo} alt={academyTeam!.name} className="w-8 h-8 object-contain" />
+              </div>
+            );
+          }
+          return (
+            <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-5 h-5 text-primary-500" />
+            </div>
+          );
+        })()}
         <h2 className="text-lg font-heading font-bold text-gray-800 dark:text-gray-100 uppercase tracking-wider">
           {t("youthAcademy.title")}
         </h2>
