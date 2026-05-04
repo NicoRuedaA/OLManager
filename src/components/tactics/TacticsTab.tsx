@@ -686,14 +686,24 @@ export default function TacticsTab({
                     </div>
 
                     <div className="text-right shrink-0">
-                      <p
-                        className={`text-xl leading-none font-heading font-black ${
-                          row.modifier >= 0 ? "text-emerald-400" : "text-rose-400"
-                        }`}
-                      >
-                        {row.modifier >= 0 ? "+" : ""}
-                        {row.modifier.toFixed(1)}
-                      </p>
+                      <div className="flex items-center gap-1.5 justify-end">
+                        <div className="w-16 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-500 ${
+                              row.modifier >= 0 ? "bg-emerald-400" : "bg-rose-400"
+                            }`}
+                            style={{ width: `${Math.min(100, Math.abs(row.modifier) * 10)}%` }}
+                          />
+                        </div>
+                        <p
+                          className={`text-xl leading-none font-heading font-black ${
+                            row.modifier >= 0 ? "text-emerald-400" : "text-rose-400"
+                          }`}
+                        >
+                          {row.modifier >= 0 ? "+" : ""}
+                          {row.modifier.toFixed(1)}
+                        </p>
+                      </div>
                       <p className="text-[10px] text-gray-500 dark:text-gray-400">
                         ±{row.variance.toFixed(1)} {t("tactics.lol.variance")}
                       </p>
