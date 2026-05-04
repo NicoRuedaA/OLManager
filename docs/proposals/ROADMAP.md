@@ -89,6 +89,12 @@ La Fase 1 de hardening y foundation está completa. Ver `docs/proposals/analisis
 | [#123](https://github.com/OpenLeagueManager/OLManager/pull/123) | [#127](https://github.com/OpenLeagueManager/OLManager/issues/127) | Engine migration: football→LoL events, MatchConfig, simulate_lol |
 | [#124](https://github.com/OpenLeagueManager/OLManager/pull/124) | [#128](https://github.com/OpenLeagueManager/OLManager/issues/128) | Frontend position→role, SetPieceTakers→TeamRoles, fixes, unwrap audit |
 
+### PRs de Bug Fixes Post-Fase 1
+
+| PR | Issue | Descripción |
+|----|-------|-------------|
+| [#140](https://github.com/OpenLeagueManager/OLManager/pull/140) | [#84](https://github.com/OpenLeagueManager/OLManager/issues/84) | fix(#84): unify OVR calculation across Squad and pre-game views |
+
 ---
 
 ### Fase 2: Estabilización, Features Core y Release Beta — Mediano Plazo (v0.3 Beta)
@@ -127,7 +133,15 @@ La Fase 1 de hardening y foundation está completa. Ver `docs/proposals/analisis
 
 - [ ] **Cross-stack type generation (#93)**: annotar ~58 tipos restantes con `#[derive(TS)]`, generar `bindings.ts`
 - [ ] **AppError full migration**: migrar todos los comandos (>50) de `Result<T, String>` a `Result<T, AppError>`
-- [ ] **Bug fixes pendientes**: #88 (split review), #84 (OVR formulas), #38 (player persistence), #39 (season progression), #37 (BO3 repeat), #35 (6-man roster), #33 (gold/items), #2 (MacOS)
+- [ ] **Bug fixes pendientes**:
+  - [x] **#84** — OVR inconsistente entre Squad y pre-game → fixeado via PR [#140](https://github.com/OpenLeagueManager/OLManager/pull/140) ✅
+  - [x] **#35** — 6-man roster role swap → fixeado via split PRs (role uniqueness en team_builder.rs) ✅
+  - [ ] **#88** — Split review ignora playoffs 🟡 Media (~30-50 líneas, mapear playoff_result → effective_position en board_objectives.rs)
+  - [ ] **#39** — Season stuck after Spring Split 🟡 Media (~20-40 líneas, corregir `has_full_schedule()` para equipos impares)
+  - [ ] **#37** — BO3 se repite al terminar 🟡🔴 Media-Alta (root cause no confirmada, requiere debuggear `MatchSimulation.tsx`)
+  - [ ] **#38** — Data loss on reload (sin investigar)
+  - [ ] **#33** — Gold lead no refleja items (sin investigar)
+  - [ ] **#2** — MacOS build (entorno, no código)
 - [ ] **Pre-existing clippy cleanup**: resolver ~100 warnings heredados en workspace
 
 ##### 🏗️ Arquitectura y DX (prioridad: 🟡 media)
@@ -358,4 +372,4 @@ cargo test --workspace
 
 ---
 
-*Última actualización: 2026-05-02 — Roadmap actualizado tras análisis técnico arquitectónico (`docs/proposals/analisis.md`)*
+*Última actualización: 2026-05-04 — Bug fixes investigados (#88, #84, #35, #37, #39), PR #140 para #84*
