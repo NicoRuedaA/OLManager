@@ -255,6 +255,8 @@
     "moderate": "Modéré",
     "low": "Faible",
     "discoveryProgress": "Progression de découverte",
+    "delegating": "Déléguant...",
+    "delegateToCoach": "Déléguer à l'Assistant Coach"
     "loading": "Chargement des champions...",
     "error": "Erreur de chargement",
     "empty": "Aucun champion disponible",

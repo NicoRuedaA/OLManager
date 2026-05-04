@@ -267,6 +267,8 @@
     "moderate": "Moderate",
     "low": "Low",
     "discoveryProgress": "Discovery progress",
+    "delegating": "Delegating...",
+    "delegateToCoach": "Delegate to Assistant Coach"
     "loading": "Loading champions...",
     "error": "Error loading",
     "empty": "No champions available",

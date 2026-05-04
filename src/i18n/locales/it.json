@@ -935,7 +935,9 @@
     "standings": "Classifica",
     "matchday": "Giornata {{number}}",
     "season": "Stagione {{number}}",
-    "lastResult": "Ultimo risultato"
+    "lastResult": "Ultimo risultato",
+    "delegating": "Delegando...",
+    "delegateToCoach": "Delega all'assistente"
   },
   "players": {
     "searchPlaceholder": "Cerca per nome o nazionalità...",

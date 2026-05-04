@@ -266,7 +266,9 @@
     "high": "Yüksek",
     "moderate": "Orta",
     "low": "Düşük",
-    "discoveryProgress": "Keşif ilerlemesi"
+    "discoveryProgress": "Keşif ilerlemesi",
+    "delegating": "Delegeleniyor...",
+    "delegateToCoach": "Asistan Koça Devret"
   },
   "exitConfirm": {
     "title": "Ana Menüye Çıkılsın mı?",

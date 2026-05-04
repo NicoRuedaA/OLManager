@@ -4,7 +4,7 @@ import { Sparkles, Clock3, Search } from "lucide-react";
 import type { GameStateData } from "../../store/gameStore";
 import championsSeed from "../../../data/lec/draft/champions.json";
 import playersSeed from "../../../data/lec/draft/players.json";
-import { setPlayerChampionTrainingTarget } from "../../services/playerService";
+import { setPlayerChampionTrainingTarget, delegateChampionTraining } from "../../services/playerService";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
@@ -244,6 +244,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
   const { t } = useTranslation();
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [metaRoleFilter, setMetaRoleFilter] = useState<"ALL" | UiRole>("ALL");
+  const [delegating, setDelegating] = useState(false);
   const managerTeamId = gameState.manager.team_id;
   const patch = gameState.champion_patch;
   const staffEffects = getLolStaffEffectsForTeam(gameState, managerTeamId);
@@ -409,6 +410,16 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
     }
   }
 
+  async function handleDelegateTraining() {
+    setDelegating(true);
+    try {
+      const updated = await delegateChampionTraining();
+      onGameUpdate(updated);
+    } finally {
+      setDelegating(false);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-yellow-400/30 bg-linear-to-br from-navy-900 via-navy-900 to-black p-5 shadow-[0_0_30px_rgba(251,191,36,0.08)]">
@@ -517,11 +528,23 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
       </section>
 
       <section className="rounded-2xl border border-gray-200 dark:border-navy-600 bg-white dark:bg-navy-800 p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Clock3 className="h-4 w-4 text-amber-500" />
-          <h3 className="font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
-            {t("champions.masteryTrainingTitle", "Entrenamiento de maestría")}
-          </h3>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Clock3 className="h-4 w-4 text-amber-500" />
+            <h3 className="font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
+              {t("champions.masteryTrainingTitle", "Mastery training")}
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={handleDelegateTraining}
+            disabled={delegating}
+            className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-heading uppercase tracking-wide text-amber-300 transition-all hover:bg-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {delegating
+              ? t("champions.delegating", "Delegating...")
+              : t("champions.delegateToCoach", "Delegate to Assistant Coach")}
+          </button>
         </div>
 
         <div className="space-y-3">
@@ -652,7 +675,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                         </div>
                         <p className="mt-1 text-[11px] text-right text-gray-500 dark:text-gray-300">
                           {target
-                            ? `M ${masteryValue} · foco x${gainHint.baseMult.toFixed(2)} · soloQ x${soloQMult.toFixed(1)}`
+                            ? `M ${masteryValue} · Focus x${gainHint.baseMult.toFixed(2)} · soloQ x${soloQMult.toFixed(1)}`
                             : "—"}
                         </p>
                       </div>

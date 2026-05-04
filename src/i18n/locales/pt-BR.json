@@ -255,6 +255,8 @@
     "moderate": "Moderado",
     "low": "Baixo",
     "discoveryProgress": "Progresso de descoberta",
+    "delegating": "Delegando...",
+    "delegateToCoach": "Delegar ao coach assistente"
     "loading": "Carregando campeões...",
     "error": "Erro ao carregar",
     "empty": "Nenhum campeão disponível",
