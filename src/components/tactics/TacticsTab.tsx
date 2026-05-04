@@ -456,8 +456,8 @@ export default function TacticsTab({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">
-      <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1.6fr_1fr] xl:max-h-[calc(100vh-10rem)] xl:overflow-hidden">
-        <div className="flex flex-col gap-4 xl:overflow-y-auto xl:pr-2">
+      <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1.6fr_1fr]">
+        <div className="flex flex-col gap-4">
           <details className="group">
             <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-heading font-bold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-50 dark:border-navy-600 dark:bg-navy-700 dark:text-gray-300 dark:hover:bg-navy-600 [&::-webkit-details-marker]:hidden">
               <span className="flex-1">{t("tactics.lol.gamePlan")}</span>
@@ -588,7 +588,7 @@ export default function TacticsTab({
           />
         </div>
 
-        <aside className="sticky top-2 self-start xl:min-h-[calc(100vh-10rem)]">
+        <aside className="sticky top-2">
           <Card>
             <CardHeader>{t("tactics.lol.impactAndCoherence")}</CardHeader>
             <CardBody className="p-4">
