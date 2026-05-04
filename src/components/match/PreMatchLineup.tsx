@@ -173,39 +173,10 @@ function TeamLineupColumn({
         const players = team.players.filter((p) => getPlayerLolRole(p) === role);
         const keyStats = ROLE_KEY_STATS[role] || [];
         return (
-          <div key={role} className="mb-3">
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-1.5">
-                <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600">
-                  {role === "JUNGLE" ? "JG" : role}
-                </p>
-                {players.length !== 1 && (
-                  <span className="flex items-center gap-0.5">
-                    <AlertTriangle className="w-2.5 h-2.5 text-amber-400" />
-                    <span className="text-[9px] font-heading text-amber-400">{players.length}/1</span>
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-0">
-                <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 w-7 text-center">
-                  OVR
-                </span>
-                {keyStats.map((s) => (
-                  <span
-                    key={s.label}
-                    className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-7 text-center"
-                  >
-                    {s.label}
-                  </span>
-                ))}
-                <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-8 text-right">
-                  FIT
-                </span>
-              </div>
-            </div>
-
+          <div key={role} className="mb-1">
             {players.length === 0 ? (
-              <div className="py-1.5 px-2 text-[11px] text-gray-500 dark:text-gray-400">
+              <div className="flex items-center gap-2 py-1.5 px-2 text-[11px] text-gray-500 dark:text-gray-400">
+                <img src={LOL_ROLE_ICON_URLS[role]} alt={role} className="w-5 h-5 object-contain flex-shrink-0" title={role} />
                 {t("match.noBenchAvailable2")}
               </div>
             ) : (
@@ -248,6 +219,7 @@ function TeamLineupColumn({
                     <span className="text-sm text-gray-800 dark:text-gray-200 font-medium flex-1 truncate">
                       {p.name}
                     </span>
+                    <img src={LOL_ROLE_ICON_URLS[role]} alt={role} className="w-5 h-5 object-contain" title={role} />
                     {isSelected && <ArrowUpDown className="w-3.5 h-3.5 text-primary-400 flex-shrink-0" />}
                     <div className="flex items-center gap-0">
                       <span
