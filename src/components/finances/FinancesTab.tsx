@@ -7,7 +7,7 @@ import {
   PlayerSelectionOptions,
 } from "../../store/gameStore";
 import { Card, CardHeader, CardBody, Badge, ProgressBar, Button, RoleBadge } from "../ui";
-import { User } from "lucide-react";
+import { User, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import {
   formatVal,
   formatWeeklyAmount,
@@ -27,6 +27,7 @@ import {
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveMessage } from "../../utils/backendI18n";
 
 function getFacilityUpgradeCost(level: number): number {
@@ -111,6 +112,19 @@ export default function FinancesTab({
   );
 
   const roster = gameState.players.filter((p) => p.team_id === myTeam.id);
+  type SortKey = "name" | "position" | "wage" | "value" | "contract";
+  const [sortKey, setSortKey] = useState<SortKey>("wage");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir(key === "wage" || key === "value" ? "desc" : "asc");
+    }
+  };
+
   const teamStaff = gameState.staff.filter(
     (staffMember) => staffMember.team_id === myTeam.id,
   );
@@ -789,29 +803,86 @@ export default function FinancesTab({
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.player")}
+                  <th className="py-3 px-5 w-12" />
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("name")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.player")}
+                      {sortKey === "name"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.position")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("position")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.position")}
+                      {sortKey === "position"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("finances.wagePerWeek")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("wage")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("finances.wagePerWeek")}
+                      {sortKey === "wage"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("finances.marketValue")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("value")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("finances.marketValue")}
+                      {sortKey === "value"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.contract")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("contract")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.contract")}
+                      {sortKey === "contract"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                 {[...roster]
-                  .sort((a, b) => b.wage - a.wage)
-                  .slice(0, 10)
+                  .sort((a, b) => {
+                    const dir = sortDir === "asc" ? 1 : -1;
+                    switch (sortKey) {
+                      case "name":
+                        return dir * a.full_name.localeCompare(b.full_name);
+                      case "position":
+                        return dir * (getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b)));
+                      case "wage":
+                        return dir * (a.wage - b.wage);
+                      case "value":
+                        return dir * (a.market_value - b.market_value);
+                      case "contract":
+                        return dir * ((a.contract_end || "").localeCompare(b.contract_end || ""));
+                      default:
+                        return 0;
+                    }
+                  })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
+                    const photo = resolvePlayerPhoto(p.id, p.full_name);
                     const contextItems = onSelectPlayer
                       ? [
                           {
@@ -828,6 +899,20 @@ export default function FinancesTab({
                         onClick={() => onSelectPlayer?.(p.id)}
                         className={`hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors ${onSelectPlayer ? "cursor-pointer group" : ""}`}
                       >
+                        <td className="py-3 px-5">
+                          {photo ? (
+                            <img
+                              src={photo}
+                              alt={p.full_name}
+                              className="w-8 h-8 rounded-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center">
+                              <User className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                            </div>
+                          )}
+                        </td>
                         <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
                           <span className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                             {p.full_name}
