@@ -248,40 +248,50 @@ export default function DraftResultScreen({
         rows.push({ minute: event.minute, blue: event.side === "blue" ? [event] : [], red: event.side === "red" ? [event] : [] });
       }
     }
+    const minMinute = rows.length > 0 ? rows[0].minute : 0;
     const maxMinute = rows.length > 0 ? rows[rows.length - 1].minute : 1;
+    const rangeStart = Math.max(minMinute - 1, 0);
+    const rangeMinute = Math.max(maxMinute - rangeStart, 1);
     return (
       <div className="relative overflow-x-auto overflow-y-hidden scrollbar-draft h-full">
-        <div className="relative h-full">
-          {/* Center line */}
-          <div className="absolute left-0 right-0 top-1/2"><div className="h-px bg-white/10" /></div>
-
-          {/* Events + markers */}
-          {rows.map((row, idx) => {
-            const leftPct = `${(row.minute / Math.max(maxMinute, 1)) * 100}%`;
-            return (
-              <div key={idx} className="absolute top-0 flex flex-col items-center" style={{ left: leftPct, transform: 'translateX(-50%)', height: '100%' }}>
-                {/* Blue events - stack upward from center */}
-                <div className="flex flex-col items-center justify-end flex-1 overflow-visible">
-                  {row.blue.map((event, eIdx) => (
-                    <span key={`blue-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mt-px ${eventPillClass(event)}`}>
-                      <span>{event.label}</span>
-                    </span>
-                  ))}
+        <div className="flex flex-col h-full">
+          {/* Events area with center line */}
+          <div className="relative flex-1 min-h-0">
+            <div className="absolute left-0 right-0 top-1/2"><div className="h-px bg-white/10" /></div>
+            {rows.map((row, idx) => {
+              const leftPct = `${((row.minute - rangeStart) / rangeMinute) * 100}%`;
+              return (
+                <div key={idx} className="absolute top-0 flex flex-col items-center" style={{ left: leftPct, transform: 'translateX(-50%)', height: '100%' }}>
+                  <div className="flex flex-col items-center justify-end flex-1 overflow-visible">
+                    {row.blue.map((event, eIdx) => (
+                      <span key={`blue-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mt-px ${eventPillClass(event)}`}>
+                        <span>{event.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-col items-center justify-start flex-1 overflow-visible">
+                    {row.red.map((event, eIdx) => (
+                      <span key={`red-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mb-px ${eventPillClass(event)}`}>
+                        <span>{event.label}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                {/* Red events - stack downward from center */}
-                <div className="flex flex-col items-center justify-start flex-1 overflow-visible">
-                  {row.red.map((event, eIdx) => (
-                    <span key={`red-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mb-px ${eventPillClass(event)}`}>
-                      <span>{event.label}</span>
-                    </span>
-                  ))}
-                  <span className="text-[9px] font-bold text-white/30 whitespace-nowrap leading-none mt-1">
-                    {row.minute}m
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+          {/* Minute labels row */}
+          <div className="relative h-5 flex-shrink-0">
+            {rows.map((row, idx) => (
+              <span
+                key={`marker-${idx}`}
+                className="absolute text-[9px] font-bold text-white/30 whitespace-nowrap -translate-x-1/2"
+                style={{ left: `${((row.minute - rangeStart) / rangeMinute) * 100}%` }}
+              >
+                {row.minute}m
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     );
