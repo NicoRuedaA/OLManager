@@ -6,6 +6,7 @@ import {
   ArrowUp,
   ArrowUpRight,
   Brain,
+  Check,
   Compass,
   Crosshair,
   Feather,
@@ -301,13 +302,18 @@ function Section<T extends string>({
             return (
               <button
                 key={option.value}
-                className={`rounded-xl border-2 px-3 py-3 text-left transition-all ${
+                className={`relative rounded-xl border-2 px-3 py-3 text-left transition-all ${
                   active
                     ? "border-primary-500 bg-primary-50 dark:bg-primary-500/10 shadow-md shadow-primary-500/10"
                     : "border-gray-200 dark:border-navy-600 hover:border-gray-300 dark:hover:border-navy-500"
                 }`}
                 onClick={() => onChange(option.value)}
               >
+                {active && (
+                  <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary-500">
+                    <Check className="h-3 w-3 text-white" />
+                  </span>
+                )}
                 <span className="mb-1 block text-base text-gray-700 dark:text-gray-200">{option.icon}</span>
                 <span className="block font-heading text-sm font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
                   {option.label}
