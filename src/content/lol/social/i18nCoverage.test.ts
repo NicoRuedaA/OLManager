@@ -7,6 +7,7 @@ import es from "../../../i18n/locales/es.json";
 import fr from "../../../i18n/locales/fr.json";
 import ptBR from "../../../i18n/locales/pt-BR.json";
 import pt from "../../../i18n/locales/pt.json";
+import tr from "../../../i18n/locales/tr.json";
 import { SOCIAL_CONTENT_PACK } from "./content";
 
 type LocaleTree = Record<string, unknown>;
@@ -18,6 +19,7 @@ const LOCALE_RESOURCES: Record<string, LocaleTree> = {
   fr,
   pt,
   "pt-BR": ptBR,
+  tr,
 };
 
 const LOCALES = Object.fromEntries(
