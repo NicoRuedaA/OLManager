@@ -15,7 +15,7 @@
 | `Special:CargoTables` | ❌ Cloudflare | Same Cloudflare block. |
 | `Special:FilePath` | ❌ Cloudflare | Redirect blocked. Use API instead. |
 
-**Decision:** Use `action=cargoquery` as primary data source. Fall back to `action=parse` + HTML parsing if Cargo is permanently blocked. Image pipeline uses `action=query&prop=imageinfo`.
+**Decision:** ~~Use `action=cargoquery`~~ → **NEW STRATEGY:** Use `action=query&list=embeddedin` for player discovery + `action=parse&prop=wikitext` for infobox extraction. Cargo is not needed at all — the wikitext approach is more reliable (no rate limit) AND gives richer data (favchamps, socials, residency). Image pipeline uses `action=query&prop=imageinfo`.
 
 ## 2. Cargo Tables Discovered
 
@@ -106,8 +106,64 @@ Confirmed: Country field returns **ISO 3166-1 alpha-2 codes** (2-letter). Exampl
 
 ## 8. Next Steps
 
-- [ ] Wait for Cargo rate limit reset and validate full `cargoquery` with `limit=500` for LEC
-- [ ] Test `limit=500` and pagination via `offset`
-- [ ] Verify `ContractEnd` field location (may be in `TournamentRosters` table)
+- [x] **NEW: Validate wikitext-based pipeline** — `embeddedin` + `parse&prop=wikitext` confirmed working with Faker (59 fields extracted)
+- [x] **NEW: Player discovery via embeddedin** — 1500+ player pages discovered in 3 API calls
 - [ ] Implement proper API client with retry, rate limiting, and cache
 - [ ] Proceed to Phase 1: Scraper Core
+
+## 9. Revised Data Pipeline (Post-Research Discovery)
+
+### Player Discovery
+```
+action=query&list=embeddedin&eititle=Template:Infobox Player
+→ Returns ALL pages using the player infobox (paginated, 500/page)
+→ Filter: exclude User: namespace pages
+→ Total: ~1500-2000 player pages across all leagues
+```
+
+### Player Data Extraction
+```
+For each player page:
+  action=parse&prop=wikitext|images → raw wikitext + image list
+  Parse {{Infobox Player|...|key=value|...}}
+  
+Available fields (59+):
+  Core:     id, name, country, residency, role, isretired
+  Birth:    birth_date_year, birth_date_month, birth_date_day
+  Social:   twitter, stream, instagram, youtube, discord
+  Game:     favchamp[1-5], checkboxAutoImage
+  Meta:     checkboxAutoTeams, page_type, low_content
+  League:   (inferred from team templates in page)
+  Team:     (parsed from team roster templates)
+```
+
+### Image Pipeline
+```
+For each player:
+  action=query&titles=File:{imagename}&prop=imageinfo&iiprop=url
+  Download from static.wikia.nocookie.net CDN
+  Sharp → 256px WebP q80 (~5KB per image)
+  Sharp → 128px WebP q70 (~2KB thumbnail)
+```
+
+### Performance Estimate
+- Discovery: ~3-5 API calls (2-3 seconds)
+- Player data: ~1500 API calls at 1/sec = ~25 minutes
+- Image resolution: ~1500 API calls at 2/sec = ~12 minutes
+- Image download: ~1500 downloads at 5 concurrent = ~5 minutes
+- **Total: ~45 minutes for full scrape**
+
+## 10. Infobox Field Mapping → OLManager
+
+| Wiki Field | OLManager Field | Notes |
+|-----------|-----------------|-------|
+| `id` | `match_name` | IGN |
+| `name` | `full_name` | Real name |
+| `country` | `nationality` | Need mapping to ISO ("South Korea"→"KR") |
+| `residency` | `residency_region` | For import rules |
+| `role` | `position` | "Mid"→LolRole::Mid |
+| `isretired` | `status` | "Yes"→Retired, "No"→Active |
+| `birth_date_*` | `date_of_birth` | Combine to YYYY-MM-DD |
+| `favchamp[1-5]` | `champion_pool` | Array of champions |
+| `checkboxAutoImage` | `has_photo` | Bool for image existence |
+| `twitter/stream` | `socials` | Optional metadata |
