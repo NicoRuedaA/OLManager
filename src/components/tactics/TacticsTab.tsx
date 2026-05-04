@@ -291,16 +291,11 @@ function Section<T extends string>({
   value: T;
   onChange: (value: T) => void;
 }) {
-  const xlGridClass = options.length <= 2
-    ? "xl:grid-cols-2"
-    : options.length <= 3
-      ? "xl:grid-cols-3"
-      : "xl:grid-cols-4";
   return (
     <Card accent="primary">
       <CardHeader className="text-base">{title}</CardHeader>
       <CardBody className="p-4">
-        <div className={`grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 ${xlGridClass}`}>
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {options.map((option) => {
             const active = option.value === value;
             return (
