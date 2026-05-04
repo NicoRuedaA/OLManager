@@ -97,8 +97,8 @@ fn make_standing(
         won,
         drawn,
         lost,
-        goals_for: gf,
-        goals_against: ga,
+        kills_for: gf,
+        kills_against: ga,
         points: won * 3 + drawn,
     }
 }
@@ -123,26 +123,22 @@ fn make_completed_season_game() -> Game {
     let mut p1 = make_player("p1", "Star", "team1", LolRole::Adc);
     p1.stats = PlayerSeasonStats {
         appearances: 30,
-        goals: 20,
+        kills: 20,
         assists: 10,
         clean_sheets: 0,
         avg_rating: 7.5,
         minutes_played: 2700,
-        yellow_cards: 3,
-        red_cards: 0,
         ..PlayerSeasonStats::default()
     };
 
     let mut p2 = make_player("p2", "Rival", "team2", LolRole::Adc);
     p2.stats = PlayerSeasonStats {
         appearances: 28,
-        goals: 15,
+        kills: 15,
         assists: 8,
         clean_sheets: 0,
         avg_rating: 7.0,
         minutes_played: 2500,
-        yellow_cards: 1,
-        red_cards: 0,
         ..PlayerSeasonStats::default()
     };
 

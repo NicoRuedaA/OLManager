@@ -265,7 +265,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 4,
+                    kills: 4,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -277,7 +277,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 6,
+                    kills: 6,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -289,7 +289,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 1,
+                    kills: 1,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -301,7 +301,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 5,
+                    kills: 5,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -313,7 +313,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 2,
+                    kills: 2,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -325,7 +325,7 @@ mod tests {
                 "2000-01-01",
                 PlayerSeasonStats {
                     appearances: 8,
-                    goals: 3,
+                    kills: 3,
                     ..PlayerSeasonStats::default()
                 },
             ),
@@ -338,7 +338,7 @@ mod tests {
             "2000-01-01",
             PlayerSeasonStats {
                 appearances: 0,
-                goals: 99,
+                kills: 99,
                 ..PlayerSeasonStats::default()
             },
         ));

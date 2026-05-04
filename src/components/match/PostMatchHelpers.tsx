@@ -214,7 +214,7 @@ export function PlayerRatingsPanel({
             </span>
             <span className="text-gray-600 dark:text-gray-400 truncate flex-1">{p.name}</span>
             <span className="text-gray-600 dark:text-gray-500 text-[10px] font-heading uppercase">
-              {translatePositionAbbreviation(t, p.position)}
+              {translatePositionAbbreviation(t, p.role ?? "")}
             </span>
           </div>
         ))}

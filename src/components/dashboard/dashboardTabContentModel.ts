@@ -9,6 +9,7 @@ export interface DashboardTabContentHandlers {
     onSelectTeam: (id: string) => void;
     onGameUpdate: (state: GameStateData) => void;
     onNavigate: (tab: string, context?: DashboardNavigateContext) => void;
+    onViewChampion: (championKey: string) => void;
 }
 
 export interface DashboardTabContentModel {

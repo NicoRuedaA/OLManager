@@ -37,39 +37,16 @@ export const ROLE_KEY_STATS: Record<LolRole, { label: string; key: string }[]> =
 };
 
 export function getPlayerLolRole(player: EnginePlayerData): LolRole {
-  const explicitRole = String(player.lol_role || "")
+  // Engine sends role as PascalCase (Top, Jungle, Mid, Adc, Support)
+  const engineRole = String(player.role || "")
     .toUpperCase()
     .replace(/[^A-Z]/g, "");
+  if (engineRole === "TOP") return "TOP";
+  if (engineRole === "JUNGLE") return "JUNGLE";
+  if (engineRole === "MID") return "MID";
+  if (engineRole === "ADC") return "ADC";
+  if (engineRole === "SUPPORT") return "SUPPORT";
 
-  if (explicitRole === "TOP") return "TOP";
-  if (explicitRole === "JUNGLE" || explicitRole === "JG") return "JUNGLE";
-  if (explicitRole === "MID") return "MID";
-  if (explicitRole === "ADC") return "ADC";
-  if (explicitRole === "SUPPORT" || explicitRole === "SUP") return "SUPPORT";
-
-  const key = String(player.position || "")
-    .toLowerCase()
-    .replace(/[^a-z]/g, "");
-
-  if (
-    key === "defender" ||
-    key === "rightback" ||
-    key === "leftback" ||
-    key === "centerback" ||
-    key === "rightwingback" ||
-    key === "leftwingback"
-  ) {
-    return "TOP";
-  }
-  if (key === "attackingmidfielder" || key === "rightmidfielder" || key === "leftmidfielder") {
-    return "MID";
-  }
-  if (key === "forward" || key === "striker" || key === "rightwinger" || key === "leftwinger") {
-    return "ADC";
-  }
-  if (key === "defensivemidfielder" || key === "goalkeeper") {
-    return "SUPPORT";
-  }
   return "JUNGLE";
 }
 

@@ -1,3 +1,7 @@
+// Pre-existing clippy warnings tracked in #92
+#![allow(clippy::derivable_impls)]
+
+pub mod champion;
 pub mod identity;
 pub mod league;
 pub mod manager;

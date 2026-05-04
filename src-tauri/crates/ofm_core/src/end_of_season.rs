@@ -214,8 +214,8 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
         user_won: user_standing.as_ref().map(|s| s.won).unwrap_or(0),
         user_drawn: user_standing.as_ref().map(|s| s.drawn).unwrap_or(0),
         user_lost: user_standing.as_ref().map(|s| s.lost).unwrap_or(0),
-        user_goals_for: user_standing.as_ref().map(|s| s.goals_for).unwrap_or(0),
-        user_goals_against: user_standing.as_ref().map(|s| s.goals_against).unwrap_or(0),
+        user_kills_for: user_standing.as_ref().map(|s| s.kills_for).unwrap_or(0),
+        user_kills_against: user_standing.as_ref().map(|s| s.kills_against).unwrap_or(0),
         golden_boot_player: awards
             .golden_boot
             .first()
@@ -252,8 +252,8 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
                 won: standing.won,
                 drawn: standing.drawn,
                 lost: standing.lost,
-                goals_for: standing.goals_for,
-                goals_against: standing.goals_against,
+                kills_for: standing.kills_for,
+                kills_against: standing.kills_against,
             });
             // Reset form
             team.form.clear();
@@ -606,8 +606,8 @@ pub struct EndOfSeasonSummary {
     pub user_won: u32,
     pub user_drawn: u32,
     pub user_lost: u32,
-    pub user_goals_for: u32,
-    pub user_goals_against: u32,
+    pub user_kills_for: u32,
+    pub user_kills_against: u32,
     pub golden_boot_player: String,
     pub golden_boot_goals: u32,
     pub poty_player: String,

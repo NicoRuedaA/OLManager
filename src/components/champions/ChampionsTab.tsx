@@ -14,6 +14,7 @@ import { t } from "i18next";
 interface ChampionsTabProps {
   gameState: GameStateData;
   onGameUpdate: (state: GameStateData) => void;
+  onViewChampion: (championKey: string) => void;
 }
 
 type ChampionRolesMap = Record<string, string[]>;
@@ -239,7 +240,7 @@ function expectedGainBadge(slotIndex: number, focus: string | null | undefined):
 const TIER_ORDER: Array<"S" | "A" | "B" | "C" | "D"> = ["S", "A", "B", "C", "D"];
 const TIER_SORT_WEIGHT: Record<string, number> = { S: 0, A: 1, B: 2, C: 3, D: 4 };
 
-export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabProps) {
+export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }: ChampionsTabProps) {
   const { t } = useTranslation();
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [metaRoleFilter, setMetaRoleFilter] = useState<"ALL" | UiRole>("ALL");
@@ -484,7 +485,12 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       {tierRows[tier].map((entry) => (
-                        <div key={`${tier}-${entry.champion_id}-${entry.role}`} className="relative group">
+                        <button
+                          type="button"
+                          key={`${tier}-${entry.champion_id}-${entry.role}`}
+                          onClick={() => onViewChampion(entry.champion_id)}
+                          className="relative group cursor-pointer"
+                        >
                           <div className="h-14 w-24 rounded-md border border-navy-500/80 bg-navy-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-yellow-300 overflow-hidden">
                             <img
                               src={championTileUrl(entry.champion_id)}
@@ -499,7 +505,7 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
                               title={`${championDisplayName(entry.champion_id)} · ${entry.role}`}
                             />
                           </div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   )}

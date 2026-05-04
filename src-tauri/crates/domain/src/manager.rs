@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 fn default_fan_approval() -> u8 {
     50
@@ -9,6 +11,8 @@ fn default_nickname() -> String {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct Manager {
     pub id: String,
     #[serde(default = "default_nickname")]
@@ -17,8 +21,6 @@ pub struct Manager {
     pub last_name: String,
     pub date_of_birth: String,
     pub nationality: String,
-    #[serde(default)]
-    pub football_nation: String,
     #[serde(default)]
     pub birth_country: Option<String>,
     #[serde(default)]
@@ -42,6 +44,8 @@ pub struct Manager {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ManagerCareerStats {
     pub matches_managed: u32,
     pub wins: u32,
@@ -51,6 +55,8 @@ pub struct ManagerCareerStats {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ManagerCareerEntry {
     pub team_id: String,
     pub team_name: String,
@@ -71,7 +77,6 @@ impl Manager {
         date_of_birth: String,
         nationality: String,
     ) -> Self {
-        let football_nation = crate::identity::normalize_football_nation_code(&nationality);
         let birth_country = crate::identity::derive_birth_country_code(&nationality);
         Self {
             id,
@@ -80,7 +85,6 @@ impl Manager {
             last_name,
             date_of_birth,
             nationality,
-            football_nation,
             birth_country,
             avatar_path: None,
             reputation: 500,

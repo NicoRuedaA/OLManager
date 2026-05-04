@@ -340,7 +340,7 @@ fn sort_standings(mut standings: Vec<StandingEntry>) -> Vec<StandingEntry> {
             .points
             .cmp(&left.points)
             .then(right.goal_difference().cmp(&left.goal_difference()))
-            .then(right.goals_for.cmp(&left.goals_for))
+            .then(right.kills_for.cmp(&left.kills_for))
     });
     standings
 }

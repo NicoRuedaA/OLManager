@@ -53,19 +53,11 @@ pub enum MatchCommand {
         side: Side,
         play_style: PlayStyle,
     },
-    SetFreeKickTaker {
-        side: Side,
-        player_id: String,
-    },
-    SetCornerTaker {
-        side: Side,
-        player_id: String,
-    },
-    SetPenaltyTaker {
-        side: Side,
-        player_id: String,
-    },
     SetCaptain {
+        side: Side,
+        player_id: String,
+    },
+    SetShotcaller {
         side: Side,
         player_id: String,
     },
@@ -84,15 +76,13 @@ pub struct SubstitutionRecord {
 }
 
 // ---------------------------------------------------------------------------
-// SetPieceTakers — designated set piece takers for a side
+// TeamRoles — designated roles for a side
 // ---------------------------------------------------------------------------
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct SetPieceTakers {
-    pub free_kick_taker: Option<String>,
-    pub corner_taker: Option<String>,
-    pub penalty_taker: Option<String>,
+pub struct TeamRoles {
     pub captain: Option<String>,
+    pub shotcaller: Option<String>,
 }
 
 // ---------------------------------------------------------------------------
@@ -133,13 +123,10 @@ pub struct MatchSnapshot {
     pub home_subs_made: u8,
     pub away_subs_made: u8,
     pub max_subs: u8,
-    pub home_set_pieces: SetPieceTakers,
-    pub away_set_pieces: SetPieceTakers,
+    pub home_roles: TeamRoles,
+    pub away_roles: TeamRoles,
     pub substitutions: Vec<SubstitutionRecord>,
     pub allows_extra_time: bool,
-    pub home_yellows: HashMap<String, u8>,
-    pub away_yellows: HashMap<String, u8>,
-    pub sent_off: HashSet<String>,
     pub lol_map: LolMapState,
 }
 
@@ -263,19 +250,11 @@ impl LiveMatchState {
                 self.team_mut(side).play_style = play_style;
                 Ok(())
             }
-            MatchCommand::SetFreeKickTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
-            MatchCommand::SetCornerTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
-            MatchCommand::SetPenaltyTaker { side, player_id } => {
-                let _ = (side, player_id);
-                Ok(())
-            }
             MatchCommand::SetCaptain { side, player_id } => {
+                let _ = (side, player_id);
+                Ok(())
+            }
+            MatchCommand::SetShotcaller { side, player_id } => {
                 let _ = (side, player_id);
                 Ok(())
             }
@@ -326,9 +305,9 @@ impl LiveMatchState {
         }
     }
 
-    /// Simulate a red card for a player (adds to sent_off set).
-    /// Primarily used for testing substitution guards.
-    pub fn test_send_off(&mut self, player_id: &str) {
+    /// Remove a player from the match (legacy red card simulation).
+    /// Used for testing substitution guards.
+    pub fn test_remove_player(&mut self, player_id: &str) {
         let _ = player_id;
     }
 
@@ -339,7 +318,7 @@ impl LiveMatchState {
         }
     }
 
-    pub(super) fn add_goal(&mut self, side: Side) {
+    pub(super) fn add_score(&mut self, side: Side) {
         match side {
             Side::Home => self.home_score = self.home_score.saturating_add(1),
             Side::Away => self.away_score = self.away_score.saturating_add(1),

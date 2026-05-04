@@ -1,6 +1,8 @@
 use crate::champions::{ChampionMasteryEntry, ChampionPatchState};
 use crate::clock::GameClock;
 use domain::league::League;
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 use domain::manager::Manager;
 use domain::message::InboxMessage;
 use domain::news::NewsArticle;
@@ -12,6 +14,8 @@ use domain::team::Team;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ObjectiveType {
     LeaguePosition,
     Wins,
@@ -19,6 +23,8 @@ pub enum ObjectiveType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct BoardObjective {
     pub id: String,
     pub description: String,
@@ -28,6 +34,8 @@ pub struct BoardObjective {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ScoutingAssignment {
     pub id: String,
     pub scout_id: String,
@@ -36,6 +44,8 @@ pub struct ScoutingAssignment {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct Game {
     pub clock: GameClock,
     pub manager: Manager,

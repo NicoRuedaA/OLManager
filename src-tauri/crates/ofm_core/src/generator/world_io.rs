@@ -117,7 +117,7 @@ mod tests {
                             "founded_year": 1900,
                             "colors": { "primary": "#ffffff", "secondary": "#000000" },
                             "starting_xi_ids": [],
-                            "match_roles": { "captain": null, "vice_captain": null, "penalty_taker": null, "free_kick_taker": null, "corner_taker": null },
+                            "match_roles": { "captain": null, "shotcaller": null },
                             "form": [],
                             "history": []
                         }
@@ -150,7 +150,7 @@ mod tests {
                             "contract_end": null,
                             "wage": 0,
                             "market_value": 0,
-                            "stats": { "appearances": 0, "goals": 0, "assists": 0, "clean_sheets": 0, "yellow_cards": 0, "red_cards": 0, "avg_rating": 0.0, "minutes_played": 0 },
+                            "stats": { "appearances": 0, "goals": 0, "assists": 0, "clean_sheets": 0, "avg_rating": 0.0, "minutes_played": 0 },
                             "career": [],
                             "training_focus": null,
                             "transfer_listed": false,
@@ -165,8 +165,6 @@ mod tests {
 
         let world = load_world_from_json(json).unwrap();
 
-        assert_eq!(world.teams[0].football_nation, "ENG");
-        assert_eq!(world.players[0].football_nation, "ENG");
         assert_eq!(world.players[0].birth_country, None);
     }
 
@@ -174,7 +172,6 @@ mod tests {
     fn export_world_to_json_writes_canonical_football_identity_fields() {
         let mut world = generate_world_data(None);
         world.teams[0].country = "GB".to_string();
-        world.teams[0].football_nation.clear();
 
         if let Some(player) = world
             .players
@@ -182,13 +179,11 @@ mod tests {
             .find(|player| player.team_id.as_deref() == Some(world.teams[0].id.as_str()))
         {
             player.nationality = "GB".to_string();
-            player.football_nation.clear();
             player.birth_country = None;
         }
 
         let json = export_world_to_json(&world).unwrap();
         let reparsed: WorldData = serde_json::from_str(&json).unwrap();
 
-        assert_eq!(reparsed.teams[0].football_nation, "ENG");
     }
 }

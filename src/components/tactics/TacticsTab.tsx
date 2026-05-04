@@ -258,17 +258,14 @@ const SUPPORT_ROAMING_OPTIONS: Array<LocalizedOption<SupportRoaming>> = [
   },
 ];
 
-function normalizePosition(position: string): string {
-  return position.toLowerCase().replace(/[^a-z]/g, "");
-}
-
 function positionToRole(position: string): DraftRole | null {
-  const normalized = normalizePosition(position);
-  if (normalized === "defender") return "TOP";
-  if (normalized === "midfielder") return "JUNGLE";
-  if (normalized === "attackingmidfielder") return "MID";
-  if (normalized === "forward") return "ADC";
-  if (normalized === "defensivemidfielder" || normalized === "goalkeeper") return "SUPPORT";
+  // position is already a LolRole ("TOP", "JUNGLE", "MID", "ADC", "SUPPORT")
+  const normalized = position.toUpperCase().replace(/[^A-Z]/g, "");
+  if (normalized === "TOP") return "TOP";
+  if (normalized === "JUNGLE") return "JUNGLE";
+  if (normalized === "MID") return "MID";
+  if (normalized === "ADC") return "ADC";
+  if (normalized === "SUPPORT") return "SUPPORT";
   return null;
 }
 

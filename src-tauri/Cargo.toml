@@ -5,6 +5,7 @@ description = "Open League Manager"
 authors = ["KOI Noboris Development Team <noboriskoi@gmail.com>"]
 repository = "https://github.com/OpenLeagueManager/OLManager"
 edition = "2021"
+default-run = "openleaguemanager"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -14,6 +15,11 @@ edition = "2021"
 # This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "olmanager_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "typegen"
+path = "src/bin/typegen.rs"
+required-features = ["typescript"]
 
 [workspace]
 members = ["crates/ofm_core", "crates/db", "crates/domain", "crates/engine"]
@@ -36,3 +42,9 @@ db = { path = "crates/db" }
 chrono = "0.4.44"
 rand = "0.10"
 base64 = "0.22"
+thiserror = "2"
+validator = { version = "0.19", features = ["derive"] }
+ts-rs = { version = "10", optional = true, features = ["serde-compat"] }
+
+[features]
+typescript = ["ts-rs", "domain/typescript", "ofm_core/typescript"]

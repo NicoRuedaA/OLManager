@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 // Re-export both LolRole and Position for backward compatibility
 pub use crate::stats::{LolRole, Position};
@@ -10,8 +12,6 @@ pub struct Player {
     pub full_name: String,
     pub date_of_birth: String,
     pub nationality: String,
-    #[serde(default)]
-    pub football_nation: String,
     #[serde(default)]
     pub birth_country: Option<String>,
     #[serde(default)]
@@ -94,6 +94,8 @@ pub struct Player {
 /// Footedness is deprecated - LoL roles are lane-agnostic
 /// Kept for backward compatibility with legacy save files
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum Footedness {
     Left,
     #[default]
@@ -102,6 +104,8 @@ pub enum Footedness {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct PlayerAttributes {
     // Physical
     pub pace: u8,
@@ -156,12 +160,16 @@ fn default_potential_base() -> u8 {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct Injury {
     pub name: String,
     pub days_remaining: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum PlayerIssueCategory {
     Contract,
     PlayingTime,
@@ -169,33 +177,32 @@ pub enum PlayerIssueCategory {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct PlayerIssue {
     pub category: PlayerIssueCategory,
     pub severity: u8,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct RecentTreatmentMemory {
     pub action_key: String,
     pub times_recently_used: u8,
 }
 
-impl Default for RecentTreatmentMemory {
-    fn default() -> Self {
-        Self {
-            action_key: String::new(),
-            times_recently_used: 0,
-        }
-    }
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum PlayerPromiseKind {
     PlayingTime,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum RenewalSessionStatus {
     #[default]
     Idle,
@@ -206,6 +213,8 @@ pub enum RenewalSessionStatus {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum RenewalSessionOutcome {
     #[default]
     None,
@@ -217,6 +226,8 @@ pub enum RenewalSessionOutcome {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct ContractRenewalState {
     pub status: RenewalSessionStatus,
@@ -241,6 +252,8 @@ impl Default for ContractRenewalState {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerPromise {
     pub kind: PlayerPromiseKind,
@@ -257,6 +270,8 @@ impl Default for PlayerPromise {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerMoraleCore {
     pub manager_trust: u8,
@@ -297,14 +312,14 @@ fn default_transfer_offer_destination_team_id() -> Option<String> {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerSeasonStats {
     pub appearances: u32,
     pub kills: u32,
     pub assists: u32,
     pub clean_sheets: u32,
-    pub yellow_cards: u32,
-    pub red_cards: u32,
     pub avg_rating: f32,
     pub minutes_played: u32,
     pub shots: u32,
@@ -313,10 +328,11 @@ pub struct PlayerSeasonStats {
     pub passes_attempted: u32,
     pub tackles_won: u32,
     pub interceptions: u32,
-    pub fouls_committed: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct CareerEntry {
     pub season: u32,
     pub team_id: String,
@@ -327,6 +343,8 @@ pub struct CareerEntry {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct TransferOffer {
     pub id: String,
     pub from_team_id: String,
@@ -347,6 +365,8 @@ pub struct TransferOffer {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum TransferOfferStatus {
     Pending,
     Accepted,
@@ -355,6 +375,8 @@ pub enum TransferOfferStatus {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum PlayerTrait {
     // Mechanics
     #[serde(alias = "Speedster")]
@@ -474,7 +496,6 @@ impl Player {
     ) -> Self {
         let role: LolRole = role.into();
         let traits = compute_traits(&attributes, &role);
-        let football_nation = crate::identity::normalize_football_nation_code(&nationality);
         let birth_country = crate::identity::derive_birth_country_code(&nationality);
         Self {
             id,
@@ -482,7 +503,6 @@ impl Player {
             full_name,
             date_of_birth,
             nationality,
-            football_nation,
             birth_country,
             profile_image_url: None,
             natural_position: role,

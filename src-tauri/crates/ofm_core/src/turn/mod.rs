@@ -6,6 +6,8 @@ use crate::board_objectives;
 use crate::champions;
 use crate::end_of_season;
 use crate::game::Game;
+use domain::player::LolRole as DomainLolRole;
+use engine::LolRole as EngineLolRole;
 use crate::player_events;
 use crate::potential;
 use crate::random_events;
@@ -16,7 +18,7 @@ use crate::transfers;
 use chrono::Datelike;
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, MatchResult};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::player::Position as DomainPosition;
+use domain::player::LolRole;
 use domain::stats::StatsState;
 use domain::team::{Team, TeamKind, TeamSeasonRecord};
 use log::{debug, info};
@@ -173,18 +175,10 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         .iter()
         .filter(|p| p.team_id.as_deref() == Some(team_id))
         .map(|p| {
-            let pos = match p.position.to_group_position() {
-                DomainPosition::Goalkeeper => engine::Position::Goalkeeper,
-                DomainPosition::Defender => engine::Position::Defender,
-                DomainPosition::Midfielder => engine::Position::Midfielder,
-                DomainPosition::Forward => engine::Position::Forward,
-                _ => engine::Position::Midfielder,
-            };
             engine::PlayerData {
                 id: p.id.clone(),
                 name: p.match_name.clone(),
-                position: pos,
-                lol_role: Some(lol_role_from_position(&p.natural_position).to_string()),
+                role: to_engine_role(p.natural_position),
                 condition: p.condition,
                 fitness: p.fitness,
                 pace: p.attributes.pace,
@@ -232,6 +226,18 @@ fn academy_player_ovr(player: &domain::player::Player) -> u32 {
         + u32::from(attrs.composure)
         + u32::from(attrs.stamina);
     (total + 4) / 9
+}
+
+/// Convert domain::player::LolRole to engine::LolRole
+fn to_engine_role(role: DomainLolRole) -> EngineLolRole {
+    match role {
+        DomainLolRole::Top => EngineLolRole::Top,
+        DomainLolRole::Jungle => EngineLolRole::Jungle,
+        DomainLolRole::Mid => EngineLolRole::Mid,
+        DomainLolRole::Adc => EngineLolRole::Adc,
+        DomainLolRole::Support => EngineLolRole::Support,
+        DomainLolRole::Unknown => EngineLolRole::Top,
+    }
 }
 
 fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
@@ -292,17 +298,17 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
                     won: 0,
                     drawn: 0,
                     lost: 0,
-                    goals_for: 0,
-                    goals_against: 0,
+                    kills_for: 0,
+                    kills_against: 0,
                 });
             let points = record.won.saturating_mul(3).saturating_add(record.drawn);
-            let goal_diff = record.goals_for as i32 - record.goals_against as i32;
+            let goal_diff = record.kills_for as i32 - record.kills_against as i32;
             (
                 team.id.clone(),
                 team.name.clone(),
                 points,
                 goal_diff,
-                record.goals_for,
+                record.kills_for,
                 record.won,
                 record.lost,
             )
@@ -390,9 +396,9 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
         .iter()
         .filter(|player| player.team_id.as_deref() == Some(parent_team.id.as_str()))
         .collect();
-    let mut main_best_by_role: HashMap<&'static str, u32> = HashMap::new();
+    let mut main_best_by_role: HashMap<EngineLolRole, u32> = HashMap::new();
     for player in main_players {
-        let role = lol_role_from_position(&player.natural_position);
+        let role = to_engine_role(player.natural_position);
         let ovr = academy_player_ovr(player);
         let entry = main_best_by_role.entry(role).or_insert(0);
         if ovr > *entry {
@@ -402,8 +408,8 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
     let promotion_ready: Vec<String> = academy_players
         .iter()
         .filter_map(|player| {
-            let role = lol_role_from_position(&player.natural_position);
-            let main_ref = main_best_by_role.get(role).copied().unwrap_or(75);
+            let role = to_engine_role(player.natural_position);
+            let main_ref = main_best_by_role.get(&role).copied().unwrap_or(75);
             let academy_ovr = academy_player_ovr(player);
             (academy_ovr >= main_ref.saturating_sub(2)).then(|| player.match_name.clone())
         })
@@ -519,8 +525,8 @@ fn ensure_team_season_record(team: &mut Team, season: u32) -> &mut TeamSeasonRec
         won: 0,
         drawn: 0,
         lost: 0,
-        goals_for: 0,
-        goals_against: 0,
+        kills_for: 0,
+        kills_against: 0,
     });
     let last_index = team.history.len().saturating_sub(1);
     &mut team.history[last_index]
@@ -542,8 +548,8 @@ fn register_parallel_result(
 
     let record = ensure_team_season_record(team, season);
     record.played = record.played.saturating_add(1);
-    record.goals_for = record.goals_for.saturating_add(u32::from(scored));
-    record.goals_against = record.goals_against.saturating_add(u32::from(conceded));
+    record.kills_for = record.kills_for.saturating_add(u32::from(scored));
+    record.kills_against = record.kills_against.saturating_add(u32::from(conceded));
     if won_series {
         record.won = record.won.saturating_add(1);
     } else {
@@ -675,7 +681,13 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
     for (fixture_index, home_team_id, away_team_id) in fixtures_to_play {
         let home_data = build_engine_team(game, &home_team_id);
         let away_data = build_engine_team(game, &away_team_id);
-        let report = engine::simulate(&home_data, &away_data, &engine::MatchConfig::default());
+        let mut rng = rand::rng();
+        let report = engine::simulate_lol(
+            &home_data,
+            &away_data,
+            &engine::MatchConfig::default(),
+            &mut rng,
+        );
         simulated_results.push((
             fixture_index,
             home_team_id,
@@ -748,10 +760,10 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
                 b.points
                     .cmp(&a.points)
                     .then(
-                        (b.goals_for as i32 - b.goals_against as i32)
-                            .cmp(&(a.goals_for as i32 - a.goals_against as i32)),
+                        (b.kills_for as i32 - b.kills_against as i32)
+                            .cmp(&(a.kills_for as i32 - a.kills_against as i32)),
                     )
-                    .then(b.goals_for.cmp(&a.goals_for))
+                    .then(b.kills_for.cmp(&a.kills_for))
             });
             if sorted.len() >= 4 {
                 let next_matchday = league
@@ -1138,26 +1150,6 @@ fn next_winter_playoff_pairings(
     None
 }
 
-fn lol_role_from_position(position: &DomainPosition) -> &'static str {
-    match position {
-        DomainPosition::Defender
-        | DomainPosition::RightBack
-        | DomainPosition::CenterBack
-        | DomainPosition::LeftBack
-        | DomainPosition::RightWingBack
-        | DomainPosition::LeftWingBack => "TOP",
-        DomainPosition::AttackingMidfielder
-        | DomainPosition::RightMidfielder
-        | DomainPosition::LeftMidfielder => "MID",
-        DomainPosition::Forward
-        | DomainPosition::RightWinger
-        | DomainPosition::LeftWinger
-        | DomainPosition::Striker => "ADC",
-        DomainPosition::Goalkeeper | DomainPosition::DefensiveMidfielder => "SUPPORT",
-        DomainPosition::Midfielder | DomainPosition::CentralMidfielder => "JUNGLE",
-    }
-}
-
 // ---------------------------------------------------------------------------
 // Matchday simulation using the engine crate
 // ---------------------------------------------------------------------------
@@ -1238,7 +1230,8 @@ where
     let away_data = build_engine_team(game, &away_team_id);
     let config = engine::MatchConfig::default();
     let report = if best_of <= 1 {
-        engine::simulate(&home_data, &away_data, &config)
+        let mut rng = rand::rng();
+        engine::simulate_lol(&home_data, &away_data, &config, &mut rng)
     } else {
         simulate_series(&home_data, &away_data, &config, best_of)
     };
@@ -1256,22 +1249,23 @@ fn simulate_series(
     config: &engine::MatchConfig,
     best_of: u8,
 ) -> engine::MatchReport {
+    let mut rng = rand::rng();
     let target_wins = (best_of / 2) + 1;
     let mut home_wins = 0_u8;
     let mut away_wins = 0_u8;
     let mut reports: Vec<engine::MatchReport> = Vec::new();
 
     while home_wins < target_wins && away_wins < target_wins {
-        let report = engine::simulate(home_data, away_data, config);
+        let report = engine::simulate_lol(home_data, away_data, config, &mut rng);
         home_wins = home_wins.saturating_add(report.home_wins);
         away_wins = away_wins.saturating_add(report.away_wins);
         reports.push(report);
     }
 
-    let mut merged = reports
-        .last()
-        .cloned()
-        .unwrap_or_else(|| engine::simulate(home_data, away_data, config));
+    let mut merged = match reports.last() {
+        Some(report) => report.clone(),
+        None => engine::simulate_lol(home_data, away_data, config, &mut rng),
+    };
     merged.home_wins = home_wins;
     merged.away_wins = away_wins;
 

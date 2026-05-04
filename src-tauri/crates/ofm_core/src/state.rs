@@ -3,47 +3,22 @@ use crate::live_match_manager::LiveMatchSession;
 use domain::stats::StatsState;
 use std::sync::Mutex;
 
-fn set_option<T>(mutex: &Mutex<Option<T>>, value: T) {
-    let mut lock = mutex.lock().unwrap();
-    *lock = Some(value);
+/// Holds all mutable session state under a single lock to prevent deadlocks
+/// and race conditions between independent mutexes.
+/// Individual fields remain `Option` so they can be set independently
+/// (e.g., save_id can exist without a loaded game).
+pub struct Session {
+    pub game: Option<Game>,
+    pub stats: StatsState,
+    pub live_match: Option<LiveMatchSession>,
+    pub save_id: Option<String>,
 }
 
-fn clear_option<T>(mutex: &Mutex<Option<T>>) {
-    let mut lock = mutex.lock().unwrap();
-    *lock = None;
-}
-
-fn with_option<T, F, R>(mutex: &Mutex<Option<T>>, f: F) -> Option<R>
-where
-    F: FnOnce(&T) -> R,
-{
-    let lock = mutex.lock().unwrap();
-    lock.as_ref().map(f)
-}
-
-fn with_option_mut<T, F, R>(mutex: &Mutex<Option<T>>, f: F) -> Option<R>
-where
-    F: FnOnce(&mut T) -> R,
-{
-    let mut lock = mutex.lock().unwrap();
-    lock.as_mut().map(f)
-}
-
-fn take_option<T>(mutex: &Mutex<Option<T>>) -> Option<T> {
-    let mut lock = mutex.lock().unwrap();
-    lock.take()
-}
-
-fn cloned_option<T: Clone>(mutex: &Mutex<Option<T>>) -> Option<T> {
-    let lock = mutex.lock().unwrap();
-    lock.clone()
-}
-
+/// Single-lock state manager. All fields are grouped under one
+/// `Mutex<Session>` to prevent deadlocks that could occur when two
+/// commands acquire four independent mutexes in different order.
 pub struct StateManager {
-    pub active_game: Mutex<Option<Game>>,
-    pub active_stats: Mutex<Option<StatsState>>,
-    pub live_match: Mutex<Option<LiveMatchSession>>,
-    pub active_save_id: Mutex<Option<String>>,
+    session: Mutex<Session>,
 }
 
 impl Default for StateManager {
@@ -55,84 +30,122 @@ impl Default for StateManager {
 impl StateManager {
     pub fn new() -> Self {
         Self {
-            active_game: Mutex::new(None),
-            active_stats: Mutex::new(None),
-            live_match: Mutex::new(None),
-            active_save_id: Mutex::new(None),
+            session: Mutex::new(Session {
+                game: None,
+                stats: StatsState::default(),
+                live_match: None,
+                save_id: None,
+            }),
         }
     }
 
+    /// Execute a read-only operation on the session.
+    pub fn with_session<F, R>(&self, f: F) -> R
+    where
+        F: FnOnce(&Session) -> R,
+    {
+        let lock = self.session.lock().unwrap();
+        f(&lock)
+    }
+
+    /// Execute a read-write operation on the session.
+    pub fn with_session_mut<F, R>(&self, f: F) -> R
+    where
+        F: FnOnce(&mut Session) -> R,
+    {
+        let mut lock = self.session.lock().unwrap();
+        f(&mut lock)
+    }
+
+    // ── Game ────────────────────────────────────────────────
+
     pub fn set_game(&self, game: Game) {
-        set_option(&self.active_game, game);
+        let mut lock = self.session.lock().unwrap();
+        lock.game = Some(game);
     }
 
     pub fn get_game<F, R>(&self, f: F) -> Option<R>
     where
         F: FnOnce(&Game) -> R,
     {
-        with_option(&self.active_game, f)
+        let lock = self.session.lock().unwrap();
+        lock.game.as_ref().map(f)
     }
 
     pub fn clear_game(&self) {
-        clear_option(&self.active_game);
-        clear_option(&self.active_stats);
+        let mut lock = self.session.lock().unwrap();
+        lock.game = None;
+        lock.stats = StatsState::default();
     }
 
+    // ── Stats ───────────────────────────────────────────────
+
     pub fn set_stats_state(&self, stats: StatsState) {
-        set_option(&self.active_stats, stats);
+        let mut lock = self.session.lock().unwrap();
+        lock.stats = stats;
     }
 
     pub fn get_stats_state<F, R>(&self, f: F) -> Option<R>
     where
         F: FnOnce(&StatsState) -> R,
     {
-        with_option(&self.active_stats, f)
+        let lock = self.session.lock().unwrap();
+        Some(f(&lock.stats))
     }
 
-    pub fn with_stats_state<F, R>(&self, f: F) -> Option<R>
+    pub fn with_stats_state<F, R>(&self, f: F) -> R
     where
         F: FnOnce(&mut StatsState) -> R,
     {
-        with_option_mut(&self.active_stats, f)
+        let mut lock = self.session.lock().unwrap();
+        f(&mut lock.stats)
     }
 
     pub fn clear_stats_state(&self) {
-        clear_option(&self.active_stats);
+        let mut lock = self.session.lock().unwrap();
+        lock.stats = StatsState::default();
     }
 
     pub fn append_stats_state(&self, stats: StatsState) {
-        let mut lock = self.active_stats.lock().unwrap();
-        match lock.as_mut() {
-            Some(current) => current.append(stats),
-            None => *lock = Some(stats),
-        }
+        let mut lock = self.session.lock().unwrap();
+        lock.stats.append(stats);
     }
 
+    // ── Save ID ─────────────────────────────────────────────
+
     pub fn set_save_id(&self, id: String) {
-        set_option(&self.active_save_id, id);
+        let mut lock = self.session.lock().unwrap();
+        lock.save_id = Some(id);
     }
 
     pub fn get_save_id(&self) -> Option<String> {
-        cloned_option(&self.active_save_id)
+        let lock = self.session.lock().unwrap();
+        lock.save_id.clone()
     }
 
     pub fn clear_save_id(&self) {
-        clear_option(&self.active_save_id);
+        let mut lock = self.session.lock().unwrap();
+        lock.save_id = None;
     }
 
+    // ── Live Match ──────────────────────────────────────────
+
     pub fn set_live_match(&self, session: LiveMatchSession) {
-        set_option(&self.live_match, session);
+        let mut lock = self.session.lock().unwrap();
+        lock.live_match = Some(session);
     }
 
     pub fn take_live_match(&self) -> Option<LiveMatchSession> {
-        take_option(&self.live_match)
+        let mut lock = self.session.lock().unwrap();
+        lock.live_match.take()
     }
 
     pub fn with_live_match<F, R>(&self, f: F) -> Option<R>
     where
         F: FnOnce(&mut LiveMatchSession) -> R,
     {
-        with_option_mut(&self.live_match, f)
+        let mut lock = self.session.lock().unwrap();
+        lock.live_match.as_mut().map(f)
     }
 }
 
@@ -350,5 +363,18 @@ mod tests {
         assert_eq!(taken.mode, MatchMode::Instant);
         assert!(state.take_live_match().is_none());
         assert!(state.with_live_match(|_| ()).is_none());
+    }
+
+    #[test]
+    fn unified_session_can_access_multiple_fields() {
+        let state = StateManager::new();
+        state.set_game(make_game_with_fixture());
+        state.set_save_id("save-99".to_string());
+
+        // Read multiple fields under the same lock via with_session
+        let (game_len, save_id) = state
+            .with_session(|s| (s.game.as_ref().map(|g| g.teams.len()), s.save_id.clone()));
+        assert_eq!(game_len, Some(2));
+        assert_eq!(save_id, Some("save-99".to_string()));
     }
 }

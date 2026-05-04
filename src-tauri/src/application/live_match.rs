@@ -257,8 +257,6 @@ fn build_match_report_from_lol_sim(input: LolSimMatchReportInput) -> MatchReport
     };
 
     MatchReport {
-        home_goals: home_wins,
-        away_goals: away_wins,
         home_wins,
         away_wins,
         home_stats: TeamStats {
@@ -290,8 +288,7 @@ fn build_match_report_from_lol_sim(input: LolSimMatchReportInput) -> MatchReport
             ..Default::default()
         },
         events,
-        goals: Vec::new(),
-        kill_feed: Vec::new(),
+        kill_feed: vec![],
         player_stats,
         home_possession: 50.0,
         total_minutes: (input.time_sec / 60.0).round().clamp(0.0, 255.0) as u8,
@@ -455,8 +452,9 @@ pub fn get_match_snapshot(state: &StateManager) -> Result<engine::MatchSnapshot,
         .ok_or_else(|| "No active live match".to_string())?;
 
     info!(
-        "[cmd] get_match_snapshot: phase={:?}, minute={}, home_team={}, away_team={}",
-        snapshot.phase, snapshot.current_minute, snapshot.home_team.name, snapshot.away_team.name
+        "[cmd] get_match_snapshot: phase={:?}, minute={}, home_team={}, away_team={}, home_roles={:?}, away_roles={:?}, events={}",
+        snapshot.phase, snapshot.current_minute, snapshot.home_team.name, snapshot.away_team.name,
+        snapshot.home_roles, snapshot.away_roles, snapshot.events.len()
     );
 
     Ok(snapshot)

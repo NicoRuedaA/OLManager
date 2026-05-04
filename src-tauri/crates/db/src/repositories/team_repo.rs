@@ -2,7 +2,7 @@ use domain::team::{
     AcademyMetadata, Facilities, FinancialTransaction, LolTactics, PlayStyle, Sponsorship, Team,
     TeamColors, TeamKind, TrainingFocus, TrainingIntensity, TrainingSchedule,
 };
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace a team row.
 pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
@@ -17,8 +17,8 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
         .map_err(|e| format!("JSON error: {}", e))?;
     let scrim_slot_results_json =
         serde_json::to_string(&t.scrim_slot_results).map_err(|e| format!("JSON error: {}", e))?;
-    let match_roles_json =
-        serde_json::to_string(&t.match_roles).map_err(|e| format!("JSON error: {}", e))?;
+    let team_roles_json =
+        serde_json::to_string(&t.team_roles).map_err(|e| format!("JSON error: {}", e))?;
     let financial_ledger_json =
         serde_json::to_string(&t.financial_ledger).map_err(|e| format!("JSON error: {}", e))?;
     let sponsorship_json =
@@ -41,20 +41,19 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
 
     conn.execute(
         "INSERT OR REPLACE INTO teams
-         (id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
+         (id, name, short_name, country, city, arena_name, arena_capacity,
            finance, manager_id, reputation, wage_budget, transfer_budget,
           season_income, season_expenses, formation, play_style,
           training_focus, training_intensity, training_schedule,
           founded_year, colors_primary, colors_secondary,
-          starting_xi_ids, match_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
+          starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
           team_kind, parent_team_id, academy_team_id, academy_metadata)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41)",
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40)",
         params![
             t.id,
             t.name,
             t.short_name,
             t.country,
-            t.football_nation,
             t.city,
             t.arena_name,
             t.arena_capacity,
@@ -74,7 +73,7 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
             t.colors.primary,
             t.colors.secondary,
             starting_xi_json,
-            match_roles_json,
+            team_roles_json,
             form_json,
             history_json,
             training_groups_json,
@@ -148,55 +147,46 @@ fn parse_academy_metadata(json: Option<String>) -> Option<AcademyMetadata> {
 }
 
 fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
-    let starting_xi_json: String = row.get(23)?;
-    let match_roles_json: String = row.get(24)?;
-    let form_json: String = row.get(25)?;
-    let history_json: String = row.get(26)?;
-    let training_groups_json: String = row.get(27)?;
-    let weekly_scrims_json: String = row.get(28)?;
-    let scrim_loss_streak: u8 = row.get(29)?;
-    let scrim_weekly_played: u8 = row.get(30)?;
-    let scrim_weekly_wins: u8 = row.get(31)?;
-    let scrim_weekly_losses: u8 = row.get(32)?;
-    let scrim_slot_results_json: String = row.get(33)?;
-    let financial_ledger_json: String = row.get(34)?;
-    let sponsorship_json: String = row.get(35)?;
-    let facilities_json: String = row.get(36)?;
-    let play_style_str: String = row.get(16)?;
-    let training_focus_str: String = row.get(17)?;
-    let training_intensity_str: String = row.get(18)?;
-    let training_schedule_str: String = row.get(19)?;
-    let team_kind_str: String = row.get(37)?;
-    let parent_team_id: Option<String> = row.get(38)?;
-    let academy_team_id: Option<String> = row.get(39)?;
-    let academy_metadata_json: Option<String> = row.get(40)?;
+    log::debug!("[team_repo] row_to_team: parsing row...");
+    let starting_xi_json: String = row.get(22)?;
+    let team_roles_json: String = row.get(23)?;
+    let form_json: String = row.get(24)?;
+    let history_json: String = row.get(25)?;
+    let training_groups_json: String = row.get(26)?;
+    let weekly_scrims_json: String = row.get(27)?;
+    let scrim_loss_streak: u8 = row.get(28)?;
+    let scrim_weekly_played: u8 = row.get(29)?;
+    let scrim_weekly_wins: u8 = row.get(30)?;
+    let scrim_weekly_losses: u8 = row.get(31)?;
+    let scrim_slot_results_json: String = row.get(32)?;
+    let financial_ledger_json: String = row.get(33)?;
+    let sponsorship_json: String = row.get(34)?;
+    let facilities_json: String = row.get(35)?;
+    let play_style_str: String = row.get(15)?;
+    let training_focus_str: String = row.get(16)?;
+    let training_intensity_str: String = row.get(17)?;
+    let training_schedule_str: String = row.get(18)?;
+    let team_kind_str: String = row.get(36)?;
+    let parent_team_id: Option<String> = row.get(37)?;
+    let academy_team_id: Option<String> = row.get(38)?;
+    let academy_metadata_json: Option<String> = row.get(39)?;
 
     Ok(Team {
         id: row.get(0)?,
         name: row.get(1)?,
         short_name: row.get(2)?,
         country: row.get(3)?,
-        football_nation: row.get(4)?,
-        city: row.get(5)?,
-        arena_name: row.get(6)?,
-        arena_capacity: row.get(7)?,
-        finance: row.get(8)?,
-        manager_id: row.get(9)?,
-        reputation: row.get(10)?,
-        team_kind: parse_team_kind(&team_kind_str),
-        parent_team_id,
-        academy_team_id,
-        academy: parse_academy_metadata(academy_metadata_json),
-        wage_budget: row.get(11)?,
-        transfer_budget: row.get(12)?,
-        season_income: row.get(13)?,
-        season_expenses: row.get(14)?,
-        financial_ledger: serde_json::from_str::<Vec<FinancialTransaction>>(&financial_ledger_json)
-            .unwrap_or_default(),
-        sponsorship: serde_json::from_str::<Option<Sponsorship>>(&sponsorship_json)
-            .unwrap_or_default(),
-        facilities: Facilities::from_persisted_json(&facilities_json),
-        formation: row.get(15)?,
+        city: row.get(4)?,
+        arena_name: row.get(5)?,
+        arena_capacity: row.get(6)?,
+        finance: row.get(7)?,
+        manager_id: row.get(8)?,
+        reputation: row.get(9)?,
+        wage_budget: row.get(10)?,
+        transfer_budget: row.get(11)?,
+        season_income: row.get(12)?,
+        season_expenses: row.get(13)?,
+        formation: row.get(14)?,
         play_style: parse_play_style(&play_style_str),
         lol_tactics: LolTactics::default(),
         training_focus: parse_training_focus(&training_focus_str),
@@ -209,41 +199,113 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
         scrim_weekly_wins,
         scrim_weekly_losses,
         scrim_slot_results: serde_json::from_str(&scrim_slot_results_json).unwrap_or_default(),
-        founded_year: row.get(20)?,
+        founded_year: row.get(19)?,
         colors: TeamColors {
-            primary: row.get(21)?,
-            secondary: row.get(22)?,
+            primary: row.get(20)?,
+            secondary: row.get(21)?,
         },
         starting_xi_ids: serde_json::from_str(&starting_xi_json).unwrap_or_default(),
-        match_roles: serde_json::from_str(&match_roles_json).unwrap_or_default(),
+        team_roles: serde_json::from_str(&team_roles_json).unwrap_or_default(),
         form: serde_json::from_str(&form_json).unwrap_or_default(),
         history: serde_json::from_str(&history_json).unwrap_or_default(),
+        team_kind: parse_team_kind(&team_kind_str),
+        parent_team_id,
+        academy_team_id,
+        academy: parse_academy_metadata(academy_metadata_json),
+        financial_ledger: serde_json::from_str(&financial_ledger_json).unwrap_or_default(),
+        sponsorship: serde_json::from_str(&sponsorship_json).unwrap_or_default(),
+        facilities: Facilities::from_persisted_json(&facilities_json),
     })
 }
 
 /// Load all teams.
 pub fn load_all_teams(conn: &Connection) -> Result<Vec<Team>, String> {
-    let mut stmt = conn
-        .prepare(
-            "SELECT id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
+    log::info!("[team_repo] load_all_teams: preparing query...");
+    let query = "SELECT id, name, short_name, country, city, arena_name, arena_capacity,
                     finance, manager_id, reputation, wage_budget, transfer_budget,
                     season_income, season_expenses, formation, play_style,
                     training_focus, training_intensity, training_schedule,
                     founded_year, colors_primary, colors_secondary,
-                    starting_xi_ids, match_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
+                    starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
                     team_kind, parent_team_id, academy_team_id, academy_metadata
-             FROM teams",
-        )
-        .map_err(|e| format!("Failed to prepare teams query: {}", e))?;
+             FROM teams";
+
+    log::info!(
+        "[team_repo] load_all_teams: executing query on {} columns...",
+        40
+    );
+
+    let mut stmt = match conn.prepare(query) {
+        Ok(s) => s,
+        Err(e) => {
+            log::error!("[team_repo] load_all_teams: PREPARE FAILED: {}", e);
+            // Try to identify which column is missing
+            let error_msg = format!("{}", e);
+            if error_msg.contains("no such column") {
+                // Check each column
+                let test_columns = vec![
+                    "team_kind",
+                    "parent_team_id",
+                    "academy_team_id",
+                    "academy_metadata",
+                    "weekly_scrim_opponent_ids",
+                    "scrim_loss_streak",
+                    "scrim_weekly_played",
+                    "scrim_weekly_wins",
+                    "scrim_weekly_losses",
+                    "scrim_slot_results",
+                    "financial_ledger",
+                    "sponsorship",
+                    "facilities",
+                ];
+                for col in test_columns {
+                    if conn
+                        .query_row(
+                            &format!("SELECT {} FROM teams LIMIT 1", col),
+                            [],
+                            |_| Ok(()),
+                        )
+                        .is_err()
+                    {
+                        log::error!("[team_repo] MISSING COLUMN: {}", col);
+                    }
+                }
+            }
+            return Err(format!("Failed to prepare teams query: {}", e));
+        }
+    };
+    log::info!("[team_repo] load_all_teams: query prepared successfully");
 
     let rows = stmt
         .query_map([], row_to_team)
         .map_err(|e| format!("Failed to query teams: {}", e))?;
 
+    log::info!("[team_repo] load_all_teams: iterating rows...");
     let mut teams = Vec::new();
-    for row in rows {
-        teams.push(row.map_err(|e| format!("Failed to read team row: {}", e))?);
+    for (idx, row) in rows.enumerate() {
+        match row {
+            Ok(team) => {
+                log::info!(
+                    "[team_repo] load_all_teams: loaded team {} ({})",
+                    team.name,
+                    team.id
+                );
+                teams.push(team);
+            }
+            Err(e) => {
+                log::error!(
+                    "[team_repo] load_all_teams: failed to read team row {}: {}",
+                    idx,
+                    e
+                );
+                return Err(format!("Failed to read team row {}: {}", idx, e));
+            }
+        }
     }
+    log::info!(
+        "[team_repo] load_all_teams: done, {} teams loaded",
+        teams.len()
+    );
     Ok(teams)
 }
 
@@ -251,12 +313,12 @@ pub fn load_all_teams(conn: &Connection) -> Result<Vec<Team>, String> {
 pub fn load_team(conn: &Connection, id: &str) -> Result<Option<Team>, String> {
     let mut stmt = conn
         .prepare(
-            "SELECT id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
+            "SELECT id, name, short_name, country, city, arena_name, arena_capacity,
                     finance, manager_id, reputation, wage_budget, transfer_budget,
                     season_income, season_expenses, formation, play_style,
                     training_focus, training_intensity, training_schedule,
                     founded_year, colors_primary, colors_secondary,
-                    starting_xi_ids, match_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
+                    starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, financial_ledger, sponsorship, facilities,
                     team_kind, parent_team_id, academy_team_id, academy_metadata
              FROM teams WHERE id = ?1",
         )
@@ -311,7 +373,6 @@ mod tests {
         assert_eq!(loaded.id, "team-001");
         assert_eq!(loaded.name, "London FC");
         assert_eq!(loaded.short_name, "TST");
-        assert_eq!(loaded.football_nation, "GB");
         assert_eq!(loaded.play_style, PlayStyle::Possession);
         assert_eq!(loaded.finance, 5_000_000);
         assert_eq!(loaded.arena_capacity, 50000);
@@ -381,8 +442,8 @@ mod tests {
             won: 18,
             drawn: 7,
             lost: 5,
-            goals_for: 55,
-            goals_against: 30,
+            kills_for: 55,
+            kills_against: 30,
         });
 
         upsert_team(db.conn(), &team).unwrap();
@@ -440,25 +501,19 @@ mod tests {
     }
 
     #[test]
-    fn test_team_match_roles_roundtrip() {
+    fn test_team_team_roles_roundtrip() {
         let db = test_db();
         let mut team = sample_team("team-001", "Roles FC");
-        team.match_roles = domain::team::MatchRoles {
+        team.team_roles = domain::team::TeamRoles {
             captain: Some("p1".to_string()),
-            vice_captain: Some("p2".to_string()),
-            penalty_taker: Some("p3".to_string()),
-            free_kick_taker: Some("p4".to_string()),
-            corner_taker: Some("p5".to_string()),
+            shotcaller: Some("p2".to_string()),
         };
 
         upsert_team(db.conn(), &team).unwrap();
         let loaded = load_team(db.conn(), "team-001").unwrap().unwrap();
 
-        assert_eq!(loaded.match_roles.captain.as_deref(), Some("p1"));
-        assert_eq!(loaded.match_roles.vice_captain.as_deref(), Some("p2"));
-        assert_eq!(loaded.match_roles.penalty_taker.as_deref(), Some("p3"));
-        assert_eq!(loaded.match_roles.free_kick_taker.as_deref(), Some("p4"));
-        assert_eq!(loaded.match_roles.corner_taker.as_deref(), Some("p5"));
+        assert_eq!(loaded.team_roles.captain.as_deref(), Some("p1"));
+        assert_eq!(loaded.team_roles.shotcaller.as_deref(), Some("p2"));
     }
 
     #[test]

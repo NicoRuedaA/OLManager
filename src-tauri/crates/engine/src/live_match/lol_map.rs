@@ -94,7 +94,7 @@ pub struct LolMapState {
     pub units: Vec<LolUnitState>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum LolRole {
     Top,
     Jungle,
@@ -476,7 +476,7 @@ impl LiveMatchState {
     }
 
     fn tick_progression(&mut self, minute: u8) {
-        let passive_gold = if minute < 15 { 17.0 } else { 22.0 };
+        let passive_gold = if minute < 15 { 24.0 } else { 32.0 };
         for unit in &mut self.lol_map.units {
             if !unit.alive {
                 continue;
@@ -772,7 +772,7 @@ impl LiveMatchState {
 
                 if matches!(target, StructureTarget::Nexus) {
                     self.lol_map.destroyed_nexus_by = Some(attacker);
-                    self.add_goal(attacker);
+                    self.add_score(attacker);
                     self.phase = MatchPhase::Finished;
                     return;
                 }

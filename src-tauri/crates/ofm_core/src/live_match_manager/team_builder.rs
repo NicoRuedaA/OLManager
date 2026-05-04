@@ -1,11 +1,23 @@
 use crate::game::Game;
 use crate::potential::calculate_lol_ovr;
-use domain::player::Position as DomainPosition;
-use engine::{PlayStyle, PlayerData, Position, TeamData};
+use domain::player::LolRole as DomainLolRole;
+use engine::{LolRole, PlayStyle, PlayerData, TeamData};
 
 // ---------------------------------------------------------------------------
 // Domain → Engine conversion (LoL: 5 titulares + banca)
 // ---------------------------------------------------------------------------
+
+/// Convert domain::player::LolRole to engine::LolRole
+fn to_engine_role(role: DomainLolRole) -> LolRole {
+    match role {
+        DomainLolRole::Top => LolRole::Top,
+        DomainLolRole::Jungle => LolRole::Jungle,
+        DomainLolRole::Mid => LolRole::Mid,
+        DomainLolRole::Adc => LolRole::Adc,
+        DomainLolRole::Support => LolRole::Support,
+        DomainLolRole::Unknown => LolRole::Top,
+    }
+}
 
 pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Vec<PlayerData>) {
     let team = game.teams.iter().find(|t| t.id == team_id);
@@ -47,6 +59,32 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
         Vec::new()
     };
 
+    // Ensure unique roles: if the top 5 by OVR don't cover all 5 roles,
+    // replace duplicates with the best available player of the missing role.
+    let mut seen_roles = std::collections::HashSet::new();
+    let mut uniq = Vec::with_capacity(5);
+    let mut dup = Vec::new();
+    let old_starters = std::mem::take(&mut starters);
+    for player in old_starters {
+        if seen_roles.insert(player.natural_position) {
+            uniq.push(player);
+        } else {
+            dup.push(player);
+        }
+    }
+    if uniq.len() < 5 {
+        for player in bench_domain.iter() {
+            if seen_roles.insert(player.natural_position) {
+                uniq.push(player.clone());
+            }
+            if uniq.len() == 5 {
+                break;
+            }
+        }
+    }
+    uniq.extend(dup);
+    starters = uniq.into_iter().take(5).collect();
+
     // Keep LoL lane order stable for draft/pre-match UIs.
     // Selection stays top-5 by OVR+condition; this only reorders those five.
     starters.sort_by(|left, right| {
@@ -77,19 +115,10 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
 }
 
 fn to_engine_player(p: &domain::player::Player) -> PlayerData {
-    let pos = match p.position.to_group_position() {
-        DomainPosition::Goalkeeper => Position::Goalkeeper,
-        DomainPosition::Defender => Position::Defender,
-        DomainPosition::Midfielder => Position::Midfielder,
-        DomainPosition::Forward => Position::Forward,
-        _ => Position::Midfielder,
-    };
-
     PlayerData {
         id: p.id.clone(),
         name: p.match_name.clone(),
-        position: pos,
-        lol_role: Some(map_position_to_lol_role(&p.natural_position).to_string()),
+        role: to_engine_role(p.natural_position),
         condition: p.condition,
         fitness: p.fitness,
         pace: p.attributes.pace,
@@ -115,55 +144,30 @@ fn to_engine_player(p: &domain::player::Player) -> PlayerData {
     }
 }
 
-fn map_position_to_lol_role(position: &DomainPosition) -> &'static str {
-    match position {
-        DomainPosition::Defender
-        | DomainPosition::RightBack
-        | DomainPosition::CenterBack
-        | DomainPosition::LeftBack
-        | DomainPosition::RightWingBack
-        | DomainPosition::LeftWingBack => "TOP",
-        DomainPosition::AttackingMidfielder
-        | DomainPosition::RightMidfielder
-        | DomainPosition::LeftMidfielder => "MID",
-        DomainPosition::Forward
-        | DomainPosition::RightWinger
-        | DomainPosition::LeftWinger
-        | DomainPosition::Striker => "ADC",
-        DomainPosition::Goalkeeper | DomainPosition::DefensiveMidfielder => "SUPPORT",
-        DomainPosition::Midfielder | DomainPosition::CentralMidfielder => "JUNGLE",
+fn lol_role_rank(role: &DomainLolRole) -> u8 {
+    match role {
+        DomainLolRole::Top => 0,
+        DomainLolRole::Jungle => 1,
+        DomainLolRole::Mid => 2,
+        DomainLolRole::Adc => 3,
+        DomainLolRole::Support => 4,
+        DomainLolRole::Unknown => 5,
     }
 }
 
-fn lol_role_rank(position: &DomainPosition) -> u8 {
-    match map_position_to_lol_role(position) {
-        "TOP" => 0,
-        "JUNGLE" => 1,
-        "MID" => 2,
-        "ADC" => 3,
-        "SUPPORT" => 4,
-        _ => 5,
-    }
-}
-
-/// Auto-select set-piece takers from a set of player IDs.
-/// Returns (captain_id, penalty_taker_id, free_kick_taker_id, corner_taker_id).
-pub fn auto_select_set_pieces(
+/// Auto-select team roles from a set of player IDs.
+/// Returns (captain_id, shotcaller_id).
+pub fn auto_select_team_roles(
     game: &Game,
     player_ids: &[String],
-) -> (
-    Option<String>,
-    Option<String>,
-    Option<String>,
-    Option<String>,
-) {
+) -> (Option<String>, Option<String>) {
     let players: Vec<&domain::player::Player> = player_ids
         .iter()
         .filter_map(|id| game.players.iter().find(|p| &p.id == id))
         .collect();
 
     if players.is_empty() {
-        return (None, None, None, None);
+        return (None, None);
     }
 
     // Captain: highest leadership + teamwork
@@ -172,38 +176,16 @@ pub fn auto_select_set_pieces(
         .max_by_key(|p| (p.attributes.leadership as u16) + (p.attributes.teamwork as u16))
         .map(|p| p.id.clone());
 
-    // Penalty taker: highest shooting + composure (exclude GK)
-    let penalty = players
+    // Shotcaller: highest shooting + vision + passing (exclude Support)
+    let shotcaller = players
         .iter()
-        .filter(|p| p.position != DomainPosition::Goalkeeper)
-        .max_by_key(|p| (p.attributes.shooting as u16) + (p.attributes.composure as u16))
-        .map(|p| p.id.clone());
-
-    // Free kick taker: highest passing + vision + shooting (exclude GK)
-    let free_kick = players
-        .iter()
-        .filter(|p| p.position != DomainPosition::Goalkeeper)
+        .filter(|p| p.position != DomainLolRole::Support)
         .max_by_key(|p| {
-            (p.attributes.passing as u16)
+            (p.attributes.shooting as u16)
                 + (p.attributes.vision as u16)
-                + (p.attributes.shooting as u16) / 2
+                + (p.attributes.passing as u16)
         })
         .map(|p| p.id.clone());
 
-    // Corner taker: highest passing + vision (exclude GK, prefer different from FK)
-    let corner = players
-        .iter()
-        .filter(|p| p.position != DomainPosition::Goalkeeper)
-        .max_by_key(|p| {
-            let base = (p.attributes.passing as u16) + (p.attributes.vision as u16);
-            // Small penalty if same as free kick taker to encourage variety
-            if free_kick.as_ref() == Some(&p.id) {
-                base.saturating_sub(5)
-            } else {
-                base
-            }
-        })
-        .map(|p| p.id.clone());
-
-    (captain, penalty, free_kick, corner)
+    (captain, shotcaller)
 }

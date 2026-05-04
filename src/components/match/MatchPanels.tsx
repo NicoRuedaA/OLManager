@@ -194,7 +194,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
           </span>
         </h4>
         {positions.map((pos) => {
-          const players = team.players.filter((p) => p.position === pos);
+          const players = team.players.filter((p) => (p.role ?? "") === pos);
           if (players.length === 0) return null;
           return (
             <div key={pos} className="mb-3">
@@ -270,7 +270,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                     {p.name}
                   </span>
                   <Badge variant="neutral" size="sm">
-                    {translatePositionAbbreviation(t, p.position)}
+                    {translatePositionAbbreviation(t, p.role ?? "")}
                   </Badge>
                    <span className="text-gray-500 dark:text-gray-400 tabular-nums text-[10px] w-6 text-right">
                     {Math.round(p.condition)}

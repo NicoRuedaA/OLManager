@@ -773,11 +773,8 @@ fn remove_player_from_team_references(team: &mut Team, player_id: &str) {
         group.player_ids.retain(|id| id != player_id);
     }
 
-    clear_match_role_if_matches(&mut team.match_roles.captain, player_id);
-    clear_match_role_if_matches(&mut team.match_roles.vice_captain, player_id);
-    clear_match_role_if_matches(&mut team.match_roles.penalty_taker, player_id);
-    clear_match_role_if_matches(&mut team.match_roles.free_kick_taker, player_id);
-    clear_match_role_if_matches(&mut team.match_roles.corner_taker, player_id);
+    clear_match_role_if_matches(&mut team.team_roles.captain, player_id);
+    clear_match_role_if_matches(&mut team.team_roles.shotcaller, player_id);
 }
 
 fn clear_match_role_if_matches(role: &mut Option<String>, player_id: &str) {

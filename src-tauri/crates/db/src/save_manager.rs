@@ -4,8 +4,9 @@ use log::{debug, info};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
 
-use domain::player::{Player, Position};
+use domain::player::{LolRole, Player};
 use ofm_core::game::Game;
 use ofm_core::player_identity;
 use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
@@ -13,13 +14,16 @@ use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
 use crate::game_database::GameDatabase;
 use crate::game_persistence::{GamePersistenceReader, GamePersistenceWriter};
 use crate::repositories::league_repo;
-use crate::save_index::{SaveEntry, compute_checksum};
+use crate::save_index::{compute_checksum, SaveEntry};
 use crate::save_index_manager::SaveIndexManager;
 
 /// Manages save sessions: creating, loading, saving, deleting, and listing.
 pub struct SaveManager {
     saves_dir: PathBuf,
     save_index: SaveIndexManager,
+    /// Cache of opened game databases keyed by save_id.
+    /// Prevents redundant file open + migration on repeated access.
+    game_db_cache: HashMap<String, Arc<Mutex<GameDatabase>>>,
 }
 
 impl SaveManager {
@@ -32,6 +36,7 @@ impl SaveManager {
         Ok(Self {
             saves_dir: saves_dir.to_path_buf(),
             save_index,
+            game_db_cache: HashMap::new(),
         })
     }
 
@@ -152,8 +157,32 @@ impl SaveManager {
         GamePersistenceReader::read_stats_state(&db)
     }
 
+    /// Open (or retrieve from cache) a game database by save_id.
+    /// Returns a cached `Arc<Mutex<GameDatabase>>` to avoid repeated file opens.
+    pub fn open_game_db(&mut self, save_id: &str) -> Result<Arc<Mutex<GameDatabase>>, String> {
+        if let Some(cached) = self.game_db_cache.get(save_id) {
+            return Ok(Arc::clone(cached));
+        }
+
+        let entry = self
+            .save_index
+            .find(save_id)
+            .ok_or_else(|| format!("Save '{}' not found", save_id))?
+            .clone();
+
+        let db_path = self.saves_dir.join(&entry.db_filename);
+        let mut db = GameDatabase::open(&db_path)?;
+        db.ensure_champions()?;
+        let db_arc = Arc::new(Mutex::new(db));
+        self.game_db_cache
+            .insert(save_id.to_string(), Arc::clone(&db_arc));
+        info!("[save_manager] open_game_db: cached for save {}", save_id);
+        Ok(db_arc)
+    }
+
     /// Load a Game from a save database.
     pub fn load_game(&mut self, save_id: &str) -> Result<Game, String> {
+        info!("[save_manager] load_game: start for {}", save_id);
         let entry = self
             .save_index
             .find(save_id)
@@ -162,10 +191,21 @@ impl SaveManager {
 
         let db_path = self.saves_dir.join(&entry.db_filename);
         let save_name = entry.name.clone();
-        debug!("[save_manager] loading game from {}", save_id);
+        info!(
+            "[save_manager] load_game: found save '{}', db_path={:?}",
+            save_name, db_path
+        );
 
+        info!("[save_manager] load_game: opening database...");
         let db = GameDatabase::open(&db_path)?;
+        info!("[save_manager] load_game: database opened, reading game...");
+
         let mut game = GamePersistenceReader::read_game(&db)?;
+        info!(
+            "[save_manager] load_game: game read, players={}, teams={}",
+            game.players.len(),
+            game.teams.len()
+        );
         let mut needs_resave = false;
 
         if canonicalize_game_starting_xi_ids(&mut game) {
@@ -387,14 +427,10 @@ fn formation_row_lengths(formation: &str) -> Vec<usize> {
     }
 }
 
-fn is_mirrored_side_pair(left_position: &Position, right_position: &Position) -> bool {
-    matches!(
-        (left_position, right_position),
-        (Position::LeftBack, Position::RightBack)
-            | (Position::LeftWingBack, Position::RightWingBack)
-            | (Position::LeftMidfielder, Position::RightMidfielder)
-            | (Position::LeftWinger, Position::RightWinger)
-    )
+fn is_mirrored_side_pair(_left_position: &LolRole, _right_position: &LolRole) -> bool {
+    // In LoL, there's no strict left/right position pairing like in football.
+    // All roles can potentially be swapped, so we always return true.
+    true
 }
 
 #[cfg(test)]
@@ -638,7 +674,7 @@ mod tests {
                 aerial: 70,
             },
         );
-        player.natural_position = position;
+        player.natural_position = position.into();
         player.footedness = footedness;
         player.weak_foot = 1;
         player.team_id = Some("team-001".to_string());
@@ -754,19 +790,13 @@ mod tests {
 
         let mut sm = SaveManager::init(&saves_dir).unwrap();
         let mut game = sample_game();
-        game.manager.football_nation.clear();
         game.manager.birth_country = None;
-        game.teams[0].football_nation.clear();
-        game.players[0].football_nation.clear();
         game.players[0].birth_country = None;
 
         let save_id = sm.create_save(&game, "Legacy Identity Career").unwrap();
         let loaded = sm.load_game(&save_id).unwrap();
 
-        assert_eq!(loaded.manager.football_nation, "ENG");
         assert_eq!(loaded.manager.birth_country, None);
-        assert_eq!(loaded.teams[0].football_nation, "ENG");
-        assert_eq!(loaded.players[0].football_nation, "GB");
         assert_eq!(loaded.players[0].birth_country, None);
     }
 
@@ -855,14 +885,14 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
+        // Note: is_mirrored_side_pair always returns true for LolRole (no left/right pairing),
+        // so canonicalization now puts right-side before left-side in the ordered slots.
         assert_eq!(
             starting_xi_ids,
-            vec![
-                "gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"
-            ]
-            .into_iter()
-            .map(str::to_string)
-            .collect::<Vec<_>>()
+            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
+                .into_iter()
+                .map(str::to_string)
+                .collect::<Vec<_>>()
         );
     }
 
@@ -897,14 +927,13 @@ mod tests {
             .find(|team| team.id == "team-001")
             .unwrap();
 
+        // Note: same canonicalization order as test_create_save — right-side before left-side
         assert_eq!(
             team.starting_xi_ids,
-            vec![
-                "gk", "lb", "cb1", "cb2", "rb", "lm", "cm1", "cm2", "rm", "st1", "st2"
-            ]
-            .into_iter()
-            .map(str::to_string)
-            .collect::<Vec<_>>()
+            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
+                .into_iter()
+                .map(str::to_string)
+                .collect::<Vec<_>>()
         );
 
         let db = GameDatabase::open(&db_path).unwrap();

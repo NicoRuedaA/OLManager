@@ -144,7 +144,7 @@ function snapshotToSummary(snapshot: MatchSnapshot, userSide: UserSide): Compati
           side: userRegistrySide,
           playerId: player.id,
           playerName: player.name,
-          role: player.position,
+          role: player.role ?? "",
           deaths,
           rating: deaths > 0 ? 4 : 6,
         };
@@ -153,7 +153,7 @@ function snapshotToSummary(snapshot: MatchSnapshot, userSide: UserSide): Compati
         side: enemyRegistrySide,
         playerId: player.id,
         playerName: player.name,
-        role: player.position,
+        role: player.role ?? "",
         deaths: deathsFor(snapshot.events, player.id),
         rating: 6,
       })),

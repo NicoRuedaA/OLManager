@@ -159,12 +159,13 @@ function mapSeedRoleToDraftRole(role: string): Role | null {
 }
 
 function gameStatePositionToDraftRole(position: string): Role | null {
+  // position is already a LolRole ("TOP", "JUNGLE", "MID", "ADC", "SUPPORT")
   const normalized = normalizeKey(position);
-  if (normalized === "defender") return "TOP";
-  if (normalized === "midfielder") return "JUNGLE";
-  if (normalized === "attackingmidfielder") return "MID";
-  if (normalized === "forward") return "ADC";
-  if (normalized === "defensivemidfielder" || normalized === "goalkeeper") return "SUPPORT";
+  if (normalized === "top") return "TOP";
+  if (normalized === "jungle") return "JUNGLE";
+  if (normalized === "mid") return "MID";
+  if (normalized === "adc" || normalized === "bot" || normalized === "bottom") return "ADC";
+  if (normalized === "support" || normalized === "sup") return "SUPPORT";
   return null;
 }
 
@@ -174,7 +175,7 @@ function toEnginePlayerFromState(
   return {
     id: player.id,
     name: player.match_name,
-    position: player.position,
+    role: player.position,
     condition: player.condition,
     pace: player.attributes.pace,
     stamina: player.attributes.stamina,
@@ -801,8 +802,8 @@ export function simulateDraftMatchResult(params: {
 
   timelineEvents.sort((a, b) => a.minute - b.minute);
 
-  const blueKillWeights = [1.1, 1.15, 1.35, 1.45, 0.65].map((base) => base + rand() * 0.4);
-  const redKillWeights = [1.1, 1.15, 1.35, 1.45, 0.65].map((base) => base + rand() * 0.4);
+  const blueKillWeights = [1.1, 1.15, 1.35, 1.45, 0.85].map((base) => base + rand() * 0.4);
+  const redKillWeights = [1.1, 1.15, 1.35, 1.45, 0.85].map((base) => base + rand() * 0.4);
   const blueDeathWeights = [1.0, 1.0, 1.05, 1.05, 0.9].map((base) => base + rand() * 0.4);
   const redDeathWeights = [1.0, 1.0, 1.05, 1.05, 0.9].map((base) => base + rand() * 0.4);
 
@@ -813,8 +814,8 @@ export function simulateDraftMatchResult(params: {
 
   const blueAssistPool = clamp(Math.round(blueKills * (1.7 + rand() * 0.8)), blueKills, blueKills * 4);
   const redAssistPool = clamp(Math.round(redKills * (1.7 + rand() * 0.8)), redKills, redKills * 4);
-  const blueAssistsByPlayer = weightedAllocation(blueAssistPool, [1, 1.1, 1, 1, 1.7], rand);
-  const redAssistsByPlayer = weightedAllocation(redAssistPool, [1, 1.1, 1, 1, 1.7], rand);
+  const blueAssistsByPlayer = weightedAllocation(blueAssistPool, [1, 1.1, 1, 1, 2.5], rand);
+  const redAssistsByPlayer = weightedAllocation(redAssistPool, [1, 1.1, 1, 1, 2.5], rand);
 
   const buildSideResults = (
     side: Side,

@@ -19,7 +19,10 @@ use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 use ofm_core::state::StateManager;
 
+use crate::application::game_setup::avatar;
+use crate::error::AppError;
 use crate::SaveManagerState;
+use validator::Validate;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct TeamSelectionData {
@@ -2047,33 +2050,56 @@ pub async fn load_game(
     save_id: String,
 ) -> Result<String, String> {
     info!("[cmd] load_game: save_id={}", save_id);
+
     let mut sm = sm_state
         .0
         .lock()
         .map_err(|e| format!("Lock error: {}", e))?;
+
+    info!("[cmd] load_game: loading game data from save");
     let mut game = sm.load_game(&save_id)?;
+    info!(
+        "[cmd] load_game: game loaded, players={}, teams={}",
+        game.players.len(),
+        game.teams.len()
+    );
+
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);
     ofm_core::champions::bootstrap_champion_state(&mut game);
+
+    info!("[cmd] load_game: loading stats state");
     let stats_state = sm.load_stats_state(&save_id)?;
+    info!("[cmd] load_game: stats state loaded");
+
     ofm_core::season_context::refresh_game_context(&mut game);
+    info!("[cmd] load_game: context refreshed");
 
     let mgr_name = game.manager.display_name();
+    info!("[cmd] load_game: manager={}", mgr_name);
 
+    info!("[cmd] load_game: setting state");
     state.set_save_id(save_id);
     state.set_game(game);
     state.set_stats_state(stats_state);
+    info!("[cmd] load_game: state set, returning manager name");
+
     Ok(mgr_name)
 }
 
 #[tauri::command]
 pub async fn get_active_game(state: State<'_, StateManager>) -> Result<Game, String> {
-    log::debug!("[cmd] get_active_game");
-    let mut game = state
-        .get_game(|g: &Game| g.clone())
-        .ok_or("No active game session".to_string())?;
-    ofm_core::champions::bootstrap_champion_state(&mut game);
-    state.set_game(game.clone());
+    log::info!("[cmd] get_active_game: start");
+    let game = state.get_game(|g: &Game| g.clone()).ok_or_else(|| {
+        log::error!("[cmd] get_active_game: no active game in state");
+        "No active game session".to_string()
+    })?;
+    log::info!(
+        "[cmd] get_active_game: found game with {} players, {} teams",
+        game.players.len(),
+        game.teams.len()
+    );
+    ofm_core::champions::bootstrap_champion_state(&mut game.clone());
     Ok(game)
 }
 
@@ -2158,23 +2184,39 @@ pub async fn save_manager_avatar(
     app_handle: tauri::AppHandle,
     filename: String,
     data: Vec<u8>,
-) -> Result<String, String> {
+) -> Result<String, AppError> {
     info!("[cmd] save_manager_avatar: filename={}", filename);
+
+    let safe_name = avatar::safe_avatar_filename(&filename)?;
 
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
 
     let avatar_dir = app_data_dir.join("manager-avatars");
     std::fs::create_dir_all(&avatar_dir)
-        .map_err(|e| format!("Failed to create avatar directory: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to create avatar directory: {}", e)))?;
 
-    let file_path = avatar_dir.join(&filename);
-    std::fs::write(&file_path, &data).map_err(|e| format!("Failed to write avatar file: {}", e))?;
+    let file_path = avatar_dir.join(&safe_name);
+    // Extra safety: verify resolved path is within the avatar directory
+    let canonical = file_path
+        .canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
+    let canonical_dir = avatar_dir
+        .canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
+    if !canonical.starts_with(&canonical_dir) {
+        return Err(AppError::Validation(
+            "Avatar path traversal detected".into(),
+        ));
+    }
+
+    std::fs::write(&file_path, &data)
+        .map_err(|e| AppError::Io(format!("Failed to write avatar file: {}", e)))?;
 
     info!("[cmd] save_manager_avatar: saved to {:?}", file_path);
-    Ok(file_path.to_string_lossy().to_string())
+    Ok(safe_name)
 }
 
 /// Load manager avatar as base64 data URL
@@ -2182,29 +2224,46 @@ pub async fn save_manager_avatar(
 pub async fn load_manager_avatar(
     app_handle: tauri::AppHandle,
     filename: String,
-) -> Result<String, String> {
+) -> Result<String, AppError> {
     info!("[cmd] load_manager_avatar: filename={}", filename);
+
+    let safe_name = avatar::safe_avatar_filename(&filename)?;
 
     let app_data_dir = app_handle
         .path()
         .app_data_dir()
-        .map_err(|e| format!("Failed to get app data dir: {}", e))?;
+        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
 
-    let file_path = app_data_dir.join("manager-avatars").join(&filename);
-
-    if !file_path.exists() {
-        return Err(format!("Avatar file not found: {}", filename));
+    let avatar_dir = app_data_dir.join("manager-avatars");
+    let file_path = avatar_dir.join(&safe_name);
+    // Extra safety: verify resolved path is within the avatar directory
+    let canonical = file_path
+        .canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
+    let canonical_dir = avatar_dir
+        .canonicalize()
+        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
+    if !canonical.starts_with(&canonical_dir) {
+        return Err(AppError::Validation(
+            "Avatar path traversal detected".into(),
+        ));
     }
 
-    let data =
-        std::fs::read(&file_path).map_err(|e| format!("Failed to read avatar file: {}", e))?;
+    if !file_path.exists() {
+        return Err(AppError::NotFound(format!(
+            "Avatar file not found: {}",
+            safe_name
+        )));
+    }
+
+    let data = std::fs::read(&file_path)
+        .map_err(|e| AppError::Io(format!("Failed to read avatar file: {}", e)))?;
 
     // Determine MIME type from extension
-    let mime_type = match filename.rsplit('.').next() {
+    let mime_type = match safe_name.rsplit('.').next() {
         Some("png") => "image/png",
         Some("jpg") | Some("jpeg") => "image/jpeg",
         Some("webp") => "image/webp",
-        Some("svg") => "image/svg+xml",
         _ => "application/octet-stream",
     };
 
@@ -2217,6 +2276,30 @@ pub async fn load_manager_avatar(
     Ok(data_url)
 }
 
+/// Validated input for updating manager profile fields.
+#[derive(Debug, validator::Validate)]
+struct ManagerProfileInput {
+    #[validate(length(max = 30))]
+    nickname: Option<String>,
+    #[validate(length(max = 30))]
+    first_name: Option<String>,
+    #[validate(length(max = 30))]
+    last_name: Option<String>,
+    #[validate(custom(function = "validate_date_format"))]
+    dob: Option<String>,
+    #[validate(length(max = 3))]
+    nationality: Option<String>,
+    avatar_path: Option<String>,
+}
+
+fn validate_date_format(date: &str) -> Result<(), validator::ValidationError> {
+    if chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d").is_ok() {
+        Ok(())
+    } else {
+        Err(validator::ValidationError::new("invalid_date_format"))
+    }
+}
+
 /// Update manager profile fields (nickname, name, dob, nationality, avatar)
 #[tauri::command]
 pub async fn update_manager_profile(
@@ -2227,34 +2310,48 @@ pub async fn update_manager_profile(
     dob: Option<String>,
     nationality: Option<String>,
     avatar_path: Option<String>,
-) -> Result<(), String> {
+) -> Result<(), AppError> {
     info!("[cmd] update_manager_profile");
+
+    // Validate input
+    let input = ManagerProfileInput {
+        nickname: nickname.clone(),
+        first_name: first_name.clone(),
+        last_name: last_name.clone(),
+        dob: dob.clone(),
+        nationality: nationality.clone(),
+        avatar_path: avatar_path.clone(),
+    };
+    input
+        .validate()
+        .map_err(|e| AppError::Validation(format!("Validation failed: {}", e)))?;
 
     let mut game = state
         .get_game(|g: &Game| g.clone())
-        .ok_or("No active game session".to_string())?;
+        .ok_or(AppError::Session("No active game session".into()))?;
 
     // Update only the provided fields (not None)
     if let Some(nick) = nickname {
-        game.manager.nickname = nick.trim().to_string();
+        let trimmed = nick.trim().to_string();
+        if !trimmed.is_empty() {
+            game.manager.nickname = trimmed;
+        }
     }
     if let Some(first) = first_name {
         let trimmed = first.trim().to_string();
-        if !trimmed.is_empty() && trimmed.len() <= 30 {
+        if !trimmed.is_empty() {
             game.manager.first_name = trimmed;
         }
     }
     if let Some(last) = last_name {
         let trimmed = last.trim().to_string();
-        if !trimmed.is_empty() && trimmed.len() <= 30 {
+        if !trimmed.is_empty() {
             game.manager.last_name = trimmed;
         }
     }
     if let Some(date) = dob {
-        // Validate date format
-        if chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d").is_ok() {
-            game.manager.date_of_birth = date;
-        }
+        // Already validated by validator custom function
+        game.manager.date_of_birth = date;
     }
     if let Some(nat) = nationality {
         let trimmed = nat.trim().to_string();

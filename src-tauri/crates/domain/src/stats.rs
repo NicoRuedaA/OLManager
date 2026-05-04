@@ -2,9 +2,13 @@ use crate::league::FixtureCompetition;
 use serde::de::Visitor;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt;
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 /// Stats state container
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct StatsState {
     pub player_matches: Vec<PlayerMatchStatsRecord>,
@@ -19,6 +23,8 @@ impl StatsState {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum MatchOutcome {
     Win,
     #[serde(alias = "Draw")]
@@ -38,6 +44,8 @@ impl MatchOutcome {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum TeamSide {
     #[serde(alias = "Home")]
     #[default]
@@ -48,7 +56,10 @@ pub enum TeamSide {
 
 /// LoL role enum - replaces the legacy Position enum from player.rs
 /// Custom deserialization handles both new LolRole strings and legacy Position strings
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[serde(rename_all = "UPPERCASE")]
 pub enum LolRole {
     Top,
     Jungle,
@@ -62,6 +73,8 @@ pub enum LolRole {
 /// Legacy Position enum - now maps to LolRole
 /// This provides backward compatibility for code using Position variants
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(rename_all = "PascalCase")]
 pub enum Position {
     #[default]
@@ -174,14 +187,14 @@ impl<'de> Deserialize<'de> for LolRole {
             where
                 E: serde::de::Error,
             {
-                // First try direct LolRole match
+                // First try direct LolRole match (handles PascalCase, UPPERCASE, lowercase)
                 match value {
-                    "Top" | "top" => Ok(LolRole::Top),
-                    "Jungle" | "jungle" => Ok(LolRole::Jungle),
-                    "Mid" | "mid" => Ok(LolRole::Mid),
+                    "Top" | "TOP" | "top" => Ok(LolRole::Top),
+                    "Jungle" | "JUNGLE" | "jungle" => Ok(LolRole::Jungle),
+                    "Mid" | "MID" | "mid" => Ok(LolRole::Mid),
                     "Adc" | "ADC" | "adc" => Ok(LolRole::Adc),
-                    "Support" | "support" => Ok(LolRole::Support),
-                    "Unknown" | "unknown" => Ok(LolRole::Unknown),
+                    "Support" | "SUPPORT" | "support" => Ok(LolRole::Support),
+                    "Unknown" | "UNKNOWN" | "unknown" => Ok(LolRole::Unknown),
                     _ => {
                         // Fall back to legacy position mapping
                         let role = match value {
@@ -212,6 +225,8 @@ impl<'de> Deserialize<'de> for LolRole {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerMatchStatsRecord {
     pub fixture_id: String,
@@ -239,6 +254,8 @@ pub struct PlayerMatchStatsRecord {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct TeamMatchStatsRecord {
     pub fixture_id: String,

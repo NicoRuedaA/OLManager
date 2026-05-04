@@ -14,19 +14,9 @@ pub enum MatchReportEndReason {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct TeamStats {
     #[serde(default, skip_serializing)]
-    pub goals: u8,
-    #[serde(default, skip_serializing)]
     pub shots: u16,
     #[serde(default, skip_serializing)]
     pub shots_on_target: u16,
-    #[serde(default, skip_serializing)]
-    pub yellow_cards: u16,
-    #[serde(default, skip_serializing)]
-    pub red_cards: u16,
-    #[serde(default, skip_serializing)]
-    pub corners: u16,
-    #[serde(default, skip_serializing)]
-    pub free_kicks: u16,
     pub kills: u16,
     pub deaths: u16,
     pub gold_earned: u32,
@@ -46,13 +36,7 @@ pub struct PlayerMatchStats {
     #[serde(default, skip_serializing)]
     pub minutes_played: u16,
     #[serde(default, skip_serializing)]
-    pub yellow_cards: u8,
-    #[serde(default, skip_serializing)]
-    pub red_cards: u8,
-    #[serde(default, skip_serializing)]
     pub rating: f32,
-    #[serde(default, skip_serializing)]
-    pub goals: u16,
     #[serde(default, skip_serializing)]
     pub shots: u16,
     #[serde(default, skip_serializing)]
@@ -65,8 +49,6 @@ pub struct PlayerMatchStats {
     pub tackles_won: u16,
     #[serde(default, skip_serializing)]
     pub interceptions: u16,
-    #[serde(default, skip_serializing)]
-    pub fouls_committed: u16,
     pub role: Option<LolRole>,
     pub duration_seconds: u32,
     pub kills: u16,
@@ -84,31 +66,17 @@ pub struct KillDetail {
     pub minute: u8,
     pub killer_id: String,
     pub victim_id: Option<String>,
-    pub side: Side,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GoalDetail {
-    pub minute: u8,
-    pub scorer_id: String,
     pub assist_id: Option<String>,
-    pub is_penalty: bool,
     pub side: Side,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct MatchReport {
-    #[serde(default, skip_serializing)]
-    pub home_goals: u8,
-    #[serde(default, skip_serializing)]
-    pub away_goals: u8,
     pub home_wins: u8,
     pub away_wins: u8,
     pub home_stats: TeamStats,
     pub away_stats: TeamStats,
     pub events: Vec<MatchEvent>,
-    #[serde(default, skip_serializing)]
-    pub goals: Vec<GoalDetail>,
     pub kill_feed: Vec<KillDetail>,
     pub player_stats: HashMap<String, PlayerMatchStats>,
     pub home_possession: f64,
@@ -204,26 +172,21 @@ impl MatchReport {
             let pid = event.player_id.as_deref().unwrap_or("");
 
             match &event.event_type {
-                EventType::Kill | EventType::Goal | EventType::PenaltyGoal => {
+                EventType::Kill => {
                     stats.kills += 1;
                     opposing_stats.deaths += 1;
                     kill_feed.push(KillDetail {
                         minute: event.minute,
                         killer_id: pid.to_string(),
                         victim_id: event.secondary_player_id.clone(),
+                        assist_id: None,
                         side: event.side,
                     });
 
                     if !pid.is_empty() {
                         player_stats.entry(pid.to_string()).or_default().kills += 1;
                     }
-                    if matches!(&event.event_type, EventType::Goal)
-                        && let Some(assist_id) = event.secondary_player_id.as_ref()
-                    {
-                        player_stats.entry(assist_id.clone()).or_default().assists += 1;
-                    }
-                    if matches!(&event.event_type, EventType::Kill)
-                        && let Some(victim_id) = event.secondary_player_id.as_ref()
+                    if let Some(victim_id) = event.secondary_player_id.as_ref()
                     {
                         player_stats.entry(victim_id.clone()).or_default().deaths += 1;
                     }
@@ -319,28 +282,13 @@ impl MatchReport {
             Side::Home => (1, 0),
             Side::Away => (0, 1),
         };
-        let goals = kill_feed
-            .iter()
-            .map(|kill| GoalDetail {
-                minute: kill.minute,
-                scorer_id: kill.killer_id.clone(),
-                assist_id: None,
-                is_penalty: false,
-                side: kill.side,
-            })
-            .collect();
-        home_stats.goals = home_wins.into();
-        away_stats.goals = away_wins.into();
 
         Self {
-            home_goals: home_wins,
-            away_goals: away_wins,
             home_wins,
             away_wins,
             home_stats,
             away_stats,
             events,
-            goals,
             kill_feed,
             player_stats,
             home_possession,
@@ -396,15 +344,6 @@ fn populate_duration_seconds(
                         player_on_id.clone(),
                         total_minutes.saturating_sub(event.minute),
                     );
-                }
-            }
-            EventType::RedCard | EventType::SecondYellow => {
-                if let Some(player_id) = event.player_id.as_ref() {
-                    let dismissed_at = event.minute.min(total_minutes);
-                    minutes_by_player
-                        .entry(player_id.clone())
-                        .and_modify(|minutes| *minutes = (*minutes).min(dismissed_at))
-                        .or_insert(dismissed_at);
                 }
             }
             _ => {}

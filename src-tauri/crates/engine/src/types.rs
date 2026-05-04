@@ -185,37 +185,16 @@ pub struct MatchConfig {
     pub home_advantage: f64,
     /// Base probability that a shot from the box is on target (0.0–1.0).
     pub shot_accuracy_base: f64,
-    /// Base probability that an on-target shot beats the keeper (0.0–1.0).
-    pub goal_conversion_base: f64,
     /// Per-minute fatigue factor applied to condition.
     pub fatigue_per_minute: f64,
-    /// Probability of a foul on any defensive action (0.0–1.0).
-    pub foul_probability: f64,
-    /// Probability a foul results in a yellow card.
-    pub yellow_card_probability: f64,
-    /// Probability a yellow-card foul is upgraded to red (second yellow or serious foul).
-    pub red_card_probability: f64,
-    /// Probability a foul in the box results in a penalty.
-    pub penalty_probability: f64,
-    /// Minutes of stoppage time per half (0 = none).
-    pub stoppage_time_max: u8,
-    /// Probability of an injury per foul event.
-    pub injury_probability: f64,
 }
 
 impl Default for MatchConfig {
     fn default() -> Self {
         Self {
-            home_advantage: 1.08,
+            home_advantage: 1.03,
             shot_accuracy_base: 0.45,
-            goal_conversion_base: 0.30,
             fatigue_per_minute: 0.20,
-            foul_probability: 0.12,
-            yellow_card_probability: 0.30,
-            red_card_probability: 0.04,
-            penalty_probability: 0.08,
-            stoppage_time_max: 4,
-            injury_probability: 0.03,
         }
     }
 }

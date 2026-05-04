@@ -54,24 +54,13 @@ fn legacy_team_rows_load_as_main_without_academy_metadata() {
     db.conn()
         .execute(
             r#"INSERT INTO teams
-             (id, name, short_name, country, football_nation, city, arena_name, arena_capacity,
-              finance, manager_id, reputation, wage_budget, transfer_budget,
-              season_income, season_expenses, formation, play_style,
-              training_focus, training_intensity, training_schedule,
-              founded_year, colors_primary, colors_secondary,
-              starting_xi_ids, match_roles, form, history, training_groups,
-              weekly_scrim_opponent_ids, scrim_loss_streak, scrim_weekly_played,
-              scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results,
-              financial_ledger, sponsorship, facilities)
+             (id, name, short_name, country, city, arena_name, arena_capacity,
+              finance, reputation, formation, play_style,
+              team_kind)
              VALUES
-             ('legacy-main', 'Legacy Main', 'LEG', 'DE', 'DE', 'Berlin', 'Legacy Arena', 18000,
-              2500000, NULL, 600, 200000, 500000,
-              0, 0, '5v5', 'Balanced',
-              'Scrims', 'Medium', 'Balanced',
-              2012, '#111111', '#eeeeee',
-              '[]', '{"captain":null,"vice_captain":null,"penalty_taker":null,"free_kick_taker":null,"corner_taker":null}', '[]', '[]', '[]',
-              '[]', 0, 0, 0, 0, '[]',
-              '[]', 'null', '{"training":1,"medical":1,"scouting":1}')"#,
+             ('legacy-main', 'Legacy Main', 'LEG', 'DE', 'DE', 'Berlin', 18000,
+              1000000, 500, '4-4-2', 'Balanced',
+              'Main')"#,
             [],
         )
         .expect("legacy-style team row should insert using academy defaults");

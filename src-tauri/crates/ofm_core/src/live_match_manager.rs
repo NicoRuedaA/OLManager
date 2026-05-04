@@ -1,5 +1,5 @@
 mod team_builder;
-pub use team_builder::auto_select_set_pieces;
+pub use team_builder::auto_select_team_roles;
 use team_builder::build_team_with_bench;
 
 use log::info;

@@ -31,34 +31,25 @@ pub enum EventType {
     DribbleTackled,
     Cross,
 
-    // --- Shooting ---
+    // --- Shooting / Scoring ---
     ShotOnTarget,
     ShotOffTarget,
     ShotBlocked,
     ShotSaved,
-    Goal,
-    PenaltyAwarded,
-    PenaltyGoal,
-    PenaltyMiss,
+    Aggression,
+    Warning,
+    Disqualification,
 
     // --- Defending ---
     Tackle,
     Interception,
     Clearance,
 
-    // --- Fouls & discipline ---
-    Foul,
-    YellowCard,
-    RedCard,
-    SecondYellow,
-
     // --- Set pieces ---
     Corner,
-    FreeKick,
 
     // --- Other ---
     Injury,
-    GoalKick,
     Substitution,
 
     // --- LoL map/objective layer ---
@@ -94,7 +85,7 @@ impl MatchEvent {
         self
     }
 
-    pub fn is_goal(&self) -> bool {
-        matches!(self.event_type, EventType::Goal | EventType::PenaltyGoal)
+    pub fn is_kill(&self) -> bool {
+        matches!(self.event_type, EventType::Kill)
     }
 }

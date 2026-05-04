@@ -108,8 +108,7 @@ export interface LolMapState {
 export interface EnginePlayerData {
   id: string;
   name: string;
-  position: string;
-  lol_role?: string | null;
+  role?: string;
   condition: number;
   pace: number;
   stamina: number;
@@ -141,11 +140,9 @@ export interface EngineTeamData {
   players: EnginePlayerData[];
 }
 
-export interface SetPieceTakers {
-  free_kick_taker: string | null;
-  corner_taker: string | null;
-  penalty_taker: string | null;
+export interface TeamRoles {
   captain: string | null;
+  shotcaller: string | null;
 }
 
 export interface SubstitutionRecord {
@@ -172,8 +169,8 @@ export interface MatchSnapshot {
   home_subs_made: number;
   away_subs_made: number;
   max_subs: number;
-  home_set_pieces: SetPieceTakers;
-  away_set_pieces: SetPieceTakers;
+  home_roles: TeamRoles;
+  away_roles: TeamRoles;
   substitutions: SubstitutionRecord[];
   allows_extra_time: boolean;
   home_yellows: Record<string, number>;

@@ -1,5 +1,5 @@
 use rusqlite::{Connection, Transaction};
-use rusqlite_migration::{HookResult, M, Migrations};
+use rusqlite_migration::{HookResult, Migrations, M};
 
 fn column_exists(tx: &Transaction<'_>, table: &str, column: &str) -> rusqlite::Result<bool> {
     let mut stmt = tx.prepare(&format!("PRAGMA table_info({table})"))?;
@@ -36,6 +36,75 @@ fn migrate_profile_image_urls(tx: &Transaction<'_>) -> HookResult {
 
 fn migrate_manager_avatar_path(tx: &Transaction<'_>) -> HookResult {
     add_column_if_missing(tx, "managers", "avatar_path", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_stadium_to_arena(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "arena_name", "TEXT")?;
+    // Only migrate data if the legacy column exists (old save files)
+    if column_exists(tx, "teams", "stadium_name")? {
+        tx.execute(
+            "UPDATE teams SET arena_name = COALESCE(stadium_name, 'Unknown Arena') WHERE arena_name IS NULL",
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+fn migrate_stadium_to_arena_capacity(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "arena_capacity", "INTEGER")?;
+    // Only migrate data if the legacy column exists (old save files)
+    if column_exists(tx, "teams", "stadium_capacity")? {
+        tx.execute(
+            "UPDATE teams SET arena_capacity = COALESCE(stadium_capacity, 0) WHERE arena_capacity IS NULL",
+            [],
+        )?;
+    }
+    Ok(())
+}
+
+/// V39 hook: drop football_nation column from players, managers, staff.
+/// First ensures all required columns exist via add_column_if_missing,
+/// then recreates each table via CREATE TABLE AS (SQLite lacks DROP COLUMN).
+fn migrate_drop_football_nation(tx: &Transaction<'_>) -> HookResult {
+    // Add missing columns (safe: no-op if already present)
+    add_column_if_missing(tx, "players", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
+    add_column_if_missing(tx, "players", "competitive_region", "TEXT")?;
+    add_column_if_missing(tx, "players", "profile_image_url", "TEXT")?;
+    add_column_if_missing(tx, "managers", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
+    add_column_if_missing(tx, "managers", "competitive_region", "TEXT")?;
+    add_column_if_missing(tx, "managers", "avatar_path", "TEXT")?;
+    add_column_if_missing(tx, "staff", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
+    add_column_if_missing(tx, "staff", "competitive_region", "TEXT")?;
+    add_column_if_missing(tx, "staff", "profile_image_url", "TEXT")?;
+
+    // Execute the table recreation SQL
+    tx.execute_batch(include_str!("sql/v039_drop_football_nation.sql"))?;
+
+    log::info!("[migration] V39: removed football_nation from players, managers, staff");
+    Ok(())
+}
+
+/// V40 hook: audit football legacy columns in teams table and log findings.
+/// This is a non-destructive audit — columns are NOT removed yet.
+/// If the audit shows all defaults, columns can be removed in a future migration.
+fn migrate_audit_teams_legacy(tx: &Transaction<'_>) -> HookResult {
+    let non_default: i64 = tx.query_row(
+        "SELECT COUNT(*) FROM teams WHERE formation != '4-4-2' OR wage_budget != 0 OR transfer_budget != 0 OR season_income != 0 OR season_expenses != 0",
+        [],
+        |row| row.get(0),
+    )?;
+
+    if non_default > 0 {
+        log::info!(
+            "[migration] V40 audit: {} teams use legacy columns — deferring cleanup",
+            non_default
+        );
+    } else {
+        log::info!(
+            "[migration] V40 audit: no teams use legacy columns — safe to remove"
+        );
+    }
     Ok(())
 }
 
@@ -78,7 +147,7 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 30;
+pub const MIGRATION_COUNT: usize = 44;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -138,12 +207,42 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v026_fixture_best_of.sql")),
         // V27: Persist academy team kind, affiliation links, and ERL metadata
         M::up(include_str!("sql/v027_academy_team_metadata.sql")),
-        // V28: Add avatar_path column to managers table for profile avatar persistence
+        // V28: Add avatar_path column to managers table (note: v028_avatar_path.sql
+        // is an orphan file — the actual migration uses the hook below)
         M::up_with_hook("SELECT 1;", migrate_manager_avatar_path),
         // V29: Champion mastery + patch progression persistence
         M::up(include_str!("sql/v028_champion_progression_state.sql")),
         // V30: Optional unified profile image URLs for players and staff
         M::up_with_hook("SELECT 1;", migrate_profile_image_urls),
+        // V30 (second): Champions table for LoL champion data
+        M::up(include_str!("sql/v030_champions_table.sql")),
+        // V31: Fix champion seed data
+        M::up(include_str!("sql/v031_fix_champion_seed.sql")),
+        // V32: Fix champion names
+        M::up(include_str!("sql/v032_fix_champion_names.sql")),
+        // V33: Add profile_image_url to players (no-op: already handled by V29 hook)
+        M::up("SELECT 1;"),
+        // V34: Add profile_image_url to staff (no-op: already handled by V29 hook)
+        M::up("SELECT 1;"),
+        // V35: Rename stadium_name to arena_name for LoL terminology
+        M::up_with_hook("SELECT 1;", migrate_stadium_to_arena),
+        // V36: Rename stadium_capacity to arena_capacity for LoL terminology
+        M::up_with_hook("SELECT 1;", migrate_stadium_to_arena_capacity),
+        // V37: Rename legacy football stat tables to _deprecated_ prefix
+        M::up(include_str!("sql/v037_rename_legacy_stats.sql")),
+        // V38: Drop deprecated legacy stat tables
+        M::up(include_str!("sql/v038_drop_deprecated_stats.sql")),
+        // V39: Remove football_nation column from players, managers, staff
+        // Recreates tables via CREATE TABLE AS (SQLite lacks DROP COLUMN)
+        M::up_with_hook("SELECT 1;", migrate_drop_football_nation),
+        // V40: Audit football legacy columns in teams (non-destructive)
+        M::up_with_hook("SELECT 1;", migrate_audit_teams_legacy),
+        // V41: Add team_roles column (replaces match_roles)
+        M::up(include_str!("sql/v041_team_roles.sql")),
+        // V42: Drop dead columns from teams table (football_nation, match_roles, nationality_code)
+        M::up(include_str!("sql/v042_drop_dead_team_columns.sql")),
+        // V43: Add bans_json column to lol_player_match_stats for ban rate
+        M::up(include_str!("sql/v043_add_bans_column.sql")),
     ])
 }
 
@@ -183,17 +282,13 @@ mod tests {
         assert!(tables.contains(&"teams".to_string()), "missing teams");
         assert!(tables.contains(&"players".to_string()), "missing players");
         assert!(
-            tables.contains(&"player_match_stats".to_string()),
-            "missing player_match_stats"
-        );
-        assert!(
             tables.contains(&"lol_player_match_stats".to_string()),
             "missing lol_player_match_stats"
         );
         assert!(tables.contains(&"staff".to_string()), "missing staff");
         assert!(
-            tables.contains(&"team_match_stats".to_string()),
-            "missing team_match_stats"
+            tables.contains(&"lol_team_match_stats".to_string()),
+            "missing lol_team_match_stats"
         );
         assert!(
             tables.contains(&"lol_team_match_stats".to_string()),
@@ -251,15 +346,18 @@ mod tests {
     fn test_profile_image_url_migration_tolerates_existing_columns() {
         let mut conn = Connection::open_in_memory().unwrap();
         let migrations = all_migrations();
+        // Apply up to V29 (index 28 = 29 migrations), BEFORE the profile_image_url hook at V30
         migrations
-            .to_version(&mut conn, MIGRATION_COUNT - 1)
+            .to_version(&mut conn, 29)
             .expect("migrations before profile image URLs should apply");
 
+        // Manually add columns BEFORE running the V30 hook
         conn.execute("ALTER TABLE players ADD COLUMN profile_image_url TEXT", [])
             .unwrap();
         conn.execute("ALTER TABLE staff ADD COLUMN profile_image_url TEXT", [])
             .unwrap();
 
+        // Apply remaining migrations (V30 onwards) — V30 hook uses add_column_if_missing
         migrations
             .to_latest(&mut conn)
             .expect("profile image URL migration should skip existing columns");

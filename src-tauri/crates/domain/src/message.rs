@@ -1,7 +1,11 @@
 use serde::{Deserialize, Serialize};
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum MessageCategory {
     Welcome,
     LeagueInfo,
@@ -21,6 +25,8 @@ pub enum MessageCategory {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum MessagePriority {
     Low,
     Normal,
@@ -29,6 +35,8 @@ pub enum MessagePriority {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct MessageAction {
     pub id: String,
     pub label: String,
@@ -40,6 +48,8 @@ pub struct MessageAction {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ActionType {
     Acknowledge,
     NavigateTo { route: String },
@@ -48,6 +58,8 @@ pub enum ActionType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ActionOption {
     pub id: String,
     pub label: String,
@@ -59,6 +71,8 @@ pub struct ActionOption {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct InboxMessage {
     pub id: String,
     pub subject: String,
@@ -90,6 +104,8 @@ pub struct InboxMessage {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct MessageContext {
     pub team_id: Option<String>,
     pub player_id: Option<String>,
@@ -102,6 +118,8 @@ pub struct MessageContext {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct DelegatedRenewalReportData {
     pub success_count: u32,
     pub failure_count: u32,
@@ -110,6 +128,8 @@ pub struct DelegatedRenewalReportData {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct DelegatedRenewalCaseData {
     pub player_id: String,
     pub player_name: String,
@@ -125,6 +145,8 @@ pub struct DelegatedRenewalCaseData {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ScoutReportData {
     pub player_id: String,
     pub player_name: String,
@@ -164,6 +186,8 @@ pub struct ScoutReportData {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ContextMatchResult {
     pub home_team_id: String,
     pub away_team_id: String,

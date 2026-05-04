@@ -233,6 +233,7 @@ interface PlayerProfileProps {
   onClose: () => void;
   onSelectTeam?: (id: string) => void;
   onGameUpdate?: (g: GameStateData) => void;
+  onViewChampion?: (championKey: string) => void;
 }
 
 export default function PlayerProfile({
@@ -242,6 +243,7 @@ export default function PlayerProfile({
   onClose,
   onSelectTeam,
   onGameUpdate,
+  onViewChampion,
 }: PlayerProfileProps) {
   const { t, i18n } = useTranslation();
   const weeklySuffix = t("finances.perWeekSuffix", "/wk");
@@ -919,7 +921,7 @@ export default function PlayerProfile({
           />
 
           {topChampions.length > 0 ? (
-            <PlayerProfileChampionsCard champions={topChampions} />
+            <PlayerProfileChampionsCard champions={topChampions} onViewChampion={onViewChampion} />
           ) : null}
         </div>
 

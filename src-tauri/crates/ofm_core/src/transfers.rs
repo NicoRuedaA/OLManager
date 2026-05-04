@@ -17,6 +17,7 @@ const MANAGED_SQUAD_INCOMING_OFFER_COOLDOWN_DAYS: i64 = 14;
 const TRANSFER_BUDGET_SELLING_REALLOCATION_PCT: i64 = 60;
 const CONTRACT_RELEASE_PENALTY_PCT: i64 = 40;
 const MAX_INCOMING_OFFERS_PER_DAY: usize = 1;
+const MAX_OFFERS_PER_TEAM_PER_WEEK: usize = 2;
 const MAX_AI_FREE_AGENT_SIGNINGS_PER_DAY: usize = 2;
 const MAX_AI_INTERCLUB_TRANSFERS_PER_DAY: usize = 1;
 const LOL_CORE_ROLES: [&str; 5] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
@@ -555,6 +556,23 @@ pub fn generate_incoming_transfer_offers(game: &mut Game) {
             continue;
         };
 
+        // Limit offers per buyer team per week
+        let week_ago = current_date - chrono::Duration::days(7);
+        let offers_from_buyer_last_week: usize = game
+            .players
+            .iter()
+            .flat_map(|p| p.transfer_offers.iter())
+            .filter(|offer| {
+                offer.from_team_id == buyer_id
+                    && parse_offer_date(&offer.date)
+                        .map(|d| d >= week_ago)
+                        .unwrap_or(false)
+            })
+            .count();
+        if offers_from_buyer_last_week >= MAX_OFFERS_PER_TEAM_PER_WEEK {
+            continue;
+        }
+
         let mut chosen_player_id: Option<String> = None;
         let mut chosen_score = i32::MIN;
         let mut chosen_fee = 0_u64;
@@ -679,6 +697,11 @@ pub fn generate_incoming_transfer_offers(game: &mut Game) {
 
     simulate_ai_free_agent_signings(game, &user_team_id);
     simulate_ai_club_to_club_transfers(game, &user_team_id);
+}
+
+/// Parse a "YYYY-MM-DD" offer date string into NaiveDate, defaulting to epoch.
+fn parse_offer_date(date: &str) -> Option<NaiveDate> {
+    NaiveDate::parse_from_str(date, "%Y-%m-%d").ok()
 }
 
 fn simulate_ai_free_agent_signings(game: &mut Game, user_team_id: &str) {
@@ -1596,20 +1619,11 @@ fn remove_player_from_team_references(team: &mut domain::team::Team, player_id: 
         group.player_ids.retain(|id| id != player_id);
     }
 
-    if team.match_roles.captain.as_deref() == Some(player_id) {
-        team.match_roles.captain = None;
+    if team.team_roles.captain.as_deref() == Some(player_id) {
+        team.team_roles.captain = None;
     }
-    if team.match_roles.vice_captain.as_deref() == Some(player_id) {
-        team.match_roles.vice_captain = None;
-    }
-    if team.match_roles.penalty_taker.as_deref() == Some(player_id) {
-        team.match_roles.penalty_taker = None;
-    }
-    if team.match_roles.free_kick_taker.as_deref() == Some(player_id) {
-        team.match_roles.free_kick_taker = None;
-    }
-    if team.match_roles.corner_taker.as_deref() == Some(player_id) {
-        team.match_roles.corner_taker = None;
+    if team.team_roles.shotcaller.as_deref() == Some(player_id) {
+        team.team_roles.shotcaller = None;
     }
 }
 

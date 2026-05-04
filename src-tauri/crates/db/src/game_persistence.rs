@@ -91,10 +91,16 @@ pub struct GamePersistenceReader;
 
 impl GamePersistenceReader {
     pub fn read_game(db: &GameDatabase) -> Result<Game, String> {
+        log::info!("[GamePersistenceReader] read_game: start");
         let conn = db.conn();
 
+        log::info!("[GamePersistenceReader] read_game: loading meta...");
         let meta = meta_repo::load_meta(conn)?
             .ok_or_else(|| "No game_meta found in database".to_string())?;
+        log::info!(
+            "[GamePersistenceReader] read_game: meta loaded, save_id={}",
+            meta.save_id
+        );
 
         let start_date = chrono::DateTime::parse_from_rfc3339(&meta.start_date)
             .map_err(|error| format!("Invalid start_date: {}", error))?
@@ -106,16 +112,45 @@ impl GamePersistenceReader {
         let mut clock = GameClock::new(start_date);
         clock.current_date = game_date;
 
+        log::info!("[GamePersistenceReader] read_game: loading manager...");
         let manager = manager_repo::load_manager(conn, &meta.manager_id)?
             .ok_or_else(|| format!("Manager '{}' not found", meta.manager_id))?;
+        log::info!("[GamePersistenceReader] read_game: loading teams...");
         let teams = team_repo::load_all_teams(conn)?;
+        log::info!("[GamePersistenceReader] read_game: loading players...");
         let players = player_repo::load_all_players(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: players loaded: {}",
+            players.len()
+        );
+        log::info!("[GamePersistenceReader] read_game: loading staff...");
         let staff = staff_repo::load_all_staff(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: staff loaded: {}",
+            staff.len()
+        );
         let messages = message_repo::load_all_messages(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: messages loaded: {}",
+            messages.len()
+        );
         let news = news_repo::load_all_news(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: news loaded: {}",
+            news.len()
+        );
         let league = league_repo::load_league(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: league loaded: {:?}",
+            league.as_ref().map(|l| &l.name)
+        );
 
+        log::info!("[GamePersistenceReader] read_game: loading objectives...");
         let objective_rows = objective_repo::load_all_objectives(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: objectives loaded: {}",
+            objective_rows.len()
+        );
         let board_objectives: Vec<BoardObjective> = objective_rows
             .into_iter()
             .map(|objective| BoardObjective {
@@ -127,7 +162,12 @@ impl GamePersistenceReader {
             })
             .collect();
 
+        log::info!("[GamePersistenceReader] read_game: loading scouting...");
         let scouting_rows = scouting_repo::load_all_scouting(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: scouting loaded: {}",
+            scouting_rows.len()
+        );
         let scouting_assignments: Vec<ScoutingAssignment> = scouting_rows
             .into_iter()
             .map(|assignment| ScoutingAssignment {
@@ -138,8 +178,13 @@ impl GamePersistenceReader {
             })
             .collect();
 
+        log::info!("[GamePersistenceReader] read_game: loading champion progression...");
         let (champion_masteries, champion_patch) = champion_progression_repo::load_state(conn)?
             .unwrap_or_else(|| (vec![], ofm_core::champions::ChampionPatchState::default()));
+        log::info!(
+            "[GamePersistenceReader] read_game: champion masteries: {}",
+            champion_masteries.len()
+        );
 
         let mut game = Game {
             clock,

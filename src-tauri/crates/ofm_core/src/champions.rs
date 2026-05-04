@@ -2,6 +2,8 @@ use crate::game::Game;
 use crate::staff_effects::LolStaffEffects;
 use chrono::{Datelike, NaiveDate};
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 use domain::staff::StaffRole;
 use rand::RngExt;
 use serde::{Deserialize, Serialize};
@@ -20,6 +22,8 @@ const MASTERY_CAP: u8 = 100;
 const PATCH_INTERVAL_DAYS: i64 = 14;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum SoloQTier {
     Challenger,
     Grandmaster,
@@ -27,12 +31,16 @@ pub enum SoloQTier {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ChampionPatchChange {
     Buff,
     Nerf,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ChampionMasteryEntry {
     pub player_id: String,
     pub champion_id: String,
@@ -41,6 +49,8 @@ pub struct ChampionMasteryEntry {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ChampionMetaEntry {
     pub champion_id: String,
     pub role: String,
@@ -49,6 +59,8 @@ pub struct ChampionMetaEntry {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ChampionPatchNote {
     pub champion_id: String,
     pub role: String,
@@ -56,6 +68,8 @@ pub struct ChampionPatchNote {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ChampionPatchState {
     pub current_patch: u32,
     #[serde(default)]

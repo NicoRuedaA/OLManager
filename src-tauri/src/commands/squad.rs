@@ -44,12 +44,12 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
     }
 
     // Reassign positions for outfield players on this team
+    // In LoL, filter out Support role (the "goalkeeper" equivalent)
     let player_ids: Vec<String> = game
         .players
         .iter()
         .filter(|p| {
-            p.team_id.as_deref() == Some(&team_id)
-                && p.position != domain::player::Position::Goalkeeper
+            p.team_id.as_deref() == Some(&team_id) && p.position != domain::player::LolRole::Support
         })
         .map(|p| p.id.clone())
         .collect();
@@ -57,8 +57,10 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
     // Sort by defensive ability (most defensive first)
     let mut sorted_ids = player_ids.clone();
     sorted_ids.sort_by(|a_id, b_id| {
-        let pa = game.players.iter().find(|p| p.id == *a_id).unwrap();
-        let pb = game.players.iter().find(|p| p.id == *b_id).unwrap();
+        let pa = game.players.iter().find(|p| p.id == *a_id)
+            .expect("set_formation: player should exist in game state");
+        let pb = game.players.iter().find(|p| p.id == *b_id)
+            .expect("set_formation: player should exist in game state");
         let def_a = pa.attributes.defending as u16
             + pa.attributes.tackling as u16
             + pa.attributes.strength as u16;
@@ -68,14 +70,14 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
         def_b.cmp(&def_a)
     });
 
-    // Assign positions
+    // Assign positions - map to LoL roles
     for (slot, pid) in sorted_ids.iter().enumerate() {
         let new_pos = if slot < num_def {
-            domain::player::Position::Defender
+            domain::player::LolRole::Top
         } else if slot < num_def + num_mid {
-            domain::player::Position::Midfielder
+            domain::player::LolRole::Mid
         } else if slot < num_def + num_mid + num_fwd {
-            domain::player::Position::Forward
+            domain::player::LolRole::Adc
         } else {
             continue;
         };
@@ -167,11 +169,11 @@ pub fn set_lol_tactics(
 }
 
 #[tauri::command]
-pub fn set_team_match_roles(
+pub fn set_team_roles(
     state: State<'_, StateManager>,
-    match_roles: domain::team::MatchRoles,
+    team_roles: domain::team::TeamRoles,
 ) -> Result<Game, String> {
-    info!("[cmd] set_team_match_roles");
+    info!("[cmd] set_team_roles");
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
@@ -183,7 +185,7 @@ pub fn set_team_match_roles(
         .ok_or("No team assigned".to_string())?;
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
-        team.match_roles = match_roles;
+        team.team_roles = team_roles;
     }
 
     state.set_game(game.clone());
@@ -436,29 +438,15 @@ pub fn reroll_player_lol_role(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let (next_natural, next_position) = match role.as_str() {
-        "TOP" => (
-            domain::player::Position::Defender,
-            domain::player::Position::Defender,
-        ),
-        "JUNGLE" => (
-            domain::player::Position::Midfielder,
-            domain::player::Position::Midfielder,
-        ),
-        "MID" => (
-            domain::player::Position::AttackingMidfielder,
-            domain::player::Position::Midfielder,
-        ),
-        "ADC" => (
-            domain::player::Position::Forward,
-            domain::player::Position::Forward,
-        ),
-        "SUPPORT" => (
-            domain::player::Position::DefensiveMidfielder,
-            domain::player::Position::Midfielder,
-        ),
+    let next_natural = match role.as_str() {
+        "TOP" => domain::player::LolRole::Top,
+        "JUNGLE" => domain::player::LolRole::Jungle,
+        "MID" => domain::player::LolRole::Mid,
+        "ADC" => domain::player::LolRole::Adc,
+        "SUPPORT" => domain::player::LolRole::Support,
         _ => return Err(format!("Unknown LoL role: {}", role)),
     };
+    let next_position = next_natural; // In LoL, natural and current position are the same
 
     let player = game
         .players
@@ -470,7 +458,7 @@ pub fn reroll_player_lol_role(
         return Err("Player does not belong to manager team".to_string());
     }
 
-    let previous_natural = player.natural_position.clone();
+    let previous_natural = player.natural_position;
 
     if previous_natural != next_natural
         && !player
@@ -492,23 +480,21 @@ pub fn reroll_player_lol_role(
 }
 
 #[tauri::command]
-pub fn auto_select_set_pieces(
+pub fn auto_select_team_roles(
     state: State<'_, StateManager>,
     player_ids: Vec<String>,
 ) -> Result<serde_json::Value, String> {
-    log::debug!("[cmd] auto_select_set_pieces: {} players", player_ids.len());
+    log::debug!("[cmd] auto_select_team_roles: {} players", player_ids.len());
     let game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let (captain, penalty, free_kick, corner) =
-        ofm_core::live_match_manager::auto_select_set_pieces(&game, &player_ids);
+    let (captain, shotcaller) =
+        ofm_core::live_match_manager::auto_select_team_roles(&game, &player_ids);
 
     Ok(serde_json::json!({
         "captain": captain,
-        "penalty_taker": penalty,
-        "free_kick_taker": free_kick,
-        "corner_taker": corner,
+        "shotcaller": shotcaller,
     }))
 }
 

@@ -304,17 +304,13 @@ function makeSnapshot(
     home_subs_made: 0,
     away_subs_made: 0,
     max_subs: 5,
-    home_set_pieces: {
-      free_kick_taker: null,
-      corner_taker: null,
-      penalty_taker: null,
+    home_roles: {
       captain: null,
+      shotcaller: null,
     },
-    away_set_pieces: {
-      free_kick_taker: null,
-      corner_taker: null,
-      penalty_taker: null,
+    away_roles: {
       captain: null,
+      shotcaller: null,
     },
     substitutions: [],
     allows_extra_time: false,
