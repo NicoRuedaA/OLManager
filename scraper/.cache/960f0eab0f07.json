@@ -1,0 +1,27 @@
+{
+  "parse": {
+    "title": "Dada (Kim Seung-jin)",
+    "pageid": 146237,
+    "images": [
+      "Unknown_Infobox_Image_-_Player.png",
+      "Infobox_DEEPLOLlogo_std.png",
+      "Infobox_SOOPlogo_std.png",
+      "Infobox_Twitterlogo_std.png",
+      "Infobox_Youtubelogo_std.png",
+      "WaY_(Korean_Team)logo_std.png",
+      "Rising_Star_Gaminglogo_std.png",
+      "NeverBack_Gaminglogo_std.png",
+      "Arctic_Gaminglogo_std.png",
+      "Blanklogo_std.png",
+      "KIYF_eSports_Clublogo_std.png",
+      "G2_Vodafonelogo_std.png",
+      "Team_Hereticslogo_std.png",
+      "Ever8_Winnerslogo_std.png",
+      "E8_WINlogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=Yes\n|isretiredplayer=No\n|towildrift=No\n|low_content=No\n|id=Dada\n|name=Kim Seung-jin\n|nativename=김승진\n|namealphabet=Hangul\n|checkboxAutoImage=Yes\n|country=South Korea\n|residency=Korea\n|checkbox1=No\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Bot\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=Yes\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|stream=https://ch.sooplive.co.kr/jini30623\n|twitter=NBDada\n|youtube=https://www.youtube.com/channel/UCB8_jtlm2uqA4qoniss8xCw\n|deeplol=https://www.deeplol.gg/pro/Dada-Kim_Seung-jin\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=No\n|checkbox-res=No\n|checkboxPrev=No\n|checkboxIsSub=No\n}}\n==Biography==\n\n== Trivia ==\n{{PlayerStatsTrivia}}\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777921546121
+}

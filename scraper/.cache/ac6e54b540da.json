@@ -1,0 +1,31 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "normalized": [
+      {
+        "from": "File:BKT_007x_IWCI_2015.png",
+        "to": "File:BKT 007x IWCI 2015.png"
+      }
+    ],
+    "pages": {
+      "90587": {
+        "pageid": 90587,
+        "ns": 6,
+        "title": "File:BKT 007x IWCI 2015.png",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "size": 196393,
+            "width": 470,
+            "height": 400,
+            "url": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9a/BKT_007x_IWCI_2015.png/revision/latest?cb=20170728183615",
+            "descriptionurl": "https://lol.fandom.com/wiki/File:BKT_007x_IWCI_2015.png",
+            "descriptionshorturl": "https://lol.fandom.com/index.php?curid=90587",
+            "mime": "image/png"
+          }
+        ]
+      }
+    }
+  },
+  "_cachedAt": 1777918548618
+}

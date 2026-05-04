@@ -1,0 +1,26 @@
+{
+  "parse": {
+    "title": "ChanU",
+    "pageid": 123938,
+    "images": [
+      "NON_ChanU.png",
+      "JDM_ChanU_2017_Summer.png",
+      "Infobox_Facebook_Fanpagelogo_std.png",
+      "Infobox_Instagramlogo_std.png",
+      "Infobox_CHZZKlogo_std.png",
+      "Infobox_Youtubelogo_std.png",
+      "Infobox_Video_Archivelogo_std.png",
+      "DS_Gaminglogo_std.png",
+      "Now_or_Neverlogo_std.png",
+      "Joy_Dreamlogo_std.png",
+      "Blanklogo_std.png",
+      "Young_Glorylogo_std.png",
+      "Mighty_Eaglelogo_std.png",
+      "Bingo_Noxus_Gamelogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=Yes\n|isretiredplayer=No\n|towildrift=No\n|tovalorant=No\n|low_content=No\n|id=ChanU\n|name=Jeong Chan-woo\n|nativename=정찬우\n|namealphabet=Hangul\n|pronoun=He\n|checkboxAutoImage=Yes\n|country=South Korea\n|residency=Korea\n|birth_date_year=1997\n|birth_date_month=February\n|birth_date_day=19\n|checkbox1=No\n|compID1=Civa\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Jungler\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=No\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|stream=https://chzzk.naver.com/live/0947e9a9cbc8a2bfdc61b83ccbd2b490\n|facebook=https://www.facebook.com/profile.php?id=100005754904686\n|instagram=jcw970\n|videoarchive=https://www.twitch.tv/jcw970\n|youtube=https://www.youtube.com/channel/UCDsQ_kjKTMaoRQWc7aOWvJg\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=Yes\n|text=He was previously known as '''Civa'''.\n|checkbox-res=No\n|checkboxIsSub=No\n|checkboxPrev=No\n}}\n==Biography==\n\n== Trivia ==\n* His ID '''ChanU''' is based on his given name (Chan-woo).\n{{PlayerStatsTrivia}}\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777918581035
+}

@@ -6,7 +6,7 @@ export const USER_AGENT = "OLManager-Scraper/0.1 (https://github.com/NicoRuedaA/
 /** Rate limiting config */
 export const RATE_LIMIT = {
   /** Delay between standard API calls (ms) */
-  apiDelay: 1500,
+  apiDelay: 1200,
   /** Delay between image downloads (ms) */
   imageDelay: 300,
   /** Max concurrent image downloads */
@@ -97,6 +97,9 @@ export const COUNTRY_MAP: Record<string, string> = {
   Singapore: "SG",
   Indonesia: "ID",
   "Costa Rica": "CR",
+  Venezuela: "VE",
+  "North America": "US",
+  Europe: "EU",
   EMEA: "EU",
 };
 

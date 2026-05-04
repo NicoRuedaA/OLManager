@@ -1,0 +1,24 @@
+{
+  "parse": {
+    "title": "CrazyPine",
+    "pageid": 141737,
+    "images": [
+      "ISG_CrazyPine_2014_Spring.png",
+      "Insidious_Gaming_Exilelogo_std.png",
+      "InsidiousGaminglogo_std.png",
+      "Insidious_Gaminglogo_std.png",
+      "Team_Fat_Rabbitlogo_std.png",
+      "Panda_Cub_Hugging_Clublogo_std.png",
+      "Blanklogo_std.png",
+      "Thirsty_Chinchillaslogo_std.png",
+      "Taipei_Assassinslogo_std.png",
+      "Tpa_std.png",
+      "Singapore_Sentinelslogo_std.png",
+      "Ssentinelslogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=Yes\n|isretiredplayer=No\n|towildrift=No\n|low_content=No\n|id=CrazyPine\n|name=Bala Lew Jen Wei\n|image=ISG CrazyPine 2014 Spring.png\n|checkboxAutoImage=No\n|country=Singapore\n|residency=Southeast Asia\n|checkbox1=No\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Support\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=No\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=No\n|checkbox-res=No\n|checkboxPrev=Yes\n|checkboxIsSub=No\n|prev1=Bot\n|issub26=No\n|issub27=No\n|issub28=No\n|issub29=No\n|issub30=No\n}}\n==Biography==\n\n== Trivia ==\n{{PlayerStatsTrivia}}\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777921438383
+}

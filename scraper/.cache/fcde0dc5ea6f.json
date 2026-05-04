@@ -1,0 +1,47 @@
+{
+  "parse": {
+    "title": "Crossman",
+    "pageid": 142553,
+    "images": [
+      "P3P_Crossman_2017_Summer.png",
+      "DLT_Crossman_2024_Split_1.png",
+      "Infobox_LOLProslogo_std.png",
+      "Infobox_DEEPLOLlogo_std.png",
+      "Infobox_Twitterlogo_std.png",
+      "EURONICS_Gaminglogo_std.png",
+      "Team_AURORAlogo_std.png",
+      "PENTA_Sportslogo_std.png",
+      "PENTAlogo_std.png",
+      "Team_Turqualitylogo_std.png",
+      "SuperMassive_TNGlogo_std.png",
+      "Rafaels_Wonder_Workshoplogo_std.png",
+      "Rafaels_Werkstattlogo_std.png",
+      "EYES_ON_Ulogo_std.png",
+      "ATLAS_eSports_Teamlogo_std.png",
+      "P3P_eSportslogo_std.png",
+      "Logo_std.png",
+      "Wind_and_Rainlogo_std.png",
+      "Unicorns_of_Love_Sexy_Editionlogo_std.png",
+      "Bursaspor_Esportslogo_std.png",
+      "PENTA_1860logo_std.png",
+      "ERKO_Esportslogo_std.png",
+      "DELTALANDlogo_std.png",
+      "Wild_Panthers_Esportslogo_std.png",
+      "FlameHardlogo_std.png",
+      "Free_Agentlogo_std.png",
+      "Lundqvist_Darksidelogo_std.png",
+      "A_One_Man_Army_Primelogo_std.png",
+      "A_One_Man_Armylogo_std.png",
+      "TeamOrangeGaming_Academylogo_std.png",
+      "TeamOrangeGaminglogo_std.png",
+      "Altair_Esportslogo_std.png",
+      "Baby_Buffaloeslogo_std.png",
+      "Blanklogo_std.png",
+      "SPS_Aurumlogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=No\n|isretiredplayer=No\n|towildrift=No\n|tovalorant=No\n|low_content=No\n|id=Crossman\n|name=Burak Salt\n|checkboxAutoImage=Yes\n|country=Germany\n|residency=EMEA\n|checkbox1=No\n|compID1=Crossman\n|compID2=Burak\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Mid\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=No\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|twitter=crossmanlol\n|lolpros=https://lolpros.gg/player/crossman\n|deeplol=https://www.deeplol.gg/pro/Crossman\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=No\n|text=He was previously known as '''Burak'''.\n|checkbox-res=No\n|checkboxIsSub=No\n|checkboxPrev=No\n}}\n==Biography==\n\n== Trivia ==\n{{PlayerStatsTrivia}}\n\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777921458078
+}

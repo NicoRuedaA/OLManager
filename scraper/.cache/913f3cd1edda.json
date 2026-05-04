@@ -1,0 +1,32 @@
+{
+  "parse": {
+    "title": "Clowz",
+    "pageid": 132713,
+    "images": [
+      "YM_Clowz_2016_Spring.png",
+      "YM_Clowz_2016_Summer.png",
+      "YM_Clowz_2017_Spring.png",
+      "YM_Clowz_2017_Summer.png",
+      "OG_Clowz_2018_Spring.png",
+      "OG_Clowz_2018_Summer.png",
+      "WZ_Clowz_2020_Split_1.png",
+      "WZ_Clowz_2020_Split_2.png",
+      "Infobox_DEEPLOLlogo_std.png",
+      "Marvelous_Gamers_Brotherhoodlogo_std.png",
+      "Young_Miracleslogo_std.png",
+      "OnlyGamelogo_std.png",
+      "WanZhen_Esports_Clublogo_std.png",
+      "Blanklogo_std.png",
+      "Victorious_Gaminglogo_std.png",
+      "Unlimited_Potentiallogo_std.png",
+      "Vici_Gaminglogo_std.png",
+      "Vicilogo_std.png",
+      "LGD_Gaminglogo_std.png",
+      "Lgdlogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=Yes\n|isretiredplayer=No\n|towildrift=No\n|low_content=No\n|id=Clowz\n|name=Moon Jun-seok\n|nativename=문준석\n|namealphabet=Hangul\n|pronoun=He\n|checkboxAutoImage=Yes\n|country=South Korea\n|residency=Korea\n|birth_date_year=1997\n|birth_date_month=September\n|birth_date_day=02\n|checkbox1=No\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Top\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=No\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|deeplol=https://www.deeplol.gg/pro/Clowz\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=Yes\n|checkbox-res=No\n|checkboxPrev=No\n|checkboxIsSub=No\n}}\n==Biography==\n\n== Trivia ==\n{{PlayerStatsTrivia}}\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777921321587
+}

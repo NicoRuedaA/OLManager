@@ -1,0 +1,25 @@
+{
+  "batchcomplete": "",
+  "query": {
+    "pages": {
+      "10214": {
+        "pageid": 10214,
+        "ns": 6,
+        "title": "File:1984.jpg",
+        "imagerepository": "local",
+        "imageinfo": [
+          {
+            "size": 13858,
+            "width": 568,
+            "height": 324,
+            "url": "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/13/1984.jpg/revision/latest?cb=20170728161046",
+            "descriptionurl": "https://lol.fandom.com/wiki/File:1984.jpg",
+            "descriptionshorturl": "https://lol.fandom.com/index.php?curid=10214",
+            "mime": "image/jpeg"
+          }
+        ]
+      }
+    }
+  },
+  "_cachedAt": 1777918559016
+}

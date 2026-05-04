@@ -1,0 +1,38 @@
+{
+  "parse": {
+    "title": "DRAEK",
+    "pageid": 146177,
+    "images": [
+      "CNB_DRAEK.png",
+      "Infobox_Facebook_Fanpagelogo_std.png",
+      "Infobox_Twitchlogo_std.png",
+      "Infobox_Twitterlogo_std.png",
+      "Monomaniac_Perituslogo_std.png",
+      "Monomaniaclogo_std.png",
+      "RMA_e-Sportslogo_std.png",
+      "RMALogo_std.png",
+      "Action_Team_eSportslogo_std.png",
+      "CNB_e-Sports_Clublogo_std.png",
+      "CNB_govTLogo_std.png",
+      "Team_awplogo_std.png",
+      "Pwn3ed_E-Sportslogo_std.png",
+      "HITBOX_e-Sportslogo_std.png",
+      "Logo_std.png",
+      "SLK_Gaminglogo_std.png",
+      "Royal_Teamlogo_std.png",
+      "INTZlogo_std.png",
+      "KaBuM!_Esportslogo_std.png",
+      "Seven_Wars_e-Sportslogo_std.png",
+      "PaiN_Gaminglogo_std.png",
+      "Painlogo_std.png",
+      "Insight_eSportslogo_std.png",
+      "VVv_Gaming_Brasillogo_std.png",
+      "VVv_Gaminglogo_std.png",
+      "Influxo_Gaminglogo_std.png"
+    ],
+    "wikitext": {
+      "*": "{{Infobox Player\n|page_type=Player\n|isretired=Yes\n|isretiredplayer=No\n|towildrift=No\n|low_content=No\n|id=DRAEK\n|name=Rodrigo Oliveira\n|image=CNB DRAEK.png\n|checkboxAutoImage=No\n|country=Brazil\n|residency=Brazil\n|birth_date_year=1993\n|birth_date_month=October\n|birth_date_day=14\n|favchamp=Nocturne\n|checkbox1=No\n|checkboxComp=No\n|checkboxAutoTeams=Yes\n|checkbox2=No\n|role=Jungler\n|issub1=No\n|istrainee1=No\n|issub2=No\n|istrainee2=No\n|issub3=No\n|istrainee3=No\n|issub4=No\n|istrainee4=No\n|issub5=No\n|istrainee5=No\n|checkbox3=No\n|stream=https://www.twitch.tv/draeklol\n|facebook=https://www.facebook.com/Draeklol\n|twitter=DRAEKlol\n|checkboxSuppressOrgNavbox=No\n|checkboxSBS=Yes\n|checkboxTOCR=No\n|checkbox-res=No\n|checkboxPrev=No\n|checkboxIsSub=No\n|issub26=No\n|issub27=No\n|issub28=No\n|issub29=No\n|issub30=No\n}}\n==Biography==\n\n== Trivia ==\n* Has played in two Brazilian Championships, in 2012 for [[RMA e-Sports]] and 2014 for [[Team awp]].\n* When playing for [[CNB]], he shared the starting jungler position with [[Danagorn]], replacing him in some tournaments. \n* Banned for three months in early 2014 due to scripting.\n* Is currently playing Overwatch, as part of [[Team Innova]].<ref>[http://teaminnova.com.br/equipes/overwatch/ Overwatch - Team Innova] ''teaminnova.com.br''</ref>\n{{PlayerStatsTrivia}}\n== Tournament Results ==\n{{PlayerResults|show=overviewpage}}\n{{PlayerShowmatchResults|show=overviewpage}}\n{{PlayerResults1v1|show=overviewpage}}\n== Media ==\n{{PlayerMedia}}\n\n=== Images ===\n{{PlayerProfileGallery}}\n\n{{PlayerPageEnd}}"
+    }
+  },
+  "_cachedAt": 1777921541062
+}
