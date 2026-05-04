@@ -526,7 +526,7 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
           <div className="flex items-center gap-2">
             <Clock3 className="h-4 w-4 text-amber-500" />
             <h3 className="font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
-              {t("champions.masteryTrainingTitle", "Entrenamiento de maestría")}
+              {t("champions.masteryTrainingTitle", "Mastery training")}
             </h3>
           </div>
           <button
@@ -536,8 +536,8 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
             className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-heading uppercase tracking-wide text-amber-300 transition-all hover:bg-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {delegating
-              ? t("champions.delegating", "Delegando...")
-              : t("champions.delegateToCoach", "Delegar al assistant coach")}
+              ? t("champions.delegating", "Delegating...")
+              : t("champions.delegateToCoach", "Delegate to Assistant Coach")}
           </button>
         </div>
 
@@ -669,7 +669,7 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
                         </div>
                         <p className="mt-1 text-[11px] text-right text-gray-500 dark:text-gray-300">
                           {target
-                            ? `M ${masteryValue} · foco x${gainHint.baseMult.toFixed(2)} · soloQ x${soloQMult.toFixed(1)}`
+                            ? `M ${masteryValue} · Focus x${gainHint.baseMult.toFixed(2)} · soloQ x${soloQMult.toFixed(1)}`
                             : "—"}
                         </p>
                       </div>
