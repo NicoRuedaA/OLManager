@@ -9,6 +9,7 @@ import { countryName } from "../../lib/countries";
 import { Badge, Card, CardBody, CardHeader, CountryFlag, ProgressBar } from "../ui";
 import { Eye } from "lucide-react";
 import { scoutAssignmentCount, scoutMaxSlots } from "./ScoutingTab.helpers";
+import { resolveStaffPhoto } from "../../lib/playerPhotos";
 
 interface ScoutingScoutDetailsCardProps {
   scouts: StaffData[];
@@ -47,9 +48,9 @@ export default function ScoutingScoutDetailsCard({
               >
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-lg overflow-hidden bg-accent-500/10 flex items-center justify-center shrink-0">
-                    {scout.profile_image_url ? (
+                    {resolveStaffPhoto(scout.profile_image_url) ? (
                       <img
-                        src={scout.profile_image_url}
+                        src={resolveStaffPhoto(scout.profile_image_url)!}
                         alt={`${scout.first_name} ${scout.last_name}`}
                         className="w-full h-full object-cover"
                         loading="lazy"
