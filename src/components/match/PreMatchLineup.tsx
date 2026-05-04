@@ -83,6 +83,14 @@ export function getStatVal(p: EnginePlayerData, key: string): number {
   return (p as unknown as Record<string, number>)[key] ?? 0;
 }
 
+const LOL_ROLE_ICON_URLS: Record<LolRole, string> = {
+  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
+  JUNGLE: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
+  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
+  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
+  SUPPORT: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
+};
+
 export function parseFormationNeeds(_formation: string): Record<string, number> {
   return {
     TOP: 1,
@@ -333,9 +341,12 @@ function TeamLineupColumn({
                   <span className="text-sm text-gray-700 dark:text-gray-300 font-medium flex-1 truncate">
                     {bp.name}
                   </span>
-                  <Badge variant="neutral" size="sm">
-                    {role === "JUNGLE" ? "JG" : role}
-                  </Badge>
+                  <img
+                    src={LOL_ROLE_ICON_URLS[role]}
+                    alt={role}
+                    className="w-5 h-5 object-contain"
+                    title={role}
+                  />
                   <div className="flex items-center gap-0">
                     {keyStats.map((s) => (
                       <span
