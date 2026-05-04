@@ -532,7 +532,7 @@ export default function TransfersTab({
               className={`px-3 py-1.5 rounded-lg text-xs font-heading font-bold uppercase tracking-wider transition-all ${posFilter === pos ? "bg-primary-500 text-white shadow-sm" : "bg-white dark:bg-navy-800 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-navy-600"}`}
               title={pos}
             >
-              <img src={`/role-icons/${pos === "JUNGLE" ? "jungler" : pos.toLowerCase()}.png`} alt={pos} className="h-3.5 w-3.5" />
+              <RoleBadge role={pos} size="sm" />
             </button>
           ))}
         </div>
