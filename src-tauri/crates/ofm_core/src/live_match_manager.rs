@@ -133,7 +133,7 @@ pub fn create_live_match(
 
     let config = MatchConfig::default();
 
-    let mut match_state = LiveMatchState::new(
+    let match_state = LiveMatchState::new(
         home_xi,
         away_xi,
         config,

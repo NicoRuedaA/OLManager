@@ -28,6 +28,8 @@ const SCALE_MAP: Record<string, string> = {
   xlarge: "20px",
 };
 
+const AUTO_CHECK_UPDATES = import.meta.env.PROD;
+
 function App() {
   const { settings, loaded, loadSettings } = useSettingsStore();
   const {
@@ -39,7 +41,7 @@ function App() {
     dismissed,
     install,
     dismiss,
-  } = useUpdater(true);
+  } = useUpdater(AUTO_CHECK_UPDATES);
 
   useEffect(() => {
     if (!loaded) loadSettings();

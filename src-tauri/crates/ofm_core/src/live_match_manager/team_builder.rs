@@ -75,7 +75,7 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
     if uniq.len() < 5 {
         for player in bench_domain.iter() {
             if seen_roles.insert(player.natural_position) {
-                uniq.push(player.clone());
+                uniq.push(*player);
             }
             if uniq.len() == 5 {
                 break;

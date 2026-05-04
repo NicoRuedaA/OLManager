@@ -1,9 +1,8 @@
-use domain::player::{Footedness, LolRole, Player};
-use std::cmp::Ordering;
+use domain::player::{LolRole, Player};
 
 /// Returns the 5 starting positions for a team in LoL format.
 /// In LoL, the formation is always 5 players: Top, Jungle, Mid, ADC, Support
-pub fn formation_slots(formation: &str) -> Vec<LolRole> {
+pub fn formation_slots(_formation: &str) -> Vec<LolRole> {
     // LoL always uses 5 roles - ignore formation string for now
     // TODO: Implement proper LoL team composition
     vec![
@@ -127,7 +126,7 @@ fn role_compatibility(primary: &LolRole, slot: &LolRole) -> bool {
     }
 }
 
-fn footedness_penalty(player: &Player, _slot_role: &LolRole) -> f64 {
+fn footedness_penalty(_player: &Player, _slot_role: &LolRole) -> f64 {
     // Footedness doesn't apply to LoL - return 0
     // TODO: Consider lane preference (top/mid prefer right side, bot prefer left)
     0.0
@@ -159,7 +158,7 @@ fn slot_side(_role: &LolRole) -> Option<Side> {
 }
 
 fn critical_penalty(player: &Player, _role: &LolRole) -> f64 {
-    let attrs = &player.attributes;
+    let _attrs = &player.attributes;
     // No critical position penalty in LoL
     0.0
 }

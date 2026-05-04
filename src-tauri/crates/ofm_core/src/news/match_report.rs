@@ -102,7 +102,7 @@ pub fn match_report_article(
     let mut rng = rand::rng();
 
     let result_text = result_text(home_name, away_name, home_goals, away_goals);
-    let scorer_parts = scorer_parts(home_name, away_name, home_scorers, away_scorers);
+    let _scorer_parts = scorer_parts(home_name, away_name, home_scorers, away_scorers);
     let player_of_match = pick_player_of_match(home_scorers, away_scorers, home_goals, away_goals);
 
     let commentary = [

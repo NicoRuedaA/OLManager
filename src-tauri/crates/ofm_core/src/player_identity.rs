@@ -1,5 +1,5 @@
 use crate::game::Game;
-use domain::player::{Footedness, LolRole, Player};
+use domain::player::{LolRole, Player};
 
 /// Upgrades player identities to use LolRole positions.
 /// Now that all players already use LolRole, this is a no-op.

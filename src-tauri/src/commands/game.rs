@@ -7,7 +7,6 @@ use domain::team::{
 use log::info;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
-use std::path::PathBuf;
 use std::sync::OnceLock;
 use tauri::Manager as TauriManager;
 use tauri::State;
@@ -2289,7 +2288,6 @@ struct ManagerProfileInput {
     dob: Option<String>,
     #[validate(length(max = 3))]
     nationality: Option<String>,
-    avatar_path: Option<String>,
 }
 
 fn validate_date_format(date: &str) -> Result<(), validator::ValidationError> {
@@ -2320,7 +2318,6 @@ pub async fn update_manager_profile(
         last_name: last_name.clone(),
         dob: dob.clone(),
         nationality: nationality.clone(),
-        avatar_path: avatar_path.clone(),
     };
     input
         .validate()

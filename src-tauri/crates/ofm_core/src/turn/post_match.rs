@@ -378,8 +378,8 @@ fn build_stats_state_capture(
 fn apply_player_stats(
     game: &mut Game,
     report: &engine::MatchReport,
-    home_team_id: &str,
-    away_team_id: &str,
+    _home_team_id: &str,
+    _away_team_id: &str,
 ) {
     for player in game.players.iter_mut() {
         if let Some(ps) = report.player_stats.get(&player.id) {

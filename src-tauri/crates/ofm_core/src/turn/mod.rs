@@ -18,7 +18,6 @@ use crate::transfers;
 use chrono::Datelike;
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, MatchResult};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::player::LolRole;
 use domain::stats::StatsState;
 use domain::team::{Team, TeamKind, TeamSeasonRecord};
 use log::{debug, info};
