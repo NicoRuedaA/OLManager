@@ -462,6 +462,29 @@ export default function TacticsTab({
 
       <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1.6fr_1fr]">
         <div className="flex flex-col gap-4">
+          {/* Mobile coherence summary — hidden on desktop */}
+          <Card accent="primary" className="xl:hidden">
+            <CardHeader>{t("tactics.lol.impactAndCoherence")}</CardHeader>
+            <CardBody className="p-4">
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-navy-600 dark:bg-navy-900/50">
+                <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                  {t("tactics.lol.coherenceLabel")}
+                </p>
+                <p className="text-lg font-heading font-bold text-gray-900 dark:text-gray-100">
+                  {coherenceScore >= 1
+                    ? t("tactics.lol.coherence.high")
+                    : coherenceScore >= 0
+                      ? t("tactics.lol.coherence.medium")
+                      : t("tactics.lol.coherence.low")}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
+                  {t("tactics.lol.score")}: {coherenceScore > 0 ? "+" : ""}
+                  {coherenceScore.toFixed(2)}
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+
           <Section<GameTiming>
             title={t("tactics.lol.sections.gameTiming", "Game timing")}
             value={tactics.game_timing}
