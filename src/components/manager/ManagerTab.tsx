@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "../../lib/countries";
 import DashboardModalFrame from "../dashboard/DashboardModalFrame";
 import { Settings, X, ChevronDown, Check } from "lucide-react";
+import { resolveStaffPhoto } from "../../lib/playerPhotos";
 
 interface ManagerTabProps {
   gameState: GameStateData;
@@ -20,13 +21,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
   const stats = mgr.career_stats;
   const fullName = `${mgr.first_name} ${mgr.last_name}`;
   const displayName = mgr.nickname?.trim() || fullName;
-  const initialsSource = mgr.nickname?.trim() || fullName;
-  const initials = initialsSource
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("") || "M";
 
   // Settings modal state
   const [showSettings, setShowSettings] = useState(false);
@@ -117,8 +111,13 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
       {/* Profile card */}
       <Card accent="primary" className="md:col-span-3">
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl flex items-center gap-6 relative">
-          <div className="w-20 h-20 rounded-xl overflow-hidden bg-gradient-to-br from-primary-500/30 to-accent-500/30 flex items-center justify-center border-2 border-primary-500/40 shadow-lg shadow-primary-500/10">
-            <span className="text-3xl font-heading font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">{initials}</span>
+          <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary-500/40 shadow-lg shadow-primary-500/10 shrink-0 bg-gray-200 dark:bg-navy-600">
+            <img
+              src={resolveStaffPhoto(mgr.avatar_path) ?? ""}
+              alt={displayName}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
           <div>
             <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">{displayName}</h2>
