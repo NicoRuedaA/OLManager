@@ -457,22 +457,11 @@ export default function FinancesTab({
         <CardBody>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 space-y-3">
-              <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                {t("finances.wagePressure")}
-              </p>
               <p className="font-heading font-bold text-2xl text-gray-900 dark:text-gray-100">
                 {t("finances.wageBudgetUsed", {
                   percent: wageBudgetUsagePercent,
                 })}
               </p>
-              <ProgressBar
-                value={Math.min(100, wageBudgetUsagePercent)}
-                variant={
-                  totalWages <= weeklyWageBudget ? "success" : "danger"
-                }
-                size="md"
-                showLabel
-              />
 
               {/* Budget breakdown donut */}
               {(() => {
