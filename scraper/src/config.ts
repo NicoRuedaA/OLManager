@@ -6,7 +6,7 @@ export const USER_AGENT = "OLManager-Scraper/0.1 (https://github.com/NicoRuedaA/
 /** Rate limiting config */
 export const RATE_LIMIT = {
   /** Delay between standard API calls (ms) */
-  apiDelay: 1200,
+  apiDelay: 500,
   /** Delay between image downloads (ms) */
   imageDelay: 300,
   /** Max concurrent image downloads */

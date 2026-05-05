@@ -223,11 +223,18 @@ export function infoboxToPlayer(ib: InfoboxData, pageTitle: string): ScrapedPlay
     dateOfBirth,
     nationality,
     nationalityFlag: flagEmoji(nationality),
+    teamId: null,
     role,
     roleRaw: rawRole,
     residency: ib.residency ?? null,
     status,
     championPool: ib.favchamps.slice(0, 5),
+    attributes: null,
+    ovr: null,
+    potentialBase: null,
+    marketValue: null,
+    wage: null,
+    career: [],
     photoId: ib.checkboxAutoImage?.toLowerCase() === "yes" ? photoHash : null,
     photoUrl: null,
     teamName: null,
@@ -244,107 +251,61 @@ export function infoboxToPlayer(ib: InfoboxData, pageTitle: string): ScrapedPlay
   };
 }
 
-// ─── Team infobox ────────────────────────────────────────────────
+// ─── TeamHistory parser ─────────────────────────────────────────
 
-export interface TeamInfoboxData {
-  name: string | null;
-  shortName: string | null;
-  region: string | null;
-  country: string | null;
-  foundedCountry: string | null;
-  created: string | null;
-  disbanded: string | null;
-  isDisbanded: boolean;
-  headCoach: string | null;
-  owner: string | null;
-  raw: Record<string, string>;
+export interface TeamHistoryEntry {
+  teamName: string;
+  role: string;
+  startDate: string;
+  endDate: string | null;
+  isCurrent: boolean;
 }
 
-/** Parse {{Infobox Team}} from wikitext */
-export function parseTeamInfobox(wikitext: string): TeamInfoboxData | null {
+export function parseTeamHistory(wikitext: string): TeamHistoryEntry[] {
   const lines = wikitext.split(/\r?\n/);
-  let inInfobox = false;
-  const ibLines: string[] = [];
+  let inHistory = false;
+  const entries: TeamHistoryEntry[] = [];
 
   for (const line of lines) {
-    if (line.trim().startsWith("{{Infobox Team")) {
-      inInfobox = true;
-      ibLines.push(line);
-      continue;
-    }
-    if (inInfobox) {
-      ibLines.push(line);
-      const trimmed = line.trim();
-      if (trimmed === "}}" || (trimmed.endsWith("}}") && !trimmed.includes("="))) break;
-    }
-  }
-
-  if (ibLines.length < 2) return null;
-
-  const raw: Record<string, string> = {};
-  for (const line of ibLines) {
     const trimmed = line.trim();
-    if (trimmed === "}}" || trimmed.match(/^\{\{Infobox Team/)) continue;
-    const match = trimmed.match(/^\|([^=]+?)\s*=\s*(.+)$/);
+    if (trimmed.startsWith("{{TeamHistory")) { inHistory = true; continue; }
+    if (inHistory && trimmed === "}}") break;
+    if (!inHistory) continue;
+
+    const match = trimmed.match(/^\|(team|role|date)(\d+)\s*=\s*(.+)$/);
     if (match) {
-      let value = match[2].trim();
-      value = value.replace(/<br\s*\/?>/gi, ", ");
-      value = value.replace(/<[^>]+>/g, "").replace(/'''/g, "").replace(/''/g, "");
-      value = value.replace(/&amp;/g, "&").replace(/&nbsp;/g, " ");
-      raw[match[1].trim()] = value;
+      const index = parseInt(match[2]) - 1;
+      const field = match[1];
+      const value = match[3].trim();
+      if (!entries[index]) entries[index] = { teamName: "", role: "", startDate: "", endDate: null, isCurrent: false };
+      if (field === "team") entries[index].teamName = value;
+      else if (field === "role") entries[index].role = value;
+      else if (field === "date") {
+        const parts = value.split(/[–-]/).map(s => s.trim());
+        entries[index].startDate = parts[0] ?? "";
+        entries[index].endDate = parts.length > 1 && parts[1].toLowerCase() !== "present" ? parts[1] : null;
+        entries[index].isCurrent = parts.length <= 1 || parts[1]?.toLowerCase() === "present" || !parts[1];
+      }
     }
   }
-
-  const disbanded = raw["disbanded"]?.trim() ?? null;
-  const isDisbanded = disbanded !== null && disbanded !== "" && disbanded.toLowerCase() !== "no";
-
-  return {
-    name: raw["name"]?.trim() ?? null,
-    shortName: raw["short"]?.trim() ?? null,
-    region: raw["region"]?.trim() ?? null,
-    country: raw["orgcountry"]?.trim() ?? null,
-    foundedCountry: raw["foundedcountry"]?.trim() ?? null,
-    created: raw["created"]?.trim() ?? null,
-    disbanded,
-    isDisbanded,
-    headCoach: raw["headcoach"]?.trim() ?? null,
-    owner: raw["owner"]?.trim() ?? null,
-    raw,
-  };
+  return entries.filter(e => e.teamName);
 }
 
-/** Convert TeamInfoboxData to ScrapedTeam */
-export function infoboxToTeam(ib: TeamInfoboxData, pageTitle: string): ScrapedTeam | null {
-  const name = ib.name ?? pageTitle;
-  if (!name || name.length < 2) return null;
-
-  const shortName = ib.shortName
-    ?? name.replace(/[A-Z]/g, m => ' ' + m).trim()  // Cloud9 → Cloud9, TeamSoloMid → Team Solo Mid
-    .split(/\s+/)
-    .map(w => w.match(/[A-Za-z0-9]/)?.[0] ?? '')
-    .join('').toUpperCase().slice(0, 4)
-    || name.slice(0, 4).toUpperCase();
-
-  const country = ib.country ? countryToISO(ib.country) : "XX";
-  const normalizedName = name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
-
-  return {
-    id: `team-${normalizedName}`,
-    name,
-    shortName,
-    country,
-    city: "",       // no hay city en Infobox, se puede sacar de Location en Cargo
-    arenaName: `${shortName} Arena`,
-    arenaCapacity: 2500,
-    region: ib.region ?? "Unknown",
-    leagueId: "unknown",
-    leagueName: null,
-    isDisbanded: ib.isDisbanded,
-    logoUrl: null,
-  };
+export function mapTeamHistoryToCareer(
+  history: TeamHistoryEntry[],
+  teamNameToId: Map<string, string>,
+): { career: Array<{ season: string; teamId: string; teamName: string; role: string }>; currentTeamId: string | null } {
+  const career: Array<{ season: string; teamId: string; teamName: string; role: string }> = [];
+  let currentTeamId: string | null = null;
+  for (const entry of history) {
+    const normalizedKey = entry.teamName.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    const teamId = teamNameToId.get(normalizedKey) ?? `team-${normalizedKey}`;
+    const season = entry.startDate ? entry.startDate.slice(0, 4) : "?";
+    career.push({ season, teamId, teamName: entry.teamName, role: entry.role });
+    if (entry.isCurrent) currentTeamId = teamId;
+  }
+  return { career, currentTeamId };
 }
-
-// ─── Convert to staff ───────────────────────────────────────────
 
 export function infoboxToStaff(ib: InfoboxData, pageTitle: string): ScrapedStaff | null {
   const ign = ib.id ?? pageTitle.replace(/ \(.*\)$/, "").trim();
@@ -369,6 +330,7 @@ export function infoboxToStaff(ib: InfoboxData, pageTitle: string): ScrapedStaff
     dateOfBirth,
     nationality,
     nationalityFlag: flagEmoji(nationality),
+    teamId: null,
     staffRole,
     staffCategory,
     residency: ib.residency ?? null,
@@ -386,5 +348,107 @@ export function infoboxToStaff(ib: InfoboxData, pageTitle: string): ScrapedStaff
       instagram: ib.instagram,
     },
     scrapedAt: new Date().toISOString(),
+  };
+}
+
+// ─── Team infobox ────────────────────────────────────────────────
+
+export interface TeamInfoboxData {
+  name: string | null;
+  shortName: string | null;
+  region: string | null;
+  country: string | null;
+  location: string | null;
+  foundedCountry: string | null;
+  created: string | null;
+  disbanded: string | null;
+  isDisbanded: boolean;
+  headCoach: string | null;
+  owner: string | null;
+  raw: Record<string, string>;
+}
+
+export function parseTeamInfobox(wikitext: string): TeamInfoboxData | null {
+  const lines = wikitext.split(/\r?\n/);
+  let inInfobox = false;
+  const ibLines: string[] = [];
+
+  for (const line of lines) {
+    if (line.trim().startsWith("{{Infobox Team")) { inInfobox = true; ibLines.push(line); continue; }
+    if (inInfobox) { ibLines.push(line); const trimmed = line.trim(); if (trimmed === "}}" || (trimmed.endsWith("}}") && !trimmed.includes("="))) break; }
+  }
+
+  if (ibLines.length < 2) return null;
+  const raw: Record<string, string> = {};
+  for (const line of ibLines) {
+    const trimmed = line.trim();
+    if (trimmed === "}}" || trimmed.match(/^\{\{Infobox Team/)) continue;
+    const match = trimmed.match(/^\|([^=]+?)\s*=\s*(.+)$/);
+    if (match) {
+      let value = match[2].trim().replace(/<br\s*\/?>/gi, ", ").replace(/<[^>]+>/g, "").replace(/'''/g, "").replace(/''/g, "");
+      value = value.replace(/&amp;/g, "&").replace(/&nbsp;/g, " ");
+      raw[match[1].trim()] = value;
+    }
+  }
+
+  const disbanded = raw["disbanded"]?.trim() ?? null;
+  return {
+    name: raw["name"]?.trim() ?? null,
+    shortName: raw["short"]?.trim() ?? null,
+    region: raw["region"]?.trim() ?? null,
+    country: raw["orgcountry"]?.trim() ?? null,
+    location: raw["location"]?.trim() ?? raw["city"]?.trim() ?? null,
+    foundedCountry: raw["foundedcountry"]?.trim() ?? null,
+    created: raw["created"]?.trim() ?? null,
+    disbanded,
+    isDisbanded: disbanded !== null && disbanded !== "" && disbanded.toLowerCase() !== "no",
+    headCoach: raw["headcoach"]?.trim() ?? null,
+    owner: raw["owner"]?.trim() ?? null,
+    raw,
+  };
+}
+
+function regionToLeagueId(region: string | null): string {
+  if (!region) return "unknown";
+  const r = region.toLowerCase();
+  if (r.includes("emea") || r.includes("europe")) return "lec";
+  if (r.includes("korea")) return "lck"; if (r.includes("china")) return "lpl";
+  if (r.includes("na") || r.includes("north america")) return "lcs";
+  if (r.includes("apac") || r.includes("southeast asia")) return "pcs";
+  if (r.includes("vietnam") || r.includes("vn")) return "vcs";
+  if (r.includes("latam")) return "lla"; if (r.includes("brazil")) return "cblol";
+  if (r.includes("japan")) return "ljl"; if (r.includes("oce")) return "lco";
+  if (r.includes("turkey")) return "tcl"; if (r.includes("cis")) return "lcl";
+  return "other";
+}
+
+function regionToLeagueName(region: string | null): string | null {
+  if (!region) return null;
+  const r = region.toLowerCase();
+  if (r.includes("emea") || r.includes("europe")) return "LEC"; if (r.includes("korea")) return "LCK";
+  if (r.includes("china")) return "LPL"; if (r.includes("na") || r.includes("north america")) return "LCS";
+  if (r.includes("apac")) return "PCS"; if (r.includes("vietnam")) return "VCS";
+  if (r.includes("latam")) return "LLA"; if (r.includes("brazil")) return "CBLOL";
+  if (r.includes("japan")) return "LJL"; if (r.includes("oce")) return "LCO";
+  return region;
+}
+
+export function infoboxToTeam(ib: TeamInfoboxData, pageTitle: string): ScrapedTeam | null {
+  const name = ib.name ?? pageTitle;
+  if (!name || name.length < 2) return null;
+  const shortName = (ib.shortName ?? name.replace(/[A-Z]/g, m => ' ' + m).trim().split(/\s+/).map(w => (w.match(/[A-Za-z0-9]/)?.[0] ?? '')).join('').toUpperCase().slice(0, 4)) || name.slice(0, 4).toUpperCase();
+  const country = ib.country ? countryToISO(ib.country) : "XX";
+  const city = ib.location ?? "";
+  const normalizedName = name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+  return {
+    id: `team-${normalizedName}`,
+    name, shortName, country, city,
+    arenaName: `${shortName} Arena`, arenaCapacity: 2500,
+    region: ib.region ?? "Unknown",
+    leagueId: regionToLeagueId(ib.region),
+    leagueName: regionToLeagueName(ib.region),
+    isDisbanded: ib.isDisbanded,
+    logoUrl: null,
+    sourcePage: null, // set during scrape
   };
 }

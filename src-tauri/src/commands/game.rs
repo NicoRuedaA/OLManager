@@ -664,8 +664,17 @@ fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path
             .ok()
             .map(|dir| dir.join("databases").join("lec_world.json")),
         cwd.join("src-tauri")
+            .join("scraper")
+            .join("output")
+            .join("world-exact.json")
+            .into(),
+        cwd.join("src-tauri")
             .join("databases")
             .join("lec_world.json")
+            .into(),
+        cwd.join("scraper")
+            .join("output")
+            .join("world-exact.json")
             .into(),
         cwd.join("databases").join("lec_world.json").into(),
     ];
@@ -1864,7 +1873,6 @@ pub async fn start_new_game(
     let mut teams = teams;
     bootstrap_example_academy_pool_from_example(&mut teams, &mut players, &academy_bootstrap_date);
     remove_free_agents_shadowed_by_academy(&mut players, &teams);
-    inject_seed_free_agents(&mut players);
     apply_default_initial_contract_end(&mut players);
 
     let new_game = Game::new(clock, manager, teams, players, staff, vec![]);

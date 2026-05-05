@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import { apiGet, clearCache } from "./api";
 import { discoverAllPlayers, discoverAllTeams } from "./discover";
-import { parseInfobox, classifyInfobox, infoboxToPlayer, parseTeamInfobox, infoboxToTeam } from "./parse";
+import { parseInfobox, classifyInfobox, infoboxToPlayer, parseTeamInfobox, infoboxToTeam, parseTeamHistory, mapTeamHistoryToCareer } from "./parse";
 import { infoboxToStaff } from "./parse";
 import { findPlayerImage, resolveImageUrl, convertToWebp } from "./images";
 import { generateLolStats, statsToAttributes, estimateMarketValue, estimatePotential, estimateWage, calculateOvr } from "./stats";
@@ -53,10 +53,8 @@ async function main() {
       const json = await apiGet({ action: "parse", page: teamPages[i], prop: "wikitext" });
       const ib = parseTeamInfobox(json.parse?.wikitext?.["*"] ?? "");
       if (ib) {
-        // Skip teams without a known LoL region (Apex, CS, Valorant, etc.)
-        if (ib.region && !knownRegions.has(ib.region)) continue;
         const team = infoboxToTeam(ib, teamPages[i]);
-        if (team) allTeams.push(team);
+        if (team) { team.sourcePage = teamPages[i]; allTeams.push(team); }
       }
     } catch { tErr++; }
     if ((i + 1) % 10 === 0) process.stdout.write(`\r  Teams: ${i + 1}/${teamPages.length} (${allTeams.length} extracted)`);
@@ -65,6 +63,15 @@ async function main() {
   const activeTeams = allTeams.filter(t => !t.isDisbanded);
   const historicalTeams = allTeams.filter(t => t.isDisbanded);
   console.log(`\n  ✅ ${activeTeams.length} active + ${historicalTeams.length} historical (${tErr} errors)`);
+
+  // Build team name → teamId map
+  const teamNameToId = new Map<string, string>();
+  for (const t of [...activeTeams, ...historicalTeams]) {
+    const key = t.name.toLowerCase().replace(/[^a-z0-9]/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    teamNameToId.set(key, t.id);
+    // Also map by short name
+    teamNameToId.set(t.shortName.toLowerCase(), t.id);
+  }
 
   // ─── Step 3: Extract active players ────────────────────────
   console.log("\n🎮 Step 3: Player extraction + stats generation");
@@ -109,6 +116,18 @@ async function main() {
 
       const player = infoboxToPlayer(ib, playerPages[i]);
       if (!player || player.status !== "Active") { pSkipped++; continue; }
+
+      // Parse TeamHistory → career + teamId
+      const history = parseTeamHistory(wt);
+      if (history.length > 0) {
+        const { career, currentTeamId } = mapTeamHistoryToCareer(history, teamNameToId);
+        player.career = career;
+        if (currentTeamId) {
+          player.teamId = currentTeamId;
+          const team = [...activeTeams, ...historicalTeams].find(t => t.id === currentTeamId);
+          if (team) { player.teamName = team.name; player.leagueId = team.leagueId; player.region = team.region; }
+        }
+      }
 
       // Generate stats
       if (player.role) {

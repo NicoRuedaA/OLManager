@@ -23,6 +23,7 @@ interface ScrapedEntity {
   dateOfBirth: string | null;
   nationality: string;        // ISO 3166-1 alpha-2
   nationalityFlag: string;    // emoji
+  teamId: string | null;
   teamName: string | null;
   teamShort: string | null;
   leagueId: string | null;
@@ -39,6 +40,13 @@ interface ScrapedEntity {
   scrapedAt: string;
 }
 
+export interface CareerEntry {
+  season: string;
+  teamId: string;
+  teamName: string;
+  role: string;
+}
+
 export interface ScrapedPlayer extends ScrapedEntity {
   kind: "player";
   role: LolRole | null;
@@ -50,6 +58,7 @@ export interface ScrapedPlayer extends ScrapedEntity {
   potentialBase: number | null;
   marketValue: number | null;
   wage: number | null;
+  career: CareerEntry[];
 }
 
 export interface ScrapedStaff extends ScrapedEntity {
@@ -72,6 +81,7 @@ export interface ScrapedTeam {
   leagueName: string | null;
   isDisbanded: boolean;
   logoUrl: string | null;
+  sourcePage: string | null;
 }
 
 export interface ScrapedLeague {
