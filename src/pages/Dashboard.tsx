@@ -45,6 +45,7 @@ import {
 } from "../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "../store/settingsStore";
+import { resolveExampleTeamLogo } from "../lib/teamLogos";
 import ChampionPage from "../pages/ChampionPage";
 
 const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
@@ -408,25 +409,7 @@ export default function Dashboard(): JSX.Element {
     : managerName;
 
   const teamLogo = useMemo(() => {
-    if (!myTeamName) return null;
-    const normalized = myTeamName.toLowerCase().replace(/[^a-z0-9]/g, "");
-    const TEAM_LOGO_MAP: Record<string, string> = {
-      g2esports: "/team-logos/g2-esports.png",
-      fnatic: "/team-logos/fnatic.png",
-      giantx: "/team-logos/giantx-lec.png",
-      karminecorp: "/team-logos/karmine-corp.png",
-      movistarkoi: "/team-logos/mad-lions.png",
-      mkoi: "/team-logos/mad-lions.png",
-      koi: "/team-logos/mad-lions.png",
-      madlionskoi: "/team-logos/mad-lions.png",
-      natusvincere: "/team-logos/natus-vincere.png",
-      skgaming: "/team-logos/sk-gaming.png",
-      teamheretics: "/team-logos/team-heretics-lec.png",
-      teamvitality: "/team-logos/team-vitality.png",
-      teambds: "/team-logos/team-bds.png",
-      shifters: "/team-logos/team-bds.png",
-    };
-    return TEAM_LOGO_MAP[normalized] ?? null;
+    return resolveExampleTeamLogo(myTeamName);
   }, [myTeamName]);
 
   const searchResults = gameState
@@ -480,7 +463,7 @@ export default function Dashboard(): JSX.Element {
         }}
         unreadMessagesCount={unreadMessagesCount}
         managerName={liveManagerName}
-        teamName={null}
+        teamName={myTeamName}
         teamLogo={teamLogo}
         onNavigateSettings={handleNavigateSettings}
         isUnemployed={isUnemployed ?? false}
