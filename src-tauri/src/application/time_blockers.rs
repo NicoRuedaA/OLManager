@@ -150,16 +150,25 @@ fn injured_starting_xi_blocker(
         .map(|player| player.match_name.clone())
         .collect();
 
-    (!injured_in_xi.is_empty()).then(|| {
+    // For LoL, check only 5 required roles instead of 11-player Starting XI
+    let required_count = if is_lol_mode(roster) { 5 } else { 11 };
+
+    (!injured_in_xi.is_empty() && xi_ids.len() >= required_count).then(|| {
+        let (count_text, tab) = if is_lol_mode(roster) {
+            ("5 Starter Roles", "Squad")
+        } else {
+            ("Starting XI", "Squad")
+        };
         build_blocker(
             "injured_xi",
             "warn",
             format!(
-                "{} injured player(s) in Starting XI: {}",
+                "{} injured player(s) in {}: {}",
                 injured_in_xi.len(),
+                count_text,
                 injured_in_xi.join(", ")
             ),
-            "Squad",
+            tab,
         )
     })
 }
@@ -170,17 +179,61 @@ fn incomplete_starting_xi_blocker(
 ) -> Option<serde_json::Value> {
     let healthy_xi = effective_healthy_xi_ids.len();
 
-    (healthy_xi < 11 && roster.len() >= 11).then(|| {
-        build_blocker(
+    // For LoL, require only 5 roles instead of 11-player Starting XI
+    let required_count = if is_lol_mode(roster) { 5 } else { 11 };
+    let count_text = if is_lol_mode(roster) { "5 Starter Roles" } else { "Starting XI" };
+
+    // Check minimum quantity first
+    if healthy_xi < required_count && roster.len() >= required_count {
+        return Some(build_blocker(
             "incomplete_xi",
             "warn",
             format!(
-                "Starting XI has only {} healthy players — set your lineup",
-                healthy_xi
+                "{} has only {} healthy players — set your lineup",
+                count_text, healthy_xi
             ),
             "Squad",
-        )
-    })
+        ));
+    }
+
+    // For LoL mode, also validate role coverage in the starting XI
+    if is_lol_mode(roster) && healthy_xi >= 5 {
+        // Get players in the starting XI
+        let xi_id_set: std::collections::HashSet<&str> = effective_healthy_xi_ids
+            .iter()
+            .map(String::as_str)
+            .collect();
+
+        let xi_roles: std::collections::HashSet<&'static str> = roster
+            .iter()
+            .filter(|player| xi_id_set.contains(player.id.as_str()))
+            .map(|player| role_to_string(&player.natural_position))
+            .collect();
+
+        let required_roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
+        let missing_roles: Vec<&str> = required_roles
+            .iter()
+            .copied()
+            .filter(|role| !xi_roles.contains(role))
+            .collect();
+
+        if !missing_roles.is_empty() {
+            // Build role-specific message
+            let role_list = missing_roles.join(", ");
+            let role_article = if missing_roles.len() == 1 { "rol" } else { "roles" };
+            return Some(build_blocker(
+                "incomplete_xi",
+                "warn",
+                format!(
+                    "Lineup incompleto: falta el {} {} en tu lineup. Asegurate de tener TOP, JUNGLE, MID, ADC y SUPPORT.",
+                    role_article, role_list
+                ),
+                "Squad",
+            ));
+        }
+    }
+
+    None
 }
 
 fn urgent_unread_messages_blocker(game: &Game) -> Option<serde_json::Value> {
@@ -322,6 +375,14 @@ fn role_to_string(role: &domain::stats::LolRole) -> &'static str {
         LolRole::Support => "SUPPORT",
         LolRole::Unknown => "UNKNOWN",
     }
+}
+
+/// Determines if the game is using LoL mode by checking for any player with a known LoL role.
+/// In LoL mode, teams need 5 roles; in football mode, teams need 11 players.
+fn is_lol_mode(roster: &[&domain::player::Player]) -> bool {
+    roster
+        .iter()
+        .any(|player| player.natural_position != domain::stats::LolRole::Unknown)
 }
 
 fn academy_role_coverage_blocker(
