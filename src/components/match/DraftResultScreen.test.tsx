@@ -7,13 +7,13 @@ import type { MatchSnapshot } from "./types";
 
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
-    t: (key: string, options?: string | { defaultValue?: string }) => {
+    t: (key: string, options?: string | { defaultValue?: string; [key: string]: unknown }) => {
       if (typeof options === "string") {
         return options;
       }
 
       if (options && typeof options === "object" && "defaultValue" in options) {
-        return options.defaultValue ?? key;
+        return String(options.defaultValue ?? key).replace(/{{(\w+)}}/g, (_, name) => String(options[name] ?? ""));
       }
 
       return key;
@@ -317,5 +317,27 @@ describe("DraftResultScreen", () => {
       "72,43",
       "94,57",
     ]);
+  });
+
+  it("shows scrim prep influence when the runtime snapshot carried prep signal", () => {
+    render(
+      <DraftResultScreen
+        snapshot={{
+          ...snapshot,
+          lol_scrim_prep: {
+            home: { preparation: 2, focus: "Macro", comfortByPlayer: { "blue-top": 1 } },
+            away: { preparation: 0, focus: null, comfortByPlayer: {} },
+          },
+        }}
+        controlledSide="blue"
+        result={createResult()}
+        onContinue={vi.fn()}
+      />,
+    );
+
+    expect(screen.getByText("Scrim prep carried into the match")).toBeInTheDocument();
+    expect(screen.getByText("Opponent prep +2")).toBeInTheDocument();
+    expect(screen.getByText("Champion comfort +1")).toBeInTheDocument();
+    expect(screen.getByText("Focus: macro")).toBeInTheDocument();
   });
 });

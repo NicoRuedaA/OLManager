@@ -2,12 +2,12 @@ use chrono::Utc;
 use domain::stats::StatsState;
 
 use ofm_core::clock::GameClock;
-use ofm_core::game::{BoardObjective, Game, ObjectiveType, ScoutingAssignment};
+use ofm_core::game::{BoardObjective, DayPhase, Game, ObjectiveType, ScoutingAssignment};
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
     champion_progression_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo,
-    objective_repo, player_repo, scouting_repo, staff_repo, stats_repo, team_repo,
+    objective_repo, player_repo, scouting_repo, social_repo, staff_repo, stats_repo, team_repo,
 };
 
 pub struct GamePersistenceWriter;
@@ -30,6 +30,7 @@ impl GamePersistenceWriter {
                 manager_id: game.manager.id.clone(),
                 start_date: game.clock.start_date.to_rfc3339(),
                 game_date: game.clock.current_date.to_rfc3339(),
+                day_phase: game.day_phase.as_id().to_string(),
                 created_at: now.clone(),
                 last_played_at: now,
             },
@@ -41,6 +42,9 @@ impl GamePersistenceWriter {
         staff_repo::upsert_staff_list(conn, &game.staff)?;
         message_repo::upsert_messages(conn, &game.messages)?;
         news_repo::upsert_news_list(conn, &game.news)?;
+        social_repo::upsert_social_posts(conn, &game.social_posts)?;
+        social_repo::upsert_social_accounts(conn, &game.social_accounts)?;
+        social_repo::upsert_social_templates(conn, &game.social_templates)?;
 
         if let Some(ref league) = game.league {
             league_repo::upsert_league(conn, league)?;
@@ -135,10 +139,9 @@ impl GamePersistenceReader {
             messages.len()
         );
         let news = news_repo::load_all_news(conn)?;
-        log::info!(
-            "[GamePersistenceReader] read_game: news loaded: {}",
-            news.len()
-        );
+        let social_posts = social_repo::load_all_social_posts(conn)?;
+        let social_accounts = social_repo::load_social_accounts(conn)?;
+        let social_templates = social_repo::load_social_templates(conn)?;
         let league = league_repo::load_league(conn)?;
         log::info!(
             "[GamePersistenceReader] read_game: league loaded: {:?}",
@@ -188,12 +191,16 @@ impl GamePersistenceReader {
 
         let mut game = Game {
             clock,
+            day_phase: DayPhase::from_id(&meta.day_phase),
             manager,
             teams,
             players,
             staff,
             messages,
             news,
+            social_posts,
+            social_accounts,
+            social_templates,
             league,
             academy_league: None,
             scouting_assignments,

@@ -14,8 +14,10 @@ import StaffTab from "../staff/StaffTab";
 import InboxTab from "../inbox/InboxTab";
 import ManagerTab from "../manager/ManagerTab";
 import NewsTab from "../news/NewsTab";
+import SocialTab from "../social/SocialTab";
 import ChampionsTab from "../champions/ChampionsTab";
 import ChampionsWorldTab from "../world/ChampionsWorldTab";
+import ScrimsTab from "../scrims/ScrimsTab";
 import EndOfSeasonScreen from "../EndOfSeasonScreen";
 import { Card, CardBody } from "../ui";
 import type { DashboardTabContentModel } from "./dashboardTabContentModel";
@@ -78,6 +80,10 @@ export default function DashboardTabContent({
 
       {activeTab === "Training" && (
         <TrainingTab gameState={gameState} onGameUpdate={onGameUpdate} />
+      )}
+
+      {activeTab === "Scrims" && (
+        <ScrimsTab gameState={gameState} onGameUpdate={onGameUpdate} />
       )}
 
       {activeTab === "Meta" && (
@@ -161,11 +167,16 @@ export default function DashboardTabContent({
         <NewsTab gameState={gameState} onSelectTeam={onSelectTeam} />
       )}
 
+      {activeTab === "Social" && (
+        <SocialTab gameState={gameState} onGameUpdate={onGameUpdate} />
+      )}
+
       {![
         "Home",
         "Squad",
         "Tactics",
         "Training",
+        "Scrims",
         "Meta",
         "Schedule",
         "Finances",
@@ -181,6 +192,7 @@ export default function DashboardTabContent({
         "Inbox",
         "Manager",
         "News",
+        "Social",
       ].includes(activeTab) && (
         <Card>
           <CardBody>

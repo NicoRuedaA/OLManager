@@ -1,10 +1,85 @@
+use chrono::Datelike;
 use log::info;
 use serde::{Deserialize, Serialize};
 
 use crate::commands::round_summary::{build_round_summary_dto, RoundSummaryDto};
-use ofm_core::game::Game;
+use ofm_core::game::{DayPhase, Game};
 use ofm_core::live_match_manager::{self, MatchMode};
 use ofm_core::state::StateManager;
+
+fn has_unresolved_scrim_review_today(game: &Game) -> bool {
+    let Some(team_id) = game.manager.team_id.as_ref() else {
+        return false;
+    };
+    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+    game.teams
+        .iter()
+        .find(|team| &team.id == team_id)
+        .map(|team| {
+            team.scrim_reports
+                .iter()
+                .any(|report| report.date == today && report.post_decision.is_none())
+        })
+        .unwrap_or(false)
+}
+
+fn first_scrim_weekday_for_team(team: &domain::team::Team) -> u8 {
+    let raw_slots = if team.scrim_weekly_slots > 0 {
+        team.scrim_weekly_slots
+    } else {
+        match team.training_schedule {
+            domain::team::TrainingSchedule::Intense => 6,
+            domain::team::TrainingSchedule::Balanced => 4,
+            domain::team::TrainingSchedule::Light => 2,
+        }
+    };
+    let slots = if raw_slots <= 2 {
+        2
+    } else if raw_slots <= 4 {
+        4
+    } else {
+        6
+    };
+    let all = match slots {
+        0..=2 => vec![2_u8, 2_u8],
+        3..=4 => vec![2_u8, 2_u8, 3_u8, 3_u8],
+        _ => vec![2_u8, 2_u8, 3_u8, 3_u8, 4_u8, 4_u8],
+    };
+    all.into_iter().min().unwrap_or(2)
+}
+
+fn has_no_weekly_scrim_setup(game: &Game) -> bool {
+    let Some(team_id) = game.manager.team_id.as_ref() else {
+        return false;
+    };
+    let week_key = format!(
+        "{}-W{}",
+        game.clock.current_date.iso_week().year(),
+        game.clock.current_date.iso_week().week()
+    );
+    let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
+    game.teams
+        .iter()
+        .find(|team| &team.id == team_id)
+        .map(|team| {
+            let first_day = first_scrim_weekday_for_team(team);
+            let in_scrim_start_window =
+                current_weekday == first_day && game.day_phase == DayPhase::Morning;
+            if !in_scrim_start_window {
+                return false;
+            }
+            if team.scrim_setup_locked_week_key.as_deref() == Some(week_key.as_str()) {
+                return false;
+            }
+            let has_objective = team.scrim_weekly_objective.is_some();
+            let has_plans = team
+                .weekly_scrim_plan_team_ids
+                .iter()
+                .any(|plan| plan.iter().any(|entry| !entry.is_empty()));
+            !(has_objective || has_plans)
+        })
+        .unwrap_or(false)
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AdvanceTimeWithModeResponse {
@@ -168,6 +243,49 @@ pub fn advance_time_with_mode(
             })
         }
         _ => {
+            if user_fixture_idx.is_none() && game.day_phase != DayPhase::Evening {
+                if mode != "delegate" && has_no_weekly_scrim_setup(&game) {
+                    state.set_game(game.clone());
+                    return Ok(AdvanceTimeWithModeResponse {
+                        action: "blocked_scrim_setup".to_string(),
+                        game: Some(game),
+                        snapshot: None,
+                        fixture_index: None,
+                        mode: None,
+                        round_summary: None,
+                    });
+                }
+                if game.day_phase == DayPhase::Morning {
+                    let weekday_num = game.clock.current_date.weekday().num_days_from_monday();
+                    ofm_core::training::process_scrim_block(&mut game, weekday_num);
+                }
+
+                if game.day_phase == DayPhase::ScrimBlock
+                    && has_unresolved_scrim_review_today(&game)
+                {
+                    state.set_game(game.clone());
+                    return Ok(AdvanceTimeWithModeResponse {
+                        action: "blocked_scrim_decision".to_string(),
+                        game: Some(game),
+                        snapshot: None,
+                        fixture_index: None,
+                        mode: None,
+                        round_summary: None,
+                    });
+                }
+
+                game.day_phase = game.day_phase.next();
+                state.set_game(game.clone());
+                return Ok(AdvanceTimeWithModeResponse {
+                    action: "phase_advanced".to_string(),
+                    game: Some(game),
+                    snapshot: None,
+                    fixture_index: None,
+                    mode: None,
+                    round_summary: None,
+                });
+            }
+
             info!(
                 "[cmd] advance_time_with_mode: normal_advance date={}, mode={}",
                 today, mode

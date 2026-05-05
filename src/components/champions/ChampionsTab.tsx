@@ -118,14 +118,6 @@ function championDisplayName(championId: string): string {
   return championId;
 }
 
-function tierLabelClass(tier: string): string {
-  if (tier === "S") return "bg-red-400 text-black";
-  if (tier === "A") return "bg-orange-300 text-black";
-  if (tier === "B") return "bg-yellow-300 text-black";
-  if (tier === "C") return "bg-lime-300 text-black";
-  return "bg-green-300 text-black";
-}
-
 type SoloQTier = "Challenger" | "Grandmaster" | "Master";
 
 const SOLOQ_POINTS_BASELINE = 3000;
@@ -133,6 +125,11 @@ const SOLOQ_POINTS_MIN = 3000;
 const SOLOQ_POINTS_MAX = 7000;
 const SOLOQ_GRANDMASTER_LP_CUTOFF = 800;
 const SOLOQ_CHALLENGER_LP_CUTOFF = 1300;
+const SCHEDULE_TRAINING_DAYS: Record<string, number[]> = {
+  Intense: [0, 1, 2, 3, 4, 5],
+  Balanced: [0, 1, 3, 4],
+  Light: [1, 3],
+};
 
 function hashText(value: string): number {
   let hash = 0;
@@ -140,10 +137,6 @@ function hashText(value: string): number {
     hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
   }
   return hash;
-}
-
-function pseudoRandom(seed: string): number {
-  return (hashText(seed) % 10000) / 10000;
 }
 
 function daysBetween(startIso: string, endIso: string): number {
@@ -157,6 +150,9 @@ function computeSoloQ(
   player: GameStateData["players"][number],
   gameState: GameStateData,
   masterySignal: number,
+  focus: string | null | undefined,
+  intensity: string,
+  schedule: string,
 ): {
   tier: SoloQTier;
   lp: number;
@@ -167,22 +163,27 @@ function computeSoloQ(
   const baseline = 3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);
 
   let points = baseline;
+  const focusMult = getFocusMultiplier(focus);
+  const intensityMult = intensityMultiplier(intensity);
   for (let day = 1; day <= dayIndex; day += 1) {
-    const rand = pseudoRandom(`${player.id}:${day}`);
-    const randDelta = Math.round(rand * 48 - 24);
-    const skillDrift = Math.round((ovr - 78) * 0.35);
-    const masteryDrift = Math.round(masterySignal * 0.2);
-    points += randDelta + skillDrift + masteryDrift;
+    const currentIso = addDays(gameState.clock.start_date, day);
+    if (!isSoloQDay(currentIso, schedule)) continue;
+    const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
+    const gain = Math.round(baseGain * intensityMult * focusMult);
+    points += Math.max(-20, Math.min(30, gain));
     points = Math.max(SOLOQ_POINTS_MIN, Math.min(SOLOQ_POINTS_MAX, points));
   }
 
   const lp = Math.max(0, Math.round(points - SOLOQ_POINTS_BASELINE));
 
-  const yesterdayRand = pseudoRandom(`${player.id}:${Math.max(1, dayIndex)}`);
-  const yesterdayDelta =
-    Math.round(yesterdayRand * 48 - 24) +
-    Math.round((ovr - 78) * 0.35) +
-    Math.round(masterySignal * 0.2);
+  let yesterdayDelta = 0;
+  if (dayIndex > 0) {
+    const yesterdayIso = addDays(gameState.clock.start_date, dayIndex);
+    if (isSoloQDay(yesterdayIso, schedule)) {
+      const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
+      yesterdayDelta = Math.max(-20, Math.min(30, Math.round(baseGain * intensityMult * focusMult)));
+    }
+  }
 
   if (lp >= SOLOQ_CHALLENGER_LP_CUTOFF) {
     return { tier: "Challenger", lp, delta: yesterdayDelta };
@@ -232,9 +233,31 @@ function expectedGainBadge(slotIndex: number, focus: string | null | undefined):
 } {
   const priorityWeight = [1.0, 0.65, 0.4][slotIndex] ?? 0.35;
   const focusMult = getFocusMultiplier(focus);
-  if (slotIndex === 0) return { label: t("champions.high"), className: "text-emerald-300", baseMult: priorityWeight * focusMult };
-  if (slotIndex === 1) return { label: t("champions.moderate"), className: "text-amber-300", baseMult: priorityWeight * focusMult };
-  return { label: t("champions.low"), className: "text-gray-300", baseMult: priorityWeight * focusMult };
+  if (slotIndex === 0) return { label: t("champions.high"), className: "text-gray-500 dark:text-gray-400", baseMult: priorityWeight * focusMult };
+  if (slotIndex === 1) return { label: t("champions.moderate"), className: "text-gray-500 dark:text-gray-400", baseMult: priorityWeight * focusMult };
+  return { label: t("champions.low"), className: "text-gray-500 dark:text-gray-400", baseMult: priorityWeight * focusMult };
+}
+
+function addDays(iso: string, days: number): string {
+  const date = new Date(iso);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString();
+}
+
+function weekdayFromIso(iso: string): number {
+  const date = new Date(iso);
+  return (date.getUTCDay() + 6) % 7;
+}
+
+function isSoloQDay(dateIso: string, schedule: string): boolean {
+  const activeDays = SCHEDULE_TRAINING_DAYS[schedule] ?? SCHEDULE_TRAINING_DAYS.Balanced;
+  return activeDays.includes(weekdayFromIso(dateIso));
+}
+
+function intensityMultiplier(intensity: string): number {
+  if (intensity === "High") return 1.25;
+  if (intensity === "Low") return 0.75;
+  return 1.0;
 }
 
 const TIER_ORDER: Array<"S" | "A" | "B" | "C" | "D"> = ["S", "A", "B", "C", "D"];
@@ -422,10 +445,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-yellow-400/30 bg-linear-to-br from-navy-900 via-navy-900 to-black p-5 shadow-[0_0_30px_rgba(251,191,36,0.08)]">
+      <section className="rounded-2xl border border-navy-600 bg-navy-700 p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-widest text-yellow-300/80 font-heading">
+            <p className="text-[11px] uppercase tracking-widest text-gray-400 font-heading">
               {t("champions.patchLabel", "Patch")}
             </p>
             <h2 className="mt-1 text-2xl font-heading font-bold text-white">
@@ -441,14 +464,14 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
             </p>
           </div>
 
-          <div className="min-w-[230px] rounded-xl border border-navy-600 bg-navy-900/70 px-4 py-3">
+          <div className="min-w-[230px] rounded-xl border border-navy-600 bg-navy-800/30 px-4 py-3">
             <div className="flex items-center justify-between text-xs text-gray-300">
               <span className="inline-flex items-center gap-1"><Search className="h-3.5 w-3.5" />
                 {t("champions.discoveryProgress", "Meta descubierto")}</span>
-              <span className="font-semibold text-yellow-300">{discoveredPct}%</span>
+              <span className="font-semibold text-primary-500 dark:text-primary-300">{discoveredPct}%</span>
             </div>
             <div className="mt-2 h-2 rounded-full bg-navy-700">
-              <div className="h-2 rounded-full bg-linear-to-r from-yellow-400 to-amber-500" style={{ width: `${discoveredPct}%` }} />
+              <div className="h-2 rounded-full bg-primary-500" style={{ width: `${discoveredPct}%` }} />
             </div>
             <p className="mt-2 text-[11px] text-gray-400">
               {t("champions.staffMetaImpact", "Scout read")}: {formatStaffEffectPercent(staffEffects.metaDiscovery)} · {t("champions.staffMasteryImpact", "mastery learning")}: {formatStaffEffectPercent(staffEffects.development)}
@@ -456,17 +479,17 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
           </div>
         </div>
 
-        <div className="mt-5 rounded-xl border border-navy-600 bg-navy-900/60 p-4">
+        <div className="mt-5 rounded-xl border border-navy-600 bg-navy-800/30 p-4">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-sm text-yellow-300">
+            <div className="flex items-center gap-2 text-sm text-gray-300">
               <Sparkles className="h-4 w-4" />
               <span className="font-heading uppercase tracking-wider">{t("champions.metaTitle", "Meta del parche")}</span>
             </div>
-            <div className="flex items-center gap-1 rounded-lg border border-navy-600 bg-black/20 p-1">
+            <div className="flex items-center gap-1 rounded-lg border border-navy-600 bg-navy-900/20 p-1">
               <button
                 type="button"
                 onClick={() => setMetaRoleFilter("ALL")}
-                className={`rounded-md px-2 py-1 text-[11px] font-heading ${metaRoleFilter === "ALL" ? "bg-yellow-400/20 text-yellow-200" : "text-gray-300"}`}
+                className={`rounded-md border px-2 py-1 text-[11px] font-heading transition-colors ${metaRoleFilter === "ALL" ? "border-primary-500 bg-primary-500 text-white" : "border-navy-600 text-gray-300 hover:border-navy-500"}`}
               >
                 ALL
               </button>
@@ -475,10 +498,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                   key={role}
                   type="button"
                   onClick={() => setMetaRoleFilter(role)}
-                  className={`rounded-md p-1 ${metaRoleFilter === role ? "bg-yellow-400/20" : "hover:bg-white/5"}`}
+                  className={`flex h-8 w-8 items-center justify-center rounded-md border bg-navy-900/70 p-0 transition-colors ${metaRoleFilter === role ? "border-primary-500 bg-primary-500/10" : "border-navy-600 hover:border-navy-500"}`}
                   title={role}
                 >
-                  <img src={ROLE_ICON_URLS[role]} alt={role} className="h-4 w-4" />
+                  <img src={ROLE_ICON_URLS[role]} alt={role} className="h-4 w-4 object-contain" />
                 </button>
               ))}
             </div>
@@ -487,10 +510,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
           <div className="space-y-1">
             {TIER_ORDER.map((tier) => (
               <div key={tier} className="grid grid-cols-[56px_1fr] overflow-hidden rounded-lg border border-navy-600">
-                <div className={`flex items-center justify-center text-xl font-heading font-bold ${tierLabelClass(tier)}`}>
+                <div className="flex items-center justify-center text-xl font-heading font-bold text-gray-200">
                   {tier}
                 </div>
-                <div className="min-h-[70px] bg-black/30 p-2">
+                <div className="min-h-[70px] bg-transparent p-2">
                   {tierRows[tier].length === 0 ? (
                     <p className="text-xs text-gray-500 italic">—</p>
                   ) : (
@@ -579,18 +602,27 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
               targetsRaw[1] ?? "",
               targetsRaw[2] ?? "",
             ];
-            const soloQ = computeSoloQ(player, gameState, masterySignalByPlayer.get(player.id) ?? 0);
             const effectiveFocus = player.training_focus ?? managerTeam?.training_focus ?? null;
+            const effectiveIntensity = managerTeam?.training_intensity ?? "Medium";
+            const effectiveSchedule = managerTeam?.training_schedule ?? "Balanced";
+            const soloQ = computeSoloQ(
+              player,
+              gameState,
+              masterySignalByPlayer.get(player.id) ?? 0,
+              effectiveFocus,
+              effectiveIntensity,
+              effectiveSchedule,
+            );
             const soloQMult = soloQMasteryMultiplier(soloQ.tier);
 
             return (
               <div
                 key={player.id}
-                className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-900/40 p-3 transition-all duration-300 hover:border-yellow-400/50 hover:shadow-[0_8px_24px_rgba(245,158,11,0.12)]"
+                className="rounded-xl border border-navy-600 bg-transparent p-3 transition-all duration-300 hover:border-navy-500"
               >
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 overflow-hidden rounded-lg bg-gray-200 dark:bg-navy-700">
+                    <div className="h-10 w-10 overflow-hidden rounded-lg bg-navy-800">
                       {resolvePlayerPhoto(player.id, player.match_name) ? (
                         <img
                           src={resolvePlayerPhoto(player.id, player.match_name) ?? ""}
@@ -602,8 +634,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                       )}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{player.match_name}</p>
-                      <p className="text-[11px] text-gray-500 dark:text-gray-400">{role}</p>
+                      <p className="text-sm font-semibold text-gray-100">{player.match_name}</p>
+                      <div className="mt-1 flex h-6 w-6 items-center justify-center rounded-md border border-navy-600 bg-navy-900/70">
+                        <img src={ROLE_ICON_URLS[role]} alt={role} className="h-3.5 w-3.5 object-contain" />
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -611,7 +645,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                       <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
                         {soloQ.tier}
                       </p>
-                      <p className="text-[11px] text-white font-semibold">
+                      <p className="text-[11px] text-gray-100 font-semibold">
                         {soloQ.lp} LP
                         <span className={`ml-1 ${soloQ.delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                           {soloQ.delta >= 0 ? `+${soloQ.delta}` : soloQ.delta}
@@ -624,34 +658,49 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                       alt={soloQ.tier}
                       className="h-16 w-16 object-contain drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]"
                     />
-                    <img src={ROLE_ICON_URLS[role]} alt={role} className="h-5 w-5" />
                   </div>
                 </div>
 
-                <div className="grid gap-2 md:grid-cols-3">
+                <div className="grid gap-3 md:grid-cols-3">
                   {targets.map((target, slotIndex) => {
                     const masteryValue = target
                       ? masteryMap.get(`${player.id}:${normalizeKey(target)}`) ?? 25
                       : 25;
                     const gainHint = expectedGainBadge(slotIndex, effectiveFocus);
+                    const slotTitle = slotIndex === 0 ? "Prioridad alta" : slotIndex === 1 ? "Prioridad media" : "Prioridad baja";
+                    const slotDesc = slotIndex === 0
+                      ? "Objetivo principal de progreso"
+                      : slotIndex === 1
+                        ? "Alternativa estable para mantener ritmo"
+                        : "Pick situacional para ampliar pool";
 
                     return (
-                      <div key={`${player.id}-slot-${slotIndex}`} className="rounded-lg border border-gray-200 dark:border-navy-600 p-2">
-                        <div className="mb-1 flex items-center justify-between">
-                          <p className="text-[11px] font-heading uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                            P{slotIndex + 1}
-                          </p>
+                      <div
+                        key={`${player.id}-slot-${slotIndex}`}
+                        className="rounded-xl border-2 border-navy-600 bg-navy-800/30 p-3 text-left transition-all hover:border-navy-500"
+                      >
+                        <div className="mb-2 flex items-start justify-between gap-2">
+                          <div>
+                            <p className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                              P{slotIndex + 1}
+                            </p>
+                            <p className="font-heading text-xs font-bold uppercase tracking-wider text-gray-200">
+                              {slotTitle}
+                            </p>
+                          </div>
                           <p className={`text-[10px] font-heading uppercase tracking-wide ${gainHint.className}`}>
-                            ${t("champions.gain")} {gainHint.label}
+                            {t("champions.gain")} {gainHint.label}
                           </p>
                         </div>
+                        <p className="mb-2 text-[11px] text-gray-400">{slotDesc}</p>
+
                         <select
                           value={target}
                           disabled={submittingKey === `${player.id}:${slotIndex}`}
                           onChange={(event) => {
                             void handleTrainingTargetChange(player.id, slotIndex, event.target.value);
                           }}
-                          className="w-full rounded-md border border-gray-300 dark:border-navy-500 bg-white dark:bg-navy-700 text-sm text-gray-800 dark:text-gray-100 px-2 py-1.5"
+                          className="w-full rounded-md border border-navy-600 bg-navy-700/80 text-sm text-gray-100 px-2 py-1.5"
                         >
                           <option value="">{t("champions.noTarget", "Sin objetivo")}</option>
                           {sortedRoleChampions.map((champion) => {
@@ -667,17 +716,23 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                             );
                           })}
                         </select>
-                        <div className="mt-1 h-1.5 rounded-full bg-gray-200 dark:bg-navy-700">
+                        <div className="mt-1 h-1.5 rounded-full bg-navy-700">
                           <div
-                            className="h-1.5 rounded-full bg-linear-to-r from-emerald-400 to-teal-500 transition-all duration-500"
+                            className="h-1.5 rounded-full bg-primary-500 transition-all duration-500"
                             style={{ width: `${Math.min(100, masteryValue)}%` }}
                           />
                         </div>
-                        <p className="mt-1 text-[11px] text-right text-gray-500 dark:text-gray-300">
-                          {target
-                            ? `M ${masteryValue} · Focus x${gainHint.baseMult.toFixed(2)} · soloQ x${soloQMult.toFixed(1)}`
-                            : "—"}
-                        </p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                            Maestría {masteryValue}
+                          </span>
+                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                            Foco x{gainHint.baseMult.toFixed(2)}
+                          </span>
+                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                            SoloQ x{soloQMult.toFixed(1)}
+                          </span>
+                        </div>
                       </div>
                     );
                   })}

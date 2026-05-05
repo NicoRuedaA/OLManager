@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import teamsSeed from "../../../data/lec/draft/teams.json";
+import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import type { MatchSnapshot } from "./types";
@@ -172,6 +173,13 @@ export default function DraftResultScreen({
   const redLogo = resolveExampleTeamLogo(redTeam.name);
 
   const controlledWon = selectedResult.winnerSide === controlledSide;
+  const controlledPrepInsight = buildLolScrimPrepInsight(
+    snapshot.lol_scrim_prep,
+    controlledSide === "blue" ? "home" : "away",
+  );
+  const controlledPrepFocus = controlledPrepInsight
+    ? t(controlledPrepInsight.focusLabel.key, { defaultValue: controlledPrepInsight.focusLabel.defaultValue })
+    : null;
   const title = controlledWon
     ? t("match.victory")
     : t("match.defeat");
@@ -366,6 +374,40 @@ export default function DraftResultScreen({
                 </div>
               </div>
             </div>
+
+            {controlledPrepInsight ? (
+              <div className="rounded-xl border border-emerald-400/25 bg-emerald-500/10 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-emerald-200">
+                    {t(controlledPrepInsight.title.key, { defaultValue: controlledPrepInsight.title.defaultValue })}
+                  </p>
+                  <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2 py-0.5 text-xs font-bold text-emerald-100">
+                    +{controlledPrepInsight.totalSignal}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-emerald-50/90">
+                  {t(controlledPrepInsight.summary.key, {
+                    ...controlledPrepInsight.summary.values,
+                    focus: controlledPrepFocus ?? controlledPrepInsight.focusLabel.defaultValue,
+                    defaultValue: controlledPrepInsight.summary.defaultValue,
+                  })}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {controlledPrepInsight.details.map((detail) => (
+                    <span
+                      key={detail.key}
+                      className="rounded-full border border-white/10 bg-black/20 px-2 py-1 text-[11px] text-emerald-100"
+                    >
+                      {t(detail.key, {
+                        ...detail.values,
+                        focus: controlledPrepFocus ?? controlledPrepInsight.focusLabel.defaultValue,
+                        defaultValue: detail.defaultValue,
+                      })}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div className="overflow-hidden rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
               <div className="flex items-start justify-between gap-3">

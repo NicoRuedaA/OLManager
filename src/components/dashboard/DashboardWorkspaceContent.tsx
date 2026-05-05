@@ -110,6 +110,7 @@ export default function DashboardWorkspaceContent({
               "Tactics",
               "Training",
               "Meta",
+              "Scrims",
               "Schedule",
               "Finances",
               "Transfers",
@@ -124,6 +125,7 @@ export default function DashboardWorkspaceContent({
               "Inbox",
               "Manager",
               "News",
+              "Social",
             ].includes(dashboardTabContentModel.activeTab) ? (
               <Card>
                 <CardBody>

@@ -15,6 +15,8 @@ import {
   type BestOfContext,
 } from "./ScheduleTab.helpers";
 import { formatMatchDate, getTeamName } from "../../lib/helpers";
+import { deriveWeeklyScrimContext, type WeeklyScrimContext } from "../../lib/scrimContext";
+import { useScrimContextWithFallback } from "../../hooks/useScrimContextWithFallback";
 
 interface Props {
   gameState: GameStateData;
@@ -24,11 +26,6 @@ interface Props {
 
 const WEEKDAY_REFERENCE_MONDAY = new Date(Date.UTC(2024, 0, 1));
 const MAX_FIXTURES_PER_CELL = 3;
-const SCRIM_SLOT_WEEKDAYS: Record<string, number[]> = {
-  Intense: [1, 1, 2, 2, 3, 3],
-  Balanced: [1, 2, 2, 3],
-  Light: [1, 3],
-};
 
 interface ScrimCalendarEvent {
   id: string;
@@ -90,33 +87,33 @@ function getCurrentWeekStart(currentDateStr: string): Date | null {
   return weekStart;
 }
 
-function buildSelectedScrimEvents(gameState: GameStateData): ScrimCalendarEvent[] {
+function buildSelectedScrimEvents(gameState: GameStateData, remoteWeeklyContext?: WeeklyScrimContext | null): ScrimCalendarEvent[] {
   const userTeamId = gameState.manager.team_id;
   if (!userTeamId) return [];
 
   const userTeam = gameState.teams.find((team) => team.id === userTeamId);
   if (!userTeam) return [];
 
-  const slotWeekdays = SCRIM_SLOT_WEEKDAYS[userTeam.training_schedule] ?? SCRIM_SLOT_WEEKDAYS.Balanced;
+  const weeklyContext = remoteWeeklyContext ?? deriveWeeklyScrimContext(gameState, userTeam);
   const weekStart = getCurrentWeekStart(gameState.clock?.current_date ?? "");
   if (!weekStart) return [];
 
   const knownTeamIds = new Set(gameState.teams.map((team) => team.id));
 
-  return slotWeekdays.flatMap((weekday, slotIndex) => {
-    const opponentTeamId = userTeam.weekly_scrim_opponent_ids?.[slotIndex] ?? "";
+  return weeklyContext.slots.flatMap((slot) => {
+    const opponentTeamId = slot.plan.find(Boolean) ?? "";
     if (!opponentTeamId || opponentTeamId === userTeamId || !knownTeamIds.has(opponentTeamId)) {
       return [];
     }
 
     const date = new Date(weekStart);
-    date.setDate(weekStart.getDate() + weekday);
+    date.setDate(weekStart.getDate() + slot.weekday);
     const dateKey = isoDateKey(date);
 
     return [{
-      id: `scrim-${dateKey}-${slotIndex}-${opponentTeamId}`,
+      id: `scrim-${dateKey}-${slot.slotIndex}-${opponentTeamId}`,
       dateKey,
-      slotIndex,
+      slotIndex: slot.slotIndex,
       opponentTeamId,
     }];
   });
@@ -274,6 +271,8 @@ export default function ScheduleCalendarView({
   onOpenFixtureResult,
 }: Props) {
   const { t, i18n } = useTranslation();
+  const remoteScrimContext = useScrimContextWithFallback(gameState);
+  const remoteWeeklyContext = remoteScrimContext?.week ?? null;
   const userTeamId = gameState.manager.team_id ?? "";
   const todayKey = gameState.clock?.current_date?.substring(0, 10) ?? "";
 
@@ -300,13 +299,13 @@ export default function ScheduleCalendarView({
 
   const scrimsByDay = useMemo(() => {
     const map = new Map<string, ScrimCalendarEvent[]>();
-    buildSelectedScrimEvents(gameState).forEach((scrim) => {
+    buildSelectedScrimEvents(gameState, remoteWeeklyContext).forEach((scrim) => {
       const list = map.get(scrim.dateKey) ?? [];
       list.push(scrim);
       map.set(scrim.dateKey, list);
     });
     return map;
-  }, [gameState]);
+  }, [gameState, remoteWeeklyContext]);
 
   const seasonStartKey = useMemo(() => {
     const firstLeagueDate = fixtures

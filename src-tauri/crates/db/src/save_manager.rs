@@ -300,6 +300,7 @@ impl SaveManager {
 
         // Reset clock to start date
         game.clock.current_date = game.clock.start_date;
+        game.day_phase = ofm_core::game::DayPhase::Morning;
 
         // Reset manager
         game.manager.satisfaction = 100;
@@ -518,12 +519,16 @@ mod tests {
 
         Game {
             clock,
+            day_phase: ofm_core::game::DayPhase::Morning,
             manager,
             teams: vec![team],
             players: vec![player],
             staff: vec![staff],
             messages: vec![],
             news: vec![],
+            social_posts: vec![],
+            social_accounts: vec![],
+            social_templates: vec![],
             league: None,
             academy_league: None,
             scouting_assignments: vec![],

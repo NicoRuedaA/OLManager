@@ -48,7 +48,7 @@ import { useSettingsStore } from "../store/settingsStore";
 import { resolveExampleTeamLogo } from "../lib/teamLogos";
 import ChampionPage from "../pages/ChampionPage";
 
-const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
+const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Scrims", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
 
 const WORLD_TABS = new Set(["Players", "Teams", "Tournaments", "ChampionsWorld"]);
 
@@ -59,6 +59,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Squad: "dashboard.squad",
   Tactics: "dashboard.tactics",
   Training: "dashboard.training",
+  Scrims: "dashboard.scrims",
   Meta: "dashboard.meta",
   Staff: "dashboard.staff",
   Finances: "dashboard.finances",
@@ -69,6 +70,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   ChampionsWorld: "dashboard.champions_world",
   Schedule: "dashboard.schedule",
   News: "dashboard.news",
+  Social: "dashboard.social",
   Scouting: "dashboard.scouting",
   Youth: "dashboard.youthAcademy",
 };
@@ -223,6 +225,7 @@ export default function Dashboard(): JSX.Element {
     setMatchMode,
     blockerModal,
     setBlockerModal,
+    autoDelegationNotice,
     handleContinue,
     handleConfirmMatch,
     handleSkipToMatchDay,
@@ -230,6 +233,7 @@ export default function Dashboard(): JSX.Element {
     setGameState,
     hasMatchToday,
     settings.default_match_mode,
+    settings.scrim_review_mode,
     settingsLoaded,
     isUnemployed ?? false,
   );
@@ -450,6 +454,16 @@ export default function Dashboard(): JSX.Element {
         </div>
       </div>
     );
+  }
+
+  // Push scrim auto-delegation notice if present
+  if (autoDelegationNotice) {
+    dashboardAlerts.unshift({
+      id: "scrim_auto_delegate_notice",
+      text: autoDelegationNotice,
+      tab: "Scrims",
+      severity: "info",
+    });
   }
 
   return (
