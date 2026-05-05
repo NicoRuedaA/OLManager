@@ -6,7 +6,7 @@ use crate::potential::{calculate_lol_ovr, effective_potential_cap};
 use crate::staff_effects::LolStaffEffects;
 use chrono::Datelike;
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
-use domain::player::Position;
+use domain::player::LolRole;
 use domain::staff::CoachingSpecialization;
 use domain::team::{
     MainFacilityModuleKind, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus,
@@ -73,22 +73,14 @@ struct TeamScrimDayOutcome {
     reports: Vec<ScrimReport>,
 }
 
-fn lol_role_for_position(position: &Position) -> &'static str {
+fn lol_role_for_position(position: &LolRole) -> &'static str {
     match position {
-        Position::Defender
-        | Position::RightBack
-        | Position::CenterBack
-        | Position::LeftBack
-        | Position::RightWingBack
-        | Position::LeftWingBack => "TOP",
-        Position::Midfielder | Position::CentralMidfielder => "JUNGLE",
-        Position::AttackingMidfielder | Position::RightMidfielder | Position::LeftMidfielder => {
-            "MID"
-        }
-        Position::Forward | Position::RightWinger | Position::LeftWinger | Position::Striker => {
-            "ADC"
-        }
-        Position::Goalkeeper | Position::DefensiveMidfielder => "SUPPORT",
+        LolRole::Top => "TOP",
+        LolRole::Jungle => "JUNGLE",
+        LolRole::Mid => "MID",
+        LolRole::Adc => "ADC",
+        LolRole::Support => "SUPPORT",
+        LolRole::Unknown => "MID",
     }
 }
 

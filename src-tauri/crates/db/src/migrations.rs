@@ -230,6 +230,18 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
         "weekly_scrim_plan_team_ids",
         "TEXT NOT NULL DEFAULT '[]'",
     )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "weekly_scrim_opponent_ids",
+        "TEXT NOT NULL DEFAULT '[]'",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "team_roles",
+        "TEXT NOT NULL DEFAULT '{\"captain\":null,\"shotcaller\":null}'",
+    )?;
     connection_add_column_if_missing(conn, "teams", "scrim_weekly_objective", "TEXT")?;
     connection_add_column_if_missing(conn, "teams", "scrim_setup_locked_week_key", "TEXT")?;
     connection_add_column_if_missing(
