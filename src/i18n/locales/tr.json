@@ -291,7 +291,7 @@
     "reviewSquadDesc": "Oyuncu istatistiklerini, durumlarını ve özelliklerini kontrol edin",
     "hireStaff": "Teknik ekip kiralayın",
     "hireStaffDesc": "Personel antrenman kalitesini ve toparlanmayı artırır — bir Koç ve Fizyoterapist kiralayın",
-    "setTactics": "Dizilişinizi ve taktiklerinizi belirleyin",
+    "setTactics": "Oyun Planınızı ve taktiklerinizi belirleyin",
     "setTacticsDesc": "Kadronuza uygun bir rol dağılımı ve oyun tarzı seçin",
     "configTraining": "Antrenmanı yapılandırın",
     "configTrainingDesc": "Oyuncularınızı geliştirmek için bir odak noktası ve program seçin",
@@ -500,48 +500,48 @@
     "showingFirst": "Toplam {{total}} oyuncudan ilk {{shown}} kadarı gösteriliyor. Daha fazlasını görmek için aramanızı daraltın.",
     "noPlayersMatch": "Filtrelerinizle eşleşen oyuncu yok.",
     "positions": {
-      "Goalkeeper": "Kaleci",
-      "Defender": "Defans",
-      "Midfielder": "Orta Saha",
-      "Forward": "Forvet",
-      "RightBack": "Sağ Bek",
-      "CenterBack": "Stoper",
-      "LeftBack": "Sol Bek",
-      "RightWingBack": "Sağ Kanat Bek",
-      "LeftWingBack": "Sol Kanat Bek",
-      "DefensiveMidfielder": "Defansif Orta Saha",
-      "CentralMidfielder": "Merkez Orta Saha",
-      "AttackingMidfielder": "Ofansif Orta Saha",
-      "RightMidfielder": "Sağ Orta Saha",
-      "LeftMidfielder": "Sol Orta Saha",
-      "RightWinger": "Sağ Kanat",
-      "LeftWinger": "Sol Kanat",
-      "Striker": "Santrfor"
+      "Goalkeeper": "Top",
+      "Defender": "Orman",
+      "Midfielder": "Mid",
+      "Forward": "ADC",
+      "RightBack": "Top",
+      "CenterBack": "Orman",
+      "LeftBack": "Mid",
+      "RightWingBack": "ADC",
+      "LeftWingBack": "Destek",
+      "DefensiveMidfielder": "Top",
+      "CentralMidfielder": "Mid",
+      "AttackingMidfielder": "ADC",
+      "RightMidfielder": "Top",
+      "LeftMidfielder": "Orman",
+      "RightWinger": "ADC",
+      "LeftWinger": "Destek",
+      "Striker": "ADC"
     },
     "positionGroups": {
-      "Goalkeeper": "Kaleciler",
-      "Defender": "Defanslar",
-      "Midfielder": "Orta Sahalar",
-      "Forward": "Forvetler"
+      "Goalkeeper": "Top",
+      "Defender": "Orman",
+      "Midfielder": "Mid",
+      "Forward": "ADC"
     },
     "posAbbr": {
-      "Goalkeeper": "KL",
-      "Defender": "DEF",
-      "Midfielder": "OS",
-      "Forward": "FOR",
-      "RightBack": "SĞB",
-      "CenterBack": "STP",
-      "LeftBack": "SLB",
-      "RightWingBack": "SKB",
-      "LeftWingBack": "SLKB",
-      "DefensiveMidfielder": "DOS",
-      "CentralMidfielder": "MOS",
-      "AttackingMidfielder": "OOS",
-      "RightMidfielder": "SĞO",
-      "LeftMidfielder": "SLO",
-      "RightWinger": "SĞK",
-      "LeftWinger": "SLK",
-      "Striker": "SNT"
+      "Goalkeeper": "TOP",
+      "Defender": "JGL",
+      "Midfielder": "MID",
+      "Forward": "ADC",
+      "RightBack": "TOP",
+      "CenterBack": "JGL",
+      "LeftBack": "MID",
+      "RightWingBack": "ADC",
+      "LeftWingBack": "SUP",
+      "DefensiveMidfielder": "TOP",
+      "CentralMidfielder": "MID",
+      "AttackingMidfielder": "ADC",
+      "RightMidfielder": "TOP",
+      "LeftMidfielder": "JGL",
+      "RightWinger": "ADC",
+      "LeftWinger": "SUP",
+      "Striker": "ADC"
     },
     "footedness": {
       "Left": "Sol",
@@ -634,7 +634,7 @@
       "physical": "Fiziksel",
       "technical": "Teknik",
       "mental": "Zihinsel",
-      "goalkeeper": "Kaleci"
+      "goalkeeper": "Top"
     }
   },
   "teamSelection": {
@@ -689,20 +689,20 @@
     }
   },
   "tactics": {
-    "formationStyle": "Diziliş ve Stil",
-    "formation": "Diziliş",
+    "formationStyle": "Oyun Planı ve Stil",
+    "formation": "Oyun Planı",
     "playStyle": "Oyun Tarzı",
     "lineupTab": "Kadro",
-    "rolesTab": "Duran Toplar ve Roller",
+    "rolesTab": "Hedefler ve Roller",
     "teamRoles": "Takım Rolleri",
     "viceCaptain": "İkinci Kaptan",
-    "setPiecesSection": "Duran Toplar",
-    "rolesHint": "Mevcut İlk 11'den liderlik hiyerarşinizi ve duran top uzmanlarınızı seçin.",
+    "setPiecesSection": "Hedef Roller",
+    "rolesHint": "Mevcut İlk 5'den liderlik hiyerarşinizi ve hedef uzmanlarınızı seçin.",
     "autoSelectAssignments": "Varsayılanları otomatik seç",
-    "noStartersForRoles": "Takım rollerini ve duran topları atamak için İlk 11'inizi belirleyin.",
-    "startingXI": "İlk 11 — {{formation}}",
+    "noStartersForRoles": "Takım rollerini ve hedefleri atamak için İlk 5'inizi belirleyin.",
+    "startingXI": "İlk 5",
     "fullSquad": "Tüm Kadro",
-    "pitchInteractionHint": "Oyuncuları saha ve yedek kulübesi arasında sürükleyin, bir oyuncuyu incelemek için üzerine tıklayın, onları karşılaştırmak için ikinci bir oyuncuya tıklayın ve ardından karşılaştırma panelinden değişikliği onaylayayın.",
+    "pitchInteractionHint": "Oyuncuları Rift ve yedek kulübesi arasında sürükleyin, bir oyuncuyu incelemek için üzerine tıklayın, onları karşılaştırmak için ikinci bir oyuncuya tıklayın ve ardından karşılaştırma panelinden değişikliği onaylayayın.",
     "selectedPlayer": "Seçilen oyuncu",
     "comparePlayer": "Karşılaştırılan oyuncu",
     "selectSecondPlayer": "Özellikleri karşılaştırmak ve değişikliği hazırlamak için kadro görünümünde ikinci bir oyuncu seçin.",
@@ -1002,7 +1002,7 @@
       "Tactics": "Taktik",
       "Defending": "Savunma",
       "Attacking": "Hücum",
-      "GoalKeeping": "Kalecilik",
+      "GoalKeeping": "Top",
       "Youth": "Altyapı Gelişimi"
     },
     "lolAttrs": {
@@ -1533,7 +1533,7 @@
     "exitFullscreen": "Çık"
   },
   "preMatch": {
-    "formationFit": "Diziliş Uyumu",
+    "formationFit": "Oyun Planı Uyumu",
     "autoSelect": "En İyi 5'liyi Otomatik Seç",
     "selecting": "Seçiliyor...",
     "startingXI": "İlk 5",
@@ -1611,7 +1611,7 @@
     "step1Min": "1 Dakika İleri",
     "teamControls": "Takım Kontrolleri",
     "subs": "Yedekler",
-    "formation": "Diziliş",
+    "formation": "Oyun Planı",
     "playStyle": "Oyun Tarzı",
     "keyEvents": "Önemli Olaylar",
     "noEventsYet": "Maç henüz başlamadı.",
@@ -2062,7 +2062,7 @@
     "preMatchPrep": "Maç Öncesi Hazırlık",
     "startingLineup": "İlk 5",
     "setPiecesCaptain": "Duran Toplar ve Kaptan",
-    "formationFit": "Diziliş Uyumu",
+    "formationFit": "Oyun Planı Uyumu",
     "selecting": "Seçiliyor...",
     "autoSelectXI": "En İyi 5'liyi Otomatik Seç",
     "startingXI": "İlk 5",
@@ -2745,7 +2745,7 @@
     },
     "SafeHands": {
       "label": "Güvenilir Eller",
-      "desc": "Güvenilir ve istikrarlı (Kaleci refleksi)"
+      "desc": "Güvenilir ve tutarlı (Top refleksi)"
     },
     "CatReflexes": {
       "label": "Kedi Refleksleri",
@@ -2753,19 +2753,19 @@
     },
     "AerialDominance": {
       "label": "Alan Hakimiyeti",
-      "desc": "Alan savaşlarında (havadan) bölgeyi kontrol eder"
+      "desc": "Objeektif savaşlarında bölgeyi kontrol eder"
     },
     "CompleteForward": {
       "label": "Çok Yönlü Taşıyıcı",
-      "desc": "Her yönden tehlikeli (Komple forvet)"
+      "desc": "Her yönden tehlikeli"
     },
     "Engine": {
       "label": "Motor",
       "desc": "Dinamo gibi her alana koşan güçlü yapı"
     },
     "SetPieceSpecialist": {
-      "label": "Kuşatma Uzmanı",
-      "desc": "Sabit ve duran hedeflerde (Set piece) ölümcül"
+      "label": "Hedef Uzmanı",
+      "desc": "Objeektif fightlarda ölümcül"
     }
   },
   "date": {

@@ -232,15 +232,15 @@
     "expandSidebar": "Expandir barra lateral",
     "alerts": {
       "exhausted": "{{count}} jugador(es) en condición crítica (<25%)",
-      "injuredStartingXi": "{{count}} jugador(es) lesionado(s) en el once inicial — reemplázalos",
-      "incompleteStartingXi": "El once inicial está incompleto — ajusta tu alineación",
+      "injuredStartingXi": "{{count}} jugador(es) lesionado(s) en el alineación titular — reemplázalos",
+      "incompleteStartingXi": "El alineación titular está incompleto — ajusta tu alineación",
       "urgentUnread": "{{count}} mensaje(s) urgente(s) sin leer",
-      "matchTodayStartingXi": "¡Hay partido hoy! Ajusta tu once inicial"
+      "matchTodayStartingXi": "¡Hay partido hoy! Ajusta tu alineación titular"
     },
     "unemployedBanner": "Actualmente no tiene club. Las ofertas de trabajo pueden llegar a su bandeja de entrada."
   },
   "continueMenu": {
-    "goToField": "Ir al Campo",
+    "goToField": "Ir a la Grieta",
     "goToFieldDesc": "Control total del partido",
     "watchSpectator": "Ver como Espectador",
     "watchSpectatorDesc": "Ver el partido sin controles",
@@ -512,48 +512,48 @@
     "showingFirst": "Mostrando los primeros {{shown}} de {{total}} jugadores. Refina tu búsqueda para ver más.",
     "noPlayersMatch": "Ningún jugador coincide con tus filtros.",
     "positions": {
-      "Goalkeeper": "Portero",
-      "Defender": "Defensa",
-      "Midfielder": "Centrocampista",
-      "Forward": "Delantero",
-      "RightBack": "Lateral derecho",
-      "CenterBack": "Defensa central",
-      "LeftBack": "Lateral izquierdo",
-      "RightWingBack": "Carrilero derecho",
-      "LeftWingBack": "Carrilero izquierdo",
-      "DefensiveMidfielder": "Mediocentro defensivo",
-      "CentralMidfielder": "Mediocentro",
-      "AttackingMidfielder": "Mediapunta",
-      "RightMidfielder": "Centrocampista derecho",
-      "LeftMidfielder": "Centrocampista izquierdo",
-      "RightWinger": "Extremo derecho",
-      "LeftWinger": "Extremo izquierdo",
-      "Striker": "Delantero centro"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC",
+      "RightBack": "Top",
+      "CenterBack": "Jungle",
+      "LeftBack": "Jungle",
+      "RightWingBack": "Top",
+      "LeftWingBack": "Jungle",
+      "DefensiveMidfielder": "Mid",
+      "CentralMidfielder": "Mid",
+      "AttackingMidfielder": "Mid",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "positionGroups": {
-      "Goalkeeper": "Porteros",
-      "Defender": "Defensores",
-      "Midfielder": "Centrocampistas",
-      "Forward": "Delanteros"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC"
     },
     "posAbbr": {
-      "Goalkeeper": "POR",
-      "Defender": "DEF",
-      "Midfielder": "CEN",
-      "Forward": "DEL",
-      "RightBack": "LD",
-      "CenterBack": "DFC",
-      "LeftBack": "LI",
-      "RightWingBack": "CAD",
-      "LeftWingBack": "CAI",
-      "DefensiveMidfielder": "MCD",
-      "CentralMidfielder": "MC",
-      "AttackingMidfielder": "MP",
-      "RightMidfielder": "MD",
-      "LeftMidfielder": "MI",
-      "RightWinger": "ED",
-      "LeftWinger": "EI",
-      "Striker": "DC"
+      "Goalkeeper": "TOP",
+      "Defender": "JGL",
+      "Midfielder": "MID",
+      "Forward": "ADC",
+      "RightBack": "TOP",
+      "CenterBack": "JGL",
+      "LeftBack": "JGL",
+      "RightWingBack": "TOP",
+      "LeftWingBack": "JGL",
+      "DefensiveMidfielder": "MID",
+      "CentralMidfielder": "MID",
+      "AttackingMidfielder": "MID",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "footedness": {
       "Left": "Izquierdo",
@@ -646,7 +646,7 @@
       "physical": "Físico",
       "technical": "Técnico",
       "mental": "Mental",
-      "goalkeeper": "Portero"
+      "goalkeeper": "Top"
     }
   },
   "teamSelection": {
@@ -683,10 +683,9 @@
     "removeFromLoanList": "Quitar de la lista de cesiones",
     "outOfPosition": "Fuera de posición",
     "outOfPositionTooltip": "Jugando fuera de la función preferida del jugador",
-    "dragHint": "Arrastra jugadores del banquillo al campo o intercambia titulares entre posiciones.",
-    "benchDragHint": "Usa la lista del banquillo para arrastrar jugadores directamente al campo.",
-    "dropPlayerHere": "Suelta al jugador aquí",
-    "dragToPitch": "Arrastrar al campo",
+"dragHint": "Arrastra jugadores del banquillo al Rift o intercambia titulares entre posiciones.",
+    "benchDragHint": "Usa la lista del banquillo para arrastrar jugadores directamente al Rift.",
+    "dragToPitch": "Arrastrar al Rift",
     "filterPlayers": "Filtrar por nombre del jugador o posición",
     "noBenchMatches": "Ningún jugador del banquillo coincide con los filtros actuales.",
     "noLineupMatches": "Ningún titular coincide con los filtros actuales.",
@@ -701,20 +700,20 @@
     }
   },
   "tactics": {
-    "formationStyle": "Formación y Estilo",
-    "formation": "Formación",
+    "formationStyle": "Plan de Juego y Estilo",
+    "formation": "Plan de Juego",
     "playStyle": "Estilo de Juego",
     "lineupTab": "Alineación",
-    "rolesTab": "Balón parado y roles",
+    "rolesTab": "Roles y objetivos",
     "teamRoles": "Roles del equipo",
     "viceCaptain": "Vicecapitán",
-    "setPiecesSection": "Balón parado",
-    "rolesHint": "Elige la jerarquía de liderazgo y los especialistas a balón parado del once titular actual.",
+    "setPiecesSection": "Objetivos",
+    "rolesHint": "Elige la jerarquía de liderazgo y los especialistas en objetivos del quinteto titular actual.",
     "autoSelectAssignments": "Autoasignar valores por defecto",
-    "noStartersForRoles": "Define tu once titular para asignar roles del equipo y acciones a balón parado.",
-    "startingXI": "Once Titular — {{formation}}",
+    "noStartersForRoles": "Define tu quinteto titular para asignar roles del equipo y objetivos.",
+    "startingXI": "Quinteto Titular",
     "fullSquad": "Plantilla Completa",
-    "pitchInteractionHint": "Arrastra jugadores entre el campo y el banquillo, haz clic en un jugador para revisarlo, haz clic en un segundo para compararlos y luego confirma el cambio en el panel de comparación.",
+    "pitchInteractionHint": "Arrastra jugadores entre la Grieta y el banquillo, haz clic en un jugador para revisarlo, haz clic en un segundo para compararlos y luego confirma el cambio en el panel de comparación.",
     "selectedPlayer": "Jugador seleccionado",
     "comparePlayer": "Jugador de comparación",
     "selectSecondPlayer": "Selecciona un segundo jugador en la vista de alineación para comparar atributos y preparar el cambio.",
@@ -1529,7 +1528,7 @@
     "savesCleared": "¡Guardados borrados!",
     "about": "Acerca de",
     "matchModes": {
-      "live": "Ir al Campo",
+      "live": "Ir a la Grieta",
       "liveDesc": "Control total del partido",
       "spectator": "Ver como Espectador",
       "spectatorDesc": "Solo ver, sin controles",
@@ -1561,10 +1560,10 @@
     "upToDate": "Tienes la última versión"
   },
   "preMatch": {
-    "formationFit": "Ajuste de Formación",
-    "autoSelect": "Selección Automática del XI",
+    "formationFit": "Ajuste de Estrategia",
+    "autoSelect": "Selección automática del quinteto",
     "selecting": "Seleccionando...",
-    "startingXI": "Once Titular",
+    "startingXI": "Quinteto Titular",
     "substitutes": "Suplentes",
     "opponent": "Rival",
     "nPlayers": "{{count}} jugadores",
@@ -1572,7 +1571,7 @@
     "noBench": "Sin suplentes disponibles.",
     "cancelSwap": "Cancelar",
     "swapHint": "Selecciona un suplente para el cambio",
-    "setPieces": "Balón Parado y Capitán",
+    "setPieces": "Objetivos y Líder",
     "lineup": "Alineación",
     "startMatch": "Iniciar Partido",
     "captain": "Capitán",
@@ -1639,7 +1638,7 @@
     "step1Min": "Avanzar 1 Minuto",
     "teamControls": "Controles del Equipo",
     "subs": "Cambios",
-    "formation": "Formación",
+    "formation": "Plan de Juego",
     "playStyle": "Estilo de Juego",
     "keyEvents": "Eventos Clave",
     "noEventsYet": "El partido aún no ha comenzado.",
@@ -2089,11 +2088,11 @@
     "matchDay": "Día de Partido",
     "preMatchPrep": "Preparación Pre-Partido",
     "startingLineup": "Alineación Titular",
-    "setPiecesCaptain": "Balón Parado y Capitán",
-    "formationFit": "Ajuste de Formación",
+    "setPiecesCaptain": "Objetivos y Líder",
+    "formationFit": "Ajuste de Estrategia",
     "selecting": "Seleccionando...",
-    "autoSelectXI": "Auto-Seleccionar Mejor XI",
-    "startingXI": "XI Titular",
+    "autoSelectXI": "Auto-seleccionar mejor quinteto",
+    "startingXI": "Quinteto",
     "cancel": "Cancelar",
     "nPlayers": "{{count}} jugadores",
     "swapPrompt": "Selecciona un jugador del banquillo para intercambiar",
@@ -2488,8 +2487,8 @@
             "description": "Reúnete con representantes de la afición y escucha sus preocupaciones. Bueno para la moral."
           },
           "ignoreFans": {
-            "label": "Centrarse en el fútbol",
-            "description": "Rechaza educadamente — las decisiones futbolísticas se quedan en el vestuario."
+            "label": "Centrarse en el juego",
+            "description": "Rechaza educadamente — las decisiones deportivas se quedan en el equipo."
           },
           "addressPublicly": {
             "label": "Hacer una declaración pública",
@@ -2524,11 +2523,11 @@
       "benchComplaint": {
         "subject": "{{player}} — Quiere más minutos",
         "body0": "Míster, {{player}} ha venido a verte. Está frustrado por la falta de minutos en los últimos partidos y quiere saber qué necesita hacer para volver al equipo.\n\n\"Siento que he entrenado bien, pero no estoy teniendo la oportunidad de demostrarlo en el campo.\"",
-        "body1": "{{player}} llamó a la puerta de tu despacho con gesto de disgusto. No ha participado en los últimos partidos y quiere respuestas.\n\n\"Vine a este club para jugar al fútbol. Si no entro en tus planes, prefiero que me lo digas claramente.\""
+        "body1": "{{player}} llamó a la puerta de tu despacho con gesto de disgusto. No ha participado en los últimos partidos y quiere respuestas.\n\n\"Vine a este club para jugar. Si no entro en tus planes, prefiero que me lo digas claramente.\""
       },
       "happyPlayer": {
         "subject": "{{player}} — Se siente genial",
-        "body0": "{{player}} pasó por tu despacho con una gran sonrisa. Se siente muy bien con su forma y con la dirección del equipo.\n\n\"Solo quería decir que estoy disfrutando muchísimo mi fútbol ahora mismo, míster. El ambiente en el vestuario es fantástico.\"",
+        "body0": "{{player}} pasó por tu despacho con una gran sonrisa. Se siente muy bien con su forma y con la dirección del equipo.\n\n\"Solo quería decir que estoy disfrutando muchísimo mi juego ahora mismo, míster. El ambiente en el vestuario es fantástico.\"",
         "body1": "Tu asistente comenta que {{player}} ha estado de muy buen ánimo últimamente. Se acercó a ti después del entrenamiento.\n\n\"Míster, estoy disfrutando cada minuto aquí. Si seguimos así, lo daré todo por ti.\""
       },
       "contractConcern": {
@@ -2797,8 +2796,8 @@
       "desc": "Potencia de área a área"
     },
     "SetPieceSpecialist": {
-      "label": "Espec. Balón Parado",
-      "desc": "Letal a balón parado"
+      "label": "Especialista en Objetivos",
+      "desc": "Letal en peleas por objetivos"
     }
   },
   "date": {
