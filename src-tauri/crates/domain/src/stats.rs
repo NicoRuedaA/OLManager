@@ -251,6 +251,8 @@ pub struct PlayerMatchStatsRecord {
     pub damage_dealt: u32,
     pub vision_score: u16,
     pub wards_placed: u16,
+    #[serde(default)]
+    pub bans_json: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]

@@ -324,6 +324,7 @@ fn build_stats_state_capture(
                 damage_dealt: stats.damage_dealt,
                 vision_score: stats.vision_score,
                 wards_placed: stats.wards_placed,
+                bans_json: String::new(),
             })
         })
         .collect();

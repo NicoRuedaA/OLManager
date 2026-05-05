@@ -2,6 +2,7 @@
 #![allow(clippy::derivable_impls)]
 
 pub mod champion;
+pub mod champion_stats;
 pub mod identity;
 pub mod league;
 pub mod manager;

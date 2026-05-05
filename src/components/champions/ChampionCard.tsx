@@ -124,7 +124,7 @@ export const ChampionCard = memo(function ChampionCard({
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-navy-800">
         <LazyImage
           src={displayImage}
-          alt={name}
+          alt={championKey}
           fallbackSrc={fallback}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
