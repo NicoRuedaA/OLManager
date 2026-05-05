@@ -1,9 +1,11 @@
 use chrono::{TimeZone, Utc};
 use domain::manager::Manager;
-use domain::player::{Player, PlayerAttributes};
+use domain::player::{Player, PlayerAttributes, Position};
 use domain::staff::{Staff, StaffAttributes, StaffRole};
-use domain::stats::LolRole;
-use domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
+use domain::team::{
+    PostScrimDecision, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus, Team,
+    TrainingFocus, TrainingIntensity, TrainingSchedule,
+};
 use ofm_core::champions::ChampionMasteryEntry;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
@@ -94,7 +96,7 @@ fn make_player(id: &str, name: &str, team_id: &str, dob: &str) -> Player {
         format!("Full {}", name),
         dob.to_string(),
         "GB".to_string(),
-        LolRole::Jungle,
+        Position::Midfielder,
         default_attrs(),
     );
     p.team_id = Some(team_id.to_string());
@@ -446,6 +448,176 @@ fn scrims_focus_can_improve_teamplay_attrs() {
         any_teamfighting_gain || any_macro_gain,
         "Scrims should improve visible teamfighting or macro after many sessions"
     );
+}
+
+#[test]
+fn scrim_days_generate_enriched_reports_with_champion_picks() {
+    let mut game = make_game();
+    let mut opponent = make_team("team2", "Rival FC");
+    let opponent_players = vec![
+        make_player("r1", "Rival One", "team2", "2000-01-01"),
+        make_player("r2", "Rival Two", "team2", "2000-01-01"),
+        make_player("r3", "Rival Three", "team2", "2000-01-01"),
+    ];
+    opponent.starting_xi_ids = opponent_players
+        .iter()
+        .map(|player| player.id.clone())
+        .collect();
+    game.teams.push(opponent);
+    game.players.extend(opponent_players);
+    game.teams[0].scrim_weekly_slots = 2;
+    game.teams[0].scrim_weekly_objective = Some(ScrimFocus::DraftPrep);
+    game.teams[0].weekly_scrim_plan_team_ids = vec![vec!["team2".to_string()]];
+    game.players[0].champion_training_targets = vec!["Azir".to_string()];
+
+    training::process_training(&mut game, 2);
+
+    let report = game.teams[0]
+        .scrim_reports
+        .first()
+        .expect("scrim report should be generated");
+    assert_eq!(report.team_id, "team1");
+    assert_eq!(report.opponent_team_id, "team2");
+    assert_eq!(report.status, domain::team::ScrimStatus::Played);
+    assert_eq!(report.focus, ScrimFocus::DraftPrep);
+    assert!(report.quality >= 30);
+    assert!(!report.player_champion_picks.is_empty());
+    assert!(
+        report
+            .player_champion_picks
+            .iter()
+            .any(|pick| pick.champion_id == "Azir")
+    );
+}
+
+#[test]
+fn scrim_block_is_idempotent_before_training_block() {
+    let mut game = make_game();
+    let mut opponent = make_team("team2", "Rival FC");
+    let opponent_players = vec![
+        make_player("r1", "Rival One", "team2", "2000-01-01"),
+        make_player("r2", "Rival Two", "team2", "2000-01-01"),
+        make_player("r3", "Rival Three", "team2", "2000-01-01"),
+    ];
+    opponent.starting_xi_ids = opponent_players
+        .iter()
+        .map(|player| player.id.clone())
+        .collect();
+    game.teams.push(opponent);
+    game.players.extend(opponent_players);
+    game.teams[0].scrim_weekly_slots = 2;
+    game.teams[0].weekly_scrim_plan_team_ids = vec![vec!["team2".to_string()]];
+
+    assert!(training::process_scrim_block(&mut game, 2));
+    let reports_after_scrim_block = game.teams[0].scrim_reports.len();
+    let played_after_scrim_block = game.teams[0].scrim_weekly_played;
+
+    training::process_training(&mut game, 2);
+
+    assert_eq!(game.teams[0].scrim_reports.len(), reports_after_scrim_block);
+    assert_eq!(game.teams[0].scrim_weekly_played, played_after_scrim_block);
+}
+
+#[test]
+fn scrim_mastery_progress_uses_report_quality_and_review_decision() {
+    let mut game = make_game();
+    let before = ofm_core::champions::mastery_for_player_champion(&game, "p1", "Azir");
+
+    ofm_core::champions::apply_scrim_mastery_progress(
+        &mut game,
+        "p1",
+        "Azir",
+        86,
+        false,
+        Some(&PostScrimDecision::TargetedDrills),
+    );
+
+    let after = ofm_core::champions::mastery_for_player_champion(&game, "p1", "Azir");
+    assert!(
+        after > before,
+        "scrim review should improve champion mastery"
+    );
+}
+
+#[test]
+fn sunday_training_generates_rich_weekly_scrim_staff_report() {
+    let mut game = make_game();
+    game.teams[0].scrim_weekly_played = 2;
+    game.teams[0].scrim_weekly_wins = 1;
+    game.teams[0].scrim_weekly_losses = 1;
+    game.teams[0].scrim_weekly_cancellations = 1;
+    game.teams[0].scrim_reports = vec![
+        ScrimReport {
+            date: "2025-06-17".to_string(),
+            week_key: "2025-W25".to_string(),
+            slot_index: 0,
+            weekday: 1,
+            team_id: "team1".to_string(),
+            opponent_team_id: "team2".to_string(),
+            status: ScrimStatus::Played,
+            won: Some(true),
+            focus: ScrimFocus::DraftPrep,
+            issue: Some(ScrimIssue::ObjectiveSetup),
+            severity: 2,
+            quality: 82,
+            player_champion_picks: vec![ScrimChampionPick {
+                player_id: "p1".to_string(),
+                champion_id: "Azir".to_string(),
+                role: "Mid".to_string(),
+            }],
+            post_decision: Some(PostScrimDecision::VodReview),
+            created_on: "2025-06-17T12:00:00Z".to_string(),
+        },
+        ScrimReport {
+            date: "2025-06-19".to_string(),
+            week_key: "2025-W25".to_string(),
+            slot_index: 1,
+            weekday: 3,
+            team_id: "team1".to_string(),
+            opponent_team_id: "team3".to_string(),
+            status: ScrimStatus::Played,
+            won: Some(false),
+            focus: ScrimFocus::DraftPrep,
+            issue: Some(ScrimIssue::ObjectiveSetup),
+            severity: 3,
+            quality: 70,
+            player_champion_picks: vec![ScrimChampionPick {
+                player_id: "p2".to_string(),
+                champion_id: "Azir".to_string(),
+                role: "Mid".to_string(),
+            }],
+            post_decision: Some(PostScrimDecision::TargetedDrills),
+            created_on: "2025-06-19T12:00:00Z".to_string(),
+        },
+    ];
+
+    training::process_training(&mut game, 6);
+
+    let message = game
+        .messages
+        .iter()
+        .find(|message| message.subject == "Weekly Scrim Staff Report")
+        .expect("weekly scrim staff report should be generated");
+
+    assert!(message.body.contains("Average quality: 76"));
+    assert!(message.body.contains("Main focus: Draft prep"));
+    assert!(message.body.contains("Recurring issue: Objective setup"));
+    assert!(message.body.contains("Most practiced champion: Azir"));
+    assert!(message.body.contains("Recommendation:"));
+    assert_eq!(
+        message.i18n_params.get("topFocus"),
+        Some(&"be.msg.scrimWeekly.focus.draftPrep".to_string())
+    );
+    assert_eq!(
+        message.i18n_params.get("recurringIssue"),
+        Some(&"be.msg.scrimWeekly.issues.objectiveSetup".to_string())
+    );
+    assert_eq!(
+        message.i18n_params.get("recommendation"),
+        Some(&"be.msg.scrimWeekly.recommendations.resetBeforeVolume".to_string())
+    );
+    assert_eq!(game.teams[0].scrim_weekly_played, 0);
+    assert_eq!(game.teams[0].scrim_weekly_cancellations, 0);
 }
 
 #[test]

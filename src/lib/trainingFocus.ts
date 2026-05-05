@@ -13,11 +13,11 @@ export const TRAINING_FOCUS_IDS = [
 ] as const;
 
 export const TRAINING_FOCUS_ATTRS: Record<string, LolVisibleStatId[]> = {
-  Scrims: ["teamfighting", "macro", "consistency"],
-  VODReview: ["macro", "consistency", "discipline"],
-  IndividualCoaching: ["mechanics", "laning", "consistency"],
-  ChampionPoolPractice: ["mechanics", "championPool", "laning"],
-  MacroSystems: ["macro", "shotcalling", "teamfighting"],
+  Scrims: ["mechanics", "consistency", "discipline"],
+  VODReview: ["macro", "discipline", "consistency"],
+  IndividualCoaching: ["mechanics", "laning", "discipline"],
+  ChampionPoolPractice: ["championPool", "laning", "mechanics"],
+  MacroSystems: ["macro", "consistency", "discipline"],
   MentalResetRecovery: [],
 };
 

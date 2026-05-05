@@ -911,6 +911,51 @@ pub fn apply_training_mastery_progress(
     upsert_mastery(game, player_id, champion_id, next);
 }
 
+pub fn apply_scrim_mastery_progress(
+    game: &mut Game,
+    player_id: &str,
+    champion_id: &str,
+    quality: u8,
+    won: bool,
+    decision: Option<&domain::team::PostScrimDecision>,
+) {
+    let current = mastery_for_player_champion(game, player_id, champion_id);
+    if !game.players.iter().any(|player| player.id == player_id) {
+        return;
+    }
+
+    let mut gain = if quality >= 82 {
+        2
+    } else if quality >= 55 {
+        1
+    } else {
+        0
+    };
+
+    if won && quality >= 70 {
+        gain += 1;
+    }
+
+    match decision {
+        Some(domain::team::PostScrimDecision::TargetedDrills) => gain += 1,
+        Some(domain::team::PostScrimDecision::VodReview) if quality >= 65 => gain += 1,
+        Some(domain::team::PostScrimDecision::PushThrough) if quality >= 75 => gain += 1,
+        Some(domain::team::PostScrimDecision::MentalReset) | None | Some(_) => {}
+    }
+
+    if gain == 0 {
+        return;
+    }
+
+    let capped_gain = if current >= 90 { 1 } else { gain.min(3) };
+    upsert_mastery(
+        game,
+        player_id,
+        champion_id,
+        current.saturating_add(capped_gain).min(MASTERY_CAP),
+    );
+}
+
 pub fn apply_match_mastery_progress(
     game: &mut Game,
     winner_team_id: &str,

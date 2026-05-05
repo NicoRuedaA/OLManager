@@ -16,12 +16,14 @@ import {
   Building2,
   UserCog,
   Newspaper,
+  MessageCircle,
   LogOut,
   GraduationCap,
   PanelLeftClose,
   PanelLeftOpen,
   User,
   Gamepad2,
+  Swords,
 } from "lucide-react";
 
 interface DashboardSidebarProps {
@@ -116,7 +118,8 @@ export default function DashboardSidebar({
     { icon: <Users />, label: t("dashboard.squad"), tab: "Squad" },
     { icon: <Crosshair />, label: t("dashboard.tactics"), tab: "Tactics" },
     { icon: <Dumbbell />, label: t("dashboard.training"), tab: "Training" },
-    { icon: <Gamepad2 />, label: t("dashboard.meta"), tab: "Meta" },
+    { icon: <Swords />, label: t("dashboard.scrims"), tab: "Scrims" },
+    { icon: <Gamepad2 />, label: t("dashboard.champions"), tab: "Champions" },
     { icon: <UserCog />, label: t("dashboard.staff"), tab: "Staff" },
     { icon: <Eye />, label: t("dashboard.scouting"), tab: "Scouting" },
     {
@@ -135,7 +138,6 @@ export default function DashboardSidebar({
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
     },
-    { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
   ];
   const toggleSidebarLabel = collapsed
     ? t("dashboard.expandSidebar")
@@ -245,6 +247,13 @@ export default function DashboardSidebar({
           active={activeTab === "News"}
           collapsed={collapsed}
           onClick={() => onNavClick("News")}
+        />
+        <NavItem
+          icon={<MessageCircle />}
+          label={t("dashboard.social", { defaultValue: "Social" })}
+          active={activeTab === "Social"}
+          collapsed={collapsed}
+          onClick={() => onNavClick("Social")}
         />
         <NavItem
           icon={<CalendarIcon />}

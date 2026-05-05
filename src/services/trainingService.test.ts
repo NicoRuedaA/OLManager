@@ -2,10 +2,17 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { invoke } from "@tauri-apps/api/core";
 
 import {
+  cancelTodaysScrims,
+  choosePostScrimDecision,
+  delegateScrimDecision,
+  getScrimContext,
   setPlayerTrainingFocus,
   setTraining,
   setTrainingGroups,
   setTrainingSchedule,
+  setWeeklyScrimPlans,
+  setWeeklyScrimObjective,
+  setWeeklyScrimSlots,
 } from "./trainingService";
 
 vi.mock("@tauri-apps/api/core", () => ({
@@ -60,5 +67,71 @@ describe("trainingService", () => {
       playerId: "player-1",
       focus: null,
     });
+  });
+
+  it("calls the weekly scrim plans backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    const plans = [["g2", "fnatic", "bds"]];
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(setWeeklyScrimPlans(plans)).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("set_weekly_scrim_plans", {
+      plans,
+    });
+  });
+
+  it("calls the weekly scrim slots backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(setWeeklyScrimSlots(6)).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("set_weekly_scrim_slots", {
+      slots: 6,
+    });
+  });
+
+  it("calls the weekly scrim objective backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(setWeeklyScrimObjective("DraftPrep")).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("set_weekly_scrim_objective", {
+      objective: "DraftPrep",
+    });
+  });
+
+  it("calls the cancel todays scrims backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(cancelTodaysScrims()).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("cancel_todays_scrims");
+  });
+
+  it("calls the post-scrim decision backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(choosePostScrimDecision(1, "VodReview")).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("choose_post_scrim_decision", {
+      slotIndex: 1,
+      decision: "VodReview",
+    });
+  });
+
+  it("calls the delegate scrim decision backend command", async () => {
+    const response = { manager: { id: "manager-1" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(delegateScrimDecision()).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("delegate_scrim_decision");
+  });
+
+  it("calls the get scrim context backend command", async () => {
+    const response = { today: { state: "NoScrimToday" }, week: { week_key: "2026-W18" } };
+    mockedInvoke.mockResolvedValueOnce(response);
+
+    await expect(getScrimContext()).resolves.toBe(response);
+    expect(mockedInvoke).toHaveBeenCalledWith("get_scrim_context");
   });
 });

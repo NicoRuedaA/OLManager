@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
 import type { FixtureData, GameStateData } from "../../store/gameStore";
 import type { MatchEvent, MatchSnapshot } from "./types";
 import type { LolSimV1RuntimeState } from "./lol-prototype/backend/contract-v1";
@@ -141,6 +142,13 @@ export default function LolResultScreen({
     ? runtime.winner === "blue" ? "Home" : "Away"
     : snapshot.lol_map?.destroyed_nexus_by ?? (displayHomeKills >= displayAwayKills ? "Home" : "Away");
   const userWon = userSide ? winnerSide === userSide : false;
+  const userPrepInsight = buildLolScrimPrepInsight(
+    snapshot.lol_scrim_prep,
+    userSide === "Away" ? "away" : "home",
+  );
+  const userPrepFocus = userPrepInsight
+    ? t(userPrepInsight.focusLabel.key, { defaultValue: userPrepInsight.focusLabel.defaultValue })
+    : null;
 
   const durationMin = runtime ? Math.floor((runtime.timeSec ?? 0) / 60) : snapshot.current_minute;
   const homeChampions = runtime?.champions?.filter((champion) => champion.team === "blue") ?? [];
@@ -261,6 +269,37 @@ export default function LolResultScreen({
             <span className="text-white/60">· {durationMin}:{String(Math.max(0, Math.floor((runtime?.timeSec ?? 0) % 60))).padStart(2, "0")}</span>
           </div>
         </header>
+
+        {userPrepInsight ? (
+          <section className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.24)]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="font-heading text-xs uppercase tracking-[0.22em] text-emerald-200">
+                {t(userPrepInsight.title.key, { defaultValue: userPrepInsight.title.defaultValue })}
+              </p>
+              <span className="rounded-full border border-emerald-300/30 bg-black/20 px-3 py-1 text-sm font-bold text-emerald-100">
+                +{userPrepInsight.totalSignal}
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-emerald-50/90">
+              {t(userPrepInsight.summary.key, {
+                ...userPrepInsight.summary.values,
+                focus: userPrepFocus ?? userPrepInsight.focusLabel.defaultValue,
+                defaultValue: userPrepInsight.summary.defaultValue,
+              })}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {userPrepInsight.details.map((detail) => (
+                <span key={detail.key} className="rounded-full border border-white/10 bg-black/20 px-2 py-1 text-xs text-emerald-100">
+                  {t(detail.key, {
+                    ...detail.values,
+                    focus: userPrepFocus ?? userPrepInsight.focusLabel.defaultValue,
+                    defaultValue: detail.defaultValue,
+                  })}
+                </span>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="grid grid-cols-1 xl:grid-cols-[1.25fr_0.9fr] gap-4">
           <div className="rounded-2xl border border-cyan-400/15 bg-[#12274c]/90 p-4">

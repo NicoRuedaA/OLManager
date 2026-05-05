@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getContractRiskLevel } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
-import { PlayerData, GameStateData, PlayerMatchHistoryEntryData, ScoutReportData } from "../../store/gameStore";
+import { PlayerData, GameStateData, PlayerMatchHistoryEntryData, ScoutReportData, ChampionMasteryEntryData } from "../../store/gameStore";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { resolveBackendText } from "../../utils/backendI18n";
@@ -158,15 +158,37 @@ function buildTopChampionMasteries(
   matchName: string,
   role: "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT",
   championPerformance: Map<string, { wr: number; games: number }>,
+  persistedMasteries: ChampionMasteryEntryData[],
   visibleChampionCount = 4,
 ) {
   const seed = PLAYER_SEEDS.find((entry) => normalizeKey(entry.ign) === normalizeKey(matchName));
-  const champions = [...(seed?.champions ?? [])]
-    .map((entry) => ({
-      championName: String(entry[0] ?? ""),
+  const championByKey = new Map<string, { championId: string; championName: string; mastery: number; persisted: boolean }>();
+
+  for (const entry of seed?.champions ?? []) {
+    const championName = String(entry[0] ?? "");
+    const championId = championIdFromName(championName);
+    if (!championId) continue;
+
+    championByKey.set(normalizeKey(championId), {
+      championId,
+      championName,
       mastery: Number(entry[1] ?? 0),
-    }))
-    .filter((entry) => entry.championName.length > 0)
+      persisted: false,
+    });
+  }
+
+  for (const entry of persistedMasteries) {
+    if (entry.player_id !== playerId || !entry.champion_id) continue;
+    const championId = entry.champion_id;
+    championByKey.set(normalizeKey(championId), {
+      championId,
+      championName: championId,
+      mastery: entry.mastery,
+      persisted: true,
+    });
+  }
+
+  const champions = [...championByKey.values()]
     .sort((a, b) => b.mastery - a.mastery);
 
   if (champions.length === 0) {
@@ -187,29 +209,24 @@ function buildTopChampionMasteries(
   const insignia = champions[0];
   const rest = champions.slice(1, Math.max(1, visibleChampionCount));
 
-  const firstId = championIdFromName(insignia.championName);
-  if (!firstId) return [];
-
   return [
     {
-      championId: firstId,
+      championId: insignia.championId,
       championName: insignia.championName,
-      mastery: Math.max(100, insignia.mastery),
+      mastery: insignia.persisted ? insignia.mastery : Math.max(100, insignia.mastery),
       rank: "insignia" as const,
-      wr: championPerformance.get(firstId)?.wr ?? 0,
-      games: championPerformance.get(firstId)?.games ?? 0,
+      wr: championPerformance.get(insignia.championId)?.wr ?? 0,
+      games: championPerformance.get(insignia.championId)?.games ?? 0,
     },
     ...rest
       .map((entry, idx) => {
-        const championId = championIdFromName(entry.championName);
-        if (!championId) return null;
         return {
-          championId,
+          championId: entry.championId,
           championName: entry.championName,
           mastery: entry.mastery,
           rank: (idx + 1) as 1 | 2 | 3,
-          wr: championPerformance.get(championId)?.wr ?? 0,
-          games: championPerformance.get(championId)?.games ?? 0,
+          wr: championPerformance.get(entry.championId)?.wr ?? 0,
+          games: championPerformance.get(entry.championId)?.games ?? 0,
         };
       })
       .filter(
@@ -402,6 +419,7 @@ export default function PlayerProfile({
     player.match_name,
     primaryRole,
     championPerformance,
+    gameState.champion_masteries ?? [],
     visibleChampionMasteryCount,
   );
   const activePotentialResearchPlayer = gameState.players.find(

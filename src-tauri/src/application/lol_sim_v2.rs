@@ -311,6 +311,17 @@ struct RuntimeStaffEffects {
     analysis: f64,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeScrimPrepSide {
+    #[serde(default)]
+    preparation: f64,
+    #[serde(default)]
+    focus: Option<String>,
+    #[serde(default)]
+    comfort_by_player: HashMap<String, f64>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct RuntimeTeamBuffState {
     baron_until: f64,
@@ -1240,6 +1251,36 @@ fn seed_team(
             .map(|impact| impact.variance.clamp(0.5, 4.5))
             .unwrap_or(1.0);
         let staff_effects = extract_runtime_staff_effects(snapshot, side_key);
+        let scrim_prep = extract_runtime_scrim_prep(snapshot, side_key);
+        let scrim_preparation = scrim_prep.preparation.clamp(0.0, 3.0);
+        let scrim_comfort = scrim_prep
+            .comfort_by_player
+            .get(&player.id)
+            .copied()
+            .unwrap_or(0.0)
+            .clamp(0.0, 2.0);
+        let scrim_focus = scrim_prep
+            .focus
+            .as_deref()
+            .map(normalize_champion_key)
+            .unwrap_or_default();
+        let scrim_execution_bonus =
+            (scrim_preparation * 0.006 + scrim_comfort * 0.005).clamp(0.0, 0.026);
+        let scrim_gameplay_bonus = if scrim_focus == "teamfighting" || scrim_focus == "earlygame" {
+            scrim_preparation * 0.004
+        } else {
+            0.0
+        };
+        let scrim_iq_bonus = if scrim_focus == "macro" || scrim_focus == "draftprep" {
+            scrim_preparation * 0.006
+        } else {
+            0.0
+        };
+        let scrim_mental_bonus = if scrim_focus == "mental" {
+            scrim_preparation * 0.005
+        } else {
+            0.0
+        };
         let staff_execution = staff_effects.execution.clamp(0.96, 1.10);
         let staff_tactics_modifier = ((staff_effects.tactics - 1.0) * 1.2
             + (staff_effects.analysis - 1.0) * 0.8)
@@ -1275,20 +1316,24 @@ fn seed_team(
             * (1.0
                 + tuned_role_modifier * 0.012
                 + competitive_delta * 0.04
-                + teamfighting_delta * 0.02))
+                + teamfighting_delta * 0.02
+                + scrim_mental_bonus))
             .clamp(120.0, 340.0);
         let attack_damage = (14.0 + rng.next_f64() * 5.0)
             * (1.0
                 + tuned_role_modifier * 0.016
                 + gameplay_delta * 0.06
                 + mechanics_delta * 0.03
-                + staff_tactics_modifier * 0.015);
+                + staff_tactics_modifier * 0.015
+                + scrim_execution_bonus
+                + scrim_gameplay_bonus);
         let move_speed = (0.043
             + rng.next_f64() * 0.008
             + (tuned_role_modifier * 0.00035)
             + iq_delta * 0.001
             + laning_delta * 0.0006
-            + staff_tactics_modifier * 0.0004)
+            + staff_tactics_modifier * 0.0004
+            + scrim_iq_bonus * 0.0007)
             .clamp(0.036, 0.062);
 
         let spawn_pos = Vec2 {
@@ -1339,7 +1384,7 @@ fn seed_team(
                 .clamp(0.65, 1.35);
         let decision_jitter = (((role_variance - 1.0).max(0.0) * 0.35) + rng.next_f64() * 0.08)
             * consistency_factor
-            / staff_execution;
+            / (staff_execution * (1.0 + scrim_preparation * 0.012 + scrim_comfort * 0.01));
         let initial_next_decision_at = if role_seed.role == "JGL" {
             6.0 + decision_jitter
         } else {
@@ -1944,6 +1989,16 @@ fn extract_runtime_staff_effects(snapshot: &Value, side_key: &str) -> RuntimeSta
             tactics: 1.0,
             analysis: 1.0,
         })
+}
+
+fn extract_runtime_scrim_prep(snapshot: &Value, side_key: &str) -> RuntimeScrimPrepSide {
+    snapshot
+        .get("lol_scrim_prep")
+        .and_then(Value::as_object)
+        .and_then(|obj| obj.get(side_key))
+        .cloned()
+        .and_then(|value| serde_json::from_value::<RuntimeScrimPrepSide>(value).ok())
+        .unwrap_or_default()
 }
 
 fn team_tactics_for_runtime(team_tactics: Option<&Value>, team: &str) -> RuntimeTeamTactics {

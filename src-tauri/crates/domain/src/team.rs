@@ -64,9 +64,24 @@ pub struct Team {
     pub training_groups: Vec<TrainingGroup>,
 
     // Weekly scrim plan: ordered opponent team IDs.
-    // Number of effective scrims depends on training_schedule.
     #[serde(default)]
     pub weekly_scrim_opponent_ids: Vec<String>,
+    // Per-slot fallback plan. Each slot stores ordered opponent IDs: Plan A, Plan B, Plan C.
+    #[serde(default)]
+    pub weekly_scrim_plan_team_ids: Vec<Vec<String>>,
+    // Optional weekly intent. When unset, reports infer focus from observed issues.
+    #[serde(default)]
+    pub scrim_weekly_objective: Option<ScrimFocus>,
+    // 0 means legacy/default capacity; otherwise effective weekly scrim slots.
+    #[serde(default)]
+    pub scrim_weekly_slots: u8,
+    // Optional week key when manager explicitly locks weekly scrim setup.
+    #[serde(default)]
+    pub scrim_setup_locked_week_key: Option<String>,
+    #[serde(default = "default_scrim_reputation")]
+    pub scrim_reputation: u8,
+    #[serde(default)]
+    pub scrim_weekly_cancellations: u8,
     #[serde(default)]
     pub scrim_loss_streak: u8,
     #[serde(default)]
@@ -77,6 +92,8 @@ pub struct Team {
     pub scrim_weekly_losses: u8,
     #[serde(default)]
     pub scrim_slot_results: Vec<ScrimSlotResult>,
+    #[serde(default)]
+    pub scrim_reports: Vec<ScrimReport>,
 
     // Persistent starting XI (player IDs). If empty, auto-select by OVR.
     #[serde(default)]
@@ -299,6 +316,10 @@ impl TrainingFocus {
     }
 }
 
+fn default_scrim_reputation() -> u8 {
+    50
+}
+
 #[cfg(test)]
 mod training_focus_tests {
     use super::TrainingFocus;
@@ -498,6 +519,71 @@ pub struct ScrimSlotResult {
     pub opponent_team_id: String,
     pub won: bool,
     pub simulated_on: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ScrimStatus {
+    Pending,
+    Accepted,
+    Rejected,
+    Cancelled,
+    Played,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ScrimFocus {
+    DraftPrep,
+    ChampionPool,
+    EarlyGame,
+    Teamfighting,
+    Macro,
+    Mental,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum ScrimIssue {
+    DraftGap,
+    LanePressure,
+    ObjectiveSetup,
+    TeamfightExecution,
+    ChampionComfort,
+    Tilt,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PostScrimDecision {
+    ContinuePlan,
+    VodReview,
+    MentalReset,
+    TargetedDrills,
+    PushThrough,
+    DayOff,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ScrimChampionPick {
+    pub player_id: String,
+    pub champion_id: String,
+    pub role: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ScrimReport {
+    pub date: String,
+    pub week_key: String,
+    pub slot_index: u8,
+    pub weekday: u8,
+    pub team_id: String,
+    pub opponent_team_id: String,
+    pub status: ScrimStatus,
+    pub won: Option<bool>,
+    pub focus: ScrimFocus,
+    pub issue: Option<ScrimIssue>,
+    pub severity: u8,
+    pub quality: u8,
+    pub player_champion_picks: Vec<ScrimChampionPick>,
+    pub post_decision: Option<PostScrimDecision>,
+    pub created_on: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1088,11 +1174,18 @@ impl Team {
             training_schedule: TrainingSchedule::default(),
             training_groups: Vec::new(),
             weekly_scrim_opponent_ids: Vec::new(),
+            weekly_scrim_plan_team_ids: Vec::new(),
+            scrim_weekly_objective: None,
+            scrim_weekly_slots: 0,
+            scrim_setup_locked_week_key: None,
+            scrim_reputation: default_scrim_reputation(),
+            scrim_weekly_cancellations: 0,
             scrim_loss_streak: 0,
             scrim_weekly_played: 0,
             scrim_weekly_wins: 0,
             scrim_weekly_losses: 0,
             scrim_slot_results: Vec::new(),
+            scrim_reports: Vec::new(),
             founded_year: 1900,
             colors: TeamColors {
                 primary: "#10b981".to_string(),

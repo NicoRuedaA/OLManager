@@ -174,8 +174,8 @@
     "selectCountry": "Land/Region wählen...",
     "searchNationalities": "Nationalitäten suchen...",
     "chooseWorld": "Welt Wählen",
-    "placeholderFirst": "z.B. Lee",
-    "placeholderLast": "z.B. Sang-hyeok"
+    "placeholderFirst": "z.B. José",
+    "placeholderLast": "z.B. Mourinho"
   },
   "validation": {
     "required": "{{field}} ist erforderlich",
@@ -202,16 +202,17 @@
     "squad": "Kader",
     "tactics": "Taktik",
     "training": "Training",
-    "meta": "Meta",
+    "scrims": "Scrims",
+    "champions": "Champions",
     "staff": "Staff",
     "finances": "Finanzen",
     "transfers": "Transfers",
     "players": "Spieler",
     "teams": "Teams",
     "tournaments": "Turniere",
-    "champions_world": "Champions",
     "schedule": "Spielplan",
     "news": "Nachrichten",
+    "social": "Social",
     "settings": "Einstellungen",
     "exitToMenu": "Zum Menü",
     "continue": "Weiter",
@@ -232,10 +233,10 @@
     "expandSidebar": "Seitenleiste ausklappen",
     "alerts": {
       "exhausted": "{{count}} Spieler in kritischer Verfassung (<25%)",
-      "injuredStartingXi": "{{count}} verletzte(r) Spieler in der Starter Five — ersetze sie",
-      "incompleteStartingXi": "Starter Five unvollständig — stelle deine Aufstellung ein",
+      "injuredStartingXi": "{{count}} verletzte(r) Spieler in der Startelf — ersetze sie",
+      "incompleteStartingXi": "Startelf unvollständig — stelle deine Aufstellung ein",
       "urgentUnread": "{{count}} dringende Nachricht(en) ungelesen",
-      "matchTodayStartingXi": "Heute ist Spieltag! Stelle deine Starter Five ein"
+      "matchTodayStartingXi": "Heute ist Spieltag! Stelle deine Startelf ein"
     },
     "unemployedBanner": "Sie sind derzeit ohne Verein. Jobangebote könnten in Ihrem Posteingang eintreffen."
   },
@@ -261,25 +262,12 @@
     "masteryTrainingTitle": "Champion Mastery Training",
     "noTarget": "No target",
     "currentMastery": "Mastery: {{value}}",
-    "selectChampion": "Champion auswählen",
+    "selectChampion": "Select a champion",
     "gain": "Zuwachs",
     "high": "Hoch",
     "moderate": "Moderat",
     "low": "Niedrig",
-    "discoveryProgress": "Entdeckungsfortschritt",
-    "delegating": "Delegiere...",
-    "delegateToCoach": "An Assistant Coach delegieren",
-    "loading": "Champion werden geladen...",
-    "error": "Fehler beim Laden",
-    "empty": "Keine Champions verfügbar",
-    "counterpicks": "Counterpicks",
-    "synergies": "Synergien",
-    "noData": "Keine Counterpick- oder Synergie-Informationen verfügbar.",
-    "worldTitle": "Welt-Champions",
-    "allChampions": "Alle Champions",
-    "worldDescription": "Entdecke alle League of Legends Champions",
-    "totalChampions": "Gesamt",
-    "170": "170+"
+    "discoveryProgress": "Entdeckungsfortschritt"
   },
   "exitConfirm": {
     "title": "Zum Hauptmenü?",
@@ -302,8 +290,8 @@
     "reviewSquadDesc": "Überprüfe Spielerstatistiken, Kondition und Eigenschaften",
     "hireStaff": "Trainerstab einstellen",
     "hireStaffDesc": "Staff verbessert Trainingsqualität und Erholung",
-    "setTactics": "Spielplan & Taktik festlegen",
-    "setTacticsDesc": "Wähle einen Spielplan und Spielweise, die zu deinem Kader passt",
+    "setTactics": "Formation & Taktik festlegen",
+    "setTacticsDesc": "Wähle eine Formation und Spielweise, die zu deinem Kader passt",
     "configTraining": "Training konfigurieren",
     "configTrainingDesc": "Wähle einen Fokus und Zeitplan zur Spielerentwicklung",
     "readMessages": "Nachrichten lesen",
@@ -362,7 +350,10 @@
     "income": "Income",
     "expenses": "Expenses",
     "noUpcomingPlayoffMatch": "No upcoming playoff match.",
-    "fullRoster": "Gesamter Kader"
+    "fullRoster": "Gesamter Kader",
+    "todayScrimReviewVs": "Review vs {{team}}",
+    "todayScrimReview": "Post-Scrim-Review",
+    "todayScrimReviewDetail": "Wähle, wie der heutige Scrim in Lernen umgewandelt wird."
   },
   "season": {
     "preseasonStatus": "Status der Vorbereitung",
@@ -512,48 +503,48 @@
     "showingFirst": "Zeige die ersten {{shown}} von {{total}} Spielern. Verfeinere deine Suche.",
     "noPlayersMatch": "Keine Spieler entsprechen deinen Filtern.",
     "positions": {
-      "Goalkeeper": "Top",
-      "Defender": "Jungle",
-      "Midfielder": "Mid",
-      "Forward": "ADC",
-      "RightBack": "Top",
-      "CenterBack": "Jungle",
-      "LeftBack": "Jungle",
-      "RightWingBack": "Top",
-      "LeftWingBack": "Jungle",
-      "DefensiveMidfielder": "Mid",
-      "CentralMidfielder": "Mid",
-      "AttackingMidfielder": "Mid",
-      "RightMidfielder": "ADC",
-      "LeftMidfielder": "ADC",
-      "RightWinger": "ADC",
-      "LeftWinger": "ADC",
-      "Striker": "ADC"
+      "Goalkeeper": "Torwart",
+      "Defender": "Verteidiger",
+      "Midfielder": "Mittelfeldspieler",
+      "Forward": "Stürmer",
+      "RightBack": "Rechter Verteidiger",
+      "CenterBack": "Innenverteidiger",
+      "LeftBack": "Linker Verteidiger",
+      "RightWingBack": "Rechter Flügelverteidiger",
+      "LeftWingBack": "Linker Flügelverteidiger",
+      "DefensiveMidfielder": "Defensiver Mittelfeldspieler",
+      "CentralMidfielder": "Zentraler Mittelfeldspieler",
+      "AttackingMidfielder": "Offensiver Mittelfeldspieler",
+      "RightMidfielder": "Rechter Mittelfeldspieler",
+      "LeftMidfielder": "Linker Mittelfeldspieler",
+      "RightWinger": "Rechter Flügelspieler",
+      "LeftWinger": "Linker Flügelspieler",
+      "Striker": "Stürmer"
     },
     "positionGroups": {
-      "Goalkeeper": "Top",
-      "Defender": "Jungle",
-      "Midfielder": "Mid",
-      "Forward": "ADC"
+      "Goalkeeper": "Torhüter",
+      "Defender": "Verteidiger",
+      "Midfielder": "Mittelfeldspieler",
+      "Forward": "Stürmer"
     },
     "posAbbr": {
-      "Goalkeeper": "TOP",
-      "Defender": "JGL",
-      "Midfielder": "MID",
-      "Forward": "ADC",
-      "RightBack": "TOP",
-      "CenterBack": "JGL",
-      "LeftBack": "JGL",
-      "RightWingBack": "TOP",
-      "LeftWingBack": "JGL",
-      "DefensiveMidfielder": "MID",
-      "CentralMidfielder": "MID",
-      "AttackingMidfielder": "MID",
-      "RightMidfielder": "ADC",
-      "LeftMidfielder": "ADC",
-      "RightWinger": "ADC",
-      "LeftWinger": "ADC",
-      "Striker": "ADC"
+      "Goalkeeper": "TW",
+      "Defender": "AV",
+      "Midfielder": "MF",
+      "Forward": "ST",
+      "RightBack": "RV",
+      "CenterBack": "IV",
+      "LeftBack": "LV",
+      "RightWingBack": "RAV",
+      "LeftWingBack": "LAV",
+      "DefensiveMidfielder": "DM",
+      "CentralMidfielder": "ZM",
+      "AttackingMidfielder": "OM",
+      "RightMidfielder": "RM",
+      "LeftMidfielder": "LM",
+      "RightWinger": "RF",
+      "LeftWinger": "LF",
+      "Striker": "ST"
     },
     "footedness": {
       "Left": "Links",
@@ -646,7 +637,7 @@
       "physical": "Physisch",
       "technical": "Technisch",
       "mental": "Mental",
-      "goalkeeper": "Top"
+      "goalkeeper": "Torwart"
     }
   },
   "teamSelection": {
@@ -701,20 +692,20 @@
     }
   },
   "tactics": {
-    "formationStyle": "Spielplan & Stil",
-    "formation": "Spielplan",
+    "formationStyle": "Formation & Stil",
+    "formation": "Formation",
     "playStyle": "Spielweise",
     "lineupTab": "Aufstellung",
-    "rolesTab": "Objektive & Rollen",
+    "rolesTab": "Standards & Rollen",
     "teamRoles": "Teamrollen",
     "viceCaptain": "Vizekapitän",
-    "setPiecesSection": "Objektivrollen",
-    "rolesHint": "Wähle deine Führungsreihenfolge und Objektspezialisten aus der aktuellen Starter Five.",
+    "setPiecesSection": "Standards",
+    "rolesHint": "Wähle deine Führungsreihenfolge und Standardspezialisten aus der aktuellen Startelf.",
     "autoSelectAssignments": "Standards automatisch wählen",
-    "noStartersForRoles": "Lege deine Starter Five fest, um Teamrollen und Objekte zuzuweisen.",
-    "startingXI": "Starter Five",
+    "noStartersForRoles": "Lege deine Startelf fest, um Teamrollen und Standards zuzuweisen.",
+    "startingXI": "Startelf — {{formation}}",
     "fullSquad": "Gesamter Kader",
-    "pitchInteractionHint": "Ziehe Spieler zwischen Rift und Bank, klicke einen Spieler zur Analyse an, klicke einen zweiten zum Vergleichen an und bestätige den Tausch anschließend im Vergleichsbereich.",
+    "pitchInteractionHint": "Ziehe Spieler zwischen Feld und Bank, klicke einen Spieler zur Analyse an, klicke einen zweiten zum Vergleichen an und bestätige den Tausch anschließend im Vergleichsbereich.",
     "selectedPlayer": "Ausgewählter Spieler",
     "comparePlayer": "Vergleichsspieler",
     "selectSecondPlayer": "Wähle in der Aufstellungsansicht einen zweiten Spieler aus, um Attribute zu vergleichen und den Tausch vorzubereiten.",
@@ -984,7 +975,39 @@
       "autoRandom": "Auto-random active",
       "noOpponent": "Random",
       "randomResolved": "Random -> {{team}}",
-      "opponentLogoAlt": "Opponent logo"
+      "opponentLogoAlt": "Opponent logo",
+      "slot": "Slot",
+      "planA": "Plan A",
+      "planB": "Plan B",
+      "planC": "Plan C",
+      "noFallback": "Keine Alternative",
+      "pending": "Ausstehend",
+      "weeklyObjective": "Wochenziel",
+      "weeklyObjectiveDescription": "Lege fest, was du diese Woche lernen willst. Das Ziel steuert Reports und gibt Plan A/B/C klare Absicht.",
+      "staffSuggestions": "Staff-Empfehlungen",
+      "objectives": {
+        "none": "Kein Ziel gesetzt",
+        "draftPrep": "Draft gegen nächsten Rivalen vorbereiten",
+        "championPool": "Champion-Pool erweitern",
+        "earlyGame": "Early Game stabilisieren",
+        "teamfighting": "Teamfights verbessern",
+        "macro": "Makro und Objectives schärfen",
+        "mental": "Mental stabilisieren"
+      },
+      "staff": {
+        "pickObjective": "Wähle ein Wochenziel, bevor du Rivalen anfasst: ohne Absicht erzeugt Volumen nur Rauschen.",
+        "mentalReset": "Priorisiere Mental Reset oder VOD Review: die Serie drückt bereits die Lernqualität.",
+        "reduceCancellations": "Reduziere Absagen diese Woche; Scrim-Reputation ist ebenfalls kompetitive Infrastruktur.",
+        "moreVolumeForPool": "Für Champion-Pool-Ausbau brauchst du mindestens 4 Blöcke; zwei Scrims liefern keine ausreichende Stichprobe.",
+        "noPlannedOpponents": "Das Ziel ist richtig, aber es sind keine Rivalen festgelegt: setze mindestens Plan A, damit die Woche Richtung bekommt.",
+        "draftPrepPlan": "Nutze Plan A/B/C gegen starke Teams: du willst Draft bestrafen, nicht billiges Selbstvertrauen farmen.",
+        "strongerOpponents": "Für dieses Ziel brauchst du Rivalen, die dich unbequem machen; finde mindestens einen Block gegen ein stärkeres Team.",
+        "softerMentalWeek": "Mental-Woche: starte nicht nur mit Rivalen über deinem Niveau. Mische einen kontrollierten Block ein, um Vertrauen aufzubauen.",
+        "addFallbacksForReputation": "Deine geplanten Rivalen haben bessere Scrim-Reputation; füge Plan B/C hinzu oder du kassierst vermeidbare Absagen.",
+        "macroReview": "Plane einen VOD-Review-Block: wenn Objective-Setup das Problem ist, wiederholen mehr Scrims ohne Review denselben Fehler.",
+        "narrowFocus": "Die Durchschnittsqualität ist niedrig; halte das Volumen, aber verenge den Fokus, bevor du mehr Rivalen hinzufügst.",
+        "keepPlan": "Der aktuelle Plan ist gesund: behalte das Ziel, wähle fordernde Rivalen und prüfe den ersten Report, bevor du Volumen erhöhst."
+      }
     }
   },
   "staff": {
@@ -1014,7 +1037,7 @@
       "Tactics": "Taktik",
       "Defending": "Verteidigung",
       "Attacking": "Angriff",
-      "GoalKeeping": "Top",
+      "GoalKeeping": "Torwart",
       "Youth": "Jugend"
     },
     "lolAttrs": {
@@ -1142,7 +1165,7 @@
       "BoardDirective": "Vorstand",
       "PlayerMorale": "Moral",
       "Injury": "Verletzung",
-      "training": "Training",
+      "Training": "Training",
       "Finance": "Finanzen",
       "Contract": "Vertrag",
       "ScoutReport": "Scout",
@@ -1542,23 +1565,13 @@
     "fullscreen": "Vollbild",
     "fullscreenDesc": "Vollbildmodus umschalten",
     "enterFullscreen": "Aktivieren",
-    "exitFullscreen": "Beenden",
-    "updates": "Aktualisierungen",
-    "currentVersion": "Aktuelle Version",
-    "currentVersionDesc": "Die installierte Version des Spiels",
-    "checkForUpdates": "Nach Aktualisierungen suchen",
-    "checkForUpdatesDesc": "Manuell prüfen, ob eine neue Version verfügbar ist",
-    "checking": "Prüfe...",
-    "updateAvailable": "Aktualisierung verfügbar",
-    "checkNow": "Jetzt prüfen",
-    "updateAvailableDetail": "Version {{version}} ist verfügbar",
-    "upToDate": "Du hast die neueste Version"
+    "exitFullscreen": "Beenden"
   },
   "preMatch": {
-    "formationFit": "Strategieanpassung",
-    "autoSelect": "Beste Fünf automatisch wählen",
+    "formationFit": "Formationsanpassung",
+    "autoSelect": "Beste XI automatisch wählen",
     "selecting": "Auswahl...",
-    "startingXI": "Starter Five",
+    "startingXI": "Startelf",
     "substitutes": "Ersatzspieler",
     "opponent": "Gegner",
     "nPlayers": "{{count}} Spieler",
@@ -1633,7 +1646,7 @@
     "step1Min": "1 Minute vorspulen",
     "teamControls": "Teamsteuerung",
     "subs": "Wechsel",
-    "formation": "Spielplan",
+    "formation": "Formation",
     "playStyle": "Spielstil",
     "keyEvents": "Wichtige Ereignisse",
     "noEventsYet": "Das Spiel hat noch nicht begonnen.",
@@ -1840,6 +1853,24 @@
     "simulatingFromTactics": "Simulating the match...",
     "simulateFailed": "Could not simulate the match. Please try again.",
     "startLive": "Go live",
+    "scrimPrep": {
+      "title": "Scrim prep carried into the match",
+      "summary": "Recent scrims gave this side a small {{focus}} execution signal. It affects timing and comfort, not a guaranteed result.",
+      "details": {
+        "opponentPrep": "Opponent prep +{{value}}",
+        "championComfort": "Champion comfort +{{value}}",
+        "focus": "Focus: {{focus}}"
+      },
+      "focus": {
+        "draftPrep": "draft prep",
+        "championPool": "champion pool",
+        "earlyGame": "early game",
+        "teamfighting": "teamfighting",
+        "macro": "macro",
+        "mental": "mental reset",
+        "general": "general prep"
+      }
+    },
     "draftResult": {
       "mvp": "MVP",
       "series": "Series",
@@ -2077,17 +2108,17 @@
         }
       }
     },
-    "pen": "Elfmeter",
+    "pen": "ELF",
     "home": "Heim",
     "away": "Auswärts",
     "matchDay": "Spieltag",
     "preMatchPrep": "Vorbereitung vor dem Spiel",
     "startingLineup": "Startaufstellung",
     "setPiecesCaptain": "Standards & Kapitän",
-    "formationFit": "Strategieanpassung",
+    "formationFit": "Formationsanpassung",
     "selecting": "Auswahl...",
-    "autoSelectXI": "Beste Fünf auswählen",
-    "startingXI": "Starter Five",
+    "autoSelectXI": "Beste XI auswählen",
+    "startingXI": "Start-XI",
     "cancel": "Abbrechen",
     "nPlayers": "{{count}} Spieler",
     "swapPrompt": "Wähle einen Ersatzspieler zum Tauschen",
@@ -2207,7 +2238,7 @@
       },
       "preMatch": {
         "subject": "Anstehend: vs {{opponent}} ({{venue}})",
-        "body0": "Ihr {{venue}}-Spiel gegen {{opponent}} steht am {{matchDate}} an.\n\nSpieltag {{matchday}} der Ersten Division. Stellen Sie sicher, dass Ihre Starter Five in guter Verfassung ist und Ihre Taktik steht.\n\nNutzen Sie den {{venue}}-Vorteil.",
+        "body0": "Ihr {{venue}}-Spiel gegen {{opponent}} steht am {{matchDate}} an.\n\nSpieltag {{matchday}} der Ersten Division. Stellen Sie sicher, dass Ihre Startelf in guter Verfassung ist und Ihre Taktik steht.\n\nNutzen Sie den {{venue}}-Vorteil.",
         "body1": "Erinnerung: Sie treffen {{venue}} auf {{opponent}} am {{matchDate}}.\n\nDies ist Spieltag {{matchday}} — überprüfen Sie die Fitness Ihres Kaders und ziehen Sie taktische Anpassungen in Betracht.",
         "actionTactics": "Taktik festlegen",
         "actionScout": "Gegner analysieren"
@@ -2363,7 +2394,7 @@
               "positive": "Der Spieler fühlt sich etwas besser. Moral {{delta}}",
               "negative": "Der Spieler nimmt es dir nicht ab. Moral {{delta}}"
             },
-            "promiseTime": "Der Spieler fühlt sich durch das Versprechen beruhigt. Moral {{delta}}. Er wird bald einen Starter Fiveeinsatz erwarten.",
+            "promiseTime": "Der Spieler fühlt sich durch das Versprechen beruhigt. Moral {{delta}}. Er wird bald einen Startelfeinsatz erwarten.",
             "workHarder": {
               "positive": "Der Spieler nimmt die Herausforderung an. Moral {{delta}}",
               "negative": "Der Spieler fühlt sich von der harten Ansage vor den Kopf gestoßen. Moral {{delta}}"
@@ -2468,7 +2499,7 @@
         "subject0": "Fan Petition — More Attacking Football",
         "subject1": "Fan Petition — Give Youth a Chance",
         "subject2": "Fan Open Letter — Transparency",
-        "body0": "A group of {{team}} supporters has organized a petition calling for more attacking play.\n\n\"We pay good money to watch exciting play. We want to see the team go forward and entertain us!\"\n\nOver 500 signatures so far. How do you respond?",
+        "body0": "A group of {{team}} supporters has organized a petition calling for more attacking football.\n\n\"We pay good money to watch exciting football. We want to see the team go forward and entertain us!\"\n\nOver 500 signatures so far. How do you respond?",
         "body1": "Supporters of {{team}} have started a campaign urging you to give more opportunities to young players from the academy.\n\n\"The future of our club depends on developing homegrown talent. Stop overlooking the kids!\"\n\nIt's getting traction on social media. What's your response?",
         "body2": "An open letter from the {{team}} Supporters Trust has been published, asking for more transparency from the management.\n\n\"We want to understand the club's vision. Where are we heading? What's the long-term plan?\"\n\nThe local press is covering it. How do you handle this?",
         "options": {
@@ -2587,7 +2618,31 @@
       },
       "scrimWeekly": {
         "subject": "Weekly Scrim Staff Report",
-        "body": "Weekly scrim report:\n\nPlayed: {{played}}\nWins: {{wins}}\nLosses: {{losses}}\nCurrent loss streak: {{lossStreak}}\n\nScrim progress applies even on losses, but extended losing streaks are hurting morale."
+        "body": "Weekly scrim report:\n\nPlayed: {{played}}\nWins: {{wins}}\nLosses: {{losses}}\nCancellations: {{cancellations}}\nAverage quality: {{avgQuality}}\nCurrent loss streak: {{lossStreak}}\n\nMain focus: {{topFocus}}\nRecurring issue: {{recurringIssue}}\nMost practiced champion: {{topChampion}}\n\nRecommendation: {{recommendation}}",
+        "focus": {
+          "draftPrep": "Draft-Vorbereitung",
+          "championPool": "Champion-Pool",
+          "earlyGame": "Early Game",
+          "teamfighting": "Teamfights",
+          "macro": "Makro",
+          "mental": "Mental"
+        },
+        "issues": {
+          "draftGap": "Draft-Lücke",
+          "lanePressure": "Lane-Druck",
+          "objectiveSetup": "Objective-Setup",
+          "teamfightExecution": "Teamfight-Ausführung",
+          "championComfort": "Champion-Komfort",
+          "tilt": "Tilt"
+        },
+        "recommendations": {
+          "lockPlans": "Lock Plan A/B/C earlier next week so the staff has usable prep data.",
+          "reduceCancellations": "Reduce cancellations next week; scrim reputation is part of your competitive infrastructure.",
+          "resetBeforeVolume": "Open next week with Mental Reset or VOD Review before adding more volume.",
+          "narrowFocus": "Keep the volume but narrow the focus around the recurring issue; quality is too noisy right now.",
+          "targetedDrills": "Schedule Targeted Drills for the recurring issue and keep the main prep block stable.",
+          "keepPlan": "Keep the current plan: it is producing useful reps without overloading the roster."
+        }
       },
       "patchNotes": {
         "subject": "Patch {{label}} Notes",
@@ -2823,14 +2878,5 @@
     "noJobs": "Derzeit keine Stellen verfügbar.",
     "leaguePosition": "Letzte Saison: {{position}}",
     "refresh": "Nach neuen Stellen suchen"
-  },
-  "updater": {
-    "title": "Aktualisierung verfügbar",
-    "description": "Eine neue Version ({{version}}) ist verfügbar. Deine Spielstände bleiben erhalten.",
-    "downloading": "Lade herunter...",
-    "preparing": "Bereite Aktualisierung vor...",
-    "installing": "Installiere...",
-    "installAndRestart": "Installieren & Neustarten",
-    "playWithoutUpdating": "Ohne Aktualisierung spielen"
   }
 }

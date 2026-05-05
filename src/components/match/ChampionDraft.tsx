@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { MatchSnapshot } from "./types";
-import type { GameStateData } from "../../store/gameStore";
+import type { GameStateData, ScrimReportData } from "../../store/gameStore";
 import { useSettingsStore } from "../../store/settingsStore";
 import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
@@ -38,6 +38,18 @@ interface DraftPick {
 
 interface DraftSelection {
   championId: string;
+}
+
+export interface ScrimDraftPickInput {
+  championId: string;
+  playerId?: string | null;
+}
+
+export interface ScrimDraftSignal {
+  comfort: number;
+  preparation: number;
+  synergy: number;
+  reasons: string[];
 }
 
 interface DraftAdviceTip {
@@ -609,6 +621,78 @@ function championTempo(championId: string): "early" | "mid" | "late" {
   return "late";
 }
 
+function reportTimestamp(report: ScrimReportData): number {
+  const raw = report.created_on || report.date;
+  const parsed = Date.parse(raw);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+export function calculateScrimDraftSignal(
+  reports: ScrimReportData[],
+  teamId: string,
+  upcomingOpponentTeamId: string,
+  picks: ScrimDraftPickInput[],
+): ScrimDraftSignal {
+  const playedReports = reports
+    .filter((report) => report.team_id === teamId && report.status === "Played")
+    .slice()
+    .sort((left, right) => reportTimestamp(right) - reportTimestamp(left))
+    .slice(0, 8);
+
+  if (playedReports.length === 0 || picks.length === 0) {
+    return { comfort: 0, preparation: 0, synergy: 0, reasons: [] };
+  }
+
+  let comfort = 0;
+  let preparation = 0;
+  let synergy = 0;
+  const reasons = new Set<string>();
+  const pickedChampionKeys = new Set(picks.map((pick) => normalizeKey(pick.championId)));
+
+  picks.forEach((pick) => {
+    const championKey = normalizeKey(pick.championId);
+    if (!championKey) return;
+
+    const practicedBySamePlayer = playedReports.some((report) =>
+      report.player_champion_picks.some((scrimPick) => {
+        if (normalizeKey(scrimPick.champion_id) !== championKey) return false;
+        return pick.playerId ? scrimPick.player_id === pick.playerId : true;
+      }),
+    );
+
+    if (practicedBySamePlayer) {
+      comfort += 1;
+      reasons.add("recent champion reps");
+    }
+  });
+
+  playedReports.forEach((report) => {
+    const practicedChampionKeys = new Set(
+      report.player_champion_picks.map((pick) => normalizeKey(pick.champion_id)),
+    );
+    const overlap = Array.from(pickedChampionKeys).filter((championKey) =>
+      practicedChampionKeys.has(championKey),
+    ).length;
+
+    if (overlap >= 2) {
+      synergy += overlap >= 4 ? 2 : 1;
+      reasons.add("scrimmed core together");
+    }
+
+    if (report.opponent_team_id === upcomingOpponentTeamId) {
+      preparation += report.focus === "DraftPrep" || report.post_decision === "VodReview" ? 2 : 1;
+      reasons.add("recent prep vs this opponent");
+    }
+  });
+
+  return {
+    comfort: Math.min(4, comfort),
+    preparation: Math.min(3, preparation),
+    synergy: Math.min(4, synergy),
+    reasons: Array.from(reasons),
+  };
+}
+
 function hasSynergy(a: string, b: string): boolean {
   return hashText(`${a}++${b}`) % 7 === 0;
 }
@@ -703,8 +787,14 @@ export default function ChampionDraft({
   const autoResolvedStepKeyRef = useRef<string | null>(null);
   const finalRoleReassignFxPlayedRef = useRef(false);
 
-  const bluePlayerIds = snapshot.home_team.players.map((player) => player.id);
-  const redPlayerIds = snapshot.away_team.players.map((player) => player.id);
+  const bluePlayerIds = useMemo(
+    () => snapshot.home_team.players.map((player) => player.id),
+    [snapshot.home_team.players],
+  );
+  const redPlayerIds = useMemo(
+    () => snapshot.away_team.players.map((player) => player.id),
+    [snapshot.away_team.players],
+  );
   const userTeamId = controlledSide === "blue" ? snapshot.home_team.id : snapshot.away_team.id;
   const userStaffEffects = getLolStaffEffectsForTeam(gameState, userTeamId);
 
@@ -1100,6 +1190,14 @@ export default function ChampionDraft({
     });
     return map;
   }, [gameState?.champion_patch?.hidden_meta]);
+
+  const scrimReportsByTeamId = useMemo(() => {
+    const map = new Map<string, ScrimReportData[]>();
+    (gameState?.teams ?? []).forEach((team) => {
+      map.set(team.id, team.scrim_reports ?? []);
+    });
+    return map;
+  }, [gameState?.teams]);
 
   const discoveredMetaChampionIds = useMemo(() => {
     const discovered = new Set<string>();
@@ -1594,6 +1692,8 @@ export default function ChampionDraft({
     const enemyPicks = side === "blue" ? redPicks : bluePicks;
     const ownPlan = planTempo(side === "blue" ? snapshot.home_team.play_style : snapshot.away_team.play_style);
     const teamId = side === "blue" ? snapshot.home_team.id : snapshot.away_team.id;
+    const opponentTeamId = side === "blue" ? snapshot.away_team.id : snapshot.home_team.id;
+    const playerIds = side === "blue" ? bluePlayerIds : redPlayerIds;
     const staffEffects = getLolStaffEffectsForTeam(gameState, teamId);
 
     let mastery = 0;
@@ -1637,6 +1737,16 @@ export default function ChampionDraft({
       preparation = Math.round(Math.max(-1, Math.min(3, (staffEffects.tactics - 1) * 4 + (staffEffects.analysis - 1) * 3)));
     }
 
+    const scrimSignal = calculateScrimDraftSignal(
+      scrimReportsByTeamId.get(teamId) ?? [],
+      teamId,
+      opponentTeamId,
+      ownPicks.map((pick, index) => ({ championId: pick.championId, playerId: playerIds[index] ?? null })),
+    );
+    comfort += scrimSignal.comfort;
+    preparation += scrimSignal.preparation;
+    synergy += scrimSignal.synergy;
+
     return {
       mastery,
       synergy,
@@ -1647,8 +1757,49 @@ export default function ChampionDraft({
     };
   };
 
-  const blueScore = useMemo(() => scoreDraft("blue"), [bluePicks, redPicks, snapshot.home_team.id, snapshot.home_team.play_style, gameState?.staff]);
-  const redScore = useMemo(() => scoreDraft("red"), [bluePicks, redPicks, snapshot.away_team.id, snapshot.away_team.play_style, gameState?.staff]);
+  const blueScore = useMemo(() => scoreDraft("blue"), [
+    bluePicks,
+    redPicks,
+    bluePlayerIds,
+    snapshot.home_team.id,
+    snapshot.home_team.play_style,
+    snapshot.away_team.id,
+    gameState?.staff,
+    scrimReportsByTeamId,
+  ]);
+  const redScore = useMemo(() => scoreDraft("red"), [
+    bluePicks,
+    redPicks,
+    redPlayerIds,
+    snapshot.away_team.id,
+    snapshot.away_team.play_style,
+    snapshot.home_team.id,
+    gameState?.staff,
+    scrimReportsByTeamId,
+  ]);
+
+  const controlledScrimSignal = useMemo(() => {
+    const side = controlledSide;
+    const teamId = side === "blue" ? snapshot.home_team.id : snapshot.away_team.id;
+    const opponentTeamId = side === "blue" ? snapshot.away_team.id : snapshot.home_team.id;
+    const picks = side === "blue" ? bluePicks : redPicks;
+    const playerIds = side === "blue" ? bluePlayerIds : redPlayerIds;
+    return calculateScrimDraftSignal(
+      scrimReportsByTeamId.get(teamId) ?? [],
+      teamId,
+      opponentTeamId,
+      picks.map((pick, index) => ({ championId: pick.championId, playerId: playerIds[index] ?? null })),
+    );
+  }, [
+    bluePicks,
+    bluePlayerIds,
+    controlledSide,
+    redPicks,
+    redPlayerIds,
+    scrimReportsByTeamId,
+    snapshot.away_team.id,
+    snapshot.home_team.id,
+  ]);
 
   useEffect(() => {
     if (!finished) return;
@@ -2370,6 +2521,8 @@ export default function ChampionDraft({
     { label: t("match.draft.scoreLabels.comfort"), value: controlledScore.comfort },
     { label: t("match.draft.scoreLabels.preparation"), value: controlledScore.preparation },
   ];
+  const controlledScrimBonusTotal =
+    controlledScrimSignal.comfort + controlledScrimSignal.preparation + controlledScrimSignal.synergy;
   const formattedScoreDelta = scoreDelta >= 0 ? `+${scoreDelta}` : `${scoreDelta}`;
   const seriesBansRequiresTwoRows = seriesLength > 1 && seriesLockedChampions.length > 10;
   const compactBoardLayoutClass =
@@ -2709,6 +2862,16 @@ export default function ChampionDraft({
                     </p>
                   ))}
                 </div>
+                {controlledScrimBonusTotal > 0 ? (
+                  <div className="mt-2 rounded border border-cyan-400/20 bg-cyan-400/5 px-2 py-1.5 text-[10px] text-cyan-100">
+                    <p className="font-semibold uppercase tracking-wide">
+                      {t("match.draft.scrimSignalTitle", { defaultValue: "Scrim prep" })} +{controlledScrimBonusTotal}
+                    </p>
+                    <p className="mt-1 text-cyan-100/80">
+                      {controlledScrimSignal.reasons.join(" · ")}
+                    </p>
+                  </div>
+                ) : null}
                 <div className="mt-2 pt-2 border-t border-white/10 text-[11px]">
                   <p className="text-gray-300">
                     {t("match.draft.total")} <span className="float-right font-bold text-white">{controlledScore.total}</span>

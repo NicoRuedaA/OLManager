@@ -153,11 +153,17 @@ export interface TeamData {
   training_intensity: string;
   training_schedule: string;
   weekly_scrim_opponent_ids?: string[];
+  weekly_scrim_plan_team_ids?: string[][];
+  scrim_weekly_objective?: ScrimFocus | null;
+  scrim_weekly_slots?: number;
+  scrim_reputation?: number;
+  scrim_weekly_cancellations?: number;
   scrim_loss_streak?: number;
   scrim_weekly_played?: number;
   scrim_weekly_wins?: number;
   scrim_weekly_losses?: number;
   scrim_slot_results?: ScrimSlotResultData[];
+  scrim_reports?: ScrimReportData[];
   founded_year: number;
   colors: TeamColors;
   facilities?: FacilitiesData;
@@ -354,6 +360,35 @@ export interface ScrimSlotResultData {
   opponent_team_id: string;
   won: boolean;
   simulated_on: string;
+}
+
+export type ScrimStatus = "Pending" | "Accepted" | "Rejected" | "Cancelled" | "Played";
+export type ScrimFocus = "DraftPrep" | "ChampionPool" | "EarlyGame" | "Teamfighting" | "Macro" | "Mental";
+export type ScrimIssue = "DraftGap" | "LanePressure" | "ObjectiveSetup" | "TeamfightExecution" | "ChampionComfort" | "Tilt";
+export type PostScrimDecision = "ContinuePlan" | "VodReview" | "MentalReset" | "TargetedDrills" | "PushThrough" | "DayOff";
+
+export interface ScrimChampionPickData {
+  player_id: string;
+  champion_id: string;
+  role: string;
+}
+
+export interface ScrimReportData {
+  date: string;
+  week_key: string;
+  slot_index: number;
+  weekday: number;
+  team_id: string;
+  opponent_team_id: string;
+  status: ScrimStatus;
+  won: boolean | null;
+  focus: ScrimFocus;
+  issue: ScrimIssue | null;
+  severity: number;
+  quality: number;
+  player_champion_picks: ScrimChampionPickData[];
+  post_decision: PostScrimDecision | null;
+  created_on: string;
 }
 
 export interface ChampionMasteryEntryData {
@@ -623,6 +658,7 @@ export interface LeagueData {
 export type SeasonPhase = "Preseason" | "InSeason" | "PostSeason";
 
 export type TransferWindowStatus = "Closed" | "Open" | "DeadlineDay";
+export type DayPhase = "Morning" | "ScrimBlock" | "ReviewBlock" | "TrainingBlock" | "Evening";
 
 export interface TransferWindowContextData {
   status: TransferWindowStatus;
@@ -664,6 +700,75 @@ export interface NewsArticle {
   i18n_params?: Record<string, string>;
 }
 
+export type SocialAuthorType =
+  | "Team"
+  | "Player"
+  | "Fan"
+  | "Analyst"
+  | "Journalist"
+  | "MemeAccount"
+  | "Manager";
+
+export type SocialSentiment =
+  | "Hype"
+  | "Calm"
+  | "Worried"
+  | "Angry"
+  | "Meltdown"
+  | "Copium";
+
+export type SocialPostCategory =
+  | "MatchResult"
+  | "Banter"
+  | "PlayerReaction"
+  | "FanOpinion"
+  | "MediaTake"
+  | "Meme"
+  | "ManagerPost";
+
+export interface SocialPostData {
+  id: string;
+  date: string;
+  author_name: string;
+  author_handle: string;
+  author_type: SocialAuthorType;
+  body: string;
+  likes: number;
+  reposts: number;
+  replies: number;
+  sentiment: SocialSentiment;
+  category: SocialPostCategory;
+  tags: string[];
+  team_ids: string[];
+  player_ids: string[];
+  fixture_id: string | null;
+  media_url?: string | null;
+  read: boolean;
+}
+
+export interface SocialAccountData {
+  id: string;
+  language: string;
+  display_name: string;
+  handle: string;
+  author_type: SocialAuthorType;
+  profile_image_url?: string | null;
+  favorite_team_ids: string[];
+  active: boolean;
+}
+
+export interface SocialTemplateData {
+  id: string;
+  language: string;
+  slot: string;
+  author_id?: string | null;
+  conditions_json: string;
+  variants: string[];
+  tags: string[];
+  weight: number;
+  active: boolean;
+}
+
 export interface BoardObjective {
   id: string;
   description: string;
@@ -684,6 +789,7 @@ export interface GameStateData {
     current_date: string;
     start_date: string;
   };
+  day_phase?: DayPhase;
   manager: {
     id: string;
     nickname?: string;
@@ -704,6 +810,9 @@ export interface GameStateData {
   staff: StaffData[];
   messages: MessageData[];
   news: NewsArticle[];
+  social_posts?: SocialPostData[];
+  social_accounts?: SocialAccountData[];
+  social_templates?: SocialTemplateData[];
   league: LeagueData | null;
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];

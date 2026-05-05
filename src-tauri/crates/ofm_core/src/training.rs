@@ -6,8 +6,12 @@ use crate::potential::{calculate_lol_ovr, effective_potential_cap};
 use crate::staff_effects::LolStaffEffects;
 use chrono::Datelike;
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
+use domain::player::LolRole;
 use domain::staff::CoachingSpecialization;
-use domain::team::{MainFacilityModuleKind, TrainingFocus, TrainingIntensity, TrainingSchedule};
+use domain::team::{
+    MainFacilityModuleKind, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus,
+    TrainingFocus, TrainingIntensity, TrainingSchedule,
+};
 use std::collections::HashMap;
 
 fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
@@ -66,6 +70,134 @@ struct TeamScrimDayOutcome {
     wins: u8,
     losses: u8,
     slot_results: Vec<(u8, u8, String, bool)>,
+    reports: Vec<ScrimReport>,
+}
+
+fn lol_role_for_position(position: &LolRole) -> &'static str {
+    match position {
+        LolRole::Top => "TOP",
+        LolRole::Jungle => "JUNGLE",
+        LolRole::Mid => "MID",
+        LolRole::Adc => "ADC",
+        LolRole::Support => "SUPPORT",
+        LolRole::Unknown => "MID",
+    }
+}
+
+fn fallback_champion_for_role(role: &str) -> String {
+    match role {
+        "TOP" => "Gnar",
+        "JUNGLE" => "LeeSin",
+        "MID" => "Azir",
+        "ADC" => "Kaisa",
+        "SUPPORT" => "Nautilus",
+        _ => "Azir",
+    }
+    .to_string()
+}
+
+fn scrim_champion_picks_for_team(game: &Game, team_id: &str) -> Vec<ScrimChampionPick> {
+    let starting_ids = game
+        .teams
+        .iter()
+        .find(|team| team.id == team_id)
+        .map(|team| team.starting_xi_ids.clone())
+        .unwrap_or_default();
+
+    let mut players: Vec<_> = if starting_ids.is_empty() {
+        Vec::new()
+    } else {
+        starting_ids
+            .iter()
+            .filter_map(|player_id| game.players.iter().find(|player| player.id == *player_id))
+            .filter(|player| player.team_id.as_deref() == Some(team_id))
+            .take(5)
+            .collect()
+    };
+
+    if players.len() < 5 {
+        let mut fallback: Vec<_> = game
+            .players
+            .iter()
+            .filter(|player| player.team_id.as_deref() == Some(team_id))
+            .filter(|player| !players.iter().any(|selected| selected.id == player.id))
+            .collect();
+        fallback.sort_by_key(|player| std::cmp::Reverse(calculate_lol_ovr(player)));
+        players.extend(fallback.into_iter().take(5 - players.len()));
+    }
+
+    players
+        .into_iter()
+        .map(|player| {
+            let role = lol_role_for_position(&player.natural_position).to_string();
+            let champion_id = crate::champions::training_targets_for_player(player)
+                .into_iter()
+                .find(|target| !target.trim().is_empty())
+                .unwrap_or_else(|| fallback_champion_for_role(&role));
+
+            ScrimChampionPick {
+                player_id: player.id.clone(),
+                champion_id,
+                role,
+            }
+        })
+        .collect()
+}
+
+fn scrim_issue_from_result(
+    won: bool,
+    own_strength: f64,
+    opponent_strength: f64,
+) -> Option<ScrimIssue> {
+    if won {
+        return None;
+    }
+
+    let diff = own_strength - opponent_strength;
+    if diff >= 6.0 {
+        Some(ScrimIssue::Tilt)
+    } else if diff >= 2.0 {
+        Some(ScrimIssue::DraftGap)
+    } else if diff <= -6.0 {
+        Some(ScrimIssue::TeamfightExecution)
+    } else if diff <= -2.0 {
+        Some(ScrimIssue::ObjectiveSetup)
+    } else {
+        Some(ScrimIssue::ChampionComfort)
+    }
+}
+
+fn scrim_focus_for_issue(issue: &Option<ScrimIssue>) -> ScrimFocus {
+    match issue {
+        Some(ScrimIssue::DraftGap) => ScrimFocus::DraftPrep,
+        Some(ScrimIssue::LanePressure) => ScrimFocus::EarlyGame,
+        Some(ScrimIssue::ObjectiveSetup) => ScrimFocus::Macro,
+        Some(ScrimIssue::TeamfightExecution) => ScrimFocus::Teamfighting,
+        Some(ScrimIssue::ChampionComfort) => ScrimFocus::ChampionPool,
+        Some(ScrimIssue::Tilt) => ScrimFocus::Mental,
+        None => ScrimFocus::ChampionPool,
+    }
+}
+
+fn scrim_quality(own_strength: f64, opponent_strength: f64, gain_mult: f64) -> u8 {
+    (58.0 + (opponent_strength - own_strength) * 1.8 + (gain_mult - 1.0) * 28.0)
+        .round()
+        .clamp(30.0, 95.0) as u8
+}
+
+fn scrim_severity(won: bool, own_strength: f64, opponent_strength: f64) -> u8 {
+    if won {
+        return 1;
+    }
+
+    let underperformance = (own_strength - opponent_strength).max(0.0);
+    if underperformance >= 6.0 {
+        4
+    } else if underperformance >= 2.0 {
+        3
+    } else {
+        2
+    }
 }
 
 fn scrims_per_week_for_schedule(schedule: &TrainingSchedule) -> usize {
@@ -76,17 +208,28 @@ fn scrims_per_week_for_schedule(schedule: &TrainingSchedule) -> usize {
     }
 }
 
-fn scrim_slot_weekdays(schedule: &TrainingSchedule) -> &'static [u32] {
-    match schedule {
-        // Redistributed to Tue/Wed/Thu to avoid match-day clashes.
-        TrainingSchedule::Intense => &[1, 1, 2, 2, 3, 3],
-        TrainingSchedule::Balanced => &[1, 2, 2, 3],
-        TrainingSchedule::Light => &[1, 3],
+fn effective_scrim_slots(raw_slots: u8, schedule: &TrainingSchedule) -> usize {
+    if raw_slots == 0 {
+        return scrims_per_week_for_schedule(schedule);
+    }
+
+    match raw_slots.clamp(2, 6) {
+        0..=2 => 2,
+        3..=4 => 4,
+        _ => 6,
     }
 }
 
-fn scrim_slots_for_day(schedule: &TrainingSchedule, weekday_num: u32) -> Vec<usize> {
-    scrim_slot_weekdays(schedule)
+fn scrim_slot_weekdays_for_slots(slots: usize) -> &'static [u32] {
+    match slots {
+        0 | 1 | 2 => &[2, 2],
+        3 | 4 => &[2, 2, 3, 3],
+        _ => &[2, 2, 3, 3, 4, 4],
+    }
+}
+
+fn scrim_slots_for_day(slots: usize, weekday_num: u32) -> Vec<usize> {
+    scrim_slot_weekdays_for_slots(slots)
         .iter()
         .enumerate()
         .filter_map(|(index, day)| {
@@ -96,7 +239,7 @@ fn scrim_slots_for_day(schedule: &TrainingSchedule, weekday_num: u32) -> Vec<usi
                 None
             }
         })
-        .take(scrims_per_week_for_schedule(schedule))
+        .take(slots)
         .collect()
 }
 
@@ -154,6 +297,567 @@ fn compute_scrim_gain_multiplier(own_strength: f64, opponent_strength: f64) -> f
     (1.0 + diff * 0.016).clamp(0.85, 1.25)
 }
 
+fn stable_roll(seed: &str) -> f64 {
+    use std::hash::{Hash, Hasher};
+    let mut hasher = std::collections::hash_map::DefaultHasher::new();
+    seed.hash(&mut hasher);
+    (hasher.finish() % 10_000) as f64 / 10_000.0
+}
+
+fn scrim_request_accepted(own_reputation: u32, opponent_reputation: u32, seed: &str) -> bool {
+    let diff = own_reputation as f64 - opponent_reputation as f64;
+    let chance = (0.52 + diff * 0.006).clamp(0.08, 0.88);
+    stable_roll(seed) <= chance
+}
+
+fn current_week_key(game: &Game) -> String {
+    format!(
+        "{}-W{}",
+        game.clock.current_date.iso_week().year(),
+        game.clock.current_date.iso_week().week()
+    )
+}
+
+fn scrim_focus_label(focus: &ScrimFocus) -> &'static str {
+    match focus {
+        ScrimFocus::DraftPrep => "Draft prep",
+        ScrimFocus::ChampionPool => "Champion pool",
+        ScrimFocus::EarlyGame => "Early game",
+        ScrimFocus::Teamfighting => "Teamfighting",
+        ScrimFocus::Macro => "Macro",
+        ScrimFocus::Mental => "Mental",
+    }
+}
+
+fn scrim_focus_i18n_key(focus: &ScrimFocus) -> &'static str {
+    match focus {
+        ScrimFocus::DraftPrep => "be.msg.scrimWeekly.focus.draftPrep",
+        ScrimFocus::ChampionPool => "be.msg.scrimWeekly.focus.championPool",
+        ScrimFocus::EarlyGame => "be.msg.scrimWeekly.focus.earlyGame",
+        ScrimFocus::Teamfighting => "be.msg.scrimWeekly.focus.teamfighting",
+        ScrimFocus::Macro => "be.msg.scrimWeekly.focus.macro",
+        ScrimFocus::Mental => "be.msg.scrimWeekly.focus.mental",
+    }
+}
+
+fn scrim_issue_label(issue: &ScrimIssue) -> &'static str {
+    match issue {
+        ScrimIssue::DraftGap => "Draft gap",
+        ScrimIssue::LanePressure => "Lane pressure",
+        ScrimIssue::ObjectiveSetup => "Objective setup",
+        ScrimIssue::TeamfightExecution => "Teamfight execution",
+        ScrimIssue::ChampionComfort => "Champion comfort",
+        ScrimIssue::Tilt => "Tilt",
+    }
+}
+
+fn scrim_issue_i18n_key(issue: &ScrimIssue) -> &'static str {
+    match issue {
+        ScrimIssue::DraftGap => "be.msg.scrimWeekly.issues.draftGap",
+        ScrimIssue::LanePressure => "be.msg.scrimWeekly.issues.lanePressure",
+        ScrimIssue::ObjectiveSetup => "be.msg.scrimWeekly.issues.objectiveSetup",
+        ScrimIssue::TeamfightExecution => "be.msg.scrimWeekly.issues.teamfightExecution",
+        ScrimIssue::ChampionComfort => "be.msg.scrimWeekly.issues.championComfort",
+        ScrimIssue::Tilt => "be.msg.scrimWeekly.issues.tilt",
+    }
+}
+
+fn most_common_label<T, F>(items: impl Iterator<Item = T>, label: F) -> String
+where
+    F: Fn(&T) -> String,
+{
+    let mut counts: HashMap<String, u16> = HashMap::new();
+    for item in items {
+        let key = label(&item);
+        *counts.entry(key).or_insert(0) += 1;
+    }
+    counts
+        .into_iter()
+        .max_by(|(left_label, left_count), (right_label, right_count)| {
+            left_count
+                .cmp(right_count)
+                .then_with(|| right_label.cmp(left_label))
+        })
+        .map(|(label, _)| label)
+        .unwrap_or_else(|| "N/A".to_string())
+}
+
+struct WeeklyScrimRecommendation {
+    key: &'static str,
+    fallback: String,
+}
+
+fn weekly_scrim_recommendation(
+    played: u8,
+    losses: u8,
+    loss_streak: u8,
+    cancellations: u8,
+    avg_quality: u8,
+    recurring_issue: &str,
+    _top_focus: &str,
+) -> WeeklyScrimRecommendation {
+    if played == 0 {
+        return WeeklyScrimRecommendation {
+            key: "be.msg.scrimWeekly.recommendations.lockPlans",
+            fallback: "Lock Plan A/B/C earlier next week so the staff has usable prep data."
+                .to_string(),
+        };
+    }
+    if cancellations >= 2 {
+        return WeeklyScrimRecommendation {
+            key: "be.msg.scrimWeekly.recommendations.reduceCancellations",
+            fallback: "Reduce cancellations next week; scrim reputation is part of your competitive infrastructure.".to_string(),
+        };
+    }
+    if loss_streak >= 3 || losses >= played.saturating_sub(1).max(1) {
+        return WeeklyScrimRecommendation {
+            key: "be.msg.scrimWeekly.recommendations.resetBeforeVolume",
+            fallback: "Open next week with Mental Reset or VOD Review before adding more volume."
+                .to_string(),
+        };
+    }
+    if avg_quality < 55 {
+        return WeeklyScrimRecommendation {
+            key: "be.msg.scrimWeekly.recommendations.narrowFocus",
+            fallback: format!(
+                "Keep the volume but narrow the focus around {}; quality is too noisy right now.",
+                recurring_issue
+            ),
+        };
+    }
+    if recurring_issue != "N/A" {
+        return WeeklyScrimRecommendation {
+            key: "be.msg.scrimWeekly.recommendations.targetedDrills",
+            fallback: "Schedule Targeted Drills for the recurring issue and keep the main prep block stable.".to_string(),
+        };
+    }
+    WeeklyScrimRecommendation {
+        key: "be.msg.scrimWeekly.recommendations.keepPlan",
+        fallback:
+            "Keep the current plan: it is producing useful reps without overloading the roster."
+                .to_string(),
+    }
+}
+
+fn build_weekly_scrim_staff_report(
+    team: &domain::team::Team,
+    week_key: &str,
+) -> (String, HashMap<String, String>) {
+    let played_reports: Vec<&ScrimReport> = team
+        .scrim_reports
+        .iter()
+        .filter(|report| report.week_key == week_key && report.status == ScrimStatus::Played)
+        .collect();
+
+    let avg_quality = if played_reports.is_empty() {
+        0
+    } else {
+        (played_reports
+            .iter()
+            .map(|report| u16::from(report.quality))
+            .sum::<u16>()
+            / played_reports.len() as u16) as u8
+    };
+    let top_focus = most_common_label(
+        played_reports.iter().map(|report| report.focus.clone()),
+        |focus| scrim_focus_label(focus).to_string(),
+    );
+    let top_focus_key = most_common_label(
+        played_reports.iter().map(|report| report.focus.clone()),
+        |focus| scrim_focus_i18n_key(focus).to_string(),
+    );
+    let recurring_issue = most_common_label(
+        played_reports
+            .iter()
+            .filter_map(|report| report.issue.clone()),
+        |issue| scrim_issue_label(issue).to_string(),
+    );
+    let recurring_issue_key = most_common_label(
+        played_reports
+            .iter()
+            .filter_map(|report| report.issue.clone()),
+        |issue| scrim_issue_i18n_key(issue).to_string(),
+    );
+    let top_champion = most_common_label(
+        played_reports.iter().flat_map(|report| {
+            report
+                .player_champion_picks
+                .iter()
+                .map(|pick| pick.champion_id.clone())
+        }),
+        |champion_id| champion_id.clone(),
+    );
+    let recommendation = weekly_scrim_recommendation(
+        team.scrim_weekly_played,
+        team.scrim_weekly_losses,
+        team.scrim_loss_streak,
+        team.scrim_weekly_cancellations,
+        avg_quality,
+        &recurring_issue,
+        &top_focus,
+    );
+
+    let body = format!(
+        "Weekly scrim report:\n\nPlayed: {}\nWins: {}\nLosses: {}\nCancellations: {}\nAverage quality: {}\nCurrent loss streak: {}\n\nMain focus: {}\nRecurring issue: {}\nMost practiced champion: {}\n\nRecommendation: {}",
+        team.scrim_weekly_played,
+        team.scrim_weekly_wins,
+        team.scrim_weekly_losses,
+        team.scrim_weekly_cancellations,
+        avg_quality,
+        team.scrim_loss_streak,
+        top_focus,
+        recurring_issue,
+        top_champion,
+        &recommendation.fallback,
+    );
+
+    let params = params(&[
+        ("played", &team.scrim_weekly_played.to_string()),
+        ("wins", &team.scrim_weekly_wins.to_string()),
+        ("losses", &team.scrim_weekly_losses.to_string()),
+        (
+            "cancellations",
+            &team.scrim_weekly_cancellations.to_string(),
+        ),
+        ("avgQuality", &avg_quality.to_string()),
+        ("lossStreak", &team.scrim_loss_streak.to_string()),
+        ("topFocus", &top_focus_key),
+        ("recurringIssue", &recurring_issue_key),
+        ("topChampion", &top_champion),
+        ("recommendation", recommendation.key),
+    ]);
+
+    (body, params)
+}
+
+fn resolve_scrim_outcomes_for_day(
+    game: &Game,
+    weekday_num: u32,
+    week_seed: &str,
+) -> HashMap<String, TeamScrimDayOutcome> {
+    let strength_by_team: HashMap<String, f64> = game
+        .teams
+        .iter()
+        .map(|team| (team.id.clone(), team_lol_strength(game, &team.id)))
+        .collect();
+    let reputation_by_team: HashMap<String, u32> = game
+        .teams
+        .iter()
+        .map(|team| (team.id.clone(), u32::from(team.scrim_reputation)))
+        .collect();
+
+    let mut scrim_outcome_by_team: HashMap<String, TeamScrimDayOutcome> = HashMap::new();
+
+    for team in game.teams.iter() {
+        let weekly_scrim_slots =
+            effective_scrim_slots(team.scrim_weekly_slots, &team.training_schedule);
+        let day_slots = scrim_slots_for_day(weekly_scrim_slots, weekday_num);
+        if day_slots.is_empty() {
+            continue;
+        }
+
+        let own_strength = *strength_by_team.get(&team.id).unwrap_or(&74.0);
+        let staff_effects = LolStaffEffects::for_team(&game.staff, &team.id);
+        let mut gain_sum = 0.0;
+        let mut played: u8 = 0;
+        let mut wins: u8 = 0;
+        let mut losses: u8 = 0;
+        let mut next_loss_streak = team.scrim_loss_streak;
+        let mut slot_results: Vec<(u8, u8, String, bool)> = Vec::new();
+        let mut reports: Vec<ScrimReport> = Vec::new();
+        let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+
+        // E10/E11: never resolve another daily block while there is an unresolved block decision.
+        let has_unresolved_today = team
+            .scrim_reports
+            .iter()
+            .any(|entry| entry.date == today && entry.post_decision.is_none());
+        if has_unresolved_today {
+            continue;
+        }
+
+        for slot_idx in day_slots {
+            let already_resolved =
+                team.scrim_reports
+                    .iter()
+                    .any(|entry| entry.week_key == week_seed && entry.slot_index == slot_idx as u8)
+                    || team.scrim_slot_results.iter().any(|entry| {
+                        entry.week_key == week_seed && entry.slot_index == slot_idx as u8
+                    });
+            if already_resolved {
+                continue;
+            }
+
+            let configured_plan = team
+                .weekly_scrim_plan_team_ids
+                .get(slot_idx)
+                .cloned()
+                .unwrap_or_else(|| {
+                    team.weekly_scrim_opponent_ids
+                        .get(slot_idx)
+                        .cloned()
+                        .filter(|team_id| !team_id.is_empty())
+                        .map(|team_id| vec![team_id])
+                        .unwrap_or_default()
+                });
+
+            let used_opponents_this_week: std::collections::HashSet<String> = team
+                .scrim_reports
+                .iter()
+                .filter(|entry| entry.week_key == week_seed)
+                .map(|entry| entry.opponent_team_id.clone())
+                .chain(
+                    team.scrim_slot_results
+                        .iter()
+                        .filter(|entry| entry.week_key == week_seed)
+                        .map(|entry| entry.opponent_team_id.clone()),
+                )
+                .collect();
+
+            let planned_opponent = configured_plan
+                .iter()
+                .filter(|candidate| candidate.as_str() != team.id.as_str())
+                .filter(|candidate| strength_by_team.contains_key(candidate.as_str()))
+                .filter(|candidate| !used_opponents_this_week.contains(candidate.as_str()))
+                .enumerate()
+                .find_map(|(priority_index, candidate)| {
+                    let requires_acceptance = configured_plan.len() > 1;
+                    let accepted = !requires_acceptance
+                        || scrim_request_accepted(
+                            u32::from(team.scrim_reputation),
+                            *reputation_by_team
+                                .get(candidate)
+                                .unwrap_or(&u32::from(team.scrim_reputation)),
+                            &format!(
+                                "scrim-request:{}:{}:{}:{}:{}",
+                                week_seed, team.id, candidate, slot_idx, priority_index
+                            ),
+                        );
+
+                    if accepted {
+                        Some(candidate.clone())
+                    } else {
+                        None
+                    }
+                });
+
+            let configured = team
+                .weekly_scrim_opponent_ids
+                .get(slot_idx)
+                .cloned()
+                .unwrap_or_default();
+            let opponent_id = if let Some(candidate) = planned_opponent {
+                candidate
+            } else if configured.is_empty() || configured == team.id || !strength_by_team.contains_key(&configured) {
+                continue;
+            } else {
+                configured
+            };
+
+            // E10: resolve only the earliest selected unresolved block; later blocks wait for manager decision.
+            if played > 0 {
+                break;
+            }
+
+            let opponent_strength = *strength_by_team.get(&opponent_id).unwrap_or(&own_strength);
+            let gain_mult = compute_scrim_gain_multiplier(own_strength, opponent_strength)
+                * ((staff_effects.tactics * 0.55) + (staff_effects.analysis * 0.45))
+                    .clamp(0.90, 1.15);
+            gain_sum += gain_mult;
+            played = played.saturating_add(1);
+
+            let diff = (own_strength - opponent_strength).clamp(-14.0, 14.0);
+            let win_prob = (0.5 + diff * 0.022).clamp(0.2, 0.8);
+            let seed = format!(
+                "scrim:{}:{}:{}:{}:{}",
+                week_seed, team.id, opponent_id, weekday_num, slot_idx
+            );
+            let roll = stable_roll(&seed);
+            let won_scrim = roll <= win_prob;
+
+            if won_scrim {
+                wins = wins.saturating_add(1);
+                next_loss_streak = 0;
+            } else {
+                losses = losses.saturating_add(1);
+                next_loss_streak = next_loss_streak.saturating_add(1);
+            }
+
+            slot_results.push((
+                slot_idx as u8,
+                weekday_num as u8,
+                opponent_id.clone(),
+                won_scrim,
+            ));
+
+            let issue = scrim_issue_from_result(won_scrim, own_strength, opponent_strength);
+            let focus = team
+                .scrim_weekly_objective
+                .clone()
+                .unwrap_or_else(|| scrim_focus_for_issue(&issue));
+            reports.push(ScrimReport {
+                date: game.clock.current_date.format("%Y-%m-%d").to_string(),
+                week_key: week_seed.to_string(),
+                slot_index: slot_idx as u8,
+                weekday: weekday_num as u8,
+                team_id: team.id.clone(),
+                opponent_team_id: opponent_id,
+                status: ScrimStatus::Played,
+                won: Some(won_scrim),
+                focus,
+                issue,
+                severity: scrim_severity(won_scrim, own_strength, opponent_strength),
+                quality: scrim_quality(own_strength, opponent_strength, gain_mult),
+                player_champion_picks: scrim_champion_picks_for_team(game, &team.id),
+                post_decision: None,
+                created_on: game.clock.current_date.format("%Y-%m-%d").to_string(),
+            });
+        }
+
+        if played == 0 {
+            continue;
+        }
+
+        let base_morale_penalty = if next_loss_streak >= 5 {
+            4
+        } else if next_loss_streak >= 4 {
+            3
+        } else if next_loss_streak >= 3 {
+            2
+        } else {
+            0
+        };
+        let morale_softening = ((staff_effects.morale - 1.0).max(0.0)
+            + (staff_effects.recovery - 1.0).max(0.0))
+        .clamp(0.0, 0.35);
+        let morale_penalty =
+            ((f64::from(base_morale_penalty)) * (1.0 - morale_softening)).round() as u8;
+
+        scrim_outcome_by_team.insert(
+            team.id.clone(),
+            TeamScrimDayOutcome {
+                gain_mult: (gain_sum / f64::from(played.max(1))).clamp(0.80, 1.30),
+                morale_penalty,
+                next_loss_streak,
+                played,
+                wins,
+                losses,
+                slot_results,
+                reports,
+            },
+        );
+    }
+
+    scrim_outcome_by_team
+}
+
+fn apply_scrim_outcomes(
+    game: &mut Game,
+    scrim_outcome_by_team: &HashMap<String, TeamScrimDayOutcome>,
+    week_seed: &str,
+) {
+    for team in game.teams.iter_mut() {
+        if let Some(outcome) = scrim_outcome_by_team.get(&team.id) {
+            team.scrim_loss_streak = outcome.next_loss_streak;
+            team.scrim_weekly_played = team.scrim_weekly_played.saturating_add(outcome.played);
+            team.scrim_weekly_wins = team.scrim_weekly_wins.saturating_add(outcome.wins);
+            team.scrim_weekly_losses = team.scrim_weekly_losses.saturating_add(outcome.losses);
+
+            for (slot_index, weekday, opponent_team_id, won) in &outcome.slot_results {
+                let already_exists = team
+                    .scrim_slot_results
+                    .iter()
+                    .any(|entry| entry.week_key == week_seed && entry.slot_index == *slot_index);
+                if already_exists {
+                    continue;
+                }
+
+                team.scrim_slot_results.push(domain::team::ScrimSlotResult {
+                    week_key: week_seed.to_string(),
+                    slot_index: *slot_index,
+                    weekday: *weekday,
+                    opponent_team_id: opponent_team_id.clone(),
+                    won: *won,
+                    simulated_on: game.clock.current_date.format("%Y-%m-%d").to_string(),
+                });
+            }
+
+            for report in &outcome.reports {
+                let already_exists = team.scrim_reports.iter().any(|entry| {
+                    entry.week_key == week_seed && entry.slot_index == report.slot_index
+                });
+                if !already_exists {
+                    team.scrim_reports.push(report.clone());
+                }
+            }
+
+            if team.scrim_slot_results.len() > 96 {
+                let start = team.scrim_slot_results.len().saturating_sub(96);
+                team.scrim_slot_results = team.scrim_slot_results.split_off(start);
+            }
+            if team.scrim_reports.len() > 96 {
+                let start = team.scrim_reports.len().saturating_sub(96);
+                team.scrim_reports = team.scrim_reports.split_off(start);
+            }
+        }
+    }
+}
+
+fn apply_scrim_morale(
+    game: &mut Game,
+    scrim_outcome_by_team: &HashMap<String, TeamScrimDayOutcome>,
+) {
+    for player in game.players.iter_mut() {
+        let Some(team_id) = player.team_id.as_ref() else {
+            continue;
+        };
+        let Some(outcome) = scrim_outcome_by_team.get(team_id) else {
+            continue;
+        };
+        if outcome.morale_penalty == 0 {
+            continue;
+        }
+
+        player.morale = player.morale.saturating_sub(outcome.morale_penalty);
+    }
+}
+
+fn scrim_report_gain_mult(
+    game: &Game,
+    team_id: &str,
+    week_seed: &str,
+    weekday_num: u32,
+) -> Option<f64> {
+    let reports: Vec<_> = game
+        .teams
+        .iter()
+        .find(|team| team.id == team_id)?
+        .scrim_reports
+        .iter()
+        .filter(|report| report.week_key == week_seed && report.weekday == weekday_num as u8)
+        .collect();
+
+    if reports.is_empty() {
+        return None;
+    }
+
+    let avg_quality = reports
+        .iter()
+        .map(|report| f64::from(report.quality))
+        .sum::<f64>()
+        / reports.len() as f64;
+    Some((0.85 + (avg_quality / 100.0) * 0.45).clamp(0.80, 1.30))
+}
+
+pub fn process_scrim_block(game: &mut Game, weekday_num: u32) -> bool {
+    let week_seed = current_week_key(game);
+    let outcomes = resolve_scrim_outcomes_for_day(game, weekday_num, &week_seed);
+    let resolved_any = !outcomes.is_empty();
+    apply_scrim_outcomes(game, &outcomes, &week_seed);
+    apply_scrim_morale(game, &outcomes);
+    resolved_any
+}
+
 /// Process daily training for all teams.
 /// On non-match days each team's players train according to the team's
 /// current focus, intensity, and schedule. Rest days (determined by the
@@ -202,141 +906,29 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
         })
         .collect();
 
-    let strength_by_team: HashMap<String, f64> = game
+    let week_seed = current_week_key(game);
+    let scrim_outcome_by_team = resolve_scrim_outcomes_for_day(game, weekday_num, &week_seed);
+    let scrim_report_gain_by_team: HashMap<String, f64> = game
         .teams
         .iter()
-        .map(|team| (team.id.clone(), team_lol_strength(game, &team.id)))
+        .filter_map(|team| {
+            scrim_report_gain_mult(game, &team.id, &week_seed, weekday_num)
+                .map(|gain_mult| (team.id.clone(), gain_mult))
+        })
         .collect();
-
-    let mut scrim_outcome_by_team: HashMap<String, TeamScrimDayOutcome> = HashMap::new();
-    let week_seed = format!(
-        "{}-W{}",
-        game.clock.current_date.iso_week().year(),
-        game.clock.current_date.iso_week().week()
-    );
-
-    for team in game.teams.iter() {
-        let day_slots = scrim_slots_for_day(&team.training_schedule, weekday_num);
-        if day_slots.is_empty() {
-            continue;
-        }
-
-        let mut opponent_pool: Vec<String> = team
-            .weekly_scrim_opponent_ids
-            .iter()
-            .filter(|candidate| candidate.as_str() != team.id.as_str())
-            .filter(|candidate| strength_by_team.contains_key(candidate.as_str()))
-            .cloned()
-            .collect();
-
-        if opponent_pool.is_empty() {
-            opponent_pool = game
-                .teams
-                .iter()
-                .filter(|candidate| candidate.id != team.id)
-                .map(|candidate| candidate.id.clone())
-                .collect();
-        }
-
-        if opponent_pool.is_empty() {
-            continue;
-        }
-
-        let own_strength = *strength_by_team.get(&team.id).unwrap_or(&74.0);
-        let staff_effects = LolStaffEffects::for_team(&game.staff, &team.id);
-        let mut gain_sum = 0.0;
-        let mut played: u8 = 0;
-        let mut wins: u8 = 0;
-        let mut losses: u8 = 0;
-        let mut next_loss_streak = team.scrim_loss_streak;
-        let mut slot_results: Vec<(u8, u8, String, bool)> = Vec::new();
-
-        for slot_idx in day_slots {
-            let configured = team
-                .weekly_scrim_opponent_ids
-                .get(slot_idx)
-                .cloned()
-                .unwrap_or_default();
-            let opponent_id = if configured.is_empty()
-                || configured == team.id
-                || !strength_by_team.contains_key(&configured)
-            {
-                let selector_seed = format!("{}:{}:{}", week_seed, team.id, slot_idx);
-                let selector_roll = {
-                    use std::hash::{Hash, Hasher};
-                    let mut hasher = std::collections::hash_map::DefaultHasher::new();
-                    selector_seed.hash(&mut hasher);
-                    hasher.finish() as usize
-                };
-                opponent_pool[selector_roll % opponent_pool.len()].clone()
-            } else {
-                configured
-            };
-
-            let opponent_strength = *strength_by_team.get(&opponent_id).unwrap_or(&own_strength);
-            let gain_mult = compute_scrim_gain_multiplier(own_strength, opponent_strength)
-                * ((staff_effects.tactics * 0.55) + (staff_effects.analysis * 0.45))
-                    .clamp(0.90, 1.15);
-            gain_sum += gain_mult;
-            played = played.saturating_add(1);
-
-            let diff = (own_strength - opponent_strength).clamp(-14.0, 14.0);
-            let win_prob = (0.5 + diff * 0.022).clamp(0.2, 0.8);
-            let seed = format!(
-                "scrim:{}:{}:{}:{}:{}",
-                week_seed, team.id, opponent_id, weekday_num, slot_idx
-            );
-            let roll = {
-                use std::hash::{Hash, Hasher};
-                let mut hasher = std::collections::hash_map::DefaultHasher::new();
-                seed.hash(&mut hasher);
-                (hasher.finish() % 10_000) as f64 / 10_000.0
-            };
-            let won_scrim = roll <= win_prob;
-
-            if won_scrim {
-                wins = wins.saturating_add(1);
-                next_loss_streak = 0;
-            } else {
-                losses = losses.saturating_add(1);
-                next_loss_streak = next_loss_streak.saturating_add(1);
-            }
-
-            slot_results.push((slot_idx as u8, weekday_num as u8, opponent_id, won_scrim));
-        }
-
-        if played == 0 {
-            continue;
-        }
-
-        let base_morale_penalty = if next_loss_streak >= 5 {
-            4
-        } else if next_loss_streak >= 4 {
-            3
-        } else if next_loss_streak >= 3 {
-            2
-        } else {
-            0
-        };
-        let morale_softening = ((staff_effects.morale - 1.0).max(0.0)
-            + (staff_effects.recovery - 1.0).max(0.0))
-        .clamp(0.0, 0.35);
-        let morale_penalty =
-            ((f64::from(base_morale_penalty)) * (1.0 - morale_softening)).round() as u8;
-
-        scrim_outcome_by_team.insert(
-            team.id.clone(),
-            TeamScrimDayOutcome {
-                gain_mult: (gain_sum / f64::from(played.max(1))).clamp(0.80, 1.30),
-                morale_penalty,
-                next_loss_streak,
-                played,
-                wins,
-                losses,
-                slot_results,
-            },
-        );
-    }
+    let scrim_focus_gain_by_team: HashMap<String, (ScrimFocus, f64)> = scrim_outcome_by_team
+        .iter()
+        .filter_map(|(team_id, outcome)| {
+            let report = outcome.reports.first()?;
+            let team = game.teams.iter().find(|candidate| candidate.id == *team_id)?;
+            let effective_focus = team
+                .scrim_weekly_objective
+                .clone()
+                .unwrap_or_else(|| report.focus.clone());
+            let quality_mult = (f64::from(report.quality) / 100.0).clamp(0.45, 0.95);
+            Some((team_id.clone(), (effective_focus, quality_mult)))
+        })
+        .collect();
 
     let mut mastery_training_ticks: Vec<(String, String, f64, u8)> = Vec::new();
 
@@ -433,7 +1025,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             // The selected attributes are tuned so the LoL-facing roster/profile stats
             // shown to the user move in the expected direction without rewriting the
             // whole legacy player model.
-            let gain = 0.15
+            let gain = 0.075
                 * intensity_mult
                 * age_factor
                 * plan.bonus.coaching_mult
@@ -444,6 +1036,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
                 scrim_outcome_by_team
                     .get(&plan.team_id)
                     .map(|outcome| outcome.gain_mult)
+                    .or_else(|| scrim_report_gain_by_team.get(&plan.team_id).copied())
                     .unwrap_or(1.0)
             } else {
                 1.0
@@ -453,6 +1046,14 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             // Apply LoL stat gains only when the player's current LoL OVR is below potential cap.
             let capped = is_lol_training_capped(player);
             apply_focus_gains(&mut player.attributes, player_focus, gain, capped);
+            if let Some((focus, focus_mult)) = scrim_focus_gain_by_team.get(&plan.team_id) {
+                apply_scrim_plan_focus_gains(
+                    &mut player.attributes,
+                    focus,
+                    gain * 1.9 * *focus_mult,
+                    capped,
+                );
+            }
 
             if is_training_day && !player_focus.is_recovery_plan() {
                 let targets = crate::champions::training_targets_for_player(player);
@@ -501,53 +1102,8 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
         }
     }
 
-    for team in game.teams.iter_mut() {
-        if let Some(outcome) = scrim_outcome_by_team.get(&team.id) {
-            team.scrim_loss_streak = outcome.next_loss_streak;
-            team.scrim_weekly_played = team.scrim_weekly_played.saturating_add(outcome.played);
-            team.scrim_weekly_wins = team.scrim_weekly_wins.saturating_add(outcome.wins);
-            team.scrim_weekly_losses = team.scrim_weekly_losses.saturating_add(outcome.losses);
-
-            for (slot_index, weekday, opponent_team_id, won) in &outcome.slot_results {
-                let already_exists = team
-                    .scrim_slot_results
-                    .iter()
-                    .any(|entry| entry.week_key == week_seed && entry.slot_index == *slot_index);
-                if already_exists {
-                    continue;
-                }
-
-                team.scrim_slot_results.push(domain::team::ScrimSlotResult {
-                    week_key: week_seed.clone(),
-                    slot_index: *slot_index,
-                    weekday: *weekday,
-                    opponent_team_id: opponent_team_id.clone(),
-                    won: *won,
-                    simulated_on: game.clock.current_date.format("%Y-%m-%d").to_string(),
-                });
-            }
-
-            // Keep only recent history to avoid save growth.
-            if team.scrim_slot_results.len() > 96 {
-                let start = team.scrim_slot_results.len().saturating_sub(96);
-                team.scrim_slot_results = team.scrim_slot_results.split_off(start);
-            }
-        }
-    }
-
-    for player in game.players.iter_mut() {
-        let Some(team_id) = player.team_id.as_ref() else {
-            continue;
-        };
-        let Some(outcome) = scrim_outcome_by_team.get(team_id) else {
-            continue;
-        };
-        if outcome.morale_penalty == 0 {
-            continue;
-        }
-
-        player.morale = player.morale.saturating_sub(outcome.morale_penalty);
-    }
+    apply_scrim_outcomes(game, &scrim_outcome_by_team, &week_seed);
+    apply_scrim_morale(game, &scrim_outcome_by_team);
 
     for (player_id, champion_id, gain, attempts) in mastery_training_ticks {
         let soloq_mult = crate::champions::mastery_gain_multiplier_for_player(game, &player_id);
@@ -570,13 +1126,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             .find(|candidate| candidate.id == manager_team_id)
     {
         if team.scrim_weekly_played > 0 {
-            let body = format!(
-                "Weekly scrim report:\n\nPlayed: {}\nWins: {}\nLosses: {}\nCurrent loss streak: {}\n\nScrim progress applies even on losses, but extended losing streaks are hurting morale.",
-                team.scrim_weekly_played,
-                team.scrim_weekly_wins,
-                team.scrim_weekly_losses,
-                team.scrim_loss_streak,
-            );
+            let (body, i18n_params) = build_weekly_scrim_staff_report(team, &week_seed);
 
             let msg = InboxMessage::new(
                 format!("msg_scrim_weekly_{}", uuid::Uuid::new_v4()),
@@ -591,12 +1141,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             .with_i18n(
                 "be.msg.scrimWeekly.subject",
                 "be.msg.scrimWeekly.body",
-                params(&[
-                    ("played", &team.scrim_weekly_played.to_string()),
-                    ("wins", &team.scrim_weekly_wins.to_string()),
-                    ("losses", &team.scrim_weekly_losses.to_string()),
-                    ("lossStreak", &team.scrim_loss_streak.to_string()),
-                ]),
+                i18n_params,
             )
             .with_sender_i18n("be.sender.coachingStaff", "be.role.coachingStaff");
 
@@ -606,6 +1151,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
         team.scrim_weekly_played = 0;
         team.scrim_weekly_wins = 0;
         team.scrim_weekly_losses = 0;
+        team.scrim_weekly_cancellations = 0;
     }
 }
 
@@ -716,6 +1262,50 @@ fn apply_focus_gains(
         }
         TrainingFocus::MentalResetRecovery => {
             // No attribute gains on recovery days
+        }
+    }
+}
+
+fn apply_scrim_plan_focus_gains(
+    attrs: &mut domain::player::PlayerAttributes,
+    focus: &ScrimFocus,
+    gain: f64,
+    capped: bool,
+) {
+    if capped {
+        return;
+    }
+
+    match focus {
+        ScrimFocus::DraftPrep => {
+            try_gain(&mut attrs.vision, gain);
+            try_gain(&mut attrs.decisions, gain * 0.9);
+            try_gain(&mut attrs.leadership, gain * 0.7);
+        }
+        ScrimFocus::ChampionPool => {
+            try_gain(&mut attrs.dribbling, gain);
+            try_gain(&mut attrs.agility, gain);
+            try_gain(&mut attrs.shooting, gain * 0.7);
+        }
+        ScrimFocus::EarlyGame => {
+            try_gain(&mut attrs.shooting, gain);
+            try_gain(&mut attrs.decisions, gain * 0.85);
+            try_gain(&mut attrs.vision, gain * 0.75);
+        }
+        ScrimFocus::Teamfighting => {
+            try_gain(&mut attrs.teamwork, gain);
+            try_gain(&mut attrs.composure, gain * 0.9);
+            try_gain(&mut attrs.positioning, gain * 0.75);
+        }
+        ScrimFocus::Macro => {
+            try_gain(&mut attrs.vision, gain);
+            try_gain(&mut attrs.decisions, gain);
+            try_gain(&mut attrs.teamwork, gain * 0.7);
+        }
+        ScrimFocus::Mental => {
+            try_gain(&mut attrs.composure, gain);
+            try_gain(&mut attrs.stamina, gain * 0.85);
+            try_gain(&mut attrs.leadership, gain * 0.65);
         }
     }
 }

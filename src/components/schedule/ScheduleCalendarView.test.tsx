@@ -14,6 +14,10 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
+vi.mock("../../services/trainingService", () => ({
+  getScrimContext: vi.fn().mockRejectedValue(new Error("no backend context in unit test")),
+}));
+
 function createTeam(overrides: Partial<TeamData> = {}): TeamData {
   return {
     id: "team-1",

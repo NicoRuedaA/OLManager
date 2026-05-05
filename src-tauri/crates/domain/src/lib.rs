@@ -10,6 +10,7 @@ pub mod negotiation;
 pub mod news;
 pub mod player;
 pub mod season;
+pub mod social;
 pub mod staff;
 pub mod stats;
 pub mod team;

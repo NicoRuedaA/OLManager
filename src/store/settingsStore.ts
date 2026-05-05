@@ -6,6 +6,7 @@ export interface AppSettings {
   language: string;
   currency: "EUR" | "GBP" | "USD";
   default_match_mode: "live" | "spectator" | "delegate";
+  scrim_review_mode: "manual" | "assistant";
   auto_save: boolean;
   match_speed: "slow" | "normal" | "fast";
   show_match_commentary: boolean;
@@ -22,6 +23,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   language: "es",
   currency: "EUR",
   default_match_mode: "live",
+  scrim_review_mode: "manual",
   auto_save: true,
   match_speed: "normal",
   show_match_commentary: true,

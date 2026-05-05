@@ -39,6 +39,36 @@ fn migrate_manager_avatar_path(tx: &Transaction<'_>) -> HookResult {
     Ok(())
 }
 
+fn migrate_day_phase(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(
+        tx,
+        "game_meta",
+        "day_phase",
+        "TEXT NOT NULL DEFAULT 'Morning'",
+    )?;
+    Ok(())
+}
+
+fn migrate_scrim_reports(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_reports", "TEXT NOT NULL DEFAULT '[]'")?;
+    Ok(())
+}
+
+fn migrate_scrim_weekly_objective(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_weekly_objective", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_scrim_setup_lock_week_key(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "teams", "scrim_setup_locked_week_key", "TEXT")?;
+    Ok(())
+}
+
+fn migrate_social_post_media_url(tx: &Transaction<'_>) -> HookResult {
+    add_column_if_missing(tx, "social_posts", "media_url", "TEXT")?;
+    Ok(())
+}
+
 fn migrate_stadium_to_arena(tx: &Transaction<'_>) -> HookResult {
     add_column_if_missing(tx, "teams", "arena_name", "TEXT")?;
     // Only migrate data if the legacy column exists (old save files)
@@ -194,11 +224,56 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
     connection_add_column_if_missing(conn, "managers", "avatar_path", "TEXT")?;
     connection_add_column_if_missing(conn, "players", "profile_image_url", "TEXT")?;
     connection_add_column_if_missing(conn, "staff", "profile_image_url", "TEXT")?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "weekly_scrim_plan_team_ids",
+        "TEXT NOT NULL DEFAULT '[]'",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "weekly_scrim_opponent_ids",
+        "TEXT NOT NULL DEFAULT '[]'",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "team_roles",
+        "TEXT NOT NULL DEFAULT '{\"captain\":null,\"shotcaller\":null}'",
+    )?;
+    connection_add_column_if_missing(conn, "teams", "scrim_weekly_objective", "TEXT")?;
+    connection_add_column_if_missing(conn, "teams", "scrim_setup_locked_week_key", "TEXT")?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_weekly_slots",
+        "INTEGER NOT NULL DEFAULT 0",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_reputation",
+        "INTEGER NOT NULL DEFAULT 50",
+    )?;
+    connection_add_column_if_missing(
+        conn,
+        "teams",
+        "scrim_weekly_cancellations",
+        "INTEGER NOT NULL DEFAULT 0",
+    )?;
+    connection_add_column_if_missing(conn, "teams", "scrim_reports", "TEXT NOT NULL DEFAULT '[]'")?;
+    connection_add_column_if_missing(
+        conn,
+        "game_meta",
+        "day_phase",
+        "TEXT NOT NULL DEFAULT 'Morning'",
+    )?;
     Ok(())
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 44;
+pub const MIGRATION_COUNT: usize = 50;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -294,6 +369,20 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up_with_hook("SELECT 1;", migrate_v42_drop_dead_team_columns),
         // V43: Add bans_json column to lol_player_match_stats for ban rate
         M::up(include_str!("sql/v043_add_bans_column.sql")),
+        // V44: Persist day phase for phase-based advancement
+        M::up_with_hook("SELECT 1;", migrate_day_phase),
+        // V45: Enriched scrim reports for gameplay consequences
+        M::up_with_hook("SELECT 1;", migrate_scrim_reports),
+        // V46: Optional weekly scrim objective for planning intent
+        M::up_with_hook("SELECT 1;", migrate_scrim_weekly_objective),
+        // V47: Optional weekly setup lock marker key
+        M::up_with_hook("SELECT 1;", migrate_scrim_setup_lock_week_key),
+        // V48: Persist humorous social feed posts per save
+        M::up(include_str!("sql/v035_social_posts.sql")),
+        // V49: Add optional media URL to social posts
+        M::up_with_hook("SELECT 1;", migrate_social_post_media_url),
+        // V50: Persist social accounts and templates for editor workflows
+        M::up(include_str!("sql/v036_social_registry.sql")),
     ])
 }
 
@@ -353,6 +442,18 @@ mod tests {
         );
         assert!(tables.contains(&"messages".to_string()), "missing messages");
         assert!(tables.contains(&"news".to_string()), "missing news");
+        assert!(
+            tables.contains(&"social_posts".to_string()),
+            "missing social_posts"
+        );
+        assert!(
+            tables.contains(&"social_accounts".to_string()),
+            "missing social_accounts"
+        );
+        assert!(
+            tables.contains(&"social_templates".to_string()),
+            "missing social_templates"
+        );
         assert!(
             tables.contains(&"board_objectives".to_string()),
             "missing board_objectives"

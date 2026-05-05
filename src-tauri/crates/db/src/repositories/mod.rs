@@ -8,6 +8,7 @@ pub mod news_repo;
 pub mod objective_repo;
 pub mod player_repo;
 pub mod scouting_repo;
+pub mod social_repo;
 pub mod staff_repo;
 pub mod stats_repo;
 pub mod team_repo;

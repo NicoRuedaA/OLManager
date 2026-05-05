@@ -18,6 +18,8 @@ import { Check, ChevronDown } from "lucide-react";
 interface SelectProps {
   selectSize?: "xs" | "sm" | "md";
   variant?: "default" | "subtle" | "muted" | "highlighted" | "placeholder";
+  dropdownPlacement?: "auto" | "bottom" | "top";
+  dropdownClassName?: string;
   icon?: ReactNode;
   fullWidth?: boolean;
   wrapperClassName?: string;
@@ -56,6 +58,8 @@ interface NativeOptionProps {
 export function Select({
   selectSize = "md",
   variant = "default",
+  dropdownPlacement = "auto",
+  dropdownClassName = "",
   icon,
   fullWidth = false,
   wrapperClassName = "",
@@ -112,6 +116,7 @@ export function Select({
     return options[0]?.value ?? "";
   });
   const [isOpen, setIsOpen] = useState(false);
+  const [opensUp, setOpensUp] = useState(false);
 
   const currentValue = controlledValue ?? uncontrolledValue;
   const selectedOption =
@@ -142,6 +147,20 @@ export function Select({
 
     return () => document.removeEventListener("mousedown", handlePointerDown);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen || dropdownPlacement !== "auto") {
+      setOpensUp(dropdownPlacement === "top");
+      return;
+    }
+
+    const rect = wrapperRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    setOpensUp(spaceBelow < 260 && spaceAbove > spaceBelow);
+  }, [dropdownPlacement, isOpen]);
 
   const handleSelect = (nextValue: string) => {
     if (controlledValue === undefined) {
@@ -295,7 +314,9 @@ export function Select({
       </span>
 
       {isOpen ? (
-        <div className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl dark:border-navy-600 dark:bg-navy-800">
+        <div
+          className={`absolute left-0 right-0 z-50 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xl dark:border-navy-600 dark:bg-navy-800 ${opensUp ? "bottom-full mb-1" : "top-full mt-1"} ${dropdownClassName}`}
+        >
           <div
             id={listboxId}
             role="listbox"
