@@ -56,7 +56,7 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
           founded_year, colors_primary, colors_secondary,
           starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, weekly_scrim_plan_team_ids, scrim_weekly_objective, scrim_weekly_slots, scrim_setup_locked_week_key, scrim_reputation, scrim_weekly_cancellations, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, scrim_reports, financial_ledger, sponsorship, facilities,
             team_kind, parent_team_id, academy_team_id, academy_metadata)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46, ?47, ?48)",
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46, ?47)",
         params![
             t.id,
             t.name,
