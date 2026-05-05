@@ -662,19 +662,23 @@ fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("databases").join("lec_world.json")),
-        cwd.join("src-tauri")
-            .join("scraper")
-            .join("output")
-            .join("world-exact.json")
-            .into(),
+            .map(|dir| dir.join("databases").join("world-exact.json")),
         cwd.join("src-tauri")
             .join("databases")
-            .join("lec_world.json")
+            .join("world-exact.json")
             .into(),
         cwd.join("scraper")
             .join("output")
             .join("world-exact.json")
+            .into(),
+        app_handle
+            .path()
+            .resource_dir()
+            .ok()
+            .map(|dir| dir.join("databases").join("lec_world.json")),
+        cwd.join("src-tauri")
+            .join("databases")
+            .join("lec_world.json")
             .into(),
         cwd.join("databases").join("lec_world.json").into(),
     ];
