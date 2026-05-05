@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { getContractRiskLevel } from "../../lib/helpers";
+import { getContractRiskLevel, calcAge, formatVal, positionBadgeVariant } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { PlayerData, GameStateData, PlayerMatchHistoryEntryData, ScoutReportData } from "../../store/gameStore";
 import { ArrowLeft } from "lucide-react";
@@ -35,6 +35,8 @@ import {
   type PlayerProfileScoutStatus,
 } from "./PlayerProfile.scouting";
 import PlayerProfileChampionsCard from "./PlayerProfileChampionsCard";
+import NegotiationFeedbackPanel from "../NegotiationFeedbackPanel";
+import TransferNegotiationHistory from "../transfers/TransferNegotiationHistory";
 import playersSeed from "../../../data/lec/draft/players.json";
 import championsSeed from "../../../data/lec/draft/champions.json";
 import { startPotentialResearch } from "../../services/playerService";
@@ -44,10 +46,11 @@ import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIden
 import {
   makeTransferBid,
   releasePlayerContract,
+  previewTransferBidFinancialImpact,
   type TransferDestinationData,
   type TransferNegotiationFeedbackData,
+  type TransferBidProjectionData,
 } from "../../services/transfersService";
-import { formatVal } from "../../lib/helpers";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -271,6 +274,11 @@ export default function PlayerProfile({
   const [transferOfferError, setTransferOfferError] = useState<string | null>(null);
   const [transferOfferFeedback, setTransferOfferFeedback] =
     useState<TransferOfferFeedbackState | null>(null);
+  const [transferOfferIncludedPlayerIds, setTransferOfferIncludedPlayerIds] =
+    useState<string[]>([]);
+  const [transferOfferProjection, setTransferOfferProjection] =
+    useState<TransferBidProjectionData["projection"] | null>(null);
+  const [transferOfferFee, setTransferOfferFee] = useState<number | null>(null);
   const [renewalWage, setRenewalWage] = useState("");
   const [renewalLength, setRenewalLength] = useState("2");
   const [renewalSubmitting, setRenewalSubmitting] = useState(false);
@@ -315,6 +323,22 @@ export default function PlayerProfile({
       }
     });
   }
+
+  const transferOfferAvailablePlayers = gameState.players.filter(
+    (p) =>
+      managedTeamIds.has(p.team_id ?? "") &&
+      p.id !== player.id &&
+      p.transfer_offers.every((o) => o.status !== "Pending"),
+  );
+
+  const toggleTransferOfferPlayer = (playerId: string) => {
+    if (transferOfferIncludedPlayerIds.includes(playerId)) {
+      setTransferOfferIncludedPlayerIds(transferOfferIncludedPlayerIds.filter((id) => id !== playerId));
+    } else if (transferOfferIncludedPlayerIds.length < 2) {
+      setTransferOfferIncludedPlayerIds([...transferOfferIncludedPlayerIds, playerId]);
+    }
+  };
+
   const isOwnMainPlayer = managerTeamId !== null && player.team_id === managerTeamId;
   const isOwnAcademyPlayer = player.team_id !== null && managedTeamIds.has(player.team_id) && !isOwnMainPlayer;
   const actualIsOwnClub = isOwnMainPlayer || isOwnAcademyPlayer;
@@ -488,7 +512,16 @@ export default function PlayerProfile({
     setTransferOfferDestination("main");
     setTransferOfferError(null);
     setTransferOfferFeedback(null);
+    setTransferOfferIncludedPlayerIds([]);
+    setTransferOfferProjection(null);
+    setTransferOfferFee(null);
     setShowTransferOfferModal(true);
+    void previewTransferBidFinancialImpact(player.id, initialFee, "main")
+      .then((res) => {
+        setTransferOfferProjection(res.projection);
+        setTransferOfferFee(initialFee);
+      })
+      .catch(() => {});
   }
 
   async function handleSubmitTransferOffer(): Promise<void> {
@@ -510,7 +543,7 @@ export default function PlayerProfile({
     setTransferOfferFeedback(null);
     setTransferActionSubmitting(true);
     try {
-      const result = await makeTransferBid(player.id, fee, transferOfferDestination);
+      const result = await makeTransferBid(player.id, fee, transferOfferDestination, transferOfferIncludedPlayerIds);
       onGameUpdate(result.game);
       setTransferOfferFeedback({
         decision: result.decision,
@@ -523,6 +556,7 @@ export default function PlayerProfile({
 
       if (result.decision === "accepted") {
         setShowTransferOfferModal(false);
+        setTransferOfferIncludedPlayerIds([]);
       }
     } catch (error) {
       console.error("Failed to make transfer offer:", error);
@@ -992,8 +1026,8 @@ export default function PlayerProfile({
       {showTransferOfferModal ? (
         <DashboardModalFrame maxWidthClassName="max-w-md">
           <div className="space-y-4">
-            <h3 className="text-lg font-heading font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
-              {t("playerProfile.makeTransferOffer")}
+            <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              {t("playerProfile.makeTransferOffer", { defaultValue: "Make Transfer Offer" })}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">{player.full_name}</p>
             <div>
@@ -1026,7 +1060,13 @@ export default function PlayerProfile({
                 ) : null}
               </select>
             </div>
-            <div>
+            {!player.team_id ? (
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("transfers.freeAgentSigningHint", { defaultValue: "This player is a free agent and can be signed without a transfer fee." })}
+              </p>
+            ) : (
+              <>
+              <div>
               <label
                 htmlFor="transfer-offer-amount"
                 className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1"
@@ -1041,50 +1081,162 @@ export default function PlayerProfile({
                 min="1"
                 step="1000"
                 value={transferOfferAmount}
-                onChange={(event) => setTransferOfferAmount(event.target.value)}
+                onChange={(event) => {
+                  setTransferOfferAmount(event.target.value);
+                  const fee = Math.round(Number.parseFloat(event.target.value));
+                  if (Number.isFinite(fee) && fee > 0) {
+                    void previewTransferBidFinancialImpact(player.id, fee, transferOfferDestination)
+                      .then((res) => {
+                        setTransferOfferProjection(res.projection);
+                        setTransferOfferFee(fee);
+                      })
+                      .catch(() => {});
+                  }
+                }}
                 className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
               />
             </div>
-            {transferOfferError ? (
-              <p className="rounded-md border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-200">
-                {transferOfferError}
-              </p>
-            ) : null}
-            {transferOfferFeedback ? (
-              <div className="rounded-md border border-primary-400/30 bg-primary-500/10 px-3 py-2 text-xs text-primary-100">
-                <p className="font-heading font-bold uppercase tracking-wider text-[10px] text-primary-200/90">
-                  {resolveBackendText(
-                    transferOfferFeedback.feedback.headline_key,
-                    transferOfferFeedback.feedback.headline_key,
-                    transferOfferFeedback.feedback.params,
-                  )}
-                </p>
-                {transferOfferFeedback.feedback.detail_key ? (
-                  <p className="mt-1 text-primary-100/90">
-                    {resolveBackendText(
-                      transferOfferFeedback.feedback.detail_key,
-                      transferOfferFeedback.feedback.detail_key,
-                      transferOfferFeedback.feedback.params,
-                    )}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("transfers.includePlayers", { defaultValue: "Include players in deal" })}
+                </label>
+                <span className="text-xs text-gray-400">
+                  {transferOfferIncludedPlayerIds.length}/2{" "}
+                  {t("transfers.playersSelected", { defaultValue: "selected" })}
+                </span>
+              </div>
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {transferOfferAvailablePlayers.map((p) => {
+                  const isSelected = transferOfferIncludedPlayerIds.includes(p.id);
+                  const age = calcAge(p.date_of_birth);
+                  const role = p.position;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      disabled={!isSelected && transferOfferIncludedPlayerIds.length >= 2}
+                      onClick={() => toggleTransferOfferPlayer(p.id)}
+                      className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs transition-colors ${
+                        isSelected
+                          ? "bg-primary-500/20 border border-primary-500/50"
+                          : "bg-gray-50 dark:bg-navy-700 border border-transparent hover:border-gray-300 dark:hover:border-navy-500 disabled:opacity-40"
+                      }`}
+                    >
+                      <span className={`inline-flex items-center justify-center px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                        role === "TOP" ? "bg-emerald-500/20 text-emerald-400" :
+                        role === "JUNGLE" ? "bg-amber-500/20 text-amber-400" :
+                        role === "MID" ? "bg-blue-500/20 text-blue-400" :
+                        role === "ADC" ? "bg-red-500/20 text-red-400" :
+                        "bg-purple-500/20 text-purple-400"
+                      }`}>
+                        {role === "JUNGLE" ? "JG" : role === "SUPPORT" ? "SUP" : role}
+                      </span>
+                      <span className="flex-1 text-left text-gray-800 dark:text-gray-200 truncate">
+                        {p.match_name || p.full_name}
+                      </span>
+                      <span className="text-gray-400">{age}yo</span>
+                      <span className="font-semibold text-gray-600 dark:text-gray-300">
+                        {formatVal(p.market_value)}
+                      </span>
+                    </button>
+                  );
+                })}
+                {transferOfferAvailablePlayers.length === 0 && (
+                  <p className="text-xs text-gray-400 text-center py-2">
+                    {t("transfers.noPlayersAvailable", { defaultValue: "No eligible players available" })}
                   </p>
-                ) : null}
+                )}
+              </div>
+            </div>
+            {transferOfferFee !== null && transferOfferProjection ? (
+              <div className="rounded-lg border border-gray-200 dark:border-navy-700 bg-white/70 dark:bg-navy-900/40 p-3 space-y-2">
+                <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("transfers.bidImpactTitle", { defaultValue: "Projected impact" })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactTransferBudget", {
+                    before: formatVal(transferOfferProjection.transfer_budget_before),
+                    after: formatVal(transferOfferProjection.transfer_budget_after),
+                    defaultValue: "Transfer budget {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactBalance", {
+                    before: formatVal(transferOfferProjection.finance_before),
+                    after: formatVal(transferOfferProjection.finance_after),
+                    defaultValue: "Club balance {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactWagePressure", {
+                    percent: transferOfferProjection.projected_wage_budget_usage_pct,
+                    defaultValue: "Projected wage budget usage {{percent}}%",
+                  })}
+                </p>
+                {transferOfferProjection.exceeds_transfer_budget && (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverTransferBudget", { defaultValue: "This bid exceeds your transfer budget" })}
+                  </p>
+                )}
+                {transferOfferProjection.exceeds_finance && (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverBalance", { defaultValue: "This bid would push the club into debt" })}
+                  </p>
+                )}
               </div>
             ) : null}
-            <div className="flex gap-2 justify-end">
+              </>
+            )}
+            {transferOfferFeedback ? (
+              <NegotiationFeedbackPanel
+                feedback={transferOfferFeedback.feedback}
+                titleKey="transfers.negotiationPulse"
+                roundKey="transfers.negotiationRound"
+                patienceKey="transfers.negotiationPatience"
+                tensionKey="transfers.negotiationTension"
+              />
+            ) : null}
+            <TransferNegotiationHistory offer={null} mode="outgoing" />
+            {transferOfferError ? (
+              <div className="text-xs font-heading font-bold uppercase tracking-wider text-red-500">
+                {transferOfferError}
+              </div>
+            ) : null}
+            {transferOfferFeedback ? (
+              <div
+                className={`text-xs font-heading font-bold uppercase tracking-wider ${
+                  transferOfferFeedback.decision === "accepted"
+                    ? "text-green-500"
+                    : transferOfferFeedback.decision === "rejected"
+                      ? "text-red-500"
+                      : "text-amber-500"
+                }`}
+              >
+                {transferOfferFeedback.decision === "accepted"
+                  ? t("transfers.bidAccepted", { defaultValue: "Bid accepted!" })
+                  : transferOfferFeedback.decision === "rejected"
+                    ? t("transfers.bidRejected", { defaultValue: "Bid rejected." })
+                    : t("transfers.bidCountered", { defaultValue: "They came back with revised terms." })}
+              </div>
+            ) : null}
+            <div className="flex gap-2">
+              <Button
+                onClick={() => void handleSubmitTransferOffer()}
+                disabled={transferActionSubmitting}
+                className="flex-1 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-heading font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50"
+              >
+                {transferActionSubmitting
+                  ? t("transfers.submitting", { defaultValue: "Submitting..." })
+                  : t("playerProfile.transferOfferSubmit", { defaultValue: "Send offer" })}
+              </Button>
               <Button
                 variant="ghost"
                 onClick={() => setShowTransferOfferModal(false)}
                 disabled={transferActionSubmitting}
+                className="px-4 py-2 bg-gray-200 dark:bg-navy-700 text-gray-600 dark:text-gray-300 rounded-lg font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-300 dark:hover:bg-navy-600 transition-colors"
               >
-                {t("common.cancel")}
-              </Button>
-              <Button
-                onClick={() => void handleSubmitTransferOffer()}
-                disabled={transferActionSubmitting}
-              >
-                {t("playerProfile.transferOfferSubmit", {
-                  defaultValue: "Send offer",
-                })}
+                {t("common.cancel", { defaultValue: "Cancel" })}
               </Button>
             </div>
           </div>

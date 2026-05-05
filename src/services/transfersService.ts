@@ -41,11 +41,13 @@ export async function makeTransferBid(
   playerId: string,
   fee: number,
   destination: TransferDestinationData = "main",
+  includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
   return invoke<TransferNegotiationResponseData>("make_transfer_bid", {
     playerId,
     fee,
     destination,
+    includedPlayerIds,
   });
 }
 
@@ -65,11 +67,13 @@ export async function counterOffer(
   playerId: string,
   offerId: string,
   requestedFee: number,
+  includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
   return invoke<TransferNegotiationResponseData>("counter_offer", {
     playerId,
     offerId,
     requestedFee,
+    includedPlayerIds,
   });
 }
 

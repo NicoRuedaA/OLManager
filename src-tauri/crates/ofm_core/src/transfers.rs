@@ -2,7 +2,7 @@ use crate::finances::calc_annual_wages;
 use crate::game::Game;
 use chrono::{Datelike, NaiveDate};
 use domain::negotiation::{NegotiationFeedback, NegotiationMood};
-use domain::player::TransferOfferStatus;
+use domain::player::{PlayerOfferItem, TransferOfferStatus};
 use domain::season::TransferWindowStatus;
 use domain::stats::LolRole;
 use domain::team::TeamKind;
@@ -126,6 +126,49 @@ fn minimum_acceptable_fee(
 
     let multiplier = multiplier.clamp(0.55, 1.6);
     ((player.market_value as f64) * multiplier).round() as u64
+}
+
+fn calculate_player_offer_value(
+    current_date: NaiveDate,
+    player: &domain::player::Player,
+) -> u64 {
+    let age = calc_player_age(current_date, &player.date_of_birth);
+
+    let age_multiplier: f64 = if age <= 20 {
+        1.30
+    } else if age <= 23 {
+        1.20
+    } else if age <= 26 {
+        1.00
+    } else if age <= 29 {
+        0.90
+    } else if age <= 32 {
+        0.75
+    } else {
+        0.60
+    };
+
+    let potential_gap = player.potential_base.saturating_sub(player.attributes.overall());
+    let potential_multiplier: f64 = if potential_gap >= 15 {
+        1.20
+    } else if potential_gap >= 10 {
+        1.10
+    } else if potential_gap >= 5 {
+        1.05
+    } else {
+        1.00
+    };
+
+    ((player.market_value as f64) * age_multiplier * potential_multiplier).round() as u64
+}
+
+fn calc_player_age(current_date: NaiveDate, date_of_birth: &str) -> u32 {
+    let dob = NaiveDate::parse_from_str(date_of_birth, "%Y-%m-%d").unwrap_or(current_date);
+    let mut age = (current_date.year() - dob.year()) as u32;
+    if current_date < dob.with_year(current_date.year()).unwrap_or(dob) {
+        age = age.saturating_sub(1);
+    }
+    age
 }
 
 fn player_move_openness_score(
@@ -434,6 +477,7 @@ fn upsert_transfer_offer(
         last_manager_fee,
         negotiation_round,
         suggested_counter_fee,
+        players_included: vec![],
         status,
         date: date.to_string(),
     });
@@ -674,6 +718,7 @@ pub fn generate_incoming_transfer_offers(game: &mut Game) {
             last_manager_fee: None,
             negotiation_round: 1,
             suggested_counter_fee: None,
+            players_included: vec![],
             status: TransferOfferStatus::Pending,
             date: today.clone(),
         });
@@ -1041,11 +1086,16 @@ pub fn make_transfer_bid(
     player_id: &str,
     fee: u64,
     destination: TransferDestination,
+    included_player_ids: &[String],
 ) -> Result<TransferNegotiationOutcome, String> {
     expire_stale_transfer_offers(game);
 
     if !transfer_window_is_open(game) {
         return Err("Transfer window is closed".into());
+    }
+
+    if included_player_ids.len() > 2 {
+        return Err("Maximum 2 players can be included in a deal".into());
     }
 
     let user_team_id = game.manager.team_id.clone().ok_or("No user team")?;
@@ -1080,20 +1130,58 @@ pub fn make_transfer_bid(
     }
 
     let date = game.clock.current_date.format("%Y-%m-%d").to_string();
+    let current_date = game.clock.current_date.date_naive();
+
+    let included_items: Vec<PlayerOfferItem> = included_player_ids
+        .iter()
+        .map(|pid| {
+            let p = game
+                .players
+                .iter()
+                .find(|p| p.id == pid.as_str() && p.team_id.as_deref() == Some(&user_team_id))
+                .ok_or_else(|| format!("Included player {} not found or not yours", pid))?;
+
+            if p.transfer_offers.iter().any(|o| o.status == TransferOfferStatus::Pending) {
+                return Err(format!("Player {} already has a pending transfer offer", pid));
+            }
+
+            let days = contract_days_remaining(current_date, p.contract_end.as_deref())
+                .ok_or_else(|| format!("Player {} has no active contract", pid))?;
+            if days <= 0 {
+                return Err(format!("Player {} has an expired contract", pid));
+            }
+
+            let valuation = calculate_player_offer_value(current_date, p);
+            Ok(PlayerOfferItem {
+                player_id: pid.clone(),
+                player_name: p.match_name.clone(),
+                valuation,
+            })
+        })
+        .collect::<Result<Vec<_>, String>>()?;
+
+    let total_included_value: u64 = included_items.iter().map(|item| item.valuation).sum();
 
     if player.team_id.is_none() {
+        let free_agent_fee = 0u64;
+
         if let Some(p) = game.players.iter_mut().find(|p| p.id == player_id) {
             upsert_transfer_offer(
                 p,
                 &user_team_id,
                 Some(&destination_team_id),
-                fee,
+                free_agent_fee,
                 TransferOfferStatus::Accepted,
                 &date,
-                Some(fee),
+                Some(free_agent_fee),
                 1,
                 None,
             );
+            if let Some(last_id) = p.transfer_offers.last().map(|x| x.id.clone()) {
+                if let Some(o) = p.transfer_offers.iter_mut().find(|o| o.id == last_id) {
+                    o.players_included = included_items.clone();
+                }
+            }
         }
 
         execute_free_agent_signing_with_payer(
@@ -1101,8 +1189,18 @@ pub fn make_transfer_bid(
             player_id,
             &destination_team_id,
             &user_team_id,
-            fee,
+            free_agent_fee,
         )?;
+
+        for item in &included_items {
+            execute_transfer(
+                game,
+                &item.player_id,
+                &destination_team_id,
+                &user_team_id,
+                0,
+            )?;
+        }
 
         let player_name = game
             .players
@@ -1111,7 +1209,7 @@ pub fn make_transfer_bid(
             .map(|p| p.match_name.clone())
             .unwrap_or_default();
 
-        let msg = crate::messages::transfer_complete_message(&player_name, fee, &date);
+        let msg = crate::messages::transfer_complete_message(&player_name, free_agent_fee, &date);
         game.messages.push(msg);
 
         return Ok(transfer_outcome(
@@ -1140,8 +1238,6 @@ pub fn make_transfer_bid(
 
     let buyer_team = my_team;
 
-    let current_date = game.clock.current_date.date_naive();
-
     let threshold = minimum_acceptable_fee(current_date, player, owner_team, buyer_team);
     let existing_offer = find_open_offer_from_club(player, &user_team_id);
     let previous_fee = existing_offer.map(|offer| offer.fee);
@@ -1160,7 +1256,8 @@ pub fn make_transfer_bid(
     } else {
         0
     };
-    let adjusted_threshold = threshold.saturating_sub(concession);
+    let effective_threshold = threshold.saturating_sub(total_included_value);
+    let adjusted_threshold = effective_threshold.saturating_sub(concession);
     let counter_floor_ratio = if round >= 2 && stalled {
         0.94
     } else if round >= 3 {
@@ -1216,9 +1313,13 @@ pub fn make_transfer_bid(
                 round,
                 None,
             );
+            if let Some(last_id) = p.transfer_offers.last().map(|x| x.id.clone()) {
+                if let Some(o) = p.transfer_offers.iter_mut().find(|o| o.id == last_id) {
+                    o.players_included = included_items.clone();
+                }
+            }
         }
 
-        // Execute transfer
         execute_transfer_with_payer(
             game,
             player_id,
@@ -1228,7 +1329,16 @@ pub fn make_transfer_bid(
             &user_team_id,
         )?;
 
-        // Generate message
+        for item in &included_items {
+            execute_transfer(
+                game,
+                &item.player_id,
+                &owner_team_id,
+                &user_team_id,
+                0,
+            )?;
+        }
+
         let player_name = game
             .players
             .iter()
@@ -1451,11 +1561,16 @@ pub fn counter_offer(
     player_id: &str,
     offer_id: &str,
     requested_fee: u64,
+    included_player_ids: &[String],
 ) -> Result<TransferNegotiationOutcome, String> {
     expire_stale_transfer_offers(game);
 
     if !transfer_window_is_open(game) {
         return Err("Transfer window is closed".into());
+    }
+
+    if included_player_ids.len() > 2 {
+        return Err("Maximum 2 players can be included in a deal".into());
     }
 
     let user_team_id = game.manager.team_id.clone().ok_or("No user team")?;
@@ -1473,7 +1588,39 @@ pub fn counter_offer(
         .ok_or("Offer not found or not pending")?;
     let player_snapshot = player.clone();
 
-    if requested_fee <= offer.fee {
+    let current_date = game.clock.current_date.date_naive();
+
+    let included_items: Vec<PlayerOfferItem> = included_player_ids
+        .iter()
+        .map(|pid| {
+            let p = game
+                .players
+                .iter()
+                .find(|p| p.id == pid.as_str() && p.team_id.as_deref() == Some(&user_team_id))
+                .ok_or_else(|| format!("Included player {} not found or not yours", pid))?;
+
+            if p.transfer_offers.iter().any(|o| o.status == TransferOfferStatus::Pending) {
+                return Err(format!("Player {} already has a pending transfer offer", pid));
+            }
+
+            let days = contract_days_remaining(current_date, p.contract_end.as_deref())
+                .ok_or_else(|| format!("Player {} has no active contract", pid))?;
+            if days <= 0 {
+                return Err(format!("Player {} has an expired contract", pid));
+            }
+
+            let valuation = calculate_player_offer_value(current_date, p);
+            Ok(PlayerOfferItem {
+                player_id: pid.clone(),
+                player_name: p.match_name.clone(),
+                valuation,
+            })
+        })
+        .collect::<Result<Vec<_>, String>>()?;
+
+    let total_included_value: u64 = included_items.iter().map(|item| item.valuation).sum();
+
+    if requested_fee <= offer.fee && included_items.is_empty() {
         return Err("Counter offer must exceed current offer".into());
     }
 
@@ -1484,7 +1631,6 @@ pub fn counter_offer(
         .ok_or("Buying team not found")?;
 
     let buyer_team_id = buyer_team.id.clone();
-    let current_date = game.clock.current_date.date_naive();
     let round = offer.negotiation_round.max(1).saturating_add(1);
     let respected_signal = offer
         .suggested_counter_fee
@@ -1494,49 +1640,51 @@ pub fn counter_offer(
     let (tension, patience) = transfer_negotiation_metrics(round, stalled, respected_signal);
     let counter_ceiling =
         buyer_counter_offer_ceiling(current_date, &player_snapshot, offer.fee, buyer_team);
+    let adjusted_ceiling = counter_ceiling.saturating_add(total_included_value);
     let budget_cap =
         (buyer_team.transfer_budget.max(0) as u64).min(buyer_team.finance.max(0) as u64);
     let goodwill_margin = if respected_signal { 50_000 } else { 0 };
     let accepted = requested_fee
-        <= counter_ceiling
+        <= adjusted_ceiling
             .saturating_add(goodwill_margin)
             .min(budget_cap);
     let counter_window =
-        ((counter_ceiling as f64) * if round >= 3 && stalled { 1.03 } else { 1.08 }).round() as u64;
+        ((adjusted_ceiling as f64) * if round >= 3 && stalled { 1.03 } else { 1.08 }).round()
+            as u64;
     let date = game.clock.current_date.format("%Y-%m-%d").to_string();
 
-    if let Some(player) = game
-        .players
-        .iter_mut()
-        .find(|player| player.id == player_id)
-        && let Some(offer) = player
-            .transfer_offers
-            .iter_mut()
-            .find(|offer| offer.id == offer_id)
+    if let Some(p) = game.players.iter_mut().find(|p| p.id == player_id)
+        && let Some(o) = p.transfer_offers.iter_mut().find(|o| o.id == offer_id)
     {
         if accepted {
-            offer.fee = requested_fee;
-            offer.status = TransferOfferStatus::Accepted;
-            offer.last_manager_fee = Some(requested_fee);
-            offer.negotiation_round = round;
-            offer.suggested_counter_fee = None;
+            o.fee = requested_fee;
+            o.status = TransferOfferStatus::Accepted;
+            o.last_manager_fee = Some(requested_fee);
+            o.negotiation_round = round;
+            o.suggested_counter_fee = None;
+            o.players_included = included_items.clone();
         } else if requested_fee > counter_window {
-            offer.status = TransferOfferStatus::Rejected;
-            offer.last_manager_fee = Some(requested_fee);
-            offer.negotiation_round = round;
-            offer.suggested_counter_fee = None;
+            o.status = TransferOfferStatus::Rejected;
+            o.last_manager_fee = Some(requested_fee);
+            o.negotiation_round = round;
+            o.suggested_counter_fee = None;
         }
-        offer.date = date.clone();
+        o.date = date.clone();
     }
 
     if accepted {
-        execute_transfer(
-            game,
-            player_id,
-            &buyer_team_id,
-            &user_team_id,
-            requested_fee,
-        )?;
+        execute_transfer(game, player_id, &buyer_team_id, &user_team_id, requested_fee)?;
+
+        for item in &included_items {
+            execute_transfer(
+                game,
+                &item.player_id,
+                &buyer_team_id,
+                &user_team_id,
+                0,
+            )?;
+        }
+
         return Ok(transfer_outcome(
             TransferNegotiationDecision::Accepted,
             None,
@@ -1555,21 +1703,15 @@ pub fn counter_offer(
 
     if requested_fee <= counter_window {
         let suggested_fee = round_transfer_fee(counter_ceiling);
-        if let Some(player) = game
-            .players
-            .iter_mut()
-            .find(|player| player.id == player_id)
-            && let Some(offer) = player
-                .transfer_offers
-                .iter_mut()
-                .find(|offer| offer.id == offer_id)
+        if let Some(p) = game.players.iter_mut().find(|p| p.id == player_id)
+            && let Some(o) = p.transfer_offers.iter_mut().find(|o| o.id == offer_id)
         {
-            offer.fee = suggested_fee;
-            offer.status = TransferOfferStatus::Pending;
-            offer.last_manager_fee = Some(requested_fee);
-            offer.negotiation_round = round;
-            offer.suggested_counter_fee = Some(suggested_fee);
-            offer.date = date;
+            o.fee = suggested_fee;
+            o.status = TransferOfferStatus::Pending;
+            o.last_manager_fee = Some(requested_fee);
+            o.negotiation_round = round;
+            o.suggested_counter_fee = Some(suggested_fee);
+            o.date = date;
         }
 
         return Ok(transfer_outcome(

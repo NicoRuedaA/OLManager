@@ -72,8 +72,30 @@ pub fn make_transfer_bid(
     player_id: String,
     fee: u64,
     destination: Option<TransferDestination>,
+    included_player_ids: Vec<String>,
 ) -> Result<TransferNegotiationCommandResponse, String> {
-    make_transfer_bid_internal(&state, &player_id, fee, destination.unwrap_or_default())
+    make_transfer_bid_internal(&state, &player_id, fee, destination.unwrap_or_default(), &included_player_ids)
+}
+
+fn make_transfer_bid_internal(
+    state: &StateManager,
+    player_id: &str,
+    fee: u64,
+    destination: TransferDestination,
+    included_player_ids: &[String],
+) -> Result<TransferNegotiationCommandResponse, String> {
+    info!(
+        "[cmd] make_transfer_bid: player_id={}, fee={}, included={}",
+        player_id, fee, included_player_ids.len()
+    );
+    let mut game = state
+        .get_game(|g| g.clone())
+        .ok_or("No active game session".to_string())?;
+
+    let result = ofm_core::transfers::make_transfer_bid(&mut game, player_id, fee, destination, included_player_ids)?;
+    state.set_game(game.clone());
+
+    Ok(map_transfer_negotiation_response(result, game))
 }
 
 #[tauri::command]
@@ -89,26 +111,6 @@ pub fn preview_transfer_bid_financial_impact(
         fee,
         destination.unwrap_or_default(),
     )
-}
-
-fn make_transfer_bid_internal(
-    state: &StateManager,
-    player_id: &str,
-    fee: u64,
-    destination: TransferDestination,
-) -> Result<TransferNegotiationCommandResponse, String> {
-    info!(
-        "[cmd] make_transfer_bid: player_id={}, fee={}",
-        player_id, fee
-    );
-    let mut game = state
-        .get_game(|g| g.clone())
-        .ok_or("No active game session".to_string())?;
-
-    let result = ofm_core::transfers::make_transfer_bid(&mut game, player_id, fee, destination)?;
-    state.set_game(game.clone());
-
-    Ok(map_transfer_negotiation_response(result, game))
 }
 
 fn preview_transfer_bid_financial_impact_internal(
@@ -171,8 +173,9 @@ pub fn counter_offer(
     player_id: String,
     offer_id: String,
     requested_fee: u64,
+    included_player_ids: Vec<String>,
 ) -> Result<TransferNegotiationCommandResponse, String> {
-    counter_offer_internal(&state, &player_id, &offer_id, requested_fee)
+    counter_offer_internal(&state, &player_id, &offer_id, requested_fee, &included_player_ids)
 }
 
 fn counter_offer_internal(
@@ -180,16 +183,17 @@ fn counter_offer_internal(
     player_id: &str,
     offer_id: &str,
     requested_fee: u64,
+    included_player_ids: &[String],
 ) -> Result<TransferNegotiationCommandResponse, String> {
     info!(
-        "[cmd] counter_offer: player_id={}, offer_id={}, requested_fee={}",
-        player_id, offer_id, requested_fee
+        "[cmd] counter_offer: player_id={}, offer_id={}, requested_fee={}, included={}",
+        player_id, offer_id, requested_fee, included_player_ids.len()
     );
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let result = ofm_core::transfers::counter_offer(&mut game, player_id, offer_id, requested_fee)?;
+    let result = ofm_core::transfers::counter_offer(&mut game, player_id, offer_id, requested_fee, included_player_ids)?;
     state.set_game(game.clone());
 
     Ok(map_transfer_negotiation_response(result, game))
@@ -336,6 +340,7 @@ mod tests {
             last_manager_fee: None,
             negotiation_round: 1,
             suggested_counter_fee: None,
+            players_included: vec![],
             status: TransferOfferStatus::Pending,
             date: "2026-08-01".to_string(),
         });
@@ -451,7 +456,7 @@ mod tests {
         state.set_game(make_game());
 
         let response =
-            counter_offer_internal(&state, "player-1", "offer-1", 1_050_000).expect("response");
+            counter_offer_internal(&state, "player-1", "offer-1", 1_050_000, &[]).expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::Accepted);
         assert_eq!(response.game.players[0].team_id.as_deref(), Some("team-2"));
@@ -478,7 +483,7 @@ mod tests {
         state.set_game(make_bid_game());
 
         let response =
-            make_transfer_bid_internal(&state, "player-2", 1_050_000, TransferDestination::Main)
+            make_transfer_bid_internal(&state, "player-2", 1_050_000, TransferDestination::Main, &[])
                 .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::Accepted);
@@ -506,7 +511,7 @@ mod tests {
         state.set_game(make_bid_game());
 
         let response =
-            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main)
+            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main, &[])
                 .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::CounterOffer);
@@ -532,13 +537,13 @@ mod tests {
         state.set_game(make_bid_game());
 
         let first =
-            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main)
+            make_transfer_bid_internal(&state, "player-2", 900_000, TransferDestination::Main, &[])
                 .expect("first bid");
         assert_eq!(first.decision, TransferNegotiationDecision::CounterOffer);
         assert_eq!(first.feedback.round, 1);
 
         let second =
-            make_transfer_bid_internal(&state, "player-2", 950_000, TransferDestination::Main)
+            make_transfer_bid_internal(&state, "player-2", 950_000, TransferDestination::Main, &[])
                 .expect("second bid");
 
         assert_eq!(second.decision, TransferNegotiationDecision::Accepted);
@@ -552,7 +557,7 @@ mod tests {
         state.set_game(make_free_agent_bid_game());
 
         let response =
-            make_transfer_bid_internal(&state, "player-fa-1", 450_000, TransferDestination::Main)
+            make_transfer_bid_internal(&state, "player-fa-1", 450_000, TransferDestination::Main, &[])
                 .expect("response");
 
         assert_eq!(response.decision, TransferNegotiationDecision::Accepted);

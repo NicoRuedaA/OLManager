@@ -143,6 +143,21 @@ pub struct PlayerAttributes {
     pub aerial: u8,
 }
 
+impl PlayerAttributes {
+    pub fn overall(&self) -> u8 {
+        ((u32::from(self.dribbling)
+            + u32::from(self.shooting)
+            + u32::from(self.teamwork)
+            + u32::from(self.vision)
+            + u32::from(self.decisions)
+            + u32::from(self.leadership)
+            + u32::from(self.agility)
+            + u32::from(self.composure)
+            + u32::from(self.stamina))
+            / 9) as u8
+    }
+}
+
 fn default_attr() -> u8 {
     50
 }
@@ -358,10 +373,21 @@ pub struct TransferOffer {
     pub negotiation_round: u8,
     #[serde(default)]
     pub suggested_counter_fee: Option<u64>,
+    #[serde(default)]
+    pub players_included: Vec<PlayerOfferItem>,
     #[serde(default = "default_transfer_offer_status")]
     pub status: TransferOfferStatus,
     #[serde(default = "default_transfer_offer_date")]
     pub date: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct PlayerOfferItem {
+    pub player_id: String,
+    pub player_name: String,
+    pub valuation: u64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

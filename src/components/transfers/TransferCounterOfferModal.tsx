@@ -1,11 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type {
   PlayerData,
   TeamData,
-  TransferOfferData,
 } from "../../store/gameStore";
-import { formatVal, getTeamName, positionBadgeVariant } from "../../lib/helpers";
+import { formatVal, getTeamName, positionBadgeVariant, calcAge } from "../../lib/helpers";
 import type { TransferNegotiationResponseData } from "../../services/transfersService";
 import NegotiationFeedbackPanel, {
   type NegotiationFeedbackPanelData,
@@ -27,10 +27,13 @@ interface TransferCounterOfferModalProps {
   counterAmount: string;
   onCounterAmountChange: (value: string) => void;
   counterFeedback: NegotiationFeedbackPanelData | null;
-  activeCounterOffer: TransferOfferData | null;
+  activeCounterOffer: any | null;
   counterResult: TransferNegotiationResponseData["decision"] | "error" | null;
   counterError: string | null;
   counterLoading: boolean;
+  userPlayers: PlayerData[];
+  selectedPlayerIds: string[];
+  onSelectedPlayersChange: (ids: string[]) => void;
   onSubmit: () => void;
   onClose: () => void;
 }
@@ -45,11 +48,22 @@ export default function TransferCounterOfferModal({
   counterResult,
   counterError,
   counterLoading,
+  userPlayers,
+  selectedPlayerIds,
+  onSelectedPlayersChange,
   onSubmit,
   onClose,
 }: TransferCounterOfferModalProps) {
   const { t } = useTranslation();
   const lolRole = getLolRoleForPlayer(counterTarget.player);
+
+  const togglePlayer = (playerId: string) => {
+    if (selectedPlayerIds.includes(playerId)) {
+      onSelectedPlayersChange(selectedPlayerIds.filter((id) => id !== playerId));
+    } else if (selectedPlayerIds.length < 2) {
+      onSelectedPlayersChange([...selectedPlayerIds, playerId]);
+    }
+  };
 
   return (
     <div
@@ -57,7 +71,7 @@ export default function TransferCounterOfferModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-navy-800 rounded-xl shadow-2xl border border-gray-200 dark:border-navy-600 p-6 w-full max-w-sm"
+        className="bg-white dark:bg-navy-800 rounded-xl shadow-2xl border border-gray-200 dark:border-navy-600 p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
         onClick={(event) => event.stopPropagation()}
       >
         <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
@@ -102,6 +116,54 @@ export default function TransferCounterOfferModal({
           onChange={(event) => onCounterAmountChange(event.target.value)}
           className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 mb-3 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
         />
+
+        <div className="mb-3">
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              {t("transfers.includePlayers")}
+            </label>
+            <span className="text-xs text-gray-400">
+              {selectedPlayerIds.length}/2 {t("transfers.playersSelected")}
+            </span>
+          </div>
+          <div className="space-y-1 max-h-48 overflow-y-auto">
+            {userPlayers.map((p) => {
+              const isSelected = selectedPlayerIds.includes(p.id);
+              const age = calcAge(p.date_of_birth);
+              const role = getLolRoleForPlayer(p);
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  disabled={!isSelected && selectedPlayerIds.length >= 2}
+                  onClick={() => togglePlayer(p.id)}
+                  className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs transition-colors ${
+                    isSelected
+                      ? "bg-primary-500/20 border border-primary-500/50"
+                      : "bg-gray-50 dark:bg-navy-700 border border-transparent hover:border-gray-300 dark:hover:border-navy-500 disabled:opacity-40"
+                  }`}
+                >
+                  <Badge variant={positionBadgeVariant(p.position)} size="sm">
+                    {role === "JUNGLE" ? "JG" : role}
+                  </Badge>
+                  <span className="flex-1 text-left text-gray-800 dark:text-gray-200 truncate">
+                    {p.match_name || p.full_name}
+                  </span>
+                  <span className="text-gray-400">{age}yo</span>
+                  <span className="font-semibold text-gray-600 dark:text-gray-300">
+                    {formatVal(p.market_value)}
+                  </span>
+                </button>
+              );
+            })}
+            {userPlayers.length === 0 && (
+              <p className="text-xs text-gray-400 text-center py-2">
+                {t("transfers.noPlayersAvailable")}
+              </p>
+            )}
+          </div>
+        </div>
+
         <NegotiationFeedbackPanel
           feedback={counterFeedback}
           titleKey="transfers.negotiationPulse"

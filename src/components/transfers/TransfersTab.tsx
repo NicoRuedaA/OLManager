@@ -144,6 +144,8 @@ export default function TransfersTab({
   >(null);
   const [counterFeedback, setCounterFeedback] =
     useState<TransferNegotiationFeedbackData | null>(null);
+  const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([]);
+  const [bidSelectedPlayerIds, setBidSelectedPlayerIds] = useState<string[]>([]);
 
   const openBidNegotiation = (player: PlayerData) => {
     const existingOffer = getOutgoingNegotiationOffer(player, userTeamId);
@@ -196,7 +198,7 @@ export default function TransfersTab({
     setBidFeedback(null);
     try {
       const fee = Math.round(parseFloat(bidAmount));
-      const res = await makeTransferBid(bidTarget.id, fee, bidDestination);
+      const res = await makeTransferBid(bidTarget.id, fee, bidDestination, bidSelectedPlayerIds);
       setBidResult(res.decision);
       setBidFeedback(res.feedback);
       if (onGameUpdate) onGameUpdate(res.game);
@@ -208,6 +210,7 @@ export default function TransfersTab({
           setBidTarget(null);
           setBidResult(null);
           setBidFeedback(null);
+          setBidSelectedPlayerIds([]);
         }, 2000);
       }
     } catch (err: any) {
@@ -245,6 +248,7 @@ export default function TransfersTab({
         counterTarget.player.id,
         counterTarget.offerId,
         requestedFee,
+        selectedPlayerIds,
       );
 
       if (onGameUpdate) onGameUpdate(response.game);
@@ -259,6 +263,7 @@ export default function TransfersTab({
           setCounterAmount("");
           setCounterResult(null);
           setCounterFeedback(null);
+          setSelectedPlayerIds([]);
         }, 1500);
       }
     } catch (err: any) {
@@ -278,6 +283,25 @@ export default function TransfersTab({
   ) ?? gameState.teams.find(
     (team) => team.team_kind === "Academy" && team.parent_team_id === myTeam?.id,
   ) ?? null;
+
+  const managedTeamIds = [myTeam?.id, academyTeam?.id].filter(Boolean) as string[];
+  const userPlayersForBid = bidTarget
+    ? gameState.players.filter(
+        (p) =>
+          managedTeamIds.includes(p.team_id ?? "") &&
+          p.id !== bidTarget.id &&
+          p.transfer_offers.every((o) => o.status !== "Pending"),
+      )
+    : [];
+  const userPlayersForCounter = counterTarget
+    ? gameState.players.filter(
+        (p) =>
+          managedTeamIds.includes(p.team_id ?? "") &&
+          p.id !== counterTarget?.player.id &&
+          p.transfer_offers.every((o) => o.status !== "Pending"),
+      )
+    : [];
+
   const activeBidOffer = bidTarget
     ? getOutgoingNegotiationOffer(bidTarget, userTeamId)
     : null;
@@ -844,6 +868,9 @@ export default function TransfersTab({
           bidFeedback={bidFeedback}
           activeBidOffer={activeBidOffer}
           hasExistingOffer={activeBidOffer !== null}
+          userPlayers={userPlayersForBid}
+          selectedPlayerIds={bidSelectedPlayerIds}
+          onSelectedPlayersChange={setBidSelectedPlayerIds}
           bidResult={bidResult}
           bidLoading={bidLoading}
           bidSubmitDisabled={bidSubmitDisabled}
@@ -853,7 +880,9 @@ export default function TransfersTab({
             setBidFeedback(null);
             setBidResult(null);
             setBidProjection(null);
+            setBidSelectedPlayerIds([]);
           }}
+          isFreeAgent={!bidTarget.team_id}
         />
       )}
       {counterTarget && (
@@ -867,6 +896,9 @@ export default function TransfersTab({
           counterResult={counterResult}
           counterError={counterError}
           counterLoading={counterLoading}
+          userPlayers={userPlayersForCounter}
+          selectedPlayerIds={selectedPlayerIds}
+          onSelectedPlayersChange={setSelectedPlayerIds}
           onSubmit={handleCounterOffer}
           onClose={() => {
             setCounterTarget(null);
@@ -874,6 +906,7 @@ export default function TransfersTab({
             setCounterError(null);
             setCounterResult(null);
             setCounterFeedback(null);
+            setSelectedPlayerIds([]);
           }}
         />
       )}
