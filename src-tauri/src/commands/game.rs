@@ -1539,13 +1539,86 @@ pub(crate) fn apply_lol_seed_ratings(players: &mut [Player]) {
     }
 }
 
+fn default_initial_contract_end_for_start_year(start_year: i32) -> String {
+    format!("{}-11-30", start_year + 1)
+}
+
 pub(crate) fn apply_default_initial_contract_end(players: &mut [Player]) {
-    const DEFAULT_INITIAL_CONTRACT_END: &str = "2025-12-20";
+    let default_initial_contract_end = default_initial_contract_end_for_start_year(2025);
 
     for player in players.iter_mut() {
         if player.contract_end.is_none() {
-            player.contract_end = Some(DEFAULT_INITIAL_CONTRACT_END.to_string());
+            player.contract_end = Some(default_initial_contract_end.clone());
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{apply_default_initial_contract_end, default_initial_contract_end_for_start_year};
+    use domain::player::{Player, PlayerAttributes, Position};
+
+    fn default_attrs() -> PlayerAttributes {
+        PlayerAttributes {
+            pace: 60,
+            stamina: 60,
+            strength: 60,
+            agility: 60,
+            passing: 60,
+            shooting: 60,
+            tackling: 60,
+            dribbling: 60,
+            defending: 60,
+            positioning: 60,
+            vision: 60,
+            decisions: 60,
+            composure: 60,
+            aggression: 60,
+            teamwork: 60,
+            leadership: 60,
+            handling: 60,
+            reflexes: 60,
+            aerial: 60,
+        }
+    }
+
+    fn player_with_contract(id: &str, contract_end: Option<&str>) -> Player {
+        let mut player = Player::new(
+            id.to_string(),
+            id.to_string(),
+            id.to_string(),
+            "2000-01-01".to_string(),
+            "ES".to_string(),
+            Position::Midfielder,
+            default_attrs(),
+        );
+        player.contract_end = contract_end.map(str::to_string);
+        player
+    }
+
+    #[test]
+    fn default_initial_contract_end_survives_first_next_season_friendlies() {
+        assert_eq!(
+            default_initial_contract_end_for_start_year(2025),
+            "2026-11-30"
+        );
+        assert_eq!(
+            default_initial_contract_end_for_start_year(2026),
+            "2027-11-30"
+        );
+    }
+
+    #[test]
+    fn apply_default_initial_contract_end_only_fills_missing_contracts() {
+        let mut players = vec![
+            player_with_contract("missing", None),
+            player_with_contract("existing", Some("2028-11-30")),
+        ];
+
+        apply_default_initial_contract_end(&mut players);
+
+        assert_eq!(players[0].contract_end.as_deref(), Some("2026-11-30"));
+        assert_eq!(players[1].contract_end.as_deref(), Some("2028-11-30"));
     }
 }
 
