@@ -700,7 +700,7 @@ fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path:
 
     let embedded_teams = include_str!("../../databases/teams/lec_teams.json");
     let embedded_players = include_str!("../../databases/players/lec_players.json");
-    let embedded_staffs = include_str!("../../databases/staffs/lec_staffs.json");
+    let embedded_staffs = include_str!("../../databases/staffs/free_agents.json");
 
     if !db_dir.join("teams").join("lec_teams.json").exists() {
         std::fs::write(db_dir.join("teams").join("lec_teams.json"), embedded_teams)
@@ -710,8 +710,8 @@ fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path:
         std::fs::write(db_dir.join("players").join("lec_players.json"), embedded_players)
             .map_err(|e| format!("Failed to write fallback players: {}", e))?;
     }
-    if !db_dir.join("staffs").join("lec_staffs.json").exists() {
-        std::fs::write(db_dir.join("staffs").join("lec_staffs.json"), embedded_staffs)
+    if !db_dir.join("staffs").join("free_agents.json").exists() {
+        std::fs::write(db_dir.join("staffs").join("free_agents.json"), embedded_staffs)
             .map_err(|e| format!("Failed to write fallback staff: {}", e))?;
     }
 
@@ -1931,20 +1931,39 @@ pub async fn select_team(
     let season_start = chrono::Utc
         .with_ymd_and_hms(season_year, 1, 18, 0, 0, 0)
         .unwrap();
-    // 9 rounds in 3 superweeks (Sat/Sun/Mon, then +7 days)
-    let winter_round_offsets: [i64; 9] = [0, 1, 2, 7, 8, 9, 14, 15, 16];
-    let team_ids: Vec<String> = game
+    // Calculate round offsets dynamically based on team count
+    // Pattern: 3 rounds per superweek (Sat/Sun/Mon), +7 days between weeks
+    let mut team_ids: Vec<String> = game
         .teams
         .iter()
         .filter(|team| team.team_kind != TeamKind::Academy)
         .map(|team| team.id.clone())
+        .collect();
+    // Limit to a reasonable number for scheduling (too many teams causes insane fixture counts)
+    if team_ids.len() > 20 {
+        team_ids.truncate(20);
+    }
+    if team_ids.len() > 20 {
+        team_ids.truncate(20);
+    }
+    // Ensure even team count for round-robin scheduling
+    if team_ids.len() % 2 != 0 {
+        team_ids.pop();
+    }
+    let num_rounds = team_ids.len().saturating_sub(1);
+    let round_offsets: Vec<i64> = (0..num_rounds)
+        .map(|r| {
+            let week = r as i64 / 3;
+            let day = r as i64 % 3;
+            week * 7 + day
+        })
         .collect();
     let mut league = ofm_core::schedule::generate_single_round_league_with_offsets_and_bo(
         "LEC Winter",
         season_year as u32,
         &team_ids,
         season_start,
-        Some(&winter_round_offsets),
+        Some(&round_offsets),
         ofm_core::schedule::regular_best_of(ofm_core::schedule::LecSplit::Winter),
     );
 

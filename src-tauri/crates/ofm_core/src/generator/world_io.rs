@@ -47,49 +47,100 @@ pub fn export_world_to_json(world: &WorldData) -> Result<String, String> {
 }
 
 /// Load a world from a split directory containing teams/, players/, staff/ subdirectories.
-/// Each subdirectory must contain a JSON file with the corresponding array.
+/// Each subdirectory contains per-league JSON files (e.g. lec_teams.json, lck_teams.json).
+/// All files matching `*_teams.json`, `*_players.json`, `*_staffs.json` are aggregated.
 pub fn load_world_from_split_dir(base_dir: &std::path::Path) -> Result<WorldData, String> {
-    let teams_path = base_dir.join("teams").join("lec_teams.json");
-    let players_path = base_dir.join("players").join("lec_players.json");
-    let staffs_path = base_dir.join("staffs").join("lec_staffs.json");
+    let teams_dir = base_dir.join("teams");
+    let players_dir = base_dir.join("players");
+    let staffs_dir = base_dir.join("staffs");
 
-    let teams_json = std::fs::read_to_string(&teams_path)
-        .map_err(|e| format!("Failed to read {}: {}", teams_path.display(), e))?;
-    let players_json = std::fs::read_to_string(&players_path)
-        .map_err(|e| format!("Failed to read {}: {}", players_path.display(), e))?;
-    let staffs_json = std::fs::read_to_string(&staffs_path)
-        .map_err(|e| format!("Failed to read {}: {}", staffs_path.display(), e))?;
+    let mut all_teams: Vec<domain::team::Team> = Vec::new();
+    let mut all_players: Vec<domain::player::Player> = Vec::new();
+    let mut all_staff: Vec<domain::staff::Staff> = Vec::new();
 
-    let teams_container: serde_json::Value = serde_json::from_str(&teams_json)
-        .map_err(|e| format!("Failed to parse teams: {}", e))?;
-    let players_container: serde_json::Value = serde_json::from_str(&players_json)
-        .map_err(|e| format!("Failed to parse players: {}", e))?;
-    let staffs_container: serde_json::Value = serde_json::from_str(&staffs_json)
-        .map_err(|e| format!("Failed to parse staff: {}", e))?;
+    // Load teams from all *_teams.json files
+    if let Ok(entries) = std::fs::read_dir(&teams_dir) {
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let fname = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+            if !fname.ends_with("_teams.json") || fname.ends_with("_disbanded.json") { continue; }
+            let json = std::fs::read_to_string(&path)
+                .map_err(|e| format!("Failed to read {}: {}", path.display(), e))?;
+            let container: serde_json::Value = serde_json::from_str(&json)
+                .map_err(|e| format!("Failed to parse {}: {}", path.display(), e))?;
+            let teams: Vec<domain::team::Team> = serde_json::from_value(container["teams"].clone())
+                .map_err(|e| format!("Failed to deserialize teams from {}: {}", path.display(), e))?;
+            all_teams.extend(teams);
+        }
+    }
 
-    let name = teams_container["name"]
-        .as_str()
-        .unwrap_or("LEC 2026")
-        .to_string();
-    let description = teams_container["description"]
-        .as_str()
-        .unwrap_or("")
-        .to_string();
-    let teams: Vec<domain::team::Team> = serde_json::from_value(teams_container["teams"].clone())
-        .map_err(|e| format!("Failed to deserialize teams: {}", e))?;
-    let players: Vec<domain::player::Player> =
-        serde_json::from_value(players_container["players"].clone())
-            .map_err(|e| format!("Failed to deserialize players: {}", e))?;
-    let staff: Vec<domain::staff::Staff> =
-        serde_json::from_value(staffs_container["staff"].clone())
-            .map_err(|e| format!("Failed to deserialize staff: {}", e))?;
+    // Load players from all *_players.json files (except free_agents which have no team_id)
+    if let Ok(entries) = std::fs::read_dir(&players_dir) {
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let fname = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+            if !fname.ends_with("_players.json") { continue; }
+            let json = std::fs::read_to_string(&path)
+                .map_err(|e| format!("Failed to read {}: {}", path.display(), e))?;
+            let container: serde_json::Value = serde_json::from_str(&json)
+                .map_err(|e| format!("Failed to parse {}: {}", path.display(), e))?;
+            let players: Vec<domain::player::Player> = serde_json::from_value(container["players"].clone())
+                .map_err(|e| format!("Failed to deserialize players from {}: {}", path.display(), e))?;
+            all_players.extend(players);
+        }
+    }
+
+    // Load free agents if present
+    let free_agents_path = players_dir.join("free_agents.json");
+    if free_agents_path.exists() {
+        let json = std::fs::read_to_string(&free_agents_path)
+            .map_err(|e| format!("Failed to read {}: {}", free_agents_path.display(), e))?;
+        let container: serde_json::Value = serde_json::from_str(&json)
+            .map_err(|e| format!("Failed to parse free agents: {}", e))?;
+        let players: Vec<domain::player::Player> = serde_json::from_value(container["players"].clone())
+            .map_err(|e| format!("Failed to deserialize free agents: {}", e))?;
+        all_players.extend(players);
+    }
+
+    // Load staff from all *_staffs.json files
+    if let Ok(entries) = std::fs::read_dir(&staffs_dir) {
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let fname = path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+            if !fname.ends_with("_staffs.json") { continue; }
+            let json = std::fs::read_to_string(&path)
+                .map_err(|e| format!("Failed to read {}: {}", path.display(), e))?;
+            let container: serde_json::Value = serde_json::from_str(&json)
+                .map_err(|e| format!("Failed to parse {}: {}", path.display(), e))?;
+            let staff: Vec<domain::staff::Staff> = serde_json::from_value(container["staff"].clone())
+                .map_err(|e| format!("Failed to deserialize staff from {}: {}", path.display(), e))?;
+            all_staff.extend(staff);
+        }
+    }
+
+    // Load free agent staff if present
+    let free_staff_path = staffs_dir.join("free_agents.json");
+    if free_staff_path.exists() {
+        let json = std::fs::read_to_string(&free_staff_path)
+            .map_err(|e| format!("Failed to read {}: {}", free_staff_path.display(), e))?;
+        let container: serde_json::Value = serde_json::from_str(&json)
+            .map_err(|e| format!("Failed to parse free staff: {}", e))?;
+        let staff: Vec<domain::staff::Staff> = serde_json::from_value(container["staff"].clone())
+            .map_err(|e| format!("Failed to deserialize free staff: {}", e))?;
+        all_staff.extend(staff);
+    }
 
     let mut world = WorldData {
-        name,
-        description,
-        teams,
-        players,
-        staff,
+        name: "World".to_string(),
+        description: format!(
+            "{} teams, {} players, {} staff",
+            all_teams.len(),
+            all_players.len(),
+            all_staff.len()
+        ),
+        teams: all_teams,
+        players: all_players,
+        staff: all_staff,
     };
     crate::identity_upgrade::upgrade_world_football_identities(
         &mut world.teams,
