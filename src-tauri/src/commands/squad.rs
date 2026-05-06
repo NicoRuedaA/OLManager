@@ -509,9 +509,15 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
     // Sort by defensive ability (most defensive first)
     let mut sorted_ids = player_ids.clone();
     sorted_ids.sort_by(|a_id, b_id| {
-        let pa = game.players.iter().find(|p| p.id == *a_id)
+        let pa = game
+            .players
+            .iter()
+            .find(|p| p.id == *a_id)
             .expect("set_formation: player should exist in game state");
-        let pb = game.players.iter().find(|p| p.id == *b_id)
+        let pb = game
+            .players
+            .iter()
+            .find(|p| p.id == *b_id)
             .expect("set_formation: player should exist in game state");
         let def_a = pa.attributes.defending as u16
             + pa.attributes.tackling as u16
@@ -1784,17 +1790,17 @@ pub fn set_player_champion_training_target(
 }
 
 #[tauri::command]
-pub fn delegate_champion_training(
-    state: State<'_, StateManager>,
-) -> Result<Game, String>
-{
+pub fn delegate_champion_training(state: State<'_, StateManager>) -> Result<Game, String> {
     info!("[cmd] delegate_champion_training");
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
     let updated = ofm_core::champions::delegate_champion_training_to_coach(&mut game)?;
-    info!("[cmd] delegate_champion_training: updated {} players", updated);
+    info!(
+        "[cmd] delegate_champion_training: updated {} players",
+        updated
+    );
 
     state.set_game(game.clone());
     Ok(game)

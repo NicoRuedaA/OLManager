@@ -372,8 +372,8 @@ mod tests {
         state.set_save_id("save-99".to_string());
 
         // Read multiple fields under the same lock via with_session
-        let (game_len, save_id) = state
-            .with_session(|s| (s.game.as_ref().map(|g| g.teams.len()), s.save_id.clone()));
+        let (game_len, save_id) =
+            state.with_session(|s| (s.game.as_ref().map(|g| g.teams.len()), s.save_id.clone()));
         assert_eq!(game_len, Some(2));
         assert_eq!(save_id, Some("save-99".to_string()));
     }

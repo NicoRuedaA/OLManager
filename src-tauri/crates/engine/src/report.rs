@@ -186,8 +186,7 @@ impl MatchReport {
                     if !pid.is_empty() {
                         player_stats.entry(pid.to_string()).or_default().kills += 1;
                     }
-                    if let Some(victim_id) = event.secondary_player_id.as_ref()
-                    {
+                    if let Some(victim_id) = event.secondary_player_id.as_ref() {
                         player_stats.entry(victim_id.clone()).or_default().deaths += 1;
                     }
                 }

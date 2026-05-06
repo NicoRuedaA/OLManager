@@ -1,5 +1,5 @@
 use rusqlite::{Connection, Transaction};
-use rusqlite_migration::{HookResult, Migrations, M};
+use rusqlite_migration::{HookResult, M, Migrations};
 
 fn column_exists(tx: &Transaction<'_>, table: &str, column: &str) -> rusqlite::Result<bool> {
     let mut stmt = tx.prepare(&format!("PRAGMA table_info({table})"))?;
@@ -98,10 +98,20 @@ fn migrate_stadium_to_arena_capacity(tx: &Transaction<'_>) -> HookResult {
 /// then recreates each table via CREATE TABLE AS (SQLite lacks DROP COLUMN).
 fn migrate_drop_football_nation(tx: &Transaction<'_>) -> HookResult {
     // Add missing columns (safe: no-op if already present)
-    add_column_if_missing(tx, "players", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
+    add_column_if_missing(
+        tx,
+        "players",
+        "nationality_code",
+        "TEXT NOT NULL DEFAULT ''",
+    )?;
     add_column_if_missing(tx, "players", "competitive_region", "TEXT")?;
     add_column_if_missing(tx, "players", "profile_image_url", "TEXT")?;
-    add_column_if_missing(tx, "managers", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
+    add_column_if_missing(
+        tx,
+        "managers",
+        "nationality_code",
+        "TEXT NOT NULL DEFAULT ''",
+    )?;
     add_column_if_missing(tx, "managers", "competitive_region", "TEXT")?;
     add_column_if_missing(tx, "managers", "avatar_path", "TEXT")?;
     add_column_if_missing(tx, "staff", "nationality_code", "TEXT NOT NULL DEFAULT ''")?;
@@ -131,9 +141,7 @@ fn migrate_audit_teams_legacy(tx: &Transaction<'_>) -> HookResult {
             non_default
         );
     } else {
-        log::info!(
-            "[migration] V40 audit: no teams use legacy columns — safe to remove"
-        );
+        log::info!("[migration] V40 audit: no teams use legacy columns — safe to remove");
     }
     Ok(())
 }

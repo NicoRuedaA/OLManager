@@ -181,7 +181,11 @@ fn incomplete_starting_xi_blocker(
 
     // For LoL, require only 5 roles instead of 11-player Starting XI
     let required_count = if is_lol_mode(roster) { 5 } else { 11 };
-    let count_text = if is_lol_mode(roster) { "5 Starter Roles" } else { "Starting XI" };
+    let count_text = if is_lol_mode(roster) {
+        "5 Starter Roles"
+    } else {
+        "Starting XI"
+    };
 
     // Check minimum quantity first
     if healthy_xi < required_count && roster.len() >= required_count {
@@ -220,7 +224,11 @@ fn incomplete_starting_xi_blocker(
         if !missing_roles.is_empty() {
             // Build role-specific message
             let role_list = missing_roles.join(", ");
-            let role_article = if missing_roles.len() == 1 { "rol" } else { "roles" };
+            let role_article = if missing_roles.len() == 1 {
+                "rol"
+            } else {
+                "roles"
+            };
             return Some(build_blocker(
                 "incomplete_xi",
                 "warn",

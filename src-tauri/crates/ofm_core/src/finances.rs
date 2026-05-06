@@ -317,12 +317,8 @@ pub fn process_weekly_finances(game: &mut Game) {
                 let mut rng = rand::rng();
                 let attendance_pct = rng.random_range(15..=30) as f64 / 100.0;
                 let avg_ticket = rng.random_range(4..=8) as f64;
-                let total_revenue = calc_matchday(
-                    team.arena_capacity,
-                    home_count,
-                    attendance_pct,
-                    avg_ticket,
-                );
+                let total_revenue =
+                    calc_matchday(team.arena_capacity, home_count, attendance_pct, avg_ticket);
 
                 team.finance += total_revenue;
                 team.season_income += total_revenue;

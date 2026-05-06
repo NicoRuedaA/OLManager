@@ -1,10 +1,13 @@
 // Pre-existing clippy warnings tracked in #92
-#![allow(clippy::manual_range_contains, clippy::bool_to_int_with_if, clippy::field_reassign_with_default)]
+#![allow(
+    clippy::manual_range_contains,
+    clippy::bool_to_int_with_if,
+    clippy::field_reassign_with_default
+)]
 
 use engine::LolRole;
 use engine::{
-    EventType, MatchConfig, MatchEvent, PlayStyle, PlayerData, Side, TeamData, Zone,
-    simulate_lol,
+    EventType, MatchConfig, MatchEvent, PlayStyle, PlayerData, Side, TeamData, Zone, simulate_lol,
 };
 use rand::SeedableRng;
 use rand::rngs::StdRng;
@@ -294,8 +297,16 @@ fn goals_in_report_match_score() {
     for seed in 0..20 {
         let report = simulate_lol(&home, &away, &config, &mut seeded_rng(seed));
 
-        let home_goal_count = report.kill_feed.iter().filter(|g| g.side == Side::Home).count() as u8;
-        let away_goal_count = report.kill_feed.iter().filter(|g| g.side == Side::Away).count() as u8;
+        let home_goal_count = report
+            .kill_feed
+            .iter()
+            .filter(|g| g.side == Side::Home)
+            .count() as u8;
+        let away_goal_count = report
+            .kill_feed
+            .iter()
+            .filter(|g| g.side == Side::Away)
+            .count() as u8;
 
         assert_eq!(
             report.home_stats.kills, home_goal_count as u16,
@@ -694,7 +705,8 @@ fn all_play_styles_produce_valid_report() {
             assert!(
                 !report.events.is_empty(),
                 "No events for {:?} vs {:?}",
-                home_style, away_style
+                home_style,
+                away_style
             );
         }
     }
@@ -721,7 +733,11 @@ fn minimal_team_doesnt_crash() {
     let normal = make_team("normal", "Normal FC", 60, PlayStyle::Balanced);
     let config = MatchConfig::default();
     let report = simulate_lol(&minimal, &normal, &config, &mut seeded_rng(1));
-    assert!(report.total_minutes >= 55, "Minimal team match only lasted {} min", report.total_minutes);
+    assert!(
+        report.total_minutes >= 55,
+        "Minimal team match only lasted {} min",
+        report.total_minutes
+    );
 }
 
 // ---------------------------------------------------------------------------
@@ -736,7 +752,12 @@ fn extreme_skill_disparity_no_crash() {
 
     for seed in 0..10 {
         let report = simulate_lol(&elite, &amateur, &config, &mut seeded_rng(seed));
-        assert!(report.total_minutes >= 55, "Seed {} only lasted {} min", seed, report.total_minutes);
+        assert!(
+            report.total_minutes >= 55,
+            "Seed {} only lasted {} min",
+            seed,
+            report.total_minutes
+        );
         // Elite team should generally score more
         assert!(
             report.home_wins >= report.away_wins || seed > 0,

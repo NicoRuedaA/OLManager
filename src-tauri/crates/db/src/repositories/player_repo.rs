@@ -1,6 +1,6 @@
 use domain::player::{Footedness, Player, PlayerAttributes};
 use domain::team::TrainingFocus;
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 /// Insert or replace a player row.
 pub fn upsert_player(conn: &Connection, p: &Player) -> Result<(), String> {

@@ -2,7 +2,7 @@ use domain::social::{
     SocialAccount, SocialAuthorType, SocialPost, SocialPostCategory, SocialSentiment,
     SocialTemplate,
 };
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 pub fn upsert_social_post(conn: &Connection, post: &SocialPost) -> Result<(), String> {
     let tags_json = serde_json::to_string(&post.tags).map_err(|e| format!("JSON error: {}", e))?;
@@ -142,7 +142,8 @@ pub fn load_social_accounts(conn: &Connection) -> Result<Vec<SocialAccount>, Str
                 handle: row.get(3)?,
                 author_type: parse_author_type(&author_type),
                 profile_image_url: row.get(5)?,
-                favorite_team_ids: serde_json::from_str(&favorite_team_ids_json).unwrap_or_default(),
+                favorite_team_ids: serde_json::from_str(&favorite_team_ids_json)
+                    .unwrap_or_default(),
                 active: active != 0,
             })
         })
@@ -155,7 +156,10 @@ pub fn load_social_accounts(conn: &Connection) -> Result<Vec<SocialAccount>, Str
     Ok(items)
 }
 
-pub fn upsert_social_templates(conn: &Connection, templates: &[SocialTemplate]) -> Result<(), String> {
+pub fn upsert_social_templates(
+    conn: &Connection,
+    templates: &[SocialTemplate],
+) -> Result<(), String> {
     for template in templates {
         let variants_json =
             serde_json::to_string(&template.variants).map_err(|e| format!("JSON error: {}", e))?;

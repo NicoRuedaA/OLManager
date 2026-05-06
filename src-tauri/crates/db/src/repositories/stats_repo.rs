@@ -2,7 +2,7 @@ use domain::league::FixtureCompetition;
 use domain::stats::{
     LolRole, MatchOutcome, PlayerMatchStatsRecord, StatsState, TeamMatchStatsRecord, TeamSide,
 };
-use rusqlite::{params, Connection, OptionalExtension};
+use rusqlite::{Connection, OptionalExtension, params};
 
 const LOL_PLAYER_TABLE: &str = "lol_player_match_stats";
 const LOL_TEAM_TABLE: &str = "lol_team_match_stats";

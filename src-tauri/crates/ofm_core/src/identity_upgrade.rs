@@ -84,16 +84,30 @@ mod tests {
     use crate::game::Game;
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, LolRole};
+    use domain::player::{LolRole, Player, PlayerAttributes};
     use domain::team::Team;
 
     fn sample_attrs() -> PlayerAttributes {
         PlayerAttributes {
-            pace: 70, stamina: 70, strength: 70, agility: 70,
-            passing: 70, shooting: 70, tackling: 70, dribbling: 70,
-            defending: 70, positioning: 70, vision: 70, decisions: 70,
-            composure: 70, aggression: 70, teamwork: 70, leadership: 70,
-            handling: 20, reflexes: 20, aerial: 60,
+            pace: 70,
+            stamina: 70,
+            strength: 70,
+            agility: 70,
+            passing: 70,
+            shooting: 70,
+            tackling: 70,
+            dribbling: 70,
+            defending: 70,
+            positioning: 70,
+            vision: 70,
+            decisions: 70,
+            composure: 70,
+            aggression: 70,
+            teamwork: 70,
+            leadership: 70,
+            handling: 20,
+            reflexes: 20,
+            aerial: 60,
         }
     }
 
@@ -101,27 +115,37 @@ mod tests {
     fn upgrade_game_football_identities_populates_birth_country() {
         let clock = GameClock::new(Utc.with_ymd_and_hms(2026, 7, 1, 0, 0, 0).unwrap());
         let mut manager = Manager::new(
-            "mgr".to_string(), "Ada".to_string(), "Lovelace".to_string(),
-            "1980-01-01".to_string(), "British".to_string(),
+            "mgr".to_string(),
+            "Ada".to_string(),
+            "Lovelace".to_string(),
+            "1980-01-01".to_string(),
+            "British".to_string(),
         );
         manager.hire("t1".to_string());
 
         let mut player = Player::new(
-            "p1".to_string(), "J. Smith".to_string(), "John Smith".to_string(),
-            "2000-01-01".to_string(), "English".to_string(),
-            LolRole::Mid, sample_attrs(),
+            "p1".to_string(),
+            "J. Smith".to_string(),
+            "John Smith".to_string(),
+            "2000-01-01".to_string(),
+            "English".to_string(),
+            LolRole::Mid,
+            sample_attrs(),
         );
         player.birth_country = None;
         player.team_id = Some("t1".to_string());
 
         let team = Team::new(
-            "t1".to_string(), "London FC".to_string(), "LON".to_string(),
-            "GB".to_string(), "London".to_string(), "Arena".to_string(), 50000,
+            "t1".to_string(),
+            "London FC".to_string(),
+            "LON".to_string(),
+            "GB".to_string(),
+            "London".to_string(),
+            "Arena".to_string(),
+            50000,
         );
 
-        let mut game = Game::new(
-            clock, manager, vec![team], vec![player], vec![], vec![],
-        );
+        let mut game = Game::new(clock, manager, vec![team], vec![player], vec![], vec![]);
         game.players[0].birth_country = None;
 
         let changed = upgrade_game_football_identities(&mut game);

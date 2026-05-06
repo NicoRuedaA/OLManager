@@ -69,7 +69,7 @@ pub fn transition_daily_scrim_flow(
         _ => {
             return Err(format!(
                 "Invalid scrim flow transition: state={state:?}, event={event:?}"
-            ))
+            ));
         }
     };
 

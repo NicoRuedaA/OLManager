@@ -6,8 +6,6 @@ use crate::board_objectives;
 use crate::champions;
 use crate::end_of_season;
 use crate::game::Game;
-use domain::player::LolRole as DomainLolRole;
-use engine::LolRole as EngineLolRole;
 use crate::player_events;
 use crate::potential;
 use crate::random_events;
@@ -18,8 +16,10 @@ use crate::transfers;
 use chrono::Datelike;
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, MatchResult};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
+use domain::player::LolRole as DomainLolRole;
 use domain::stats::StatsState;
 use domain::team::{Team, TeamKind, TeamSeasonRecord};
+use engine::LolRole as EngineLolRole;
 use log::{debug, info};
 use std::collections::HashMap;
 use uuid::Uuid;
@@ -175,34 +175,32 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         .players
         .iter()
         .filter(|p| p.team_id.as_deref() == Some(team_id))
-        .map(|p| {
-            engine::PlayerData {
-                id: p.id.clone(),
-                name: p.match_name.clone(),
-                role: to_engine_role(p.natural_position),
-                condition: p.condition,
-                fitness: p.fitness,
-                pace: p.attributes.pace,
-                stamina: p.attributes.stamina,
-                strength: p.attributes.strength,
-                agility: p.attributes.agility,
-                passing: p.attributes.passing,
-                shooting: p.attributes.shooting,
-                tackling: p.attributes.tackling,
-                dribbling: p.attributes.dribbling,
-                defending: p.attributes.defending,
-                positioning: p.attributes.positioning,
-                vision: p.attributes.vision,
-                decisions: p.attributes.decisions,
-                composure: p.attributes.composure,
-                aggression: p.attributes.aggression,
-                teamwork: p.attributes.teamwork,
-                leadership: p.attributes.leadership,
-                handling: p.attributes.handling,
-                reflexes: p.attributes.reflexes,
-                aerial: p.attributes.aerial,
-                traits: p.traits.iter().map(|t| format!("{:?}", t)).collect(),
-            }
+        .map(|p| engine::PlayerData {
+            id: p.id.clone(),
+            name: p.match_name.clone(),
+            role: to_engine_role(p.natural_position),
+            condition: p.condition,
+            fitness: p.fitness,
+            pace: p.attributes.pace,
+            stamina: p.attributes.stamina,
+            strength: p.attributes.strength,
+            agility: p.attributes.agility,
+            passing: p.attributes.passing,
+            shooting: p.attributes.shooting,
+            tackling: p.attributes.tackling,
+            dribbling: p.attributes.dribbling,
+            defending: p.attributes.defending,
+            positioning: p.attributes.positioning,
+            vision: p.attributes.vision,
+            decisions: p.attributes.decisions,
+            composure: p.attributes.composure,
+            aggression: p.attributes.aggression,
+            teamwork: p.attributes.teamwork,
+            leadership: p.attributes.leadership,
+            handling: p.attributes.handling,
+            reflexes: p.attributes.reflexes,
+            aerial: p.attributes.aerial,
+            traits: p.traits.iter().map(|t| format!("{:?}", t)).collect(),
         })
         .collect();
 

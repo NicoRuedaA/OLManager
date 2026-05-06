@@ -2,13 +2,13 @@ use crate::game::Game;
 use crate::staff_effects::LolStaffEffects;
 use chrono::{Datelike, NaiveDate};
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
 use domain::staff::StaffRole;
 use rand::RngExt;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
     pairs
@@ -731,7 +731,12 @@ pub fn delegate_champion_training_to_coach(game: &mut Game) -> Result<usize, Str
     let mastery_map: HashMap<String, u8> = game
         .champion_masteries
         .iter()
-        .map(|e| (format!("{}:{}", e.player_id, normalize_key(&e.champion_id)), e.mastery))
+        .map(|e| {
+            (
+                format!("{}:{}", e.player_id, normalize_key(&e.champion_id)),
+                e.mastery,
+            )
+        })
         .collect();
 
     let get_mastery = |player_id: &str, champ_id: &str| -> u8 {
@@ -827,7 +832,11 @@ pub fn delegate_champion_training_to_coach(game: &mut Game) -> Result<usize, Str
 
     let mut updated_count = 0;
     for (player_id, targets) in &results {
-        let player = game.players.iter_mut().find(|p| p.id == *player_id).unwrap();
+        let player = game
+            .players
+            .iter_mut()
+            .find(|p| p.id == *player_id)
+            .unwrap();
         let old_targets = player.champion_training_targets.clone();
         player.champion_training_targets = targets.clone();
         player.champion_training_targets.resize(3, String::new());

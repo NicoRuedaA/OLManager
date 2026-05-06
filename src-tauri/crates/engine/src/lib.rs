@@ -1,5 +1,9 @@
 // Pre-existing clippy warnings tracked in #92
-#![allow(clippy::new_without_default, clippy::collapsible_if, clippy::useless_conversion)]
+#![allow(
+    clippy::new_without_default,
+    clippy::collapsible_if,
+    clippy::useless_conversion
+)]
 
 pub mod ai;
 pub mod engine;
@@ -14,10 +18,8 @@ pub use engine::simulate_lol;
 pub use event::{EventType, MatchEvent};
 pub use live_match::LolRole;
 pub use live_match::{
-    LiveMatchState, MatchCommand, MatchPhase, MatchSnapshot, MinuteResult, TeamRoles,
-    SubstitutionRecord,
+    LiveMatchState, MatchCommand, MatchPhase, MatchSnapshot, MinuteResult, SubstitutionRecord,
+    TeamRoles,
 };
-pub use report::{
-    KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats,
-};
+pub use report::{KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
 pub use types::{MatchConfig, PlayStyle, PlayerData, Side, TeamData, Zone};

@@ -6,8 +6,8 @@ use engine::report::{MatchReport, PlayerMatchStats};
 use crate::game::Game;
 use crate::social_registry::{default_social_accounts, social_author};
 use crate::social_templates::{
-    default_social_templates, select_match_template_for_language, MatchTemplateContext,
-    MatchTemplateSlot, SelectedMatchTemplate,
+    MatchTemplateContext, MatchTemplateSlot, SelectedMatchTemplate, default_social_templates,
+    select_match_template_for_language,
 };
 
 fn social_handle(name: &str) -> String {
@@ -16,7 +16,14 @@ fn social_handle(name: &str) -> String {
         .filter(|ch| ch.is_ascii_alphanumeric())
         .collect::<String>()
         .to_lowercase();
-    format!("@{}", if handle.is_empty() { "olmsocial" } else { &handle })
+    format!(
+        "@{}",
+        if handle.is_empty() {
+            "olmsocial"
+        } else {
+            &handle
+        }
+    )
 }
 
 fn variant_index(seed: &str, len: usize) -> usize {
@@ -24,9 +31,9 @@ fn variant_index(seed: &str, len: usize) -> usize {
         return 0;
     }
 
-    seed.bytes()
-        .fold(0usize, |acc, byte| acc.wrapping_mul(31).wrapping_add(byte as usize))
-        % len
+    seed.bytes().fold(0usize, |acc, byte| {
+        acc.wrapping_mul(31).wrapping_add(byte as usize)
+    }) % len
 }
 
 fn engagement(base: u32, team_reputation: u32, spicy: bool, seed: &str) -> (u32, u32, u32) {
@@ -52,7 +59,12 @@ fn top_player_for_team<'a>(
     game.players
         .iter()
         .filter(|player| player.team_id.as_deref() == Some(team_id))
-        .filter_map(|player| report.player_stats.get(&player.id).map(|stats| (player, stats)))
+        .filter_map(|player| {
+            report
+                .player_stats
+                .get(&player.id)
+                .map(|stats| (player, stats))
+        })
         .max_by_key(|(_, stats)| {
             stats.kills as i32 * 3 + stats.assists as i32 * 2 - stats.deaths as i32
         })
@@ -75,7 +87,8 @@ pub fn generate_match_social_posts(game: &mut Game, fixture_index: usize, report
         return;
     }
 
-    let Some((winner_id, loser_id, winner_wins, loser_wins)) = winner_loser(&fixture, report) else {
+    let Some((winner_id, loser_id, winner_wins, loser_wins)) = winner_loser(&fixture, report)
+    else {
         return;
     };
     let Some(winner) = team_by_id(game, winner_id).cloned() else {
@@ -143,8 +156,12 @@ pub fn generate_match_social_posts(game: &mut Game, fixture_index: usize, report
         .as_deref()
         .and_then(social_author)
         .or_else(|| social_author("fan_random_lec"));
-    let (likes, reposts, replies) =
-        engagement(if stomp { 55 } else { 35 }, winner.reputation / 2, stomp, &seed);
+    let (likes, reposts, replies) = engagement(
+        if stomp { 55 } else { 35 },
+        winner.reputation / 2,
+        stomp,
+        &seed,
+    );
     let fan_post = SocialPost::new(
         format!("social_{}_fan", fixture.id),
         date.clone(),
@@ -162,7 +179,11 @@ pub fn generate_match_social_posts(game: &mut Game, fixture_index: usize, report
             .unwrap_or(SocialAuthorType::Fan),
         fan_template.text,
         SocialPostCategory::FanOpinion,
-        if stomp { SocialSentiment::Meltdown } else { SocialSentiment::Hype },
+        if stomp {
+            SocialSentiment::Meltdown
+        } else {
+            SocialSentiment::Hype
+        },
     )
     .with_engagement(likes, reposts, replies)
     .with_tags(if fan_template.tags.is_empty() {
@@ -213,7 +234,8 @@ pub fn generate_match_social_posts(game: &mut Game, fixture_index: usize, report
     .with_teams(vec![winner.id.clone(), loser.id.clone()])
     .with_fixture(fixture.id.clone());
 
-    game.social_posts.extend([team_post, fan_post, analyst_post]);
+    game.social_posts
+        .extend([team_post, fan_post, analyst_post]);
 
     if let Some((player_id, player_name)) = top_player_for_team(game, report, &winner.id)
         .map(|(player, _stats)| (player.id.clone(), player.match_name.clone()))
@@ -262,9 +284,19 @@ fn winner_loser<'a>(
     report: &MatchReport,
 ) -> Option<(&'a str, &'a str, u8, u8)> {
     if report.home_wins > report.away_wins {
-        Some((&fixture.home_team_id, &fixture.away_team_id, report.home_wins, report.away_wins))
+        Some((
+            &fixture.home_team_id,
+            &fixture.away_team_id,
+            report.home_wins,
+            report.away_wins,
+        ))
     } else if report.away_wins > report.home_wins {
-        Some((&fixture.away_team_id, &fixture.home_team_id, report.away_wins, report.home_wins))
+        Some((
+            &fixture.away_team_id,
+            &fixture.home_team_id,
+            report.away_wins,
+            report.home_wins,
+        ))
     } else {
         None
     }

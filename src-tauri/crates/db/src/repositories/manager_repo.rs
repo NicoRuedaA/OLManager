@@ -1,5 +1,5 @@
 use domain::manager::{Manager, ManagerCareerEntry, ManagerCareerStats};
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 /// Insert or replace a manager row.
 pub fn upsert_manager(conn: &Connection, m: &Manager) -> Result<(), String> {
@@ -69,15 +69,15 @@ pub fn load_manager(conn: &Connection, id: &str) -> Result<Option<Manager>, Stri
 
     match rows.next() {
         Some(Ok((
-                id,
-                nickname,
-                first_name,
-                last_name,
-                dob,
-                nationality,
-                birth_country,
-                avatar_path,
-                reputation,
+            id,
+            nickname,
+            first_name,
+            last_name,
+            dob,
+            nationality,
+            birth_country,
+            avatar_path,
+            reputation,
             satisfaction,
             fan_approval,
             team_id,
@@ -96,8 +96,8 @@ pub fn load_manager(conn: &Connection, id: &str) -> Result<Option<Manager>, Stri
                 first_name,
                 last_name,
                 date_of_birth: dob,
-            nationality,
-            birth_country,
+                nationality,
+                birth_country,
                 avatar_path,
                 reputation,
                 satisfaction,

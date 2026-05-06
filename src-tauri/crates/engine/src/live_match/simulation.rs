@@ -53,9 +53,12 @@ impl LiveMatchState {
             };
             // Emit a nexus-destroyed-like event for the leading side, or just finish.
             if let Some(side) = win_side {
-                minute_events.push(
-                    MatchEvent::new(minute, EventType::NexusDestroyed, side, Zone::Midfield),
-                );
+                minute_events.push(MatchEvent::new(
+                    minute,
+                    EventType::NexusDestroyed,
+                    side,
+                    Zone::Midfield,
+                ));
             }
             return MinuteResult {
                 minute,
