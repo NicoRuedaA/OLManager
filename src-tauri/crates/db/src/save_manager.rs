@@ -14,7 +14,7 @@ use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
 use crate::game_database::GameDatabase;
 use crate::game_persistence::{GamePersistenceReader, GamePersistenceWriter};
 use crate::repositories::league_repo;
-use crate::save_index::{compute_checksum, SaveEntry};
+use crate::save_index::{SaveEntry, compute_checksum};
 use crate::save_index_manager::SaveIndexManager;
 
 /// Manages save sessions: creating, loading, saving, deleting, and listing.
@@ -895,10 +895,12 @@ mod tests {
         // so canonicalization now puts right-side before left-side in the ordered slots.
         assert_eq!(
             starting_xi_ids,
-            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
-                .into_iter()
-                .map(str::to_string)
-                .collect::<Vec<_>>()
+            vec![
+                "gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"
+            ]
+            .into_iter()
+            .map(str::to_string)
+            .collect::<Vec<_>>()
         );
     }
 
@@ -936,10 +938,12 @@ mod tests {
         // Note: same canonicalization order as test_create_save — right-side before left-side
         assert_eq!(
             team.starting_xi_ids,
-            vec!["gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"]
-                .into_iter()
-                .map(str::to_string)
-                .collect::<Vec<_>>()
+            vec![
+                "gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"
+            ]
+            .into_iter()
+            .map(str::to_string)
+            .collect::<Vec<_>>()
         );
 
         let db = GameDatabase::open(&db_path).unwrap();

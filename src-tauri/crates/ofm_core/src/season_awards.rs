@@ -352,10 +352,12 @@ mod tests {
             .collect();
         assert_eq!(top_ids, vec!["p2", "p4", "p1", "p6", "p5"]);
         assert_eq!(awards.golden_boot.len(), 5);
-        assert!(awards
-            .golden_boot
-            .iter()
-            .all(|entry| entry.player_name != "Zero Apps"));
+        assert!(
+            awards
+                .golden_boot
+                .iter()
+                .all(|entry| entry.player_name != "Zero Apps")
+        );
     }
 
     #[test]
@@ -492,9 +494,11 @@ mod tests {
         assert_eq!(awards.clean_sheet_king[0].player_id, "free-agent-gk");
         assert_eq!(awards.clean_sheet_king[0].team_id, "");
         assert_eq!(awards.clean_sheet_king[0].team_name, "Free Agent");
-        assert!(awards
-            .clean_sheet_king
-            .iter()
-            .all(|entry| entry.player_id != "defender"));
+        assert!(
+            awards
+                .clean_sheet_king
+                .iter()
+                .all(|entry| entry.player_id != "defender")
+        );
     }
 }

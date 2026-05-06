@@ -1,3 +1,4 @@
+use super::macro_ai::baron_push_target_for_lane;
 use super::test_helpers::{empty_neutral, test_minion, test_runtime, test_structure};
 use super::*;
 
@@ -6,7 +7,10 @@ fn baron_push_targets_inhib_before_nexus() {
     let mut red_inhib = test_structure("red-inhib-bot", "red", "base", Vec2 { x: 0.91, y: 0.25 });
     red_inhib.kind = "inhib".to_string();
     let red_nexus = test_structure("red-nexus", "red", "base", Vec2 { x: 0.891, y: 0.117 });
-    let target = baron_push_target_for_lane(&[red_inhib.clone(), red_nexus], "blue", "bot");
+    let target =
+        baron_push_target_for_lane(&[red_inhib.clone(), red_nexus], "blue", "bot", |_, _, _| {
+            true
+        });
     let target = target.expect("expected Baron push to target inhibitor before nexus");
     assert!(dist(target, red_inhib.pos) < 1e-9);
 }

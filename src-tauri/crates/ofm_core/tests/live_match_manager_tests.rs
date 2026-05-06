@@ -309,8 +309,7 @@ fn auto_select_team_roles_picks_captain() {
         .map(|p| p.id.clone())
         .collect();
 
-    let (captain, shotcaller) =
-        live_match_manager::auto_select_team_roles(&game, &player_ids);
+    let (captain, shotcaller) = live_match_manager::auto_select_team_roles(&game, &player_ids);
 
     assert!(captain.is_some(), "Should pick a captain");
     assert!(shotcaller.is_some(), "Should pick a shotcaller");
@@ -319,8 +318,7 @@ fn auto_select_team_roles_picks_captain() {
 #[test]
 fn auto_select_team_roles_empty_ids_returns_none() {
     let game = make_game_with_fixture();
-    let (captain, shotcaller) =
-        live_match_manager::auto_select_team_roles(&game, &[]);
+    let (captain, shotcaller) = live_match_manager::auto_select_team_roles(&game, &[]);
     assert!(captain.is_none());
     assert!(shotcaller.is_none());
 }
@@ -404,7 +402,10 @@ fn instant_mode_completes() {
         live_match_manager::create_live_match(&game, 0, MatchMode::Instant, false).unwrap();
     let results = session.run_to_completion();
     assert!(session.is_finished());
-    assert!(results.len() >= 55, "Match should reach time limit (~60 min)");
+    assert!(
+        results.len() >= 55,
+        "Match should reach time limit (~60 min)"
+    );
 }
 
 // ---------------------------------------------------------------------------

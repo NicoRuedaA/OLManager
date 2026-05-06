@@ -1,7 +1,7 @@
 use crate::game::Game;
 use crate::schedule::{
-    append_fixtures, generate_preseason_friendlies,
-    generate_single_round_league_with_offsets_and_bo, parse_lec_split, regular_best_of, LecSplit,
+    LecSplit, append_fixtures, generate_preseason_friendlies,
+    generate_single_round_league_with_offsets_and_bo, parse_lec_split, regular_best_of,
 };
 use crate::season_awards::compute_season_awards;
 use chrono::{TimeZone, Utc};

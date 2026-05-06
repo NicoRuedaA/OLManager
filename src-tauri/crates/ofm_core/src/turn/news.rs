@@ -792,18 +792,20 @@ mod tests {
 
         generate_weekly_digest_news(&mut game, "2025-08-12");
 
-        assert!(game
-            .news
-            .iter()
-            .all(|article| !article.id.starts_with("weekly_digest_")));
+        assert!(
+            game.news
+                .iter()
+                .all(|article| !article.id.starts_with("weekly_digest_"))
+        );
 
         set_current_date(&mut game, 2025, 8, 11);
         generate_weekly_digest_news(&mut game, "2025-08-11");
 
-        assert!(game
-            .news
-            .iter()
-            .any(|article| article.id.starts_with("weekly_digest_")));
+        assert!(
+            game.news
+                .iter()
+                .any(|article| article.id.starts_with("weekly_digest_"))
+        );
     }
 
     #[test]
@@ -814,14 +816,16 @@ mod tests {
 
         generate_weekly_digest_news(&mut game, "2025-08-11");
 
-        assert!(game
-            .news
-            .iter()
-            .all(|article| !article.id.starts_with("weekly_digest_")));
-        assert!(game
-            .news
-            .iter()
-            .all(|article| !article.id.starts_with("storyline_")));
+        assert!(
+            game.news
+                .iter()
+                .all(|article| !article.id.starts_with("weekly_digest_"))
+        );
+        assert!(
+            game.news
+                .iter()
+                .all(|article| !article.id.starts_with("storyline_"))
+        );
     }
 
     #[test]

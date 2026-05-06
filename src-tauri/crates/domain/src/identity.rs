@@ -24,10 +24,19 @@ mod tests {
 
     #[test]
     fn derives_known_nationalities() {
-        assert_eq!(derive_birth_country_code("English"), Some("ENG".to_string()));
-        assert_eq!(derive_birth_country_code("Scotland"), Some("SCO".to_string()));
+        assert_eq!(
+            derive_birth_country_code("English"),
+            Some("ENG".to_string())
+        );
+        assert_eq!(
+            derive_birth_country_code("Scotland"),
+            Some("SCO".to_string())
+        );
         assert_eq!(derive_birth_country_code("Welsh"), Some("WAL".to_string()));
-        assert_eq!(derive_birth_country_code("Northern Irish"), Some("NIR".to_string()));
+        assert_eq!(
+            derive_birth_country_code("Northern Irish"),
+            Some("NIR".to_string())
+        );
         assert_eq!(derive_birth_country_code("Irish"), Some("IE".to_string()));
     }
 
@@ -35,6 +44,9 @@ mod tests {
     fn british_returns_none() {
         assert_eq!(derive_birth_country_code("British"), None);
         assert_eq!(derive_birth_country_code("GB"), None);
-        assert_eq!(derive_birth_country_code("English"), Some("ENG".to_string()));
+        assert_eq!(
+            derive_birth_country_code("English"),
+            Some("ENG".to_string())
+        );
     }
 }

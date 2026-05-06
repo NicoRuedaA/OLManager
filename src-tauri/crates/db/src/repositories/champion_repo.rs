@@ -1,5 +1,5 @@
 use domain::champion::{Champion, NewChampion};
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 use serde_json::Value;
 
 /// Insert a new champion into the database.

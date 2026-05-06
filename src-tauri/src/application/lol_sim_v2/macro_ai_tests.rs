@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use super::macro_ai::{jungler_macro_jungle_priority_for_team, pick_macro_objective_pos};
 use super::test_helpers::{test_champion, test_neutral_timer, test_runtime};
 use super::*;
 

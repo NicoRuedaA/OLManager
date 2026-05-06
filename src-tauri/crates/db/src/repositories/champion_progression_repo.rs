@@ -1,5 +1,5 @@
 use ofm_core::champions::{ChampionMasteryEntry, ChampionPatchState};
-use rusqlite::{params, Connection, OptionalExtension};
+use rusqlite::{Connection, OptionalExtension, params};
 
 pub fn upsert_state(
     conn: &Connection,

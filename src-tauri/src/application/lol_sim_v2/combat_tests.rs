@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use super::combat::pick_combat_target;
 use super::test_helpers::{
     test_champion, test_minion, test_neutral_timer, test_runtime, test_structure,
 };
@@ -346,7 +347,13 @@ fn global_ultimate_requires_team_vision() {
 
 #[test]
 fn pick_combat_target_without_entities_returns_none() {
-    let runtime = RuntimeState::default();
+    let neutral = NeutralTimersRuntime {
+        dragon_soul_unlocked: false,
+        elder_unlocked: false,
+        entities: HashMap::new(),
+        extra: HashMap::new(),
+    };
+    let runtime = test_runtime(vec![], vec![], vec![], neutral.clone());
     let neutral = decode_neutral_for_tests(&runtime);
     let selected = pick_combat_target(&runtime, 0, runtime.time_sec, &neutral);
     assert!(selected.is_none());

@@ -1,5 +1,5 @@
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 /// Insert or replace a message row.
 pub fn upsert_message(conn: &Connection, msg: &InboxMessage) -> Result<(), String> {

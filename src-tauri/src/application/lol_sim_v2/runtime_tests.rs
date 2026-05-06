@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use super::combat::pick_combat_target;
 use super::test_helpers::{test_champion, test_minion, test_runtime, test_structure};
 use super::*;
 

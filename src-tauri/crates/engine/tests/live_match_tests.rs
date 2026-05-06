@@ -1,7 +1,7 @@
 use engine::ai::{AiProfile, ai_decide};
 use engine::{
-    EventType, LiveMatchState, LolRole, MatchCommand, MatchConfig, MatchPhase,
-    MinuteResult, PlayStyle, PlayerData, Side, TeamData,
+    EventType, LiveMatchState, LolRole, MatchCommand, MatchConfig, MatchPhase, MinuteResult,
+    PlayStyle, PlayerData, Side, TeamData,
 };
 use rand::SeedableRng;
 use rand::rngs::StdRng;
@@ -173,7 +173,10 @@ fn match_produces_valid_report() {
 
     let report = state.into_report();
     assert!(report.total_minutes >= 55, "Match should reach time limit");
-    assert!(!report.player_stats.is_empty(), "Report should have player stats");
+    assert!(
+        !report.player_stats.is_empty(),
+        "Report should have player stats"
+    );
 }
 
 #[test]
@@ -651,7 +654,10 @@ fn average_kills_reasonable() {
     let avg = total_kills as f64 / trials as f64;
     // LoL simulations may have fewer kills than football goals;
     // just verify it's not NaN or negative.
-    assert!(avg >= 0.0, "Average kills should be non-negative, got {avg:.1}");
+    assert!(
+        avg >= 0.0,
+        "Average kills should be non-negative, got {avg:.1}"
+    );
 }
 
 // ===========================================================================

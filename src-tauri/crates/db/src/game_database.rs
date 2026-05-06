@@ -2,7 +2,7 @@ use log::{debug, error, info, warn};
 use rusqlite::Connection;
 use std::path::{Path, PathBuf};
 
-use crate::migrations::{all_migrations, ensure_compatible_schema, MIGRATION_COUNT};
+use crate::migrations::{MIGRATION_COUNT, all_migrations, ensure_compatible_schema};
 
 /// Represents an open per-save game database with migrations applied.
 pub struct GameDatabase {

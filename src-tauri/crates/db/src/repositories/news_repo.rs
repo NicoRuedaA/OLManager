@@ -1,5 +1,5 @@
 use domain::news::{NewsArticle, NewsCategory};
-use rusqlite::{params, Connection};
+use rusqlite::{Connection, params};
 
 /// Insert or replace a news article row.
 pub fn upsert_news(conn: &Connection, article: &NewsArticle) -> Result<(), String> {

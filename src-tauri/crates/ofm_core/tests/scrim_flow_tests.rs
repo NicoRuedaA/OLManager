@@ -1,6 +1,6 @@
 use ofm_core::scrim_flow::{
-    transition_daily_scrim_flow, DailyScrimFlowEvent as E, DailyScrimFlowState as S,
-    ScrimResultQuality as Q,
+    DailyScrimFlowEvent as E, DailyScrimFlowState as S, ScrimResultQuality as Q,
+    transition_daily_scrim_flow,
 };
 
 #[test]

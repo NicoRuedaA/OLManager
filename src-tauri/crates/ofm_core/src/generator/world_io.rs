@@ -170,7 +170,7 @@ mod tests {
 
     #[test]
     fn active_lec_world_seed_does_not_contain_football_nation() {
-        let json = include_str!("../../databases/lec_world.json");
+        let json = include_str!("../../../../databases/lec_world.json");
 
         // Assert: active seed data must NOT contain football_nation keys
         assert!(
@@ -195,6 +195,5 @@ mod tests {
 
         let json = export_world_to_json(&world).unwrap();
         let reparsed: WorldData = serde_json::from_str(&json).unwrap();
-
     }
 }

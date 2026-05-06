@@ -648,7 +648,10 @@ fn resolve_scrim_outcomes_for_day(
                 .unwrap_or_default();
             let opponent_id = if let Some(candidate) = planned_opponent {
                 candidate
-            } else if configured.is_empty() || configured == team.id || !strength_by_team.contains_key(&configured) {
+            } else if configured.is_empty()
+                || configured == team.id
+                || !strength_by_team.contains_key(&configured)
+            {
                 continue;
             } else {
                 configured
@@ -920,7 +923,10 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
         .iter()
         .filter_map(|(team_id, outcome)| {
             let report = outcome.reports.first()?;
-            let team = game.teams.iter().find(|candidate| candidate.id == *team_id)?;
+            let team = game
+                .teams
+                .iter()
+                .find(|candidate| candidate.id == *team_id)?;
             let effective_focus = team
                 .scrim_weekly_objective
                 .clone()

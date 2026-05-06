@@ -81,6 +81,7 @@ pub(super) fn test_champion(
         support_last_roam_role: String::new(),
         path_stuck_for_sec: 0.0,
         forced_lane_recall_cd_until: 0.0,
+        debug_ai_decision: String::new(),
     }
 }
 
@@ -143,7 +144,22 @@ pub(super) fn test_runtime(
         wards: Vec::new(),
         objectives: json!({}),
         neutral_timers: serde_json::to_value(neutral_timers).unwrap_or(json!({})),
-        stats: RuntimeStats::default(),
+        stats: RuntimeStats {
+            blue: RuntimeTeamStats {
+                kills: 0,
+                towers: 0,
+                dragons: 0,
+                barons: 0,
+                gold: 0,
+            },
+            red: RuntimeTeamStats {
+                kills: 0,
+                towers: 0,
+                dragons: 0,
+                barons: 0,
+                gold: 0,
+            },
+        },
         events: Vec::new(),
         lane_combat_state_by_champion: HashMap::new(),
         extra: HashMap::new(),

@@ -297,8 +297,8 @@ fn summary_has_correct_user_position() {
 fn summary_has_correct_goals() {
     let mut game = make_completed_season_game();
     let summary = process_end_of_season(&mut game);
-    assert_eq!(summary.user_goals_for, 3);
-    assert_eq!(summary.user_goals_against, 1);
+    assert_eq!(summary.user_kills_for, 3);
+    assert_eq!(summary.user_kills_against, 1);
 }
 
 #[test]
@@ -933,10 +933,12 @@ fn next_season_generation_ignores_academy_team_ids() {
 
     let next_league = game.league.as_ref().expect("next league should exist");
     assert_eq!(next_league.standings.len(), 10);
-    assert!(!next_league
-        .standings
-        .iter()
-        .any(|entry| entry.team_id == "academy-1"));
+    assert!(
+        !next_league
+            .standings
+            .iter()
+            .any(|entry| entry.team_id == "academy-1")
+    );
 }
 
 // ---------------------------------------------------------------------------

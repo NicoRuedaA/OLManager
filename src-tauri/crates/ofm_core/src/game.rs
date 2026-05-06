@@ -1,8 +1,6 @@
 use crate::champions::{ChampionMasteryEntry, ChampionPatchState};
 use crate::clock::GameClock;
 use domain::league::League;
-#[cfg(feature = "typescript")]
-use ts_rs::TS;
 use domain::manager::Manager;
 use domain::message::InboxMessage;
 use domain::news::NewsArticle;
@@ -11,6 +9,8 @@ use domain::season::SeasonContext;
 use domain::social::{SocialAccount, SocialPost, SocialTemplate};
 use domain::staff::Staff;
 use domain::team::Team;
+#[cfg(feature = "typescript")]
+use ts_rs::TS;
 
 use serde::{Deserialize, Serialize};
 
