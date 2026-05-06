@@ -250,7 +250,7 @@ Reemplazados los badges de texto (`SUPPORT`, `MID`, etc.) por iconos Community D
 - **Football→LoL position mapping**: corregido en TacticsTab, TeamSelection, NextMatchDisplay, draftResultSimulator
 
 ---
-- **Repository:** [github.com/NicoRuedaA/OLManager](https://github.com/NicoRuedaA/OLManager)
+- **Repository:** [github.com/NicoRuedaA/OLManager](https://github.com/OpenLeagueManager/OLManager)
 - **Documentation index:** [`docs/README.md`](docs/README.md)
 - **Tauri v2 Docs:** [https://v2.tauri.app/](https://v2.tauri.app/)
 - **Rust Docs:** [https://doc.rust-lang.org/](https://doc.rust-lang.org/)
