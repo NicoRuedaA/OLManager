@@ -240,6 +240,7 @@
     "unemployedBanner": "Você está atualmente sem clube. Ofertas de emprego podem chegar na sua caixa de entrada."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Meta de Campeões",
     "patchNumber": "Patch {{n}}",
     "patchLastDate": "Último patch: {{date}}",
@@ -266,8 +267,7 @@
     "worldTitle": "Campeões do Mundo",
     "allChampions": "Todos os Campeões",
     "worldDescription": "Explore todos os campeões do League of Legends",
-    "totalChampions": "Total",
-    "170": "170+"
+    "totalChampions": "Total"
   },
   "continueMenu": {
     "goToField": "Ir para o Campo",
@@ -1068,12 +1068,6 @@
     "facilityRecoverySuiteEffect": "Melhora a recuperação dos jogadores e o suporte ao tratamento.",
     "facilityContentStudioEffect": "Melhora a ativação de patrocinadores e as operações de conteúdo.",
     "facilityScoutingLabEffect": "Melhora a qualidade da observação e a profundidade das informações.",
-    "facilityTraining": "Centro de treinamento",
-    "facilityMedical": "Centro médico",
-    "facilityScouting": "Departamento de olheiros",
-    "facilityTrainingEffect": "Melhora a eficácia do treino ao longo do tempo.",
-    "facilityMedicalEffect": "Melhora a recuperação e o suporte médico dos jogadores.",
-    "facilityScoutingEffect": "Melhora a qualidade do scouting e a profundidade das informações.",
     "facilityLevel": "Nível {{level}}",
     "monthlyUpkeep": "Manutenção mensal: €{{amount}}",
     "nextUpgradeCost": "Próxima melhoria: €{{amount}}",
@@ -1505,8 +1499,6 @@
     "playStyleBalanced": "Equilibrado",
     "playStyleCounter": "Escalado e Counter",
     "playStyleDirect": "Lutas cedo (Skirmishs)",
-    "stadium": "Estádio",
-    "capacity": "Capacidade",
     "leaguePos": "Pos na Liga",
     "leagueStanding": "Classificação na Liga",
     "squadOverview": "Visão Geral do Elenco",
@@ -2214,7 +2206,12 @@
       "academyCoordinator": "Coordenador da Academia",
       "esportmaniacos": "Painel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Topo",
+      "jungle": "Selva",
+      "mid": "Meio",
+      "adc": "ADC",
+      "support": "Suporte"
     },
     "source": {
       "sportsGazette": "Dot Esports",
@@ -2224,9 +2221,7 @@
       "leagueWire": "Esports Insider",
       "riftWire": "Inven Global",
       "riftHerald": "Riot Games Newsroom",
-      "leaguePulse": "The Shotcaller",
-      "maisEsports": "Mais Esports",
-      "cblolInsider": "CBLOL Insider"
+      "leaguePulse": "The Shotcaller"
     },
     "msg": {
       "welcome": {

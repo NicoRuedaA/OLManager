@@ -184,7 +184,7 @@
     "invalidDate": "Geçersiz tarih",
     "invalidDob": "Geçersiz doğum tarihi"
   },
-"worldSelect": {
+  "worldSelect": {
     "title": "Dünya Seç",
     "scanning": "Veritabanları taranıyor...",
     "importFile": "Dosyadan içe aktar",
@@ -252,6 +252,7 @@
     "delegateWarning": "Maçı asistanınız yönetecek. Maça müdahale edemeyeceksiniz."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Şampiyon Metası",
     "patchNumber": "Yama {{n}}",
     "patchLastDate": "Son yama: {{date}}",
@@ -268,7 +269,17 @@
     "low": "Düşük",
     "discoveryProgress": "Keşif ilerlemesi",
     "delegating": "Delegeleniyor...",
-    "delegateToCoach": "Asistan Koça Devret"
+    "delegateToCoach": "Asistan Koça Devret",
+    "loading": "Loading champions...",
+    "error": "Error loading",
+    "empty": "No champions available",
+    "counterpicks": "Counterpicks",
+    "synergies": "Synergies",
+    "noData": "No counterpick or synergy information available.",
+    "worldTitle": "World Champions",
+    "allChampions": "All Champions",
+    "worldDescription": "Explore all League of Legends champions",
+    "totalChampions": "Total"
   },
   "exitConfirm": {
     "title": "Ana Menüye Çıkılsın mı?",
@@ -343,7 +354,8 @@
     "roster": "Kadro",
     "matchShort": "Maç",
     "restShort": "Dinlenme",
-    "leagueShort": "Lig", "otherShort": "Diğer",
+    "leagueShort": "Lig",
+    "otherShort": "Diğer",
     "projectedBalance": "Öngörülen bakiye",
     "rawCash": "Nakit",
     "monthlyNet": "Aylık Net",
@@ -1560,7 +1572,17 @@
     "fullscreen": "Tam Ekran",
     "fullscreenDesc": "Sürükleyici bir deneyim için tam ekran modunu açıp kapatın",
     "enterFullscreen": "Geç",
-    "exitFullscreen": "Çık"
+    "exitFullscreen": "Çık",
+    "updates": "Updates",
+    "currentVersion": "Current Version",
+    "currentVersionDesc": "The installed version of the game",
+    "checkForUpdates": "Check for Updates",
+    "checkForUpdatesDesc": "Manually check if a new version is available",
+    "checking": "Checking...",
+    "updateAvailable": "Update Available",
+    "checkNow": "Check Now",
+    "updateAvailableDetail": "Version {{version}} is available",
+    "upToDate": "You're up to date"
   },
   "preMatch": {
     "formationFit": "Diziliş Uyumu",
@@ -2144,7 +2166,7 @@
   "squadCompare": {
     "compare": "Karşılaştır"
   },
- "be": {
+  "be": {
     "sender": {
       "boardOfDirectors": "Yönetim Kurulu",
       "leagueOffice": "Lig Yönetimi",
@@ -2184,7 +2206,12 @@
       "academyCoordinator": "Akademi Koordinatörü",
       "esportmaniacos": "Panel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Top",
+      "jungle": "Jungle",
+      "mid": "Mid",
+      "adc": "ADC",
+      "support": "Support"
     },
     "source": {
       "sportsGazette": "Dot Esports",
@@ -2831,5 +2858,14 @@
     "noJobs": "Şu anda boş pozisyon bulunmamaktadır.",
     "leaguePosition": "Geçen Sezon: {{position}}.",
     "refresh": "Yeni pozisyonları kontrol et"
+  },
+  "updater": {
+    "title": "Update Available",
+    "description": "A new version ({{version}}) is available. Your save games will be preserved.",
+    "downloading": "Downloading...",
+    "preparing": "Preparing update...",
+    "installing": "Installing...",
+    "installAndRestart": "Install & Restart",
+    "playWithoutUpdating": "Play Without Updating"
   }
 }

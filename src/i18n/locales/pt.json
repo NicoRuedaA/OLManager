@@ -252,6 +252,7 @@
     "delegateWarning": "O teu assistente vai gerir o jogo. Não poderás intervir."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Meta de Campeões",
     "patchNumber": "Patch {{n}}",
     "patchLastDate": "Último patch: {{date}}",
@@ -278,8 +279,7 @@
     "worldTitle": "Campeões do Mundo",
     "allChampions": "Todos os Campeões",
     "worldDescription": "Explore todos os campeões do League of Legends",
-    "totalChampions": "Total",
-    "170": "170+"
+    "totalChampions": "Total"
   },
   "exitConfirm": {
     "title": "Sair para o Menu Principal?",
@@ -2206,7 +2206,12 @@
       "academyCoordinator": "Coordenador da Academia",
       "esportmaniacos": "Painel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Topo",
+      "jungle": "Selva",
+      "mid": "Meio",
+      "adc": "ADC",
+      "support": "Suporte"
     },
     "source": {
       "sportsGazette": "Esports Gazette",

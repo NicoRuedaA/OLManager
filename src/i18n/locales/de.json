@@ -252,6 +252,7 @@
     "delegateWarning": "Dein Assistent übernimmt das Spiel. Du kannst nicht eingreifen."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Champion Meta",
     "patchNumber": "Patch {{n}}",
     "patchLastDate": "Last patch: {{date}}",
@@ -278,8 +279,7 @@
     "worldTitle": "Welt-Champions",
     "allChampions": "Alle Champions",
     "worldDescription": "Entdecke alle League of Legends Champions",
-    "totalChampions": "Gesamt",
-    "170": "170+"
+    "totalChampions": "Gesamt"
   },
   "exitConfirm": {
     "title": "Zum Hauptmenü?",
@@ -1040,6 +1040,7 @@
     "overview": "Finanzübersicht",
     "wageBill": "Gehaltsliste",
     "annualTotal": "Jährliche Gesamt",
+    "weeklyTotal": "Wöchentliche Gesamt",
     "budget": "Budget",
     "underBudget": "Im Budget",
     "overBudget": "Über dem Budget!",
@@ -1051,7 +1052,8 @@
     "seasonIncome": "Saisoneinnahmen",
     "seasonExpenses": "Saisonausgaben",
     "perYearSuffix": "/Jahr",
-    "wagePerYear": "Gehalt/Jahr",
+    "perWeekSuffix": "/Wo",
+    "wagePerWeek": "Gehalt/Wo",
     "marketValue": "Marktwert",
     "until": "Bis {{year}}",
     "facilities": "Einrichtungen",
@@ -2204,7 +2206,12 @@
       "academyCoordinator": "Academy Coordinator",
       "esportmaniacos": "Panel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Top",
+      "jungle": "Dschungel",
+      "mid": "Mitte",
+      "adc": "ADC",
+      "support": "Support"
     },
     "source": {
       "sportsGazette": "Esports Gazette",

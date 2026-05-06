@@ -240,6 +240,7 @@
     "unemployedBanner": "Vous êtes actuellement sans club. Des offres d'emploi pourraient arriver dans votre boîte de réception."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Meta des champions",
     "patchNumber": "Patch {{n}}",
     "patchLastDate": "Dernier patch : {{date}}",
@@ -266,8 +267,7 @@
     "worldTitle": "Champions du Monde",
     "allChampions": "Tous les Champions",
     "worldDescription": "Explorez tous les champions de League of Legends",
-    "totalChampions": "Total",
-    "170": "170+"
+    "totalChampions": "Total"
   },
   "continueMenu": {
     "goToField": "Aller sur le Terrain",
@@ -1068,12 +1068,6 @@
     "facilityRecoverySuiteEffect": "Améliore la récupération des joueurs et le soutien aux soins.",
     "facilityContentStudioEffect": "Améliore l'activation des sponsors et les opérations de contenu.",
     "facilityScoutingLabEffect": "Améliore la qualité du recrutement et la profondeur des informations.",
-    "facilityTraining": "Centre d'entraînement",
-    "facilityMedical": "Centre médical",
-    "facilityScouting": "Cellule de recrutement",
-    "facilityTrainingEffect": "Améliore l'efficacité de l'entraînement sur la durée.",
-    "facilityMedicalEffect": "Améliore la récupération et le suivi médical des joueurs.",
-    "facilityScoutingEffect": "Améliore la qualité du recrutement et la profondeur des informations.",
     "facilityLevel": "Niveau {{level}}",
     "monthlyUpkeep": "Entretien mensuel : €{{amount}}",
     "nextUpgradeCost": "Prochaine amélioration : €{{amount}}",
@@ -1505,8 +1499,6 @@
     "playStyleBalanced": "Équilibré",
     "playStyleCounter": "Scaling et counter",
     "playStyleDirect": "Escarmouche tôt",
-    "stadium": "Stade",
-    "capacity": "Capacité",
     "leaguePos": "Pos en Ligue",
     "leagueStanding": "Classement en Ligue",
     "squadOverview": "Aperçu de l'Effectif",
@@ -2214,7 +2206,12 @@
       "academyCoordinator": "Coordinateur de l'Académie",
       "esportmaniacos": "Panel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Top",
+      "jungle": "Jungle",
+      "mid": "Mid",
+      "adc": "ADC",
+      "support": "Support"
     },
     "source": {
       "sportsGazette": "Dot Esports",

@@ -252,6 +252,7 @@
     "delegateWarning": "Tu asistente gestionará el partido. No podrás intervenir."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Meta de campeones",
     "patchNumber": "Parche {{n}}",
     "patchLastDate": "Último parche: {{date}}",
@@ -278,8 +279,7 @@
     "worldTitle": "Campeones del Mundo",
     "allChampions": "Todos los Campeones",
     "worldDescription": "Explora todos los campeones de League of Legends",
-    "totalChampions": "Total",
-    "170": "170+"
+    "totalChampions": "Total"
   },
   "closeConfirm": {
     "title": "Cambios sin guardar",
@@ -1052,7 +1052,8 @@
     "seasonIncome": "Ingresos de Temporada",
     "seasonExpenses": "Gastos de Temporada",
     "perYearSuffix": "/año",
-    "wagePerYear": "Salario/año",
+    "perWeekSuffix": "/sem",
+    "wagePerWeek": "Salario/sem",
     "marketValue": "Valor de Mercado",
     "until": "Hasta {{year}}",
     "facilities": "Instalaciones",
@@ -1068,12 +1069,6 @@
     "facilityRecoverySuiteEffect": "Mejora la recuperación de jugadores y el apoyo de tratamiento.",
     "facilityContentStudioEffect": "Mejora la activación de patrocinadores y las operaciones de contenido.",
     "facilityScoutingLabEffect": "Mejora la calidad del ojeo y la profundidad de la información.",
-    "facilityTraining": "Instalación de Entrenamiento",
-    "facilityMedical": "Instalación Médica",
-    "facilityScouting": "Instalación de Ojeo",
-    "facilityTrainingEffect": "Mejora la eficacia del entrenamiento con el tiempo.",
-    "facilityMedicalEffect": "Mejora la recuperación y la atención médica de los jugadores.",
-    "facilityScoutingEffect": "Mejora la calidad del ojeo y la profundidad de la información.",
     "facilityLevel": "Nivel {{level}}",
     "monthlyUpkeep": "Mantenimiento mensual: €{{amount}}",
     "nextUpgradeCost": "Siguiente mejora: €{{amount}}",
@@ -1089,7 +1084,6 @@
     "pendingSponsorOffers": "Ofertas pendientes",
     "noPendingSponsorOffers": "No hay ofertas de patrocinio pendientes",
     "cashFlow": "Flujo de caja",
-    "perYearSuffix": "/año",
     "annualWageSpend": "Gasto salarial anual",
     "annualSponsorIncome": "Ingresos anuales por patrocinio",
     "projectedAnnualNet": "Neto anual proyectado",
