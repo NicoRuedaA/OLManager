@@ -460,7 +460,7 @@ fn scrim_days_generate_enriched_reports_with_champion_picks() {
         make_player("r2", "Rival Two", "team2", "2000-01-01"),
         make_player("r3", "Rival Three", "team2", "2000-01-01"),
     ];
-    opponent.starting_xi_ids = opponent_players
+    opponent.active_lineup_ids = opponent_players
         .iter()
         .map(|player| player.id.clone())
         .collect();
@@ -500,7 +500,7 @@ fn scrim_block_is_idempotent_before_training_block() {
         make_player("r2", "Rival Two", "team2", "2000-01-01"),
         make_player("r3", "Rival Three", "team2", "2000-01-01"),
     ];
-    opponent.starting_xi_ids = opponent_players
+    opponent.active_lineup_ids = opponent_players
         .iter()
         .map(|player| player.id.clone())
         .collect();

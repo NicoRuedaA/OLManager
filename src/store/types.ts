@@ -168,7 +168,10 @@ export interface TeamData {
   colors: TeamColors;
   facilities?: FacilitiesData;
   sponsorship?: SponsorshipData | null;
-  starting_xi_ids: string[];
+  /** Preferred LoL terminology. Serialized by current saves/API responses. */
+  active_lineup_ids?: string[];
+  /** @deprecated Compatibility for older saves/API payloads. Use active_lineup_ids. */
+  starting_xi_ids?: string[];
   team_roles?: TeamRolesData;
   form: string[];
   history: TeamSeasonRecord[];
@@ -176,6 +179,10 @@ export interface TeamData {
   parent_team_id?: string | null;
   academy_team_id?: string | null;
   academy?: AcademyMetadataData | null;
+}
+
+export function resolveActiveLineupIds(team: Pick<TeamData, "active_lineup_ids" | "starting_xi_ids">): string[] {
+  return team.active_lineup_ids ?? team.starting_xi_ids ?? [];
 }
 
 export type MatchOutcome = "Win" | "Loss";

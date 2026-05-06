@@ -6,7 +6,7 @@ use std::path::Path;
 use ofm_core::game::Game;
 use ofm_core::player_identity;
 
-use crate::save_manager::{SaveManager, canonicalize_game_starting_xi_ids};
+use crate::save_manager::{SaveManager, canonicalize_game_active_lineup_ids};
 
 /// A row extracted from the legacy `saves.db` file.
 #[derive(Debug)]
@@ -161,7 +161,7 @@ fn migrate_single_save(
     let mut game: Game = serde_json::from_str(&row.game_data)
         .map_err(|e| format!("Failed to parse game JSON: {}", e))?;
 
-    canonicalize_game_starting_xi_ids(&mut game);
+    canonicalize_game_active_lineup_ids(&mut game);
     player_identity::upgrade_game_player_identities(&mut game);
     ofm_core::identity_upgrade::upgrade_game_football_identities(&mut game);
 
@@ -320,7 +320,7 @@ mod tests {
             30000,
         );
         team.formation = "4-4-2".to_string();
-        team.starting_xi_ids = vec![
+        team.active_lineup_ids = vec![
             "gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2",
         ]
         .into_iter()

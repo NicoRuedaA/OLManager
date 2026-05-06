@@ -116,7 +116,7 @@ mod tests {
                             "training_schedule": "Balanced",
                             "founded_year": 1900,
                             "colors": { "primary": "#ffffff", "secondary": "#000000" },
-                            "starting_xi_ids": [],
+                            "active_lineup_ids": [],
                             "match_roles": { "captain": null, "shotcaller": null },
                             "form": [],
                             "history": []

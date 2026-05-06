@@ -8,7 +8,11 @@ import type {
 import { formatVal } from "../../lib/helpers";
 import { getTeamFinanceSnapshot } from "../../lib/finance";
 import { getSponsorshipContractView } from "../../lib/lolFinanceContracts";
-import { buildStartingXIIds } from "../squad/SquadTab.helpers";
+import {
+  buildActiveLineupIds,
+  LOL_ACTIVE_ROLES,
+  type LolRole,
+} from "../squad/SquadTab.helpers";
 
 export interface DashboardAlert {
   id: string;
@@ -139,17 +143,32 @@ export function getDashboardAlerts(
   const urgentUnreadCount = gameState.messages.filter((message) => {
     return !message.read && message.priority === "Urgent";
   }).length;
-  const savedStartingXi = myTeam?.starting_xi_ids ?? [];
-  const effectiveStartingXi = myTeam
-    ? buildStartingXIIds(roster, savedStartingXi, myTeam.formation)
+  const savedLineupIds = myTeam?.active_lineup_ids ?? myTeam?.starting_xi_ids ?? [];
+  const effectiveLineupIds = myTeam
+    ? buildActiveLineupIds(roster, savedLineupIds)
     : [];
-  const xiPlayersOnRoster = effectiveStartingXi.filter((playerId) => {
+  const lineupPlayersOnRoster = effectiveLineupIds.filter((playerId) => {
     return roster.some((player) => player.id === playerId);
   });
-  const injuredInXiCount = xiPlayersOnRoster.filter((playerId) => {
+  const activeLineupRoleCount = new Set(
+    lineupPlayersOnRoster
+      .map((playerId) => roster.find((player) => player.id === playerId))
+      .filter((player): player is PlayerData => Boolean(player) && !player.injury)
+      .map((player) => player.natural_position as LolRole)
+      .filter((role) => LOL_ACTIVE_ROLES.includes(role)),
+  ).size;
+  const healthyRosterRoleCount = new Set(
+    roster
+      .filter((player) => !player.injury)
+      .map((player) => player.natural_position as LolRole)
+      .filter((role) => LOL_ACTIVE_ROLES.includes(role)),
+  ).size;
+  const savedLineupPlayersOnRoster = savedLineupIds.filter((playerId) => {
+    return roster.some((player) => player.id === playerId);
+  });
+  const injuredInLineupCount = savedLineupPlayersOnRoster.filter((playerId) => {
     return roster.find((player) => player.id === playerId)?.injury;
   }).length;
-  const healthyXiCount = xiPlayersOnRoster.length - injuredInXiCount;
 
   if (exhaustedCount >= 3) {
     alerts.push({
@@ -160,12 +179,12 @@ export function getDashboardAlerts(
     });
   }
 
-  if (savedStartingXi.length > 0) {
-    if (injuredInXiCount > 0) {
+  if (savedLineupIds.length > 0) {
+    if (injuredInLineupCount > 0) {
       alerts.push({
-        id: "injured_xi",
+        id: "injured_lineup",
         text: t("dashboard.alerts.injuredStartingXi", {
-          count: injuredInXiCount,
+          count: injuredInLineupCount,
         }),
         tab: "Squad",
         severity: "warn",
@@ -173,12 +192,12 @@ export function getDashboardAlerts(
     }
 
     if (
-      healthyXiCount < 11 &&
-      injuredInXiCount === 0 &&
-      roster.length >= 11
+      activeLineupRoleCount < LOL_ACTIVE_ROLES.length &&
+      injuredInLineupCount === 0 &&
+      healthyRosterRoleCount >= LOL_ACTIVE_ROLES.length
     ) {
       alerts.push({
-        id: "xi",
+        id: "incomplete_lineup",
         text: t("dashboard.alerts.incompleteStartingXi"),
         tab: "Squad",
         severity: "warn",
@@ -250,9 +269,13 @@ export function getDashboardAlerts(
     }
   }
 
-  if (hasMatchToday && savedStartingXi.length > 0 && healthyXiCount < 11) {
+  if (
+    hasMatchToday &&
+    savedLineupIds.length > 0 &&
+    activeLineupRoleCount < LOL_ACTIVE_ROLES.length
+  ) {
     alerts.push({
-      id: "matchxi",
+      id: "match_lineup",
       text: t("dashboard.alerts.matchTodayStartingXi"),
       tab: "Squad",
       severity: "warn",

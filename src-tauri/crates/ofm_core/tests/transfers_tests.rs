@@ -125,7 +125,7 @@ fn make_seller_team(starting_xi_ids: Vec<String>) -> Team {
         "Seller Ground".to_string(),
         28_000,
     );
-    team.starting_xi_ids = starting_xi_ids;
+    team.active_lineup_ids = starting_xi_ids;
     team
 }
 
@@ -821,7 +821,7 @@ fn selling_key_player_can_reduce_remaining_starters_morale() {
 
     let mut game = make_game_with_player(key_player, vec![], 5_000_000, 2_000_000);
     game.players.push(teammate);
-    game.teams[0].starting_xi_ids =
+    game.teams[0].active_lineup_ids =
         vec!["player-key-sale".to_string(), "player-teammate".to_string()];
     game.teams[1].finance = 6_000_000;
     game.teams[1].transfer_budget = 3_000_000;

@@ -190,21 +190,21 @@ mod tests {
     fn default_attrs() -> PlayerAttributes {
         PlayerAttributes {
             pace: 60,
-            stamina: 60,
+            mental_resilience: 60,
             strength: 60,
-            agility: 60,
+            champion_pool: 60,
             passing: 60,
-            shooting: 60,
+            laning: 60,
             tackling: 60,
-            dribbling: 60,
+            mechanics: 60,
             defending: 60,
             positioning: 60,
-            vision: 60,
-            decisions: 60,
-            composure: 60,
+            macro_play: 60,
+            consistency: 60,
+            discipline: 60,
             aggression: 60,
-            teamwork: 60,
-            leadership: 60,
+            teamfighting: 60,
+            shotcalling: 60,
             handling: 60,
             reflexes: 60,
             aerial: 60,
@@ -268,7 +268,7 @@ mod tests {
             "Test Ground".to_string(),
             20_000,
         );
-        team.starting_xi_ids = players
+        team.active_lineup_ids = players
             .iter()
             .take(11)
             .map(|player| player.id.clone())
@@ -289,7 +289,7 @@ mod tests {
             "Rival Ground".to_string(),
             21_000,
         );
-        opponent_team.starting_xi_ids = game
+        opponent_team.active_lineup_ids = game
             .players
             .iter()
             .skip(11)
@@ -302,7 +302,7 @@ mod tests {
             player.team_id = Some("team2".to_string());
         }
 
-        game.teams[0].starting_xi_ids =
+        game.teams[0].active_lineup_ids =
             game.players.iter().take(11).map(|p| p.id.clone()).collect();
         game.league = Some(domain::league::League {
             id: "league-1".to_string(),
@@ -379,7 +379,7 @@ mod tests {
     }
 
     #[test]
-    fn injured_starters_trigger_injury_and_incomplete_xi_blockers() {
+    fn injured_starters_trigger_injury_and_incomplete_lineup_blockers() {
         let mut game = make_game(11);
         for player_id in ["p2", "p5"] {
             let player = game
@@ -395,7 +395,7 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        let injured = blocker_by_id(&blockers, "injured_xi").unwrap();
+        let injured = blocker_by_id(&blockers, "injured_lineup").unwrap();
         assert_eq!(
             injured.get("severity").and_then(Value::as_str),
             Some("warn")
@@ -406,7 +406,7 @@ mod tests {
         assert!(injured_text.contains("Player 2"));
         assert!(injured_text.contains("Player 5"));
 
-        let incomplete = blocker_by_id(&blockers, "incomplete_xi").unwrap();
+        let incomplete = blocker_by_id(&blockers, "incomplete_lineup").unwrap();
         assert_eq!(
             incomplete.get("severity").and_then(Value::as_str),
             Some("warn")
@@ -414,12 +414,12 @@ mod tests {
         assert_eq!(incomplete.get("tab").and_then(Value::as_str), Some("Squad"));
         assert_eq!(
             incomplete.get("text").and_then(Value::as_str),
-            Some("Starting XI has only 9 healthy players — set your lineup")
+            Some("Active lineup has only 9 healthy players — set your lineup")
         );
     }
 
     #[test]
-    fn incomplete_xi_is_not_reported_when_roster_has_fewer_than_eleven_players() {
+    fn incomplete_lineup_is_not_reported_when_roster_has_fewer_than_eleven_players() {
         let mut game = make_game(10);
         let player = game
             .players
@@ -433,15 +433,15 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        assert!(blocker_by_id(&blockers, "injured_xi").is_some());
-        assert!(blocker_by_id(&blockers, "incomplete_xi").is_none());
+        assert!(blocker_by_id(&blockers, "injured_lineup").is_some());
+        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
     #[test]
     fn missing_lol_roles_trigger_main_role_coverage_blocker() {
         let mut game = make_game(5);
         game.players.truncate(5);
-        game.teams[0].starting_xi_ids = game
+        game.teams[0].active_lineup_ids = game
             .players
             .iter()
             .map(|player| player.id.clone())
@@ -466,10 +466,10 @@ mod tests {
     }
 
     #[test]
-    fn incomplete_xi_is_not_reported_when_a_partial_saved_lineup_can_be_filled_by_healthy_players()
+    fn incomplete_lineup_is_not_reported_when_a_partial_saved_lineup_can_be_filled_by_healthy_players()
     {
         let mut game = make_game(11);
-        game.teams[0].starting_xi_ids = vec![
+        game.teams[0].active_lineup_ids = vec![
             "p1".to_string(),
             "p2".to_string(),
             "p3".to_string(),
@@ -482,8 +482,8 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        assert!(blocker_by_id(&blockers, "injured_xi").is_none());
-        assert!(blocker_by_id(&blockers, "incomplete_xi").is_none());
+        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
+        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
     #[test]
@@ -520,8 +520,8 @@ mod tests {
         first_key_player.contract_end = Some("2025-07-15".to_string());
         first_key_player.wage = 35_000;
         first_key_player.attributes.pace = 92;
-        first_key_player.attributes.shooting = 94;
-        first_key_player.attributes.dribbling = 90;
+        first_key_player.attributes.laning = 94;
+        first_key_player.attributes.mechanics = 90;
 
         let second_key_player = game
             .players
@@ -531,8 +531,8 @@ mod tests {
         second_key_player.contract_end = Some("2025-07-15".to_string());
         second_key_player.wage = 25_000;
         second_key_player.attributes.pace = 90;
-        second_key_player.attributes.shooting = 91;
-        second_key_player.attributes.dribbling = 89;
+        second_key_player.attributes.laning = 91;
+        second_key_player.attributes.mechanics = 89;
 
         let blockers = compute_blocking_actions(&game);
 
@@ -785,7 +785,7 @@ mod tests {
             "Rival Ground".to_string(),
             21_000,
         );
-        opponent_team.starting_xi_ids = game
+        opponent_team.active_lineup_ids = game
             .players
             .iter()
             .skip(11)

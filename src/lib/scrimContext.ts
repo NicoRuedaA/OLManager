@@ -373,7 +373,7 @@ function playerLolOvr(player: PlayerData): number {
 
 export function teamLolOvr(gameState: GameStateData, teamId: string): number {
   const team = gameState.teams.find((candidate) => candidate.id === teamId);
-  const starters = (team?.starting_xi_ids ?? [])
+  const starters = (team?.active_lineup_ids ?? team?.starting_xi_ids ?? [])
     .map((playerId) => gameState.players.find((player) => player.id === playerId))
     .filter((player): player is NonNullable<typeof player> => Boolean(player))
     .slice(0, 5);

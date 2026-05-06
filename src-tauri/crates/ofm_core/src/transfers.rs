@@ -76,7 +76,7 @@ fn infer_player_importance(
     player: &domain::player::Player,
     owner_team: &domain::team::Team,
 ) -> PlayerImportance {
-    if owner_team.starting_xi_ids.iter().any(|id| id == &player.id) {
+    if owner_team.active_lineup_ids.iter().any(|id| id == &player.id) {
         return PlayerImportance::Key;
     }
 
@@ -339,7 +339,7 @@ fn allow_unsolicited_offer_for_player(
     }
 
     if let Some(team) = owner_team {
-        let is_key_player = team.starting_xi_ids.iter().any(|id| id == &player.id);
+        let is_key_player = team.active_lineup_ids.iter().any(|id| id == &player.id);
         if is_key_player {
             return false;
         }
@@ -1370,8 +1370,8 @@ fn execute_free_agent_signing_with_payer(
     }
 
     if let Some(team) = game.teams.iter_mut().find(|team| team.id == to_team_id) {
-        if let Some(pos) = team.starting_xi_ids.iter().position(|id| id == player_id) {
-            team.starting_xi_ids.remove(pos);
+        if let Some(pos) = team.active_lineup_ids.iter().position(|id| id == player_id) {
+            team.active_lineup_ids.remove(pos);
         }
     }
 
@@ -1613,7 +1613,7 @@ fn round_transfer_fee(value: u64) -> u64 {
 }
 
 fn remove_player_from_team_references(team: &mut domain::team::Team, player_id: &str) {
-    team.starting_xi_ids.retain(|id| id != player_id);
+    team.active_lineup_ids.retain(|id| id != player_id);
 
     for group in &mut team.training_groups {
         group.player_ids.retain(|id| id != player_id);
@@ -1969,9 +1969,9 @@ fn execute_transfer_with_payer(
         .teams
         .iter()
         .find(|team| team.id == from_team_id)
-        .filter(|team| team.starting_xi_ids.iter().any(|id| id == player_id))
+        .filter(|team| team.active_lineup_ids.iter().any(|id| id == player_id))
         .map(|team| {
-            team.starting_xi_ids
+            team.active_lineup_ids
                 .iter()
                 .filter(|id| id.as_str() != player_id)
                 .cloned()
@@ -2005,8 +2005,8 @@ fn execute_transfer_with_payer(
 
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == to_team_id) {
         // Remove from starting XI if player was there
-        if let Some(pos) = t.starting_xi_ids.iter().position(|id| id == player_id) {
-            t.starting_xi_ids.remove(pos);
+        if let Some(pos) = t.active_lineup_ids.iter().position(|id| id == player_id) {
+            t.active_lineup_ids.remove(pos);
         }
     }
 
@@ -2025,8 +2025,8 @@ fn execute_transfer_with_payer(
 
     // Remove sold player from selling team XI if present
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == from_team_id) {
-        if let Some(pos) = t.starting_xi_ids.iter().position(|id| id == player_id) {
-            t.starting_xi_ids.remove(pos);
+        if let Some(pos) = t.active_lineup_ids.iter().position(|id| id == player_id) {
+            t.active_lineup_ids.remove(pos);
         }
     }
 

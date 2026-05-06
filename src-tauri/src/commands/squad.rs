@@ -549,11 +549,27 @@ pub fn set_formation(state: State<'_, StateManager>, formation: String) -> Resul
 }
 
 #[tauri::command]
+pub fn set_active_lineup(
+    state: State<'_, StateManager>,
+    player_ids: Vec<String>,
+) -> Result<Game, String> {
+    info!("[cmd] set_active_lineup: {} players", player_ids.len());
+    set_active_lineup_internal(&state, player_ids)
+}
+
+#[tauri::command]
 pub fn set_starting_xi(
     state: State<'_, StateManager>,
     player_ids: Vec<String>,
 ) -> Result<Game, String> {
-    info!("[cmd] set_starting_xi: {} players", player_ids.len());
+    info!("[cmd] set_starting_xi is deprecated; use set_active_lineup");
+    set_active_lineup_internal(&state, player_ids)
+}
+
+fn set_active_lineup_internal(
+    state: &State<'_, StateManager>,
+    player_ids: Vec<String>,
+) -> Result<Game, String> {
     let mut game = state
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
@@ -564,12 +580,16 @@ pub fn set_starting_xi(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
-        team.starting_xi_ids = player_ids;
-    }
+    apply_active_lineup(&mut game, &team_id, player_ids);
 
     state.set_game(game.clone());
     Ok(game)
+}
+
+fn apply_active_lineup(game: &mut Game, team_id: &str, player_ids: Vec<String>) {
+    if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
+        team.active_lineup_ids = player_ids;
+    }
 }
 
 #[tauri::command]
@@ -1916,21 +1936,21 @@ mod tests {
     fn attrs(stat: u8) -> PlayerAttributes {
         PlayerAttributes {
             pace: stat,
-            stamina: stat,
+            mental_resilience: stat,
             strength: stat,
-            agility: stat,
+            champion_pool: stat,
             passing: stat,
-            shooting: stat,
+            laning: stat,
             tackling: stat,
-            dribbling: stat,
+            mechanics: stat,
             defending: stat,
             positioning: stat,
-            vision: stat,
-            decisions: stat,
-            composure: stat,
+            macro_play: stat,
+            consistency: stat,
+            discipline: stat,
             aggression: stat,
-            teamwork: stat,
-            leadership: stat,
+            teamfighting: stat,
+            shotcalling: stat,
             handling: stat,
             reflexes: stat,
             aerial: stat,
@@ -2036,14 +2056,30 @@ mod tests {
     }
 
     #[test]
+    fn apply_active_lineup_sets_manager_team_lineup() {
+        let mut game = make_game();
+
+        super::apply_active_lineup(&mut game, "team-1", vec!["p2".to_string(), "p1".to_string()]);
+
+        assert_eq!(
+            game.teams[0].active_lineup_ids,
+            vec!["p2".to_string(), "p1".to_string()]
+        );
+    }
+
+    #[test]
     fn training_does_not_increase_lol_stats_when_player_hits_potential_cap() {
         let mut game = make_game();
         if let Some(player) = game.players.iter_mut().find(|player| player.id == "p1") {
-            player.attributes.dribbling = 90;
-            player.attributes.shooting = 90;
-            player.attributes.teamwork = 90;
-            player.attributes.vision = 90;
-            player.attributes.decisions = 90;
+            player.attributes.mechanics = 90;
+            player.attributes.laning = 90;
+            player.attributes.teamfighting = 90;
+            player.attributes.macro_play = 90;
+            player.attributes.consistency = 90;
+            player.attributes.shotcalling = 90;
+            player.attributes.champion_pool = 90;
+            player.attributes.discipline = 90;
+            player.attributes.mental_resilience = 90;
             player.potential_base = 90;
         }
 
@@ -2065,10 +2101,14 @@ mod tests {
             .find(|player| player.id == "p1")
             .unwrap()
             .attributes;
-        assert_eq!(after.dribbling, before.dribbling);
-        assert_eq!(after.shooting, before.shooting);
-        assert_eq!(after.teamwork, before.teamwork);
-        assert_eq!(after.vision, before.vision);
-        assert_eq!(after.decisions, before.decisions);
+        assert_eq!(after.mechanics, before.mechanics);
+        assert_eq!(after.laning, before.laning);
+        assert_eq!(after.teamfighting, before.teamfighting);
+        assert_eq!(after.macro_play, before.macro_play);
+        assert_eq!(after.consistency, before.consistency);
+        assert_eq!(after.shotcalling, before.shotcalling);
+        assert_eq!(after.champion_pool, before.champion_pool);
+        assert_eq!(after.discipline, before.discipline);
+        assert_eq!(after.mental_resilience, before.mental_resilience);
     }
 }

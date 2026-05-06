@@ -101,7 +101,7 @@ fn scrim_champion_picks_for_team(game: &Game, team_id: &str) -> Vec<ScrimChampio
         .teams
         .iter()
         .find(|team| team.id == team_id)
-        .map(|team| team.starting_xi_ids.clone())
+        .map(|team| team.active_lineup_ids.clone())
         .unwrap_or_default();
 
     let mut players: Vec<_> = if starting_ids.is_empty() {
@@ -248,7 +248,7 @@ fn team_lol_strength(game: &Game, team_id: &str) -> f64 {
         .teams
         .iter()
         .find(|team| team.id == team_id)
-        .map(|team| team.starting_xi_ids.clone())
+        .map(|team| team.active_lineup_ids.clone())
         .unwrap_or_default();
 
     let mut values: Vec<f64> = if !starting_ids.is_empty() {
