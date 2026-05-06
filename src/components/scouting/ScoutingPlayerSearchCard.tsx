@@ -7,7 +7,7 @@ import { calcAge, formatVal, getTeamName } from "../../lib/helpers";
 import type { PlayerData, TeamData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader, CountryFlag } from "../ui";
 import { getLolRoleForPlayer, type LolRole } from "../squad/SquadTab.helpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 
 const POSITION_FILTERS = ["All", "TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
@@ -180,23 +180,17 @@ export default function ScoutingPlayerSearchCard({
                   ? getTeamName(teams, player.team_id)
                   : t("common.freeAgent");
                 const lolRole = getLolRoleForPlayer(player);
-                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
-
                 return (
                   <tr
                     key={player.id}
                     className="border-b border-gray-50 dark:border-navy-700/50 hover:bg-gray-50 dark:hover:bg-navy-700/30 transition-colors"
                   >
                     <td className="py-2 px-2">
-                      {photoUrl ? (
-                        <img
-                          src={photoUrl}
-                          alt={player.match_name}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
-                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                      <PlayerAvatar
+                        playerId={player.id}
+                        matchName={player.match_name}
+                        profileImageUrl={player.profile_image_url}
+                      />
                         </div>
                       )}
                     </td>

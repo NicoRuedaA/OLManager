@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import type { GameStateData, PlayerData, SocialPostData, TeamData } from "../../store/gameStore";
 import { Badge } from "../ui";
 import { formatDateShort } from "../../lib/helpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar, resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import { createManagerSocialPost } from "../../services/socialService";
 import SocialEditor from "./SocialEditor";

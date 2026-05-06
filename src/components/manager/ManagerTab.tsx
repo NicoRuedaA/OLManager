@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "../../lib/countries";
 import DashboardModalFrame from "../dashboard/DashboardModalFrame";
 import { Settings, X, ChevronDown, Check } from "lucide-react";
-import { resolveStaffPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar, resolveStaffPhoto } from "../../lib/playerPhotos";
 
 interface ManagerTabProps {
   gameState: GameStateData;

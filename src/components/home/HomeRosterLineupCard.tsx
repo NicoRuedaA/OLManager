@@ -5,7 +5,7 @@ import playersSeed from "../../../data/lec/draft/players.json";
 import type { ChampionMasteryEntryData, PlayerData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader } from "../ui";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
@@ -136,7 +136,6 @@ export default function HomeRosterLineupCard({
       <CardBody>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
           {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
             const morale = player?.morale ?? null;
@@ -169,12 +168,12 @@ export default function HomeRosterLineupCard({
                 </p>
 
                 <div className="mt-2 flex items-center gap-2">
-                  {photo ? (
-                    <img
-                      src={photo}
-                      alt={player?.match_name ?? role}
-                      className="w-8 h-8 rounded-full object-cover border border-white/15"
-                      loading="lazy"
+                  {player ? (
+                    <PlayerAvatar
+                      playerId={player.id}
+                      matchName={player.match_name}
+                      profileImageUrl={player.profile_image_url}
+                      className="w-8 h-8 border border-white/15"
                     />
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-navy-700 border border-white/10" />

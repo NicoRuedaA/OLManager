@@ -25,7 +25,7 @@ import {
   formatStaffEffectPercent,
   getLolStaffEffectsForTeam,
 } from "../../lib/lolStaffEffects";
-import { resolveStaffPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar, resolveStaffPhoto } from "../../lib/playerPhotos";
 
 interface StaffTabProps {
   gameState: GameStateData;

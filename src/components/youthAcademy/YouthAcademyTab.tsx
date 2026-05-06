@@ -10,7 +10,7 @@ import type { AcademyAcquisitionOptionData } from "../../store/gameStore";
 import { Badge, Button, Card, CardBody, CardHeader } from "../ui";
 import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 
 interface YouthAcademyTabProps {
   gameState: GameStateData;
@@ -501,7 +501,6 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                 {filteredPlayers.map((player) => {
-                  const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                   return (
                     <tr
                       key={player.id}
@@ -509,14 +508,11 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                       className="hover:bg-gray-50 dark:hover:bg-navy-700/50 cursor-pointer transition-colors"
                     >
                       <td className="py-2.5 px-4">
-                        {photoUrl ? (
-                          <img
-                            src={photoUrl}
-                            alt={player.match_name}
-                            className="w-8 h-8 rounded-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
+                        <PlayerAvatar
+                          playerId={player.id}
+                          matchName={player.match_name}
+                          profileImageUrl={player.profile_image_url}
+                        />
                             {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
                           </div>
                         )}

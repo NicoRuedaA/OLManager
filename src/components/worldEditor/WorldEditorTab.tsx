@@ -4,7 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { ArrowLeft, Database, FileSpreadsheet, Image, Plus, Save, Search, Trash2, Upload, User, UserCog } from "lucide-react";
 import type { PlayerData, StaffData, TeamData } from "../../store/gameStore";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
-import { resolvePlayerPhoto, resolveStaffPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar, resolvePlayerPhoto, resolveStaffPhoto } from "../../lib/playerPhotos";
 import { Card, CardBody, ThemeToggle } from "../ui";
 
 type EditorMode = "players" | "staff";

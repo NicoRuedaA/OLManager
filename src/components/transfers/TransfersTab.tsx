@@ -27,7 +27,7 @@ import {
   formatWeeklyAmount,
 } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import {
   annualAmountToWeeklyCommitment,
 } from "../../lib/finance";
@@ -690,7 +690,6 @@ export default function TransfersTab({
                     const age = calcAge(player.date_of_birth);
                     const offersForThisPlayer = player.transfer_offers;
                     const lolRole = getLolRoleForPlayer(player);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
@@ -698,13 +697,10 @@ export default function TransfersTab({
                         onClick={() => onSelectPlayer(player.id)}
                       >
                         <td className="py-2.5 px-4">
-                          <img
-                            src={photoSrc ?? "/player-photos/107455908655055017.png"}
-                            alt={player.match_name}
-                            className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.png";
-                            }}
+                          <PlayerAvatar
+                            playerId={player.id}
+                            matchName={player.match_name}
+                            profileImageUrl={player.profile_image_url}
                           />
                         </td>
                         <td className="py-2.5 px-4">

@@ -18,7 +18,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { getAllCountryNames } from "../../lib/countries";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import {
   getLolRoleForPlayer,
   LolRole,
@@ -318,7 +318,6 @@ export default function PlayersListTab({
                   .map((player) => {
                     const ovr = calculateLolOvr(player);
                     const age = calcAge(player.date_of_birth);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
@@ -326,13 +325,10 @@ export default function PlayersListTab({
                         className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
                       >
                         <td className="py-2.5 px-4">
-                          <img
-                            src={photoSrc ?? "/player-photos/107455908655055017.png"}
-                            alt={player.match_name}
-                            className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.png";
-                            }}
+                          <PlayerAvatar
+                            playerId={player.id}
+                            matchName={player.match_name}
+                            profileImageUrl={player.profile_image_url}
                           />
                         </td>
                         <td className="py-2.5 px-4">

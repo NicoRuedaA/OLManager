@@ -8,7 +8,7 @@ import type { PlayerData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader, CountryFlag, ProgressBar } from "../ui";
 import { getLolRoleForPlayer, type LolRole } from "../squad/SquadTab.helpers";
 import type { TeamProfileTranslate } from "./TeamProfile.types";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 
 interface TeamProfileRosterCardProps {
   roster: PlayerData[];
@@ -74,8 +74,6 @@ export default function TeamProfileRosterCard({
                 const ovr = calculateLolOvr(player);
                 const age = calcAge(player.date_of_birth);
                 const lolRole = getLolRoleForPlayer(player);
-                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
-
                 return (
                   <tr
                     key={player.id}
@@ -83,15 +81,11 @@ export default function TeamProfileRosterCard({
                     className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
                   >
                     <td className="py-3 px-5">
-                      {photoUrl ? (
-                        <img
-                          src={photoUrl}
-                          alt={player.match_name}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
-                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                      <PlayerAvatar
+                        playerId={player.id}
+                        matchName={player.match_name}
+                        profileImageUrl={player.profile_image_url}
+                      />
                         </div>
                       )}
                     </td>

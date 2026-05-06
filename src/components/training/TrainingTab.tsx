@@ -21,7 +21,7 @@ import {
   normalizeTrainingFocus,
 } from "../../lib/trainingFocus";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import type { GameStateData } from "../../store/gameStore";
 import { setTraining, setTrainingSchedule } from "../../services/trainingService";
@@ -395,14 +395,11 @@ export default function TrainingTab({
                     <div key={player.id} className="flex items-center justify-between gap-3 rounded-lg border border-gray-200 px-3 py-2 dark:border-navy-600">
                       <div className="flex min-w-0 items-center gap-2">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
-                          <img
-                            src={resolvePlayerPhoto(player.id)}
-                            alt={player.match_name}
-                            className="h-full w-full object-cover"
-                            loading="lazy"
-                            onError={(event) => {
-                              event.currentTarget.style.display = "none";
-                            }}
+                          <PlayerAvatar
+                            playerId={player.id}
+                            matchName={player.match_name}
+                            profileImageUrl={player.profile_image_url}
+                            className="h-full w-full rounded-none"
                           />
                           <img
                             src={inferRoleIcon(player)}

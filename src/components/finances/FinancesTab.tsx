@@ -27,7 +27,7 @@ import {
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { resolveMessage } from "../../utils/backendI18n";
 
 function getFacilityUpgradeCost(level: number): number {
@@ -961,7 +961,6 @@ export default function FinancesTab({
                   })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
-                    const photo = resolvePlayerPhoto(p.id, p.full_name, p.profile_image_url);
                     const contextItems = onSelectPlayer
                       ? [
                           {
@@ -979,18 +978,11 @@ export default function FinancesTab({
                         className={`hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors ${onSelectPlayer ? "cursor-pointer group" : ""}`}
                       >
                         <td className="py-3 px-5">
-                          {photo ? (
-                            <img
-                              src={photo}
-                              alt={p.full_name}
-                              className="w-8 h-8 rounded-full object-cover"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center">
-                              <User className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                            </div>
-                          )}
+                          <PlayerAvatar
+                            playerId={p.id}
+                            matchName={p.full_name}
+                            profileImageUrl={p.profile_image_url}
+                          />
                         </td>
                         <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
                           <span className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">

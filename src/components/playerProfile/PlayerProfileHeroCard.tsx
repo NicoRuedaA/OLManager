@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { EyeOff, Pencil, Shield, User } from "lucide-react";
 import type { PlayerData } from "../../store/gameStore";
 import { formatPlayerMarketValue, formatPlayerWage } from "./PlayerProfile.helpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import type {
   PlayerProfileScoutStatus,
@@ -68,7 +68,6 @@ export default function PlayerProfileHeroCard({
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
   const roleVariant = getLolRoleBadgeVariant(role);
-  const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
   const [insigniaBackground, setInsigniaBackground] = useState<string | null>(null);
   const [editingRole, setEditingRole] = useState(false);
   const potentialRevealed = player.potential_revealed ?? null;
@@ -180,13 +179,12 @@ export default function PlayerProfileHeroCard({
                     : "border-gray-500/40"
               }`}
             >
-              {playerPhoto ? (
-                <img
-                  src={playerPhoto}
-                  alt={player.match_name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+              <PlayerAvatar
+                playerId={player.id}
+                matchName={player.match_name}
+                profileImageUrl={player.profile_image_url}
+                className="w-full h-full rounded-none"
+              />
               ) : (
                 <div className="w-full h-full bg-navy-700 flex items-center justify-center text-gray-400">
                   <User className="w-10 h-10" />

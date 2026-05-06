@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import teamsSeed from "../../../data/lec/draft/teams.json";
 import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import type { MatchSnapshot } from "./types";
 import type { DraftMatchResult, DraftTimelineEvent } from "./draftResultSimulator";
@@ -204,7 +204,7 @@ export default function DraftResultScreen({
     ? `M ${chartPoints[0].x},${GOLD_CHART_CENTER_Y} L ${chartPoints.map((point) => `${point.x},${point.y}`).join(" L ")} L ${chartPoints[chartPoints.length - 1].x},${GOLD_CHART_CENTER_Y} Z`
     : "";
 
-  const mvpPhoto = resolvePlayerPhoto(selectedResult.mvp.playerId, selectedResult.mvp.playerName);
+  const mvpPhoto = undefined;
   const playedSeriesGames = Math.max(latestSeriesGame?.gameIndex ?? 1, seriesGamesForTabs.length);
   const nextGameLabel = `${Math.min(seriesLength, playedSeriesGames + 1)}/${seriesLength}`;
   const targetSeriesWins = seriesLength === 1 ? 1 : seriesLength === 3 ? 2 : 3;
@@ -354,18 +354,11 @@ export default function DraftResultScreen({
             <div className="rounded-xl border border-yellow-400/25 bg-[#0a1433] p-4">
               <p className="text-[11px] uppercase tracking-[0.2em] text-yellow-300">{t("match.draftResult.bestOfMatch")}</p>
               <div className="mt-3 flex items-center gap-3">
-                {mvpPhoto ? (
-                  <img
-                    src={mvpPhoto}
-                    alt={selectedResult.mvp.playerName}
-                    className="w-14 h-14 rounded-full object-cover border border-white/15"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-[#0b1226] border border-white/15 grid place-items-center text-xl font-black">
-                    {selectedResult.mvp.playerName.charAt(0).toUpperCase()}
-                  </div>
-                )}
+                <PlayerAvatar
+                  playerId={selectedResult.mvp.playerId}
+                  matchName={selectedResult.mvp.playerName}
+                  className="w-14 h-14 border border-white/15"
+                />
                 <div>
                   <p className="font-bold text-lg">{selectedResult.mvp.playerName}</p>
                   <p className="text-sm text-gray-300">
@@ -573,7 +566,6 @@ export default function DraftResultScreen({
                 <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{blueTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {blueRows.map((row) => {
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
                     const isMvp = row.playerId === selectedResult.mvp.playerId;
                     return (
                       <div
@@ -581,7 +573,11 @@ export default function DraftResultScreen({
                         className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
+                          <PlayerAvatar
+                            playerId={row.playerId}
+                            matchName={row.playerName}
+                            className="w-7 h-7 border border-white/15"
+                          />
                           <span className="truncate">{row.playerName}</span>
                         </div>
                         <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>
@@ -597,7 +593,6 @@ export default function DraftResultScreen({
                 <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{redTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {redRows.map((row) => {
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
                     const isMvp = row.playerId === selectedResult.mvp.playerId;
                     return (
                       <div
@@ -605,7 +600,11 @@ export default function DraftResultScreen({
                         className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
+                          <PlayerAvatar
+                            playerId={row.playerId}
+                            matchName={row.playerName}
+                            className="w-7 h-7 border border-white/15"
+                          />
                           <span className="truncate">{row.playerName}</span>
                         </div>
                         <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>

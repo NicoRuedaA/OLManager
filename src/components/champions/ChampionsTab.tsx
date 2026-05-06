@@ -7,7 +7,7 @@ import playersSeed from "../../../data/lec/draft/players.json";
 import { setPlayerChampionTrainingTarget, delegateChampionTraining } from "../../services/playerService";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import { t } from "i18next";
 
@@ -623,15 +623,12 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 overflow-hidden rounded-lg bg-navy-800">
-                      {resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) ? (
-                        <img
-                          src={resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) ?? ""}
-                          alt={player.match_name}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-full w-full bg-linear-to-br from-navy-600 to-navy-800" />
-                      )}
+                      <PlayerAvatar
+                        playerId={player.id}
+                        matchName={player.match_name}
+                        profileImageUrl={player.profile_image_url}
+                        className="h-full w-full rounded-none"
+                      />
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-gray-100">{player.match_name}</p>

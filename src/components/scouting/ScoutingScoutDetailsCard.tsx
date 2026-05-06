@@ -9,7 +9,7 @@ import { countryName } from "../../lib/countries";
 import { Badge, Card, CardBody, CardHeader, CountryFlag, ProgressBar } from "../ui";
 import { Eye } from "lucide-react";
 import { scoutAssignmentCount, scoutMaxSlots } from "./ScoutingTab.helpers";
-import { resolveStaffPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 
 interface ScoutingScoutDetailsCardProps {
   scouts: StaffData[];

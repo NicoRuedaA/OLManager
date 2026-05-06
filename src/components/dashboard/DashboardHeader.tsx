@@ -16,7 +16,7 @@ import type { MatchModeType } from "../../hooks/useAdvanceTime";
 import { Badge, ThemeToggle } from "../ui";
 import { translatePositionAbbreviation } from "../squad/SquadTab.helpers";
 import { getPlayerBadgeVariant } from "./dashboardHelpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { PlayerAvatar } from "../../lib/playerPhotos";
 import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 
 export interface DashboardMatchModeMeta {
@@ -240,17 +240,12 @@ function renderSearchResults(props: {
               onMouseDown={() => onSelectSearchPlayer(player.id)}
               className="flex w-full items-center gap-2 px-3 py-2 text-left transition-colors hover:bg-gray-50 dark:hover:bg-navy-600"
             >
-              {(() => {
-                const photo = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
-                if (photo) {
-                  return <img src={photo} alt={player.match_name} className="w-6 h-6 rounded-full object-cover shrink-0" />;
-                }
-                return (
-                  <Badge variant={getPlayerBadgeVariant(player.position)} size="sm">
-                    {translatePositionAbbreviation(t, player.position)}
-                  </Badge>
-                );
-              })()}
+              <PlayerAvatar
+                playerId={player.id}
+                matchName={player.match_name}
+                profileImageUrl={player.profile_image_url}
+                className="w-6 h-6 shrink-0"
+              />
               <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
                 {player.full_name}
               </span>
