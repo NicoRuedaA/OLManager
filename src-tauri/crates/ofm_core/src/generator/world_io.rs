@@ -46,6 +46,59 @@ pub fn export_world_to_json(world: &WorldData) -> Result<String, String> {
         .map_err(|e| format!("Failed to serialise world: {}", e))
 }
 
+/// Load a world from a split directory containing teams/, players/, staff/ subdirectories.
+/// Each subdirectory must contain a JSON file with the corresponding array.
+pub fn load_world_from_split_dir(base_dir: &std::path::Path) -> Result<WorldData, String> {
+    let teams_path = base_dir.join("teams").join("lec_teams.json");
+    let players_path = base_dir.join("players").join("lec_players.json");
+    let staffs_path = base_dir.join("staffs").join("lec_staffs.json");
+
+    let teams_json = std::fs::read_to_string(&teams_path)
+        .map_err(|e| format!("Failed to read {}: {}", teams_path.display(), e))?;
+    let players_json = std::fs::read_to_string(&players_path)
+        .map_err(|e| format!("Failed to read {}: {}", players_path.display(), e))?;
+    let staffs_json = std::fs::read_to_string(&staffs_path)
+        .map_err(|e| format!("Failed to read {}: {}", staffs_path.display(), e))?;
+
+    let teams_container: serde_json::Value = serde_json::from_str(&teams_json)
+        .map_err(|e| format!("Failed to parse teams: {}", e))?;
+    let players_container: serde_json::Value = serde_json::from_str(&players_json)
+        .map_err(|e| format!("Failed to parse players: {}", e))?;
+    let staffs_container: serde_json::Value = serde_json::from_str(&staffs_json)
+        .map_err(|e| format!("Failed to parse staff: {}", e))?;
+
+    let name = teams_container["name"]
+        .as_str()
+        .unwrap_or("LEC 2026")
+        .to_string();
+    let description = teams_container["description"]
+        .as_str()
+        .unwrap_or("")
+        .to_string();
+    let teams: Vec<domain::team::Team> = serde_json::from_value(teams_container["teams"].clone())
+        .map_err(|e| format!("Failed to deserialize teams: {}", e))?;
+    let players: Vec<domain::player::Player> =
+        serde_json::from_value(players_container["players"].clone())
+            .map_err(|e| format!("Failed to deserialize players: {}", e))?;
+    let staff: Vec<domain::staff::Staff> =
+        serde_json::from_value(staffs_container["staff"].clone())
+            .map_err(|e| format!("Failed to deserialize staff: {}", e))?;
+
+    let mut world = WorldData {
+        name,
+        description,
+        teams,
+        players,
+        staff,
+    };
+    crate::identity_upgrade::upgrade_world_football_identities(
+        &mut world.teams,
+        &mut world.players,
+        &mut world.staff,
+    );
+    Ok(world)
+}
+
 /// Scan a directory for `.json` world database files and return their metadata.
 pub fn scan_world_databases(dir: &std::path::Path) -> Vec<WorldDatabaseInfo> {
     let mut results = Vec::new();
@@ -170,7 +223,7 @@ mod tests {
 
     #[test]
     fn active_lec_world_seed_does_not_contain_football_nation() {
-        let json = include_str!("../../databases/lec_world.json");
+        let json = include_str!("../../../../databases/teams/lec_teams.json");
 
         // Assert: active seed data must NOT contain football_nation keys
         assert!(

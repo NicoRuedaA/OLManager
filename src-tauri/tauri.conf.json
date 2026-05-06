@@ -28,7 +28,9 @@
     "targets": "all",
     "createUpdaterArtifacts": true,
     "resources": [
-      "databases/lec_world.json"
+      "databases/teams/*",
+      "databases/players/*",
+      "databases/staffs/*"
     ],
     "icon": [
       "icons/32x32.png",

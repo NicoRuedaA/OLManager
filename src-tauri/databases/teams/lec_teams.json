@@ -1,0 +1,3284 @@
+﻿{
+    "teams":  [
+                  {
+                      "id":  "lec-fnatic",
+                      "name":  "Fnatic",
+                      "short_name":  "FNC",
+                      "country":  "GB",
+                      "city":  "London",
+                      "arena_name":  "Fnatic Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3500000,
+                      "manager_id":  null,
+                      "reputation":  500,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  null,
+                      "wage_budget":  1300000,
+                      "transfer_budget":  450000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2004,
+                      "colors":  {
+                                     "primary":  "#191919",
+                                     "secondary":  "#FF5900"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-g2-esports",
+                      "name":  "G2 Esports",
+                      "short_name":  "G2",
+                      "country":  "DE",
+                      "city":  "Berlin",
+                      "arena_name":  "G2 Esports Arena",
+                      "arena_capacity":  28000,
+                      "finance":  4500000,
+                      "manager_id":  null,
+                      "reputation":  650,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-prime-league-g2-nord",
+                      "academy":  null,
+                      "wage_budget":  1600000,
+                      "transfer_budget":  700000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2014,
+                      "colors":  {
+                                     "primary":  "#1A1A1B",
+                                     "secondary":  "#FF0000"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-giantx-lec",
+                      "name":  "GIANTX",
+                      "short_name":  "GX",
+                      "country":  "ES",
+                      "city":  "MÃ¡laga",
+                      "arena_name":  "GIANTX Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3500000,
+                      "manager_id":  null,
+                      "reputation":  500,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-liga-espanola-giantx-itero",
+                      "academy":  null,
+                      "wage_budget":  1100000,
+                      "transfer_budget":  400000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2008,
+                      "colors":  {
+                                     "primary":  "#001D3D",
+                                     "secondary":  "#000000"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-karmine-corp",
+                      "name":  "Karmine Corp",
+                      "short_name":  "KC",
+                      "country":  "FR",
+                      "city":  "Paris",
+                      "arena_name":  "Karmine Corp Arena",
+                      "arena_capacity":  28000,
+                      "finance":  4500000,
+                      "manager_id":  null,
+                      "reputation":  650,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-lfl-karmine-corp-blue",
+                      "academy":  null,
+                      "wage_budget":  1600000,
+                      "transfer_budget":  700000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2020,
+                      "colors":  {
+                                     "primary":  "#003566",
+                                     "secondary":  "#00A8E8"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-mad-lions",
+                      "name":  "Movistar KOI",
+                      "short_name":  "MKOI",
+                      "country":  "ES",
+                      "city":  "Madrid",
+                      "arena_name":  "Movistar KOI Arena",
+                      "arena_capacity":  28000,
+                      "finance":  4500000,
+                      "manager_id":  null,
+                      "reputation":  650,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-liga-espanola-movistar-koi-f-nix",
+                      "academy":  null,
+                      "wage_budget":  1400000,
+                      "transfer_budget":  650000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2021,
+                      "colors":  {
+                                     "primary":  "#9327FF",
+                                     "secondary":  "#00E5FF"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-natus-vincere",
+                      "name":  "Natus Vincere",
+                      "short_name":  "NAVI",
+                      "country":  "UA",
+                      "city":  "Kyiv",
+                      "arena_name":  "Natus Vincere Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3500000,
+                      "manager_id":  null,
+                      "reputation":  500,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  null,
+                      "wage_budget":  1300000,
+                      "transfer_budget":  500000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2009,
+                      "colors":  {
+                                     "primary":  "#231F20",
+                                     "secondary":  "#FFFF00"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-shifters",
+                      "name":  "Shifters",
+                      "short_name":  "SHFT",
+                      "country":  "CH",
+                      "city":  "Geneva",
+                      "arena_name":  "Shifters Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3000000,
+                      "manager_id":  null,
+                      "reputation":  350,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  null,
+                      "wage_budget":  1000000,
+                      "transfer_budget":  350000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2012,
+                      "colors":  {
+                                     "primary":  "#D4AF37",
+                                     "secondary":  "#121212"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-sk-gaming",
+                      "name":  "SK Gaming",
+                      "short_name":  "SK",
+                      "country":  "DE",
+                      "city":  "Berlin",
+                      "arena_name":  "SK Gaming Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3000000,
+                      "manager_id":  null,
+                      "reputation":  350,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  null,
+                      "wage_budget":  1000000,
+                      "transfer_budget":  350000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1997,
+                      "colors":  {
+                                     "primary":  "#000000",
+                                     "secondary":  "#FFFFFF"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-team-heretics-lec",
+                      "name":  "Team Heretics",
+                      "short_name":  "TH",
+                      "country":  "ES",
+                      "city":  "Madrid",
+                      "arena_name":  "Team Heretics Arena",
+                      "arena_capacity":  28000,
+                      "finance":  3500000,
+                      "manager_id":  null,
+                      "reputation":  500,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-liga-espanola-team-heretics",
+                      "academy":  null,
+                      "wage_budget":  900000,
+                      "transfer_budget":  350000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2016,
+                      "colors":  {
+                                     "primary":  "#FFFFFF",
+                                     "secondary":  "#2A2A2A"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "lec-team-vitality",
+                      "name":  "Team Vitality",
+                      "short_name":  "VIT",
+                      "country":  "FR",
+                      "city":  "Paris",
+                      "arena_name":  "Team Vitality Arena",
+                      "arena_capacity":  28000,
+                      "finance":  4500000,
+                      "manager_id":  null,
+                      "reputation":  650,
+                      "team_kind":  "Main",
+                      "parent_team_id":  null,
+                      "academy_team_id":  "academy-lfl-team-vitality-bee",
+                      "academy":  null,
+                      "wage_budget":  1300000,
+                      "transfer_budget":  600000,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  2,
+                                         "medical":  2,
+                                         "scouting":  2
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "MacroSystems",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  2013,
+                      "colors":  {
+                                     "primary":  "#000000",
+                                     "secondary":  "#FFD700"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-movistar-koi-f-nix",
+                      "name":  "Movistar KOI FÃ©nix",
+                      "short_name":  "MKF",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "MKF Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-mad-lions",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-movistar-koi-f-nix",
+                                      "original_name":  "Movistar KOI FÃ©nix",
+                                      "original_short_name":  "MKF",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bd/Movistar_KOIlogo_square.png/revision/latest/scale-to-width-down/220?cb=20240528162718",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bd/Movistar_KOIlogo_square.png/revision/latest/scale-to-width-down/220?cb=20240528162718",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-team-heretics",
+                      "name":  "Team Heretics",
+                      "short_name":  "TH",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "TH Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-team-heretics-lec",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-team-heretics",
+                                      "original_name":  "Team Heretics",
+                                      "original_short_name":  "TH",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bf/Team_Hereticslogo_square.png/revision/latest/scale-to-width-down/220?cb=20251230025102",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bf/Team_Hereticslogo_square.png/revision/latest/scale-to-width-down/220?cb=20251230025102",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-barcelona-esports",
+                      "name":  "Barcelona Esports",
+                      "short_name":  "BE",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "BE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-barcelona-esports",
+                                      "original_name":  "Barcelona Esports",
+                                      "original_short_name":  "BE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/68/Bar%C3%A7a_eSportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20221118223547",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/68/Bar%C3%A7a_eSportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20221118223547",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-giantx-itero",
+                      "name":  "GiantX Itero",
+                      "short_name":  "GI",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "GI Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-giantx-lec",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-giantx-itero",
+                                      "original_name":  "GiantX Itero",
+                                      "original_short_name":  "GI",
+                                      "original_logo_url":  "https://upload.wikimedia.org/wikipedia/en/0/0e/GiantX_logo.svg",
+                                      "current_logo_url":  "https://upload.wikimedia.org/wikipedia/en/0/0e/GiantX_logo.svg",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-ucam-esports",
+                      "name":  "UCAM Esports",
+                      "short_name":  "UE",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "UE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-ucam-esports",
+                                      "original_name":  "UCAM Esports",
+                                      "original_short_name":  "UE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/ad/UCAM_Esports_Clublogo_square.png/revision/latest/scale-to-width-down/220?cb=20251113225931",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/ad/UCAM_Esports_Clublogo_square.png/revision/latest/scale-to-width-down/220?cb=20251113225931",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-falke-esports",
+                      "name":  "Falke Esports",
+                      "short_name":  "FE",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "FE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-falke-esports",
+                                      "original_name":  "Falke Esports",
+                                      "original_short_name":  "FE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b0/Falke_Esportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250917172449",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b0/Falke_Esportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250917172449",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-lua-gaming",
+                      "name":  "LUA Gaming",
+                      "short_name":  "LG",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "LG Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-lua-gaming",
+                                      "original_name":  "LUA Gaming",
+                                      "original_short_name":  "LG",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b8/LUA_Gaminglogo_square.png/revision/latest/scale-to-width-down/220?cb=20231214150503",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b8/LUA_Gaminglogo_square.png/revision/latest/scale-to-width-down/220?cb=20231214150503",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-liga-espanola-ub-alma-mater",
+                      "name":  "UB Alma Mater",
+                      "short_name":  "UAM",
+                      "country":  "ES",
+                      "city":  "Liga Espanola",
+                      "arena_name":  "UAM Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "liga-espanola",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Liga Espanola academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-liga-espanola-ub-alma-mater",
+                                      "original_name":  "UB Alma Mater",
+                                      "original_short_name":  "UAM",
+                                      "original_logo_url":  "https://images.seeklogo.com/logo-png/50/2/universitat-de-barcelona-logo-png_seeklogo-500551.png",
+                                      "current_logo_url":  "https://images.seeklogo.com/logo-png/50/2/universitat-de-barcelona-logo-png_seeklogo-500551.png",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-solary",
+                      "name":  "Solary",
+                      "short_name":  "S",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "S Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-solary",
+                                      "original_name":  "Solary",
+                                      "original_short_name":  "S",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ec/Solarylogo_square.png/revision/latest/scale-to-width-down/220?cb=20181130231519",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/e/ec/Solarylogo_square.png/revision/latest/scale-to-width-down/220?cb=20181130231519",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-galions",
+                      "name":  "Galions",
+                      "short_name":  "G",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "G Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-galions",
+                                      "original_name":  "Galions",
+                                      "original_short_name":  "G",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/61/Galionslogo_square.png/revision/latest/scale-to-width-down/220?cb=20241209190639",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/61/Galionslogo_square.png/revision/latest/scale-to-width-down/220?cb=20241209190639",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-french-flair",
+                      "name":  "French Flair",
+                      "short_name":  "FF",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "FF Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-french-flair",
+                                      "original_name":  "French Flair",
+                                      "original_short_name":  "FF",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/05/French_Flairlogo_square.png/revision/latest/scale-to-width-down/220?cb=20251203202820",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/05/French_Flairlogo_square.png/revision/latest/scale-to-width-down/220?cb=20251203202820",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-joblife",
+                      "name":  "JOblife",
+                      "short_name":  "J",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "J Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-joblife",
+                                      "original_name":  "JOblife",
+                                      "original_short_name":  "J",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bf/Joblifelogo_profile.png/revision/latest/scale-to-width-down/220?cb=20221219183313",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/bf/Joblifelogo_profile.png/revision/latest/scale-to-width-down/220?cb=20221219183313",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-tln-pirates",
+                      "name":  "TLN Pirates",
+                      "short_name":  "TP",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "TP Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-tln-pirates",
+                                      "original_name":  "TLN Pirates",
+                                      "original_short_name":  "TP",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/06/TLN_Pirateslogo_square.png/revision/latest/scale-to-width-down/220?cb=20260114195706",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/06/TLN_Pirateslogo_square.png/revision/latest/scale-to-width-down/220?cb=20260114195706",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-skillcamp",
+                      "name":  "Skillcamp",
+                      "short_name":  "S",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "S Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-skillcamp",
+                                      "original_name":  "Skillcamp",
+                                      "original_short_name":  "S",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a2/Skillcamplogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260216032253",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/a/a2/Skillcamplogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260216032253",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-ici-japon-corp-esport",
+                      "name":  "Ici Japon Corp. Esport",
+                      "short_name":  "IJCE",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "IJCE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-ici-japon-corp-esport",
+                                      "original_name":  "Ici Japon Corp. Esport",
+                                      "original_short_name":  "IJCE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/7a/Ici_Japon_Corp._Esportlogo_square.png/revision/latest/scale-to-width-down/220?cb=20241006054235",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/7a/Ici_Japon_Corp._Esportlogo_square.png/revision/latest/scale-to-width-down/220?cb=20241006054235",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-zyb-esport",
+                      "name":  "ZYB Esport",
+                      "short_name":  "ZE",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "ZE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-zyb-esport",
+                                      "original_name":  "ZYB Esport",
+                                      "original_short_name":  "ZE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/72/ZYB_Esportlogo_square.png/revision/latest/scale-to-width-down/220?cb=20260110152035",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/72/ZYB_Esportlogo_square.png/revision/latest/scale-to-width-down/220?cb=20260110152035",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-karmine-corp-blue",
+                      "name":  "Karmine Corp Blue",
+                      "short_name":  "KCB",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "KCB Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-karmine-corp",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-karmine-corp-blue",
+                                      "original_name":  "Karmine Corp Blue",
+                                      "original_short_name":  "KCB",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9f/Karmine_Corp_Bluelogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260110071859",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/9f/Karmine_Corp_Bluelogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260110071859",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-lfl-team-vitality-bee",
+                      "name":  "Team Vitality.Bee",
+                      "short_name":  "TV",
+                      "country":  "FR",
+                      "city":  "LFL",
+                      "arena_name":  "TV Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-team-vitality",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "lfl",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from LFL academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-lfl-team-vitality-bee",
+                                      "original_name":  "Team Vitality.Bee",
+                                      "original_short_name":  "TV",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/86/Team_Vitalitylogo_square.png/revision/latest/scale-to-width-down/220?cb=20230224142251",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/86/Team_Vitalitylogo_square.png/revision/latest/scale-to-width-down/220?cb=20230224142251",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-eintracht-spandau",
+                      "name":  "Eintracht Spandau",
+                      "short_name":  "ES",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "ES Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-eintracht-spandau",
+                                      "original_name":  "Eintracht Spandau",
+                                      "original_short_name":  "ES",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f6/Eintracht_Spandaulogo_square.png/revision/latest/scale-to-width-down/220?cb=20211114183152",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f6/Eintracht_Spandaulogo_square.png/revision/latest/scale-to-width-down/220?cb=20211114183152",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-g2-nord",
+                      "name":  "G2 Nord",
+                      "short_name":  "GN",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "GN Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6200,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  "lec-g2-esports",
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Active",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  62,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "2025-01-01",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-g2-nord",
+                                      "original_name":  "G2 Nord",
+                                      "original_short_name":  "GN",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d7/G2_NORDlogo_square.png/revision/latest/scale-to-width-down/220?cb=20260114141330",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/d/d7/G2_NORDlogo_square.png/revision/latest/scale-to-width-down/220?cb=20260114141330",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  "2025-01-01"
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-team-orange-gaming",
+                      "name":  "Team Orange Gaming",
+                      "short_name":  "TOG",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "TOG Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-team-orange-gaming",
+                                      "original_name":  "Team Orange Gaming",
+                                      "original_short_name":  "TOG",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f3/TeamOrangeGaminglogo_profile.png/revision/latest/scale-to-width-down/220?cb=20250222213601",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/f/f3/TeamOrangeGaminglogo_profile.png/revision/latest/scale-to-width-down/220?cb=20250222213601",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-kaufland-hangry-knights",
+                      "name":  "Kaufland Hangry Knights",
+                      "short_name":  "KHK",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "KHK Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-kaufland-hangry-knights",
+                                      "original_name":  "Kaufland Hangry Knights",
+                                      "original_short_name":  "KHK",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4c/Kaufland_Hangry_Knightslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250122013351",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/4/4c/Kaufland_Hangry_Knightslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250122013351",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-rossmann-centaurs",
+                      "name":  "ROSSMANN Centaurs",
+                      "short_name":  "RC",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "RC Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-rossmann-centaurs",
+                                      "original_name":  "ROSSMANN Centaurs",
+                                      "original_short_name":  "RC",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8e/ROSSMANN_Centaurslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250122010633",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/8/8e/ROSSMANN_Centaurslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250122010633",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-a-one-man-army",
+                      "name":  "A One Man Army",
+                      "short_name":  "AOMA",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "AOMA Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-a-one-man-army",
+                                      "original_name":  "A One Man Army",
+                                      "original_short_name":  "AOMA",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6f/A_One_Man_Armylogo_square.png/revision/latest/scale-to-width-down/220?cb=20230130144153",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/6f/A_One_Man_Armylogo_square.png/revision/latest/scale-to-width-down/220?cb=20230130144153",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-e-wie-einfach-e-sports",
+                      "name":  "E WIE EINFACH E-SPORTS",
+                      "short_name":  "EWEE",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "EWEE Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-e-wie-einfach-e-sports",
+                                      "original_name":  "E WIE EINFACH E-SPORTS",
+                                      "original_short_name":  "EWEE",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/70/E_WIE_EINFACH_E-SPORTSlogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260113120025",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/7/70/E_WIE_EINFACH_E-SPORTSlogo_profile.png/revision/latest/scale-to-width-down/220?cb=20260113120025",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-unicorns-of-love-sexy-edition",
+                      "name":  "Unicorns of Love Sexy Edition",
+                      "short_name":  "UOLS",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "UOLS Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-unicorns-of-love-sexy-edition",
+                                      "original_name":  "Unicorns of Love Sexy Edition",
+                                      "original_short_name":  "UOLS",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/93/Unicorns_of_Love_Sexy_Editionlogo_square.png/revision/latest/scale-to-width-down/220?cb=20200224135443",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/9/93/Unicorns_of_Love_Sexy_Editionlogo_square.png/revision/latest/scale-to-width-down/220?cb=20200224135443",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-berlin-international-gaming",
+                      "name":  "Berlin International Gaming",
+                      "short_name":  "BIG",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "BIG Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-berlin-international-gaming",
+                                      "original_name":  "Berlin International Gaming",
+                                      "original_short_name":  "BIG",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/62/Berlin_International_Gaminglogo_square.png/revision/latest/scale-to-width-down/220?cb=20200718200002",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/62/Berlin_International_Gaminglogo_square.png/revision/latest/scale-to-width-down/220?cb=20200718200002",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  },
+                  {
+                      "id":  "academy-prime-league-eintracht-frankfurt",
+                      "name":  "Eintracht Frankfurt",
+                      "short_name":  "EF",
+                      "country":  "DE",
+                      "city":  "Prime League",
+                      "arena_name":  "EF Academy Arena",
+                      "arena_capacity":  2500,
+                      "finance":  0,
+                      "manager_id":  null,
+                      "reputation":  6000,
+                      "team_kind":  "Academy",
+                      "parent_team_id":  null,
+                      "academy_team_id":  null,
+                      "academy":  {
+                                      "lifecycle":  "Planned",
+                                      "erl_assignment":  {
+                                                             "erl_league_id":  "prime-league",
+                                                             "country_rule":  "Domestic",
+                                                             "fallback_reason":  "Seeded from Prime League academy roster",
+                                                             "reputation":  60,
+                                                             "acquisition_cost":  0,
+                                                             "acquired_at":  "",
+                                                             "created_at":  "2025-01-01"
+                                                         },
+                                      "source_team_id":  "academy-prime-league-eintracht-frankfurt",
+                                      "original_name":  "Eintracht Frankfurt",
+                                      "original_short_name":  "EF",
+                                      "original_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/38/Eintracht_Frankfurtlogo_square.png/revision/latest/scale-to-width-down/220?cb=20210818183713",
+                                      "current_logo_url":  "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/3/38/Eintracht_Frankfurtlogo_square.png/revision/latest/scale-to-width-down/220?cb=20210818183713",
+                                      "acquisition_cost":  0,
+                                      "acquired_at":  ""
+                                  },
+                      "wage_budget":  0,
+                      "transfer_budget":  0,
+                      "season_income":  0,
+                      "season_expenses":  0,
+                      "financial_ledger":  [
+
+                                           ],
+                      "sponsorship":  null,
+                      "facilities":  {
+                                         "training":  1,
+                                         "medical":  1,
+                                         "scouting":  1
+                                     },
+                      "formation":  "4-4-2",
+                      "play_style":  "Balanced",
+                      "lol_tactics":  {
+                                          "strong_side":  "Bot",
+                                          "game_timing":  "Mid",
+                                          "jungle_style":  "Enabler",
+                                          "jungle_pathing":  "TopToBot",
+                                          "fight_plan":  "FrontToBack",
+                                          "support_roaming":  "Lane"
+                                      },
+                      "training_focus":  "Scrims",
+                      "training_intensity":  "Medium",
+                      "training_schedule":  "Balanced",
+                      "founded_year":  1900,
+                      "colors":  {
+                                     "primary":  "#10b981",
+                                     "secondary":  "#ffffff"
+                                 },
+                      "training_groups":  [
+
+                                          ],
+                      "weekly_scrim_opponent_ids":  [
+
+                                                    ],
+                      "scrim_loss_streak":  0,
+                      "scrim_weekly_played":  0,
+                      "scrim_weekly_wins":  0,
+                      "scrim_weekly_losses":  0,
+                      "scrim_slot_results":  [
+
+                                             ],
+                      "starting_xi_ids":  [
+
+                                          ],
+                      "team_roles":  {
+                                         "captain":  null,
+                                         "shotcaller":  null
+                                     },
+                      "form":  [
+
+                               ],
+                      "history":  [
+
+                                  ]
+                  }
+              ],
+    "description":  "Mundo predefinido de League of Legends (LEC) para OpenFootManager adaptado.",
+    "name":  "LEC 2026"
+}

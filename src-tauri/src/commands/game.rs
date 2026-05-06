@@ -654,40 +654,36 @@ pub(crate) fn ensure_example_academy_pool(game: &mut Game) {
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
 }
 
-fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
+fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
     let cwd = std::env::current_dir().map_err(|e| format!("Failed to read current dir: {}", e))?;
     let mut candidates = vec![
+        Some(cwd.join("src-tauri").join("databases")),
+        Some(cwd.join("databases")),
         app_handle
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("databases").join("lec_world.json")),
-        cwd.join("src-tauri")
-            .join("databases")
-            .join("lec_world.json")
-            .into(),
-        cwd.join("databases").join("lec_world.json").into(),
+            .map(|dir| dir.join("databases")),
     ];
 
     if let Ok(exe_path) = std::env::current_exe() {
         if let Some(exe_dir) = exe_path.parent() {
-            candidates.push(Some(exe_dir.join("databases").join("lec_world.json")));
+            candidates.push(Some(exe_dir.join("databases")));
             candidates.push(Some(
                 exe_dir
                     .join("resources")
-                    .join("databases")
-                    .join("lec_world.json"),
+                    .join("databases"),
             ));
         }
     }
 
     for candidate in candidates.into_iter().flatten() {
-        if candidate.exists() {
+        if candidate.join("teams").join("lec_teams.json").exists() {
             return Ok(candidate);
         }
     }
 
-    let embedded_world_json = include_str!("../../databases/lec_world.json");
+    // Fallback: embed the split files into app_data_dir
     let app_data_dir = app_handle.path().app_data_dir().map_err(|e| {
         format!(
             "Default LEC world database not found and app data dir is unavailable: {}",
@@ -695,20 +691,35 @@ fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path
         )
     })?;
     let db_dir = app_data_dir.join("databases");
-    std::fs::create_dir_all(&db_dir)
+    std::fs::create_dir_all(db_dir.join("teams"))
+        .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
+    std::fs::create_dir_all(db_dir.join("players"))
+        .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
+    std::fs::create_dir_all(db_dir.join("staffs"))
         .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
 
-    let fallback_path = db_dir.join("lec_world.json");
-    if !fallback_path.exists() {
-        std::fs::write(&fallback_path, embedded_world_json)
-            .map_err(|e| format!("Failed to write fallback LEC world database: {}", e))?;
+    let embedded_teams = include_str!("../../databases/teams/lec_teams.json");
+    let embedded_players = include_str!("../../databases/players/lec_players.json");
+    let embedded_staffs = include_str!("../../databases/staffs/lec_staffs.json");
+
+    if !db_dir.join("teams").join("lec_teams.json").exists() {
+        std::fs::write(db_dir.join("teams").join("lec_teams.json"), embedded_teams)
+            .map_err(|e| format!("Failed to write fallback teams: {}", e))?;
+    }
+    if !db_dir.join("players").join("lec_players.json").exists() {
+        std::fs::write(db_dir.join("players").join("lec_players.json"), embedded_players)
+            .map_err(|e| format!("Failed to write fallback players: {}", e))?;
+    }
+    if !db_dir.join("staffs").join("lec_staffs.json").exists() {
+        std::fs::write(db_dir.join("staffs").join("lec_staffs.json"), embedded_staffs)
+            .map_err(|e| format!("Failed to write fallback staff: {}", e))?;
     }
 
-    if fallback_path.exists() {
-        return Ok(fallback_path);
+    if db_dir.join("teams").join("lec_teams.json").exists() {
+        return Ok(db_dir);
     }
 
-    Err("Default LEC world database not found (lec_world.json).".to_string())
+    Err("Default LEC world database not found.".to_string())
 }
 
 #[allow(dead_code)]
@@ -1837,11 +1848,9 @@ pub async fn start_new_game(
     let (teams, mut players, staff) = if world_source == "random" {
         ofm_core::generator::generate_world(None)
     } else if world_source == "lec-default" {
-        let path = resolve_default_world_path(&app_handle)?;
-        let json = std::fs::read_to_string(&path)
-            .map_err(|e| format!("Failed to read default LEC world database: {}", e))?;
-        let has_explicit_potential_base = json.contains("\"potential_base\"");
-        let mut world = ofm_core::generator::load_world_from_json(&json)?;
+        let dir = resolve_default_world_dir(&app_handle)?;
+        let mut world = ofm_core::generator::load_world_from_split_dir(&dir)?;
+        let has_explicit_potential_base = world.players.iter().any(|p| p.potential_base != 99);
         if !has_explicit_potential_base {
             apply_seed_potential_defaults(&mut world.players);
         }

@@ -1,0 +1,806 @@
+﻿{
+    "description":  "Mundo predefinido de League of Legends (LEC) para OpenFootManager adaptado.",
+    "name":  "LEC 2026",
+    "staff":  [
+                  {
+                      "id":  "lec-fnatic-staff-0",
+                      "first_name":  "FNC",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-fnatic",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-fnatic-staff-1",
+                      "first_name":  "FNC",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-fnatic",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-fnatic-staff-2",
+                      "first_name":  "FNC",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-fnatic",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-fnatic-staff-3",
+                      "first_name":  "FNC",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-fnatic",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-g2-esports-staff-0",
+                      "first_name":  "G2",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-g2-esports",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-g2-esports-staff-1",
+                      "first_name":  "G2",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-g2-esports",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-g2-esports-staff-2",
+                      "first_name":  "G2",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-g2-esports",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-g2-esports-staff-3",
+                      "first_name":  "G2",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-g2-esports",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-giantx-lec-staff-0",
+                      "first_name":  "GX",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-giantx-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-giantx-lec-staff-1",
+                      "first_name":  "GX",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-giantx-lec",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-giantx-lec-staff-2",
+                      "first_name":  "GX",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-giantx-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-giantx-lec-staff-3",
+                      "first_name":  "GX",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-giantx-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-karmine-corp-staff-0",
+                      "first_name":  "KC",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-karmine-corp",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-karmine-corp-staff-1",
+                      "first_name":  "KC",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-karmine-corp",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-karmine-corp-staff-2",
+                      "first_name":  "KC",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-karmine-corp",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-karmine-corp-staff-3",
+                      "first_name":  "KC",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-karmine-corp",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-mad-lions-staff-0",
+                      "first_name":  "MKOI",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-mad-lions",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-mad-lions-staff-1",
+                      "first_name":  "MKOI",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-mad-lions",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-mad-lions-staff-2",
+                      "first_name":  "MKOI",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-mad-lions",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-mad-lions-staff-3",
+                      "first_name":  "MKOI",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-mad-lions",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-natus-vincere-staff-0",
+                      "first_name":  "NAVI",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-natus-vincere",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-natus-vincere-staff-1",
+                      "first_name":  "NAVI",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-natus-vincere",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-natus-vincere-staff-2",
+                      "first_name":  "NAVI",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-natus-vincere",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-natus-vincere-staff-3",
+                      "first_name":  "NAVI",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-natus-vincere",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-shifters-staff-0",
+                      "first_name":  "SFT",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-shifters",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-shifters-staff-1",
+                      "first_name":  "SFT",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-shifters",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-shifters-staff-2",
+                      "first_name":  "SFT",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-shifters",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-shifters-staff-3",
+                      "first_name":  "SFT",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-shifters",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-sk-gaming-staff-0",
+                      "first_name":  "SK",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-sk-gaming",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-sk-gaming-staff-1",
+                      "first_name":  "SK",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-sk-gaming",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-sk-gaming-staff-2",
+                      "first_name":  "SK",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-sk-gaming",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-sk-gaming-staff-3",
+                      "first_name":  "SK",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-sk-gaming",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-heretics-lec-staff-0",
+                      "first_name":  "TH",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-heretics-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-heretics-lec-staff-1",
+                      "first_name":  "TH",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-heretics-lec",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-heretics-lec-staff-2",
+                      "first_name":  "TH",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-heretics-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-heretics-lec-staff-3",
+                      "first_name":  "TH",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-team-heretics-lec",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-vitality-staff-0",
+                      "first_name":  "VIT",
+                      "last_name":  "Staff 1",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "AssistantManager",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-vitality",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-vitality-staff-1",
+                      "first_name":  "VIT",
+                      "last_name":  "Staff 2",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Coach",
+                      "attributes":  {
+                                         "coaching":  78,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-vitality",
+                      "specialization":  "Tactics",
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-vitality-staff-2",
+                      "first_name":  "VIT",
+                      "last_name":  "Staff 3",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Scout",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  77,
+                                         "judging_potential":  76,
+                                         "physiotherapy":  52
+                                     },
+                      "team_id":  "lec-team-vitality",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  },
+                  {
+                      "id":  "lec-team-vitality-staff-3",
+                      "first_name":  "VIT",
+                      "last_name":  "Staff 4",
+                      "date_of_birth":  "1988-01-01",
+                      "nationality":  "EUN",
+                      "birth_country":  "EUN",
+                      "profile_image_url":  null,
+                      "role":  "Physio",
+                      "attributes":  {
+                                         "coaching":  66,
+                                         "judging_ability":  62,
+                                         "judging_potential":  62,
+                                         "physiotherapy":  79
+                                     },
+                      "team_id":  "lec-team-vitality",
+                      "specialization":  null,
+                      "wage":  18000,
+                      "contract_end":  null
+                  }
+              ]
+}

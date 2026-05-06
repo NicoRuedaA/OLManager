@@ -9,29 +9,27 @@ use crate::commands::game::{
     inject_seed_free_agents, remove_free_agents_shadowed_by_academy,
 };
 
-fn resolve_default_world_editor_path(
+fn resolve_default_world_editor_dir(
     app_handle: &tauri::AppHandle,
 ) -> Result<std::path::PathBuf, String> {
     let cwd = std::env::current_dir().map_err(|e| format!("Failed to read current dir: {}", e))?;
     let candidates = [
-        cwd.join("src-tauri")
-            .join("databases")
-            .join("lec_world.json"),
-        cwd.join("databases").join("lec_world.json"),
+        cwd.join("src-tauri").join("databases"),
+        cwd.join("databases"),
         app_handle
             .path()
             .resource_dir()
-            .map(|dir| dir.join("databases").join("lec_world.json"))
-            .unwrap_or_else(|_| std::path::PathBuf::new()),
+            .unwrap_or_default()
+            .join("databases"),
     ];
 
     for candidate in candidates {
-        if candidate.exists() {
+        if candidate.join("teams").join("lec_teams.json").exists() {
             return Ok(candidate);
         }
     }
 
-    Err("Default LEC world database not found (lec_world.json).".to_string())
+    Err("Default LEC world database not found.".to_string())
 }
 
 fn enrich_world_for_editor(world: &mut ofm_core::generator::WorldData) {
@@ -210,9 +208,27 @@ pub fn load_world_editor_database(
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty())
     {
-        Some(path) if path == "lec-default" => resolve_default_world_editor_path(&app_handle)?,
+        Some(path) if path == "lec-default" => {
+            let dir = resolve_default_world_editor_dir(&app_handle)?;
+            let mut world = ofm_core::generator::load_world_from_split_dir(&dir)?;
+            let has_explicit_potential_base = world.players.iter().any(|p| p.potential_base != 99);
+            if !has_explicit_potential_base {
+                apply_seed_potential_defaults(&mut world.players);
+            }
+            enrich_world_for_editor(&mut world);
+            return Ok(world);
+        }
         Some(path) => std::path::PathBuf::from(path.strip_prefix("file:").unwrap_or(&path)),
-        None => resolve_default_world_editor_path(&app_handle)?,
+        None => {
+            let dir = resolve_default_world_editor_dir(&app_handle)?;
+            let mut world = ofm_core::generator::load_world_from_split_dir(&dir)?;
+            let has_explicit_potential_base = world.players.iter().any(|p| p.potential_base != 99);
+            if !has_explicit_potential_base {
+                apply_seed_potential_defaults(&mut world.players);
+            }
+            enrich_world_for_editor(&mut world);
+            return Ok(world);
+        }
     };
 
     info!("[cmd] load_world_editor_database: path={}", path.display());
