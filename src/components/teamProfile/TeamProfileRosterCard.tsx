@@ -86,8 +86,6 @@ export default function TeamProfileRosterCard({
                         matchName={player.match_name}
                         profileImageUrl={player.profile_image_url}
                       />
-                        </div>
-                      )}
                     </td>
                     <td className="py-3 px-5">
                       <img

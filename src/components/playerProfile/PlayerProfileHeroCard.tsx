@@ -185,11 +185,6 @@ export default function PlayerProfileHeroCard({
                 profileImageUrl={player.profile_image_url}
                 className="w-full h-full rounded-none"
               />
-              ) : (
-                <div className="w-full h-full bg-navy-700 flex items-center justify-center text-gray-400">
-                  <User className="w-10 h-10" />
-                </div>
-              )}
             </div>
             <div className="absolute -bottom-3 right-0 bg-navy-900 border border-navy-500 rounded-lg px-2 py-1 font-heading font-bold text-lg text-accent-300 leading-none">
               {ovr}

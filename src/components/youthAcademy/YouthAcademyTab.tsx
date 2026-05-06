@@ -513,9 +513,6 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                           matchName={player.match_name}
                           profileImageUrl={player.profile_image_url}
                         />
-                            {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
-                          </div>
-                        )}
                       </td>
                       <td className="py-2.5 px-4">
                         <div>

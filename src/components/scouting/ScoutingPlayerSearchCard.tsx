@@ -191,8 +191,6 @@ export default function ScoutingPlayerSearchCard({
                         matchName={player.match_name}
                         profileImageUrl={player.profile_image_url}
                       />
-                        </div>
-                      )}
                     </td>
                     <td className="py-2 px-2">
                       <button
