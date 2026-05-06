@@ -740,12 +740,6 @@ function tricodeSizeClass(code: string): string {
   return "text-[34px]";
 }
 
-function playerSeedPhotoUrl(photo?: string): string | null {
-  if (!photo) return null;
-  if (photo.startsWith("/images/")) return `/data/lec${photo}`;
-  return photo;
-}
-
 export default function ChampionDraft({
   snapshot,
   onComplete,
@@ -2245,9 +2239,7 @@ export default function ChampionDraft({
 
       const sourceRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
       const sourceImage =
-        resolvePlayerPhoto(player.id, player.name) ??
-        playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
-        `/player-photos/${player.id}.png`;
+        resolvePlayerPhoto(player.id, player.name);
 
       const playerState = gameState.players.find((item) => item.id === player.id);
       const gameIq = playerState
@@ -2382,9 +2374,7 @@ export default function ChampionDraft({
           sourceName: fallbackPlayer.name,
           sourceRole: mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[0],
           sourceImage:
-            resolvePlayerPhoto(fallbackPlayer.id, fallbackPlayer.name) ??
-            playerSeedPhotoUrl(fallbackSeedPlayer?.photo) ??
-            `/player-photos/${fallbackPlayer.id}.png`,
+            resolvePlayerPhoto(fallbackPlayer.id, fallbackPlayer.name),
           type: "pick",
           text: uniquePhrase(
             "match.draft.phrases.playerComfortPick",

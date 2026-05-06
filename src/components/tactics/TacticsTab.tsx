@@ -27,6 +27,7 @@ import {
   computeRoleModifiers,
   type DraftRole,
 } from "../../lib/lolTactics";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { Card, CardBody, CardHeader } from "../ui";
 
 interface TacticsTabProps {
@@ -272,12 +273,6 @@ function positionToRole(position: string): DraftRole | null {
 function playerBaseOvr(player: GameStateData["players"][number]): number {
   const sum = OVR_KEYS.reduce((acc, key) => acc + Number(player.attributes[key] ?? 0), 0);
   return sum / OVR_KEYS.length;
-}
-
-function playerPhotoUrl(playerId: string): string | null {
-  const match = playerId.match(/^lec-player-(.+)$/);
-  if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
 }
 
 function Section<T extends string>({
@@ -671,7 +666,7 @@ export default function TacticsTab({
 
                       {row.playerId ? (
                         <img
-                          src={playerPhotoUrl(row.playerId) ?? ""}
+                          src={resolvePlayerPhoto(row.playerId, row.playerName) ?? ""}
                           alt={row.playerName}
                           className="h-10 w-10 shrink-0 rounded object-cover"
                           loading="lazy"

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
 import playersSeed from "../../data/lec/draft/players.json";
+import { resolvePlayerPhoto } from "../lib/playerPhotos";
 
 import { GameStateData } from "../store/gameStore";
 import { Badge } from "./ui";
@@ -54,12 +55,6 @@ function seedRoleToDraftRole(role: string): DraftRole | null {
   if (key === "bot" || key === "bottom" || key === "adc") return "ADC";
   if (key === "support" || key === "sup") return "SUPPORT";
   return null;
-}
-
-function playerPhotoUrl(playerId: string): string | null {
-  const match = playerId.match(/^lec-player-(.+)$/);
-  if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
 }
 
 function daysUntil(dateIso: string): number {
@@ -183,8 +178,8 @@ export default function NextMatchDisplay({
           const awayPlayer = awayLineup[index];
           const homePlayerOvr = homePlayer ? calculateLolOvr(homePlayer) : null;
           const awayPlayerOvr = awayPlayer ? calculateLolOvr(awayPlayer) : null;
-          const leftPhoto = homePlayer ? playerPhotoUrl(homePlayer.id) : null;
-          const rightPhoto = awayPlayer ? playerPhotoUrl(awayPlayer.id) : null;
+          const leftPhoto = homePlayer ? resolvePlayerPhoto(homePlayer.id, homePlayer.match_name) : null;
+          const rightPhoto = awayPlayer ? resolvePlayerPhoto(awayPlayer.id, awayPlayer.match_name) : null;
 
           return (
             <Fragment key={`line-${role}`}>
