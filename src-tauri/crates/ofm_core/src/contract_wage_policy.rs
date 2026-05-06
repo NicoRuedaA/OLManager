@@ -92,21 +92,21 @@ pub fn project_renewal_financial_impact(
     let projected_bill = projected_annual_wage_bill(game, team_id, player.wage, offered_wage);
     let annual_wage_budget = team.wage_budget;
     let annual_soft_cap = (annual_wage_budget * WAGE_SOFT_CAP_PCT) / 100;
-    let current_weekly_wage_spend = current_bill / 52;
-    let projected_weekly_wage_spend = projected_bill / 52;
 
-    let current_cash_runway_weeks =
-        calc_cash_runway_weeks(team.finance, -current_weekly_wage_spend);
-    let projected_cash_runway_weeks =
-        calc_cash_runway_weeks(team.finance, -projected_weekly_wage_spend);
+    let current_cash_runway_weeks = {
+        let weekly_net = -(current_bill / 52);
+        calc_cash_runway_weeks(team.finance, weekly_net)
+    };
+    let projected_cash_runway_weeks = {
+        let weekly_net = -(projected_bill / 52);
+        calc_cash_runway_weeks(team.finance, weekly_net)
+    };
 
     Ok(RenewalFinancialProjection {
         current_annual_wage_bill: current_bill,
         projected_annual_wage_bill: projected_bill,
         annual_wage_budget,
         annual_soft_cap,
-        current_weekly_wage_spend,
-        projected_weekly_wage_spend,
         current_cash_runway_weeks,
         projected_cash_runway_weeks,
         currently_over_budget: current_bill > annual_wage_budget,

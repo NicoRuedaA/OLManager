@@ -55,7 +55,7 @@ pub struct Player {
 
     // Contract & value
     pub contract_end: Option<String>,
-    pub wage: u32, // weekly wage
+    pub wage: u32, // annual wage
     pub market_value: u64,
 
     // Season stats
@@ -379,6 +379,16 @@ pub struct TransferOffer {
     pub status: TransferOfferStatus,
     #[serde(default = "default_transfer_offer_date")]
     pub date: String,
+    #[serde(default = "default_wage_neg_status")]
+    pub wage_negotiation_status: WageNegotiationStatus,
+    #[serde(default)]
+    pub contract_years_offered: u8,
+    #[serde(default)]
+    pub suggested_counter_wage: Option<u32>,
+    #[serde(default)]
+    pub suggested_counter_years: Option<u8>,
+    #[serde(default = "default_wage_neg_round")]
+    pub wage_negotiation_round: u8,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -388,6 +398,27 @@ pub struct PlayerOfferItem {
     pub player_id: String,
     pub player_name: String,
     pub valuation: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[serde(rename_all = "PascalCase")]
+pub enum WageNegotiationStatus {
+    NotStarted,
+    Pending,
+    Agreed,
+    Rejected,
+}
+
+fn default_wage_neg_status() -> WageNegotiationStatus {
+    WageNegotiationStatus::NotStarted
+}
+fn default_wage_years() -> u8 {
+    0
+}
+fn default_wage_neg_round() -> u8 {
+    0
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

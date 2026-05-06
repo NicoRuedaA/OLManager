@@ -22,6 +22,15 @@ export interface TransferNegotiationResponseData {
   game: GameStateData;
 }
 
+export interface WageNegotiationResponseData {
+  decision: "accepted" | "rejected" | "counter_offer";
+  suggested_wage: number | null;
+  suggested_years: number | null;
+  is_terminal: boolean;
+  feedback: TransferNegotiationFeedbackData;
+  game: GameStateData;
+}
+
 export interface TransferBidProjectionData {
   projection: {
     transfer_budget_before: number;
@@ -97,5 +106,19 @@ export async function releasePlayerContract(
 ): Promise<GameStateData> {
   return invoke<GameStateData>("release_player_contract", {
     playerId,
+  });
+}
+
+export async function negotiatePlayerWage(
+  playerId: string,
+  offerId: string,
+  annualWage: number,
+  contractYears: number,
+): Promise<WageNegotiationResponseData> {
+  return invoke<WageNegotiationResponseData>("negotiate_player_wage", {
+    playerId,
+    offerId,
+    annualWage,
+    contractYears,
   });
 }

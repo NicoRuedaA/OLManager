@@ -141,6 +141,7 @@ pub fn run() {
             preview_transfer_bid_financial_impact,
             respond_to_offer,
             counter_offer,
+            negotiate_player_wage,
             release_player_contract,
             send_scout,
             check_season_complete,

@@ -92,8 +92,8 @@ pub fn generate_world(
         );
         team.finance = rng.random_range(fin_range[0]..fin_range[1]);
         team.reputation = rng.random_range(rep_range[0]..rep_range[1]);
-        team.wage_budget = (team.finance as f64 * 0.06) as i64;
-        team.transfer_budget = (team.finance as f64 * 0.22) as i64;
+        team.wage_budget = (team.finance as f64 * 3.0) as i64;
+        team.transfer_budget = (team.finance as f64 * 0.5) as i64;
         team.founded_year = rng.random_range(1880..1960);
         team.colors = TeamColors {
             primary: tdef.colors.primary.clone(),

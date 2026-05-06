@@ -16,7 +16,6 @@ import {
   getContractYearsRemaining,
 } from "../../lib/helpers";
 import {
-  annualAmountToWeeklyCommitment,
   getTeamFinanceSnapshot,
 } from "../../lib/finance";
 import type { FacilityUpgradeId } from "../../lib/lolFinanceContracts";
@@ -94,6 +93,7 @@ export default function FinancesTab({
   onSelectPlayer,
 }: FinancesTabProps) {
   const { t } = useTranslation();
+  const annualSuffix = t("finances.perYearSuffix", "/yr");
   const myTeam = gameState.teams.find(
     (tm) => tm.id === gameState.manager.team_id,
   );
@@ -101,7 +101,6 @@ export default function FinancesTab({
     return (
       <p className="text-gray-500 dark:text-gray-400">{t("common.noTeam")}</p>
     );
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [delegatedRenewalsSummary, setDelegatedRenewalsSummary] = useState<
     string | null
@@ -115,7 +114,7 @@ export default function FinancesTab({
     (staffMember) => staffMember.team_id === myTeam.id,
   );
   const financeSnapshot = getTeamFinanceSnapshot(myTeam, roster, teamStaff);
-  const totalWages = financeSnapshot.weeklyWageSpend;
+  const totalWages = financeSnapshot.annualWageBill;
   const totalValue = roster.reduce((s, p) => s + p.market_value, 0);
   const installationContract = getClubInstallationContract(myTeam);
   const mainHubLevel = installationContract.reduce(
@@ -125,11 +124,11 @@ export default function FinancesTab({
   const nextHubExpansionCost = getMainHubExpansionCost(mainHubLevel);
   const canExpandMainHub = myTeam.finance >= nextHubExpansionCost;
   const activeSponsorship = getSponsorshipContractView(myTeam.sponsorship);
-  const weeklySponsorIncome = financeSnapshot.weeklySponsorIncome;
-  const projectedWeeklyNet = financeSnapshot.projectedWeeklyNet;
+  const annualSponsorIncome = financeSnapshot.annualSponsorIncome;
+  const projectedAnnualNet = financeSnapshot.projectedAnnualNet;
   const cashRunwayWeeks = financeSnapshot.cashRunwayWeeks;
   const wageBudgetUsagePercent = financeSnapshot.wageBudgetUsagePercent;
-  const weeklyWageBudget = financeSnapshot.weeklyWageBudget;
+  const annualWageBudget = financeSnapshot.annualWageBudget;
   const sponsorOffers = gameState.messages
     .filter(isPendingSponsorOffer)
     .map(resolveMessage);
@@ -154,7 +153,7 @@ export default function FinancesTab({
       return leftDate.localeCompare(rightDate);
     });
   const atRiskWages = contractRiskPlayers.reduce(
-    (sum, { player }) => sum + annualAmountToWeeklyCommitment(player.wage),
+    (sum, { player }) => sum + player.wage,
     0,
   );
   const selectedRiskPlayers = contractRiskPlayers.filter(({ player }) =>
@@ -346,16 +345,16 @@ export default function FinancesTab({
         <CardBody>
           <div className="text-center mb-4">
             <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-              {t("finances.weeklyTotal")}
+              {t("finances.annualTotal")}
             </p>
             <p className="font-heading font-bold text-2xl text-gray-800 dark:text-gray-100 mt-1">
-              {formatWeeklyAmount(formatVal(totalWages), weeklySuffix)}
+              €{totalWages.toLocaleString()}{annualSuffix}
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
               {t("finances.budget")}:{" "}
-              {formatWeeklyAmount(formatVal(weeklyWageBudget), weeklySuffix)}{" "}
+              €{annualWageBudget.toLocaleString()}{annualSuffix}{" "}
               —{" "}
-              {totalWages <= weeklyWageBudget ? (
+              {totalWages <= annualWageBudget ? (
                 <span className="text-primary-500">
                   {t("finances.underBudget")}
                 </span>
@@ -367,9 +366,9 @@ export default function FinancesTab({
           <ProgressBar
             value={Math.min(
               100,
-              Math.round((totalWages / Math.max(1, weeklyWageBudget)) * 100),
+              Math.round((totalWages / Math.max(1, annualWageBudget)) * 100),
             )}
-            variant={totalWages <= weeklyWageBudget ? "success" : "danger"}
+            variant={totalWages <= annualWageBudget ? "success" : "danger"}
             size="md"
             showLabel
           />
@@ -382,37 +381,28 @@ export default function FinancesTab({
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.weeklyWageSpend")}
+                {t("finances.annualWageSpend")}
               </p>
               <p className="font-heading font-bold text-xl text-red-500">
-                {formatWeeklyAmount(
-                  formatSignedAmount(-totalWages),
-                  weeklySuffix,
-                )}
+                €{totalWages.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.weeklySponsorIncome")}
+                {t("finances.annualSponsorIncome")}
               </p>
               <p className="font-heading font-bold text-xl text-primary-500">
-                {formatWeeklyAmount(
-                  formatSignedAmount(weeklySponsorIncome),
-                  weeklySuffix,
-                )}
+                €{annualSponsorIncome.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.projectedWeeklyNet")}
+                {t("finances.projectedAnnualNet")}
               </p>
               <p
-                className={`font-heading font-bold text-xl ${projectedWeeklyNet >= 0 ? "text-primary-500" : "text-red-500"}`}
+                className={`font-heading font-bold text-xl ${projectedAnnualNet >= 0 ? "text-primary-500" : "text-red-500"}`}
               >
-                {formatWeeklyAmount(
-                  formatSignedAmount(projectedWeeklyNet),
-                  weeklySuffix,
-                )}
+                €{projectedAnnualNet.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
@@ -445,7 +435,7 @@ export default function FinancesTab({
               <ProgressBar
                 value={Math.min(100, wageBudgetUsagePercent)}
                 variant={
-                  totalWages <= weeklyWageBudget ? "success" : "danger"
+                  totalWages <= annualWageBudget ? "success" : "danger"
                 }
                 size="md"
                 showLabel
@@ -533,7 +523,7 @@ export default function FinancesTab({
                             : t("finances.contractRiskWarning")}
                         </Badge>
                         <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                          €{annualAmountToWeeklyCommitment(player.wage).toLocaleString()}/wk
+                          €{player.wage.toLocaleString()}{annualSuffix}
                         </span>
                         {onSelectPlayer ? (
                           <Button
@@ -837,7 +827,7 @@ export default function FinancesTab({
                           <RoleBadge role={lolRole} size="sm" />
                         </td>
                         <td className="py-3 px-5 text-sm font-medium text-gray-700 dark:text-gray-300">
-                          €{annualAmountToWeeklyCommitment(p.wage).toLocaleString()}
+                          €{p.wage.toLocaleString()}
                         </td>
                         <td className="py-3 px-5 text-sm text-gray-600 dark:text-gray-400">
                           {formatVal(p.market_value)}

@@ -4,6 +4,7 @@ use domain::message::MessageCategory;
 use domain::news::{NewsArticle, NewsCategory};
 use domain::player::{
     Player, PlayerAttributes, PlayerIssueCategory, TransferOffer, TransferOfferStatus,
+    WageNegotiationStatus,
 };
 use domain::season::TransferWindowStatus;
 use domain::stats::LolRole;
@@ -97,6 +98,11 @@ fn make_pending_incoming_offer(id: &str, fee: u64) -> TransferOffer {
         players_included: vec![],
         status: TransferOfferStatus::Pending,
         date: "2026-08-01".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     }
 }
 
@@ -395,6 +401,11 @@ fn stale_outgoing_transfer_negotiation_is_withdrawn_before_new_bid() {
         players_included: vec![],
         status: TransferOfferStatus::Pending,
         date: "2026-08-01".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     });
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
@@ -495,6 +506,11 @@ fn does_not_duplicate_pending_incoming_offer_from_same_club() {
         players_included: vec![],
         status: TransferOfferStatus::Pending,
         date: "2026-07-15".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     });
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);

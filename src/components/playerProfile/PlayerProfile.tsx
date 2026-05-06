@@ -37,6 +37,7 @@ import {
 import PlayerProfileChampionsCard from "./PlayerProfileChampionsCard";
 import NegotiationFeedbackPanel from "../NegotiationFeedbackPanel";
 import TransferNegotiationHistory from "../transfers/TransferNegotiationHistory";
+import WageNegotiationModal from "../transfers/WageNegotiationModal";
 import playersSeed from "../../../data/lec/draft/players.json";
 import championsSeed from "../../../data/lec/draft/champions.json";
 import { startPotentialResearch } from "../../services/playerService";
@@ -47,9 +48,11 @@ import {
   makeTransferBid,
   releasePlayerContract,
   previewTransferBidFinancialImpact,
+  negotiatePlayerWage,
   type TransferDestinationData,
   type TransferNegotiationFeedbackData,
   type TransferBidProjectionData,
+  type WageNegotiationResponseData,
 } from "../../services/transfersService";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
@@ -249,7 +252,7 @@ export default function PlayerProfile({
   onViewChampion,
 }: PlayerProfileProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
+  const annualSuffix = t("finances.perYearSuffix", "/yr");
   const primaryRole = resolvePlayerLolRole(player);
 
   if (!player) {
@@ -279,6 +282,25 @@ export default function PlayerProfile({
   const [transferOfferProjection, setTransferOfferProjection] =
     useState<TransferBidProjectionData["projection"] | null>(null);
   const [transferOfferFee, setTransferOfferFee] = useState<number | null>(null);
+
+  const [showWageModal, setShowWageModal] = useState(false);
+  const [wageNegotiationTarget, setWageNegotiationTarget] = useState<{
+    player: PlayerData;
+    offerId: string;
+    fromTeamId: string | null;
+    fee: number;
+    destinationTeamId: string;
+  } | null>(null);
+  const [wageNegotiationAmount, setWageNegotiationAmount] = useState("");
+  const [wageNegotiationYears, setWageNegotiationYears] = useState(3);
+  const [wageNegotiationLoading, setWageNegotiationLoading] = useState(false);
+  const [wageNegotiationResult, setWageNegotiationResult] = useState<
+    WageNegotiationResponseData["decision"] | "error" | null
+  >(null);
+  const [wageNegotiationFeedback, setWageNegotiationFeedback] =
+    useState<TransferNegotiationFeedbackData | null>(null);
+  const [wageNegotiationError, setWageNegotiationError] = useState<string | null>(null);
+
   const [renewalWage, setRenewalWage] = useState("");
   const [renewalLength, setRenewalLength] = useState("2");
   const [renewalSubmitting, setRenewalSubmitting] = useState(false);
@@ -311,6 +333,7 @@ export default function PlayerProfile({
     },
   );
   const managerTeamId = gameState.manager.team_id;
+  const managerTeam = gameState.teams.find((t) => t.id === managerTeamId) ?? null;
   const managerAcademyTeam = findAcademyTeamForParent(gameState.teams, managerTeamId);
   const managedTeamIds = new Set<string>();
   if (managerTeamId) {
@@ -554,7 +577,28 @@ export default function PlayerProfile({
         setTransferOfferAmount(String(Math.round(result.suggested_fee)));
       }
 
-      if (result.decision === "accepted") {
+      if (result.decision === "accepted" && !result.is_terminal) {
+        const updatedPlayer = result.game.players.find((p: PlayerData) => p.id === player.id);
+        const acceptedOffer = updatedPlayer
+          ?.transfer_offers.find((o) => o.status === "Accepted" && o.destination_team_id);
+        if (updatedPlayer && acceptedOffer && acceptedOffer.destination_team_id) {
+          setWageNegotiationTarget({
+            player: updatedPlayer,
+            offerId: acceptedOffer.id,
+            fromTeamId: updatedPlayer.team_id ?? null,
+            fee,
+            destinationTeamId: acceptedOffer.destination_team_id,
+          });
+          setWageNegotiationAmount(String(Math.round(updatedPlayer.wage * 1.5)));
+          setWageNegotiationYears(acceptedOffer.suggested_counter_years ?? 3);
+          setWageNegotiationResult(null);
+          setWageNegotiationFeedback(null);
+          setWageNegotiationError(null);
+          setShowWageModal(true);
+        }
+        setShowTransferOfferModal(false);
+        setTransferOfferIncludedPlayerIds([]);
+      } else if (result.decision === "accepted") {
         setShowTransferOfferModal(false);
         setTransferOfferIncludedPlayerIds([]);
       }
@@ -594,6 +638,48 @@ export default function PlayerProfile({
       }
     } finally {
       setTransferActionSubmitting(false);
+    }
+  }
+
+  async function handleWageNegotiation(): Promise<void> {
+    if (!wageNegotiationTarget || !wageNegotiationAmount) return;
+
+    setWageNegotiationLoading(true);
+    setWageNegotiationError(null);
+    setWageNegotiationResult(null);
+    setWageNegotiationFeedback(null);
+
+    try {
+      const annualWage = Math.round(parseFloat(wageNegotiationAmount));
+      const result = await negotiatePlayerWage(
+        wageNegotiationTarget.player.id,
+        wageNegotiationTarget.offerId,
+        annualWage,
+        wageNegotiationYears,
+      );
+      onGameUpdate?.(result.game);
+      setWageNegotiationResult(result.decision);
+      setWageNegotiationFeedback(result.feedback);
+      if (result.suggested_wage !== null) {
+        setWageNegotiationAmount(String(Math.round(result.suggested_wage)));
+      }
+      if (result.is_terminal && result.decision === "accepted") {
+        setTimeout(() => {
+          setShowWageModal(false);
+          setWageNegotiationTarget(null);
+          setWageNegotiationAmount("");
+          setWageNegotiationResult(null);
+          setWageNegotiationFeedback(null);
+          setWageNegotiationError(null);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Failed to negotiate wage:", error);
+      setWageNegotiationError(
+        typeof error === "string" ? error : error instanceof Error ? error.message : String(error),
+      );
+    } finally {
+      setWageNegotiationLoading(false);
     }
   }
 
@@ -658,7 +744,7 @@ export default function PlayerProfile({
           "preview_renewal_financial_impact",
           {
             playerId: player.id,
-            weeklyWage: renewalOfferedWage,
+            annualWage: renewalOfferedWage,
           },
         );
 
@@ -692,7 +778,7 @@ export default function PlayerProfile({
     try {
       const result = await invoke<RenewalResponseData>("propose_renewal", {
         playerId: player.id,
-        weeklyWage: renewalOfferedWage,
+        annualWage: renewalOfferedWage,
         contractYears: renewalOfferedYears,
       });
 
@@ -824,7 +910,7 @@ export default function PlayerProfile({
         primaryRole={primaryRole}
         age={age}
         teamName={teamName}
-        weeklySuffix={weeklySuffix}
+        annualSuffix={annualSuffix}
         language={i18n.language}
         isOwnClub={actualIsOwnClub || !onGameUpdate}
         scoutAvailability={scoutAvailability}
@@ -931,7 +1017,7 @@ export default function PlayerProfile({
           morale={player.morale}
           marketValue={player.market_value}
           wage={player.wage}
-          weeklySuffix={weeklySuffix}
+        annualSuffix={annualSuffix}
           language={i18n.language}
           contractRiskLevel={contractRiskLevel}
           contractRiskLabel={contractRiskLabel}
@@ -965,7 +1051,7 @@ export default function PlayerProfile({
         show={showRenewalModal}
         playerName={player.full_name}
         t={t}
-        weeklySuffix={weeklySuffix}
+        annualSuffix={annualSuffix}
         renewalWage={renewalWage}
         renewalLength={renewalLength}
         renewalIsTerminal={renewalIsTerminal}
@@ -1242,6 +1328,31 @@ export default function PlayerProfile({
           </div>
         </DashboardModalFrame>
       ) : null}
+      {showWageModal && wageNegotiationTarget && (
+        <WageNegotiationModal
+          target={wageNegotiationTarget}
+          teams={gameState.teams}
+          wageAmount={wageNegotiationAmount}
+          onWageAmountChange={setWageNegotiationAmount}
+          contractYears={wageNegotiationYears}
+          onContractYearsChange={setWageNegotiationYears}
+          feedback={wageNegotiationFeedback}
+          activeOffer={null}
+          result={wageNegotiationResult}
+          error={wageNegotiationError}
+          loading={wageNegotiationLoading}
+          onSubmit={handleWageNegotiation}
+          onClose={() => {
+            setShowWageModal(false);
+            setWageNegotiationTarget(null);
+            setWageNegotiationAmount("");
+            setWageNegotiationResult(null);
+            setWageNegotiationFeedback(null);
+            setWageNegotiationError(null);
+          }}
+          annualWageBudget={managerTeam ? managerTeam.wage_budget : 0}
+        />
+      )}
     </div>
   );
 }

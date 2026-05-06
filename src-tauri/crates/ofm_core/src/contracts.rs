@@ -43,7 +43,7 @@ impl ContractWarningStage {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct RenewalOffer {
-    pub weekly_wage: u32,
+    pub annual_wage: u32,
     pub contract_years: u32,
 }
 
@@ -72,8 +72,6 @@ pub struct RenewalFinancialProjection {
     pub projected_annual_wage_bill: i64,
     pub annual_wage_budget: i64,
     pub annual_soft_cap: i64,
-    pub current_weekly_wage_spend: i64,
-    pub projected_weekly_wage_spend: i64,
     pub current_cash_runway_weeks: Option<i64>,
     pub projected_cash_runway_weeks: Option<i64>,
     pub currently_over_budget: bool,
@@ -156,7 +154,7 @@ pub fn evaluate_renewal_offer(
     let expected_years = expected_contract_years(player, current_date);
     let minimum_wage = minimum_acceptable_wage(player.wage);
 
-    if offer.weekly_wage < minimum_wage || offer.contract_years == 0 {
+    if offer.annual_wage < minimum_wage || offer.contract_years == 0 {
         let feedback = build_renewal_feedback(
             player,
             current_date,
@@ -177,7 +175,7 @@ pub fn evaluate_renewal_offer(
         );
     }
 
-    if offer.weekly_wage >= expected_wage && offer.contract_years >= expected_years {
+    if offer.annual_wage >= expected_wage && offer.contract_years >= expected_years {
         let feedback = build_renewal_feedback(
             player,
             current_date,
@@ -305,7 +303,7 @@ pub fn propose_renewal(
     let relationship_blocked = should_manual_renewal_fail_on_relationship(
         &game.players[player_index],
         expected_wage,
-        offer.weekly_wage,
+        offer.annual_wage,
     );
 
     if relationship_blocked {
@@ -333,7 +331,7 @@ pub fn propose_renewal(
             game,
             &team,
             game.players[player_index].wage,
-            offer.weekly_wage,
+            offer.annual_wage,
         ) {
             return Err(renewal_wage_policy_error_message(&team));
         }
@@ -343,7 +341,7 @@ pub fn propose_renewal(
             .ok_or("Unable to calculate new contract end date".to_string())?;
 
         let player = &mut game.players[player_index];
-        player.wage = offer.weekly_wage;
+        player.wage = offer.annual_wage;
         player.contract_end = Some(new_contract_end.format("%Y-%m-%d").to_string());
         let state = player
             .morale_core

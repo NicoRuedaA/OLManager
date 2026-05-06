@@ -4,10 +4,9 @@ export type FinanceHealthLevel = "stable" | "watch" | "warning" | "critical";
 
 export interface TeamFinanceSnapshot {
   annualWageBill: number;
-  weeklyWageSpend: number;
-  weeklyWageBudget: number;
-  weeklySponsorIncome: number;
-  projectedWeeklyNet: number;
+  annualWageBudget: number;
+  annualSponsorIncome: number;
+  projectedAnnualNet: number;
   cashRunwayWeeks: number | null;
   wageBudgetUsagePercent: number;
   wageBudgetStatus: FinanceHealthLevel;
@@ -22,10 +21,6 @@ const HEALTH_PRIORITY: Record<FinanceHealthLevel, number> = {
   critical: 3,
 };
 
-export function annualAmountToWeeklyCommitment(amount: number): number {
-  return Math.floor(Math.max(0, amount) / 52);
-}
-
 export function getAnnualWageBill(
   players: PlayerData[],
   staff: StaffData[] = [],
@@ -35,19 +30,11 @@ export function getAnnualWageBill(
   }, 0);
 }
 
-export function getWeeklyWageSpend(
-  players: PlayerData[],
-  staff: StaffData[] = [],
-): number {
-  return [...players, ...staff].reduce((sum, person) => {
-    return sum + annualAmountToWeeklyCommitment(person.wage);
-  }, 0);
-}
-
 export function getCashRunwayWeeks(
   balance: number,
-  projectedWeeklyNet: number,
+  projectedAnnualNet: number,
 ): number | null {
+  const projectedWeeklyNet = projectedAnnualNet / 52;
   if (projectedWeeklyNet >= 0) {
     return null;
   }
@@ -111,11 +98,10 @@ export function getTeamFinanceSnapshot(
   staff: StaffData[] = [],
 ): TeamFinanceSnapshot {
   const annualWageBill = getAnnualWageBill(players, staff);
-  const weeklyWageSpend = getWeeklyWageSpend(players, staff);
-  const weeklyWageBudget = annualAmountToWeeklyCommitment(team.wage_budget);
-  const weeklySponsorIncome = team.sponsorship?.base_value ?? 0;
-  const projectedWeeklyNet = weeklySponsorIncome - weeklyWageSpend;
-  const cashRunwayWeeks = getCashRunwayWeeks(team.finance, projectedWeeklyNet);
+  const annualWageBudget = team.wage_budget;
+  const annualSponsorIncome = (team.sponsorship?.base_value ?? 0) * 52;
+  const projectedAnnualNet = annualSponsorIncome - annualWageBill;
+  const cashRunwayWeeks = getCashRunwayWeeks(team.finance, projectedAnnualNet);
   const wageBudgetUsagePercent = Math.round(
     (annualWageBill / Math.max(1, team.wage_budget)) * 100,
   );
@@ -124,10 +110,9 @@ export function getTeamFinanceSnapshot(
 
   return {
     annualWageBill,
-    weeklyWageSpend,
-    weeklyWageBudget,
-    weeklySponsorIncome,
-    projectedWeeklyNet,
+    annualWageBudget,
+    annualSponsorIncome,
+    projectedAnnualNet,
     cashRunwayWeeks,
     wageBudgetUsagePercent,
     wageBudgetStatus,

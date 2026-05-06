@@ -19,6 +19,16 @@ pub struct TransferNegotiationCommandResponse {
 }
 
 #[derive(Debug, Clone, serde::Serialize)]
+pub struct WageNegotiationCommandResponse {
+    pub decision: TransferNegotiationDecision,
+    pub suggested_wage: Option<u32>,
+    pub suggested_years: Option<u8>,
+    pub is_terminal: bool,
+    pub feedback: NegotiationFeedback,
+    pub game: Game,
+}
+
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct TransferBidFinancialProjectionCommandResponse {
     pub projection: TransferBidFinancialProjection,
 }
@@ -213,6 +223,45 @@ fn map_transfer_negotiation_response(
 }
 
 #[tauri::command]
+pub fn negotiate_player_wage(
+    state: State<'_, StateManager>,
+    player_id: String,
+    offer_id: String,
+    annual_wage: u32,
+    contract_years: u8,
+) -> Result<WageNegotiationCommandResponse, String> {
+    negotiate_player_wage_internal(&state, &player_id, &offer_id, annual_wage, contract_years)
+}
+
+fn negotiate_player_wage_internal(
+    state: &StateManager,
+    player_id: &str,
+    offer_id: &str,
+    annual_wage: u32,
+    contract_years: u8,
+) -> Result<WageNegotiationCommandResponse, String> {
+    info!(
+        "[cmd] negotiate_player_wage: player_id={}, offer_id={}, annual_wage={}, years={}",
+        player_id, offer_id, annual_wage, contract_years
+    );
+    let mut game = state
+        .get_game(|g| g.clone())
+        .ok_or("No active game session".to_string())?;
+
+    let result = ofm_core::transfers::negotiate_player_wage(&mut game, player_id, offer_id, annual_wage, contract_years)?;
+    state.set_game(game.clone());
+
+    Ok(WageNegotiationCommandResponse {
+        decision: result.decision,
+        suggested_wage: result.suggested_wage,
+        suggested_years: result.suggested_years,
+        is_terminal: result.is_terminal,
+        feedback: result.feedback,
+        game,
+    })
+}
+
+#[tauri::command]
 pub fn send_scout(
     state: State<'_, StateManager>,
     scout_id: String,
@@ -255,7 +304,7 @@ mod tests {
     };
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, Position, TransferOffer, TransferOfferStatus};
+    use domain::player::{Player, PlayerAttributes, Position, TransferOffer, TransferOfferStatus, WageNegotiationStatus};
     use domain::season::TransferWindowStatus;
     use domain::team::Team;
     use ofm_core::clock::GameClock;
@@ -343,6 +392,11 @@ mod tests {
             players_included: vec![],
             status: TransferOfferStatus::Pending,
             date: "2026-08-01".to_string(),
+            wage_negotiation_status: WageNegotiationStatus::NotStarted,
+            contract_years_offered: 0,
+            suggested_counter_wage: None,
+            suggested_counter_years: None,
+            wage_negotiation_round: 0,
         });
         player
     }

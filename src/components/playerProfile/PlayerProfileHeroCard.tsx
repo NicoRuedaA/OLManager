@@ -21,7 +21,7 @@ interface PlayerProfileHeroCardProps {
   primaryRole: "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
   age: number;
   teamName: string;
-  weeklySuffix: string;
+  annualSuffix: string;
   language: string;
   isOwnClub: boolean;
   scoutAvailability: ScoutAvailability;
@@ -47,7 +47,7 @@ export default function PlayerProfileHeroCard({
   primaryRole,
   age,
   teamName,
-  weeklySuffix,
+  annualSuffix,
   isOwnClub,
   scoutAvailability,
   scoutStatus,
@@ -318,7 +318,7 @@ export default function PlayerProfileHeroCard({
               />
               <QuickStat
                 label={t("common.wage")}
-                value={formatPlayerWage(player.wage, weeklySuffix)}
+                value={formatPlayerWage(player.wage, annualSuffix)}
                 color="text-white"
               />
             </div>
@@ -354,7 +354,7 @@ export default function PlayerProfileHeroCard({
         />
         <MobileQuickStat
           label={t("common.wage")}
-          value={formatPlayerWage(player.wage, weeklySuffix)}
+          value={formatPlayerWage(player.wage, annualSuffix)}
           color="text-gray-700 dark:text-gray-200"
         />
       </div>

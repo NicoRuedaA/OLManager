@@ -16,7 +16,7 @@ interface PlayerProfileRenewalModalProps {
   show: boolean;
   playerName: string;
   t: TranslateFn;
-  weeklySuffix: string;
+  annualSuffix: string;
   renewalWage: string;
   renewalLength: string;
   renewalIsTerminal: boolean;
@@ -40,7 +40,7 @@ export default function PlayerProfileRenewalModal({
   show,
   playerName,
   t,
-  weeklySuffix,
+  annualSuffix,
   renewalWage,
   renewalLength,
   renewalIsTerminal,
@@ -141,13 +141,13 @@ export default function PlayerProfileRenewalModal({
               {t("playerProfile.renewalProjectionWageBill", {
                 before: formatPlayerWage(
                   renewalProjection.current_annual_wage_bill,
-                  weeklySuffix,
+                  annualSuffix,
                 ),
                 after: formatPlayerWage(
                   renewalProjection.projected_annual_wage_bill,
-                  weeklySuffix,
+                  annualSuffix,
                 ),
-                defaultValue: "Weekly wage bill {{before}} -> {{after}}",
+                defaultValue: "Annual wage bill {{before}} -> {{after}}",
               })}
             </p>
             <p className="text-xs text-gray-600 dark:text-gray-300">
