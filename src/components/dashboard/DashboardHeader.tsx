@@ -241,7 +241,7 @@ function renderSearchResults(props: {
               className="flex w-full items-center gap-2 px-3 py-2 text-left transition-colors hover:bg-gray-50 dark:hover:bg-navy-600"
             >
               {(() => {
-                const photo = resolvePlayerPhoto(player.id, player.match_name);
+                const photo = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                 if (photo) {
                   return <img src={photo} alt={player.match_name} className="w-6 h-6 rounded-full object-cover shrink-0" />;
                 }

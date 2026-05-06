@@ -961,7 +961,7 @@ export default function FinancesTab({
                   })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
-                    const photo = resolvePlayerPhoto(p.id, p.full_name);
+                    const photo = resolvePlayerPhoto(p.id, p.full_name, p.profile_image_url);
                     const contextItems = onSelectPlayer
                       ? [
                           {

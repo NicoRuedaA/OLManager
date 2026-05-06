@@ -623,9 +623,9 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 overflow-hidden rounded-lg bg-navy-800">
-                      {resolvePlayerPhoto(player.id, player.match_name) ? (
+                      {resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) ? (
                         <img
-                          src={resolvePlayerPhoto(player.id, player.match_name) ?? ""}
+                          src={resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) ?? ""}
                           alt={player.match_name}
                           className="h-full w-full object-cover"
                         />

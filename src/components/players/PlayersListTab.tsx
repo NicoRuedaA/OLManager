@@ -318,7 +318,7 @@ export default function PlayersListTab({
                   .map((player) => {
                     const ovr = calculateLolOvr(player);
                     const age = calcAge(player.date_of_birth);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
