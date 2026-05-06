@@ -1,0 +1,10 @@
+{
+  "parse": {
+    "title": "Nova eSports (North American Team)",
+    "pageid": 186187,
+    "wikitext": {
+      "*": "{{Infobox Team\n|isdisbanded=yes\n|name= Nova eSports\n|orgcountry= United States\n|country=\n|region= NA\n|image=Nova eSportslogo square.png\n|coaches=\n|manager= Bryan \"'''Zyto'''\" Ybanez\n|analysts=\n|captain= \n|website= \n|youtube=\n|facebook=https://www.facebook.com/novaesportsgg\n|twitter=NovaEsportsGG\n|irc=\n|sponsor= \n|created= 2016-06-01\n}}{{TOCRWI}}\n\n'''Nova eSports''' is a North American team.\n\n== History ==\n\n== Timeline ==\n{{TeamNews}}\n\n== Player Roster ==\n{{TeamMembersCurrent}}\n===Former===\n{{TeamMembersFormer}}\n\n==Organization==\n===Current===\n{{listplayer/Start|staff=yes}}\n{{listplayersp|Zyto|us|Bryan Ybanez|'''General Manager'''}}\n{{listplayer/End}}\n\n===Former===\n{{listplayer/Start|staff=yes|newteam=yes}}\n{{listplayer|mcscrag|us|Brendan McGee|'''Head Coach'''|newteam=Clutch Gaming Academy}}\n{{listplayer|Beanpaste|us|Joseph Jang|'''Analyst'''|newteam=Galakticos}}\n{{listplayersp|Heartlock|us|Dylan Laasme|'''Analyst'''|newteam=Red Bulls}}\n{{listplayer/End}}\n\n== Tournaments ==\n{{TeamResults|show=overviewpage}}\n\n{{TeamShowmatchResults|show=overviewpage}}\n== Highlight Videos ==\n\n==Interviews==\n\n==See Also==\n\n==External Links==\n\n==References==\n<references />"
+    }
+  },
+  "_cachedAt": 1778050899372
+}

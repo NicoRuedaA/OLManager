@@ -1,7 +1,8 @@
 use chrono::{TimeZone, Utc};
 use domain::manager::Manager;
-use domain::player::{Player, PlayerAttributes, Position};
+use domain::player::{Player, PlayerAttributes};
 use domain::staff::{Staff, StaffAttributes, StaffRole};
+use domain::player::LolRole;
 use domain::team::{
     PostScrimDecision, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus, Team,
     TrainingFocus, TrainingIntensity, TrainingSchedule,
@@ -18,21 +19,21 @@ use ofm_core::training;
 fn default_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 65,
-        stamina: 65,
+        mental_resilience: 65,
         strength: 65,
-        agility: 65,
+        champion_pool: 65,
         passing: 65,
-        shooting: 65,
+        laning: 65,
         tackling: 65,
-        dribbling: 65,
+        mechanics: 65,
         defending: 65,
         positioning: 65,
-        vision: 65,
-        decisions: 65,
-        composure: 65,
+        macro_play: 65,
+        consistency: 65,
+        discipline: 65,
         aggression: 50,
-        teamwork: 65,
-        leadership: 50,
+        teamfighting: 65,
+        shotcalling: 50,
         handling: 20,
         reflexes: 30,
         aerial: 60,
@@ -47,43 +48,43 @@ fn lol_visible_stat(player: &Player, stat: &str) -> u8 {
     };
 
     match stat {
-        "mechanics" => avg([attrs.dribbling, attrs.agility, attrs.pace, attrs.composure]),
+        "mechanics" => avg([attrs.mechanics, attrs.champion_pool, attrs.pace, attrs.discipline]),
         "laning" => avg([
-            attrs.shooting,
+            attrs.laning,
             attrs.positioning,
-            attrs.dribbling,
-            attrs.composure,
+            attrs.mechanics,
+            attrs.discipline,
         ]),
         "teamfighting" => avg([
-            attrs.teamwork,
-            attrs.stamina,
-            attrs.decisions,
-            attrs.composure,
+            attrs.teamfighting,
+            attrs.mental_resilience,
+            attrs.consistency,
+            attrs.discipline,
         ]),
         "macro" => avg([
-            attrs.vision,
-            attrs.decisions,
+            attrs.macro_play,
+            attrs.consistency,
             attrs.positioning,
             attrs.passing,
         ]),
         "consistency" => avg([
-            attrs.decisions,
-            attrs.vision,
-            attrs.composure,
-            attrs.teamwork,
+            attrs.consistency,
+            attrs.macro_play,
+            attrs.discipline,
+            attrs.teamfighting,
         ]),
         "shotcalling" => avg([
-            attrs.leadership,
-            attrs.teamwork,
-            attrs.vision,
-            attrs.decisions,
+            attrs.shotcalling,
+            attrs.teamfighting,
+            attrs.macro_play,
+            attrs.consistency,
         ]),
-        "champion_pool" => avg([attrs.dribbling, attrs.agility, attrs.vision, attrs.passing]),
+        "champion_pool" => avg([attrs.mechanics, attrs.champion_pool, attrs.macro_play, attrs.passing]),
         "discipline" => avg([
-            attrs.decisions,
-            attrs.composure,
-            attrs.teamwork,
-            attrs.leadership,
+            attrs.consistency,
+            attrs.discipline,
+            attrs.teamfighting,
+            attrs.shotcalling,
         ]),
         _ => panic!("Unknown visible stat {stat}"),
     }
@@ -96,7 +97,7 @@ fn make_player(id: &str, name: &str, team_id: &str, dob: &str) -> Player {
         format!("Full {}", name),
         dob.to_string(),
         "GB".to_string(),
-        Position::Midfielder,
+        LolRole::Jungle,
         default_attrs(),
     );
     p.team_id = Some(team_id.to_string());
@@ -692,7 +693,7 @@ fn mental_reset_recovery_has_no_attribute_gains() {
             "Mental Reset / Recovery should not change pace"
         );
         assert_eq!(
-            p.attributes.shooting, initial_attrs[i].shooting,
+            p.attributes.laning, initial_attrs[i].laning,
             "Mental Reset / Recovery should not change shooting"
         );
     }

@@ -40,6 +40,7 @@ interface PreMatchSetupProps {
   currentFixture?: FixtureData | null;
   userSide: "Home" | "Away";
   onStart: () => void;
+  onCancel: () => void;
   onUpdateSnapshot: (snap: MatchSnapshot) => void;
 }
 
@@ -49,6 +50,7 @@ export default function PreMatchSetup({
   currentFixture,
   userSide,
   onStart,
+  onCancel,
   onUpdateSnapshot,
 }: PreMatchSetupProps) {
   const { t } = useTranslation();
@@ -59,7 +61,6 @@ export default function PreMatchSetup({
 
   const userTeam =
     userSide === "Home" ? snapshot.home_team : snapshot.away_team;
-  const oppTeam = userSide === "Home" ? snapshot.away_team : snapshot.home_team;
 
   const homeTeamColor =
     gameState.teams.find((t) => t.id === snapshot.home_team.id)?.colors
@@ -67,20 +68,15 @@ export default function PreMatchSetup({
   const awayTeamColor =
     gameState.teams.find((t) => t.id === snapshot.away_team.id)?.colors
       ?.primary || "#6366f1";
-  const userColor = userSide === "Home" ? homeTeamColor : awayTeamColor;
   const fixtureLabel = currentFixture
     ? getFixtureDisplayLabel(t, currentFixture)
     : t("match.matchDay");
   const homeLogo = resolveTeamLogo(snapshot.home_team.name);
   const awayLogo = resolveTeamLogo(snapshot.away_team.name);
 
-  // Use snapshot bench data (updated after swaps)
-  const userBench =
-    userSide === "Home" ? snapshot.home_bench || [] : snapshot.away_bench || [];
-
   console.info("[PreMatchSetup] render", {
     awayTeam: snapshot.away_team.name,
-    benchCount: userBench.length,
+    benchCount: (snapshot.home_bench || []).length,
     homeTeam: snapshot.home_team.name,
     phase: snapshot.phase,
     playStyle: userTeam.play_style,
@@ -223,7 +219,13 @@ export default function PreMatchSetup({
             </div>
           </div>
 
-          <div className="flex justify-center mt-2">
+          <div className="flex justify-center gap-3 mt-2">
+            <button
+              onClick={onCancel}
+              className="flex items-center gap-2 px-6 py-3.5 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-800/40 rounded-xl font-heading font-bold uppercase tracking-wider text-sm text-red-700 dark:text-red-300 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              {t("common.cancel")}
+            </button>
             <button
               onClick={onStart}
               className="flex items-center gap-3 px-10 py-3.5 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 rounded-xl font-heading font-bold uppercase tracking-wider text-sm text-white shadow-lg shadow-primary-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -237,10 +239,10 @@ export default function PreMatchSetup({
     >
       <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col gap-6">
         <PreMatchLineup
-          userTeam={userTeam}
-          userBench={userBench}
-          oppTeam={oppTeam}
-          userColor={userColor}
+          homeTeam={snapshot.home_team}
+          homeBench={snapshot.home_bench || []}
+          awayTeam={snapshot.away_team}
+          awayBench={snapshot.away_bench || []}
           homeTeamColor={homeTeamColor}
           awayTeamColor={awayTeamColor}
           userSide={userSide}

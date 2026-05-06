@@ -5,6 +5,20 @@ import primeLeagueExampleRaw from "../../data/erls/Prime League.txt?raw";
 const FALLBACK_TEAM_LOGOS: Record<string, string> = {
   falkeesports:
     "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/b/b0/Falke_Esportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20250917172449",
+  barcelonaesports:
+    "https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/6/68/Bar%C3%A7a_eSportslogo_square.png/revision/latest/scale-to-width-down/220?cb=20221118223547",
+  g2esports: "/team-logos/g2-esports.png",
+  fnatic: "/team-logos/fnatic.png",
+  giantx: "/team-logos/giantx-lec.png",
+  karminecorp: "/team-logos/karmine-corp.png",
+  movistarkoi: "/team-logos/mad-lions.png",
+  koi: "/team-logos/mad-lions.png",
+  madlionskoi: "/team-logos/mad-lions.png",
+  natusvincere: "/team-logos/natus-vincere.png",
+  skgaming: "/team-logos/sk-gaming.png",
+  teamheretics: "/team-logos/team-heretics-lec.png",
+  teamvitality: "/team-logos/team-vitality.png",
+  teambds: "/team-logos/team-bds.png",
 };
 
 function normalizeKey(value: string): string {

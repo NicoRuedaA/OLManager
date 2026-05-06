@@ -158,10 +158,10 @@ function createGameState(): GameStateData {
       createPlayer(),
       createPlayer({
         id: "player-2",
-        match_name: "A. Keeper",
-        full_name: "Alex Keeper",
-        position: "Goalkeeper",
-        natural_position: "Goalkeeper",
+        match_name: "A. Support",
+        full_name: "Alex Support",
+        position: "SUPPORT",
+        natural_position: "SUPPORT",
         team_id: "team-2",
       }),
       createPlayer({
@@ -184,7 +184,7 @@ function createGameState(): GameStateData {
 }
 
 describe("PlayersListTab", () => {
-  it("filters by search and position before selecting a player", () => {
+  it("filters by search and LoL role before selecting a player", () => {
     const onSelectPlayer = vi.fn();
 
     render(
@@ -196,14 +196,14 @@ describe("PlayersListTab", () => {
     );
 
     fireEvent.change(screen.getByPlaceholderText("Search players"), {
-      target: { value: "keeper" },
+      target: { value: "support" },
     });
 
-    expect(screen.getByText("Alex Keeper")).toBeInTheDocument();
+    expect(screen.getByText("Alex Support")).toBeInTheDocument();
     expect(screen.queryByText("John Smith")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "SUPPORT" }));
-    fireEvent.click(screen.getByText("Alex Keeper"));
+    fireEvent.click(screen.getByText("Alex Support"));
 
     expect(onSelectPlayer).toHaveBeenCalledWith("player-2");
   });

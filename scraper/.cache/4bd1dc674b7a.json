@@ -1,0 +1,10 @@
+{
+  "parse": {
+    "title": "IMP e-Sports",
+    "pageid": 166353,
+    "wikitext": {
+      "*": "{{Infobox Team|isdisbanded=yes\n|name=IMP e-Sports\n|orgcountry=Brazil \n|country=\n|region=BR\n|image=IMPLOGO.png\n|coaches= Yan \"'''Vinny'''\" Schuawb\n|captain= Vinícius \"'''Thulz'''\" Machado\n|facebook=https://www.facebook.com/IMPeSportsBR\n|twitter= IMPESPORTSBr\n|sponsor=[http://flixtv.com.br/tv/ FlixTV]\n|created=2014-09-29\n}}\n\n'''IMP e-Sports''' is a Brazilian organization that was formed in 2014.\n\n== History ==\n\n== Timeline ==\n{{TeamNews}}\n\n== Player Roster ==\n===Former===\n{{TeamMembersFormer}}\n\n==Organization==\n===Current===\n{{listplayer/Start|staff=yes}}\n{{listplayersp|Kaoz|br|Ray Neto|'''President'''}}\n{{Listplayer/End}}\n\n===Former===\n{{listplayer/Start|staff=yes|newteam=yes}}\n{{listplayersp|Vinny|br|Yan Schuawb|'''Coach'''|newteam=none}}\n{{listplayersp|BiscoitoZord|br|Douglas Pastrello|'''Coach'''|newteam=none}}\n{{Listplayer/End}}\n\n== Tournaments ==\n{{TeamResults|show=overviewpage}}\n\n{{TeamShowmatchResults|show=overviewpage}}\n== Highlight Videos ==\n\n==Interviews==\n\n==See Also==\n\n==External Links==\n\n==References==\n<references />\n\n<br>"
+    }
+  },
+  "_cachedAt": 1778050678247
+}

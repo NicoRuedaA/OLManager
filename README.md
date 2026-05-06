@@ -217,6 +217,39 @@ Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), then review:
 
 ## 9. Resources
 
+## Rama `QoL-UI-2` — Resumen de cambios
+
+### 🎨 Sidebar (Dashboard)
+- **Escudo del equipo**: reemplazado el logo genérico de la LEC por el escudo del equipo que gestionás
+- **Sin saltos al expandir/colapsar**: altura fija (`h-8 overflow-visible`), texto y botón toggle siempre en DOM ocultos con `max-w-0/max-h-0` y `delay-150`
+- **Cursor pointer** en el escudo cuando el sidebar está colapsado
+- **Botón toggle oculto** en colapsado (el logo funciona como botón para expandir)
+
+### 📸 Fotos de jugadores
+- **ScoutingPlayerSearchCard**: nueva columna Foto con `resolvePlayerPhoto` (soporta IDs `lec-player-{id}`)
+- **YouthAcademyTab**: misma columna de foto agregada
+- **TeamProfileRosterCard**: misma columna de foto agregada
+
+### 🏷️ Iconos de rol (Community Dragon)
+Reemplazados los badges de texto (`SUPPORT`, `MID`, etc.) por iconos Community Dragon en:
+- `ScoutingPlayerSearchCard`
+- `YouthAcademyTab`
+- `TeamProfileRosterCard`
+
+### 🔄 Ordenación por columnas
+- **PlayersListTab**: ordenación por Nacionalidad; eliminada ordenación por Foto
+- **ScoutingPlayerSearchCard**: ordenable por Jugador, Posición, Edad, Equipo, Valor
+- **TransfersTab**: agregadas ordenaciones por Nombre, Posición, Edad, Equipo, Estado
+- **PlayersListTab**: columna Estado ordenable (préstamo > fichaje > lesionado > normal)
+
+### 🏟️ Modal de confirmación de partido
+- **DashboardMatchConfirmModal**: muestra escudos de los equipos junto a los nombres
+
+### 🔧 Fixes
+- **V43 migration** (`bans_json` column) sincronizada de `feat/champion-stats` a `develop`
+- **Football→LoL position mapping**: corregido en TacticsTab, TeamSelection, NextMatchDisplay, draftResultSimulator
+
+---
 - **Repository:** [github.com/NicoRuedaA/OLManager](https://github.com/NicoRuedaA/OLManager)
 - **Documentation index:** [`docs/README.md`](docs/README.md)
 - **Tauri v2 Docs:** [https://v2.tauri.app/](https://v2.tauri.app/)

@@ -174,8 +174,8 @@
     "selectCountry": "Sélectionner le Pays/Région...",
     "searchNationalities": "Rechercher une nationalité...",
     "chooseWorld": "Choisir le Monde",
-    "placeholderFirst": "ex. José",
-    "placeholderLast": "ex. Mourinho"
+    "placeholderFirst": "ex. Lee",
+    "placeholderLast": "ex. Sang-hyeok"
   },
   "validation": {
     "required": "{{field}} est obligatoire",
@@ -203,13 +203,14 @@
     "tactics": "Tactique",
     "training": "Entraînement",
     "scrims": "Scrims",
-    "champions": "Champions",
+    "meta": "Meta",
     "staff": "Staff",
     "finances": "Finances",
     "transfers": "Transferts",
     "players": "Joueurs",
     "teams": "Équipes",
     "tournaments": "Tournois",
+    "champions_world": "Champions",
     "schedule": "Calendrier",
     "news": "Actualités",
     "social": "Social",
@@ -224,6 +225,7 @@
     "sectionWorld": "Monde",
     "searchTeams": "Équipes",
     "searchPlayers": "Joueurs",
+    "searchChampions": "Champions",
     "scouting": "Recrutement",
     "youthAcademy": "Académie",
     "saveGame": "Sauvegarder la partie",
@@ -233,10 +235,10 @@
     "expandSidebar": "Développer la barre latérale",
     "alerts": {
       "exhausted": "{{count}} joueur(s) en condition critique (<25%)",
-      "injuredStartingXi": "{{count}} joueur(s) blessé(s) dans le onze de départ — remplacez-les",
-      "incompleteStartingXi": "Le onze de départ est incomplet — définissez votre composition",
+      "injuredStartingXi": "{{count}} joueur(s) blessé(s) dans l'équipe titulaire — remplacez-les",
+      "incompleteStartingXi": "L'équipe titulaire est incomplète — définissez votre composition",
       "urgentUnread": "{{count}} message(s) urgent(s) non lu(s)",
-      "matchTodayStartingXi": "Match aujourd'hui ! Définissez votre onze de départ"
+      "matchTodayStartingXi": "Match aujourd'hui ! Définissez votre équipe titulaire"
     },
     "unemployedBanner": "Vous êtes actuellement sans club. Des offres d'emploi pourraient arriver dans votre boîte de réception."
   },
@@ -255,7 +257,20 @@
     "high": "Élevé",
     "moderate": "Modéré",
     "low": "Faible",
-    "discoveryProgress": "Progression de découverte"
+    "discoveryProgress": "Progression de découverte",
+    "delegating": "Déléguant...",
+    "delegateToCoach": "Déléguer à l'Assistant Coach",
+    "loading": "Chargement des champions...",
+    "error": "Erreur de chargement",
+    "empty": "Aucun champion disponible",
+    "counterpicks": "Counterpicks",
+    "synergies": "Synergies",
+    "noData": "Aucune information sur les counterpicks ou synergies disponible.",
+    "worldTitle": "Champions du Monde",
+    "allChampions": "Tous les Champions",
+    "worldDescription": "Explorez tous les champions de League of Legends",
+    "totalChampions": "Total",
+    "170": "170+"
   },
   "continueMenu": {
     "goToField": "Aller sur le Terrain",
@@ -503,48 +518,48 @@
     "showingFirst": "Affichage des {{shown}} premiers sur {{total}} joueurs. Affinez votre recherche.",
     "noPlayersMatch": "Aucun joueur ne correspond à vos filtres.",
     "positions": {
-      "Goalkeeper": "Gardien",
-      "Defender": "Défenseur",
-      "Midfielder": "Milieu",
-      "Forward": "Attaquant",
-      "RightBack": "Arrière droit",
-      "CenterBack": "Défenseur central",
-      "LeftBack": "Arrière gauche",
-      "RightWingBack": "Piston droit",
-      "LeftWingBack": "Piston gauche",
-      "DefensiveMidfielder": "Milieu défensif",
-      "CentralMidfielder": "Milieu central",
-      "AttackingMidfielder": "Milieu offensif",
-      "RightMidfielder": "Milieu droit",
-      "LeftMidfielder": "Milieu gauche",
-      "RightWinger": "Ailier droit",
-      "LeftWinger": "Ailier gauche",
-      "Striker": "Avant-centre"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC",
+      "RightBack": "Top",
+      "CenterBack": "Jungle",
+      "LeftBack": "Jungle",
+      "RightWingBack": "Top",
+      "LeftWingBack": "Jungle",
+      "DefensiveMidfielder": "Mid",
+      "CentralMidfielder": "Mid",
+      "AttackingMidfielder": "Mid",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "positionGroups": {
-      "Goalkeeper": "Gardiens",
-      "Defender": "Défenseurs",
-      "Midfielder": "Milieux",
-      "Forward": "Attaquants"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC"
     },
     "posAbbr": {
-      "Goalkeeper": "GAR",
-      "Defender": "DEF",
-      "Midfielder": "MIL",
-      "Forward": "ATT",
-      "RightBack": "DD",
-      "CenterBack": "DC",
-      "LeftBack": "DG",
-      "RightWingBack": "PD",
-      "LeftWingBack": "PG",
-      "DefensiveMidfielder": "MDF",
-      "CentralMidfielder": "MC",
-      "AttackingMidfielder": "MO",
-      "RightMidfielder": "MD",
-      "LeftMidfielder": "MG",
-      "RightWinger": "AD",
-      "LeftWinger": "AG",
-      "Striker": "AC"
+      "Goalkeeper": "TOP",
+      "Defender": "JGL",
+      "Midfielder": "MID",
+      "Forward": "ADC",
+      "RightBack": "TOP",
+      "CenterBack": "JGL",
+      "LeftBack": "JGL",
+      "RightWingBack": "TOP",
+      "LeftWingBack": "JGL",
+      "DefensiveMidfielder": "MID",
+      "CentralMidfielder": "MID",
+      "AttackingMidfielder": "MID",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "footedness": {
       "Left": "Gauche",
@@ -637,7 +652,7 @@
       "physical": "Physique",
       "technical": "Technique",
       "mental": "Mental",
-      "goalkeeper": "Gardien"
+      "goalkeeper": "Top"
     }
   },
   "teamSelection": {
@@ -692,20 +707,20 @@
     }
   },
   "tactics": {
-    "formationStyle": "Formation & Style",
-    "formation": "Formation",
+"formationStyle": "Plan de jeu & Style",
+    "formation": "Plan de jeu",
     "playStyle": "Style de jeu",
     "lineupTab": "Composition",
-    "rolesTab": "Coups de pied arrêtés & rôles",
+    "rolesTab": "Objectifs & Rôles",
     "teamRoles": "Rôles de l'équipe",
     "viceCaptain": "Vice-capitaine",
-    "setPiecesSection": "Coups de pied arrêtés",
-    "rolesHint": "Choisissez votre hiérarchie de leadership et vos spécialistes sur coups de pied arrêtés dans le onze de départ actuel.",
-    "autoSelectAssignments": "Sélection automatique des défauts",
-    "noStartersForRoles": "Définissez votre onze de départ pour attribuer les rôles d'équipe et les coups de pied arrêtés.",
-    "startingXI": "Onze de départ — {{formation}}",
+    "setPiecesSection": "Rôles Objectif",
+"rolesHint": "Choisissez votre hiérarchie de leadership et vos spécialistes sur objectifs dans l'équipe titulaire actuelle.",
+      "autoSelectAssignments": "Sélection automatique des défauts",
+      "noStartersForRoles": "Définissez votre équipe titulaire pour attribuer les rôles d'équipe et les objectifs.",
+    "startingXI": "Cinq de Départ",
     "fullSquad": "Effectif complet",
-    "pitchInteractionHint": "Faites glisser les joueurs entre le terrain et le banc, cliquez sur un joueur pour l'inspecter, cliquez sur un second pour les comparer, puis confirmez l'échange dans le panneau de comparaison.",
+    "pitchInteractionHint": "Faites glisser les joueurs entre le Rift et le banc, cliquez sur un joueur pour l'inspecter, cliquez sur un second pour les comparer, puis confirmez l'échange dans le panneau de comparaison.",
     "selectedPlayer": "Joueur sélectionné",
     "comparePlayer": "Joueur de comparaison",
     "selectSecondPlayer": "Sélectionnez un deuxième joueur dans la vue de composition pour comparer les attributs et préparer l'échange.",
@@ -1037,8 +1052,8 @@
       "Tactics": "Tactique",
       "Defending": "Défense",
       "Attacking": "Attaque",
-      "GoalKeeping": "Gardiens",
-      "Youth": "Formation"
+      "GoalKeeping": "Top",
+      "Youth": "Académie"
     },
     "lolAttrs": {
       "coaching": "Coaching LoL",
@@ -1171,7 +1186,7 @@
       "BoardDirective": "Direction",
       "PlayerMorale": "Moral",
       "Injury": "Blessure",
-      "Training": "Entraînement",
+      "training": "Entraînement",
       "Finance": "Finances",
       "Contract": "Contrat",
       "ScoutReport": "Recruteur",
@@ -1573,13 +1588,23 @@
     "fullscreen": "Plein Écran",
     "fullscreenDesc": "Basculer en mode plein écran",
     "enterFullscreen": "Entrer",
-    "exitFullscreen": "Quitter"
+    "exitFullscreen": "Quitter",
+    "updates": "Mises à jour",
+    "currentVersion": "Version Actuelle",
+    "currentVersionDesc": "La version installée du jeu",
+    "checkForUpdates": "Vérifier les Mises à Jour",
+    "checkForUpdatesDesc": "Vérifier manuellement si une nouvelle version est disponible",
+    "checking": "Vérification...",
+    "updateAvailable": "Mise à Jour Disponible",
+    "checkNow": "Vérifier Maintenant",
+    "updateAvailableDetail": "La version {{version}} est disponible",
+    "upToDate": "Vous êtes à jour"
   },
   "preMatch": {
-    "formationFit": "Ajustement Formation",
-    "autoSelect": "Sélection Auto du XI",
+    "formationFit": "Ajustement Stratégie",
+    "autoSelect": "Sélection Auto du Cinq",
     "selecting": "Sélection...",
-    "startingXI": "Onze de Départ",
+    "startingXI": "Cinq de Départ",
     "substitutes": "Remplaçants",
     "opponent": "Adversaire",
     "nPlayers": "{{count}} joueurs",
@@ -1654,7 +1679,7 @@
     "step1Min": "Avancer 1 Minute",
     "teamControls": "Contrôles d'Équipe",
     "subs": "Remplacements",
-    "formation": "Formation",
+    "formation": "Plan de jeu",
     "playStyle": "Style de Jeu",
     "keyEvents": "Événements Clés",
     "noEventsYet": "Le match n'a pas encore commencé.",
@@ -1938,7 +1963,7 @@
     "viewDetails": "Voir les détails",
     "matchDetails": "Détails du Match",
     "scorers": "Buteurs",
-    "tactics":"Prépa et Tactique",
+    "tactics": "Prépa et Tactique",
     "noGoals": "Aucun but marqué.",
     "matchComplete": "Match terminé.",
     "addressPress": "Répondez à la presse ou rentrez.",
@@ -2125,8 +2150,8 @@
     "setPiecesCaptain": "Coups de Pied Arrêtés et Capitaine",
     "formationFit": "Ajustement de Formation",
     "selecting": "Sélection...",
-    "autoSelectXI": "Auto-Sélectionner le Meilleur XI",
-    "startingXI": "XI de Départ",
+    "autoSelectXI": "Auto-Sélectionner le Meilleur Cinq",
+    "startingXI": "Cinq de Départ",
     "cancel": "Annuler",
     "nPlayers": "{{count}} joueurs",
     "swapPrompt": "Sélectionnez un remplaçant pour échanger",
@@ -2246,7 +2271,7 @@
       },
       "preMatch": {
         "subject": "À venir : vs {{opponent}} ({{venue}})",
-        "body0": "Votre match {{venue}} contre {{opponent}} approche le {{matchDate}}.\n\nJournée {{matchday}} de la Première Division. Assurez-vous que votre onze titulaire est en forme et que vos tactiques sont en place.\n\nTirez le meilleur parti de jouer à {{venue}}.",
+        "body0": "Votre match {{venue}} contre {{opponent}} approche le {{matchDate}}.\n\nJournée {{matchday}} de la Première Division. Assurez-vous que votre équipe titulaire est en forme et que vos tactiques sont en place.\n\nTirez le meilleur parti de jouer à {{venue}}.",
         "body1": "Rappel : vous affrontez {{opponent}} {{venue}} le {{matchDate}}.\n\nC'est la Journée {{matchday}} — vérifiez la condition physique de votre effectif et envisagez des ajustements tactiques.",
         "actionTactics": "Définir les Tactiques",
         "actionScout": "Analyser l'Adversaire"
@@ -2516,8 +2541,8 @@
             "description": "Rencontrez des représentants des supporters et écoutez leurs préoccupations. Bon pour le moral."
           },
           "ignoreFans": {
-            "label": "Se concentrer sur le football",
-            "description": "Refusez poliment — les décisions footballistiques restent dans le vestiaire."
+            "label": "Se concentrer sur le jeu",
+            "description": "Refusez poliment — les décisions de l'équipe restent dans le vestiaire."
           },
           "addressPublicly": {
             "label": "Faire une déclaration publique",
@@ -2552,7 +2577,7 @@
       "benchComplaint": {
         "subject": "{{player}} — Veut plus de temps de jeu",
         "body0": "Coach, {{player}} est venu vous voir. Il est frustré par son manque de temps de jeu lors des derniers matchs et veut savoir ce qu'il doit faire pour réintégrer l'équipe.\n\n\"J'ai l'impression de bien m'entraîner, mais je n'ai pas l'occasion de le montrer sur le terrain.\"",
-        "body1": "{{player}} a frappé à la porte de votre bureau avec un air contrarié. Il n'a pas joué lors des derniers matchs et veut des réponses.\n\n\"Je suis venu dans ce club pour jouer au football. Si je ne fais pas partie de vos plans, je préfère que vous me le disiez franchement.\""
+        "body1": "{{player}} a frappé à la porte de votre bureau avec un air contrarié. Il n'a pas joué lors des derniers matchs et veut des réponses.\n\n\"Je suis venu dans ce club pour jouer. Si je ne fais pas partie de vos plans, je préfère que vous me le disiez franchement.\""
       },
       "happyPlayer": {
         "subject": "{{player}} — Se sent en grande forme",
@@ -2848,9 +2873,9 @@
       "label": "Moteur",
       "desc": "Puissance de surface à surface"
     },
-    "SetPieceSpecialist": {
-      "label": "Spéc. Coups de Pied",
-      "desc": "Mortel sur coups de pied arrêtés"
+"SetPieceSpecialist": {
+      "label": "Spécialiste Objectifs",
+      "desc": "Mortel dans les fights pour objectifs"
     }
   },
   "date": {
@@ -2886,5 +2911,14 @@
     "noJobs": "Aucun poste disponible actuellement.",
     "leaguePosition": "Dernière saison : {{position}}",
     "refresh": "Vérifier les nouvelles offres"
+  },
+  "updater": {
+    "title": "Mise à Jour Disponible",
+    "description": "Une nouvelle version ({{version}}) est disponible. Vos parties sauvegardées seront conservées.",
+    "downloading": "Téléchargement...",
+    "preparing": "Préparation de la mise à jour...",
+    "installing": "Installation...",
+    "installAndRestart": "Installer & Redémarrer",
+    "playWithoutUpdating": "Jouer Sans Mettre à Jour"
   }
 }

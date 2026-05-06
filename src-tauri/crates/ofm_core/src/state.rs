@@ -169,13 +169,13 @@ mod tests {
 
         PlayerAttributes {
             pace: 65,
-            stamina: 65,
+            mental_resilience: 65,
             strength: 65,
-            agility: 65,
+            champion_pool: 65,
             passing: 65,
-            shooting: if is_gk { 30 } else { 65 },
+            laning: if is_gk { 30 } else { 65 },
             tackling: if is_gk || is_fwd { 35 } else { 65 },
-            dribbling: if is_gk { 30 } else { 65 },
+            mechanics: if is_gk { 30 } else { 65 },
             defending: if is_gk {
                 30
             } else if is_def {
@@ -184,12 +184,12 @@ mod tests {
                 55
             },
             positioning: 65,
-            vision: 65,
-            decisions: 65,
-            composure: 65,
+            macro_play: 65,
+            consistency: 65,
+            discipline: 65,
             aggression: 50,
-            teamwork: 65,
-            leadership: 50,
+            teamfighting: 65,
+            shotcalling: 50,
             handling: if is_gk { 75 } else { 20 },
             reflexes: if is_gk { 75 } else { 30 },
             aerial: 60,

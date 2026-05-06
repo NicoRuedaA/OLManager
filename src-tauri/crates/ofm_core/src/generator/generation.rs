@@ -17,7 +17,7 @@ fn compute_alternate_role(primary: &LolRole, attrs: &PlayerAttributes) -> Option
     match primary {
         LolRole::Top => {
             // Top players with good vision/passing can play Support
-            if attrs.vision >= 70 && attrs.teamwork >= 65 {
+            if attrs.macro_play >= 70 && attrs.teamfighting >= 65 {
                 Some(LolRole::Support)
             } else {
                 None
@@ -25,7 +25,7 @@ fn compute_alternate_role(primary: &LolRole, attrs: &PlayerAttributes) -> Option
         }
         LolRole::Jungle => {
             // Jungle with good decision making can play Mid
-            if attrs.decisions >= 70 && attrs.vision >= 65 {
+            if attrs.consistency >= 70 && attrs.macro_play >= 65 {
                 Some(LolRole::Mid)
             } else {
                 None
@@ -33,9 +33,9 @@ fn compute_alternate_role(primary: &LolRole, attrs: &PlayerAttributes) -> Option
         }
         LolRole::Mid => {
             // Mid with good vision can play Jungle or Support
-            if attrs.vision >= 70 && attrs.decisions >= 65 {
+            if attrs.macro_play >= 70 && attrs.consistency >= 65 {
                 Some(LolRole::Jungle)
-            } else if attrs.vision >= 70 && attrs.teamwork >= 65 {
+            } else if attrs.macro_play >= 70 && attrs.teamfighting >= 65 {
                 Some(LolRole::Support)
             } else {
                 None
@@ -43,7 +43,7 @@ fn compute_alternate_role(primary: &LolRole, attrs: &PlayerAttributes) -> Option
         }
         LolRole::Adc => {
             // ADC with good positioning can play Mid
-            if attrs.positioning >= 70 && attrs.shooting >= 65 {
+            if attrs.positioning >= 70 && attrs.laning >= 65 {
                 Some(LolRole::Mid)
             } else {
                 None
@@ -189,19 +189,19 @@ pub(super) fn generate_random_player_from_def(
 
     let attributes = PlayerAttributes {
         pace: rng.random_range(40..95),
-        stamina: rng.random_range(40..95),
+        mental_resilience: rng.random_range(40..95),
         strength: if is_support {
             rng.random_range(50..90)
         } else {
             rng.random_range(40..95)
         },
-        agility: rng.random_range(40..95),
+        champion_pool: rng.random_range(40..95),
         passing: if is_support {
             rng.random_range(55..95)
         } else {
             rng.random_range(40..95)
         },
-        shooting: if is_adc {
+        laning: if is_adc {
             rng.random_range(55..95)
         } else {
             rng.random_range(40..95)
@@ -211,7 +211,7 @@ pub(super) fn generate_random_player_from_def(
         } else {
             rng.random_range(40..95)
         },
-        dribbling: if is_adc {
+        mechanics: if is_adc {
             rng.random_range(55..95)
         } else {
             rng.random_range(40..95)
@@ -226,44 +226,44 @@ pub(super) fn generate_random_player_from_def(
         } else {
             rng.random_range(40..95)
         },
-        vision: if is_support || is_jungle {
+        macro_play: if is_support || is_jungle {
             rng.random_range(55..95)
         } else {
             rng.random_range(40..95)
         },
-        decisions: if is_jungle {
+        consistency: if is_jungle {
             rng.random_range(55..95)
         } else {
             rng.random_range(40..95)
         },
-        composure: if is_adc {
+        discipline: if is_adc {
             rng.random_range(55..90)
         } else {
             rng.random_range(40..95)
         },
         aggression: rng.random_range(30..90),
-        teamwork: if is_support {
+        teamfighting: if is_support {
             rng.random_range(55..95)
         } else {
             rng.random_range(45..95)
         },
-        leadership: rng.random_range(30..90),
+        shotcalling: rng.random_range(30..90),
         handling: rng.random_range(10..35),
         reflexes: rng.random_range(20..50),
         aerial: rng.random_range(30..75),
     };
 
     let ovr = (attributes.pace as u32
-        + attributes.stamina as u32
+        + attributes.mental_resilience as u32
         + attributes.strength as u32
         + attributes.passing as u32
-        + attributes.shooting as u32
+        + attributes.laning as u32
         + attributes.tackling as u32
-        + attributes.dribbling as u32
+        + attributes.mechanics as u32
         + attributes.defending as u32
         + attributes.positioning as u32
-        + attributes.vision as u32
-        + attributes.decisions as u32)
+        + attributes.macro_play as u32
+        + attributes.consistency as u32)
         / 11;
 
     let age_factor = if age <= 23 {

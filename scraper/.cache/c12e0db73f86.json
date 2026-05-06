@@ -1,0 +1,10 @@
+{
+  "parse": {
+    "title": "Melty eSport Club",
+    "pageid": 182219,
+    "wikitext": {
+      "*": "{{Infobox Team\n|name= Melty eSport Club\n|orgcountry= France \n|country=France\n|region=EU\n|image=Melty-logo.png\n|coaches= Léo  \"'''Lounet'''\" Maurice\n|manager= \n|captain= César \"'''Wakz'''\" Hugues\n|website= http://www.melty.fr/esport-club/\n|youtube=https://www.youtube.com/channel/UCkSOoGpJ-0lKZp7hG3HJfbQ\n|facebook=https://facebook.com/melty.esport\n|twitter= melty_eSport\n|sponsor= [http://www.melty.fr/ Melty] <br> [https://www.bouyguestelecom.fr/ Bouygues Telecom]\n|created= Organization 2015-01-28 <br> LoL Division 2015-10-16\n|disbanded= 2016-10-31\n|isdisbanded=yes\n}}{{TOCRWI}}\n'''Melty eSport Club''' is a French organization.\n\n== History ==\n\n== Timeline ==\n{{TeamNews}}\n\n== Player Roster ==\n\n===Former===\n{{TeamMembersFormer}}\n\n== Organization ==\n=== Former ===\n{|class=\"sortable wikitable\"\n!\n!ID\n!Name\n!Position\n!Next Team\n{{listplayer|Lounet|fr|Léo Maurice|'''Coach'''|newteam=LDLC}}\n{{Listplayer/EndTemp}}\n\n== Tournaments ==\n{{TeamResults|show=overviewpage}}\n\n{{TeamShowmatchResults|show=overviewpage}}\n==References==\n<references />"
+    }
+  },
+  "_cachedAt": 1778050850410
+}

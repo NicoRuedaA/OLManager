@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { Pencil, Shield, User } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { EyeOff, Pencil, Shield, User } from "lucide-react";
 import type { PlayerData } from "../../store/gameStore";
 import { formatPlayerMarketValue, formatPlayerWage } from "./PlayerProfile.helpers";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import type {
   PlayerProfileScoutStatus,
   ScoutAvailability,
@@ -264,7 +265,14 @@ export default function PlayerProfileHeroCard({
               </div>
             ) : null}
             <p className="text-gray-400 text-sm mt-2 flex items-center gap-1.5">
-              <Shield className="w-4 h-4" />
+              {(() => {
+                const logoUrl = resolveExampleTeamLogo(teamName);
+                return logoUrl ? (
+                  <img src={logoUrl} alt={teamName} className="w-4 h-4 object-contain" />
+                ) : (
+                  <Shield className="w-4 h-4" />
+                );
+              })()}
               {player.team_id ? (
                 <button
                   onClick={() => onSelectTeam?.(player.team_id!)}
@@ -308,8 +316,9 @@ export default function PlayerProfileHeroCard({
               />
               <QuickStat
                 label={t("common.potential", { defaultValue: "Potencial" })}
-                value={potentialValueLabel}
+                value={potentialRevealed !== null ? String(potentialRevealed) : "—"}
                 color="text-gray-200"
+                icon={potentialRevealed === null ? <EyeOff className="w-4 h-4" /> : undefined}
               />
               <QuickStat
                 label={t("common.value")}
@@ -344,8 +353,9 @@ export default function PlayerProfileHeroCard({
         />
         <MobileQuickStat
           label={t("common.potential", { defaultValue: "Potencial" })}
-          value={potentialValueLabel}
+          value={potentialRevealed !== null ? String(potentialRevealed) : "—"}
           color="text-gray-700 dark:text-gray-200"
+          icon={potentialRevealed === null ? <EyeOff className="w-4 h-4" /> : undefined}
         />
         <MobileQuickStat
           label={t("common.value")}
@@ -419,17 +429,21 @@ function QuickStat({
   label,
   value,
   color,
+  icon,
 }: {
   label: string;
   value: string;
   color: string;
+  icon?: ReactNode;
 }) {
   return (
     <div className="bg-black/42 border border-white/20 rounded-xl px-5 py-3 text-center min-w-25 backdrop-blur-xs">
       <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">
         {label}
       </p>
-      <p className={`font-heading font-bold text-xl mt-0.5 ${color}`}>{value}</p>
+      <p className={`font-heading font-bold text-xl mt-0.5 ${color} inline-flex items-center gap-1 justify-center`}>
+        {icon ?? value}
+      </p>
     </div>
   );
 }
@@ -438,17 +452,21 @@ function MobileQuickStat({
   label,
   value,
   color,
+  icon,
 }: {
   label: string;
   value: string;
   color: string;
+  icon?: ReactNode;
 }) {
   return (
     <div className="bg-white dark:bg-navy-800 p-3 text-center">
       <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider">
         {label}
       </p>
-      <p className={`font-heading font-bold text-lg mt-0.5 ${color}`}>{value}</p>
+      <p className={`font-heading font-bold text-lg mt-0.5 ${color} inline-flex items-center gap-1 justify-center`}>
+        {icon ?? value}
+      </p>
     </div>
   );
 }

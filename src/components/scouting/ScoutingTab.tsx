@@ -12,6 +12,7 @@ import {
   ScanSearch,
 } from "lucide-react";
 import { sendScout } from "../../services/scoutingService";
+import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import {
   calculateAvailableScouts,
   scoutMaxSlots,
@@ -99,89 +100,141 @@ export default function ScoutingTab({
         </h2>
       </div>
 
-      <ScoutingOverviewCards
-        scouts={scouts}
-        assignmentCount={assignments.length}
-        availableScoutCount={availableScouts.length}
-        totalCapacity={scouts.reduce(
-          (sum, scout) => sum + scoutMaxSlots(scout.attributes.judging_ability),
-          0,
-        )}
-        labels={{
-          scouts: t("scouting.scouts"),
-          activeAssignments: t("scouting.activeAssignments"),
-          freeSlots: t("scouting.freeSlots"),
-        }}
-      />
-
-      <Card accent={academyTeam ? "primary" : "accent"}>
-        <CardBody>
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center shrink-0">
-                <GraduationCap className="w-5 h-5 text-primary-500" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider">
-                  {t("scouting.academyScoutingTag")}
-                </p>
-                {academyTeam && (
-                  <p className="text-xs text-primary-500 dark:text-primary-300 mt-1">
-                    {t("scouting.academyAcquired")}
-                  </p>
-                )}
-                <p className="font-heading font-bold text-gray-800 dark:text-gray-100 mt-1">
-                  {academyTeam?.name ?? t("scouting.academyPending")}
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  {academyTeam
-                    ? t("scouting.academyRosterCount", { count: academyRosterCount })
-                    : t("scouting.academyPipelineHint")}
-                </p>
-              </div>
-            </div>
-            {!academyTeam && onNavigate && (
-              <Button size="sm" variant="outline" onClick={() => onNavigate("YouthAcademy")}>
-                {t("scouting.viewAcquisitionOptions")}
-              </Button>
+      <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[1fr_1.4fr]">
+        {/* Left column: overview, academy, assignments, scout cards */}
+        <div className="flex flex-col gap-5">
+          <ScoutingOverviewCards
+            scouts={scouts}
+            assignmentCount={assignments.length}
+            availableScoutCount={availableScouts.length}
+            totalCapacity={scouts.reduce(
+              (sum, scout) => sum + scoutMaxSlots(scout.attributes.judging_ability),
+              0,
             )}
-          </div>
-        </CardBody>
-      </Card>
+            labels={{
+              scouts: t("scouting.scouts"),
+              activeAssignments: t("scouting.activeAssignments"),
+              freeSlots: t("scouting.freeSlots"),
+            }}
+          />
 
-      <ScoutingAssignmentsList
-        assignments={assignments}
-        scouts={scouts}
-        players={gameState.players}
-        teams={gameState.teams}
-        onSelectPlayer={onSelectPlayer}
-      />
+          <Card accent={academyTeam ? "primary" : "accent"}>
+            <CardBody>
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-start gap-3">
+                  {(() => {
+                    const logo = academyTeam ? resolveExampleTeamLogo(academyTeam.name) : null;
+                    if (logo) {
+                      return (
+                        <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center shrink-0">
+                          <img src={logo} alt={academyTeam!.name} className="w-7 h-7 object-contain" />
+                        </div>
+                      );
+                    }
+                    return (
+                      <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center shrink-0">
+                        <GraduationCap className="w-5 h-5 text-primary-500" />
+                      </div>
+                    );
+                  })()}
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider">
+                      {t("scouting.academyScoutingTag")}
+                    </p>
+                    {academyTeam && (
+                      <p className="text-xs text-primary-500 dark:text-primary-300 mt-1">
+                        {t("scouting.academyAcquired")}
+                      </p>
+                    )}
+                    <p className="font-heading font-bold text-gray-800 dark:text-gray-100 mt-1">
+                      {academyTeam?.name ?? t("scouting.academyPending")}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      {academyTeam
+                        ? t("scouting.academyRosterCount", { count: academyRosterCount })
+                        : t("scouting.academyPipelineHint")}
+                    </p>
+                  </div>
+                </div>
+                {!academyTeam && onNavigate && (
+                  <Button size="sm" variant="outline" onClick={() => onNavigate("YouthAcademy")}>
+                    {t("scouting.viewAcquisitionOptions")}
+                  </Button>
+                )}
+              </div>
+            </CardBody>
+          </Card>
 
-      <ScoutingScoutDetailsCard
-        scouts={scouts}
-        assignments={assignments}
-        players={gameState.players}
-      />
+          <ScoutingAssignmentsList
+            assignments={assignments}
+            scouts={scouts}
+            players={gameState.players}
+            teams={gameState.teams}
+            onSelectPlayer={onSelectPlayer}
+          />
 
-      {scouts.length === 0 && (
-        <Card>
-          <CardBody>
-            <div className="flex flex-col items-center gap-3 py-8">
-              <Eye className="w-10 h-10 text-gray-300 dark:text-navy-600" />
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
-                {t("scouting.noScouts")}
-                <br />
-                <span className="text-xs">{t("scouting.noScoutsHint")}</span>
-              </p>
-            </div>
-          </CardBody>
-        </Card>
-      )}
+          <ScoutingScoutDetailsCard
+            scouts={scouts}
+            assignments={assignments}
+            players={gameState.players}
+          />
 
+          {scouts.length === 0 && (
+            <Card>
+              <CardBody>
+                <div className="flex flex-col items-center gap-3 py-8">
+                  <Eye className="w-10 h-10 text-gray-300 dark:text-navy-600" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                    {t("scouting.noScouts")}
+                    <br />
+                    <span className="text-xs">{t("scouting.noScoutsHint")}</span>
+                  </p>
+                </div>
+              </CardBody>
+            </Card>
+          )}
+        </div>
+
+<<<<<<< fix/team-upsert-values-mismatch
+        {/* Right column: player search */}
+        <div className="flex flex-col gap-5">
+          {scouts.length > 0 && (
+            <ScoutingPlayerSearchCard
+              players={scoutablePlayers}
+              teams={gameState.teams}
+              posFilter={posFilter}
+              searchQuery={searchQuery}
+              alreadyScoutingIds={alreadyScoutingIds}
+              availableScoutCount={availableScouts.length}
+              sendingPlayerId={sending}
+              safePage={safePage}
+              totalPages={totalPages}
+              totalPlayers={allScoutable.length}
+              pageSize={SCOUTING_PAGE_SIZE}
+              onPositionFilterChange={(position) => {
+                setPosFilter(position);
+                setPage(0);
+              }}
+              onSearchQueryChange={(query) => {
+                setSearchQuery(query);
+                setPage(0);
+              }}
+              onSelectPlayer={onSelectPlayer}
+              onSendScout={handleSendScout}
+              onPreviousPage={() => setPage((currentPage) => Math.max(0, currentPage - 1))}
+              onNextPage={() =>
+                setPage((currentPage) => Math.min(totalPages - 1, currentPage + 1))
+              }
+            />
+          )}
+        </div>
+      </div>
+=======
       {scouts.length > 0 && (
         <ScoutingPlayerSearchCard
           players={scoutablePlayers}
           teams={gameState.teams}
+          currentDate={gameState.clock.current_date}
           posFilter={posFilter}
           searchQuery={searchQuery}
           alreadyScoutingIds={alreadyScoutingIds}
@@ -207,6 +260,7 @@ export default function ScoutingTab({
           }
         />
       )}
+>>>>>>> develop
     </div>
   );
 }

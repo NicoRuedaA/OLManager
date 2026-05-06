@@ -5,12 +5,14 @@ import {
 } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import type { PlayerData } from "../../store/gameStore";
-import { Card, CardBody, CardHeader, CountryFlag, ProgressBar, RoleBadge } from "../ui";
+import { Card, CardBody, CardHeader, CountryFlag, ProgressBar } from "../ui";
 import { getLolRoleForPlayer, type LolRole } from "../squad/SquadTab.helpers";
 import type { TeamProfileTranslate } from "./TeamProfile.types";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 
 interface TeamProfileRosterCardProps {
   roster: PlayerData[];
+  currentDate: string;
   isOwnTeam: boolean;
   locale: string;
   t: TeamProfileTranslate;
@@ -19,11 +21,20 @@ interface TeamProfileRosterCardProps {
 
 export default function TeamProfileRosterCard({
   roster,
+  currentDate,
   isOwnTeam,
   locale,
   t,
   onSelectPlayer,
 }: TeamProfileRosterCardProps) {
+  const LOL_ROLE_ICON_URLS: Record<LolRole, string> = {
+    TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
+    JUNGLE: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
+    MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
+    ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
+    SUPPORT: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
+  };
+
   return (
     <Card className="lg:col-span-3">
       <CardHeader>
@@ -34,6 +45,7 @@ export default function TeamProfileRosterCard({
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
+                <th className="py-3 px-5 w-14"></th>
                 <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   {t("common.position")}
                 </th>
@@ -62,8 +74,9 @@ export default function TeamProfileRosterCard({
             <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
               {roster.map((player) => {
                 const ovr = calculateLolOvr(player);
-                const age = calcAge(player.date_of_birth);
+                const age = calcAge(player.date_of_birth, currentDate);
                 const lolRole = getLolRoleForPlayer(player);
+                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
 
                 return (
                   <tr
@@ -72,7 +85,25 @@ export default function TeamProfileRosterCard({
                     className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
                   >
                     <td className="py-3 px-5">
-                      <RoleBadge role={lolRole} size="sm" />
+                      {photoUrl ? (
+                        <img
+                          src={photoUrl}
+                          alt={player.match_name}
+                          className="w-8 h-8 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
+                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-3 px-5">
+                      <img
+                        src={LOL_ROLE_ICON_URLS[lolRole]}
+                        alt={lolRole}
+                        className="w-5 h-5 object-contain"
+                        title={lolRole}
+                      />
                     </td>
                     <td className="py-3 px-5">
                       <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">

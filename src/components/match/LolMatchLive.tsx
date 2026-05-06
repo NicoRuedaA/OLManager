@@ -970,9 +970,9 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
 
   return (
     <div className="relative h-screen w-screen overflow-auto bg-[#050505] text-white">
-      <div className="flex min-h-screen w-full flex-col items-center justify-start">
+      <div className="flex h-full w-full flex-col items-center justify-start px-[5%] pt-[2.5%]">
         <div className="map-container flex w-full flex-[0_0_auto] flex-col items-center justify-center">
-          <div className="relative mb-2 w-full max-w-[1500px] px-2 pb-6 sm:px-4 sm:pb-9">
+          <div className="relative mb-2 w-full px-2 pb-6 sm:px-4 sm:pb-9">
             <style>{`
               @keyframes lolFeedSlideIn {
                 0% { opacity: 0; transform: translateX(-16px) scale(0.98); }
@@ -1057,7 +1057,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
             </div>
           </div>
 
-          <div className="flex w-full max-w-[1500px] flex-col items-center gap-3 px-2 lg:flex-row lg:items-stretch lg:justify-center">
+          <div className="flex w-full flex-col items-center gap-3 px-2 lg:flex-row lg:items-stretch lg:justify-center">
             {!isMobileLayout ? (
               <div className="w-full max-w-[260px] lg:w-[246px]">
                 <div className="flex flex-col gap-[7px]">
@@ -1148,9 +1148,10 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
           </div>
         </div>
 
-        <div className="hud-board w-full">
-          <LecLowerThirdPanel champions={state?.champions ?? []} championByPlayerId={championByPlayerId} timeSec={state?.timeSec ?? 0} />
-
+        <div className="hud-board w-full flex-1 flex flex-col">
+          <div className="flex-1 overflow-hidden">
+            <LecLowerThirdPanel champions={state?.champions ?? []} championByPlayerId={championByPlayerId} timeSec={state?.timeSec ?? 0} />
+          </div>
           <div className="pb-2" />
         </div>
       </div>

@@ -17,21 +17,21 @@ function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
     training_focus: null,
     attributes: {
       pace: 62,
-      stamina: 66,
+      mental_resilience: 66,
       strength: 58,
-      agility: 74,
+      champion_pool: 74,
       passing: 70,
-      shooting: 73,
+      laning: 73,
       tackling: 40,
-      dribbling: 78,
+      mechanics: 78,
       defending: 35,
       positioning: 72,
-      vision: 75,
-      decisions: 76,
-      composure: 71,
+      macro_play: 75,
+      consistency: 76,
+      discipline: 71,
       aggression: 48,
-      teamwork: 69,
-      leadership: 64,
+      teamfighting: 69,
+      shotcalling: 64,
       handling: 20,
       reflexes: 22,
       aerial: 30,
@@ -77,16 +77,16 @@ describe("lolPlayerStats", () => {
   });
 
   it("advertises training gains with LoL-visible stats instead of legacy football attributes", () => {
-    expect(TRAINING_FOCUS_ATTRS.Scrims).toEqual(["teamfighting", "macro", "consistency"]);
+    expect(TRAINING_FOCUS_ATTRS.Scrims).toEqual(["mechanics", "consistency", "discipline"]);
     expect(TRAINING_FOCUS_ATTRS.IndividualCoaching).toEqual([
       "mechanics",
       "laning",
-      "consistency",
+      "discipline",
     ]);
     expect(TRAINING_FOCUS_ATTRS.ChampionPoolPractice).toEqual([
-      "mechanics",
       "championPool",
       "laning",
+      "mechanics",
     ]);
   });
 });

@@ -24,7 +24,7 @@ function estimateTeamOvr(gameState: GameStateData, teamId: string): number {
   if (players.length === 0) return 74;
   const avg = players.reduce((sum, player) => {
     const a = player.attributes;
-    return sum + Math.round((a.dribbling + a.shooting + a.teamwork + a.vision + a.decisions + a.leadership + a.agility + a.composure + a.stamina) / 9);
+    return sum + Math.round((a.mechanics + a.laning + a.teamfighting + a.macro_play + a.consistency + a.shotcalling + a.champion_pool + a.discipline + a.mental_resilience) / 9);
   }, 0) / players.length;
   return Math.round(avg);
 }

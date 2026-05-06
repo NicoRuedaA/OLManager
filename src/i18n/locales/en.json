@@ -174,8 +174,8 @@
     "selectCountry": "Select Country/Region...",
     "searchNationalities": "Search nationalities...",
     "chooseWorld": "Choose World",
-    "placeholderFirst": "e.g. José",
-    "placeholderLast": "e.g. Mourinho"
+    "placeholderFirst": "e.g. Lee",
+    "placeholderLast": "e.g. Sang-hyeok"
   },
   "validation": {
     "required": "{{field}} is required",
@@ -201,15 +201,16 @@
     "manager": "Head Coach",
     "squad": "Squad",
     "tactics": "Tactics",
-    "training": "SoloQ",
+    "training": "Training",
     "scrims": "Scrims",
-    "champions": "Meta",
+    "meta": "Meta",
     "staff": "Staff",
     "finances": "Finances",
     "transfers": "Transfers",
     "players": "Players",
     "teams": "Teams",
     "tournaments": "Tournaments",
+    "champions_world": "Champions",
     "schedule": "Schedule",
     "news": "News",
     "social": "Social",
@@ -224,6 +225,7 @@
     "sectionWorld": "World",
     "searchTeams": "Teams",
     "searchPlayers": "Players",
+    "searchChampions": "Champions",
     "scouting": "Scouting",
     "youthAcademy": "Academy",
     "saveGame": "Save game",
@@ -233,10 +235,10 @@
     "expandSidebar": "Expand sidebar",
     "alerts": {
       "exhausted": "{{count}} player(s) in critical condition (<25%)",
-      "injuredStartingXi": "{{count}} injured player(s) in Starting XI — replace them",
-      "incompleteStartingXi": "Starting XI incomplete — set your lineup",
+      "injuredStartingXi": "{{count}} injured player(s) in Starting Five — replace them",
+      "incompleteStartingXi": "Starting Five incomplete — set your lineup",
       "urgentUnread": "{{count}} urgent message(s) unread",
-      "matchTodayStartingXi": "Match today! Set your starting XI"
+      "matchTodayStartingXi": "Match today! Set your starting five"
     },
     "unemployedBanner": "You are currently without a club. Job offers may arrive in your inbox."
   },
@@ -267,7 +269,20 @@
     "high": "High",
     "moderate": "Moderate",
     "low": "Low",
-    "discoveryProgress": "Discovery progress"
+    "discoveryProgress": "Discovery progress",
+    "delegating": "Delegating...",
+    "delegateToCoach": "Delegate to Assistant Coach",
+    "loading": "Loading champions...",
+    "error": "Error loading",
+    "empty": "No champions available",
+    "counterpicks": "Counterpicks",
+    "synergies": "Synergies",
+    "noData": "No counterpick or synergy information available.",
+    "worldTitle": "World Champions",
+    "allChampions": "All Champions",
+    "worldDescription": "Explore all League of Legends champions",
+    "totalChampions": "Total",
+    "170": "170+"
   },
   "exitConfirm": {
     "title": "Exit to Main Menu?",
@@ -290,8 +305,8 @@
     "reviewSquadDesc": "Check player stats, condition, and traits",
     "hireStaff": "Hire coaching staff",
     "hireStaffDesc": "Staff boost training quality and recovery — hire a Coach and Physio",
-    "setTactics": "Set your formation & tactics",
-    "setTacticsDesc": "Choose a formation and play style that fits your squad",
+    "setTactics": "Set your game plan & tactics",
+    "setTacticsDesc": "Choose a game plan and play style that fits your squad",
     "configTraining": "Configure training",
     "configTrainingDesc": "Pick a focus and schedule to develop your players",
     "readMessages": "Read your messages",
@@ -503,48 +518,48 @@
     "showingFirst": "Showing first {{shown}} of {{total}} players. Refine your search to see more.",
     "noPlayersMatch": "No players match your filters.",
     "positions": {
-      "Goalkeeper": "Goalkeeper",
-      "Defender": "Defender",
-      "Midfielder": "Midfielder",
-      "Forward": "Forward",
-      "RightBack": "Right Back",
-      "CenterBack": "Center Back",
-      "LeftBack": "Left Back",
-      "RightWingBack": "Right Wing-Back",
-      "LeftWingBack": "Left Wing-Back",
-      "DefensiveMidfielder": "Defensive Midfielder",
-      "CentralMidfielder": "Central Midfielder",
-      "AttackingMidfielder": "Attacking Midfielder",
-      "RightMidfielder": "Right Midfielder",
-      "LeftMidfielder": "Left Midfielder",
-      "RightWinger": "Right Winger",
-      "LeftWinger": "Left Winger",
-      "Striker": "Striker"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC",
+      "RightBack": "Top",
+      "CenterBack": "Jungle",
+      "LeftBack": "Jungle",
+      "RightWingBack": "Top",
+      "LeftWingBack": "Jungle",
+      "DefensiveMidfielder": "Mid",
+      "CentralMidfielder": "Mid",
+      "AttackingMidfielder": "Mid",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "positionGroups": {
-      "Goalkeeper": "Goalkeepers",
-      "Defender": "Defenders",
-      "Midfielder": "Midfielders",
-      "Forward": "Forwards"
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC"
     },
     "posAbbr": {
-      "Goalkeeper": "GK",
-      "Defender": "DEF",
+      "Goalkeeper": "TOP",
+      "Defender": "JGL",
       "Midfielder": "MID",
-      "Forward": "FWD",
-      "RightBack": "RB",
-      "CenterBack": "CB",
-      "LeftBack": "LB",
-      "RightWingBack": "RWB",
-      "LeftWingBack": "LWB",
-      "DefensiveMidfielder": "DM",
-      "CentralMidfielder": "CM",
-      "AttackingMidfielder": "AM",
-      "RightMidfielder": "RM",
-      "LeftMidfielder": "LM",
-      "RightWinger": "RW",
-      "LeftWinger": "LW",
-      "Striker": "ST"
+      "Forward": "ADC",
+      "RightBack": "TOP",
+      "CenterBack": "JGL",
+      "LeftBack": "JGL",
+      "RightWingBack": "TOP",
+      "LeftWingBack": "JGL",
+      "DefensiveMidfielder": "MID",
+      "CentralMidfielder": "MID",
+      "AttackingMidfielder": "MID",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
     },
     "footedness": {
       "Left": "Left",
@@ -637,7 +652,7 @@
       "physical": "Physical",
       "technical": "Technical",
       "mental": "Mental",
-      "goalkeeper": "Goalkeeper"
+      "goalkeeper": "Top"
     }
   },
   "teamSelection": {
@@ -674,10 +689,10 @@
     "removeFromLoanList": "Remove from loan list",
     "outOfPosition": "Out of position",
     "outOfPositionTooltip": "Playing outside the player's preferred role",
-    "dragHint": "Drag bench players onto the pitch or swap starters between slots.",
-    "benchDragHint": "Use the bench list to drag players directly onto the pitch.",
+    "dragHint": "Drag bench players onto the Rift or swap starters between slots.",
+    "benchDragHint": "Use the bench list to drag players directly onto the Rift.",
     "dropPlayerHere": "Drop player here",
-    "dragToPitch": "Drag to pitch",
+    "dragToPitch": "Drag to Rift",
     "filterPlayers": "Filter by player name or position",
     "noBenchMatches": "No bench players match the current filters.",
     "noLineupMatches": "No starters match the current filters.",
@@ -688,24 +703,24 @@
       "Defensive": "Makes your team protect space first, stay compact, and reduce the risk of getting exposed behind the ball.",
       "Possession": "Encourages your team to circulate the ball patiently, control the tempo, and look for cleaner openings.",
       "Counter": "Invites your team to break forward quickly after regaining the ball, attacking space before the opponent resets.",
-      "HighPress": "Asks your team to close down earlier, win the ball higher up the pitch, and keep opponents under pressure."
+      "HighPress": "Asks your team to close down earlier, win the ball higher up the Rift, and keep opponents under pressure."
     }
   },
   "tactics": {
-    "formationStyle": "Formation & Style",
-    "formation": "Formation",
+    "formationStyle": "Game Plan & Style",
+    "formation": "Game Plan",
     "playStyle": "Play Style",
     "lineupTab": "Lineup",
-    "rolesTab": "Set Pieces & Roles",
+    "rolesTab": "Objectives & Roles",
     "teamRoles": "Team Roles",
     "viceCaptain": "Vice-captain",
-    "setPiecesSection": "Set Pieces",
-    "rolesHint": "Choose your leadership hierarchy and dead-ball specialists from the current Starting XI.",
+    "setPiecesSection": "Objective Roles",
+    "rolesHint": "Choose your leadership hierarchy and objective specialists from the current Starting Five.",
     "autoSelectAssignments": "Auto-select defaults",
-    "noStartersForRoles": "Set your starting XI to assign team roles and set pieces.",
-    "startingXI": "Starting XI — {{formation}}",
+    "noStartersForRoles": "Set your starting five to assign team roles and objectives.",
+    "startingXI": "Starting Five",
     "fullSquad": "Full Squad",
-    "pitchInteractionHint": "Drag players between the pitch and bench, click one player to inspect them, click a second player to compare them, then confirm the swap in the compare panel.",
+    "pitchInteractionHint": "Drag players between the Rift and bench, click one player to inspect them, click a second player to compare them, then confirm the swap in the compare panel.",
     "selectedPlayer": "Selected player",
     "comparePlayer": "Comparison player",
     "selectSecondPlayer": "Select a second player in the lineup view to compare attributes and prepare the swap.",
@@ -1165,7 +1180,7 @@
       "BoardDirective": "Board",
       "PlayerMorale": "Morale",
       "Injury": "Injury",
-      "Training": "Training",
+      "training": "Training",
       "Finance": "Finance",
       "Contract": "Contract",
       "ScoutReport": "Scout",
@@ -1572,13 +1587,23 @@
     "fullscreen": "Fullscreen",
     "fullscreenDesc": "Toggle fullscreen mode for an immersive experience",
     "enterFullscreen": "Enter",
-    "exitFullscreen": "Exit"
+    "exitFullscreen": "Exit",
+    "updates": "Updates",
+    "currentVersion": "Current Version",
+    "currentVersionDesc": "The installed version of the game",
+    "checkForUpdates": "Check for Updates",
+    "checkForUpdatesDesc": "Manually check if a new version is available",
+    "checking": "Checking...",
+    "updateAvailable": "Update Available",
+    "checkNow": "Check Now",
+    "updateAvailableDetail": "Version {{version}} is available",
+    "upToDate": "You're up to date"
   },
   "preMatch": {
-    "formationFit": "Formation Fit",
-    "autoSelect": "Auto-Select Best XI",
+    "formationFit": "Strategy Fit",
+    "autoSelect": "Auto-Select Best Five",
     "selecting": "Selecting...",
-    "startingXI": "Starting XI",
+    "startingXI": "Starting Five",
     "substitutes": "Substitutes",
     "opponent": "Opponent",
     "nPlayers": "{{count}} players",
@@ -1586,13 +1611,13 @@
     "noBench": "No bench players available.",
     "cancelSwap": "Cancel",
     "swapHint": "Select a bench player to swap with",
-    "setPieces": "Set Pieces & Captain",
+    "setPieces": "Objectives & Captain",
     "lineup": "Lineup",
     "startMatch": "Start Match",
     "captain": "Captain",
-    "penaltyTaker": "Penalty Taker",
-    "freeKickTaker": "Free Kick Taker",
-    "cornerTaker": "Corner Taker",
+    "penaltyTaker": "Baron Taker",
+    "freeKickTaker": "Elder Taker",
+    "cornerTaker": "Dragon Taker",
     "fit": "FIT",
     "keyStats": "Key Stats"
   },
@@ -2064,7 +2089,7 @@
             },
             "deflect": {
               "tone": "Deflect",
-              "text": "The fans know what we're about. We just focus on the pitch."
+              "text": "The fans know what we're about. We just focus on the game."
             }
           },
           "loss": {
@@ -2092,7 +2117,7 @@
             },
             "curt": {
               "tone": "Curt",
-              "text": "I don't get involved with what happens in the stands. My focus is on the pitch."
+              "text": "I don't get involved with what happens in the stands. My focus is on the game."
             }
           }
         }
@@ -2121,11 +2146,11 @@
     "matchDay": "Match Day",
     "preMatchPrep": "Pre-Match Preparation",
     "startingLineup": "Starting Lineup",
-    "setPiecesCaptain": "Set Pieces & Captain",
-    "formationFit": "Formation Fit",
+    "setPiecesCaptain": "Objectives & Captain",
+    "formationFit": "Strategy Fit",
     "selecting": "Selecting...",
-    "autoSelectXI": "Auto-Select Best XI",
-    "startingXI": "Starting XI",
+    "autoSelectXI": "Auto-Select Best Five",
+    "startingXI": "Starting Five",
     "cancel": "Cancel",
     "nPlayers": "{{count}} players",
     "swapPrompt": "Select a bench player to swap with",
@@ -2135,9 +2160,9 @@
     "opponent": "Opponent",
     "autoSelectTakers": "Auto-Select Best Takers",
     "captain": "Captain",
-    "penaltyTaker": "Penalty Taker",
-    "freeKickTaker": "Free Kick Taker",
-    "cornerTaker": "Corner Taker",
+    "penaltyTaker": "Baron Taker",
+    "freeKickTaker": "Elder Taker",
+    "cornerTaker": "Dragon Taker",
     "startMatch": "Start Match",
     "notAssigned": "Not assigned",
     "keyStats": "Key Stats",
@@ -2184,7 +2209,7 @@
       "financialDirector": "Financial Director",
       "commercialDirector": "Commercial Director",
       "communityManager": "Community Manager",
-      "directorOfFootball": "Director of Football",
+      "directorOfFootball": "Esports Director",
       "intlLiaison": "International Liaison",
       "player": "Player",
       "pressOfficer": "Press Officer",
@@ -2197,6 +2222,11 @@
       "elYuste": "el_yuste"
     },
     "role": {
+      "top": "Top",
+      "jungle": "Jungle",
+      "mid": "Mid",
+      "adc": "ADC",
+      "support": "Support",
       "chairman": "Chairman",
       "competitionSecretary": "Competition Secretary",
       "assistantManager": "Assistant Manager",
@@ -2205,7 +2235,7 @@
       "financialDirector": "Financial Director",
       "commercialDirector": "Commercial Director",
       "communityManager": "Community Manager",
-      "directorOfFootball": "Director of Football",
+      "directorOfFootball": "Esports Director",
       "intlLiaison": "International Liaison",
       "player": "Player",
       "scout": "Scout",
@@ -2245,7 +2275,7 @@
       },
       "preMatch": {
         "subject": "Upcoming: vs {{opponent}} ({{venue}})",
-        "body0": "Your {{venue}} match against {{opponent}} is coming up on {{matchDate}}.\n\nMatchday {{matchday}} of the Premier Division. Make sure your starting XI is in good shape and your tactics are set.\n\nMake the most of playing at {{venue}}.",
+        "body0": "Your {{venue}} match against {{opponent}} is coming up on {{matchDate}}.\n\nMatchday {{matchday}} of the Premier Split. Make sure your starting five is in good shape and your tactics are set.\n\nMake the most of playing at {{venue}}.",
         "body1": "Reminder: you face {{opponent}} {{venue}} on {{matchDate}}.\n\nThis is Matchday {{matchday}} — review your squad fitness and consider any tactical adjustments.",
         "actionTactics": "Set Tactics",
         "actionScout": "Scout Opponent"
@@ -2515,8 +2545,8 @@
             "description": "Meet with fan representatives and listen to their concerns. Good for morale."
           },
           "ignoreFans": {
-            "label": "Focus on football",
-            "description": "Politely decline — football decisions stay in the dressing room."
+            "label": "Focus on the game",
+            "description": "Politely decline — game decisions stay within the team."
           },
           "addressPublicly": {
             "label": "Make a public statement",
@@ -2550,12 +2580,12 @@
       },
       "benchComplaint": {
         "subject": "{{player}} — Wants More Game Time",
-        "body0": "Boss, {{player}} has come to see you. They're frustrated about their lack of game time in recent matches and want to know what they need to do to get back in the team.\n\n\"I feel like I've been training well, but I'm not getting a chance to show it on the pitch.\"",
-        "body1": "{{player}} knocked on your office door looking unhappy. They haven't featured in the last few matches and want answers.\n\n\"I came to this club to play football. If I'm not in your plans, I'd rather you tell me straight.\""
+        "body0": "Boss, {{player}} has come to see you. They're frustrated about their lack of game time in recent matches and want to know what they need to do to get back in the team.\n\n\"I feel like I've been training well, but I'm not getting a chance to show it in the game.\"",
+        "body1": "{{player}} knocked on your office door looking unhappy. They haven't featured in the last few matches and want answers.\n\n\"I came to this club to play. If I'm not in your plans, I'd rather you tell me straight.\""
       },
       "happyPlayer": {
         "subject": "{{player}} — Feeling Great",
-        "body0": "{{player}} stopped by your office with a big smile. They're feeling great about their form and the team's direction.\n\n\"Just wanted to say I'm really enjoying my football right now, boss. The mood in the dressing room is fantastic.\"",
+        "body0": "{{player}} stopped by your office with a big smile. They're feeling great about their form and the team's direction.\n\n\"Just wanted to say I'm really enjoying the game right now, boss. The mood in the team is fantastic.\"",
         "body1": "Your assistant mentions that {{player}} has been in excellent spirits lately. They approached you after training.\n\n\"Boss, I'm loving every minute here. Keep things going like this and I'll run through walls for you.\""
       },
       "contractConcern": {
@@ -2885,5 +2915,14 @@
     "noJobs": "No positions currently available.",
     "leaguePosition": "Last Season: {{position}}",
     "refresh": "Check for new positions"
+  },
+  "updater": {
+    "title": "Update Available",
+    "description": "A new version ({{version}}) is available. Your save games will be preserved.",
+    "downloading": "Downloading...",
+    "preparing": "Preparing update...",
+    "installing": "Installing...",
+    "installAndRestart": "Install & Restart",
+    "playWithoutUpdating": "Play Without Updating"
   }
 }

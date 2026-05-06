@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import teamsSeed from "../../../data/lec/draft/teams.json";
 import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { resolveExampleTeamLogo } from "../../lib/teamLogos";
 import type { MatchSnapshot } from "./types";
 import type { DraftMatchResult, DraftTimelineEvent } from "./draftResultSimulator";
 
@@ -168,6 +169,8 @@ export default function DraftResultScreen({
   const redTeam = sideTeam(snapshot, "red");
   const blueTri = teamTriCode(blueTeam.name);
   const redTri = teamTriCode(redTeam.name);
+  const blueLogo = resolveExampleTeamLogo(blueTeam.name);
+  const redLogo = resolveExampleTeamLogo(redTeam.name);
 
   const controlledWon = selectedResult.winnerSide === controlledSide;
   const controlledPrepInsight = buildLolScrimPrepInsight(
@@ -241,9 +244,73 @@ export default function DraftResultScreen({
     seriesLength === 1 ||
     (displayedWinnerReachedTarget && displayedScoreSupportedByGames);
 
+  const renderTimeline = () => {
+    const sorted = [...selectedResult.timelineEvents].sort((a, b) => a.minute - b.minute);
+    const rows: Array<{ minute: number; blue: typeof sorted; red: typeof sorted }> = [];
+    for (const event of sorted) {
+      const last = rows[rows.length - 1];
+      if (last && last.minute === event.minute) {
+        if (event.side === "blue") last.blue.push(event);
+        else last.red.push(event);
+      } else {
+        rows.push({ minute: event.minute, blue: event.side === "blue" ? [event] : [], red: event.side === "red" ? [event] : [] });
+      }
+    }
+    const minMinute = rows.length > 0 ? rows[0].minute : 0;
+    const maxMinute = rows.length > 0 ? rows[rows.length - 1].minute : 1;
+    const rangeStart = Math.max(minMinute - 1, 0);
+    const rangeMinute = Math.max(maxMinute - rangeStart, 1);
+    const edgePad = rangeMinute * 0.06;
+    const effectiveStart = rangeStart - edgePad;
+    const effectiveRange = rangeMinute + 2 * edgePad;
+    return (
+      <div className="relative overflow-x-hidden overflow-y-hidden h-full">
+        <div className="flex flex-col h-full">
+          {/* Events area with center line */}
+          <div className="relative flex-1 min-h-0 py-1">
+            <div className="absolute left-0 right-0 top-1/2"><div className="h-px bg-white/10" /></div>
+            {rows.map((row, idx) => {
+              const leftPct = `${((row.minute - effectiveStart) / effectiveRange) * 100}%`;
+              return (
+                <div key={idx} className="absolute top-0 flex flex-col items-center" style={{ left: leftPct, transform: 'translateX(-50%)', height: '100%' }}>
+                  <div className="flex flex-col items-center justify-end flex-1 overflow-visible pb-2">
+                    {row.blue.map((event, eIdx) => (
+                    <span key={`blue-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mt-1 ${eventPillClass(event)}`}>
+                      <span>{event.label}</span>
+                    </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-col items-center justify-start flex-1 overflow-visible pt-2">
+                    {row.red.map((event, eIdx) => (
+                      <span key={`red-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mb-1 ${eventPillClass(event)}`}>
+                        <span>{event.label}</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* Minute labels row */}
+          <div className="relative h-5 flex-shrink-0">
+            {rows.map((row, idx) => (
+              <span
+                key={`marker-${idx}`}
+                className="absolute text-[9px] font-bold text-white/30 whitespace-nowrap -translate-x-1/2"
+                style={{ left: `${((row.minute - effectiveStart) / effectiveRange) * 100}%` }}
+              >
+                {row.minute}m
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-[#050608] text-white p-4 md:p-6">
-      <div className="max-w-[1200px] mx-auto space-y-4">
+    <div className="h-screen overflow-hidden bg-[#050608] text-white p-4 md:p-6">
+      <div className="max-w-[1600px] mx-auto space-y-4">
         <header className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-5 text-center shadow-[0_0_24px_rgba(0,242,255,0.1)]">
           <p className="text-xs uppercase tracking-[0.3em] text-gray-400">{t("match.matchOver")}</p>
           <h1 className={`mt-1 text-4xl font-heading uppercase ${controlledWon ? "text-green-400" : "text-red-400"}`}>
@@ -251,16 +318,13 @@ export default function DraftResultScreen({
           </h1>
 
           <div className="mt-3 flex items-center justify-center gap-4 text-3xl font-black">
-            <span className="text-cyan-300">{blueTri}</span>
+            {blueLogo ? <img src={blueLogo} alt="" className="w-9 h-9 object-contain" loading="lazy" /> : <span className="text-cyan-300">{blueTri}</span>}
             <span>{selectedResult.blueKills}</span>
             <span className="text-gray-500">-</span>
             <span>{selectedResult.redKills}</span>
-            <span className="text-orange-300">{redTri}</span>
+            {redLogo ? <img src={redLogo} alt="" className="w-9 h-9 object-contain" loading="lazy" /> : <span className="text-orange-300">{redTri}</span>}
           </div>
 
-          <p className="mt-2 text-sm text-gray-300">
-            {t("match.draftResult.mvp")}: <span className="font-bold text-cyan-300">{selectedResult.mvp.playerName}</span>
-          </p>
           {seriesLength > 1 && seriesGamesForTabs.length > 1 ? (
             <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
               {seriesGamesForTabs.map((entry) => {
@@ -285,8 +349,8 @@ export default function DraftResultScreen({
           ) : null}
         </header>
 
-        <section className="grid grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-4">
-          <aside className="space-y-4">
+        <section className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-4">
+          <aside className="space-y-4 order-2">
             <div className="rounded-xl border border-yellow-400/25 bg-[#0a1433] p-4">
               <p className="text-[11px] uppercase tracking-[0.2em] text-yellow-300">{t("match.draftResult.bestOfMatch")}</p>
               <div className="mt-3 flex items-center gap-3">
@@ -464,113 +528,105 @@ export default function DraftResultScreen({
                 </div>
               </div>
             </div>
+
+            <div className="flex flex-col items-stretch gap-2">
+              {onPressConference && isSeriesFinished ? (
+                <button
+                  className="rounded-md border border-white/20 bg-white/5 hover:bg-white/10 text-white font-heading font-bold uppercase tracking-wide px-4 py-2"
+                  onClick={onPressConference}
+                >
+                  {t("match.pressConference", { defaultValue: "Press Conference" })}
+                </button>
+              ) : null}
+
+              {canUserChooseSide ? (
+                <div className="flex items-center gap-1 rounded-md border border-white/15 bg-[#081028] px-1 py-1">
+                  <button
+                    className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "blue" ? "bg-cyan-500/20 text-cyan-200" : "text-gray-300"}`}
+                    onClick={() => onContinue("blue")}
+                  >
+                    {t("match.draftResult.blueNext")}
+                  </button>
+                  <button
+                    className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "red" ? "bg-orange-500/20 text-orange-200" : "text-gray-300"}`}
+                    onClick={() => onContinue("red")}
+                  >
+                    {t("match.draftResult.redNext")}
+                  </button>
+                </div>
+              ) : null}
+
+              <button
+                className="rounded-md bg-orange-500 hover:bg-orange-400 text-navy-900 font-heading font-bold uppercase tracking-wide px-6 py-2"
+                onClick={() => onContinue()}
+              >
+                {seriesLength > 1 && !isSeriesFinished
+                  ? `${t("match.game", { defaultValue: "Game" })} ${nextGameLabel}`
+                  : t("match.continue", { defaultValue: "Continue" })}
+              </button>
+            </div>
           </aside>
 
-          <div className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{t("match.draftResult.performance")}</p>
-
-            <div className="space-y-1">
-              <p className="text-sm font-bold text-cyan-300">{blueTri}</p>
-              {blueRows.map((row) => {
-                const icon = resolvePlayerPhoto(row.playerId, row.playerName);
-                const isMvp = row.playerId === selectedResult.mvp.playerId;
-                return (
-                  <div
-                    key={`blue-${row.playerId}-${row.role}`}
-                    className={`grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
-                      <span className="truncate">{row.playerName}</span>
-                    </div>
-                    <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>
-                    <span className="text-sm text-gray-300">{row.gold}</span>
-                    <span className="text-sm font-bold text-cyan-300">{row.rating.toFixed(1)}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="space-y-1 mt-4">
-              <p className="text-sm font-bold text-orange-300">{redTri}</p>
-              {redRows.map((row) => {
-                const icon = resolvePlayerPhoto(row.playerId, row.playerName);
-                const isMvp = row.playerId === selectedResult.mvp.playerId;
-                return (
-                  <div
-                    key={`red-${row.playerId}-${row.role}`}
-                    className={`grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
-                      <span className="truncate">{row.playerName}</span>
-                    </div>
-                    <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>
-                    <span className="text-sm text-gray-300">{row.gold}</span>
-                    <span className="text-sm font-bold text-orange-300">{row.rating.toFixed(1)}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        <section className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{t("match.draftResult.gameTimeline")}</p>
-          <div className="space-y-2">
-            <div className="h-px bg-white/10" />
-            <div className="flex flex-wrap gap-2">
-              {selectedResult.timelineEvents.map((event, idx) => (
-                <span
-                  key={`${event.type}-${event.minute}-${idx}`}
-                  className={`inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs ${eventPillClass(event)}`}
-                >
-                  <span className="font-semibold">{event.minute}m</span>
-                  <span>{event.label}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <div className="flex justify-end">
-          <div className="flex items-center gap-2">
-            {onPressConference && isSeriesFinished ? (
-              <button
-                className="rounded-md border border-white/20 bg-white/5 hover:bg-white/10 text-white font-heading font-bold uppercase tracking-wide px-4 py-2"
-                onClick={onPressConference}
-              >
-                {t("match.pressConference", { defaultValue: "Press Conference" })}
-              </button>
-            ) : null}
-
-            {canUserChooseSide ? (
-              <div className="flex items-center gap-1 rounded-md border border-white/15 bg-[#081028] px-1 py-1">
-                <button
-                  className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "blue" ? "bg-cyan-500/20 text-cyan-200" : "text-gray-300"}`}
-                  onClick={() => onContinue("blue")}
-                >
-                  {t("match.draftResult.blueNext")}
-                </button>
-                <button
-                  className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "red" ? "bg-orange-500/20 text-orange-200" : "text-gray-300"}`}
-                  onClick={() => onContinue("red")}
-                >
-                  {t("match.draftResult.redNext")}
-                </button>
+          <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+              <div className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 self-start">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{blueTri}</p>
+                <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
+                  {blueRows.map((row) => {
+                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
+                    const isMvp = row.playerId === selectedResult.mvp.playerId;
+                    return (
+                      <div
+                        key={`blue-${row.playerId}-${row.role}`}
+                        className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
+                          <span className="truncate">{row.playerName}</span>
+                        </div>
+                        <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>
+                        <span className="text-sm text-gray-300">{row.gold}</span>
+                        <span className="text-sm font-bold text-cyan-300">{row.rating.toFixed(1)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            ) : null}
 
-            <button
-              className="rounded-md bg-orange-500 hover:bg-orange-400 text-navy-900 font-heading font-bold uppercase tracking-wide px-6 py-2"
-              onClick={() => onContinue()}
-            >
-              {seriesLength > 1 && !isSeriesFinished
-                ? `${t("match.game", { defaultValue: "Game" })} ${nextGameLabel}`
-                : t("match.continue", { defaultValue: "Continue" })}
-            </button>
+              <div className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 self-start">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{redTri}</p>
+                <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
+                  {redRows.map((row) => {
+                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
+                    const isMvp = row.playerId === selectedResult.mvp.playerId;
+                    return (
+                      <div
+                        key={`red-${row.playerId}-${row.role}`}
+                        className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-white/5"}`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
+                          <span className="truncate">{row.playerName}</span>
+                        </div>
+                        <span className="text-sm text-gray-300">{row.kills}/{row.deaths}/{row.assists}</span>
+                        <span className="text-sm text-gray-300">{row.gold}</span>
+                        <span className="text-sm font-bold text-orange-300">{row.rating.toFixed(1)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+          <section className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 flex-1 w-full flex flex-col">
+            <p className="text-sm uppercase tracking-[0.2em] text-cyan-200 mb-3 text-center">{t("match.draftResult.gameTimeline")}</p>
+            <div className="space-y-2 flex flex-col flex-1 overflow-hidden">
+              <div className="h-px bg-white/10 shrink-0" />
+              {renderTimeline()}
+            </div>
+          </section>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

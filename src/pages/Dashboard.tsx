@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
 import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
@@ -45,8 +45,12 @@ import {
 } from "../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "../store/settingsStore";
+import { resolveExampleTeamLogo } from "../lib/teamLogos";
+import ChampionPage from "../pages/ChampionPage";
 
-const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Scrims", "Champions", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
+const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Scrims", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
+
+const WORLD_TABS = new Set(["Players", "Teams", "Tournaments", "ChampionsWorld"]);
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
@@ -56,13 +60,14 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Tactics: "dashboard.tactics",
   Training: "dashboard.training",
   Scrims: "dashboard.scrims",
-  Champions: "dashboard.champions",
+  Meta: "dashboard.meta",
   Staff: "dashboard.staff",
   Finances: "dashboard.finances",
   Transfers: "dashboard.transfers",
   Players: "dashboard.players",
   Teams: "dashboard.teams",
   Tournaments: "dashboard.tournaments",
+  ChampionsWorld: "dashboard.champions_world",
   Schedule: "dashboard.schedule",
   News: "dashboard.news",
   Social: "dashboard.social",
@@ -91,6 +96,7 @@ export default function Dashboard(): JSX.Element {
   const [isSaving, setIsSaving] = useState(false);
   const [saveFlash, setSaveFlash] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [viewingChampionKey, setViewingChampionKey] = useState<string | null>(null);
   const [profileNavigation, setProfileNavigation] = useState(() =>
     createDashboardProfileNavigationState("Home"),
   );
@@ -104,14 +110,18 @@ export default function Dashboard(): JSX.Element {
 
   // Fetch initial state
   useEffect(() => {
+    console.log("[Dashboard] mounted, hasActiveGame:", hasActiveGame);
     if (!hasActiveGame) {
+      console.log("[Dashboard] no active game, redirecting to /");
       navigate("/");
       return;
     }
 
     const fetchState = async () => {
       try {
+        console.log("[Dashboard] calling get_active_game...");
         const state = await invoke<GameStateData>("get_active_game");
+        console.log("[Dashboard] get_active_game returned:", state ? "success" : "null");
         setGameState(state);
       } catch (err) {
         console.error("Failed to fetch game state:", err);
@@ -120,6 +130,25 @@ export default function Dashboard(): JSX.Element {
 
     fetchState();
   }, [hasActiveGame, navigate, setGameState]);
+
+  // Load champions once when game loads (if not already in gameState)
+  useEffect(() => {
+    if (!gameState) return;
+    if (gameState.champions && gameState.champions.length > 0) return;
+
+    const loadChampions = async () => {
+      try {
+        console.log("[Dashboard] Loading champions for world tab...");
+        const champions = await invoke<import("../store/types").ChampionData[]>("get_champions");
+        setGameState({ ...gameState, champions });
+        console.log(`[Dashboard] Loaded ${champions.length} champions`);
+      } catch (err) {
+        console.error("Failed to load champions:", err);
+      }
+    };
+
+    loadChampions();
+  }, [gameState]);
 
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
@@ -281,12 +310,14 @@ export default function Dashboard(): JSX.Element {
   const currentModeMeta = MODE_META[matchMode];
 
   function handleNavClick(tab: string): void {
+    setViewingChampionKey(null);
     setProfileNavigation((currentState) =>
       navigateDashboardProfiles(currentState, tab),
     );
   }
 
   function handleNavigate(tab: string, context?: DashboardNavigateContext): void {
+    setViewingChampionKey(null);
     setProfileNavigation((currentState) =>
       navigateDashboardProfiles(currentState, tab, context),
     );
@@ -372,6 +403,46 @@ export default function Dashboard(): JSX.Element {
     navigate("/settings", { state: { from: "/dashboard" } });
   }
 
+  const currentDate = gameState
+    ? formatDateFull(gameState.clock.current_date, settings.language)
+    : "";
+  const unreadMessagesCount = gameState ? getUnreadMessagesCount(gameState) : 0;
+  const myTeamName = gameState ? getManagerTeamName(gameState) : null;
+  const liveManagerName = gameState
+    ? (gameState.manager.nickname?.trim() || `${gameState.manager.first_name} ${gameState.manager.last_name}`)
+    : managerName;
+
+  const teamLogo = useMemo(() => {
+    return resolveExampleTeamLogo(myTeamName);
+  }, [myTeamName]);
+
+  const searchResults = gameState
+    ? getDashboardSearchResults(gameState, searchQuery)
+    : { matchedPlayers: [], matchedTeams: [] };
+  const dashboardAlerts = gameState
+    ? getDashboardAlerts(gameState, hasMatchToday, t)
+    : [];
+  const hasProfileHistory = hasDashboardProfileHistory(profileNavigation);
+  const activeTabLabel = TAB_TRANSLATION_KEYS[profileNavigation.activeTab]
+    ? t(TAB_TRANSLATION_KEYS[profileNavigation.activeTab])
+    : profileNavigation.activeTab;
+  const dashboardTabContentModel = gameState
+    ? createDashboardTabContentModel({
+        activeTab: profileNavigation.activeTab,
+        gameState,
+        seasonComplete,
+        visitedOnboardingTabs,
+        initialMessageId: profileNavigation.initialMessageId,
+        handlers: {
+          onSelectPlayer: selectPlayer,
+          onSelectTeam: selectTeam,
+          onGameUpdate: setGameState,
+          onNavigate: handleNavigate,
+          onViewChampion: (championKey: string) => setViewingChampionKey(championKey),
+        },
+      })
+    : null;
+
   if (!gameState) {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-navy-900 flex items-center justify-center transition-colors">
@@ -385,14 +456,7 @@ export default function Dashboard(): JSX.Element {
     );
   }
 
-  const currentDate = formatDateFull(
-    gameState.clock.current_date,
-    settings.language,
-  );
-  const unreadMessagesCount = getUnreadMessagesCount(gameState);
-  const myTeamName = getManagerTeamName(gameState);
-  const searchResults = getDashboardSearchResults(gameState, searchQuery);
-  const dashboardAlerts = getDashboardAlerts(gameState, hasMatchToday, t);
+  // Push scrim auto-delegation notice if present
   if (autoDelegationNotice) {
     dashboardAlerts.unshift({
       id: "scrim_auto_delegate_notice",
@@ -401,23 +465,6 @@ export default function Dashboard(): JSX.Element {
       severity: "info",
     });
   }
-  const hasProfileHistory = hasDashboardProfileHistory(profileNavigation);
-  const activeTabLabel = TAB_TRANSLATION_KEYS[profileNavigation.activeTab]
-    ? t(TAB_TRANSLATION_KEYS[profileNavigation.activeTab])
-    : profileNavigation.activeTab;
-  const dashboardTabContentModel = createDashboardTabContentModel({
-    activeTab: profileNavigation.activeTab,
-    gameState,
-    seasonComplete,
-    visitedOnboardingTabs,
-    initialMessageId: profileNavigation.initialMessageId,
-    handlers: {
-      onSelectPlayer: selectPlayer,
-      onSelectTeam: selectTeam,
-      onGameUpdate: setGameState,
-      onNavigate: handleNavigate,
-    },
-  });
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-navy-900 flex transition-colors duration-300">
@@ -429,8 +476,9 @@ export default function Dashboard(): JSX.Element {
           setIsSidebarCollapsed((currentValue) => !currentValue);
         }}
         unreadMessagesCount={unreadMessagesCount}
-        managerName={managerName}
+        managerName={liveManagerName}
         teamName={myTeamName}
+        teamLogo={teamLogo}
         onNavigateSettings={handleNavigateSettings}
         isUnemployed={isUnemployed ?? false}
         onExitClick={() => {
@@ -473,6 +521,7 @@ export default function Dashboard(): JSX.Element {
           matchMode={matchMode}
           matchedPlayers={searchResults.matchedPlayers}
           matchedTeams={searchResults.matchedTeams}
+          matchedChampions={searchResults.matchedChampions}
           modeMeta={MODE_META}
           onBack={handleBack}
           onContinue={handleContinue}
@@ -483,6 +532,7 @@ export default function Dashboard(): JSX.Element {
           onSelectMatchMode={handleSelectMatchMode}
           onSelectSearchPlayer={handleSelectSearchPlayer}
           onSelectSearchTeam={handleSelectSearchTeam}
+          onSelectSearchChampion={(championKey: string) => setViewingChampionKey(championKey)}
           onSkipToMatchDay={handleSkipToMatchDay}
           onToggleContinueMenu={handleToggleContinueMenu}
           saveFlash={saveFlash}
@@ -505,6 +555,9 @@ export default function Dashboard(): JSX.Element {
           onSelectTeam={selectTeam}
           onGameUpdate={setGameState}
           isUnemployed={isUnemployed ?? false}
+          viewingChampionKey={viewingChampionKey}
+          onCloseChampion={() => setViewingChampionKey(null)}
+          onViewChampion={(championKey: string) => setViewingChampionKey(championKey)}
         />
       </main>
     </div>

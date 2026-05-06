@@ -1818,6 +1818,7 @@ export default function MatchSimulation() {
           currentFixture={currentFixture}
           userSide={userSide || "Home"}
           onStart={handleStartMatch}
+          onCancel={() => navigate("/dashboard")}
           onUpdateSnapshot={handleSnapshotUpdate}
         />
       );

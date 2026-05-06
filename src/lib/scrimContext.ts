@@ -367,7 +367,7 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
 function playerLolOvr(player: PlayerData): number {
   const a = player.attributes;
   return Math.round((
-    a.dribbling + a.shooting + a.teamwork + a.vision + a.decisions + a.leadership + a.agility + a.composure + a.stamina
+    a.mechanics + a.laning + a.teamfighting + a.macro_play + a.consistency + a.shotcalling + a.champion_pool + a.discipline + a.mental_resilience
   ) / 9);
 }
 

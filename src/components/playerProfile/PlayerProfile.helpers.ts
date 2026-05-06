@@ -4,7 +4,7 @@ import type {
 } from "../../store/gameStore";
 import type { TOptions } from "i18next";
 import { annualAmountToWeeklyCommitment } from "../../lib/finance";
-import { formatWeeklyAmount } from "../../lib/helpers";
+import { calcAge, formatWeeklyAmount } from "../../lib/helpers";
 
 type TranslateFn = (key: string, options?: TOptions) => string;
 
@@ -27,19 +27,7 @@ export function getPlayerAge(
     dateOfBirth: string,
     asOfDate: string,
 ): number {
-    const birthDate = new Date(dateOfBirth);
-    const currentDate = new Date(asOfDate);
-    let age = currentDate.getFullYear() - birthDate.getFullYear();
-
-    if (
-        currentDate.getMonth() < birthDate.getMonth() ||
-        (currentDate.getMonth() === birthDate.getMonth() &&
-            currentDate.getDate() < birthDate.getDate())
-    ) {
-        age -= 1;
-    }
-
-    return age;
+    return calcAge(dateOfBirth, asOfDate);
 }
 
 export function formatPlayerMarketValue(value: number): string {

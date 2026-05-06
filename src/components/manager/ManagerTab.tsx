@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { GameStateData, useGameStore } from "../../store/gameStore";
-import { Card, CardHeader, CardBody, ProgressBar, CountryFlag, Button } from "../ui";
+import { Card, CardHeader, CardBody, ProgressBar, CountryFlag, Button, Badge } from "../ui";
 import { formatDate } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "../../lib/countries";
 import DashboardModalFrame from "../dashboard/DashboardModalFrame";
 import { Settings, X, ChevronDown, Check } from "lucide-react";
+import { resolveStaffPhoto } from "../../lib/playerPhotos";
 
 interface ManagerTabProps {
   gameState: GameStateData;
@@ -20,13 +21,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
   const stats = mgr.career_stats;
   const fullName = `${mgr.first_name} ${mgr.last_name}`;
   const displayName = mgr.nickname?.trim() || fullName;
-  const initialsSource = mgr.nickname?.trim() || fullName;
-  const initials = initialsSource
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part.charAt(0).toUpperCase())
-    .join("") || "M";
 
   // Settings modal state
   const [showSettings, setShowSettings] = useState(false);
@@ -117,8 +111,13 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
       {/* Profile card */}
       <Card accent="primary" className="md:col-span-3">
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl flex items-center gap-6 relative">
-          <div className="w-20 h-20 rounded-xl overflow-hidden bg-primary-500/20 flex items-center justify-center border-2 border-primary-500/30">
-            <span className="text-2xl font-heading font-bold text-primary-300">{initials}</span>
+          <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary-500/40 shadow-lg shadow-primary-500/10 shrink-0 bg-gray-200 dark:bg-navy-600">
+            <img
+              src={resolveStaffPhoto(mgr.avatar_path) ?? ""}
+              alt={displayName}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
           <div>
             <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">{displayName}</h2>
@@ -135,11 +134,14 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
             <div className="text-right">
               <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">{t('manager.reputation')}</p>
               <p className="font-heading font-bold text-2xl text-accent-400">{mgr.reputation}</p>
+              <div className="w-20 h-1 rounded-full bg-white/10 overflow-hidden mt-1 ml-auto">
+                <div className="h-full rounded-full bg-accent-400" style={{ width: `${Math.min(100, (mgr.reputation / 1000) * 100)}%` }} />
+              </div>
             </div>
             <button
               onClick={handleOpenSettings}
               className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition-colors"
-              title={t("manager.settings", "Settings")}
+              title={t("manager.settings", "Editar perfil")}
             >
               <Settings className="w-5 h-5" />
             </button>
@@ -309,7 +311,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             <StatBlock label={t('manager.matches')} value={stats.matches_managed} />
             <StatBlock label={t('manager.wins')} value={stats.wins} />
-            <StatBlock label={t('manager.draws')} value={stats.draws} />
+            <StatBlock label={t('manager.draws')} value={stats.draws ?? 0} />
             <StatBlock label={t('manager.losses')} value={stats.losses} />
             <StatBlock label={t('manager.trophies')} value={stats.trophies} />
             <StatBlock label={t('manager.winPercent')} value={stats.matches_managed > 0 ? `${(stats.wins / stats.matches_managed * 100).toFixed(0)}%` : "—"} />
@@ -329,12 +331,14 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">{t('manager.board')}</p>
               </div>
               <ProgressBar value={mgr.satisfaction} variant="auto" size="md" />
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center mt-2">
-                {mgr.satisfaction >= 80 ? t('manager.boardVeryPleased') :
-                 mgr.satisfaction >= 50 ? t('manager.boardSatisfied') :
-                 mgr.satisfaction >= 30 ? t('manager.boardConcerns') :
-                 t('manager.boardThreat')}
-              </p>
+              <div className="flex items-center justify-center gap-1.5 mt-2">
+                <Badge variant={mgr.satisfaction >= 80 ? "success" : mgr.satisfaction >= 50 ? "primary" : mgr.satisfaction >= 30 ? "accent" : "danger"} size="sm">
+                  {mgr.satisfaction >= 80 ? t('manager.boardVeryPleased') :
+                   mgr.satisfaction >= 50 ? t('manager.boardSatisfied') :
+                   mgr.satisfaction >= 30 ? t('manager.boardConcerns') :
+                   t('manager.boardThreat')}
+                </Badge>
+              </div>
             </div>
             {/* Fans */}
             <div>
@@ -343,13 +347,15 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                 <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">{t('manager.fans')}</p>
               </div>
               <ProgressBar value={mgr.fan_approval ?? 50} variant="auto" size="md" />
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 text-center mt-2">
-                {(mgr.fan_approval ?? 50) >= 80 ? t('manager.fanAdore') :
-                 (mgr.fan_approval ?? 50) >= 60 ? t('manager.fanBehind') :
-                 (mgr.fan_approval ?? 50) >= 40 ? t('manager.fanMixed') :
-                 (mgr.fan_approval ?? 50) >= 20 ? t('manager.fanRestless') :
-                 t('manager.fanUnrest')}
-              </p>
+              <div className="flex items-center justify-center gap-1.5 mt-2">
+                <Badge variant={(mgr.fan_approval ?? 50) >= 80 ? "success" : (mgr.fan_approval ?? 50) >= 60 ? "primary" : (mgr.fan_approval ?? 50) >= 40 ? "accent" : "danger"} size="sm">
+                  {(mgr.fan_approval ?? 50) >= 80 ? t('manager.fanAdore') :
+                   (mgr.fan_approval ?? 50) >= 60 ? t('manager.fanBehind') :
+                   (mgr.fan_approval ?? 50) >= 40 ? t('manager.fanMixed') :
+                   (mgr.fan_approval ?? 50) >= 20 ? t('manager.fanRestless') :
+                   t('manager.fanUnrest')}
+                </Badge>
+              </div>
             </div>
           </div>
         </CardBody>

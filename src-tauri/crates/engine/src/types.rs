@@ -34,30 +34,35 @@ pub struct PlayerData {
 
     // Physical
     pub pace: u8,
-    pub stamina: u8,
+    #[serde(alias = "stamina")]
+    pub mental_resilience: u8,
     pub strength: u8,
-    #[serde(default = "default_engine_attr")]
-    pub agility: u8,
+    #[serde(default = "default_engine_attr", alias = "agility")]
+    pub champion_pool: u8,
 
     // Technical
     pub passing: u8,
-    pub shooting: u8,
+    #[serde(alias = "shooting")]
+    pub laning: u8,
     pub tackling: u8,
-    pub dribbling: u8,
+    #[serde(alias = "dribbling")]
+    pub mechanics: u8,
     pub defending: u8,
 
     // Mental
     pub positioning: u8,
-    pub vision: u8,
-    pub decisions: u8,
-    #[serde(default = "default_engine_attr")]
-    pub composure: u8,
+    #[serde(alias = "vision")]
+    pub macro_play: u8,
+    #[serde(alias = "decisions")]
+    pub consistency: u8,
+    #[serde(default = "default_engine_attr", alias = "composure")]
+    pub discipline: u8,
     #[serde(default = "default_engine_attr")]
     pub aggression: u8,
-    #[serde(default = "default_engine_attr")]
-    pub teamwork: u8,
-    #[serde(default = "default_engine_attr")]
-    pub leadership: u8,
+    #[serde(default = "default_engine_attr", alias = "teamwork")]
+    pub teamfighting: u8,
+    #[serde(default = "default_engine_attr", alias = "leadership")]
+    pub shotcalling: u8,
 
     // Goalkeeper
     #[serde(default = "default_engine_attr")]
@@ -81,20 +86,18 @@ fn default_fitness() -> u8 {
 }
 
 impl PlayerData {
-    /// Overall rating (simple mean of core 11 attributes).
+    /// Overall rating (simple mean of 9 visible LoL stats, matching calculate_lol_ovr).
     pub fn overall(&self) -> f64 {
-        (self.pace as f64
-            + self.stamina as f64
-            + self.strength as f64
-            + self.passing as f64
-            + self.shooting as f64
-            + self.tackling as f64
-            + self.dribbling as f64
-            + self.defending as f64
-            + self.positioning as f64
-            + self.vision as f64
-            + self.decisions as f64)
-            / 11.0
+        (self.mechanics as f64
+            + self.laning as f64
+            + self.teamfighting as f64
+            + self.macro_play as f64
+            + self.consistency as f64
+            + self.shotcalling as f64
+            + self.champion_pool as f64
+            + self.discipline as f64
+            + self.mental_resilience as f64)
+            / 9.0
     }
 
     /// Effective rating accounting for current condition (0-100).
@@ -138,7 +141,7 @@ impl TeamData {
                 / 4) as u8
         });
         let support_avg = self.role_attr_avg(LolRole::Support, |p| {
-            ((p.vision as u16 + p.positioning as u16 + p.teamwork as u16) / 3) as u8
+            ((p.macro_play as u16 + p.positioning as u16 + p.teamfighting as u16) / 3) as u8
         });
         top_avg * 0.7 + support_avg * 0.3
     }
@@ -146,10 +149,10 @@ impl TeamData {
     /// Composite mid/jungle rating.
     pub fn midfield_rating(&self) -> f64 {
         let mid_avg = self.role_attr_avg(LolRole::Mid, |p| {
-            ((p.passing as u16 + p.vision as u16 + p.decisions as u16 + p.stamina as u16) / 4) as u8
+            ((p.passing as u16 + p.macro_play as u16 + p.consistency as u16 + p.mental_resilience as u16) / 4) as u8
         });
         let jg_avg = self.role_attr_avg(LolRole::Jungle, |p| {
-            ((p.decisions as u16 + p.vision as u16 + p.positioning as u16) / 3) as u8
+            ((p.consistency as u16 + p.macro_play as u16 + p.positioning as u16) / 3) as u8
         });
         mid_avg * 0.6 + jg_avg * 0.4
     }
@@ -157,11 +160,11 @@ impl TeamData {
     /// Composite attack rating (from ADC + Mid).
     pub fn attack_rating(&self) -> f64 {
         let adc_avg = self.role_attr_avg(LolRole::Adc, |p| {
-            ((p.shooting as u16 + p.dribbling as u16 + p.pace as u16 + p.positioning as u16) / 4)
+            ((p.laning as u16 + p.mechanics as u16 + p.pace as u16 + p.positioning as u16) / 4)
                 as u8
         });
         let mid_contrib = self.role_attr_avg(LolRole::Mid, |p| {
-            ((p.shooting as u16 + p.passing as u16 + p.vision as u16) / 3) as u8
+            ((p.laning as u16 + p.passing as u16 + p.macro_play as u16) / 3) as u8
         });
         adc_avg * 0.75 + mid_contrib * 0.25
     }
@@ -169,7 +172,7 @@ impl TeamData {
     /// Support contribution rating (Vision + Teamwork).
     pub fn support_rating(&self) -> f64 {
         self.role_attr_avg(LolRole::Support, |p| {
-            ((p.vision as u16 + p.positioning as u16 + p.teamwork as u16 + p.passing as u16) / 4)
+            ((p.macro_play as u16 + p.positioning as u16 + p.teamfighting as u16 + p.passing as u16) / 4)
                 as u8
         })
     }

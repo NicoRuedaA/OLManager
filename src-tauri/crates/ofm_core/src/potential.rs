@@ -168,15 +168,15 @@ pub fn effective_potential_cap(player: &Player) -> u8 {
 
 pub fn calculate_lol_ovr(player: &Player) -> u8 {
     let attrs = &player.attributes;
-    let avg = (attrs.dribbling as f64
-        + attrs.shooting as f64
-        + attrs.teamwork as f64
-        + attrs.vision as f64
-        + attrs.decisions as f64
-        + attrs.leadership as f64
-        + attrs.agility as f64
-        + attrs.composure as f64
-        + attrs.stamina as f64)
+    let avg = (attrs.mechanics as f64
+        + attrs.laning as f64
+        + attrs.teamfighting as f64
+        + attrs.macro_play as f64
+        + attrs.consistency as f64
+        + attrs.shotcalling as f64
+        + attrs.champion_pool as f64
+        + attrs.discipline as f64
+        + attrs.mental_resilience as f64)
         / 9.0;
     avg.round().clamp(1.0, 99.0) as u8
 }
@@ -234,21 +234,21 @@ mod tests {
     fn attrs(stat: u8) -> PlayerAttributes {
         PlayerAttributes {
             pace: stat,
-            stamina: stat,
+            mental_resilience: stat,
             strength: stat,
-            agility: stat,
+            champion_pool: stat,
             passing: stat,
-            shooting: stat,
+            laning: stat,
             tackling: stat,
-            dribbling: stat,
+            mechanics: stat,
             defending: stat,
             positioning: stat,
-            vision: stat,
-            decisions: stat,
-            composure: stat,
+            macro_play: stat,
+            consistency: stat,
+            discipline: stat,
             aggression: stat,
-            teamwork: stat,
-            leadership: stat,
+            teamfighting: stat,
+            shotcalling: stat,
             handling: stat,
             reflexes: stat,
             aerial: stat,

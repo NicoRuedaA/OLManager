@@ -1,6 +1,7 @@
 import type { GameStateData } from "../../store/gameStore";
 import PlayerProfile from "../playerProfile/PlayerProfile";
 import TeamProfile from "../teamProfile";
+import ChampionPage from "../../pages/ChampionPage";
 import DashboardAlerts from "./DashboardAlerts";
 import type { DashboardAlert } from "./dashboardHelpers";
 import type { DashboardProfileNavigationState } from "./dashboardProfileNavigation";
@@ -21,6 +22,9 @@ interface DashboardWorkspaceContentProps {
   onSelectTeam: (id: string) => void;
   onGameUpdate: (state: GameStateData) => void;
   isUnemployed: boolean;
+  viewingChampionKey: string | null;
+  onCloseChampion: () => void;
+  onViewChampion: (championKey: string) => void;
 }
 
 export default function DashboardWorkspaceContent({
@@ -34,8 +38,18 @@ export default function DashboardWorkspaceContent({
   onSelectTeam,
   onGameUpdate,
   isUnemployed,
+  viewingChampionKey,
+  onCloseChampion,
+  onViewChampion,
 }: DashboardWorkspaceContentProps) {
   const { t } = useTranslation();
+
+  // When viewing a champion from a player/team profile, close the profile first
+  const handleViewChampion = (championKey: string) => {
+    onBack(); // Close player/team profile
+    onViewChampion(championKey); // Open champion page
+  };
+
   const selectedPlayer = profileNavigation.selectedPlayerId
     ? gameState.players.find(
       (player) => player.id === profileNavigation.selectedPlayerId,
@@ -57,11 +71,13 @@ export default function DashboardWorkspaceContent({
         </div>
       )}
 
-      {!selectedPlayer && !selectedTeam ? (
-        <DashboardAlerts alerts={dashboardAlerts} onNavigate={onNavigate} />
-      ) : null}
-
-      {selectedPlayer && !selectedTeam ? (
+      {/* Champion page - only show when no player/team is selected */}
+      {viewingChampionKey && !selectedPlayer && !selectedTeam ? (
+        <ChampionPage
+          championKey={viewingChampionKey}
+          onClose={onCloseChampion}
+        />
+      ) : selectedPlayer && !selectedTeam ? (
         <PlayerProfile
           player={selectedPlayer}
           gameState={gameState}
@@ -72,10 +88,9 @@ export default function DashboardWorkspaceContent({
           onClose={onBack}
           onSelectTeam={onSelectTeam}
           onGameUpdate={onGameUpdate}
+          onViewChampion={handleViewChampion}
         />
-      ) : null}
-
-      {selectedTeam ? (
+      ) : selectedTeam ? (
         <TeamProfile
           team={selectedTeam}
           gameState={gameState}
@@ -83,44 +98,46 @@ export default function DashboardWorkspaceContent({
           onClose={onBack}
           onSelectPlayer={onSelectPlayer}
         />
-      ) : null}
-
-      {!selectedPlayer && !selectedTeam ? (
-        <div className="flex flex-col gap-4">
-          <DashboardTabContent viewModel={dashboardTabContentModel} />
-          {dashboardTabContentModel.activeTab &&
-          ![
-            "Home",
-            "Squad",
-            "Tactics",
-            "Training",
-            "Scrims",
-            "Champions",
-            "Schedule",
-            "Finances",
-            "Transfers",
-            "Players",
-            "Teams",
-            "Tournaments",
-            "Staff",
-            "Scouting",
-            "Youth",
-            "YouthAcademy",
-            "Inbox",
-            "Manager",
-            "News",
-            "Social",
-          ].includes(dashboardTabContentModel.activeTab) ? (
-            <Card>
-              <CardBody>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  View unavailable
-                </p>
-              </CardBody>
-            </Card>
-          ) : null}
-        </div>
-      ) : null}
+      ) : (
+        <>
+          <DashboardAlerts alerts={dashboardAlerts} onNavigate={onNavigate} />
+          <div className="flex flex-col gap-4">
+            <DashboardTabContent viewModel={dashboardTabContentModel} />
+            {dashboardTabContentModel.activeTab &&
+            ![
+              "Home",
+              "Squad",
+              "Tactics",
+              "Training",
+              "Meta",
+              "Scrims",
+              "Schedule",
+              "Finances",
+              "Transfers",
+              "Players",
+              "Teams",
+              "Tournaments",
+              "ChampionsWorld",
+              "Staff",
+              "Scouting",
+              "Youth",
+              "YouthAcademy",
+              "Inbox",
+              "Manager",
+              "News",
+              "Social",
+            ].includes(dashboardTabContentModel.activeTab) ? (
+              <Card>
+                <CardBody>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    View unavailable
+                  </p>
+                </CardBody>
+              </Card>
+            ) : null}
+          </div>
+        </>
+      )}
     </div>
   );
 }

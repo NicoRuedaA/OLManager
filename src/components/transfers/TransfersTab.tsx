@@ -12,13 +12,13 @@ import {
   ShoppingCart,
   Handshake,
   ArrowRightLeft,
-  Filter,
   Gavel,
   Check,
   X,
   ArrowUp,
   ArrowDown,
   ArrowUpDown,
+  Globe,
 } from "lucide-react";
 import {
   getTeamName,
@@ -273,6 +273,8 @@ export default function TransfersTab({
   const myTeam = gameState.teams.find(
     (team) => team.id === gameState.manager.team_id,
   );
+  const myRoster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
+  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToWeeklyCommitment(p.wage), 0);
   const academyTeam = gameState.teams.find(
     (team) => team.id === myTeam?.academy_team_id,
   ) ?? gameState.teams.find(
@@ -342,7 +344,7 @@ export default function TransfersTab({
       {
         id: "erl",
         label: t("transfers.erlMarket", "Mercado ERL"),
-        icon: <TrendingUp className="w-4 h-4" />,
+        icon: <Globe className="w-4 h-4" />,
         count: erlPlayers.length,
       },
       {
@@ -433,31 +435,45 @@ export default function TransfersTab({
               <p className="text-gray-400 text-xs mt-0.5">
                 {t("transfers.transferWindow", { team: myTeam.name })}
               </p>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-gray-500 text-xs mt-1 flex items-center gap-2">
                 {transferWindowSummary}
+                {transferWindow.status === "Open" && transferWindow.days_remaining !== null && (
+                  <span className="inline-flex items-center gap-1">
+                    <span className="w-16 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                      <span className="block h-full rounded-full bg-accent-400" style={{ width: `${Math.max(5, (transferWindow.days_remaining / 30) * 100)}%` }} />
+                    </span>
+                  </span>
+                )}
               </p>
             </div>
             <div className="hidden md:flex gap-4">
-              <div className="bg-white/5 rounded-xl px-4 py-2 text-center">
+              <div className="bg-white/5 rounded-xl px-4 py-2 text-center min-w-[110px]">
                 <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">
                   {t("finances.transferBudget")}
                 </p>
                 <p className="font-heading font-bold text-lg text-accent-400">
                   {formatVal(myTeam.transfer_budget)}
                 </p>
+                {myTeam.season_expenses > 0 && (
+                  <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-1">
+                    <div className="h-full rounded-full bg-accent-400/60" style={{ width: `${Math.min(100, (myTeam.season_expenses / Math.max(1, myTeam.transfer_budget)) * 100)}%` }} />
+                  </div>
+                )}
               </div>
-              <div className="bg-white/5 rounded-xl px-4 py-2 text-center">
+              <div className="bg-white/5 rounded-xl px-4 py-2 text-center min-w-[110px]">
                 <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">
                   {t("finances.wageBudget")}
                 </p>
                 <p className="font-heading font-bold text-lg text-white">
-                  {formatWeeklyAmount(
-                    formatVal(weeklyWageBudget),
-                    weeklySuffix,
-                  )}
+                  {formatWeeklyAmount(formatVal(weeklyWageBudget), weeklySuffix)}
                 </p>
+                {totalWages > 0 && (
+                  <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-1">
+                    <div className="h-full rounded-full bg-success-400/60" style={{ width: `${Math.min(100, (totalWages / Math.max(1, weeklyWageBudget)) * 100)}%` }} />
+                  </div>
+                )}
               </div>
-              <div className="bg-white/5 rounded-xl px-4 py-2 text-center">
+              <div className="bg-white/5 rounded-xl px-4 py-2 text-center min-w-[80px]">
                 <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">
                   {t("transfers.listed")}
                 </p>
@@ -495,8 +511,11 @@ export default function TransfersTab({
             placeholder={t("transfers.searchByName")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-lg bg-white dark:bg-navy-800 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+            className="w-full pl-9 pr-8 py-2 rounded-lg bg-white dark:bg-navy-800 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
           />
+          <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-heading font-bold tabular-nums text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-navy-700 px-1.5 py-0.5 rounded">
+            {filteredList.length}
+          </span>
         </div>
         <div className="flex gap-1.5">
           <button
@@ -517,10 +536,6 @@ export default function TransfersTab({
             </button>
           ))}
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider">
-          <Filter className="w-3.5 h-3.5 inline mr-1 -mt-0.5" />
-          {t("common.nResults", { count: filteredList.length })}
-        </p>
       </div>
 
       {/* Content */}
@@ -532,9 +547,15 @@ export default function TransfersTab({
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 {t("transfers.noPlayersListed")}
               </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1 mb-4">
                 {t("transfers.goToProfile")}
               </p>
+              <button
+                onClick={() => setView("market")}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-heading font-bold text-xs uppercase tracking-wider bg-primary-500 text-white shadow-md hover:bg-primary-600 transition-colors"
+              >
+                <TrendingUp className="w-3.5 h-3.5" /> {t("transfers.browseMarket", "Ir al mercado")}
+              </button>
             </div>
           </CardBody>
         </Card>
@@ -564,16 +585,48 @@ export default function TransfersTab({
                       {t("common.photo", "Foto")}
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.position")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("position")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByPosition", "Ordenar por posición")}
+                      >
+                        {t("common.position")}
+                        {renderSortIcon("position")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.player")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("name")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByName", "Ordenar por nombre")}
+                      >
+                        {t("common.player")}
+                        {renderSortIcon("name")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.age")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("age")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByAge", "Ordenar por edad")}
+                      >
+                        {t("common.age")}
+                        {renderSortIcon("age")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.team")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("team")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByTeam", "Ordenar por equipo")}
+                      >
+                        {t("common.team")}
+                        {renderSortIcon("team")}
+                      </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                       <button
@@ -609,7 +662,15 @@ export default function TransfersTab({
                       </button>
                     </th>
                     <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.status")}
+                      <button
+                        type="button"
+                        onClick={() => toggleSort("status")}
+                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        aria-label={t("transfers.sortByStatus", "Ordenar por estado")}
+                      >
+                        {t("common.status")}
+                        {renderSortIcon("status")}
+                      </button>
                     </th>
                     {view === "offers" && (
                       <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
@@ -626,7 +687,7 @@ export default function TransfersTab({
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                   {filteredList.map((player) => {
                     const ovr = calculateLolOvr(player);
-                    const age = calcAge(player.date_of_birth);
+                    const age = calcAge(player.date_of_birth, gameState.clock.current_date);
                     const offersForThisPlayer = player.transfer_offers;
                     const lolRole = getLolRoleForPlayer(player);
                     const photoSrc = resolvePlayerPhoto(player.id, player.match_name);

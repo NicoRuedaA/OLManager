@@ -65,16 +65,16 @@ export function SubPanel({
   const getOvr = (p: EnginePlayerData) => {
     const vals = [
       p.pace,
-      p.stamina,
+      p.mental_resilience,
       p.strength,
       p.passing,
-      p.shooting,
+      p.laning,
       p.tackling,
-      p.dribbling,
+      p.mechanics,
       p.defending,
       p.positioning,
-      p.vision,
-      p.decisions,
+      p.macro_play,
+      p.consistency,
     ];
     return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
   };
@@ -392,13 +392,13 @@ export function SubPanel({
                   />
                   <CompareBar
                     label="SHO"
-                    valA={selectedPlayer.shooting}
-                    valB={comparedPlayer.shooting}
+                    valA={selectedPlayer.laning}
+                    valB={comparedPlayer.laning}
                   />
                   <CompareBar
                     label="DRI"
-                    valA={selectedPlayer.dribbling}
-                    valB={comparedPlayer.dribbling}
+                    valA={selectedPlayer.mechanics}
+                    valB={comparedPlayer.mechanics}
                   />
                   <CompareBar
                     label="DEF"

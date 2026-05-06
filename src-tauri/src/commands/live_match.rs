@@ -150,11 +150,13 @@ pub fn record_fixture_champion_picks(
     fixture_id: String,
     winner_team_id: String,
     picks: Vec<FixtureChampionPickInput>,
+    bans: Vec<String>,
 ) -> Result<Game, String> {
     info!(
-        "[cmd] record_fixture_champion_picks: fixture={}, picks={}",
+        "[cmd] record_fixture_champion_picks: fixture={}, picks={}, bans={}",
         fixture_id,
-        picks.len()
+        picks.len(),
+        bans.len()
     );
 
     let mut game = state
@@ -174,6 +176,8 @@ pub fn record_fixture_champion_picks(
         return Err("Fixture has no completed result yet".to_string());
     }
 
+    let bans_json = serde_json::to_string(&bans).unwrap_or_default();
+
     state.with_stats_state(|stats| {
         for record in stats
             .player_matches
@@ -184,6 +188,7 @@ pub fn record_fixture_champion_picks(
                 .iter()
                 .find(|pick| pick.player_id == record.player_id)
                 .map(|pick| pick.champion_id.clone());
+            record.bans_json = bans_json.clone();
             record.result = if record.team_id == winner_team_id {
                 MatchOutcome::Win
             } else {

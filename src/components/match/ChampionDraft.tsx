@@ -2252,10 +2252,10 @@ export default function ChampionDraft({
       const playerState = gameState.players.find((item) => item.id === player.id);
       const gameIq = playerState
         ? Math.round(
-          (Number(playerState.attributes.decisions ?? 70) +
-            Number(playerState.attributes.vision ?? 70) +
+          (Number(playerState.attributes.consistency ?? 70) +
+            Number(playerState.attributes.macro_play ?? 70) +
             Number(playerState.attributes.positioning ?? 70) +
-            Number(playerState.attributes.composure ?? 70)) /
+            Number(playerState.attributes.discipline ?? 70)) /
           4,
         )
         : 70;
@@ -2541,7 +2541,7 @@ export default function ChampionDraft({
 
   return (
     <div className={`h-dvh bg-[#0a0a0a] text-white p-2 md:p-4 ${isCompactLayout ? "overflow-y-auto" : "overflow-hidden"}`}>
-      <div className={`w-full max-w-[1350px] mx-auto flex flex-col gap-2 md:gap-3 ${isCompactLayout ? "min-h-full overflow-visible pb-3" : "h-full overflow-hidden"}`}>
+      <div className={`w-[93%] max-w-none mx-auto flex flex-col gap-2 md:gap-3 ${isCompactLayout ? "min-h-full overflow-visible pb-3" : "h-full overflow-hidden"}`}>
         <section className="order-2 shrink-0 rounded-md overflow-hidden border border-[#222]">
           <div
             className={`relative flex items-stretch bg-linear-to-b from-[#032e35] via-[#021720] to-[#000] border-b-4 border-cyan-400 shadow-[0_0_16px_rgba(0,242,255,0.35)] ${topSectionHeightClass}`}
@@ -3010,7 +3010,7 @@ export default function ChampionDraft({
                 ) : visibleChampions.length === 0 ? (
                   <p className="relative text-sm text-gray-300">{t("match.draft.noChampionsForFilters")}</p>
                 ) : (
-                  <div className="relative grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 xl:grid-cols-10 gap-1">
+                  <div className="relative grid grid-cols-5 sm:grid-cols-8 md:grid-cols-12 xl:grid-cols-16 gap-1">
                     {visibleChampions.map((champion) => {
                       const isUsed = usedChampionIds.has(champion.id);
                       const showMastery = roleFilter !== "ALL";

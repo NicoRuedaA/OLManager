@@ -63,11 +63,11 @@ const makePlayer = (overrides: Partial<PlayerData> = {}): PlayerData => ({
   alternate_positions: [],
   training_focus: null,
   attributes: {
-    pace: 70, stamina: 70, strength: 70, agility: 70,
-    passing: 70, shooting: 70, tackling: 70, dribbling: 70,
-    defending: 70, positioning: 70, vision: 70, decisions: 70,
-    composure: 50, aggression: 50, teamwork: 50,
-    leadership: 50, handling: 30, reflexes: 30, aerial: 50,
+    pace: 70, mental_resilience: 70, strength: 70, champion_pool: 70,
+    passing: 70, laning: 70, tackling: 70, mechanics: 70,
+    defending: 70, positioning: 70, macro_play: 70, consistency: 70,
+    discipline: 50, aggression: 50, teamfighting: 50,
+    shotcalling: 50, handling: 30, reflexes: 30, aerial: 50,
   },
   condition: 100,
   morale: 80,
@@ -155,9 +155,9 @@ describe("findNextFixture", () => {
 });
 
 describe("season helpers", () => {
-  it("computes the expected double round-robin fixture count for even-sized leagues", () => {
-    expect(expectedFixtureCount(16)).toBe(240);
-    expect(expectedFixtureCount(4)).toBe(12);
+  it("computes the expected single round-robin fixture count for even-sized leagues", () => {
+    expect(expectedFixtureCount(16)).toBe(120);
+    expect(expectedFixtureCount(4)).toBe(6);
   });
 
   it("treats odd-sized or undersized leagues as incomplete schedules", () => {
@@ -391,7 +391,7 @@ describe("calcOvr", () => {
       natural_position: "MID",
     });
 
-    expect(calcOvr(player)).toBe(68);
+    expect(calcOvr(player).ovr).toBe(63);
   });
 
   it("rounds positional overall to the nearest integer", () => {
@@ -400,18 +400,18 @@ describe("calcOvr", () => {
       natural_position: "MID",
       attributes: {
         ...makePlayer().attributes,
-        passing: 73,
+        mechanics: 73,
       },
     });
 
-    expect(calcOvr(player)).toBe(69);
+    expect(calcOvr(player).ovr).toBe(64); // (570+3)/9 = 573/9 = 63.67 → 64
   });
 });
 
 describe("calcAge", () => {
-  it("calculates age relative to 2026", () => {
-    expect(calcAge("1996-01-15")).toBe(30);
-    expect(calcAge("2000-06-01")).toBe(26);
+  it("calculates age relative to the provided as-of date", () => {
+    expect(calcAge("1996-01-15", "2026-07-01T00:00:00Z")).toBe(30);
+    expect(calcAge("2000-06-01", "2026-07-01T00:00:00Z")).toBe(26);
   });
 });
 

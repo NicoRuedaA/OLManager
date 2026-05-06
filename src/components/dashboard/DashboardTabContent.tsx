@@ -16,6 +16,7 @@ import ManagerTab from "../manager/ManagerTab";
 import NewsTab from "../news/NewsTab";
 import SocialTab from "../social/SocialTab";
 import ChampionsTab from "../champions/ChampionsTab";
+import ChampionsWorldTab from "../world/ChampionsWorldTab";
 import ScrimsTab from "../scrims/ScrimsTab";
 import EndOfSeasonScreen from "../EndOfSeasonScreen";
 import { Card, CardBody } from "../ui";
@@ -40,6 +41,7 @@ export default function DashboardTabContent({
       onNavigate,
       onSelectPlayer,
       onSelectTeam,
+      onViewChampion,
     },
   } = viewModel;
 
@@ -84,8 +86,8 @@ export default function DashboardTabContent({
         <ScrimsTab gameState={gameState} onGameUpdate={onGameUpdate} />
       )}
 
-      {activeTab === "Champions" && (
-        <ChampionsTab gameState={gameState} onGameUpdate={onGameUpdate} />
+      {activeTab === "Meta" && (
+        <ChampionsTab gameState={gameState} onGameUpdate={onGameUpdate} onViewChampion={onViewChampion} />
       )}
 
       {activeTab === "Schedule" && (
@@ -123,6 +125,10 @@ export default function DashboardTabContent({
 
       {activeTab === "Tournaments" && (
         <TournamentsTab gameState={gameState} onSelectTeam={onSelectTeam} />
+      )}
+
+      {activeTab === "ChampionsWorld" && (
+        <ChampionsWorldTab champions={gameState.champions} onViewChampion={onViewChampion} />
       )}
 
       {activeTab === "Staff" && (
@@ -171,13 +177,14 @@ export default function DashboardTabContent({
         "Tactics",
         "Training",
         "Scrims",
-        "Champions",
+        "Meta",
         "Schedule",
         "Finances",
         "Transfers",
         "Players",
         "Teams",
         "Tournaments",
+        "ChampionsWorld",
         "Staff",
         "Scouting",
         "Youth",

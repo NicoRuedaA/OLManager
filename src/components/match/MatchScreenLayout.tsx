@@ -42,20 +42,18 @@ export default function MatchScreenLayout({
               headerContentClassName,
             )}
           >
-            <div className={showThemeToggle ? "pr-14" : undefined}>{header}</div>
-            {showThemeToggle && (
-              <ThemeToggle
-                className={joinClasses(
-                  "absolute right-6 top-4",
-                  themeToggleClassName,
-                )}
-              />
-            )}
+{header}
           </div>
         </header>
       )}
 
       <div className={joinClasses("flex-1", contentClassName)}>{children}</div>
+
+      {showThemeToggle && (
+        <div className="flex justify-center py-4">
+          <ThemeToggle className={themeToggleClassName} />
+        </div>
+      )}
 
       {footer}
     </div>

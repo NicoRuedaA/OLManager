@@ -109,30 +109,35 @@ pub enum Footedness {
 pub struct PlayerAttributes {
     // Physical
     pub pace: u8,
-    pub stamina: u8,
+    #[serde(alias = "stamina")]
+    pub mental_resilience: u8,
     pub strength: u8,
-    #[serde(default = "default_attr")]
-    pub agility: u8,
+    #[serde(default = "default_attr", alias = "agility")]
+    pub champion_pool: u8,
 
     // Technical
     pub passing: u8,
-    pub shooting: u8,
+    #[serde(alias = "shooting")]
+    pub laning: u8,
     pub tackling: u8,
-    pub dribbling: u8,
+    #[serde(alias = "dribbling")]
+    pub mechanics: u8,
     pub defending: u8,
 
     // Mental
     pub positioning: u8,
-    pub vision: u8,
-    pub decisions: u8,
-    #[serde(default = "default_attr")]
-    pub composure: u8,
+    #[serde(alias = "vision")]
+    pub macro_play: u8,
+    #[serde(alias = "decisions")]
+    pub consistency: u8,
+    #[serde(default = "default_attr", alias = "composure")]
+    pub discipline: u8,
     #[serde(default = "default_attr")]
     pub aggression: u8,
-    #[serde(default = "default_attr")]
-    pub teamwork: u8,
-    #[serde(default = "default_attr")]
-    pub leadership: u8,
+    #[serde(default = "default_attr", alias = "teamwork")]
+    pub teamfighting: u8,
+    #[serde(default = "default_attr", alias = "leadership")]
+    pub shotcalling: u8,
 
     // Goalkeeper
     #[serde(default = "default_attr")]
@@ -426,24 +431,24 @@ pub fn compute_traits(attrs: &PlayerAttributes, _role: &LolRole) -> Vec<PlayerTr
     if attrs.pace >= 85 {
         traits.push(PlayerTrait::LightningQuick);
     }
-    if attrs.strength >= 85 && attrs.stamina >= 75 {
+    if attrs.strength >= 85 && attrs.mental_resilience >= 75 {
         traits.push(PlayerTrait::Immovable);
     }
-    if attrs.agility >= 85 {
+    if attrs.champion_pool >= 85 {
         traits.push(PlayerTrait::NimbleFingers);
     }
-    if attrs.stamina >= 90 {
+    if attrs.mental_resilience >= 90 {
         traits.push(PlayerTrait::MarathonMan);
     }
 
     // Game Knowledge
-    if attrs.passing >= 80 && attrs.vision >= 80 {
+    if attrs.passing >= 80 && attrs.macro_play >= 80 {
         traits.push(PlayerTrait::GameManager);
     }
-    if attrs.shooting >= 85 {
+    if attrs.laning >= 85 {
         traits.push(PlayerTrait::Lethal);
     }
-    if attrs.dribbling >= 85 {
+    if attrs.mechanics >= 85 {
         traits.push(PlayerTrait::KiteMaster);
     }
     if attrs.tackling >= 80 && attrs.aggression >= 70 {
@@ -454,30 +459,30 @@ pub fn compute_traits(attrs: &PlayerAttributes, _role: &LolRole) -> Vec<PlayerTr
     }
 
     // Mental
-    if attrs.leadership >= 85 && attrs.teamwork >= 75 {
+    if attrs.shotcalling >= 85 && attrs.teamfighting >= 75 {
         traits.push(PlayerTrait::ShotCaller);
     }
-    if attrs.composure >= 85 && attrs.decisions >= 80 {
+    if attrs.discipline >= 85 && attrs.consistency >= 80 {
         traits.push(PlayerTrait::IceCold);
     }
-    if attrs.vision >= 85 {
+    if attrs.macro_play >= 85 {
         traits.push(PlayerTrait::Visionary);
     }
-    if attrs.aggression >= 85 && attrs.composure < 50 {
+    if attrs.aggression >= 85 && attrs.discipline < 50 {
         traits.push(PlayerTrait::Intimidator);
     }
-    if attrs.teamwork >= 85 {
+    if attrs.teamfighting >= 85 {
         traits.push(PlayerTrait::TeamPlayer);
     }
 
     // Special — purely attribute-based
-    if attrs.shooting >= 75 && attrs.dribbling >= 75 && attrs.pace >= 70 && attrs.strength >= 70 {
+    if attrs.laning >= 75 && attrs.mechanics >= 75 && attrs.pace >= 70 && attrs.strength >= 70 {
         traits.push(PlayerTrait::HyperCarry);
     }
-    if attrs.stamina >= 85 && attrs.pace >= 70 && attrs.teamwork >= 75 {
+    if attrs.mental_resilience >= 85 && attrs.pace >= 70 && attrs.teamfighting >= 75 {
         traits.push(PlayerTrait::Workhorse);
     }
-    if attrs.passing >= 80 && attrs.shooting >= 75 && attrs.vision >= 75 {
+    if attrs.passing >= 80 && attrs.laning >= 75 && attrs.macro_play >= 75 {
         traits.push(PlayerTrait::MacroSpecialist);
     }
 
@@ -544,21 +549,21 @@ mod tests {
     fn sample_attributes() -> PlayerAttributes {
         PlayerAttributes {
             pace: 70,
-            stamina: 72,
+            mental_resilience: 72,
             strength: 65,
-            agility: 68,
+            champion_pool: 68,
             passing: 74,
-            shooting: 61,
+            laning: 61,
             tackling: 58,
-            dribbling: 69,
+            mechanics: 69,
             defending: 56,
             positioning: 67,
-            vision: 73,
-            decisions: 71,
-            composure: 66,
+            macro_play: 73,
+            consistency: 71,
+            discipline: 66,
             aggression: 54,
-            teamwork: 76,
-            leadership: 49,
+            teamfighting: 76,
+            shotcalling: 49,
             handling: 20,
             reflexes: 24,
             aerial: 44,

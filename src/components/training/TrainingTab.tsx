@@ -93,15 +93,15 @@ function computeSoloQ(
   schedule: string,
 ): { tier: SoloQTier; lp: number; delta: number } {
   const ovr = Math.round((
-    player.attributes.dribbling +
-    player.attributes.shooting +
-    player.attributes.teamwork +
-    player.attributes.vision +
-    player.attributes.decisions +
-    player.attributes.leadership +
-    player.attributes.agility +
-    player.attributes.composure +
-    player.attributes.stamina
+    player.attributes.mechanics +
+    player.attributes.laning +
+    player.attributes.teamfighting +
+    player.attributes.macro_play +
+    player.attributes.consistency +
+    player.attributes.shotcalling +
+    player.attributes.champion_pool +
+    player.attributes.discipline +
+    player.attributes.mental_resilience
   ) / 9);
   const dayIndex = daysBetween(gameState.clock.start_date, gameState.clock.current_date);
   const baseline = 3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);

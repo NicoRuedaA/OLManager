@@ -27,6 +27,29 @@ export default function DashboardMatchConfirmModal({
 }: DashboardMatchConfirmModalProps): JSX.Element {
   const { t } = useTranslation();
 
+  const TEAM_LOGO_MAP: Record<string, string> = {
+    g2esports: "/team-logos/g2-esports.png",
+    fnatic: "/team-logos/fnatic.png",
+    giantx: "/team-logos/giantx-lec.png",
+    karminecorp: "/team-logos/karmine-corp.png",
+    movistarkoi: "/team-logos/mad-lions.png",
+    mkoi: "/team-logos/mad-lions.png",
+    koi: "/team-logos/mad-lions.png",
+    madlionskoi: "/team-logos/mad-lions.png",
+    natusvincere: "/team-logos/natus-vincere.png",
+    skgaming: "/team-logos/sk-gaming.png",
+    teamheretics: "/team-logos/team-heretics-lec.png",
+    teamvitality: "/team-logos/team-vitality.png",
+    teambds: "/team-logos/team-bds.png",
+    shifters: "/team-logos/team-bds.png",
+  };
+  const resolveTeamLogo = (teamId: string): string | null => {
+    const team = teams.find((t) => t.id === teamId);
+    if (!team) return null;
+    const key = team.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+    return TEAM_LOGO_MAP[key] ?? null;
+  };
+
   return (
     <DashboardModalFrame maxWidthClassName="max-w-md">
       <div className="mb-4 flex items-center gap-3">
@@ -49,16 +72,35 @@ export default function DashboardMatchConfirmModal({
           <p className="mb-2 text-xs font-heading uppercase tracking-widest text-gray-400">
             {getFixtureDisplayLabel(t, todayMatchFixture)}
           </p>
-          <p className="text-lg font-heading font-bold text-gray-900 dark:text-white">
-            {getTeamName(teams, todayMatchFixture.home_team_id)}{" "}
-            <span className="mx-2 text-gray-400">{t("common.vs")}</span>{" "}
-            {getTeamName(teams, todayMatchFixture.away_team_id)}
-          </p>
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center gap-2">
+              {resolveTeamLogo(todayMatchFixture.home_team_id) && (
+                <img
+                  src={resolveTeamLogo(todayMatchFixture.home_team_id)!}
+                  alt={getTeamName(teams, todayMatchFixture.home_team_id)}
+                  className="w-7 h-7 object-contain"
+                />
+              )}
+              <span className="text-lg font-heading font-bold text-gray-900 dark:text-white">
+                {getTeamName(teams, todayMatchFixture.home_team_id)}
+              </span>
+            </div>
+            <span className="text-gray-400 text-lg font-heading font-bold">{t("common.vs")}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-heading font-bold text-gray-900 dark:text-white">
+                {getTeamName(teams, todayMatchFixture.away_team_id)}
+              </span>
+              {resolveTeamLogo(todayMatchFixture.away_team_id) && (
+                <img
+                  src={resolveTeamLogo(todayMatchFixture.away_team_id)!}
+                  alt={getTeamName(teams, todayMatchFixture.away_team_id)}
+                  className="w-7 h-7 object-contain"
+                />
+              )}
+            </div>
+          </div>
         </div>
       )}
-      <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
-        {modeMeta.desc}
-      </p>
       {matchMode === "delegate" && (
         <p className="mt-1 flex items-center gap-1 text-xs text-amber-500 dark:text-amber-400">
           <AlertCircle className="h-3.5 w-3.5" />

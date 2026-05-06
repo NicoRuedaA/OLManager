@@ -170,16 +170,16 @@ pub fn check_player_events(game: &mut Game) {
 
                 let attrs = &player.attributes;
                 let ovr = (attrs.pace as u16
-                    + attrs.stamina as u16
+                    + attrs.mental_resilience as u16
                     + attrs.strength as u16
                     + attrs.passing as u16
-                    + attrs.shooting as u16
+                    + attrs.laning as u16
                     + attrs.tackling as u16
-                    + attrs.dribbling as u16
+                    + attrs.mechanics as u16
                     + attrs.defending as u16
                     + attrs.positioning as u16
-                    + attrs.vision as u16
-                    + attrs.decisions as u16)
+                    + attrs.macro_play as u16
+                    + attrs.consistency as u16)
                     / 11;
 
                 // Player must have decent OVR, low morale, and few appearances

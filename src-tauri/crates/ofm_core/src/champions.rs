@@ -889,8 +889,8 @@ pub fn apply_training_mastery_progress(
         return;
     };
 
-    let mechanics = f64::from(player.attributes.dribbling.min(100)) / 100.0;
-    let champion_pool = f64::from(player.attributes.agility.min(100)) / 100.0;
+    let mechanics = f64::from(player.attributes.mechanics.min(100)) / 100.0;
+    let champion_pool = f64::from(player.attributes.champion_pool.min(100)) / 100.0;
     let stat_push = (mechanics * 0.6) + (champion_pool * 0.6);
 
     let headroom = f64::from(MASTERY_CAP.saturating_sub(current)) / 75.0;

@@ -143,7 +143,7 @@ fn load_stats_state_from_lol_tables(conn: &Connection) -> Result<StatsState, Str
             "SELECT fixture_id, season, matchday, date, competition, player_id, team_id,
                     opponent_team_id, side, result, role, champion_id, duration_seconds,
                     kills, deaths, assists, creep_score, gold_earned, damage_dealt,
-                    vision_score, wards_placed
+                    vision_score, wards_placed, bans_json
                FROM lol_player_match_stats
                ORDER BY date, matchday, fixture_id, player_id",
         )
@@ -173,6 +173,7 @@ fn load_stats_state_from_lol_tables(conn: &Connection) -> Result<StatsState, Str
                 damage_dealt: row.get(18)?,
                 vision_score: row.get(19)?,
                 wards_placed: row.get(20)?,
+                bans_json: row.get(21).unwrap_or_default(),
             })
         })
         .map_err(|e| format!("Failed to query lol_player_match_stats: {}", e))?;
@@ -281,6 +282,7 @@ fn load_stats_state_from_legacy_tables(conn: &Connection) -> Result<StatsState, 
                 damage_dealt,
                 vision_score,
                 wards_placed,
+                bans_json: String::new(),
             })
         })
         .map_err(|e| format!("Failed to query legacy player_match_stats: {}", e))?;
@@ -367,8 +369,8 @@ fn replace_lol_stats_state(conn: &Connection, stats: &StatsState) -> Result<(), 
                 fixture_id, season, matchday, date, competition, player_id, team_id,
                 opponent_team_id, side, result, role, champion_id, duration_seconds,
                 kills, deaths, assists, creep_score, gold_earned, damage_dealt,
-                vision_score, wards_placed
-             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21)",
+                vision_score, wards_placed, bans_json
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22)",
             params![
                 record.fixture_id,
                 record.season,
@@ -391,6 +393,7 @@ fn replace_lol_stats_state(conn: &Connection, stats: &StatsState) -> Result<(), 
                 record.damage_dealt,
                 record.vision_score,
                 record.wards_placed,
+                record.bans_json,
             ],
         )
         .map_err(|e| format!("Failed to insert lol_player_match_stats row: {}", e))?;

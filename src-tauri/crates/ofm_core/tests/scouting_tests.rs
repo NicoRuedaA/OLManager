@@ -16,21 +16,21 @@ use ofm_core::scouting::{process_scouting, scout_max_assignments, send_scout};
 fn default_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 70,
-        stamina: 65,
+        mental_resilience: 65,
         strength: 60,
-        agility: 68,
+        champion_pool: 68,
         passing: 72,
-        shooting: 66,
+        laning: 66,
         tackling: 58,
-        dribbling: 74,
+        mechanics: 74,
         defending: 55,
         positioning: 62,
-        vision: 70,
-        decisions: 64,
-        composure: 60,
+        macro_play: 70,
+        consistency: 64,
+        discipline: 60,
         aggression: 50,
-        teamwork: 66,
-        leadership: 55,
+        teamfighting: 66,
+        shotcalling: 55,
         handling: 30,
         reflexes: 30,
         aerial: 58,
@@ -276,9 +276,9 @@ fn report_has_i18n_keys() {
 fn count_revealed(report: &ScoutReportData) -> usize {
     [
         report.pace,
-        report.shooting,
+        report.laning,
         report.passing,
-        report.dribbling,
+        report.mechanics,
         report.defending,
         report.physical,
     ]
@@ -463,9 +463,9 @@ fn low_ability_scout_attrs_have_more_noise() {
     // Just verify values are in valid range (1-99)
     for val in [
         report.pace,
-        report.shooting,
+        report.laning,
         report.passing,
-        report.dribbling,
+        report.mechanics,
         report.defending,
         report.physical,
     ] {

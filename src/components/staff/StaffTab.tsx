@@ -305,7 +305,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
           {filtered.map((staff) => {
             const roleIcon = ROLE_ICONS[staff.role] || ROLE_ICONS.Coach;
             const roleColor = ROLE_COLORS[staff.role] || ROLE_COLORS.Coach;
-            const age = calcAge(staff.date_of_birth);
+            const age = calcAge(staff.date_of_birth, gameState.clock.current_date);
             const ovr = ovrRating(staff);
             const best = bestAttr(staff);
             const impactRows = getStaffImpactRows(staff);

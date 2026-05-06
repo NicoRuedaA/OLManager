@@ -329,7 +329,7 @@ export function LecLowerThirdPanel({ champions, championByPlayerId, timeSec = 0 
   });
 
   return (
-    <div className="hud-board mx-auto w-full max-w-[1400px] px-[20px] py-[10px]">
+    <div className="hud-board mx-auto w-full max-w-[1400px] px-[20px] py-[10px] h-full flex flex-col justify-center">
       {matchups.map(({ role, blue, red }) => {
         const blueGold = championTotalGold(blue);
         const redGold = championTotalGold(red);

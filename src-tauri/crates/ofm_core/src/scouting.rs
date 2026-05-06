@@ -225,12 +225,12 @@ fn build_scout_report(
     // LoL UI teaches: mechanics, laning, teamfighting, macro, champion pool and
     // discipline.
     let all_fuzzed: [(u8, &str); 6] = [
-        (fuzz(attrs.dribbling), "Mechanics"),
-        (fuzz(attrs.shooting), "Laning"),
-        (fuzz(attrs.teamwork), "Teamfighting"),
-        (fuzz(attrs.vision), "Macro"),
-        (fuzz(attrs.agility), "Champion Pool"),
-        (fuzz(attrs.composure), "Discipline"),
+        (fuzz(attrs.mechanics), "Mechanics"),
+        (fuzz(attrs.laning), "Laning"),
+        (fuzz(attrs.teamfighting), "Teamfighting"),
+        (fuzz(attrs.macro_play), "Macro"),
+        (fuzz(attrs.champion_pool), "Champion Pool"),
+        (fuzz(attrs.discipline), "Discipline"),
     ];
 
     // Discovery mechanic: scout ability determines how many attrs are revealed

@@ -1,0 +1,2512 @@
+{
+  "batchcomplete": "",
+  "continue": {
+    "eicontinue": "0|189037",
+    "continue": "-||"
+  },
+  "query": {
+    "embeddedin": [
+      {
+        "pageid": 64076,
+        "ns": 0,
+        "title": "17 Academy"
+      },
+      {
+        "pageid": 64262,
+        "ns": 0,
+        "title": "Fenerbahçe Esports"
+      },
+      {
+        "pageid": 67049,
+        "ns": 0,
+        "title": "1 Trick Ponies"
+      },
+      {
+        "pageid": 124106,
+        "ns": 0,
+        "title": "Cheetahs"
+      },
+      {
+        "pageid": 124211,
+        "ns": 0,
+        "title": "Cherry Esports"
+      },
+      {
+        "pageid": 124229,
+        "ns": 0,
+        "title": "ChiLeanFivE"
+      },
+      {
+        "pageid": 124232,
+        "ns": 0,
+        "title": "ChiLeanFivE Hopes"
+      },
+      {
+        "pageid": 124235,
+        "ns": 0,
+        "title": "ChiLeanFivE The Legacy"
+      },
+      {
+        "pageid": 124244,
+        "ns": 0,
+        "title": "Chicks Dig Elo"
+      },
+      {
+        "pageid": 124253,
+        "ns": 0,
+        "title": "Chiefs Black"
+      },
+      {
+        "pageid": 124259,
+        "ns": 0,
+        "title": "Chiefs Esports Club"
+      },
+      {
+        "pageid": 124355,
+        "ns": 0,
+        "title": "China e-Sports Academic"
+      },
+      {
+        "pageid": 124517,
+        "ns": 0,
+        "title": "Chunnam Techno University"
+      },
+      {
+        "pageid": 126308,
+        "ns": 0,
+        "title": "Cloud9"
+      },
+      {
+        "pageid": 132602,
+        "ns": 0,
+        "title": "Cloud9 Challenger"
+      },
+      {
+        "pageid": 132626,
+        "ns": 0,
+        "title": "Cloud9 Tempest"
+      },
+      {
+        "pageid": 132680,
+        "ns": 0,
+        "title": "Cloud9 Eclipse"
+      },
+      {
+        "pageid": 132920,
+        "ns": 0,
+        "title": "Coliseo Dragons"
+      },
+      {
+        "pageid": 132959,
+        "ns": 0,
+        "title": "Comando Elite e-Sports"
+      },
+      {
+        "pageid": 132983,
+        "ns": 0,
+        "title": "CompLexity.Black"
+      },
+      {
+        "pageid": 133001,
+        "ns": 0,
+        "title": "CompLexity.Red"
+      },
+      {
+        "pageid": 133004,
+        "ns": 0,
+        "title": "CompLexity.White"
+      },
+      {
+        "pageid": 133016,
+        "ns": 0,
+        "title": "CompLexity Academy"
+      },
+      {
+        "pageid": 133022,
+        "ns": 0,
+        "title": "CompLexity Gaming"
+      },
+      {
+        "pageid": 137045,
+        "ns": 0,
+        "title": "Copenhagen Wolves"
+      },
+      {
+        "pageid": 137351,
+        "ns": 0,
+        "title": "Copenhagen Wolves Academy"
+      },
+      {
+        "pageid": 138032,
+        "ns": 0,
+        "title": "Cougar E-Sport"
+      },
+      {
+        "pageid": 138257,
+        "ns": 0,
+        "title": "Counter Counter Clockwise"
+      },
+      {
+        "pageid": 138263,
+        "ns": 0,
+        "title": "Counter Logic Gaming"
+      },
+      {
+        "pageid": 141182,
+        "ns": 0,
+        "title": "Counter Logic Gaming Europe"
+      },
+      {
+        "pageid": 141863,
+        "ns": 0,
+        "title": "Crest Gaming Act"
+      },
+      {
+        "pageid": 141902,
+        "ns": 0,
+        "title": "Crew e-Sports Club"
+      },
+      {
+        "pageid": 142460,
+        "ns": 0,
+        "title": "CrossGaming"
+      },
+      {
+        "pageid": 145631,
+        "ns": 0,
+        "title": "Curse Academy"
+      },
+      {
+        "pageid": 145883,
+        "ns": 0,
+        "title": "Cursed Rage"
+      },
+      {
+        "pageid": 145961,
+        "ns": 0,
+        "title": "Cyclone"
+      },
+      {
+        "pageid": 145988,
+        "ns": 0,
+        "title": "Cyzone"
+      },
+      {
+        "pageid": 146042,
+        "ns": 0,
+        "title": "Dplus Kia"
+      },
+      {
+        "pageid": 146060,
+        "ns": 0,
+        "title": "DAN Gaming"
+      },
+      {
+        "pageid": 146186,
+        "ns": 0,
+        "title": "DS Gaming"
+      },
+      {
+        "pageid": 146270,
+        "ns": 0,
+        "title": "Dadslammers"
+      },
+      {
+        "pageid": 146576,
+        "ns": 0,
+        "title": "Dark Horse"
+      },
+      {
+        "pageid": 146585,
+        "ns": 0,
+        "title": "Dark Passage"
+      },
+      {
+        "pageid": 147401,
+        "ns": 0,
+        "title": "Dark Passage White"
+      },
+      {
+        "pageid": 147407,
+        "ns": 0,
+        "title": "Dark Wolves"
+      },
+      {
+        "pageid": 147446,
+        "ns": 0,
+        "title": "DarlingYou"
+      },
+      {
+        "pageid": 147674,
+        "ns": 0,
+        "title": "Dash9 Gaming"
+      },
+      {
+        "pageid": 148805,
+        "ns": 0,
+        "title": "Defenders"
+      },
+      {
+        "pageid": 149042,
+        "ns": 0,
+        "title": "DeftCarry"
+      },
+      {
+        "pageid": 149267,
+        "ns": 0,
+        "title": "Delta Fox"
+      },
+      {
+        "pageid": 151121,
+        "ns": 0,
+        "title": "Denial eSports"
+      },
+      {
+        "pageid": 151124,
+        "ns": 0,
+        "title": "Denial eSports.East"
+      },
+      {
+        "pageid": 151145,
+        "ns": 0,
+        "title": "Denial eSports EU"
+      },
+      {
+        "pageid": 151175,
+        "ns": 0,
+        "title": "Departed"
+      },
+      {
+        "pageid": 151361,
+        "ns": 0,
+        "title": "Destined For Glory"
+      },
+      {
+        "pageid": 151430,
+        "ns": 0,
+        "title": "Determined Gaming"
+      },
+      {
+        "pageid": 151439,
+        "ns": 0,
+        "title": "DetonatioN FocusMe"
+      },
+      {
+        "pageid": 151463,
+        "ns": 0,
+        "title": "DetonatioN Rising"
+      },
+      {
+        "pageid": 151556,
+        "ns": 0,
+        "title": "Dexterity Team"
+      },
+      {
+        "pageid": 151595,
+        "ns": 0,
+        "title": "Diamond Team"
+      },
+      {
+        "pageid": 151670,
+        "ns": 0,
+        "title": "Different Dimension"
+      },
+      {
+        "pageid": 151721,
+        "ns": 0,
+        "title": "Dimegio Club"
+      },
+      {
+        "pageid": 151799,
+        "ns": 0,
+        "title": "Dire Wolves"
+      },
+      {
+        "pageid": 151829,
+        "ns": 0,
+        "title": "Dirt Nap Gaming"
+      },
+      {
+        "pageid": 151913,
+        "ns": 0,
+        "title": "DnH Advance"
+      },
+      {
+        "pageid": 152030,
+        "ns": 0,
+        "title": "Dolphins"
+      },
+      {
+        "pageid": 152084,
+        "ns": 0,
+        "title": "DomoSoCute"
+      },
+      {
+        "pageid": 152186,
+        "ns": 0,
+        "title": "DoubleBuff"
+      },
+      {
+        "pageid": 152390,
+        "ns": 0,
+        "title": "DragonBorns"
+      },
+      {
+        "pageid": 152483,
+        "ns": 0,
+        "title": "Dragon Team"
+      },
+      {
+        "pageid": 152537,
+        "ns": 0,
+        "title": "Dragonfly Gaming"
+      },
+      {
+        "pageid": 152558,
+        "ns": 0,
+        "title": "Dragons E.C."
+      },
+      {
+        "pageid": 152729,
+        "ns": 0,
+        "title": "DreamCatcher"
+      },
+      {
+        "pageid": 153662,
+        "ns": 0,
+        "title": "Dream Catcher"
+      },
+      {
+        "pageid": 153665,
+        "ns": 0,
+        "title": "Dream Catcher Gaming"
+      },
+      {
+        "pageid": 153668,
+        "ns": 0,
+        "title": "Dream Team"
+      },
+      {
+        "pageid": 153680,
+        "ns": 0,
+        "title": "Dream VGirls"
+      },
+      {
+        "pageid": 153683,
+        "ns": 0,
+        "title": "Dream or Reality"
+      },
+      {
+        "pageid": 153767,
+        "ns": 0,
+        "title": "Druidz E-Sport Europe"
+      },
+      {
+        "pageid": 153779,
+        "ns": 0,
+        "title": "Duck In a Box"
+      },
+      {
+        "pageid": 153782,
+        "ns": 0,
+        "title": "Ducks on Fire"
+      },
+      {
+        "pageid": 153833,
+        "ns": 0,
+        "title": "Dulcet Essence"
+      },
+      {
+        "pageid": 153905,
+        "ns": 0,
+        "title": "Dynasty Gaming"
+      },
+      {
+        "pageid": 153941,
+        "ns": 0,
+        "title": "E-Champ Gaming"
+      },
+      {
+        "pageid": 153971,
+        "ns": 0,
+        "title": "E-Sports Dragons Pro"
+      },
+      {
+        "pageid": 154139,
+        "ns": 0,
+        "title": "E-corp Gaming"
+      },
+      {
+        "pageid": 154151,
+        "ns": 0,
+        "title": "E-mFire"
+      },
+      {
+        "pageid": 154163,
+        "ns": 0,
+        "title": "E.Hub United"
+      },
+      {
+        "pageid": 154169,
+        "ns": 0,
+        "title": "E.o.s Gaming"
+      },
+      {
+        "pageid": 154388,
+        "ns": 0,
+        "title": "EDward Esports"
+      },
+      {
+        "pageid": 154400,
+        "ns": 0,
+        "title": "EDward Gaming"
+      },
+      {
+        "pageid": 154451,
+        "ns": 0,
+        "title": "EHOME"
+      },
+      {
+        "pageid": 154493,
+        "ns": 0,
+        "title": "EMonkeyz"
+      },
+      {
+        "pageid": 154544,
+        "ns": 0,
+        "title": "ESC Ever"
+      },
+      {
+        "pageid": 154559,
+        "ns": 0,
+        "title": "ESC Gaming"
+      },
+      {
+        "pageid": 154562,
+        "ns": 0,
+        "title": "ESC Gaming Europe"
+      },
+      {
+        "pageid": 155360,
+        "ns": 0,
+        "title": "ESuba"
+      },
+      {
+        "pageid": 155540,
+        "ns": 0,
+        "title": "EURONICS Gaming"
+      },
+      {
+        "pageid": 156356,
+        "ns": 0,
+        "title": "EU LCS Allstars"
+      },
+      {
+        "pageid": 156470,
+        "ns": 0,
+        "title": "EUnited"
+      },
+      {
+        "pageid": 156482,
+        "ns": 0,
+        "title": "EVOS Esports"
+      },
+      {
+        "pageid": 156488,
+        "ns": 0,
+        "title": "EXeAt eSports Club"
+      },
+      {
+        "pageid": 156491,
+        "ns": 0,
+        "title": "EXtreme Divide ExeCuTioNeR"
+      },
+      {
+        "pageid": 156497,
+        "ns": 0,
+        "title": "EXtreme Divide e-Sport Team"
+      },
+      {
+        "pageid": 156500,
+        "ns": 0,
+        "title": "EXtreme Gamers"
+      },
+      {
+        "pageid": 156515,
+        "ns": 0,
+        "title": "EYES ON U"
+      },
+      {
+        "pageid": 156518,
+        "ns": 0,
+        "title": "EYES ON U Europe"
+      },
+      {
+        "pageid": 156521,
+        "ns": 0,
+        "title": "Eanix"
+      },
+      {
+        "pageid": 156605,
+        "ns": 0,
+        "title": "Eat Sleep Game"
+      },
+      {
+        "pageid": 156647,
+        "ns": 0,
+        "title": "Echo Fox"
+      },
+      {
+        "pageid": 156665,
+        "ns": 0,
+        "title": "Eclypsia"
+      },
+      {
+        "pageid": 156668,
+        "ns": 0,
+        "title": "Eclypsia.Luna"
+      },
+      {
+        "pageid": 156932,
+        "ns": 0,
+        "title": "Elements"
+      },
+      {
+        "pageid": 156998,
+        "ns": 0,
+        "title": "Elite Masters"
+      },
+      {
+        "pageid": 157001,
+        "ns": 0,
+        "title": "Elite Wolves"
+      },
+      {
+        "pageid": 157073,
+        "ns": 0,
+        "title": "EloHell"
+      },
+      {
+        "pageid": 157133,
+        "ns": 0,
+        "title": "Ember"
+      },
+      {
+        "pageid": 157508,
+        "ns": 0,
+        "title": "Enemy"
+      },
+      {
+        "pageid": 157547,
+        "ns": 0,
+        "title": "Energy Pacemaker"
+      },
+      {
+        "pageid": 157559,
+        "ns": 0,
+        "title": "Energy Pacemaker.All"
+      },
+      {
+        "pageid": 157577,
+        "ns": 0,
+        "title": "Energy Pacemaker.Carries"
+      },
+      {
+        "pageid": 157589,
+        "ns": 0,
+        "title": "Energy Pacemaker.YCSM"
+      },
+      {
+        "pageid": 157775,
+        "ns": 0,
+        "title": "Epik Gamer"
+      },
+      {
+        "pageid": 157778,
+        "ns": 0,
+        "title": "Epiphany Bolt"
+      },
+      {
+        "pageid": 157784,
+        "ns": 0,
+        "title": "Epsilon Esports"
+      },
+      {
+        "pageid": 157865,
+        "ns": 0,
+        "title": "EBD LEGENDs"
+      },
+      {
+        "pageid": 157910,
+        "ns": 0,
+        "title": "Estúdio XP e-Sports"
+      },
+      {
+        "pageid": 157946,
+        "ns": 0,
+        "title": "Eternity Gaming"
+      },
+      {
+        "pageid": 158261,
+        "ns": 0,
+        "title": "Ever8 Winners"
+      },
+      {
+        "pageid": 158288,
+        "ns": 0,
+        "title": "Evil Geniuses.EU"
+      },
+      {
+        "pageid": 158324,
+        "ns": 0,
+        "title": "Ex Nihilo"
+      },
+      {
+        "pageid": 158384,
+        "ns": 0,
+        "title": "Exgs"
+      },
+      {
+        "pageid": 158390,
+        "ns": 0,
+        "title": "Exile (Filipino Team)"
+      },
+      {
+        "pageid": 158663,
+        "ns": 0,
+        "title": "FC Schalke 04 Esports"
+      },
+      {
+        "pageid": 158720,
+        "ns": 0,
+        "title": "FM eSports"
+      },
+      {
+        "pageid": 158780,
+        "ns": 0,
+        "title": "FXOpen e-Sports"
+      },
+      {
+        "pageid": 159230,
+        "ns": 0,
+        "title": "Hanoi Fate"
+      },
+      {
+        "pageid": 159290,
+        "ns": 0,
+        "title": "Feint Gaming"
+      },
+      {
+        "pageid": 159401,
+        "ns": 0,
+        "title": "Fiction eSports"
+      },
+      {
+        "pageid": 159485,
+        "ns": 0,
+        "title": "Final Five"
+      },
+      {
+        "pageid": 159551,
+        "ns": 0,
+        "title": "Fireball"
+      },
+      {
+        "pageid": 159641,
+        "ns": 0,
+        "title": "Fission Esports"
+      },
+      {
+        "pageid": 159812,
+        "ns": 0,
+        "title": "Flash Husky"
+      },
+      {
+        "pageid": 159815,
+        "ns": 0,
+        "title": "Flash Wolves"
+      },
+      {
+        "pageid": 159836,
+        "ns": 0,
+        "title": "Flash Wolves Junior"
+      },
+      {
+        "pageid": 159842,
+        "ns": 0,
+        "title": "Flashdive"
+      },
+      {
+        "pageid": 159908,
+        "ns": 0,
+        "title": "FlyQuest"
+      },
+      {
+        "pageid": 159959,
+        "ns": 0,
+        "title": "Fnatic"
+      },
+      {
+        "pageid": 160004,
+        "ns": 0,
+        "title": "Fnatic Academy"
+      },
+      {
+        "pageid": 160079,
+        "ns": 0,
+        "title": "For The Win"
+      },
+      {
+        "pageid": 160082,
+        "ns": 0,
+        "title": "For The Win Esports"
+      },
+      {
+        "pageid": 160103,
+        "ns": 0,
+        "title": "Force Of Nature (Latin American Team)"
+      },
+      {
+        "pageid": 160142,
+        "ns": 0,
+        "title": "Fortius"
+      },
+      {
+        "pageid": 160223,
+        "ns": 0,
+        "title": "Frag eXecutors"
+      },
+      {
+        "pageid": 160229,
+        "ns": 0,
+        "title": "Frank Fang Gaming"
+      },
+      {
+        "pageid": 160277,
+        "ns": 0,
+        "title": "Freedom Dive"
+      },
+      {
+        "pageid": 160334,
+        "ns": 0,
+        "title": "Friends Forever Gaming"
+      },
+      {
+        "pageid": 160478,
+        "ns": 0,
+        "title": "Full Louis"
+      },
+      {
+        "pageid": 160502,
+        "ns": 0,
+        "title": "Furious Gaming"
+      },
+      {
+        "pageid": 160811,
+        "ns": 0,
+        "title": "G2 Esports"
+      },
+      {
+        "pageid": 160832,
+        "ns": 0,
+        "title": "G2 Vodafone"
+      },
+      {
+        "pageid": 160844,
+        "ns": 0,
+        "title": "G3nerationX"
+      },
+      {
+        "pageid": 160934,
+        "ns": 0,
+        "title": "GF-Gaming"
+      },
+      {
+        "pageid": 160964,
+        "ns": 0,
+        "title": "GG Call Nash"
+      },
+      {
+        "pageid": 160988,
+        "ns": 0,
+        "title": "GAM Esports"
+      },
+      {
+        "pageid": 161045,
+        "ns": 0,
+        "title": "GJR"
+      },
+      {
+        "pageid": 161237,
+        "ns": 0,
+        "title": "GSG"
+      },
+      {
+        "pageid": 161240,
+        "ns": 0,
+        "title": "GSI Gaming"
+      },
+      {
+        "pageid": 161267,
+        "ns": 0,
+        "title": "Galactic Gamers"
+      },
+      {
+        "pageid": 161279,
+        "ns": 0,
+        "title": "Galakticos"
+      },
+      {
+        "pageid": 161303,
+        "ns": 0,
+        "title": "Galatasaray Esports"
+      },
+      {
+        "pageid": 161345,
+        "ns": 0,
+        "title": "Gama E-Sport Dream"
+      },
+      {
+        "pageid": 161363,
+        "ns": 0,
+        "title": "Gamania Bears"
+      },
+      {
+        "pageid": 161378,
+        "ns": 0,
+        "title": "Gambit Esports"
+      },
+      {
+        "pageid": 161393,
+        "ns": 0,
+        "title": "Gambit Gaming"
+      },
+      {
+        "pageid": 161432,
+        "ns": 0,
+        "title": "GameEkstra"
+      },
+      {
+        "pageid": 161441,
+        "ns": 0,
+        "title": "Game Talents"
+      },
+      {
+        "pageid": 161456,
+        "ns": 0,
+        "title": "Gameburg Team"
+      },
+      {
+        "pageid": 161465,
+        "ns": 0,
+        "title": "Gamefy"
+      },
+      {
+        "pageid": 161474,
+        "ns": 0,
+        "title": "Gamehoppers.eu"
+      },
+      {
+        "pageid": 161477,
+        "ns": 0,
+        "title": "Gamers2"
+      },
+      {
+        "pageid": 161498,
+        "ns": 0,
+        "title": "GamersOrigin"
+      },
+      {
+        "pageid": 161582,
+        "ns": 0,
+        "title": "GamingGear.eu"
+      },
+      {
+        "pageid": 161585,
+        "ns": 0,
+        "title": "Gaming Gaming"
+      },
+      {
+        "pageid": 161618,
+        "ns": 0,
+        "title": "Gamtee"
+      },
+      {
+        "pageid": 161828,
+        "ns": 0,
+        "title": "Garena Team"
+      },
+      {
+        "pageid": 161873,
+        "ns": 0,
+        "title": "GashBears"
+      },
+      {
+        "pageid": 162158,
+        "ns": 0,
+        "title": "Giants Academy"
+      },
+      {
+        "pageid": 162164,
+        "ns": 0,
+        "title": "Giants Gaming"
+      },
+      {
+        "pageid": 162452,
+        "ns": 0,
+        "title": "Girlfriends"
+      },
+      {
+        "pageid": 162458,
+        "ns": 0,
+        "title": "Glacial Phoenix"
+      },
+      {
+        "pageid": 162662,
+        "ns": 0,
+        "title": "Go To Sleep"
+      },
+      {
+        "pageid": 162797,
+        "ns": 0,
+        "title": "Gold Coin United"
+      },
+      {
+        "pageid": 162809,
+        "ns": 0,
+        "title": "Gold Gaming LA"
+      },
+      {
+        "pageid": 162875,
+        "ns": 0,
+        "title": "Good Team Multigaming"
+      },
+      {
+        "pageid": 163001,
+        "ns": 0,
+        "title": "Gravity (North American Team)"
+      },
+      {
+        "pageid": 163061,
+        "ns": 0,
+        "title": "Greek Regenesis"
+      },
+      {
+        "pageid": 163112,
+        "ns": 0,
+        "title": "Griffin (Korean Team)"
+      },
+      {
+        "pageid": 163169,
+        "ns": 0,
+        "title": "Groovy Gaming"
+      },
+      {
+        "pageid": 163172,
+        "ns": 0,
+        "title": "GrosBill Esport"
+      },
+      {
+        "pageid": 163250,
+        "ns": 0,
+        "title": "Guerreros del Mouse"
+      },
+      {
+        "pageid": 163322,
+        "ns": 0,
+        "title": "Guru Gaming"
+      },
+      {
+        "pageid": 163379,
+        "ns": 0,
+        "title": "H2k-Gaming"
+      },
+      {
+        "pageid": 163682,
+        "ns": 0,
+        "title": "HWA Gaming"
+      },
+      {
+        "pageid": 163760,
+        "ns": 0,
+        "title": "Hafnet eSports"
+      },
+      {
+        "pageid": 163868,
+        "ns": 0,
+        "title": "HanGong Clan"
+      },
+      {
+        "pageid": 164198,
+        "ns": 0,
+        "title": "Hanoi Dragons"
+      },
+      {
+        "pageid": 164247,
+        "ns": 0,
+        "title": "Hard Random"
+      },
+      {
+        "pageid": 164286,
+        "ns": 0,
+        "title": "HarmoniX Gaming"
+      },
+      {
+        "pageid": 164427,
+        "ns": 0,
+        "title": "Headhunters"
+      },
+      {
+        "pageid": 164490,
+        "ns": 0,
+        "title": "Heat Wave"
+      },
+      {
+        "pageid": 164517,
+        "ns": 0,
+        "title": "Heavy Artillery"
+      },
+      {
+        "pageid": 164520,
+        "ns": 0,
+        "title": "Heavy Botlane"
+      },
+      {
+        "pageid": 164547,
+        "ns": 0,
+        "title": "Heimerdinger's Colossi"
+      },
+      {
+        "pageid": 164613,
+        "ns": 0,
+        "title": "Hellions e-Sports Club"
+      },
+      {
+        "pageid": 164679,
+        "ns": 0,
+        "title": "Heroes Team"
+      },
+      {
+        "pageid": 164697,
+        "ns": 0,
+        "title": "Hex Alligators"
+      },
+      {
+        "pageid": 165081,
+        "ns": 0,
+        "title": "HongKongNine"
+      },
+      {
+        "pageid": 165084,
+        "ns": 0,
+        "title": "Hong Kong Attitude"
+      },
+      {
+        "pageid": 165090,
+        "ns": 0,
+        "title": "Hong Kong Attitude Mage"
+      },
+      {
+        "pageid": 165093,
+        "ns": 0,
+        "title": "Hong Kong Attitude Priest"
+      },
+      {
+        "pageid": 165096,
+        "ns": 0,
+        "title": "Hong Kong Carries"
+      },
+      {
+        "pageid": 165150,
+        "ns": 0,
+        "title": "Hong Kong Esports"
+      },
+      {
+        "pageid": 165222,
+        "ns": 0,
+        "title": "Hoon Good Day"
+      },
+      {
+        "pageid": 165363,
+        "ns": 0,
+        "title": "Huma"
+      },
+      {
+        "pageid": 165528,
+        "ns": 0,
+        "title": "Hyper Youth Gaming"
+      },
+      {
+        "pageid": 166353,
+        "ns": 0,
+        "title": "IMP e-Sports"
+      },
+      {
+        "pageid": 166413,
+        "ns": 0,
+        "title": "INTZ.Genesis"
+      },
+      {
+        "pageid": 166446,
+        "ns": 0,
+        "title": "IQuit-Gaming Greece"
+      },
+      {
+        "pageid": 166530,
+        "ns": 0,
+        "title": "INTZ Academy"
+      },
+      {
+        "pageid": 166578,
+        "ns": 0,
+        "title": "INTZ Red"
+      },
+      {
+        "pageid": 166599,
+        "ns": 0,
+        "title": "INTZ"
+      },
+      {
+        "pageid": 166740,
+        "ns": 0,
+        "title": "INVADERS"
+      },
+      {
+        "pageid": 166755,
+        "ns": 0,
+        "title": "IN Gaming"
+      },
+      {
+        "pageid": 167034,
+        "ns": 0,
+        "title": "IWC Allstars"
+      },
+      {
+        "pageid": 167097,
+        "ns": 0,
+        "title": "IWantCookie"
+      },
+      {
+        "pageid": 167178,
+        "ns": 0,
+        "title": "I Gaming Star"
+      },
+      {
+        "pageid": 167214,
+        "ns": 0,
+        "title": "IceLanD"
+      },
+      {
+        "pageid": 167298,
+        "ns": 0,
+        "title": "I May"
+      },
+      {
+        "pageid": 167331,
+        "ns": 0,
+        "title": "Iguana eSports"
+      },
+      {
+        "pageid": 167370,
+        "ns": 0,
+        "title": "Imaginary Gaming"
+      },
+      {
+        "pageid": 167460,
+        "ns": 0,
+        "title": "Ilha da Macacada Gaming"
+      },
+      {
+        "pageid": 167532,
+        "ns": 0,
+        "title": "Immortals"
+      },
+      {
+        "pageid": 167625,
+        "ns": 0,
+        "title": "Imperial Esports"
+      },
+      {
+        "pageid": 167634,
+        "ns": 0,
+        "title": "Imperium Pro Team"
+      },
+      {
+        "pageid": 167670,
+        "ns": 0,
+        "title": "Impunity Legends"
+      },
+      {
+        "pageid": 167760,
+        "ns": 0,
+        "title": "InFamouS Esport"
+      },
+      {
+        "pageid": 167769,
+        "ns": 0,
+        "title": "Incredible Miracle (Club Masters)"
+      },
+      {
+        "pageid": 167772,
+        "ns": 0,
+        "title": "Incredible Miracle 1"
+      },
+      {
+        "pageid": 167781,
+        "ns": 0,
+        "title": "Illuminar Gaming"
+      },
+      {
+        "pageid": 167859,
+        "ns": 0,
+        "title": "Incredible Miracle 2"
+      },
+      {
+        "pageid": 167970,
+        "ns": 0,
+        "title": "Incredible Miracle Athena"
+      },
+      {
+        "pageid": 168084,
+        "ns": 0,
+        "title": "Inspire eSports"
+      },
+      {
+        "pageid": 168090,
+        "ns": 0,
+        "title": "Infamous Gaming"
+      },
+      {
+        "pageid": 168108,
+        "ns": 0,
+        "title": "Instruments of Surrender"
+      },
+      {
+        "pageid": 168141,
+        "ns": 0,
+        "title": "Incredible Miracle"
+      },
+      {
+        "pageid": 168171,
+        "ns": 0,
+        "title": "Insidious Gaming Candy"
+      },
+      {
+        "pageid": 168186,
+        "ns": 0,
+        "title": "Infernum Gaming"
+      },
+      {
+        "pageid": 168198,
+        "ns": 0,
+        "title": "Insidious Gaming Exile"
+      },
+      {
+        "pageid": 168219,
+        "ns": 0,
+        "title": "Infinite Odds"
+      },
+      {
+        "pageid": 168228,
+        "ns": 0,
+        "title": "Insidious Gaming KTB"
+      },
+      {
+        "pageid": 168234,
+        "ns": 0,
+        "title": "Intellectual Playground"
+      },
+      {
+        "pageid": 168249,
+        "ns": 0,
+        "title": "Insidious Gaming Legends"
+      },
+      {
+        "pageid": 168267,
+        "ns": 0,
+        "title": "Invictus Gaming Deadly Fiend Girls"
+      },
+      {
+        "pageid": 168276,
+        "ns": 0,
+        "title": "Invictus Girls"
+      },
+      {
+        "pageid": 168309,
+        "ns": 0,
+        "title": "Insidious Gaming Rebirth"
+      },
+      {
+        "pageid": 168357,
+        "ns": 0,
+        "title": "Insight eSports"
+      },
+      {
+        "pageid": 168360,
+        "ns": 0,
+        "title": "Infinity Esports (2015 North American Team)"
+      },
+      {
+        "pageid": 168381,
+        "ns": 0,
+        "title": "INFINITY"
+      },
+      {
+        "pageid": 168492,
+        "ns": 0,
+        "title": "Isurus"
+      },
+      {
+        "pageid": 168570,
+        "ns": 0,
+        "title": "Iron Hawks e-Sports"
+      },
+      {
+        "pageid": 168624,
+        "ns": 0,
+        "title": "J Team 2"
+      },
+      {
+        "pageid": 168792,
+        "ns": 0,
+        "title": "JD Gaming"
+      },
+      {
+        "pageid": 168804,
+        "ns": 0,
+        "title": "Jakarta Juggernauts"
+      },
+      {
+        "pageid": 168888,
+        "ns": 0,
+        "title": "J Team"
+      },
+      {
+        "pageid": 169005,
+        "ns": 0,
+        "title": "Isurus Gaming Chile"
+      },
+      {
+        "pageid": 169491,
+        "ns": 0,
+        "title": "JAYOB e-Sports"
+      },
+      {
+        "pageid": 169503,
+        "ns": 0,
+        "title": "Jin Air Green Wings"
+      },
+      {
+        "pageid": 169884,
+        "ns": 0,
+        "title": "Joy Dream"
+      },
+      {
+        "pageid": 169887,
+        "ns": 0,
+        "title": "Jin Air Green Wings Falcons"
+      },
+      {
+        "pageid": 169962,
+        "ns": 0,
+        "title": "Jin Air Green Wings Stealths"
+      },
+      {
+        "pageid": 170166,
+        "ns": 0,
+        "title": "Just Toys Havoks"
+      },
+      {
+        "pageid": 170169,
+        "ns": 0,
+        "title": "RPG-KINGDOM"
+      },
+      {
+        "pageid": 170196,
+        "ns": 0,
+        "title": "KT Rolster"
+      },
+      {
+        "pageid": 170307,
+        "ns": 0,
+        "title": "KIYF eSports Club"
+      },
+      {
+        "pageid": 170352,
+        "ns": 0,
+        "title": "K1ck Black"
+      },
+      {
+        "pageid": 170484,
+        "ns": 0,
+        "title": "KT Rolster Arrows"
+      },
+      {
+        "pageid": 170529,
+        "ns": 0,
+        "title": "K1CK"
+      },
+      {
+        "pageid": 170586,
+        "ns": 0,
+        "title": "KT Rolster Bullets"
+      },
+      {
+        "pageid": 170613,
+        "ns": 0,
+        "title": "Kanaya Gaming"
+      },
+      {
+        "pageid": 170703,
+        "ns": 0,
+        "title": "KaBuM! Black"
+      },
+      {
+        "pageid": 170739,
+        "ns": 0,
+        "title": "KaBuM! IDM Gaming"
+      },
+      {
+        "pageid": 170793,
+        "ns": 0,
+        "title": "Kaos Latin Gamers"
+      },
+      {
+        "pageid": 170796,
+        "ns": 0,
+        "title": "KaBuM! IDM UP"
+      },
+      {
+        "pageid": 170808,
+        "ns": 0,
+        "title": "KaBuM! Esports"
+      },
+      {
+        "pageid": 171036,
+        "ns": 0,
+        "title": "Keep Gaming"
+      },
+      {
+        "pageid": 171162,
+        "ns": 0,
+        "title": "Vivo Keyd"
+      },
+      {
+        "pageid": 171501,
+        "ns": 0,
+        "title": "Keyd Warriors"
+      },
+      {
+        "pageid": 171807,
+        "ns": 0,
+        "title": "Internationally V"
+      },
+      {
+        "pageid": 171927,
+        "ns": 0,
+        "title": "Invictus Gaming"
+      },
+      {
+        "pageid": 172053,
+        "ns": 0,
+        "title": "Karont3 e-Sports Club"
+      },
+      {
+        "pageid": 172119,
+        "ns": 0,
+        "title": "Kiedys Mialem Team"
+      },
+      {
+        "pageid": 172182,
+        "ns": 0,
+        "title": "KartRiderTeam"
+      },
+      {
+        "pageid": 172230,
+        "ns": 0,
+        "title": "Kolejny Cios"
+      },
+      {
+        "pageid": 172266,
+        "ns": 0,
+        "title": "Kowloon Esports"
+      },
+      {
+        "pageid": 172299,
+        "ns": 0,
+        "title": "Kongdoo Monster"
+      },
+      {
+        "pageid": 172395,
+        "ns": 0,
+        "title": "Kuala Lumpur Hunters"
+      },
+      {
+        "pageid": 172674,
+        "ns": 0,
+        "title": "Kx.Cash"
+      },
+      {
+        "pageid": 172689,
+        "ns": 0,
+        "title": "Kx.Happy"
+      },
+      {
+        "pageid": 173076,
+        "ns": 0,
+        "title": "Kubyd's Syndrome"
+      },
+      {
+        "pageid": 173370,
+        "ns": 0,
+        "title": "LGD Gaming"
+      },
+      {
+        "pageid": 173889,
+        "ns": 0,
+        "title": "LD50 Gaming"
+      },
+      {
+        "pageid": 174417,
+        "ns": 0,
+        "title": "LMQ"
+      },
+      {
+        "pageid": 175830,
+        "ns": 0,
+        "title": "LCK Allstars"
+      },
+      {
+        "pageid": 176108,
+        "ns": 0,
+        "title": "LMS Allstars"
+      },
+      {
+        "pageid": 176564,
+        "ns": 0,
+        "title": "LPL Allstars"
+      },
+      {
+        "pageid": 177049,
+        "ns": 0,
+        "title": "Last Group"
+      },
+      {
+        "pageid": 177051,
+        "ns": 0,
+        "title": "Last Kings"
+      },
+      {
+        "pageid": 179305,
+        "ns": 0,
+        "title": "Legacy Genesis"
+      },
+      {
+        "pageid": 179307,
+        "ns": 0,
+        "title": "Legacy Esports"
+      },
+      {
+        "pageid": 179333,
+        "ns": 0,
+        "title": "Legatum"
+      },
+      {
+        "pageid": 179337,
+        "ns": 0,
+        "title": "Legend Dragon"
+      },
+      {
+        "pageid": 179349,
+        "ns": 0,
+        "title": "Legend Dragon Academy"
+      },
+      {
+        "pageid": 179355,
+        "ns": 0,
+        "title": "Legendary"
+      },
+      {
+        "pageid": 179369,
+        "ns": 0,
+        "title": "LegendsBR"
+      },
+      {
+        "pageid": 179389,
+        "ns": 0,
+        "title": "Legion Gaming (Oceanic Team)"
+      },
+      {
+        "pageid": 179437,
+        "ns": 0,
+        "title": "Lemondogs"
+      },
+      {
+        "pageid": 179439,
+        "ns": 0,
+        "title": "Lemondogs Argentina"
+      },
+      {
+        "pageid": 179811,
+        "ns": 0,
+        "title": "LinG"
+      },
+      {
+        "pageid": 180031,
+        "ns": 0,
+        "title": "Little Hippo"
+      },
+      {
+        "pageid": 180033,
+        "ns": 0,
+        "title": "Little Wraith"
+      },
+      {
+        "pageid": 180037,
+        "ns": 0,
+        "title": "Live Gaming Ascension"
+      },
+      {
+        "pageid": 180193,
+        "ns": 0,
+        "title": "Logi-A Team"
+      },
+      {
+        "pageid": 180195,
+        "ns": 0,
+        "title": "LogiX"
+      },
+      {
+        "pageid": 180261,
+        "ns": 0,
+        "title": "Logitech G Snipers"
+      },
+      {
+        "pageid": 180377,
+        "ns": 0,
+        "title": "Longzhu Gaming"
+      },
+      {
+        "pageid": 180465,
+        "ns": 0,
+        "title": "Los Leones de Badajoz"
+      },
+      {
+        "pageid": 180611,
+        "ns": 0,
+        "title": "LowLandLions"
+      },
+      {
+        "pageid": 180615,
+        "ns": 0,
+        "title": "LowLandLions.White"
+      },
+      {
+        "pageid": 180625,
+        "ns": 0,
+        "title": "Low Priority"
+      },
+      {
+        "pageid": 180653,
+        "ns": 0,
+        "title": "Lublin Shore"
+      },
+      {
+        "pageid": 180889,
+        "ns": 0,
+        "title": "Lyon Gaming (2013 Latin American Team)"
+      },
+      {
+        "pageid": 180931,
+        "ns": 0,
+        "title": "M19"
+      },
+      {
+        "pageid": 180969,
+        "ns": 0,
+        "title": "MAD Gaming"
+      },
+      {
+        "pageid": 180997,
+        "ns": 0,
+        "title": "MD E-sports Club"
+      },
+      {
+        "pageid": 181005,
+        "ns": 0,
+        "title": "MF Gaming"
+      },
+      {
+        "pageid": 181023,
+        "ns": 0,
+        "title": "MKZ"
+      },
+      {
+        "pageid": 181149,
+        "ns": 0,
+        "title": "MSI Evolution Gaming Team"
+      },
+      {
+        "pageid": 181163,
+        "ns": 0,
+        "title": "Mortal Teamwork"
+      },
+      {
+        "pageid": 181171,
+        "ns": 0,
+        "title": "MTw North America"
+      },
+      {
+        "pageid": 181175,
+        "ns": 0,
+        "title": "MVP"
+      },
+      {
+        "pageid": 181185,
+        "ns": 0,
+        "title": "MVP Blue"
+      },
+      {
+        "pageid": 181187,
+        "ns": 0,
+        "title": "MVP Ozone"
+      },
+      {
+        "pageid": 181189,
+        "ns": 0,
+        "title": "MVP Red"
+      },
+      {
+        "pageid": 181201,
+        "ns": 0,
+        "title": "MYinsanity"
+      },
+      {
+        "pageid": 181209,
+        "ns": 0,
+        "title": "MaD Gaming MX"
+      },
+      {
+        "pageid": 181257,
+        "ns": 0,
+        "title": "Macao Esports"
+      },
+      {
+        "pageid": 181265,
+        "ns": 0,
+        "title": "Machi 17"
+      },
+      {
+        "pageid": 181267,
+        "ns": 0,
+        "title": "Machi Crew"
+      },
+      {
+        "pageid": 181269,
+        "ns": 0,
+        "title": "Machi Esports"
+      },
+      {
+        "pageid": 181305,
+        "ns": 0,
+        "title": "Mad Dragon"
+      },
+      {
+        "pageid": 181309,
+        "ns": 0,
+        "title": "Mad Gods Gaming"
+      },
+      {
+        "pageid": 181311,
+        "ns": 0,
+        "title": "Mad in Taiwan"
+      },
+      {
+        "pageid": 181371,
+        "ns": 0,
+        "title": "Magistra"
+      },
+      {
+        "pageid": 181521,
+        "ns": 0,
+        "title": "ManaLight"
+      },
+      {
+        "pageid": 181575,
+        "ns": 0,
+        "title": "Manila Eagles"
+      },
+      {
+        "pageid": 181769,
+        "ns": 0,
+        "title": "Marvelous Gamers Brotherhood"
+      },
+      {
+        "pageid": 181801,
+        "ns": 0,
+        "title": "Mashallah Gaming"
+      },
+      {
+        "pageid": 181835,
+        "ns": 0,
+        "title": "Master Girl"
+      },
+      {
+        "pageid": 181863,
+        "ns": 0,
+        "title": "Masters 3"
+      },
+      {
+        "pageid": 181979,
+        "ns": 0,
+        "title": "MiG Blitz"
+      },
+      {
+        "pageid": 182057,
+        "ns": 0,
+        "title": "Meat Playground"
+      },
+      {
+        "pageid": 182079,
+        "ns": 0,
+        "title": "MeetYourMakers"
+      },
+      {
+        "pageid": 182083,
+        "ns": 0,
+        "title": "MeetYourMakers.LAN"
+      },
+      {
+        "pageid": 182085,
+        "ns": 0,
+        "title": "MeetYourMakers.TR"
+      },
+      {
+        "pageid": 182207,
+        "ns": 0,
+        "title": "Meloncats"
+      },
+      {
+        "pageid": 182219,
+        "ns": 0,
+        "title": "Melty eSport Club"
+      },
+      {
+        "pageid": 182271,
+        "ns": 0,
+        "title": "Merciless Gaming"
+      },
+      {
+        "pageid": 182395,
+        "ns": 0,
+        "title": "MiTH Flashdive"
+      },
+      {
+        "pageid": 182471,
+        "ns": 0,
+        "title": "Midas FIO"
+      },
+      {
+        "pageid": 182491,
+        "ns": 0,
+        "title": "Midnight Sun Esports"
+      },
+      {
+        "pageid": 182515,
+        "ns": 0,
+        "title": "Mighty Eagle"
+      },
+      {
+        "pageid": 182585,
+        "ns": 0,
+        "title": "Millenium"
+      },
+      {
+        "pageid": 182617,
+        "ns": 0,
+        "title": "Millenium Spirit"
+      },
+      {
+        "pageid": 182677,
+        "ns": 0,
+        "title": "Mineski"
+      },
+      {
+        "pageid": 182753,
+        "ns": 0,
+        "title": "MiraGe Gaming"
+      },
+      {
+        "pageid": 182807,
+        "ns": 0,
+        "title": "Misfits Gaming"
+      },
+      {
+        "pageid": 182827,
+        "ns": 0,
+        "title": "Misfits Academy"
+      },
+      {
+        "pageid": 182965,
+        "ns": 0,
+        "title": "MNM Gaming"
+      },
+      {
+        "pageid": 183053,
+        "ns": 0,
+        "title": "Monomaniac eSports"
+      },
+      {
+        "pageid": 183271,
+        "ns": 0,
+        "title": "Moscow Five"
+      },
+      {
+        "pageid": 183295,
+        "ns": 0,
+        "title": "Moss Seven Club"
+      },
+      {
+        "pageid": 183341,
+        "ns": 0,
+        "title": "MOUZ NXT"
+      },
+      {
+        "pageid": 183371,
+        "ns": 0,
+        "title": "Movistar KOI"
+      },
+      {
+        "pageid": 183561,
+        "ns": 0,
+        "title": "MyRevenge"
+      },
+      {
+        "pageid": 183567,
+        "ns": 0,
+        "title": "MyRevenge Chile"
+      },
+      {
+        "pageid": 183593,
+        "ns": 0,
+        "title": "Mysterious Monkeys"
+      },
+      {
+        "pageid": 183595,
+        "ns": 0,
+        "title": "Mysterious Monkeys.ESLM"
+      },
+      {
+        "pageid": 183631,
+        "ns": 0,
+        "title": "N!faculty"
+      },
+      {
+        "pageid": 184241,
+        "ns": 0,
+        "title": "NA LCS Allstars"
+      },
+      {
+        "pageid": 184321,
+        "ns": 0,
+        "title": "NEB"
+      },
+      {
+        "pageid": 184419,
+        "ns": 0,
+        "title": "NRG"
+      },
+      {
+        "pageid": 184483,
+        "ns": 0,
+        "title": "NaJin Black Sword"
+      },
+      {
+        "pageid": 184499,
+        "ns": 0,
+        "title": "NaJin White Shield"
+      },
+      {
+        "pageid": 184511,
+        "ns": 0,
+        "title": "NaJin e-mFire"
+      },
+      {
+        "pageid": 184761,
+        "ns": 0,
+        "title": "Napkins in Disguise"
+      },
+      {
+        "pageid": 185011,
+        "ns": 0,
+        "title": "Natus Vincere"
+      },
+      {
+        "pageid": 185013,
+        "ns": 0,
+        "title": "Natus Vincere.CIS"
+      },
+      {
+        "pageid": 185073,
+        "ns": 0,
+        "title": "NeL"
+      },
+      {
+        "pageid": 185119,
+        "ns": 0,
+        "title": "Neolution E-Sport Nemesis"
+      },
+      {
+        "pageid": 185143,
+        "ns": 0,
+        "title": "Nerv"
+      },
+      {
+        "pageid": 185189,
+        "ns": 0,
+        "title": "Neurons"
+      },
+      {
+        "pageid": 185201,
+        "ns": 0,
+        "title": "NeverBack Gaming"
+      },
+      {
+        "pageid": 185205,
+        "ns": 0,
+        "title": "Never Give Up"
+      },
+      {
+        "pageid": 185375,
+        "ns": 0,
+        "title": "New World Eclipse"
+      },
+      {
+        "pageid": 185383,
+        "ns": 0,
+        "title": "Newbee"
+      },
+      {
+        "pageid": 185397,
+        "ns": 0,
+        "title": "Newbee Young"
+      },
+      {
+        "pageid": 185449,
+        "ns": 0,
+        "title": "Nex Impetus"
+      },
+      {
+        "pageid": 185451,
+        "ns": 0,
+        "title": "Next Gen Esports"
+      },
+      {
+        "pageid": 185503,
+        "ns": 0,
+        "title": "Nibble Gaming"
+      },
+      {
+        "pageid": 185715,
+        "ns": 0,
+        "title": "Ninjas in Pyjamas"
+      },
+      {
+        "pageid": 185893,
+        "ns": 0,
+        "title": "No Dice Gaming"
+      },
+      {
+        "pageid": 185895,
+        "ns": 0,
+        "title": "No Game No Life"
+      },
+      {
+        "pageid": 185897,
+        "ns": 0,
+        "title": "Noah's Ark"
+      },
+      {
+        "pageid": 185911,
+        "ns": 0,
+        "title": "Noble Truth"
+      },
+      {
+        "pageid": 185943,
+        "ns": 0,
+        "title": "Nocturns Gaming"
+      },
+      {
+        "pageid": 185983,
+        "ns": 0,
+        "title": "NonHK"
+      },
+      {
+        "pageid": 186187,
+        "ns": 0,
+        "title": "Nova eSports (North American Team)"
+      },
+      {
+        "pageid": 186203,
+        "ns": 0,
+        "title": "Now or Never"
+      },
+      {
+        "pageid": 186261,
+        "ns": 0,
+        "title": "Nuit Blanche"
+      },
+      {
+        "pageid": 186287,
+        "ns": 0,
+        "title": "NumberOne Esports"
+      },
+      {
+        "pageid": 186315,
+        "ns": 0,
+        "title": "Nuovo Gaming"
+      },
+      {
+        "pageid": 187188,
+        "ns": 0,
+        "title": "Team Manila Eagles"
+      },
+      {
+        "pageid": 187341,
+        "ns": 0,
+        "title": "Odyssey Gaming"
+      },
+      {
+        "pageid": 187387,
+        "ns": 0,
+        "title": "Oh My God Academy"
+      },
+      {
+        "pageid": 187401,
+        "ns": 0,
+        "title": "Oh My Girls"
+      },
+      {
+        "pageid": 187403,
+        "ns": 0,
+        "title": "Oh My God"
+      },
+      {
+        "pageid": 187419,
+        "ns": 0,
+        "title": "Oh My God 2"
+      },
+      {
+        "pageid": 187445,
+        "ns": 0,
+        "title": "Okinawan Tigers"
+      },
+      {
+        "pageid": 187477,
+        "ns": 0,
+        "title": "Old Hunters"
+      },
+      {
+        "pageid": 187621,
+        "ns": 0,
+        "title": "OpenMidPlease"
+      },
+      {
+        "pageid": 187625,
+        "ns": 0,
+        "title": "Operation Kino e-Sports"
+      },
+      {
+        "pageid": 187677,
+        "ns": 0,
+        "title": "Orange Esports"
+      },
+      {
+        "pageid": 187689,
+        "ns": 0,
+        "title": "Orbit Gaming"
+      },
+      {
+        "pageid": 187695,
+        "ns": 0,
+        "title": "Ordinance Gaming"
+      },
+      {
+        "pageid": 187719,
+        "ns": 0,
+        "title": "Origen"
+      },
+      {
+        "pageid": 187737,
+        "ns": 0,
+        "title": "Origen Academy"
+      },
+      {
+        "pageid": 187739,
+        "ns": 0,
+        "title": "Origen ESP"
+      },
+      {
+        "pageid": 187743,
+        "ns": 0,
+        "title": "Origine Online"
+      },
+      {
+        "pageid": 187753,
+        "ns": 0,
+        "title": "Oserv Esport"
+      },
+      {
+        "pageid": 187755,
+        "ns": 0,
+        "title": "Osos Mafiosos"
+      },
+      {
+        "pageid": 187779,
+        "ns": 0,
+        "title": "Outlaws"
+      },
+      {
+        "pageid": 187781,
+        "ns": 0,
+        "title": "ANc Outplayed"
+      },
+      {
+        "pageid": 187791,
+        "ns": 0,
+        "title": "OverGaming"
+      },
+      {
+        "pageid": 187797,
+        "ns": 0,
+        "title": "Overdrive"
+      },
+      {
+        "pageid": 187799,
+        "ns": 0,
+        "title": "Overload (Brazilian Team)"
+      },
+      {
+        "pageid": 187839,
+        "ns": 0,
+        "title": "Ownerd e-Sports"
+      },
+      {
+        "pageid": 187863,
+        "ns": 0,
+        "title": "Oyun Hizmetleri"
+      },
+      {
+        "pageid": 187865,
+        "ns": 0,
+        "title": "Oyun Hizmetleri CILEKLER"
+      },
+      {
+        "pageid": 187917,
+        "ns": 0,
+        "title": "P3P eSports"
+      },
+      {
+        "pageid": 187919,
+        "ns": 0,
+        "title": "PAM eSports"
+      },
+      {
+        "pageid": 188031,
+        "ns": 0,
+        "title": "PENTA 1860"
+      },
+      {
+        "pageid": 188033,
+        "ns": 0,
+        "title": "PEX Team"
+      },
+      {
+        "pageid": 188147,
+        "ns": 0,
+        "title": "2144 Danmu Gaming"
+      },
+      {
+        "pageid": 188159,
+        "ns": 0,
+        "title": "2144 Gaming"
+      },
+      {
+        "pageid": 188177,
+        "ns": 0,
+        "title": "269 Gaming"
+      },
+      {
+        "pageid": 188195,
+        "ns": 0,
+        "title": "2Kill Gaming"
+      },
+      {
+        "pageid": 188207,
+        "ns": 0,
+        "title": "34united e-Sports Club"
+      },
+      {
+        "pageid": 188209,
+        "ns": 0,
+        "title": "3DMAX"
+      },
+      {
+        "pageid": 188217,
+        "ns": 0,
+        "title": "3sUP Enterprises"
+      },
+      {
+        "pageid": 188247,
+        "ns": 0,
+        "title": "4Kings"
+      },
+      {
+        "pageid": 188349,
+        "ns": 0,
+        "title": "4everzenzyg"
+      },
+      {
+        "pageid": 188351,
+        "ns": 0,
+        "title": "4moD"
+      },
+      {
+        "pageid": 188387,
+        "ns": 0,
+        "title": "6Sense"
+      },
+      {
+        "pageid": 188415,
+        "ns": 0,
+        "title": "7th heaven"
+      },
+      {
+        "pageid": 188429,
+        "ns": 0,
+        "title": "7th heaven X"
+      },
+      {
+        "pageid": 188481,
+        "ns": 0,
+        "title": "AD Gaming"
+      },
+      {
+        "pageid": 188483,
+        "ns": 0,
+        "title": "AGO esports"
+      },
+      {
+        "pageid": 188523,
+        "ns": 0,
+        "title": "ALTERNATE aTTaX"
+      },
+      {
+        "pageid": 188567,
+        "ns": 0,
+        "title": "ANT Gaming"
+      },
+      {
+        "pageid": 188573,
+        "ns": 0,
+        "title": "AOC Gaming"
+      },
+      {
+        "pageid": 188579,
+        "ns": 0,
+        "title": "SeolHaeOne Prince"
+      },
+      {
+        "pageid": 188587,
+        "ns": 0,
+        "title": "APictureOfAGoose"
+      },
+      {
+        "pageid": 188601,
+        "ns": 0,
+        "title": "ASUS ROG Army"
+      },
+      {
+        "pageid": 188617,
+        "ns": 0,
+        "title": "ATLAS eSports Team"
+      },
+      {
+        "pageid": 188623,
+        "ns": 0,
+        "title": "AT Gaming"
+      },
+      {
+        "pageid": 188727,
+        "ns": 0,
+        "title": "Absolute (Oceanic Team)"
+      },
+      {
+        "pageid": 188761,
+        "ns": 0,
+        "title": "Absolute Legends"
+      },
+      {
+        "pageid": 188771,
+        "ns": 0,
+        "title": "Absolute Legends NA"
+      },
+      {
+        "pageid": 188781,
+        "ns": 0,
+        "title": "Absolute Legends SG"
+      },
+      {
+        "pageid": 188797,
+        "ns": 0,
+        "title": "Abyss Esports"
+      },
+      {
+        "pageid": 188815,
+        "ns": 0,
+        "title": "AcFun e-Sports Club"
+      },
+      {
+        "pageid": 188827,
+        "ns": 0,
+        "title": "Acclaim EmpireX"
+      },
+      {
+        "pageid": 188847,
+        "ns": 0,
+        "title": "Acer Green Team"
+      },
+      {
+        "pageid": 188851,
+        "ns": 0,
+        "title": "Aces High Esports Club"
+      },
+      {
+        "pageid": 188907,
+        "ns": 0,
+        "title": "Action Team eSports"
+      },
+      {
+        "pageid": 188975,
+        "ns": 0,
+        "title": "AffNity"
+      },
+      {
+        "pageid": 188979,
+        "ns": 0,
+        "title": "DN SOOPers"
+      },
+      {
+        "pageid": 189005,
+        "ns": 0,
+        "title": "Against All authority"
+      },
+      {
+        "pageid": 189025,
+        "ns": 0,
+        "title": "Agresiv"
+      }
+    ]
+  },
+  "_cachedAt": 1778050357630
+}

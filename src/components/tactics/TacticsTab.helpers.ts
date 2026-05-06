@@ -47,6 +47,7 @@ const POSITION_ORDER: Record<string, number> = {
 };
 
 interface TacticsPlayerSortContext {
+  currentDate: string;
   section: SquadSection;
   sortDir: SortDirection;
   sortKey: SortKey;
@@ -78,8 +79,8 @@ export function buildTacticsRoster(
       return (
         (POSITION_ORDER[normalisePosition(leftPlayer.position)] ?? 99) -
           (POSITION_ORDER[normalisePosition(rightPlayer.position)] ?? 99) ||
-        calcOvr(rightPlayer, rightPlayer.natural_position || rightPlayer.position) -
-          calcOvr(leftPlayer, leftPlayer.natural_position || leftPlayer.position)
+        calcOvr(rightPlayer, rightPlayer.natural_position || rightPlayer.position).ovr -
+          calcOvr(leftPlayer, leftPlayer.natural_position || leftPlayer.position).ovr
       );
     });
 }
@@ -112,7 +113,7 @@ export function resolveStartingXiIds({
       .filter((player) => !usedPlayerIds.has(player.id))
       .sort(
         (leftPlayer, rightPlayer) =>
-          calcOvr(rightPlayer, slotPosition) - calcOvr(leftPlayer, slotPosition),
+          calcOvr(rightPlayer, slotPosition).ovr - calcOvr(leftPlayer, slotPosition).ovr,
       )[0];
 
     if (!bestPlayer) break;
@@ -139,7 +140,7 @@ export function sortTacticsPlayers(
   players: PlayerData[],
   context: TacticsPlayerSortContext,
 ): PlayerData[] {
-  const { section, sortDir, sortKey, xiActivePosition } = context;
+  const { currentDate, section, sortDir, sortKey, xiActivePosition } = context;
   const sortedPlayers = [...players].sort((leftPlayer, rightPlayer) => {
     const leftPosition = getSectionPlayerPosition(leftPlayer, section, xiActivePosition);
     const rightPosition = getSectionPlayerPosition(rightPlayer, section, xiActivePosition);
@@ -149,18 +150,18 @@ export function sortTacticsPlayers(
         return (
           (POSITION_ORDER[normalisePosition(leftPosition)] ?? 99) -
             (POSITION_ORDER[normalisePosition(rightPosition)] ?? 99) ||
-          calcOvr(rightPlayer, rightPosition) - calcOvr(leftPlayer, leftPosition)
+          calcOvr(rightPlayer, rightPosition).ovr - calcOvr(leftPlayer, leftPosition).ovr
         );
       case "name":
         return leftPlayer.full_name.localeCompare(rightPlayer.full_name);
       case "age":
-        return calcAge(leftPlayer.date_of_birth) - calcAge(rightPlayer.date_of_birth);
+        return calcAge(leftPlayer.date_of_birth, currentDate) - calcAge(rightPlayer.date_of_birth, currentDate);
       case "condition":
         return leftPlayer.condition - rightPlayer.condition;
       case "morale":
         return leftPlayer.morale - rightPlayer.morale;
       case "ovr":
-        return calcOvr(leftPlayer, leftPosition) - calcOvr(rightPlayer, rightPosition);
+        return calcOvr(leftPlayer, leftPosition).ovr - calcOvr(rightPlayer, rightPosition).ovr;
       default:
         return 0;
     }

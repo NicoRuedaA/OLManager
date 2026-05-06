@@ -75,7 +75,7 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
     if uniq.len() < 5 {
         for player in bench_domain.iter() {
             if seen_roles.insert(player.natural_position) {
-                uniq.push(*player);
+                uniq.push(player.clone());
             }
             if uniq.len() == 5 {
                 break;
@@ -122,21 +122,21 @@ fn to_engine_player(p: &domain::player::Player) -> PlayerData {
         condition: p.condition,
         fitness: p.fitness,
         pace: p.attributes.pace,
-        stamina: p.attributes.stamina,
+        mental_resilience: p.attributes.mental_resilience,
         strength: p.attributes.strength,
-        agility: p.attributes.agility,
+        champion_pool: p.attributes.champion_pool,
         passing: p.attributes.passing,
-        shooting: p.attributes.shooting,
+        laning: p.attributes.laning,
         tackling: p.attributes.tackling,
-        dribbling: p.attributes.dribbling,
+        mechanics: p.attributes.mechanics,
         defending: p.attributes.defending,
         positioning: p.attributes.positioning,
-        vision: p.attributes.vision,
-        decisions: p.attributes.decisions,
-        composure: p.attributes.composure,
+        macro_play: p.attributes.macro_play,
+        consistency: p.attributes.consistency,
+        discipline: p.attributes.discipline,
         aggression: p.attributes.aggression,
-        teamwork: p.attributes.teamwork,
-        leadership: p.attributes.leadership,
+        teamfighting: p.attributes.teamfighting,
+        shotcalling: p.attributes.shotcalling,
         handling: p.attributes.handling,
         reflexes: p.attributes.reflexes,
         aerial: p.attributes.aerial,
@@ -173,7 +173,7 @@ pub fn auto_select_team_roles(
     // Captain: highest leadership + teamwork
     let captain = players
         .iter()
-        .max_by_key(|p| (p.attributes.leadership as u16) + (p.attributes.teamwork as u16))
+        .max_by_key(|p| (p.attributes.shotcalling as u16) + (p.attributes.teamfighting as u16))
         .map(|p| p.id.clone());
 
     // Shotcaller: highest shooting + vision + passing (exclude Support)
@@ -181,8 +181,8 @@ pub fn auto_select_team_roles(
         .iter()
         .filter(|p| p.position != DomainLolRole::Support)
         .max_by_key(|p| {
-            (p.attributes.shooting as u16)
-                + (p.attributes.vision as u16)
+            (p.attributes.laning as u16)
+                + (p.attributes.macro_play as u16)
                 + (p.attributes.passing as u16)
         })
         .map(|p| p.id.clone());

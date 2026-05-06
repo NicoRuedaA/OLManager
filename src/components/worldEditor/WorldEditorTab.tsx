@@ -3,12 +3,15 @@ import type { ReactNode } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { ArrowLeft, Database, FileSpreadsheet, Image, Plus, Save, Search, Trash2, Upload, User, UserCog } from "lucide-react";
 import type { PlayerData, StaffData, TeamData } from "../../store/gameStore";
+import { calcAge } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto, resolveStaffPhoto } from "../../lib/playerPhotos";
 import { Card, CardBody, ThemeToggle } from "../ui";
 
 type EditorMode = "players" | "staff";
 type PlayerListScope = "all" | "main" | "academy" | "freeAgents";
+
+const WORLD_EDITOR_REFERENCE_DATE = "2026-07-01T00:00:00Z";
 
 type ExcelImportField = PlayerAttributeKey | "potential_base";
 
@@ -122,13 +125,8 @@ function normalizeOptionalUrl(value: string): string | null {
 }
 
 function getAgeFromDob(dateOfBirth: string): number {
-  const birth = new Date(`${dateOfBirth}T00:00:00`);
-  if (Number.isNaN(birth.getTime())) return 24;
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const birthdayPassed = today.getMonth() > birth.getMonth()
-    || (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate());
-  if (!birthdayPassed) age -= 1;
+  const age = calcAge(dateOfBirth, WORLD_EDITOR_REFERENCE_DATE);
+  if (!Number.isFinite(age)) return 24;
   return Math.max(16, Math.min(45, age));
 }
 

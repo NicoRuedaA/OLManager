@@ -1,6 +1,7 @@
 import type { GameStateData, PlayerData } from "../../store/gameStore";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
+import { calcAge } from "../../lib/helpers";
 
 function normalizePlayerKey(player: PlayerData): string {
   const normalizeToken = (value: string): string =>
@@ -192,7 +193,7 @@ export function filterTransferPlayers(
   });
 }
 
-export type TransferSortKey = "value" | "wage" | "ovr";
+export type TransferSortKey = "value" | "wage" | "ovr" | "name" | "position" | "age" | "team" | "status";
 export type TransferSortDirection = "asc" | "desc";
 
 export interface TransferSortState {
@@ -207,16 +208,43 @@ export function sortTransferPlayers(
   if (!sort) return players;
 
   const factor = sort.direction === "asc" ? 1 : -1;
-  const getValue = (player: PlayerData): number => {
+
+  const sorted = [...players].sort((a, b) => {
     switch (sort.key) {
       case "value":
-        return player.market_value;
+        return (a.market_value - b.market_value) * factor;
       case "wage":
-        return player.wage;
+        return (a.wage - b.wage) * factor;
       case "ovr":
-        return calculateLolOvr(player);
+        return (calculateLolOvr(a) - calculateLolOvr(b)) * factor;
+      case "name":
+        return a.match_name.localeCompare(b.match_name) * factor;
+      case "position": {
+        const roleA = getLolRoleForPlayer(a);
+        const roleB = getLolRoleForPlayer(b);
+        const order: Record<string, number> = { TOP: 1, JUNGLE: 2, MID: 3, ADC: 4, SUPPORT: 5 };
+        return ((order[roleA] ?? 0) - (order[roleB] ?? 0)) * factor;
+      }
+      case "age":
+        return (calcAge(a.date_of_birth) - calcAge(b.date_of_birth)) * factor;
+      case "team": {
+        const teamA = a.team_id ?? "";
+        const teamB = b.team_id ?? "";
+        return teamA.localeCompare(teamB) * factor;
+      }
+      case "status": {
+        const statusVal = (p: typeof a) => {
+          if (p.loan_listed) return 3;
+          if (p.transfer_listed) return 2;
+          if (p.injury) return 1;
+          return 0;
+        };
+        return (statusVal(b) - statusVal(a)) * factor;
+      }
+      default:
+        return 0;
     }
-  };
+  });
 
-  return [...players].sort((a, b) => (getValue(a) - getValue(b)) * factor);
+  return sorted;
 }

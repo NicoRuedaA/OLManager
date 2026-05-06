@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import type { JSX } from "react";
 import { MatchSnapshot, EnginePlayerData } from "./types";
 import { Badge } from "../ui";
 import { ArrowUpDown, AlertTriangle, Wand2 } from "lucide-react";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+import { calcOvr } from "../../lib/lolPlayerStats";
 
 export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -50,19 +52,19 @@ export function getPlayerLolRole(player: EnginePlayerData): LolRole {
   return "JUNGLE";
 }
 
+/** Delegates to the shared OVR formula so every view uses the same calculation. */
 export function getPositionOvr(p: EnginePlayerData): number {
-  const avg =
-    (p.dribbling +
-      p.shooting +
-      p.teamwork +
-      p.vision +
-      p.decisions +
-      p.leadership +
-      p.agility +
-      p.composure +
-      p.stamina) /
-    9;
-  return Math.max(1, Math.min(99, Math.round(avg)));
+  return calcOvr(
+    p.mechanics,
+    p.laning,
+    p.teamfighting,
+    p.macro_play,
+    p.consistency,
+    p.shotcalling,
+    p.champion_pool,
+    p.discipline,
+    p.mental_resilience,
+  );
 }
 
 export function condColor(c: number): string {
@@ -81,6 +83,14 @@ export function getStatVal(p: EnginePlayerData, key: string): number {
   return (p as unknown as Record<string, number>)[key] ?? 0;
 }
 
+const LOL_ROLE_ICON_URLS: Record<LolRole, string> = {
+  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
+  JUNGLE: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
+  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
+  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
+  SUPPORT: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
+};
+
 export function parseFormationNeeds(_formation: string): Record<string, number> {
   return {
     TOP: 1,
@@ -92,10 +102,10 @@ export function parseFormationNeeds(_formation: string): Record<string, number> 
 }
 
 interface PreMatchLineupProps {
-  userTeam: MatchSnapshot["home_team"];
-  userBench: EnginePlayerData[];
-  oppTeam: MatchSnapshot["home_team"];
-  userColor: string;
+  homeTeam: MatchSnapshot["home_team"];
+  homeBench: EnginePlayerData[];
+  awayTeam: MatchSnapshot["home_team"];
+  awayBench: EnginePlayerData[];
   homeTeamColor: string;
   awayTeamColor: string;
   userSide: "Home" | "Away";
@@ -106,11 +116,239 @@ interface PreMatchLineupProps {
   onAutoSelect: () => void;
 }
 
+/** Renders a full lineup + bench column for one team. */
+function TeamLineupColumn({
+  team,
+  bench,
+  teamColor,
+  isUserSide,
+  selectedStarterId,
+  isAutoSelecting,
+  onSelectStarter,
+  onSwap,
+  onAutoSelect,
+}: {
+  team: MatchSnapshot["home_team"];
+  bench: EnginePlayerData[];
+  teamColor: string;
+  isUserSide: boolean;
+  selectedStarterId: string | null;
+  onSelectStarter: (id: string | null) => void;
+  onSwap: (benchPlayerId: string) => void;
+}): JSX.Element {
+  const { t } = useTranslation();
+  const startersLabel = `${t("match.lineup")} 5`;
+
+  return (
+    <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-4 transition-colors duration-300">
+      {/* Header: Alineación 5 + Auto-select (user only) */}
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          {startersLabel}
+        </h3>
+        <div className="flex items-center gap-2">
+          {selectedStarterId && isUserSide && (
+            <button
+              onClick={() => onSelectStarter(null)}
+              className="text-[10px] text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 font-heading uppercase tracking-wider"
+            >
+              {t("match.cancel")}
+            </button>
+          )}
+          <Badge variant="primary" size="sm">
+            {t("match.nPlayers", { count: team.players.length })}
+          </Badge>
+
+        </div>
+      </div>
+
+      {selectedStarterId && isUserSide && (
+        <p className="text-[10px] text-accent-400 font-heading uppercase tracking-wider mb-2">
+          {t("match.swapPrompt")}
+        </p>
+      )}
+
+      {/* Per-role lineup */}
+      {LOL_ROLE_ORDER.map((role) => {
+        const players = team.players.filter((p) => getPlayerLolRole(p) === role);
+        const keyStats = ROLE_KEY_STATS[role] || [];
+        return (
+          <div key={role} className="mb-1">
+            {players.length === 0 ? (
+              <div className="flex items-center gap-2 py-1.5 px-2 text-[11px] text-gray-500 dark:text-gray-400">
+                <img src={LOL_ROLE_ICON_URLS[role]} alt={role} className="w-5 h-5 object-contain flex-shrink-0" title={role} />
+                {t("match.noBenchAvailable2")}
+              </div>
+            ) : (
+              players.map((p) => {
+                const ovr = getPositionOvr(p);
+                const isSelected = isUserSide && selectedStarterId === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    onClick={() => {
+                      if (!isUserSide) return;
+                      onSelectStarter(isSelected ? null : p.id);
+                    }}
+                    className={`flex items-center gap-2 py-1.5 px-2 rounded w-full text-left transition-all ${
+                      !isUserSide
+                        ? "cursor-default"
+                        : isSelected
+                          ? "bg-primary-500/20 ring-1 ring-primary-500/50"
+                          : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
+                    }`}
+                  >
+                    {resolvePlayerPhoto(p.id, p.name) ? (
+                      <img
+                        src={resolvePlayerPhoto(p.id, p.name) || ""}
+                        alt={p.name}
+                        className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-heading font-bold flex-shrink-0"
+                        style={{
+                          backgroundColor: teamColor + "30",
+                          color: teamColor,
+                        }}
+                      >
+                        {p.name.substring(0, 1).toUpperCase()}
+                      </div>
+                    )}
+                    <span className="text-sm text-gray-800 dark:text-gray-200 font-medium flex-1 truncate">
+                      {p.name}
+                    </span>
+                    <img src={LOL_ROLE_ICON_URLS[role]} alt={role} className="w-5 h-5 object-contain" title={role} />
+                    {isSelected && <ArrowUpDown className="w-3.5 h-3.5 text-primary-400 flex-shrink-0" />}
+                    <div className="flex items-center gap-0">
+                      <span
+                        className={`text-[10px] font-heading font-bold tabular-nums w-7 text-center ${
+                          ovr >= 70 ? "text-primary-400" : ovr >= 50 ? "text-gray-300" : "text-red-400"
+                        }`}
+                      >
+                        {ovr}
+                      </span>
+                      {keyStats.map((s) => (
+                        <span
+                          key={s.label}
+                          className={`text-[10px] font-heading tabular-nums w-7 text-center ${statColor(
+                            getStatVal(p, s.key),
+                          )}`}
+                        >
+                          {getStatVal(p, s.key)}
+                        </span>
+                      ))}
+                    </div>
+                    <span className={`text-xs tabular-nums w-8 text-right ${condColor(p.condition)}`}>
+                      {Math.round(p.condition)}%
+                    </span>
+                  </button>
+                );
+              })
+            )}
+          </div>
+        );
+      })}
+
+      {/* Bench / Substitutes */}
+      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-navy-700">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+            {t("match.substitutes")}
+          </h3>
+          <Badge variant="neutral" size="sm">
+            {t("match.nAvailable", { count: bench.length })}
+          </Badge>
+        </div>
+        {bench.length === 0 ? (
+          <p className="text-xs text-gray-600 dark:text-gray-500">{t("match.noBenchAvailable2")}</p>
+        ) : (
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 px-2 pb-1">
+              <span className="w-7" />
+              <span className="flex-1" />
+              <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 w-8 text-center">
+                POS
+              </span>
+              <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-[84px] text-center">
+                {t("match.keyStats")}
+              </span>
+              <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-8 text-right">
+                FIT
+              </span>
+            </div>
+            {bench.map((bp) => {
+              const ovr = getPositionOvr(bp);
+              const role = getPlayerLolRole(bp);
+              const keyStats = ROLE_KEY_STATS[role] || [];
+              const canSwap = isUserSide && selectedStarterId;
+              return (
+                <button
+                  key={bp.id}
+                  onClick={() => {
+                    if (!isUserSide) return;
+                    if (selectedStarterId) onSwap(bp.id);
+                  }}
+                  className={`flex items-center gap-2 py-1.5 px-2 rounded w-full text-left transition-all ${
+                    canSwap
+                      ? "hover:bg-primary-500/20 hover:ring-1 hover:ring-primary-500/50 cursor-pointer"
+                      : isUserSide
+                        ? "hover:bg-gray-100 dark:hover:bg-navy-700/50"
+                        : "cursor-default"
+                  }`}
+                >
+                  {resolvePlayerPhoto(bp.id, bp.name) ? (
+                    <img
+                      src={resolvePlayerPhoto(bp.id, bp.name) || ""}
+                      alt={bp.name}
+                      className="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-[10px] font-heading font-bold text-gray-500 dark:text-gray-400 flex-shrink-0 transition-colors duration-300">
+                      {bp.name.substring(0, 1).toUpperCase()}
+                    </div>
+                  )}
+                  <span className="text-sm text-gray-700 dark:text-gray-300 font-medium flex-1 truncate">
+                    {bp.name}
+                  </span>
+                  <img
+                    src={LOL_ROLE_ICON_URLS[role]}
+                    alt={role}
+                    className="w-5 h-5 object-contain"
+                    title={role}
+                  />
+                  <div className="flex items-center gap-0">
+                    {keyStats.map((s) => (
+                      <span
+                        key={s.label}
+                        className={`text-[10px] font-heading tabular-nums w-7 text-center ${statColor(
+                          getStatVal(bp, s.key),
+                        )}`}
+                      >
+                        {getStatVal(bp, s.key)}
+                      </span>
+                    ))}
+                  </div>
+                  <span className={`text-xs tabular-nums w-8 text-right ${condColor(bp.condition)}`}>
+                    {Math.round(bp.condition)}%
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function PreMatchLineup({
-  userTeam,
-  userBench,
-  oppTeam,
-  userColor,
+  homeTeam,
+  homeBench,
+  awayTeam,
+  awayBench,
   homeTeamColor,
   awayTeamColor,
   userSide,
@@ -122,24 +360,19 @@ export default function PreMatchLineup({
 }: PreMatchLineupProps) {
   const { t } = useTranslation();
   const autoSelectLabel = t("match.autoSelectXI").replace(/XI/g, "5");
-  const startersLabel = `${t("match.lineup")} 5`;
-  const opponentColor = userSide === "Home" ? awayTeamColor : homeTeamColor;
-  const oppOrderedPlayers = [...oppTeam.players].sort((left, right) => {
-    const leftIdx = LOL_ROLE_ORDER.indexOf(getPlayerLolRole(left));
-    const rightIdx = LOL_ROLE_ORDER.indexOf(getPlayerLolRole(right));
-    if (leftIdx !== rightIdx) return leftIdx - rightIdx;
-    return right.name.localeCompare(left.name);
-  });
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Formation fit bar */}
       <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-3 flex items-center justify-between transition-colors duration-300">
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-heading uppercase tracking-widest text-gray-700 dark:text-gray-500">
             {t("match.formationFit")}
           </span>
           {LOL_ROLE_ORDER.map((role) => {
-            const actual = userTeam.players.filter((p) => getPlayerLolRole(p) === role).length;
+            const homeCount = homeTeam.players.filter((p) => getPlayerLolRole(p) === role).length;
+            const awayCount = awayTeam.players.filter((p) => getPlayerLolRole(p) === role).length;
+            const actual = userSide === "Home" ? homeCount : awayCount;
             const ok = actual === 1;
             return (
               <div key={role} className="flex items-center gap-1">
@@ -170,270 +403,26 @@ export default function PreMatchLineup({
         </button>
       </div>
 
+      {/* Two-column grid: HOME left, AWAY right */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-4 transition-colors duration-300">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              {startersLabel}
-            </h3>
-            <div className="flex items-center gap-2">
-              {selectedStarterId && (
-                <button
-                  onClick={() => onSelectStarter(null)}
-                  className="text-[10px] text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 font-heading uppercase tracking-wider"
-                >
-                  {t("match.cancel")}
-                </button>
-              )}
-              <Badge variant="primary" size="sm">
-                {t("match.nPlayers", { count: userTeam.players.length })}
-              </Badge>
-            </div>
-          </div>
-          {selectedStarterId && (
-            <p className="text-[10px] text-accent-400 font-heading uppercase tracking-wider mb-2">
-              {t("match.swapPrompt")}
-            </p>
-          )}
-
-          {LOL_ROLE_ORDER.map((role) => {
-            const players = userTeam.players.filter((p) => getPlayerLolRole(p) === role);
-            const keyStats = ROLE_KEY_STATS[role] || [];
-            return (
-              <div key={role} className="mb-3">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-1.5">
-                    <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600">
-                      {role === "JUNGLE" ? "JG" : role}
-                    </p>
-                    {players.length !== 1 && (
-                      <span className="flex items-center gap-0.5">
-                        <AlertTriangle className="w-2.5 h-2.5 text-amber-400" />
-                        <span className="text-[9px] font-heading text-amber-400">{players.length}/1</span>
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-0">
-                    <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 w-7 text-center">
-                      OVR
-                    </span>
-                    {keyStats.map((s) => (
-                      <span
-                        key={s.label}
-                        className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-7 text-center"
-                      >
-                        {s.label}
-                      </span>
-                    ))}
-                    <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-8 text-right">
-                      FIT
-                    </span>
-                  </div>
-                </div>
-
-                {players.length === 0 ? (
-                  <div className="py-1.5 px-2 text-[11px] text-gray-500 dark:text-gray-400">
-                    {t("match.noBenchAvailable2")}
-                  </div>
-                ) : (
-                  players.map((p) => {
-                    const ovr = getPositionOvr(p);
-                    const isSelected = selectedStarterId === p.id;
-                    return (
-                      <button
-                        key={p.id}
-                        onClick={() => onSelectStarter(isSelected ? null : p.id)}
-                        className={`flex items-center gap-2 py-1.5 px-2 rounded w-full text-left transition-all ${
-                          isSelected
-                            ? "bg-primary-500/20 ring-1 ring-primary-500/50"
-                            : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
-                        }`}
-                      >
-                        {resolvePlayerPhoto(p.id, p.name) ? (
-                          <img
-                            src={resolvePlayerPhoto(p.id, p.name) || ""}
-                            alt={p.name}
-                            className="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-heading font-bold flex-shrink-0"
-                            style={{
-                              backgroundColor: userColor + "30",
-                              color: userColor,
-                            }}
-                          >
-                            {p.name.substring(0, 1).toUpperCase()}
-                          </div>
-                        )}
-                        <span className="text-sm text-gray-800 dark:text-gray-200 font-medium flex-1 truncate">
-                          {p.name}
-                        </span>
-                        {isSelected && <ArrowUpDown className="w-3.5 h-3.5 text-primary-400 flex-shrink-0" />}
-                        <div className="flex items-center gap-0">
-                          <span
-                            className={`text-[10px] font-heading font-bold tabular-nums w-7 text-center ${
-                              ovr >= 70 ? "text-primary-400" : ovr >= 50 ? "text-gray-300" : "text-red-400"
-                            }`}
-                          >
-                            {ovr}
-                          </span>
-                          {keyStats.map((s) => (
-                            <span
-                              key={s.label}
-                              className={`text-[10px] font-heading tabular-nums w-7 text-center ${statColor(
-                                getStatVal(p, s.key),
-                              )}`}
-                            >
-                              {getStatVal(p, s.key)}
-                            </span>
-                          ))}
-                        </div>
-                        <span className={`text-xs tabular-nums w-8 text-right ${condColor(p.condition)}`}>
-                          {Math.round(p.condition)}%
-                        </span>
-                      </button>
-                    );
-                  })
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-4 transition-colors duration-300">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
-              {t("match.substitutes")}
-            </h3>
-            <Badge variant="neutral" size="sm">
-              {t("match.nAvailable", { count: userBench.length })}
-            </Badge>
-          </div>
-          {userBench.length === 0 ? (
-            <p className="text-xs text-gray-600 dark:text-gray-500">{t("match.noBenchAvailable2")}</p>
-          ) : (
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2 px-2 pb-1">
-                <span className="w-7" />
-                <span className="flex-1" />
-                <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 w-8 text-center">
-                  POS
-                </span>
-                <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-[84px] text-center">
-                  {t("match.keyStats")}
-                </span>
-                <span className="text-[8px] font-heading uppercase tracking-widest text-gray-600 w-8 text-right">
-                  FIT
-                </span>
-              </div>
-              {userBench.map((bp) => {
-                const ovr = getPositionOvr(bp);
-                const role = getPlayerLolRole(bp);
-                const keyStats = ROLE_KEY_STATS[role] || [];
-                return (
-                  <button
-                    key={bp.id}
-                    onClick={() => (selectedStarterId ? onSwap(bp.id) : null)}
-                    className={`flex items-center gap-2 py-1.5 px-2 rounded w-full text-left transition-all ${
-                      selectedStarterId
-                        ? "hover:bg-primary-500/20 hover:ring-1 hover:ring-primary-500/50 cursor-pointer"
-                        : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
-                    }`}
-                  >
-                    {resolvePlayerPhoto(bp.id, bp.name) ? (
-                      <img
-                        src={resolvePlayerPhoto(bp.id, bp.name) || ""}
-                        alt={bp.name}
-                        className="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-7 h-7 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-[10px] font-heading font-bold text-gray-500 dark:text-gray-400 flex-shrink-0 transition-colors duration-300">
-                        {bp.name.substring(0, 1).toUpperCase()}
-                      </div>
-                    )}
-                    <span className="text-sm text-gray-700 dark:text-gray-300 font-medium flex-1 truncate">
-                      {bp.name}
-                    </span>
-                    <Badge variant="neutral" size="sm">
-                      {role === "JUNGLE" ? "JG" : role}
-                    </Badge>
-                    <div className="flex items-center gap-0">
-                      {keyStats.map((s) => (
-                        <span
-                          key={s.label}
-                          className={`text-[10px] font-heading tabular-nums w-7 text-center ${statColor(
-                            getStatVal(bp, s.key),
-                          )}`}
-                        >
-                          {getStatVal(bp, s.key)}
-                        </span>
-                      ))}
-                    </div>
-                    <span className={`text-xs tabular-nums w-8 text-right ${condColor(bp.condition)}`}>
-                      {Math.round(bp.condition)}%
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          <div className="mt-6 pt-4 border-t border-gray-200 dark:border-navy-700">
-            <h3 className="text-xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3">
-              {t("match.opponent")}
-            </h3>
-            <div className="flex items-center gap-3 mb-2">
-                  <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center font-heading font-bold text-sm"
-                    style={{
-                      backgroundColor: opponentColor + "30",
-                    }}
-                  >
-                    {oppTeam.name.substring(0, 3).toUpperCase()}
-              </div>
-              <div>
-                <p className="font-heading font-bold text-sm text-gray-800 dark:text-gray-200">{oppTeam.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {t("match.lineup")} · {oppTeam.players.length}/5
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              {oppOrderedPlayers.slice(0, 5).map((player) => {
-                const role = getPlayerLolRole(player);
-                const photo = resolvePlayerPhoto(player.id, player.name);
-                return (
-                  <div
-                    key={player.id}
-                    className="flex items-center gap-2 rounded px-2 py-1 bg-gray-100/80 dark:bg-navy-700/40"
-                  >
-                    {photo ? (
-                      <img
-                        src={photo}
-                        alt={player.name}
-                        className="w-6 h-6 rounded-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-gray-300 dark:bg-navy-600 text-[10px] font-heading font-bold flex items-center justify-center text-gray-700 dark:text-gray-300">
-                        {player.name.substring(0, 1).toUpperCase()}
-                      </div>
-                    )}
-                    <span className="text-xs text-gray-700 dark:text-gray-300 font-medium flex-1 truncate">
-                      {player.name}
-                    </span>
-                    <Badge variant="neutral" size="sm">
-                      {role === "JUNGLE" ? "JG" : role}
-                    </Badge>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        <TeamLineupColumn
+          team={homeTeam}
+          bench={homeBench}
+          teamColor={homeTeamColor}
+          isUserSide={userSide === "Home"}
+          selectedStarterId={selectedStarterId}
+          onSelectStarter={onSelectStarter}
+          onSwap={onSwap}
+        />
+        <TeamLineupColumn
+          team={awayTeam}
+          bench={awayBench}
+          teamColor={awayTeamColor}
+          isUserSide={userSide === "Away"}
+          selectedStarterId={selectedStarterId}
+          onSelectStarter={onSelectStarter}
+          onSwap={onSwap}
+        />
       </div>
     </div>
   );

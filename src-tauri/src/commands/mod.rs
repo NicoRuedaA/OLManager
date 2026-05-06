@@ -1,5 +1,6 @@
 pub mod academy;
 pub mod champion;
+pub mod champion_stats;
 pub mod club;
 pub mod contracts;
 pub mod game;
@@ -20,6 +21,7 @@ pub mod world;
 
 pub use academy::*;
 pub use champion::*;
+pub use champion_stats::*;
 pub use club::*;
 pub use contracts::*;
 pub use game::*;

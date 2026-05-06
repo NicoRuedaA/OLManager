@@ -2,7 +2,7 @@ use domain::team::{
     AcademyMetadata, Facilities, LolTactics, PlayStyle, Team, TeamColors, TeamKind, TrainingFocus,
     TrainingIntensity, TrainingSchedule,
 };
-use rusqlite::{Connection, params};
+use rusqlite::{params, Connection};
 
 /// Insert or replace a team row.
 pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
@@ -56,7 +56,7 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
           founded_year, colors_primary, colors_secondary,
           starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, weekly_scrim_plan_team_ids, scrim_weekly_objective, scrim_weekly_slots, scrim_setup_locked_week_key, scrim_reputation, scrim_weekly_cancellations, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, scrim_reports, financial_ledger, sponsorship, facilities,
             team_kind, parent_team_id, academy_team_id, academy_metadata)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46, ?47, ?48)",
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46, ?47)",
         params![
             t.id,
             t.name,
@@ -174,35 +174,36 @@ fn parse_academy_metadata(json: Option<String>) -> Option<AcademyMetadata> {
 }
 
 fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
-    let starting_xi_json: String = row.get(23)?;
-    let team_roles_json: String = row.get(24)?;
-    let form_json: String = row.get(25)?;
-    let history_json: String = row.get(26)?;
-    let training_groups_json: String = row.get(27)?;
-    let weekly_scrims_json: String = row.get("weekly_scrim_opponent_ids")?;
-    let weekly_scrim_plans_json: Option<String> = row.get("weekly_scrim_plan_team_ids")?;
-    let scrim_weekly_objective_str: Option<String> = row.get("scrim_weekly_objective")?;
-    let scrim_weekly_slots: Option<u8> = row.get("scrim_weekly_slots")?;
-    let scrim_setup_locked_week_key: Option<String> = row.get("scrim_setup_locked_week_key")?;
-    let scrim_reputation: Option<u8> = row.get("scrim_reputation")?;
-    let scrim_weekly_cancellations: Option<u8> = row.get("scrim_weekly_cancellations")?;
-    let scrim_loss_streak: Option<u8> = row.get("scrim_loss_streak")?;
-    let scrim_weekly_played: Option<u8> = row.get("scrim_weekly_played")?;
-    let scrim_weekly_wins: Option<u8> = row.get("scrim_weekly_wins")?;
-    let scrim_weekly_losses: Option<u8> = row.get("scrim_weekly_losses")?;
-    let scrim_slot_results_json: String = row.get("scrim_slot_results")?;
-    let scrim_reports_json: Option<String> = row.get("scrim_reports")?;
-    let financial_ledger_json: String = row.get(41)?;
-    let sponsorship_json: String = row.get(42)?;
-    let facilities_json: String = row.get(43)?;
-    let play_style_str: String = row.get("play_style")?;
-    let training_focus_str: String = row.get("training_focus")?;
-    let training_intensity_str: String = row.get("training_intensity")?;
-    let training_schedule_str: String = row.get("training_schedule")?;
-    let team_kind_str: Option<String> = row.get("team_kind")?;
-    let parent_team_id: Option<String> = row.get("parent_team_id")?;
-    let academy_team_id: Option<String> = row.get("academy_team_id")?;
-    let academy_metadata_json: Option<String> = row.get("academy_metadata")?;
+    log::debug!("[team_repo] row_to_team: parsing row...");
+    let starting_xi_json: String = row.get(22)?;
+    let team_roles_json: String = row.get(23)?;
+    let form_json: String = row.get(24)?;
+    let history_json: String = row.get(25)?;
+    let training_groups_json: String = row.get(26)?;
+    let weekly_scrims_json: String = row.get(27)?;
+    let weekly_scrim_plans_json: String = row.get(28)?;
+    let scrim_weekly_objective_str: Option<String> = row.get(29)?;
+    let scrim_weekly_slots: u8 = row.get(30)?;
+    let scrim_setup_locked_week_key: Option<String> = row.get(31)?;
+    let scrim_reputation: u8 = row.get(32)?;
+    let scrim_weekly_cancellations: u8 = row.get(33)?;
+    let scrim_loss_streak: u8 = row.get(34)?;
+    let scrim_weekly_played: u8 = row.get(35)?;
+    let scrim_weekly_wins: u8 = row.get(36)?;
+    let scrim_weekly_losses: u8 = row.get(37)?;
+    let scrim_slot_results_json: String = row.get(38)?;
+    let scrim_reports_json: String = row.get(39)?;
+    let financial_ledger_json: String = row.get(40)?;
+    let sponsorship_json: String = row.get(41)?;
+    let facilities_json: String = row.get(42)?;
+    let play_style_str: String = row.get(15)?;
+    let training_focus_str: String = row.get(16)?;
+    let training_intensity_str: String = row.get(17)?;
+    let training_schedule_str: String = row.get(18)?;
+    let team_kind_str: String = row.get(43)?;
+    let parent_team_id: Option<String> = row.get(44)?;
+    let academy_team_id: Option<String> = row.get(45)?;
+    let academy_metadata_json: Option<String> = row.get(46)?;
 
     Ok(Team {
         id: row.get(0)?,
@@ -227,25 +228,22 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
         training_schedule: parse_training_schedule(&training_schedule_str),
         training_groups: serde_json::from_str(&training_groups_json).unwrap_or_default(),
         weekly_scrim_opponent_ids: serde_json::from_str(&weekly_scrims_json).unwrap_or_default(),
-        weekly_scrim_plan_team_ids: serde_json::from_str(
-            weekly_scrim_plans_json.as_deref().unwrap_or("[]"),
-        )
+        weekly_scrim_plan_team_ids: serde_json::from_str(&weekly_scrim_plans_json)
         .unwrap_or_default(),
         scrim_weekly_objective: scrim_weekly_objective_str
             .as_deref()
             .and_then(parse_scrim_focus),
-        scrim_weekly_slots: scrim_weekly_slots.unwrap_or(0),
+        scrim_weekly_slots,
         scrim_setup_locked_week_key,
-        scrim_reputation: scrim_reputation.unwrap_or(50),
-        scrim_weekly_cancellations: scrim_weekly_cancellations.unwrap_or(0),
-        scrim_loss_streak: scrim_loss_streak.unwrap_or(0),
-        scrim_weekly_played: scrim_weekly_played.unwrap_or(0),
-        scrim_weekly_wins: scrim_weekly_wins.unwrap_or(0),
-        scrim_weekly_losses: scrim_weekly_losses.unwrap_or(0),
+        scrim_reputation,
+        scrim_weekly_cancellations,
+        scrim_loss_streak,
+        scrim_weekly_played,
+        scrim_weekly_wins,
+        scrim_weekly_losses,
         scrim_slot_results: serde_json::from_str(&scrim_slot_results_json).unwrap_or_default(),
-        scrim_reports: serde_json::from_str(scrim_reports_json.as_deref().unwrap_or("[]"))
-            .unwrap_or_default(),
-        founded_year: row.get("founded_year")?,
+        scrim_reports: serde_json::from_str(&scrim_reports_json).unwrap_or_default(),
+        founded_year: row.get(19)?,
         colors: TeamColors {
             primary: row.get("colors_primary")?,
             secondary: row.get("colors_secondary")?,
@@ -254,7 +252,7 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
         team_roles: serde_json::from_str(&team_roles_json).unwrap_or_default(),
         form: serde_json::from_str(&form_json).unwrap_or_default(),
         history: serde_json::from_str(&history_json).unwrap_or_default(),
-        team_kind: parse_team_kind(team_kind_str.as_deref().unwrap_or("Main")),
+        team_kind: parse_team_kind(&team_kind_str),
         parent_team_id,
         academy_team_id,
         academy: parse_academy_metadata(academy_metadata_json),

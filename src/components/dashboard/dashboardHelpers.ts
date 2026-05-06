@@ -3,6 +3,7 @@ import type {
   GameStateData,
   PlayerData,
   TeamData,
+  ChampionData,
 } from "../../store/gameStore";
 import { formatVal } from "../../lib/helpers";
 import { getTeamFinanceSnapshot } from "../../lib/finance";
@@ -19,6 +20,7 @@ export interface DashboardAlert {
 export interface DashboardSearchResults {
   matchedPlayers: PlayerData[];
   matchedTeams: TeamData[];
+  matchedChampions: ChampionData[];
 }
 
 type DashboardAlertTranslator = (
@@ -83,6 +85,7 @@ export function getDashboardSearchResults(
     return {
       matchedPlayers: [],
       matchedTeams: [],
+      matchedChampions: [],
     };
   }
 
@@ -103,6 +106,14 @@ export function getDashboardSearchResults(
         );
       })
       .slice(0, 4),
+    matchedChampions: (gameState.champions ?? [])
+      .filter((champion) => {
+        return (
+          champion.name.toLowerCase().includes(normalizedQuery) ||
+          champion.champion_key.toLowerCase().includes(normalizedQuery)
+        );
+      })
+      .slice(0, 5),
   };
 }
 

@@ -196,7 +196,9 @@ pub fn run() {
             update_manager_profile,
             get_champions,
             get_champion_by_id,
-            seed_champions_from_json
+            seed_champions_from_json,
+            get_champion_stats,
+            get_top_champions
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

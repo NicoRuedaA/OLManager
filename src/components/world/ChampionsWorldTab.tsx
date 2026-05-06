@@ -13,11 +13,6 @@ export default function ChampionsWorldTab({ champions, onViewChampion }: Champio
   }, [onViewChampion]);
 
   return (
-    <div className="space-y-6">
-      {/* Champions Grid */}
-      <section className="rounded-2xl border border-gray-200 dark:border-navy-600 bg-white dark:bg-navy-800 p-4">
-        <ChampionsGrid champions={champions} onChampionClick={handleChampionClick} />
-      </section>
-    </div>
+    <ChampionsGrid champions={champions} onChampionClick={handleChampionClick} />
   );
 }

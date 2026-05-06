@@ -7,7 +7,15 @@
     "core:default",
     "core:window:allow-destroy",
     "core:window:allow-close",
-    "opener:default",
+    {
+      "identifier": "opener:default",
+      "allow": [
+        { "url": "https://github.com/OpenLeagueManager" },
+        { "url": "https://github.com/OpenLeagueManager/*" },
+        { "url": "https://*.leaguepedia.com" },
+        { "url": "mailto:*" }
+      ]
+    },
     "updater:default"
   ]
 }

@@ -21,21 +21,21 @@ use std::collections::HashMap;
 fn default_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 60,
-        stamina: 60,
+        mental_resilience: 60,
         strength: 60,
-        agility: 60,
+        champion_pool: 60,
         passing: 60,
-        shooting: 60,
+        laning: 60,
         tackling: 60,
-        dribbling: 60,
+        mechanics: 60,
         defending: 60,
         positioning: 60,
-        vision: 60,
-        decisions: 60,
-        composure: 60,
+        macro_play: 60,
+        consistency: 60,
+        discipline: 60,
         aggression: 60,
-        teamwork: 60,
-        leadership: 60,
+        teamfighting: 60,
+        shotcalling: 60,
         handling: 30,
         reflexes: 30,
         aerial: 60,
@@ -45,21 +45,21 @@ fn default_attrs() -> PlayerAttributes {
 fn gk_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 40,
-        stamina: 50,
+        mental_resilience: 50,
         strength: 60,
-        agility: 70,
+        champion_pool: 70,
         passing: 40,
-        shooting: 20,
+        laning: 20,
         tackling: 20,
-        dribbling: 20,
+        mechanics: 20,
         defending: 30,
         positioning: 70,
-        vision: 50,
-        decisions: 60,
-        composure: 70,
+        macro_play: 50,
+        consistency: 60,
+        discipline: 70,
         aggression: 30,
-        teamwork: 60,
-        leadership: 50,
+        teamfighting: 60,
+        shotcalling: 50,
         handling: 80,
         reflexes: 80,
         aerial: 70,
@@ -1051,11 +1051,11 @@ fn stamina_depletion_varies_by_attribute() {
     let mut game = make_game_with_match();
     // Give one player high stamina, another low
     if let Some(p) = game.players.iter_mut().find(|p| p.id == "t1_mid0") {
-        p.attributes.stamina = 90;
+        p.attributes.mental_resilience = 90;
         p.condition = 100;
     }
     if let Some(p) = game.players.iter_mut().find(|p| p.id == "t1_mid1") {
-        p.attributes.stamina = 30;
+        p.attributes.mental_resilience = 30;
         p.condition = 100;
     }
 
@@ -1441,16 +1441,16 @@ fn set_team_overall(game: &mut Game, team_id: &str, overall: u8) {
 
 fn set_player_overall(player: &mut Player, overall: u8) {
     player.attributes.pace = overall;
-    player.attributes.stamina = overall;
+    player.attributes.mental_resilience = overall;
     player.attributes.strength = overall;
     player.attributes.passing = overall;
-    player.attributes.shooting = overall;
+    player.attributes.laning = overall;
     player.attributes.tackling = overall;
-    player.attributes.dribbling = overall;
+    player.attributes.mechanics = overall;
     player.attributes.defending = overall;
     player.attributes.positioning = overall;
-    player.attributes.vision = overall;
-    player.attributes.decisions = overall;
+    player.attributes.macro_play = overall;
+    player.attributes.consistency = overall;
 }
 
 fn previous_round_standings() -> Vec<StandingEntry> {

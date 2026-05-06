@@ -106,12 +106,32 @@ export default function PlayerProfileContractCard({
                     <InfoRow
                         icon={<Heart className="w-4 h-4" />}
                         label={t("common.condition")}
-                        value={`${condition}%`}
+                        value={
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-12 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full ${condition >= 70 ? "bg-success-400" : condition >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                                        style={{ width: `${condition}%` }}
+                                    />
+                                </div>
+                                <span>{condition}%</span>
+                            </div>
+                        }
                     />
                     <InfoRow
                         icon={<Activity className="w-4 h-4" />}
                         label={t("common.morale")}
-                        value={`${morale}%`}
+                        value={
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-12 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full ${morale >= 70 ? "bg-success-400" : morale >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                                        style={{ width: `${morale}%` }}
+                                    />
+                                </div>
+                                <span>{morale}%</span>
+                            </div>
+                        }
                     />
                 </div>
                 {isOwnClub ? (

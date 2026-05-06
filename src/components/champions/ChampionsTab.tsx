@@ -4,7 +4,7 @@ import { Sparkles, Clock3, Search } from "lucide-react";
 import type { GameStateData } from "../../store/gameStore";
 import championsSeed from "../../../data/lec/draft/champions.json";
 import playersSeed from "../../../data/lec/draft/players.json";
-import { setPlayerChampionTrainingTarget } from "../../services/playerService";
+import { setPlayerChampionTrainingTarget, delegateChampionTraining } from "../../services/playerService";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
@@ -14,6 +14,7 @@ import { t } from "i18next";
 interface ChampionsTabProps {
   gameState: GameStateData;
   onGameUpdate: (state: GameStateData) => void;
+  onViewChampion: (championKey: string) => void;
 }
 
 type ChampionRolesMap = Record<string, string[]>;
@@ -262,10 +263,11 @@ function intensityMultiplier(intensity: string): number {
 const TIER_ORDER: Array<"S" | "A" | "B" | "C" | "D"> = ["S", "A", "B", "C", "D"];
 const TIER_SORT_WEIGHT: Record<string, number> = { S: 0, A: 1, B: 2, C: 3, D: 4 };
 
-export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabProps) {
+export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }: ChampionsTabProps) {
   const { t } = useTranslation();
   const [submittingKey, setSubmittingKey] = useState<string | null>(null);
   const [metaRoleFilter, setMetaRoleFilter] = useState<"ALL" | UiRole>("ALL");
+  const [delegating, setDelegating] = useState(false);
   const managerTeamId = gameState.manager.team_id;
   const patch = gameState.champion_patch;
   const staffEffects = getLolStaffEffectsForTeam(gameState, managerTeamId);
@@ -431,6 +433,16 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
     }
   }
 
+  async function handleDelegateTraining() {
+    setDelegating(true);
+    try {
+      const updated = await delegateChampionTraining();
+      onGameUpdate(updated);
+    } finally {
+      setDelegating(false);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-navy-600 bg-navy-700 p-5">
@@ -507,8 +519,13 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
                   ) : (
                     <div className="flex flex-wrap gap-2">
                       {tierRows[tier].map((entry) => (
-                        <div key={`${tier}-${entry.champion_id}-${entry.role}`} className="relative group">
-                          <div className="h-14 w-24 rounded-md border border-navy-600 bg-navy-900/35 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-navy-500 overflow-hidden">
+                        <button
+                          type="button"
+                          key={`${tier}-${entry.champion_id}-${entry.role}`}
+                          onClick={() => onViewChampion(entry.champion_id)}
+                          className="relative group cursor-pointer"
+                        >
+                          <div className="h-14 w-24 rounded-md border border-navy-500/80 bg-navy-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-yellow-300 overflow-hidden">
                             <img
                               src={championTileUrl(entry.champion_id)}
                               alt={championDisplayName(entry.champion_id)}
@@ -522,7 +539,7 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
                               title={`${championDisplayName(entry.champion_id)} · ${entry.role}`}
                             />
                           </div>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   )}
@@ -533,12 +550,24 @@ export default function ChampionsTab({ gameState, onGameUpdate }: ChampionsTabPr
         </div>
       </section>
 
-      <section className="rounded-2xl border border-navy-600 bg-navy-700 p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Clock3 className="h-4 w-4 text-amber-500" />
-          <h3 className="font-heading font-bold uppercase tracking-wide text-gray-100">
-            {t("champions.masteryTrainingTitle", "Entrenamiento de maestría")}
-          </h3>
+      <section className="rounded-2xl border border-gray-200 dark:border-navy-600 bg-white dark:bg-navy-800 p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <Clock3 className="h-4 w-4 text-amber-500" />
+            <h3 className="font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
+              {t("champions.masteryTrainingTitle", "Mastery training")}
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={handleDelegateTraining}
+            disabled={delegating}
+            className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-1.5 text-xs font-heading uppercase tracking-wide text-amber-300 transition-all hover:bg-amber-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {delegating
+              ? t("champions.delegating", "Delegating...")
+              : t("champions.delegateToCoach", "Delegate to Assistant Coach")}
+          </button>
         </div>
 
         <div className="space-y-3">

@@ -62,6 +62,7 @@ export default function TeamProfile({
 
         <TeamProfileRosterCard
           roster={viewModel.roster}
+          currentDate={gameState.clock.current_date}
           isOwnTeam={isOwnTeam}
           locale={i18n.language}
           t={t}

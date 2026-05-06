@@ -15,21 +15,21 @@ use ofm_core::live_match_manager::{self, MatchMode};
 fn default_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 65,
-        stamina: 65,
+        mental_resilience: 65,
         strength: 65,
-        agility: 65,
+        champion_pool: 65,
         passing: 65,
-        shooting: 65,
+        laning: 65,
         tackling: 55,
-        dribbling: 65,
+        mechanics: 65,
         defending: 55,
         positioning: 65,
-        vision: 65,
-        decisions: 65,
-        composure: 65,
+        macro_play: 65,
+        consistency: 65,
+        discipline: 65,
         aggression: 50,
-        teamwork: 65,
-        leadership: 50,
+        teamfighting: 65,
+        shotcalling: 50,
         handling: 20,
         reflexes: 30,
         aerial: 60,
@@ -332,8 +332,8 @@ fn auto_select_team_roles_prefers_high_leadership_captain() {
         .iter_mut()
         .find(|p| p.id == "team1_mid0")
         .unwrap();
-    leader.attributes.leadership = 99;
-    leader.attributes.teamwork = 99;
+    leader.attributes.shotcalling = 99;
+    leader.attributes.teamfighting = 99;
 
     let player_ids: Vec<String> = game
         .players

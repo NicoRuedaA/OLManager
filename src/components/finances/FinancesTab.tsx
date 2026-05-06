@@ -7,7 +7,7 @@ import {
   PlayerSelectionOptions,
 } from "../../store/gameStore";
 import { Card, CardHeader, CardBody, Badge, ProgressBar, Button, RoleBadge } from "../ui";
-import { User } from "lucide-react";
+import { User, ArrowUpDown, ArrowUp, ArrowDown, Check, Lock, AlertTriangle } from "lucide-react";
 import {
   formatVal,
   formatWeeklyAmount,
@@ -27,6 +27,7 @@ import {
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveMessage } from "../../utils/backendI18n";
 
 function getFacilityUpgradeCost(level: number): number {
@@ -111,6 +112,19 @@ export default function FinancesTab({
   );
 
   const roster = gameState.players.filter((p) => p.team_id === myTeam.id);
+  type SortKey = "name" | "position" | "wage" | "value" | "contract";
+  const [sortKey, setSortKey] = useState<SortKey>("wage");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir(key === "wage" || key === "value" ? "desc" : "asc");
+    }
+  };
+
   const teamStaff = gameState.staff.filter(
     (staffMember) => staffMember.team_id === myTeam.id,
   );
@@ -130,6 +144,15 @@ export default function FinancesTab({
   const cashRunwayWeeks = financeSnapshot.cashRunwayWeeks;
   const wageBudgetUsagePercent = financeSnapshot.wageBudgetUsagePercent;
   const weeklyWageBudget = financeSnapshot.weeklyWageBudget;
+  const playerWeeklyWages = roster.reduce(
+    (sum, p) => sum + annualAmountToWeeklyCommitment(p.wage),
+    0,
+  );
+  const staffWeeklyWages = teamStaff.reduce(
+    (sum, s) => sum + annualAmountToWeeklyCommitment(s.wage),
+    0,
+  );
+  const unusedWeeklyBudget = Math.max(0, weeklyWageBudget - playerWeeklyWages - staffWeeklyWages);
   const sponsorOffers = gameState.messages
     .filter(isPendingSponsorOffer)
     .map(resolveMessage);
@@ -326,6 +349,14 @@ export default function FinancesTab({
                 <p className={`font-heading font-bold text-xl ${item.color}`}>
                   {formatVal(item.value)}
                 </p>
+                {item.label === t("finances.wageBudget") && (
+                  <div className="w-full max-w-[100px] mx-auto mt-2 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                    <div
+                      className="h-full rounded-full bg-accent-400"
+                      style={{ width: `${Math.min(100, wageBudgetUsagePercent)}%` }}
+                    />
+                  </div>
+                )}
               </div>
             ))}
             <div className="bg-gray-50 dark:bg-navy-800 rounded-xl p-4 text-center">
@@ -356,11 +387,13 @@ export default function FinancesTab({
               {formatWeeklyAmount(formatVal(weeklyWageBudget), weeklySuffix)}{" "}
               —{" "}
               {totalWages <= weeklyWageBudget ? (
-                <span className="text-primary-500">
-                  {t("finances.underBudget")}
+                <span className="inline-flex items-center gap-1 font-heading font-bold uppercase tracking-wider rounded-md bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 px-2 py-0.5 text-xs">
+                  <Check className="w-3 h-3" /> {t("finances.underBudget")}
                 </span>
               ) : (
-                <span className="text-red-500">{t("finances.overBudget")}</span>
+                <span className="inline-flex items-center gap-1 font-heading font-bold uppercase tracking-wider rounded-md bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 px-2 py-0.5 text-xs">
+                  <AlertTriangle className="w-3 h-3" /> {t("finances.overBudget")}
+                </span>
               )}
             </p>
           </div>
@@ -419,11 +452,19 @@ export default function FinancesTab({
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
                 {t("finances.cashRunway")}
               </p>
-              <p className="font-heading font-bold text-base text-gray-800 dark:text-gray-100">
+              <p className={`font-heading font-bold text-base ${cashRunwayWeeks !== null && cashRunwayWeeks < 52 ? "text-red-500" : "text-gray-800 dark:text-gray-100"}`}>
                 {cashRunwayWeeks === null
                   ? t("finances.runwayStable")
                   : t("finances.runwayWeeks", { count: cashRunwayWeeks })}
               </p>
+              {cashRunwayWeeks !== null && (
+                <div className="w-full max-w-[120px] mx-auto mt-2 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                  <div
+                    className={`h-full rounded-full ${cashRunwayWeeks >= 104 ? "bg-success-400" : cashRunwayWeeks >= 52 ? "bg-yellow-500" : "bg-red-500"}`}
+                    style={{ width: `${Math.min(100, (cashRunwayWeeks / 260) * 100)}%` }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </CardBody>
@@ -433,23 +474,67 @@ export default function FinancesTab({
         <CardHeader>{t("finances.wagePressure")}</CardHeader>
         <CardBody>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 space-y-3">
-              <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                {t("finances.wagePressure")}
-              </p>
-              <p className="font-heading font-bold text-2xl text-gray-900 dark:text-gray-100">
+            <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 flex flex-col justify-center items-center gap-3">
+              <p className="font-heading font-bold text-2xl text-gray-900 dark:text-gray-100 text-center">
                 {t("finances.wageBudgetUsed", {
                   percent: wageBudgetUsagePercent,
                 })}
               </p>
-              <ProgressBar
-                value={Math.min(100, wageBudgetUsagePercent)}
-                variant={
-                  totalWages <= weeklyWageBudget ? "success" : "danger"
-                }
-                size="md"
-                showLabel
-              />
+
+              {/* Budget breakdown donut */}
+              {(() => {
+                const slices = [
+                  { label: t("finances.players", "Jugadores"), value: playerWeeklyWages, color: "#3b82f6" },
+                  { label: t("finances.staff", "Staff"), value: staffWeeklyWages, color: "#8b5cf6" },
+                  { label: t("finances.unused", "Sin usar"), value: unusedWeeklyBudget, color: "#6b7280" },
+                ].filter((s) => s.value > 0);
+                const total = slices.reduce((s, s2) => s + s2.value, 0);
+                if (total <= 0) return null;
+                const size = 100;
+                const strokeWidth = 14;
+                const radius = (size - strokeWidth) / 2;
+                const circ = 2 * Math.PI * radius;
+                const cx = size / 2;
+                const cy = size / 2;
+                let cumPct = 0;
+                return (
+                  <div className="flex flex-col items-center gap-4 pt-2 w-full">
+                    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[200px] h-auto">
+                      <circle cx={cx} cy={cy} r={radius} fill="none" strokeWidth={strokeWidth} className="stroke-gray-200 dark:stroke-navy-600" />
+                      {slices.map((slice, i) => {
+                        const pct = slice.value / total;
+                        const offset = cumPct * circ;
+                        const len = pct * circ;
+                        cumPct += pct;
+                        return (
+                          <circle
+                            key={i}
+                            cx={cx} cy={cy} r={radius}
+                            fill="none"
+                            stroke={slice.color}
+                            strokeWidth={strokeWidth}
+                            strokeDasharray={`${len} ${circ - len}`}
+                            strokeDashoffset={-offset}
+                            transform={`rotate(-90 ${cx} ${cy})`}
+                            className="transition-all duration-500"
+                          />
+                        );
+                      })}
+                    </svg>
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs">
+                      {slices.map((slice, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: slice.color }} />
+                          <span className="text-gray-600 dark:text-gray-400 whitespace-nowrap">{slice.label}</span>
+                          <span className="font-heading font-bold tabular-nums text-gray-800 dark:text-gray-200">
+                            {Math.round((slice.value / total) * 100)}%
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 space-y-3">
@@ -524,7 +609,15 @@ export default function FinancesTab({
                               gameState.clock.current_date,
                             )}
                           </p>
+                          <div className="w-20 h-1 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden mt-1">
+                            <div
+                              className={`h-full rounded-full ${riskLevel === "critical" ? "bg-red-500" : "bg-yellow-500"}`}
+                              style={{
+                                width: `${Math.min(100, (parseFloat(getContractYearsRemaining(player.contract_end, gameState.clock.current_date)) / 5) * 100)}%`,
+                              }}
+                            />
                         </div>
+                      </div>
                       </div>
                       <div className="flex flex-col items-end gap-2">
                         <Badge variant={getContractRiskBadgeVariant(riskLevel)}>
@@ -761,12 +854,12 @@ export default function FinancesTab({
                       {t("finances.upgradeFacility")}
                     </Button>
                     {!facility.upgradeFacility ? (
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {t("finances.hubExpansionRequired")}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <Lock className="w-3 h-3" /> {t("finances.hubExpansionRequired")}
                       </p>
                     ) : !unlocksNextLevel ? (
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {t("finances.hubExpansionRequired")}
+                      <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                        <Lock className="w-3 h-3" /> {t("finances.hubExpansionRequired")}
                       </p>
                     ) : !canUpgrade ? (
                       <p className="text-xs text-red-500">
@@ -789,29 +882,86 @@ export default function FinancesTab({
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.player")}
+                  <th className="py-3 px-5 w-[72px]" />
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("name")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.player")}
+                      {sortKey === "name"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.position")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("position")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.position")}
+                      {sortKey === "position"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("finances.wagePerWeek")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("wage")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("finances.wagePerWeek")}
+                      {sortKey === "wage"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("finances.marketValue")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("value")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("finances.marketValue")}
+                      {sortKey === "value"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    {t("common.contract")}
+                  <th
+                    className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-800 dark:hover:text-gray-300 transition-colors"
+                    onClick={() => toggleSort("contract")}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      {t("common.contract")}
+                      {sortKey === "contract"
+                        ? sortDir === "asc" ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                        : <ArrowUpDown className="w-3 h-3 opacity-40" />}
+                    </span>
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                 {[...roster]
-                  .sort((a, b) => b.wage - a.wage)
-                  .slice(0, 10)
+                  .sort((a, b) => {
+                    const dir = sortDir === "asc" ? 1 : -1;
+                    switch (sortKey) {
+                      case "name":
+                        return dir * a.full_name.localeCompare(b.full_name);
+                      case "position":
+                        return dir * (getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b)));
+                      case "wage":
+                        return dir * (a.wage - b.wage);
+                      case "value":
+                        return dir * (a.market_value - b.market_value);
+                      case "contract":
+                        return dir * ((a.contract_end || "").localeCompare(b.contract_end || ""));
+                      default:
+                        return 0;
+                    }
+                  })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
+                    const photo = resolvePlayerPhoto(p.id, p.full_name);
                     const contextItems = onSelectPlayer
                       ? [
                           {
@@ -828,6 +978,20 @@ export default function FinancesTab({
                         onClick={() => onSelectPlayer?.(p.id)}
                         className={`hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors ${onSelectPlayer ? "cursor-pointer group" : ""}`}
                       >
+                        <td className="py-3 px-5">
+                          {photo ? (
+                            <img
+                              src={photo}
+                              alt={p.full_name}
+                              className="w-8 h-8 rounded-full object-cover"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center">
+                              <User className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                            </div>
+                          )}
+                        </td>
                         <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
                           <span className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                             {p.full_name}

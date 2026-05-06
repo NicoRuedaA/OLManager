@@ -11,8 +11,8 @@ use std::collections::HashMap;
 /// Personality factor derived from player attributes. Affects how they react.
 /// Returns a value from -20 to +20, where positive = more receptive, negative = more volatile.
 fn personality_factor(player: &domain::player::Player) -> i8 {
-    let composure = player.attributes.composure as i16;
-    let leadership = player.attributes.leadership as i16;
+    let composure = player.attributes.discipline as i16;
+    let leadership = player.attributes.shotcalling as i16;
     let aggression = player.attributes.aggression as i16;
     // Composed leaders are receptive; aggressive low-composure players are volatile
     ((composure + leadership - aggression) / 6).clamp(-20, 20) as i8

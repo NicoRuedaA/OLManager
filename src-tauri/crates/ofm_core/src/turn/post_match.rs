@@ -324,6 +324,7 @@ fn build_stats_state_capture(
                 damage_dealt: stats.damage_dealt,
                 vision_score: stats.vision_score,
                 wards_placed: stats.wards_placed,
+                bans_json: String::new(),
             })
         })
         .collect();
@@ -556,25 +557,25 @@ fn apply_lol_profile_progression(
             *delta = (*delta).clamp(-2, 2);
         }
 
-        player.attributes.dribbling =
-            clamp_attr_range(i16::from(player.attributes.dribbling) + d_dribbling);
-        player.attributes.agility =
-            clamp_attr_range(i16::from(player.attributes.agility) + d_agility);
-        player.attributes.shooting =
-            clamp_attr_range(i16::from(player.attributes.shooting) + d_shooting);
+        player.attributes.mechanics =
+            clamp_attr_range(i16::from(player.attributes.mechanics) + d_dribbling);
+        player.attributes.champion_pool =
+            clamp_attr_range(i16::from(player.attributes.champion_pool) + d_agility);
+        player.attributes.laning =
+            clamp_attr_range(i16::from(player.attributes.laning) + d_shooting);
         player.attributes.positioning =
             clamp_attr_range(i16::from(player.attributes.positioning) + d_positioning);
-        player.attributes.teamwork =
-            clamp_attr_range(i16::from(player.attributes.teamwork) + d_teamwork);
-        player.attributes.stamina =
-            clamp_attr_range(i16::from(player.attributes.stamina) + d_stamina);
-        player.attributes.vision = clamp_attr_range(i16::from(player.attributes.vision) + d_vision);
-        player.attributes.decisions =
-            clamp_attr_range(i16::from(player.attributes.decisions) + d_decisions);
-        player.attributes.composure =
-            clamp_attr_range(i16::from(player.attributes.composure) + d_composure);
-        player.attributes.leadership =
-            clamp_attr_range(i16::from(player.attributes.leadership) + d_leadership);
+        player.attributes.teamfighting =
+            clamp_attr_range(i16::from(player.attributes.teamfighting) + d_teamwork);
+        player.attributes.mental_resilience =
+            clamp_attr_range(i16::from(player.attributes.mental_resilience) + d_stamina);
+        player.attributes.macro_play = clamp_attr_range(i16::from(player.attributes.macro_play) + d_vision);
+        player.attributes.consistency =
+            clamp_attr_range(i16::from(player.attributes.consistency) + d_decisions);
+        player.attributes.discipline =
+            clamp_attr_range(i16::from(player.attributes.discipline) + d_composure);
+        player.attributes.shotcalling =
+            clamp_attr_range(i16::from(player.attributes.shotcalling) + d_leadership);
         player.attributes.passing =
             clamp_attr_range(i16::from(player.attributes.passing) + d_passing);
     }
@@ -778,7 +779,7 @@ fn deplete_match_stamina(game: &mut Game, team_id: &str, report: &engine::MatchR
                 continue;
             }
             let minutes_factor = minutes as f64 / 90.0;
-            let stamina_factor = player.attributes.stamina as f64 / 100.0;
+            let stamina_factor = player.attributes.mental_resilience as f64 / 100.0;
             let base_depletion = 40.0 * (1.0 - stamina_factor * 0.4);
             let depletion = (base_depletion * minutes_factor) as u8;
             player.condition = player.condition.saturating_sub(depletion);

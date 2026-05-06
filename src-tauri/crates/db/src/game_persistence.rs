@@ -139,10 +139,6 @@ impl GamePersistenceReader {
             messages.len()
         );
         let news = news_repo::load_all_news(conn)?;
-        log::info!(
-            "[GamePersistenceReader] read_game: news loaded: {}",
-            news.len()
-        );
         let social_posts = social_repo::load_all_social_posts(conn)?;
         let social_accounts = social_repo::load_social_accounts(conn)?;
         let social_templates = social_repo::load_social_templates(conn)?;

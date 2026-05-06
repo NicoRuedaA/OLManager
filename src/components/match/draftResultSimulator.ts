@@ -178,21 +178,21 @@ function toEnginePlayerFromState(
     role: player.position,
     condition: player.condition,
     pace: player.attributes.pace,
-    stamina: player.attributes.stamina,
+    stamina: player.attributes.mental_resilience,
     strength: player.attributes.strength,
-    agility: player.attributes.agility,
+    agility: player.attributes.champion_pool,
     passing: player.attributes.passing,
-    shooting: player.attributes.shooting,
+    shooting: player.attributes.laning,
     tackling: player.attributes.tackling,
-    dribbling: player.attributes.dribbling,
+    dribbling: player.attributes.mechanics,
     defending: player.attributes.defending,
     positioning: player.attributes.positioning,
-    vision: player.attributes.vision,
-    decisions: player.attributes.decisions,
-    composure: player.attributes.composure,
+    vision: player.attributes.macro_play,
+    decisions: player.attributes.consistency,
+    composure: player.attributes.discipline,
     aggression: player.attributes.aggression,
-    teamwork: player.attributes.teamwork,
-    leadership: player.attributes.leadership,
+    teamwork: player.attributes.teamfighting,
+    leadership: player.attributes.shotcalling,
     handling: player.attributes.handling,
     reflexes: player.attributes.reflexes,
     aerial: player.attributes.aerial,
@@ -251,7 +251,7 @@ function resolvePlayersFromSeed(
             !usedIds.has(player.id) &&
             gameStatePositionToDraftRole(player.position) === role,
         )
-        .sort((a, b) => b.attributes.teamwork + b.attributes.decisions - (a.attributes.teamwork + a.attributes.decisions))[0];
+        .sort((a, b) => b.attributes.teamfighting + b.attributes.consistency - (a.attributes.teamfighting + a.attributes.consistency))[0];
 
       if (!fallback) return;
       selected.push(toEnginePlayerFromState(fallback));
@@ -361,8 +361,8 @@ function tacticsPowerBonus(params: {
   score += laneDelta[own.strong_side] * 0.22;
 
   const ownCondition = average(ownPlayers.map((player) => Number(player.condition ?? 70)));
-  const ownComposure = average(ownPlayers.map((player) => Number(player.composure ?? 70)));
-  const ownTeamwork = average(ownPlayers.map((player) => Number(player.teamwork ?? 70)));
+  const ownComposure = average(ownPlayers.map((player) => Number(player.discipline ?? 70)));
+  const ownTeamwork = average(ownPlayers.map((player) => Number(player.teamfighting ?? 70)));
 
   if (own.game_timing === "Early") score += (ownCondition - 72) * 0.15;
   if (own.game_timing === "Mid") score += (ownTeamwork - 70) * 0.11;

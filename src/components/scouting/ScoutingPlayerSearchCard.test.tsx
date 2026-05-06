@@ -136,6 +136,7 @@ describe("ScoutingPlayerSearchCard", () => {
           createTeam(),
           createTeam({ id: "team-2", name: "Beta FC", manager_id: "manager-2" }),
         ]}
+        currentDate="2026-08-01T00:00:00Z"
         posFilter="All"
         searchQuery=""
         alreadyScoutingIds={new Set<string>()}

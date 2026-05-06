@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "scrapedAt": "2026-05-06T07:03:01.954Z",
+    "source": "Leaguepedia (lol.fandom.com)",
+    "totalPlayers": 0,
+    "totalStaff": 1,
+    "totalTeams": 284,
+    "totalHistoricalTeams": 215,
+    "leaguesScraped": [
+      ""
+    ],
+    "playerPhotosPath": "/player-photos/",
+    "staffPhotosPath": "/staff-photos/"
+  },
+  "staff": [
+    {
+      "kind": "staff",
+      "id": "staff-779e423d",
+      "ign": "LOFS",
+      "fullName": "Lam Ka Chun",
+      "firstName": "Lam",
+      "lastName": "Ka Chun",
+      "dateOfBirth": null,
+      "nationality": "HK",
+      "nationalityFlag": "🇭🇰",
+      "teamId": null,
+      "staffRole": "Analyst",
+      "staffCategory": "Analyst",
+      "residency": "Taiwan",
+      "status": "Retired",
+      "photoId": null,
+      "photoUrl": null,
+      "teamName": null,
+      "teamShort": null,
+      "leagueId": null,
+      "leagueName": null,
+      "region": null,
+      "socials": {
+        "twitter": null,
+        "stream": "https://www.twitch.tv/lofslofs",
+        "instagram": null
+      },
+      "scrapedAt": "2026-05-06T07:03:01.953Z"
+    }
+  ]
+}

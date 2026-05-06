@@ -57,9 +57,17 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
                     </span>
                   )}
 
-                  <span className={`text-lg font-heading font-black ${item.wr >= 55 ? "text-emerald-300" : item.wr >= 48 ? "text-amber-300" : "text-rose-300"}`}>
-                    {item.wr.toFixed(1)}% {t("playerProfile.championWinRateShort")}
-                  </span>
+                  <div className="flex flex-col items-end gap-0.5">
+                    <span className={`text-lg font-heading font-black ${item.wr >= 55 ? "text-emerald-300" : item.wr >= 48 ? "text-amber-300" : "text-rose-300"}`}>
+                      {item.wr.toFixed(1)}% {t("playerProfile.championWinRateShort")}
+                    </span>
+                    <div className="w-14 h-1 rounded-full bg-white/15 overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${item.wr >= 55 ? "bg-emerald-400" : item.wr >= 48 ? "bg-amber-400" : "bg-rose-400"}`}
+                        style={{ width: `${Math.min(100, item.wr)}%` }}
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="mt-auto">
