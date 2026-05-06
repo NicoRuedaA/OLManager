@@ -142,7 +142,7 @@ function mapStaff(s: any): StaffOut {
     last_name: nameParts.slice(1).join(" ") ?? "",
     date_of_birth: s.dateOfBirth ?? "2000-01-01",
     nationality: s.nationality, birth_country: null,
-    profile_image_url: null,
+    profile_image_url: s.photoUrl ?? (s.photoId ? `/staff-photos/${s.photoId}.webp` : null),
     role, team_id: null,
     attributes: { coaching: 50, judging_ability: 50, judging_potential: 50, physiotherapy: 20 },
     specialization: null, wage: 30000, contract_end: null,

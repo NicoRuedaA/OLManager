@@ -71,7 +71,7 @@ function App() {
     const FALLBACK = "/player-photos/107455908655055017.png";
     const handleImgError = (e: Event) => {
       const img = e.target as HTMLImageElement;
-      if (img.tagName === "IMG" && img.src?.includes("/player-photos/") && !img.src.includes("107455908655055017")) {
+      if (img.tagName === "IMG" && (img.src?.includes("/player-photos/") || img.src?.includes("/staff-photos/")) && !img.src.includes("107455908655055017")) {
         img.src = FALLBACK;
       }
     };
