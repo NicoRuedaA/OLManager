@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { GameStateData, StaffData } from "../../store/gameStore";
 import { Card, CardBody, Badge, CountryFlag, ProgressBar } from "../ui";
 import {
@@ -156,9 +156,29 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 20;
 
   const myStaff = gameState.staff.filter((s) => s.team_id === userTeamId);
   const availableStaff = gameState.staff.filter((s) => !s.team_id);
+
+  const displayStaff = view === "mystaff" ? myStaff : availableStaff;
+  const filtered = displayStaff.filter((s) => {
+    if (roleFilter && s.role !== roleFilter) return false;
+    if (search.length >= 2) {
+      const q = search.toLowerCase();
+      const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
+      if (!fullName.includes(q)) return false;
+    }
+    return true;
+  });
+  // Reset page when filters change
+  const prevFilterKey = useRef("");
+  const filterKey = `${view}-${roleFilter ?? "all"}-${search}`;
+  if (prevFilterKey.current !== filterKey) {
+    prevFilterKey.current = filterKey;
+    if (page !== 1) setPage(1);
+  }
 
   const handleHire = async (staffId: string) => {
     setActionLoading(staffId);
@@ -184,17 +204,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
     }
   };
 
-  const displayStaff = view === "mystaff" ? myStaff : availableStaff;
-
-  const filtered = displayStaff.filter((s) => {
-    if (roleFilter && s.role !== roleFilter) return false;
-    if (search.length >= 2) {
-      const q = search.toLowerCase();
-      const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
-      if (!fullName.includes(q)) return false;
-    }
-    return true;
-  });
+  // displayStaff and filtered moved above handleHire
 
   const roles = ["AssistantManager", "Coach", "Scout", "Physio"];
   const teamEffects = getLolStaffEffectsForTeam(gameState, userTeamId);
@@ -302,7 +312,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filtered.map((staff) => {
+          {filtered.slice(0, page * PAGE_SIZE).map((staff) => {
             const roleIcon = ROLE_ICONS[staff.role] || ROLE_ICONS.Coach;
             const roleColor = ROLE_COLORS[staff.role] || ROLE_COLORS.Coach;
             const age = calcAge(staff.date_of_birth);
@@ -449,6 +459,16 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
             );
           })}
         </div>
+        {filtered.length > page * PAGE_SIZE && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              className="px-6 py-2 rounded-lg font-heading font-bold text-sm uppercase tracking-wider transition-all bg-gray-100 dark:bg-navy-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-navy-600"
+            >
+              {t("common.showMore", "Mostrar más")} ({Math.min(page * PAGE_SIZE + PAGE_SIZE, filtered.length)} / {filtered.length})
+            </button>
+          </div>
+        )}
       )}
     </div>
   );
