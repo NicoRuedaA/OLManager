@@ -16,21 +16,21 @@ use super::team::{get_team_match_history_internal, get_team_stats_overview_inter
 fn default_attrs() -> PlayerAttributes {
     PlayerAttributes {
         pace: 60,
-        stamina: 60,
+        mental_resilience: 60,
         strength: 60,
-        agility: 60,
+        champion_pool: 60,
         passing: 60,
-        shooting: 60,
+        laning: 60,
         tackling: 60,
-        dribbling: 60,
+        mechanics: 60,
         defending: 60,
         positioning: 60,
-        vision: 60,
-        decisions: 60,
-        composure: 60,
+        macro_play: 60,
+        consistency: 60,
+        discipline: 60,
         aggression: 60,
-        teamwork: 60,
-        leadership: 60,
+        teamfighting: 60,
+        shotcalling: 60,
         handling: 60,
         reflexes: 60,
         aerial: 60,
@@ -72,7 +72,7 @@ fn make_game(players: Vec<Player>) -> Game {
         "Alpha Ground".to_string(),
         20_000,
     );
-    team.starting_xi_ids = players.iter().map(|player| player.id.clone()).collect();
+    team.active_lineup_ids = players.iter().map(|player| player.id.clone()).collect();
 
     let opponent = Team::new(
         "team-2".to_string(),
@@ -126,6 +126,7 @@ fn player_record(
         damage_dealt: 20_000,
         vision_score: 30,
         wards_placed: 12,
+        bans_json: String::new(),
     }
 }
 

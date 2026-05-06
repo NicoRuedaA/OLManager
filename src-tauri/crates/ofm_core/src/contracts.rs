@@ -767,7 +767,7 @@ fn contract_days_remaining(contract_end: Option<&str>, current_date: NaiveDate) 
 }
 
 fn remove_player_from_team_references(team: &mut Team, player_id: &str) {
-    team.starting_xi_ids.retain(|id| id != player_id);
+    team.active_lineup_ids.retain(|id| id != player_id);
 
     for group in &mut team.training_groups {
         group.player_ids.retain(|id| id != player_id);

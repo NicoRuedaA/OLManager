@@ -39,21 +39,21 @@ const makePlayer = (
   training_focus: null,
   attributes: {
     pace: 60,
-    stamina: 60,
+    mental_resilience: 60,
     strength: 60,
-    agility: 60,
+    champion_pool: 60,
     passing: 60,
-    shooting: 60,
+    laning: 60,
     tackling: 60,
-    dribbling: 60,
+    mechanics: 60,
     defending: 60,
     positioning: 60,
-    vision: 60,
-    decisions: 60,
-    composure: 60,
+    macro_play: 60,
+    consistency: 60,
+    discipline: 60,
     aggression: 60,
-    teamwork: 60,
-    leadership: 60,
+    teamfighting: 60,
+    shotcalling: 60,
     handling: 60,
     reflexes: 60,
     aerial: 60,
@@ -105,7 +105,7 @@ const makeTeam = (overrides: Partial<TeamData> = {}): TeamData => ({
   training_schedule: "Balanced",
   founded_year: 1900,
   colors: { primary: "#00ff00", secondary: "#ffffff" },
-  starting_xi_ids: [],
+  active_lineup_ids: [],
   form: [],
   history: [],
   ...overrides,
@@ -116,22 +116,22 @@ const makeGameState = (): GameStateData => {
     makePlayer("top1", "TOP", {
       match_name: "Top Starter",
       attributes: {
-        pace: 50,
-        stamina: 60,
-        strength: 70,
-        agility: 55,
-        passing: 52,
-        shooting: 35,
-        tackling: 75,
-        dribbling: 45,
-        defending: 78,
-        positioning: 68,
-        vision: 50,
-        decisions: 63,
-        composure: 64,
-        aggression: 71,
-        teamwork: 62,
-        leadership: 60,
+        pace: 30,
+        mental_resilience: 80,
+        strength: 30,
+        champion_pool: 80,
+        passing: 30,
+        laning: 80,
+        tackling: 30,
+        mechanics: 80,
+        defending: 30,
+        positioning: 30,
+        macro_play: 80,
+        consistency: 80,
+        discipline: 80,
+        aggression: 30,
+        teamfighting: 80,
+        shotcalling: 80,
         handling: 10,
         reflexes: 10,
         aerial: 15,
@@ -142,21 +142,21 @@ const makeGameState = (): GameStateData => {
       match_name: "Mid Starter",
       attributes: {
         pace: 70,
-        stamina: 74,
+        mental_resilience: 74,
         strength: 58,
-        agility: 75,
+        champion_pool: 75,
         passing: 79,
-        shooting: 66,
+        laning: 66,
         tackling: 61,
-        dribbling: 77,
+        mechanics: 77,
         defending: 57,
         positioning: 72,
-        vision: 80,
-        decisions: 78,
-        composure: 73,
+        macro_play: 80,
+        consistency: 78,
+        discipline: 73,
         aggression: 52,
-        teamwork: 81,
-        leadership: 64,
+        teamfighting: 81,
+        shotcalling: 64,
         handling: 10,
         reflexes: 10,
         aerial: 10,
@@ -194,7 +194,7 @@ const makeGameState = (): GameStateData => {
     },
     teams: [
       makeTeam({
-        starting_xi_ids: [
+        active_lineup_ids: [
           "top1",
           "jng1",
           "mid1",
@@ -233,8 +233,9 @@ describe("TacticsTab", () => {
     expect(screen.getByText("Strong side")).toBeInTheDocument();
     expect(screen.getByText("Jungle style")).toBeInTheDocument();
     expect(screen.getByText("Support roaming")).toBeInTheDocument();
-    expect(screen.getByText("tactics.lol.impactAndCoherence")).toBeInTheDocument();
+    expect(screen.getAllByText("tactics.lol.impactAndCoherence").length).toBeGreaterThan(0);
     expect(screen.getByText("Top Starter")).toBeInTheDocument();
+    expect(screen.getByText("80 OVR · Top lane")).toBeInTheDocument();
     expect(screen.getByText("Support Starter")).toBeInTheDocument();
   });
 
@@ -284,42 +285,41 @@ describe("TacticsTab", () => {
     });
   });
 
-  it("shows a comparison panel after selecting a second pitch player", () => {
+  it("uses legacy starting_xi_ids when active_lineup_ids is absent", () => {
+    const gameState = makeGameState();
+    gameState.teams[0] = makeTeam({
+      active_lineup_ids: undefined,
+      starting_xi_ids: ["top1", "jng1", "mid1", "adc1", "sup1"],
+    });
+
     render(
       <TacticsTab
-        gameState={makeGameState()}
+        gameState={gameState}
         onSelectPlayer={vi.fn()}
         onGameUpdate={vi.fn()}
       />,
     );
 
-    fireEvent.click(screen.getByTestId("pitch-player-d1"));
-    fireEvent.click(screen.getByTestId("pitch-player-m1"));
-
-    expect(screen.getByText("Comparison player")).toBeInTheDocument();
-    expect(screen.getAllByText("Player m1").length).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText("common.attributes.macro_play").length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getByRole("button", { name: "Confirm swap" }),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Top Starter")).toBeInTheDocument();
+    expect(screen.getByText("Support Starter")).toBeInTheDocument();
   });
 
-  it("only opens profiles from the lineup tables", () => {
-    const onSelectPlayer = vi.fn();
+  it("prefers active_lineup_ids over legacy starting_xi_ids", () => {
+    const gameState = makeGameState();
+    gameState.teams[0] = makeTeam({
+      active_lineup_ids: ["bench1", "jng1", "mid1", "adc1", "sup1"],
+      starting_xi_ids: ["top1", "jng1", "mid1", "adc1", "sup1"],
+    });
 
     render(
       <TacticsTab
-        gameState={makeGameState()}
-        onSelectPlayer={onSelectPlayer}
+        gameState={gameState}
+        onSelectPlayer={vi.fn()}
         onGameUpdate={vi.fn()}
       />,
     );
 
-    fireEvent.click(screen.getByTestId("xi-player-d1"));
-
-    expect(onSelectPlayer).toHaveBeenCalledWith("d1");
+    expect(screen.getByText("Bench Top")).toBeInTheDocument();
   });
 
   it("persists default set piece and team role assignments from the roles tab", async () => {

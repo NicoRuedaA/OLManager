@@ -445,21 +445,21 @@ mod tests {
 
         PlayerAttributes {
             pace: 65,
-            stamina: 65,
+            mental_resilience: 65,
             strength: 65,
-            agility: 65,
+            champion_pool: 65,
             passing: 65,
-            shooting: if is_goalkeeper { 30 } else { 65 },
+            laning: if is_goalkeeper { 30 } else { 65 },
             tackling: if is_goalkeeper { 30 } else { 65 },
-            dribbling: if is_goalkeeper { 30 } else { 65 },
+            mechanics: if is_goalkeeper { 30 } else { 65 },
             defending: if is_goalkeeper { 30 } else { 65 },
             positioning: 65,
-            vision: 65,
-            decisions: 65,
-            composure: 65,
+            macro_play: 65,
+            consistency: 65,
+            discipline: 65,
             aggression: 50,
-            teamwork: 65,
-            leadership: 50,
+            teamfighting: 65,
+            shotcalling: 50,
             handling: if is_goalkeeper { 75 } else { 20 },
             reflexes: if is_goalkeeper { 75 } else { 20 },
             aerial: 60,
@@ -697,8 +697,8 @@ mod tests {
             .iter_mut()
             .find(|player| player.id == "t1_mid0")
             .unwrap();
-        composed.attributes.composure = 90;
-        composed.attributes.leadership = 90;
+        composed.attributes.discipline = 90;
+        composed.attributes.shotcalling = 90;
         composed.attributes.aggression = 20;
         composed.morale_core.manager_trust = 80;
 
@@ -707,8 +707,8 @@ mod tests {
             .iter_mut()
             .find(|player| player.id == "t1_fwd0")
             .unwrap();
-        volatile.attributes.composure = 20;
-        volatile.attributes.leadership = 20;
+        volatile.attributes.discipline = 20;
+        volatile.attributes.shotcalling = 20;
         volatile.attributes.aggression = 90;
         volatile.morale_core.manager_trust = 25;
         volatile.morale_core.unresolved_issue = Some(PlayerIssue {

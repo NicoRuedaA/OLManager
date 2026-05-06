@@ -348,10 +348,10 @@ fn sort_standings(mut standings: Vec<StandingEntry>) -> Vec<StandingEntry> {
 fn team_strength(game: &Game, team_id: &str) -> f64 {
     let team = game.teams.iter().find(|team| team.id == team_id);
     match team {
-        Some(team) if !team.starting_xi_ids.is_empty() => {
+        Some(team) if !team.active_lineup_ids.is_empty() => {
             let slots = formation_slots(&team.formation);
             let rated_players: Vec<f64> = team
-                .starting_xi_ids
+                .active_lineup_ids
                 .iter()
                 .enumerate()
                 .filter_map(|(index, player_id)| {

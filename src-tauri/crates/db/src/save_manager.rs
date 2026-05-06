@@ -53,7 +53,7 @@ impl SaveManager {
         let db_path = self.saves_dir.join(&db_filename);
         let mut persisted_game = game.clone();
 
-        canonicalize_game_starting_xi_ids(&mut persisted_game);
+        canonicalize_game_active_lineup_ids(&mut persisted_game);
 
         debug!("[save_manager] creating save {} at {:?}", save_id, db_path);
 
@@ -92,7 +92,7 @@ impl SaveManager {
         let save_name = entry.name.clone();
         let mut persisted_game = game.clone();
 
-        canonicalize_game_starting_xi_ids(&mut persisted_game);
+        canonicalize_game_active_lineup_ids(&mut persisted_game);
 
         debug!("[save_manager] saving game to {}", save_id);
 
@@ -208,9 +208,9 @@ impl SaveManager {
         );
         let mut needs_resave = false;
 
-        if canonicalize_game_starting_xi_ids(&mut game) {
+        if canonicalize_game_active_lineup_ids(&mut game) {
             info!(
-                "[save_manager] canonicalized saved starting XI order for save {}",
+                "[save_manager] canonicalized saved active lineup order for save {}",
                 save_id
             );
             needs_resave = true;
@@ -334,7 +334,7 @@ impl SaveManager {
     }
 }
 
-pub(crate) fn canonicalize_game_starting_xi_ids(game: &mut Game) -> bool {
+pub(crate) fn canonicalize_game_active_lineup_ids(game: &mut Game) -> bool {
     let players_by_id: HashMap<String, Player> = game
         .players
         .iter()
@@ -344,13 +344,13 @@ pub(crate) fn canonicalize_game_starting_xi_ids(game: &mut Game) -> bool {
     let mut changed = false;
 
     for team in &mut game.teams {
-        changed |= canonicalize_team_starting_xi_ids(team, &players_by_id);
+        changed |= canonicalize_team_active_lineup_ids(team, &players_by_id);
     }
 
     changed
 }
 
-fn canonicalize_team_starting_xi_ids(
+fn canonicalize_team_active_lineup_ids(
     team: &mut domain::team::Team,
     players_by_id: &HashMap<String, Player>,
 ) -> bool {
@@ -381,11 +381,11 @@ fn canonicalize_team_starting_xi_ids(
         }
 
         let left_player = team
-            .starting_xi_ids
+            .active_lineup_ids
             .get(left_index)
             .and_then(|id| players_by_id.get(id));
         let right_player = team
-            .starting_xi_ids
+            .active_lineup_ids
             .get(right_index)
             .and_then(|id| players_by_id.get(id));
 
@@ -399,7 +399,7 @@ fn canonicalize_team_starting_xi_ids(
             + effective_rating_for_assignment(right_player, left_slot);
 
         if swapped_fit > current_fit {
-            team.starting_xi_ids.swap(left_index, right_index);
+            team.active_lineup_ids.swap(left_index, right_index);
             changed = true;
         }
     }
@@ -709,7 +709,7 @@ mod tests {
             50000,
         );
         team.formation = "4-4-2".to_string();
-        team.starting_xi_ids = if mirrored {
+        team.active_lineup_ids = if mirrored {
             vec![
                 "gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2",
             ]
@@ -937,7 +937,7 @@ mod tests {
 
         // Note: same canonicalization order as test_create_save — right-side before left-side
         assert_eq!(
-            team.starting_xi_ids,
+            team.active_lineup_ids,
             vec![
                 "gk", "rb", "cb1", "cb2", "lb", "rm", "cm1", "cm2", "lm", "st1", "st2"
             ]
@@ -957,7 +957,7 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
-        assert_eq!(starting_xi_ids, team.starting_xi_ids);
+        assert_eq!(starting_xi_ids, team.active_lineup_ids);
     }
 
     #[test]

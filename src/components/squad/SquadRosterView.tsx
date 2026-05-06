@@ -153,7 +153,7 @@ export default function SquadRosterView({
 
   const roster = gameState.players.filter((player) => player.team_id === myTeam.id);
   const available = roster.filter((player) => !player.injury);
-  const activeLineupIds = buildActiveLineupIds(available, myTeam.starting_xi_ids || []);
+  const activeLineupIds = buildActiveLineupIds(available, myTeam.active_lineup_ids ?? myTeam.starting_xi_ids ?? []);
   const activeIds = new Set(activeLineupIds);
   const playersById = useMemo(
     () => new Map(roster.map((player) => [player.id, player])),

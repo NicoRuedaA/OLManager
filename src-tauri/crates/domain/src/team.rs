@@ -95,9 +95,9 @@ pub struct Team {
     #[serde(default)]
     pub scrim_reports: Vec<ScrimReport>,
 
-    // Persistent starting XI (player IDs). If empty, auto-select by OVR.
-    #[serde(default)]
-    pub starting_xi_ids: Vec<String>,
+    // Persistent active League of Legends lineup (player IDs). If empty, auto-select by OVR.
+    #[serde(default, alias = "starting_xi_ids")]
+    pub active_lineup_ids: Vec<String>,
 
     #[serde(default)]
     pub team_roles: TeamRoles,
@@ -414,6 +414,57 @@ mod academy_team_metadata_tests {
         assert_eq!(team.parent_team_id, None);
         assert_eq!(team.academy_team_id, None);
         assert_eq!(team.academy, None);
+    }
+
+    #[test]
+    fn legacy_starting_xi_ids_deserializes_as_active_lineup() {
+        let team: Team = serde_json::from_value(serde_json::json!({
+            "id": "g2",
+            "name": "G2 Esports",
+            "short_name": "G2",
+            "country": "DE",
+            "city": "Berlin",
+            "arena_name": "G2 Arena",
+            "arena_capacity": 10000,
+            "finance": 1000000,
+            "manager_id": null,
+            "reputation": 500,
+            "wage_budget": 200000,
+            "transfer_budget": 500000,
+            "season_income": 0,
+            "season_expenses": 0,
+            "formation": "4-4-2",
+            "play_style": "Balanced",
+            "founded_year": 1900,
+            "colors": { "primary": "#000000", "secondary": "#ffffff" },
+            "starting_xi_ids": ["top", "jungle", "mid", "adc", "support"],
+            "history": []
+        }))
+        .unwrap();
+
+        assert_eq!(
+            team.active_lineup_ids,
+            vec!["top", "jungle", "mid", "adc", "support"]
+        );
+    }
+
+    #[test]
+    fn active_lineup_ids_serializes_as_preferred_field() {
+        let mut team = Team::new(
+            "g2".to_string(),
+            "G2 Esports".to_string(),
+            "G2".to_string(),
+            "DE".to_string(),
+            "Berlin".to_string(),
+            "G2 Arena".to_string(),
+            10_000,
+        );
+        team.active_lineup_ids = vec!["top".to_string(), "jungle".to_string()];
+
+        let json = serde_json::to_value(&team).unwrap();
+
+        assert_eq!(json["active_lineup_ids"], serde_json::json!(["top", "jungle"]));
+        assert!(json.get("starting_xi_ids").is_none());
     }
 
     #[test]
@@ -1191,7 +1242,7 @@ impl Team {
                 primary: "#10b981".to_string(),
                 secondary: "#ffffff".to_string(),
             },
-            starting_xi_ids: Vec::new(),
+            active_lineup_ids: Vec::new(),
             team_roles: TeamRoles::default(),
             form: Vec::new(),
             history: Vec::new(),

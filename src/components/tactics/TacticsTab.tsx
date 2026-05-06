@@ -19,6 +19,7 @@ import type {
   LolTacticsData,
   PlayerSelectionOptions,
 } from "../../store/gameStore";
+import { resolveActiveLineupIds } from "../../store/types";
 import { useTranslation } from "react-i18next";
 import {
   DEFAULT_LOL_TACTICS,
@@ -27,6 +28,7 @@ import {
   computeRoleModifiers,
   type DraftRole,
 } from "../../lib/lolTactics";
+import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { Card, CardBody, CardHeader } from "../ui";
 
 interface TacticsTabProps {
@@ -41,25 +43,6 @@ type JungleStyle = LolTacticsData["jungle_style"];
 type JunglePathing = LolTacticsData["jungle_pathing"];
 type FightPlan = LolTacticsData["fight_plan"];
 type SupportRoaming = LolTacticsData["support_roaming"];
-
-const OVR_KEYS = [
-  "pace",
-  "stamina",
-  "strength",
-  "agility",
-  "passing",
-  "shooting",
-  "tackling",
-  "dribbling",
-  "defending",
-  "positioning",
-  "vision",
-  "decisions",
-  "composure",
-  "aggression",
-  "teamwork",
-  "leadership",
-] as const;
 
 const ROLE_META: Record<DraftRole, { nameKey: string; icon: string; defaultName: string }> = {
   TOP: { nameKey: "tactics.lol.roles.TOP", icon: "🛡️", defaultName: "Top lane" },
@@ -269,11 +252,6 @@ function positionToRole(position: string): DraftRole | null {
   return null;
 }
 
-function playerBaseOvr(player: GameStateData["players"][number]): number {
-  const sum = OVR_KEYS.reduce((acc, key) => acc + Number(player.attributes[key] ?? 0), 0);
-  return sum / OVR_KEYS.length;
-}
-
 function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
   if (!match) return null;
@@ -389,7 +367,7 @@ export default function TacticsTab({
     if (!myTeam) return [];
 
     const teamPlayers = gameState.players.filter((player) => player.team_id === myTeam.id);
-    const starterIds = new Set(myTeam.starting_xi_ids ?? []);
+    const starterIds = new Set(resolveActiveLineupIds(myTeam));
 
     const startersFirst = [
       ...teamPlayers.filter((player) => starterIds.has(player.id)),
@@ -405,7 +383,7 @@ export default function TacticsTab({
 
     return ROLE_ORDER.map((role) => {
       const player = pickedByRole.get(role) ?? null;
-      const base = player ? playerBaseOvr(player) : 70;
+      const base = player ? calculateLolOvr(player) : 70;
       const modifier = roleModifiers[role] * 1.8;
       const variance = Math.max(0.5, Math.abs(roleModifiers[role]) * 0.6 + 0.6);
       const effective = base + modifier;
