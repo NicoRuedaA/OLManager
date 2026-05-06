@@ -66,6 +66,19 @@ function App() {
     }
   }, [loaded, settings.language]);
 
+  // Global fallback for player photos that 404 (missing WebP files)
+  useEffect(() => {
+    const FALLBACK = "/player-photos/107455908655055017.png";
+    const handleImgError = (e: Event) => {
+      const img = e.target as HTMLImageElement;
+      if (img.tagName === "IMG" && img.src?.includes("/player-photos/") && !img.src.includes("107455908655055017")) {
+        img.src = FALLBACK;
+      }
+    };
+    window.addEventListener("error", handleImgError, true);
+    return () => window.removeEventListener("error", handleImgError, true);
+  }, []);
+
   useEffect(() => {
     const blockHistoryNavigation = () => {
       window.history.go(1);
