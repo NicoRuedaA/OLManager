@@ -169,7 +169,7 @@ export default function PlayerProfileHeroCard({
           <div className="absolute inset-0 bg-linear-to-r from-navy-700 to-navy-800" />
         )}
 
-        <div className="relative z-10 flex items-center gap-6">
+        <div className="relative z-10 flex items-start gap-6">
           <div className="relative w-24 h-24 shrink-0">
             <div
               className={`w-24 h-24 rounded-2xl overflow-hidden border-2 ${
@@ -284,9 +284,7 @@ export default function PlayerProfileHeroCard({
                 <span>{teamName}</span>
               )}
             </p>
-          </div>
 
-          {!isOwnClub ? (
             <div className="mt-3">
               <PlayerProfileScoutAction
                 availability={scoutAvailability}
@@ -295,7 +293,7 @@ export default function PlayerProfileHeroCard({
                 onScout={onScout}
               />
             </div>
-          ) : null}
+          </div>
 
           <div className="hidden md:flex items-center gap-3">
             <div className="grid grid-cols-3 gap-3 flex-1">

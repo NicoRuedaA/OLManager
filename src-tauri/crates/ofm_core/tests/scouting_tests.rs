@@ -146,11 +146,12 @@ fn send_scout_creates_assignment() {
 }
 
 #[test]
-fn send_scout_rejects_own_player() {
+fn send_scout_accepts_own_player() {
     let mut game = make_game();
     let result = send_scout(&mut game, "scout1", "p1");
-    assert!(result.is_err());
-    assert!(result.unwrap_err().contains("own players"));
+    assert!(result.is_ok());
+    assert_eq!(game.scouting_assignments.len(), 1);
+    assert_eq!(game.scouting_assignments[0].player_id, "p1");
 }
 
 #[test]
@@ -232,6 +233,70 @@ fn report_has_scout_report_data() {
     assert_eq!(report.nationality, "BR");
     assert!(report.team_name.is_some(), "Should have team name");
     assert_eq!(report.team_name.as_deref(), Some("Rival FC"));
+}
+
+#[test]
+fn own_player_report_has_exact_attributes_no_noise() {
+    let mut game = make_game();
+    let attrs = default_attrs();
+
+    send_scout(&mut game, "scout1", "p1").unwrap();
+    complete_scouting(&mut game);
+
+    let msg = game
+        .messages
+        .iter()
+        .find(|m| m.category == MessageCategory::ScoutReport)
+        .expect("Should have a scout report for own player");
+
+    let report = msg
+        .context
+        .scout_report
+        .as_ref()
+        .expect("Should have scout_report data");
+
+    assert_eq!(report.player_id, "p1");
+    // With noise_range = 0, fuzzed values should match original exactly
+    assert_eq!(
+        report.mechanics,
+        Some(attrs.dribbling),
+        "Mechanics should be exact for own player"
+    );
+    assert_eq!(
+        report.laning,
+        Some(attrs.shooting),
+        "Laning should be exact for own player"
+    );
+    assert_eq!(
+        report.teamfighting,
+        Some(attrs.teamwork),
+        "Teamfighting should be exact for own player"
+    );
+    assert_eq!(
+        report.macro_,
+        Some(attrs.vision),
+        "Macro should be exact for own player"
+    );
+    assert_eq!(
+        report.champion_pool,
+        Some(attrs.agility),
+        "Champion pool should be exact for own player"
+    );
+    assert_eq!(
+        report.discipline,
+        Some(attrs.composure),
+        "Discipline should be exact for own player"
+    );
+    assert_eq!(
+        report.condition,
+        Some(90),
+        "Condition should be exact for own player"
+    );
+    assert_eq!(
+        report.morale,
+        Some(75),
+        "Morale should be exact for own player"
+    );
 }
 
 #[test]

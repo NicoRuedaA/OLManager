@@ -67,14 +67,9 @@ pub fn send_scout(game: &mut Game, scout_id: &str, player_id: &str) -> Result<()
         return Err("Scout does not belong to your team".to_string());
     }
 
-    // Validate player exists and is not on user's team
-    let player = game
-        .players
-        .iter()
-        .find(|p| p.id == player_id)
-        .ok_or("Player not found")?;
-    if player.team_id.as_deref() == Some(user_team_id.as_str()) {
-        return Err("Cannot scout your own players".to_string());
+    // Validate player exists
+    if !game.players.iter().any(|p| p.id == player_id) {
+        return Err("Player not found".to_string());
     }
 
     // Check scout capacity: higher ability = more concurrent assignments
@@ -151,6 +146,7 @@ pub fn process_scouting(game: &mut Game) {
     game.scouting_assignments.retain(|a| a.days_remaining > 0);
 
     // Generate reports for completed assignments
+    let user_team_id = game.manager.team_id.clone();
     for assignment in &completed {
         let scout = game.staff.iter().find(|s| s.id == assignment.scout_id);
         let player = game.players.iter().find(|p| p.id == assignment.player_id);
@@ -164,6 +160,7 @@ pub fn process_scouting(game: &mut Game) {
                 .as_ref()
                 .and_then(|tid| game.teams.iter().find(|t| &t.id == tid))
                 .map(|t| t.name.clone());
+            let is_own_player = player.team_id.as_deref() == user_team_id.as_deref();
 
             let msg = build_scout_report(
                 &assignment.id,
@@ -180,6 +177,7 @@ pub fn process_scouting(game: &mut Game) {
                 judging_potential,
                 team_name.as_deref(),
                 &today,
+                is_own_player,
             );
             game.messages.push(msg);
         }
@@ -201,11 +199,15 @@ fn build_scout_report(
     judging_potential: u8,
     team_name: Option<&str>,
     date: &str,
+    is_own_player: bool,
 ) -> InboxMessage {
     let mut rng = rand::rng();
 
     // Accuracy: higher judging = less noise on reported attributes
-    let noise_range = if judging_ability >= 80 {
+    // Own players get perfect reports (no noise) since the scout knows the squad
+    let noise_range = if is_own_player {
+        0
+    } else if judging_ability >= 80 {
         2
     } else if judging_ability >= 60 {
         5
