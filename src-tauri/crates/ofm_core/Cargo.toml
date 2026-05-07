@@ -14,5 +14,8 @@ serde_json = "1"
 uuid = { version = "1.21.0", features = ["v4"] }
 ts-rs = { version = "10", optional = true, features = ["serde-compat", "chrono"] }
 
+[dev-dependencies]
+tempfile = "3"
+
 [features]
 typescript = ["ts-rs", "domain/typescript"]

@@ -198,7 +198,9 @@ pub fn run() {
             get_champion_by_id,
             seed_champions_from_json,
             get_champion_stats,
-            get_top_champions
+            get_top_champions,
+            list_competitions,
+            create_international_event
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

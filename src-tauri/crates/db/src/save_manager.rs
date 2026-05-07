@@ -531,6 +531,7 @@ mod tests {
             social_templates: vec![],
             league: None,
             academy_league: None,
+            competitions: vec![],
             scouting_assignments: vec![],
             board_objectives: vec![],
             season_context: domain::season::SeasonContext::default(),

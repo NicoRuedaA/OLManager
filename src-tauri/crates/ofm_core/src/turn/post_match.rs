@@ -88,6 +88,71 @@ fn domain_role(role: Option<engine::live_match::LolRole>) -> LolRole {
     }
 }
 
+/// Apply a completed match report to the game state by FixtureRef.
+///
+/// Updates the fixture + standings in the targeted competition, then
+/// delegates shared post-match logic (player stats, stamina, morale) to
+/// the existing `apply_match_report` flow.
+///
+/// Falls back to legacy fixture_index=0 if the competition/fixture is not
+/// found (tolerating legacy callers during transition).
+#[allow(dead_code)]
+pub fn apply_match_report_by_ref(
+    game: &mut Game,
+    fixture_ref: &crate::fixture_ref::FixtureRef,
+    home_team_id: &str,
+    away_team_id: &str,
+    report: &engine::MatchReport,
+) {
+    // Update the targeted competition fixture + standings
+    if let Some(resolved) =
+        crate::fixture_ref::resolve_fixture_mut(&mut game.competitions, fixture_ref)
+    {
+        debug!(
+            "[turn] apply_match_report_by_ref: comp={}, fix={}, result {} - {}",
+            fixture_ref.competition_id,
+            fixture_ref.fixture_id,
+            report.home_wins,
+            report.away_wins
+        );
+
+        let match_result = MatchResult {
+            home_wins: report.home_wins,
+            away_wins: report.away_wins,
+            ended_by: report_end_reason(report.ended_by),
+            game_duration_seconds: report.game_duration_seconds,
+            report: Some(compact_match_report(report)),
+        };
+
+        let phase = &mut resolved.competition.phases[resolved.phase_index];
+        if let Some(fixture) = phase.fixtures.get_mut(resolved.fixture_index) {
+            fixture.status = FixtureStatus::Completed;
+            fixture.result = Some(match_result);
+
+            // Update standings
+            for entry in phase.standings.iter_mut() {
+                if entry.team_id == home_team_id {
+                    entry.record_result(report.home_wins, report.away_wins);
+                } else if entry.team_id == away_team_id {
+                    entry.record_result(report.away_wins, report.home_wins);
+                }
+            }
+        }
+    } else {
+        log::warn!(
+            "[turn] apply_match_report_by_ref: FixtureRef not found (comp={}, fix={}), falling back",
+            fixture_ref.competition_id,
+            fixture_ref.fixture_id
+        );
+    }
+
+    // Delegate shared post-match logic (player stats, stamina, morale, messages)
+    // Use fixture_index=0 as placeholder — the shared logic works on team IDs,
+    // not fixture indices (the index is only used for league lookup which is
+    // being migrated).
+    apply_match_report(game, 0, home_team_id, away_team_id, report);
+}
+
 /// Apply a completed match report to the game state: update fixture, standings,
 /// player stats, stamina, and generate messages. Public so Tauri can call it
 /// after a live match finishes.

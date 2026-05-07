@@ -63,6 +63,9 @@ where
 {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
 
+    // Process background competitions (non-active) — auto-simulate their fixtures
+    crate::competition_runner::process_competitions(game, &today);
+
     let has_match_today = game.league.as_ref().is_some_and(|league| {
         league
             .fixtures
@@ -117,6 +120,10 @@ where
 pub fn finish_live_match_day(game: &mut Game) {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     info!("[turn] finish_live_match_day: {}", today);
+
+    // Process background competitions
+    crate::competition_runner::process_competitions(game, &today);
+
     generate_matchday_news(game, &today);
     maybe_schedule_playoffs(game);
 
@@ -230,7 +237,7 @@ fn academy_player_ovr(player: &domain::player::Player) -> u32 {
 }
 
 /// Convert domain::player::LolRole to engine::LolRole
-fn to_engine_role(role: DomainLolRole) -> EngineLolRole {
+pub fn to_engine_role(role: DomainLolRole) -> EngineLolRole {
     match role {
         DomainLolRole::Top => EngineLolRole::Top,
         DomainLolRole::Jungle => EngineLolRole::Jungle,

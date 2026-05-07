@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct Team {
@@ -155,6 +155,9 @@ pub enum AcademyLifecycle {
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct ErlAssignment {
     pub erl_league_id: String,
+    /// The competition this academy is affiliated with (e.g. "lec", "cblol").
+    #[serde(default)]
+    pub competition_id: Option<String>,
     pub country_rule: ErlAssignmentRule,
     #[serde(default)]
     pub fallback_reason: Option<String>,
@@ -420,6 +423,7 @@ mod academy_team_metadata_tests {
     fn academy_team_metadata_carries_parent_link_and_erl_assignment() {
         let assignment = ErlAssignment {
             erl_league_id: "lfl".to_string(),
+            competition_id: None,
             country_rule: ErlAssignmentRule::Domestic,
             fallback_reason: None,
             reputation: 5,
@@ -586,7 +590,7 @@ pub struct ScrimReport {
     pub created_on: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct TeamColors {
@@ -594,10 +598,11 @@ pub struct TeamColors {
     pub secondary: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub enum PlayStyle {
+    #[default]
     Balanced,
     Attacking,
     Defensive,

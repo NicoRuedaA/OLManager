@@ -478,6 +478,7 @@ fn academy_metadata(
         lifecycle: AcademyLifecycle::Active,
         erl_assignment: ErlAssignment {
             erl_league_id: option.erl_league_id.clone(),
+            competition_id: None,
             country_rule: option.assignment_rule.clone(),
             fallback_reason: option.fallback_reason.clone(),
             reputation: option.reputation,

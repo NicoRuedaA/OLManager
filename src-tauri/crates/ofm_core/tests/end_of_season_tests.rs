@@ -297,8 +297,8 @@ fn summary_has_correct_user_position() {
 fn summary_has_correct_goals() {
     let mut game = make_completed_season_game();
     let summary = process_end_of_season(&mut game);
-    assert_eq!(summary.user_goals_for, 3);
-    assert_eq!(summary.user_goals_against, 1);
+    assert_eq!(summary.user_kills_for, 3);
+    assert_eq!(summary.user_kills_against, 1);
 }
 
 #[test]

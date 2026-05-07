@@ -138,6 +138,7 @@ export default function MainMenu() {
     lastName: "",
     dob: "",
     nationality: "",
+    competition: "lec",
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [nationalityOpen, setNationalityOpen] = useState(false);
@@ -291,6 +292,7 @@ export default function MainMenu() {
         lastName: formData.lastName,
         dob: formData.dob,
         nationality: formData.nationality,
+        competitionId: formData.competition,
         worldSource,
         avatarPath: null,
       });
@@ -610,6 +612,37 @@ export default function MainMenu() {
                     {dobDisplayedError}
                   </p>
                 )}
+              </div>
+
+              {/* Region selector */}
+              <div>
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                  {t("worldSelect.competition", "Competición")}
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev) => ({ ...prev, competition: "lec" }))}
+                    className={`flex-1 p-3 rounded-lg border-2 text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                      formData.competition === "lec"
+                        ? "border-primary-500 bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400"
+                        : "border-gray-200 dark:border-navy-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-navy-500"
+                    }`}
+                  >
+                    🇪🇺 LEC
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormData((prev) => ({ ...prev, competition: "cblol" }))}
+                    className={`flex-1 p-3 rounded-lg border-2 text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                      formData.competition === "cblol"
+                        ? "border-primary-500 bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400"
+                        : "border-gray-200 dark:border-navy-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-navy-500"
+                    }`}
+                  >
+                    🇧🇷 CBLOL
+                  </button>
+                </div>
               </div>
 
               {/* Country/Region combobox — elevate stacking when open so the menu paints above the submit button */}

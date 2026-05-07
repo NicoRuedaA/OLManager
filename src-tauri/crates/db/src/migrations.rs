@@ -261,7 +261,7 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 52;
+pub const MIGRATION_COUNT: usize = 53;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -373,6 +373,8 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v036_social_registry.sql")),
         // V51: Add missing scrim columns to teams table (weekly_scrim_plan_team_ids, scrim_weekly_slots, scrim_reputation, scrim_weekly_cancellations)
         M::up(include_str!("sql/v051_add_missing_scrim_columns.sql")),
+        // V52: Multi-competition schema — normalized competition, phase, fixture, standing tables
+        M::up(include_str!("sql/v052_multi_competitions.sql")),
     ])
 }
 
@@ -451,6 +453,10 @@ mod tests {
         assert!(
             tables.contains(&"scouting_assignments".to_string()),
             "missing scouting_assignments"
+        );
+        assert!(
+            tables.contains(&"competitions".to_string()),
+            "missing competitions"
         );
     }
 

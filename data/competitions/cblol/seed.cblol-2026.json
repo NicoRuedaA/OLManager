@@ -1,0 +1,159 @@
+{
+  "source": "manual-cblol-2026",
+  "fetchedAt": "2026-05-07T00:00:00Z",
+  "league": "CBLOL",
+  "leagueId": "cblol-2026",
+  "teamCount": 10,
+  "teams": [
+    {
+      "id": "cblol-pain",
+      "slug": "pain-gaming",
+      "name": "paiN Gaming",
+      "code": "PNG",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-pain-top", "summonerName": "Wizer", "firstName": "Thiago", "lastName": "Brabo", "role": "top" },
+        { "id": "cblol-pain-jg", "summonerName": "CarioK", "firstName": "Carlos", "lastName": "M DAL", "role": "jungle" },
+        { "id": "cblol-pain-mid", "summonerName": "dyNquedo", "firstName": "Matheus", "lastName": "Rossini", "role": "mid" },
+        { "id": "cblol-pain-adc", "summonerName": "TitaN", "firstName": "Alexandre", "lastName": "Lima", "role": "bottom" },
+        { "id": "cblol-pain-sup", "summonerName": "Kuri", "firstName": "Luan", "lastName": "Brito", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-red",
+      "slug": "red-canids",
+      "name": "RED Canids",
+      "code": "RED",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-red-top", "summonerName": "fNb", "firstName": "Felipe", "lastName": "Bittencourt", "role": "top" },
+        { "id": "cblol-red-jg", "summonerName": "Aegis", "firstName": "Yuri", "lastName": "Santos", "role": "jungle" },
+        { "id": "cblol-red-mid", "summonerName": "Grevthar", "firstName": "Gabriel", "lastName": "Soares", "role": "mid" },
+        { "id": "cblol-red-adc", "summonerName": "Brance", "firstName": "Matheus", "lastName": "Dias", "role": "bottom" },
+        { "id": "cblol-red-sup", "summonerName": "Winnie", "firstName": "Gabriel", "lastName": "Lemos", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-loud",
+      "slug": "loud",
+      "name": "LOUD",
+      "code": "LLL",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-loud-top", "summonerName": "Robo", "firstName": "Leonardo", "lastName": "Souza", "role": "top" },
+        { "id": "cblol-loud-jg", "summonerName": "Croc", "firstName": "Hyeon", "lastName": "Park", "role": "jungle" },
+        { "id": "cblol-loud-mid", "summonerName": "Tinowns", "firstName": "Thiago", "lastName": "Sartori", "role": "mid" },
+        { "id": "cblol-loud-adc", "summonerName": "Route", "firstName": "Seong", "lastName": "Geon", "role": "bottom" },
+        { "id": "cblol-loud-sup", "summonerName": "RedBert", "firstName": "César", "lastName": "Soares", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-fluxo",
+      "slug": "fluxo",
+      "name": "Fluxo",
+      "code": "FLX",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-fluxo-top", "summonerName": "Kiari", "firstName": "João", "lastName": "Santos", "role": "top" },
+        { "id": "cblol-fluxo-jg", "summonerName": "Minerva", "firstName": "Leonardo", "lastName": "Almeida", "role": "jungle" },
+        { "id": "cblol-fluxo-mid", "summonerName": "Fury", "firstName": "Lucas", "lastName": "Martins", "role": "mid" },
+        { "id": "cblol-fluxo-adc", "summonerName": "Trigo", "firstName": "Pedro", "lastName": "Trigo", "role": "bottom" },
+        { "id": "cblol-fluxo-sup", "summonerName": "Damage", "firstName": "João", "lastName": "Silva", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-furia",
+      "slug": "furia",
+      "name": "FURIA",
+      "code": "FUR",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-furia-top", "summonerName": "Zantins", "firstName": "Gabriel", "lastName": "Azevedo", "role": "top" },
+        { "id": "cblol-furia-jg", "summonerName": "Goot", "firstName": "Kim", "lastName": "Seung-min", "role": "jungle" },
+        { "id": "cblol-furia-mid", "summonerName": "Tutsz", "firstName": "Arthur", "lastName": "Tutsz", "role": "mid" },
+        { "id": "cblol-furia-adc", "summonerName": "Aykyo", "firstName": "Pedro", "lastName": "Henrique", "role": "bottom" },
+        { "id": "cblol-furia-sup", "summonerName": "João", "firstName": "João", "lastName": "Guilherme", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-keyd",
+      "slug": "vivo-keyd",
+      "name": "Vivo Keyd",
+      "code": "VKS",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-keyd-top", "summonerName": "Ceos", "firstName": "Lucas", "lastName": "Ceos", "role": "top" },
+        { "id": "cblol-keyd-jg", "summonerName": "Dino", "firstName": "Gabriel", "lastName": "Dino", "role": "jungle" },
+        { "id": "cblol-keyd-mid", "summonerName": "SLP", "firstName": "Marco", "lastName": "Lima", "role": "mid" },
+        { "id": "cblol-keyd-adc", "summonerName": "Mills", "firstName": "Thomas", "lastName": "Mills", "role": "bottom" },
+        { "id": "cblol-keyd-sup", "summonerName": "Kabbah", "firstName": "Leonardo", "lastName": "Kabbah", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-los",
+      "slug": "los-grandes",
+      "name": "LOS Grandes",
+      "code": "LOS",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-los-top", "summonerName": "Lonely", "firstName": "Mauricio", "lastName": "Reyes", "role": "top" },
+        { "id": "cblol-los-jg", "summonerName": "Yampi", "firstName": "Pedro", "lastName": "Yamamoto", "role": "jungle" },
+        { "id": "cblol-los-mid", "summonerName": "Krastyel", "firstName": "Gabriel", "lastName": "Alves", "role": "mid" },
+        { "id": "cblol-los-adc", "summonerName": "Netto", "firstName": "Leandro", "lastName": "Netto", "role": "bottom" },
+        { "id": "cblol-los-sup", "summonerName": "Cavalo", "firstName": "Igor", "lastName": "Cavalo", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-intz",
+      "slug": "intz",
+      "name": "INTZ",
+      "code": "ITZ",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-intz-top", "summonerName": "Yang", "firstName": "Bruno", "lastName": "Yang", "role": "top" },
+        { "id": "cblol-intz-jg", "summonerName": "Yampi2", "firstName": "Matheus", "lastName": "Yamamoto", "role": "jungle" },
+        { "id": "cblol-intz-mid", "summonerName": "Furuy", "firstName": "Gabriel", "lastName": "Furuy", "role": "mid" },
+        { "id": "cblol-intz-adc", "summonerName": "Turtle", "firstName": "Davi", "lastName": "Turtle", "role": "bottom" },
+        { "id": "cblol-intz-sup", "summonerName": "Stardust", "firstName": "Lucas", "lastName": "Oliveira", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-liberty",
+      "slug": "liberty",
+      "name": "Liberty",
+      "code": "LBR",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-lib-top", "summonerName": "Tay", "firstName": "Felipe", "lastName": "Tay", "role": "top" },
+        { "id": "cblol-lib-jg", "summonerName": "Hatri", "firstName": "Gabriel", "lastName": "Hatri", "role": "jungle" },
+        { "id": "cblol-lib-mid", "summonerName": "Sage", "firstName": "Adriano", "lastName": "Sage", "role": "mid" },
+        { "id": "cblol-lib-adc", "summonerName": "Duds", "firstName": "Eduardo", "lastName": "Duds", "role": "bottom" },
+        { "id": "cblol-lib-sup", "summonerName": "Pride", "firstName": "Kaue", "lastName": "Pride", "role": "support" }
+      ]
+    },
+    {
+      "id": "cblol-sharks",
+      "slug": "sharks",
+      "name": "Sharks",
+      "code": "SHK",
+      "homeLeague": "CBLOL",
+      "region": "BRAZIL",
+      "players": [
+        { "id": "cblol-shk-top", "summonerName": "Mumus", "firstName": "Felipe", "lastName": "Mumus", "role": "top" },
+        { "id": "cblol-shk-jg", "summonerName": "Zan", "firstName": "Rodrigo", "lastName": "Zan", "role": "jungle" },
+        { "id": "cblol-shk-mid", "summonerName": "DJ", "firstName": "Daniel", "lastName": "DJ", "role": "mid" },
+        { "id": "cblol-shk-adc", "summonerName": "Ranger", "firstName": "Felipe", "lastName": "Ranger", "role": "bottom" },
+        { "id": "cblol-shk-sup", "summonerName": "Cacto", "firstName": "Felipe", "lastName": "Cacto", "role": "support" }
+      ]
+    }
+  ]
+}

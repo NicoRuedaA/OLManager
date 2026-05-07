@@ -3,6 +3,7 @@
 
 pub mod champion;
 pub mod champion_stats;
+pub mod competition;
 pub mod identity;
 pub mod league;
 pub mod manager;

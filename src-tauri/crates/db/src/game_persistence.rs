@@ -6,8 +6,9 @@ use ofm_core::game::{BoardObjective, DayPhase, Game, ObjectiveType, ScoutingAssi
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
-    champion_progression_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo,
-    objective_repo, player_repo, scouting_repo, social_repo, staff_repo, stats_repo, team_repo,
+    champion_progression_repo, competition_repo, league_repo, manager_repo, message_repo,
+    meta_repo, news_repo, objective_repo, player_repo, scouting_repo, social_repo, staff_repo,
+    stats_repo, team_repo,
 };
 
 pub struct GamePersistenceWriter;
@@ -48,6 +49,10 @@ impl GamePersistenceWriter {
 
         if let Some(ref league) = game.league {
             league_repo::upsert_league(conn, league)?;
+        }
+
+        if !game.competitions.is_empty() {
+            competition_repo::save_all(conn, &game.competitions)?;
         }
 
         let objective_rows: Vec<objective_repo::BoardObjectiveRow> = game
@@ -148,6 +153,12 @@ impl GamePersistenceReader {
             league.as_ref().map(|l| &l.name)
         );
 
+        let competitions = competition_repo::load_all(conn).unwrap_or_default();
+        log::info!(
+            "[GamePersistenceReader] read_game: competitions loaded: {}",
+            competitions.len()
+        );
+
         log::info!("[GamePersistenceReader] read_game: loading objectives...");
         let objective_rows = objective_repo::load_all_objectives(conn)?;
         log::info!(
@@ -203,6 +214,7 @@ impl GamePersistenceReader {
             social_templates,
             league,
             academy_league: None,
+            competitions,
             scouting_assignments,
             board_objectives,
             season_context: domain::season::SeasonContext::default(),
@@ -210,6 +222,25 @@ impl GamePersistenceReader {
             champion_masteries,
             champion_patch,
         };
+        // Backfill: if no competitions exist but legacy league does,
+        // create a Competition from the League projection.
+        if game.competitions.is_empty() {
+            if let Some(ref league) = game.league {
+                use domain::competition::CompetitionTier;
+                use ofm_core::competition_adapter;
+                let comp = competition_adapter::league_to_competition(
+                    league.clone(),
+                    "EMEA".into(),
+                    CompetitionTier::Regional,
+                );
+                log::info!(
+                    "[GamePersistenceReader] backfilled competition '{}' from legacy league",
+                    comp.id
+                );
+                game.competitions.push(comp);
+            }
+        }
+
         ofm_core::season_context::refresh_game_context(&mut game);
 
         Ok(game)

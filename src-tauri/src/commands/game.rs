@@ -493,6 +493,7 @@ pub(crate) fn bootstrap_example_academy_pool_from_example(
             lifecycle: AcademyLifecycle::Planned,
             erl_assignment: ErlAssignment {
                 erl_league_id: seed_team.league_id.clone(),
+                competition_id: None,
                 country_rule: ErlAssignmentRule::Domestic,
                 fallback_reason: Some(format!(
                     "Seeded from {} academy roster",
@@ -621,6 +622,7 @@ pub(crate) fn bootstrap_example_academy_pool_from_example(
                 lifecycle: AcademyLifecycle::Active,
                 erl_assignment: ErlAssignment {
                     erl_league_id: seed_team.league_id.clone(),
+                    competition_id: None,
                     country_rule: ErlAssignmentRule::Domestic,
                     fallback_reason: Some(format!(
                         "Seeded from {} academy roster",
@@ -652,6 +654,143 @@ pub(crate) fn ensure_example_academy_pool(game: &mut Game) {
         &bootstrap_date,
     );
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
+}
+
+/// Bootstrap a Competition for the newly created game.
+/// Loads the manifest, generates the calendar, and pushes the Competition.
+fn bootstrap_competition(
+    game: &mut Game,
+    _app_handle: &tauri::AppHandle,
+    competition_id: &str,
+) -> Result<(), String> {
+    use chrono::NaiveDate;
+    use domain::competition::{
+        Competition, CompetitionRules, CompetitionRuntime, CompetitionStatus, CompetitionTier,
+    };
+    use ofm_core::calendar::{generate_calendar, PhaseSchedule};
+
+    // 1. Resolve manifest path
+    let cwd = std::env::current_dir().map_err(|e| format!("cwd: {}", e))?;
+    let manifest_path = cwd
+        .join("data")
+        .join("competitions")
+        .join(competition_id)
+        .join("manifest.json");
+    if !manifest_path.exists() {
+        return Err(format!("Manifest not found: {:?}", manifest_path));
+    }
+
+    // 2. Load manifest
+    let manifest = ofm_core::competition_registry::load_manifest(&manifest_path)
+        .map_err(|e| format!("manifest load: {:?}", e))?;
+    let m = &manifest.manifest;
+
+    // 3. Determine participating teams (non-academy)
+    let team_ids: Vec<String> = game
+        .teams
+        .iter()
+        .filter(|t| t.team_kind != domain::team::TeamKind::Academy)
+        .map(|t| t.id.clone())
+        .collect();
+
+    // 4. Build phase schedules from manifest
+    let phase_schedules: Vec<PhaseSchedule> = m
+        .phases
+        .iter()
+        .map(|p| ofm_core::calendar::phase_schedule_from_manifest(
+            &p.name,
+            &p.phase_type,
+            p.scheduling.rounds,
+            p.scheduling.double_round_robin,
+            p.scheduling.best_of,
+            p.scheduling.teams_count,
+            p.scheduling.days.clone(),
+            p.scheduling.matches_per_day,
+            p.scheduling.start_offset_days,
+        ))
+        .collect();
+
+    // 5. Generate calendar
+    let season_start = NaiveDate::from_ymd_opt(
+        game.clock.current_date.year(),
+        game.clock.current_date.month(),
+        game.clock.current_date.day(),
+    )
+    .unwrap_or_else(|| NaiveDate::from_ymd_opt(2025, 1, 18).unwrap());
+
+    let calendar = generate_calendar(&team_ids, &phase_schedules, season_start, &m.competition.id);
+
+    // 6. Create Competition
+    let tier = match m.competition.tier.as_str() {
+        "Regional" => CompetitionTier::Regional,
+        "Academy" => CompetitionTier::Academy,
+        "International" => CompetitionTier::International,
+        _ => CompetitionTier::Cup,
+    };
+
+    let rules = CompetitionRules {
+        points_for_win: m.rules.points_for_win,
+        points_for_draw: m.rules.points_for_draw,
+        best_of_default: m.rules.best_of_default,
+        has_playoffs: m.rules.has_playoffs,
+        playoff_best_of: m.rules.playoff_best_of,
+        teams_count: m.rules.teams_count,
+    };
+
+    let active_phase_id = calendar.phases.first().map(|p| p.id.clone());
+
+    let competition = Competition {
+        id: m.competition.id.clone(),
+        name: m.competition.name.clone(),
+        slug: m.competition.slug.clone(),
+        season: game.clock.current_date.year() as u32,
+        region: m.competition.region.clone(),
+        tier,
+        status: CompetitionStatus::NotStarted,
+        rules,
+        phases: calendar.phases,
+        runtime: CompetitionRuntime {
+            has_manual_overrides: false,
+            next_matchday: 1,
+            is_active: true,
+            active_phase_id,
+        },
+    };
+
+    game.competitions.push(competition);
+    info!(
+        "[cmd] bootstrap_competition: added '{}' with {} phase(s), {} teams",
+        m.competition.id,
+        m.phases.len(),
+        team_ids.len()
+    );
+
+    Ok(())
+}
+
+fn resolve_competition_seed_path(
+    app_handle: &tauri::AppHandle,
+    competition_id: &str,
+) -> Result<std::path::PathBuf, String> {
+    let cwd = std::env::current_dir().map_err(|e| format!("Failed to read current dir: {}", e))?;
+    // Try multiple locations for the competition data
+    let mut candidates = vec![
+        cwd.join("data").join("competitions").join(competition_id).join(format!("seed.{}-2026.json", competition_id)),
+        cwd.join("src-tauri").join("data").join("competitions").join(competition_id).join(format!("seed.{}-2026.json", competition_id)),
+    ];
+    if let Some(resource_dir) = app_handle.path().resource_dir().ok() {
+        candidates.push(resource_dir.join("data").join("competitions").join(competition_id).join(format!("seed.{}-2026.json", competition_id)));
+    }
+    for candidate in &candidates {
+        if candidate.exists() {
+            return Ok(candidate.clone());
+        }
+    }
+    Err(format!(
+        "Competition seed not found for '{}'. Looked in: {:?}",
+        competition_id,
+        candidates.iter().flatten().collect::<Vec<_>>()
+    ))
 }
 
 fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
@@ -1795,12 +1934,14 @@ pub async fn start_new_game(
     last_name: String,
     dob: String,
     nationality: String,
+    competition_id: Option<String>,
     world_source: Option<String>,
     avatar_path: Option<String>,
 ) -> Result<String, String> {
+    let competition_id = competition_id.unwrap_or_else(|| "lec".to_string());
     info!(
-        "[cmd] start_new_game: {} {} (nickname={:?}, nationality={}, world_source={:?})",
-        first_name, last_name, nickname, nationality, world_source
+        "[cmd] start_new_game: {} {} (nickname={:?}, nationality={}, competition={}, world_source={:?})",
+        first_name, last_name, nickname, nationality, competition_id, world_source
     );
     // Validate inputs
     let first_name = first_name.trim().to_string();
@@ -1843,13 +1984,31 @@ pub async fn start_new_game(
     let start_date = chrono::Utc.with_ymd_and_hms(2025, 1, 1, 0, 0, 0).unwrap();
     let clock = GameClock::new(start_date);
 
-    // Load world based on source
-    let world_source = world_source.unwrap_or_else(|| "lec-default".to_string());
+    // Load world based on competition_id and source
+    let world_source = world_source.unwrap_or_else(|| {
+        // Default world source depends on competition
+        match competition_id.as_str() {
+            "cblol" => "cblol-default",
+            _ => "lec-default",
+        }
+        .to_string()
+    });
     let (teams, mut players, staff) = if world_source == "random" {
         ofm_core::generator::generate_world(None)
     } else if world_source == "lec-default" {
         let dir = resolve_default_world_dir(&app_handle)?;
         let mut world = ofm_core::generator::load_world_from_split_dir(&dir)?;
+        let has_explicit_potential_base = world.players.iter().any(|p| p.potential_base != 99);
+        if !has_explicit_potential_base {
+            apply_seed_potential_defaults(&mut world.players);
+        }
+        (world.teams, world.players, world.staff)
+    } else if world_source == "cblol-default" {
+        let cblol_data = std::fs::read_to_string(
+            resolve_competition_seed_path(&app_handle, "cblol")?,
+        )
+        .map_err(|e| format!("Failed to read CBLOL seed data: {}", e))?;
+        let mut world = ofm_core::generator::load_world_from_json(&cblol_data)?;
         let has_explicit_potential_base = world.players.iter().any(|p| p.potential_base != 99);
         if !has_explicit_potential_base {
             apply_seed_potential_defaults(&mut world.players);
@@ -1875,13 +2034,19 @@ pub async fn start_new_game(
     inject_seed_free_agents(&mut players);
     apply_default_initial_contract_end(&mut players);
 
-    let new_game = Game::new(clock, manager, teams, players, staff, vec![]);
+    let mut new_game = Game::new(clock, manager, teams, players, staff, vec![]);
+
+    // Generate competition from manifest and add it to the game
+    if let Err(e) = bootstrap_competition(&mut new_game, &app_handle, &competition_id) {
+        log::warn!("[cmd] start_new_game: competition bootstrap failed (non-fatal): {}", e);
+    }
 
     info!(
-        "[cmd] start_new_game: world generated with {} teams, {} players, {} staff",
+        "[cmd] start_new_game: world generated with {} teams, {} players, {} staff, {} competition(s)",
         new_game.teams.len(),
         new_game.players.len(),
-        new_game.staff.len()
+        new_game.staff.len(),
+        new_game.competitions.len()
     );
     info!("[cmd] start_new_game: storing game in state");
     state.set_game(new_game);
@@ -2396,4 +2561,136 @@ pub async fn update_manager_profile(
 
     info!("[cmd] update_manager_profile: completed");
     Ok(())
+}
+
+/// List all competitions for the frontend competition browser.
+#[tauri::command]
+pub fn list_competitions(
+    state: State<'_, StateManager>,
+) -> Result<Vec<CompetitionSummary>, String> {
+    let game = state
+        .get_game(|g: &Game| g.clone())
+        .ok_or("No active game session")?;
+
+    let summaries: Vec<CompetitionSummary> = game
+        .competitions
+        .iter()
+        .map(|comp| CompetitionSummary {
+            id: comp.id.clone(),
+            name: comp.name.clone(),
+            slug: comp.slug.clone(),
+            region: comp.region.clone(),
+            tier: format!("{:?}", comp.tier),
+            season: comp.season,
+            status: format!("{:?}", comp.status),
+            phase_count: comp.phases.len(),
+            is_active: comp.runtime.is_active,
+        })
+        .collect();
+
+    Ok(summaries)
+}
+
+/// Create an international event competition (e.g. Worlds, MSI)
+/// using top teams from existing regional competitions.
+#[tauri::command]
+pub fn create_international_event(
+    state: State<'_, StateManager>,
+    name: String,
+    slug: String,
+    competition_ids: Vec<String>,
+    top_teams_per_region: usize,
+) -> Result<String, String> {
+    let mut game = state
+        .get_game(|g: &Game| g.clone())
+        .ok_or("No active game session")?;
+
+    // Collect top teams from specified competitions
+    let mut selected_teams: Vec<String> = Vec::new();
+    for comp_id in &competition_ids {
+        if let Some(comp) = game.competitions.iter().find(|c| c.id == *comp_id) {
+            let phase = comp.phases.first().ok_or("Competition has no phases")?;
+            let sorted = {
+                let mut s = phase.standings.clone();
+                s.sort_by(|a, b| {
+                    b.points
+                        .cmp(&a.points)
+                        .then(b.kills_for.cmp(&a.kills_for))
+                });
+                s
+            };
+            let teams: Vec<String> = sorted
+                .into_iter()
+                .take(top_teams_per_region)
+                .map(|e| e.team_id)
+                .collect();
+            selected_teams.extend(teams);
+        }
+    }
+
+    if selected_teams.len() < 2 {
+        return Err("Need at least 2 teams for an international event".to_string());
+    }
+
+    use chrono::NaiveDate;
+    use domain::competition::{
+        CompetitionRules, CompetitionRuntime, CompetitionStatus, CompetitionTier,
+    };
+    use ofm_core::calendar::{generate_calendar, PhaseSchedule};
+
+    let schedule = PhaseSchedule::single_elim("Playoffs", 5, selected_teams.len());
+    let event_id = format!("intl-{}", slug);
+    let start = NaiveDate::from_ymd_opt(
+        game.clock.current_date.year(),
+        game.clock.current_date.month(),
+        game.clock.current_date.day(),
+    )
+    .unwrap();
+
+    let calendar = generate_calendar(&selected_teams, &[schedule], start, &event_id);
+
+    use domain::competition::Competition;
+    let event = Competition {
+        id: event_id.clone(),
+        name,
+        slug,
+        season: game.clock.current_date.year() as u32,
+        region: "INTERNATIONAL".into(),
+        tier: CompetitionTier::International,
+        status: CompetitionStatus::NotStarted,
+        rules: CompetitionRules {
+            has_playoffs: true,
+            playoff_best_of: 5,
+            best_of_default: 5,
+            teams_count: selected_teams.len(),
+            ..CompetitionRules::default()
+        },
+        phases: calendar.phases,
+        runtime: CompetitionRuntime {
+            has_manual_overrides: false,
+            next_matchday: 1,
+            is_active: false,
+            active_phase_id: Some(format!("{}-phase-0", event_id)),
+        },
+    };
+
+    game.competitions.push(event);
+    state.set_game(game);
+
+    info!("[cmd] create_international_event: created '{}' with {} teams", event_id, selected_teams.len());
+    Ok(event_id)
+}
+
+/// Lightweight competition data for the frontend browser.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct CompetitionSummary {
+    pub id: String,
+    pub name: String,
+    pub slug: String,
+    pub region: String,
+    pub tier: String,
+    pub season: u32,
+    pub status: String,
+    pub phase_count: usize,
+    pub is_active: bool,
 }

@@ -1,5 +1,6 @@
 use crate::champions::{ChampionMasteryEntry, ChampionPatchState};
 use crate::clock::GameClock;
+use domain::competition::Competition;
 use domain::league::League;
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
@@ -110,6 +111,8 @@ pub struct Game {
     #[serde(default)]
     pub academy_league: Option<League>,
     #[serde(default)]
+    pub competitions: Vec<Competition>,
+    #[serde(default)]
     pub scouting_assignments: Vec<ScoutingAssignment>,
     #[serde(default)]
     pub board_objectives: Vec<BoardObjective>,
@@ -146,6 +149,7 @@ impl Game {
             social_templates: vec![],
             league: None,
             academy_league: None,
+            competitions: vec![],
             scouting_assignments: vec![],
             board_objectives: vec![],
             season_context: SeasonContext::default(),
