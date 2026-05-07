@@ -24,12 +24,12 @@ fn resolve_default_world_editor_dir(
     ];
 
     for candidate in candidates {
-        if candidate.join("teams").join("lec_teams.json").exists() {
+        if crate::commands::game::dir_has_json_files(&candidate.join("teams")) {
             return Ok(candidate);
         }
     }
 
-    Err("Default LEC world database not found.".to_string())
+    Err("Default world database not found.".to_string())
 }
 
 fn enrich_world_for_editor(world: &mut ofm_core::generator::WorldData) {

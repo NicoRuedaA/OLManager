@@ -1,0 +1,104 @@
+{
+  "name": "INT Teams",
+  "description": "",
+  "teams": [
+    {
+      "id": "team-68a5c6a9",
+      "name": "Team Fire",
+      "short_name": "TF",
+      "country": "International",
+      "city": "",
+      "arena_name": "TF Arena",
+      "arena_capacity": 2500,
+      "finance": 4000000,
+      "manager_id": null,
+      "reputation": 400,
+      "team_kind": "Main",
+      "parent_team_id": null,
+      "academy_team_id": null,
+      "academy": null,
+      "wage_budget": 2000000,
+      "transfer_budget": 800000,
+      "season_income": 0,
+      "season_expenses": 0,
+      "financial_ledger": [],
+      "sponsorship": null,
+      "facilities": {
+        "main_hub_level": 1,
+        "training": 1,
+        "medical": 1,
+        "scouting": 1
+      },
+      "formation": "4-2-3-1",
+      "play_style": "Balanced",
+      "lol_tactics": {
+        "draft_priority": "Balanced",
+        "jungle_style": "Enabler",
+        "jungle_pathing": "TopToBot",
+        "fight_plan": "FrontToBack",
+        "support_roaming": "Lane"
+      },
+      "training_focus": "Scrims",
+      "training_intensity": "Medium",
+      "training_schedule": "Balanced",
+      "colors": {
+        "primary": "#059669",
+        "secondary": "#34d399"
+      },
+      "form": [],
+      "history": [],
+      "academy_lifecycle": null,
+      "training_groups": [],
+      "scrim_results": []
+    },
+    {
+      "id": "team-47bcb585",
+      "name": "Team Ice",
+      "short_name": "TI",
+      "country": "International",
+      "city": "",
+      "arena_name": "TI Arena",
+      "arena_capacity": 2500,
+      "finance": 4000000,
+      "manager_id": null,
+      "reputation": 400,
+      "team_kind": "Main",
+      "parent_team_id": null,
+      "academy_team_id": null,
+      "academy": null,
+      "wage_budget": 2000000,
+      "transfer_budget": 800000,
+      "season_income": 0,
+      "season_expenses": 0,
+      "financial_ledger": [],
+      "sponsorship": null,
+      "facilities": {
+        "main_hub_level": 1,
+        "training": 1,
+        "medical": 1,
+        "scouting": 1
+      },
+      "formation": "4-2-3-1",
+      "play_style": "Balanced",
+      "lol_tactics": {
+        "draft_priority": "Balanced",
+        "jungle_style": "Enabler",
+        "jungle_pathing": "TopToBot",
+        "fight_plan": "FrontToBack",
+        "support_roaming": "Lane"
+      },
+      "training_focus": "Scrims",
+      "training_intensity": "Medium",
+      "training_schedule": "Balanced",
+      "colors": {
+        "primary": "#0891b2",
+        "secondary": "#22d3ee"
+      },
+      "form": [],
+      "history": [],
+      "academy_lifecycle": null,
+      "training_groups": [],
+      "scrim_results": []
+    }
+  ]
+}

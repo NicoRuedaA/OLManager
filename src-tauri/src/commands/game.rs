@@ -793,6 +793,18 @@ fn resolve_competition_seed_path(
     ))
 }
 
+/// Check if a directory contains at least one `.json` file.
+pub(crate) fn dir_has_json_files(dir: &std::path::Path) -> bool {
+    if let Ok(entries) = std::fs::read_dir(dir) {
+        for entry in entries.flatten() {
+            if entry.path().extension().and_then(|e| e.to_str()) == Some("json") {
+                return true;
+            }
+        }
+    }
+    false
+}
+
 fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path::PathBuf, String> {
     let cwd = std::env::current_dir().map_err(|e| format!("Failed to read current dir: {}", e))?;
     let mut candidates = vec![
@@ -817,48 +829,12 @@ fn resolve_default_world_dir(app_handle: &tauri::AppHandle) -> Result<std::path:
     }
 
     for candidate in candidates.into_iter().flatten() {
-        if candidate.join("teams").join("lec_teams.json").exists() {
+        if dir_has_json_files(&candidate.join("teams")) {
             return Ok(candidate);
         }
     }
 
-    // Fallback: embed the split files into app_data_dir
-    let app_data_dir = app_handle.path().app_data_dir().map_err(|e| {
-        format!(
-            "Default LEC world database not found and app data dir is unavailable: {}",
-            e
-        )
-    })?;
-    let db_dir = app_data_dir.join("databases");
-    std::fs::create_dir_all(db_dir.join("teams"))
-        .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
-    std::fs::create_dir_all(db_dir.join("players"))
-        .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
-    std::fs::create_dir_all(db_dir.join("staffs"))
-        .map_err(|e| format!("Failed to create fallback databases directory: {}", e))?;
-
-    let embedded_teams = include_str!("../../databases/teams/lec_teams.json");
-    let embedded_players = include_str!("../../databases/players/lec_players.json");
-    let embedded_staffs = include_str!("../../databases/staffs/free_agents.json");
-
-    if !db_dir.join("teams").join("lec_teams.json").exists() {
-        std::fs::write(db_dir.join("teams").join("lec_teams.json"), embedded_teams)
-            .map_err(|e| format!("Failed to write fallback teams: {}", e))?;
-    }
-    if !db_dir.join("players").join("lec_players.json").exists() {
-        std::fs::write(db_dir.join("players").join("lec_players.json"), embedded_players)
-            .map_err(|e| format!("Failed to write fallback players: {}", e))?;
-    }
-    if !db_dir.join("staffs").join("free_agents.json").exists() {
-        std::fs::write(db_dir.join("staffs").join("free_agents.json"), embedded_staffs)
-            .map_err(|e| format!("Failed to write fallback staff: {}", e))?;
-    }
-
-    if db_dir.join("teams").join("lec_teams.json").exists() {
-        return Ok(db_dir);
-    }
-
-    Err("Default LEC world database not found.".to_string())
+    Err("Default world database not found. Expected a 'databases/' directory with 'teams/', 'players/', and 'staffs/' subdirectories containing .json files. Checked candidates and fallback paths — none contained valid team data.".to_string())
 }
 
 #[allow(dead_code)]
