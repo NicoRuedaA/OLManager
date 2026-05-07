@@ -22,9 +22,9 @@ interface DashboardWorkspaceContentProps {
   onSelectTeam: (id: string) => void;
   onGameUpdate: (state: GameStateData) => void;
   isUnemployed: boolean;
-  viewingChampionKey: string | null;
-  onCloseChampion: () => void;
-  onViewChampion: (championKey: string) => void;
+  viewingChampionKey?: string | null;
+  onCloseChampion?: () => void;
+  onViewChampion?: (championKey: string) => void;
 }
 
 export default function DashboardWorkspaceContent({
@@ -39,8 +39,8 @@ export default function DashboardWorkspaceContent({
   onGameUpdate,
   isUnemployed,
   viewingChampionKey,
-  onCloseChampion,
-  onViewChampion,
+  onCloseChampion = () => undefined,
+  onViewChampion = () => undefined,
 }: DashboardWorkspaceContentProps) {
   const { t } = useTranslation();
 

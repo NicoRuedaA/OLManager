@@ -72,7 +72,7 @@ export function positionBadgeVariant(role: LolRole): "accent" | "primary" | "suc
         case "ADC":
             return "accent";
         case "SUPPORT":
-            return "neutral";
+            return "primary";
         default:
             return "primary";
     }

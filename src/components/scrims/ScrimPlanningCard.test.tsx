@@ -16,10 +16,11 @@ vi.mock("../../services/trainingService", () => ({
 }));
 
 function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): TeamData {
+  const { id, name, ...rest } = overrides;
   return {
-    id: overrides.id,
-    name: overrides.name,
-    short_name: overrides.name.slice(0, 3).toUpperCase(),
+    id,
+    name,
+    short_name: name.slice(0, 3).toUpperCase(),
     country: "ES",
     city: "Madrid",
     stadium_name: "Arena",
@@ -41,7 +42,7 @@ function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): Tea
     starting_xi_ids: [],
     form: [],
     history: [],
-    ...overrides,
+    ...rest,
   };
 }
 
@@ -59,7 +60,7 @@ function gameState(): GameStateData {
     teams: [mine, rival],
     players: [],
     clock: { current_date: "2026-04-28T00:00:00Z", start_date: "2026-04-01T00:00:00Z" },
-  } as GameStateData;
+  } as unknown as GameStateData;
 }
 
 describe("ScrimPlanningCard", () => {

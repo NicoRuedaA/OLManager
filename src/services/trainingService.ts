@@ -4,7 +4,7 @@ import {
   normalizeOptionalTrainingFocus,
   normalizeTrainingFocus,
 } from "../lib/trainingFocus";
-import type { GameStateData, PostScrimDecision, ScrimFocus } from "../store/gameStore";
+import type { GameStateData, PostScrimDecision, ScrimFocus, ScrimReportData } from "../store/gameStore";
 
 export interface BackendTodayScrimContext {
   state: string;
@@ -12,7 +12,7 @@ export interface BackendTodayScrimContext {
   opponent_team_id: string | null;
   resolved_opponent_team_id: string | null;
   objective: ScrimFocus | null;
-  report: GameStateData["teams"][number]["scrim_reports"][number] | null;
+  report: ScrimReportData | null;
   can_edit_plan: boolean;
   can_cancel: boolean;
   can_review: boolean;
@@ -31,7 +31,7 @@ export interface BackendWeeklyScrimSlotContext {
   plan: string[];
   resolved_opponent_team_id: string | null;
   result_won: boolean | null;
-  report: GameStateData["teams"][number]["scrim_reports"][number] | null;
+  report: ScrimReportData | null;
   status: "Open" | "Locked" | "Played" | "Reviewed" | "Cancelled";
   can_edit: boolean;
 }
@@ -56,7 +56,7 @@ export interface BackendWeeklyScrimContext {
   setup_locked_reason: string | null;
   can_finalize_setup: boolean;
   slots: BackendWeeklyScrimSlotContext[];
-  latest_reports: GameStateData["teams"][number]["scrim_reports"];
+  latest_reports: ScrimReportData[];
 }
 
 export interface BackendScrimContextResponse {

@@ -263,7 +263,7 @@ function createGameState(player: PlayerData): GameStateData {
   };
 }
 
-function defaultInvokeResponse(command: string) {
+function defaultInvokeResponse(_command: string) {
   return createGameState(createPlayer());
 }
 

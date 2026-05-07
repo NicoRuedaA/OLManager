@@ -1,4 +1,4 @@
-import { GameStateData } from "../../store/gameStore";
+import { compareStandingsByLolScore, type GameStateData } from "../../store/gameStore";
 import { Card, CardBody, Badge, TeamLocation } from "../ui";
 import { Building2, Trophy } from "lucide-react";
 import { formatVal } from "../../lib/helpers";
@@ -24,9 +24,7 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
   const userTeamId = gameState.manager.team_id;
 
   const allStandings = gameState.league?.standings
-    ? [...gameState.league.standings].sort((a, b) =>
-        b.points - a.points || (b.goals_for - b.goals_against) - (a.goals_for - a.goals_against) || b.goals_for - a.goals_for
-      )
+    ? [...gameState.league.standings].sort(compareStandingsByLolScore)
     : [];
 
   const teamsData = getMainTeams(gameState.teams).map(team => {

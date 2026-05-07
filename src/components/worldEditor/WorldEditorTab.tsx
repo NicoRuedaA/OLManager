@@ -477,13 +477,16 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
         if (!update) return player;
         updated += 1;
         const { potential_base, ...attributeUpdates } = update;
+        const safeAttributeUpdates = Object.fromEntries(
+          Object.entries(attributeUpdates).filter(([, value]) => typeof value === "number"),
+        ) as Partial<PlayerData["attributes"]>;
         const nextPlayer = {
           ...player,
           attributes: {
             ...player.attributes,
-            ...attributeUpdates,
-          },
-        };
+            ...safeAttributeUpdates,
+          } as PlayerData["attributes"],
+        } satisfies PlayerData;
         const nextOvr = calculateLolOvr(nextPlayer);
         return {
           ...nextPlayer,

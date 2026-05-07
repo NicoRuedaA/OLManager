@@ -24,7 +24,7 @@ vi.mock("react-i18next", () => ({
 
 const makePlayer = (
   id: string,
-  position: string,
+  position: PlayerData["position"],
   overrides: Partial<PlayerData> = {},
 ): PlayerData => ({
   id,

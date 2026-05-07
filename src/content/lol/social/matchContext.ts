@@ -72,9 +72,10 @@ function otherSide(side: Side): Side {
 }
 
 function winnerSide(match: DraftMatchResult | CompatibleMatchSummary): Side {
-  return ("winnerSide" in match && match.winnerSide) ||
-    ("winner_side" in match && match.winner_side) ||
-    "blue";
+  if ("winnerSide" in match && match.winnerSide) return match.winnerSide;
+  const snakeMatch = match as unknown as Record<string, unknown>;
+  if ("winner_side" in match && snakeMatch["winner_side"]) return snakeMatch["winner_side"] as Side;
+  return "blue";
 }
 
 function numberField(
@@ -82,7 +83,8 @@ function numberField(
   camel: keyof CompatibleMatchSummary,
   snake: keyof CompatibleMatchSummary,
 ): number {
-  const value = match[camel] ?? match[snake];
+  const record = match as unknown as Record<string, string | number | boolean>;
+  const value = record[camel] ?? record[snake];
   return typeof value === "number" ? value : 0;
 }
 
@@ -174,7 +176,7 @@ export function extractMatchContext(params: ExtractMatchContextParams): MatchCon
   const { match, userSide } = params;
   const enemySide = otherSide(userSide);
   const result: Result = winnerSide(match) === userSide ? "win" : "loss";
-  const durationMinutes = "durationMinutes" in match ? match.durationMinutes : match.duration_minutes ?? 0;
+  const durationMinutes = ("durationMinutes" in match ? match.durationMinutes : match.duration_minutes) ?? 0;
   const userKills = numberField(match, `${userSide}Kills` as keyof CompatibleMatchSummary, `${userSide}_kills` as keyof CompatibleMatchSummary);
   const enemyKills = numberField(match, `${enemySide}Kills` as keyof CompatibleMatchSummary, `${enemySide}_kills` as keyof CompatibleMatchSummary);
   const killDiff = userKills - enemyKills;

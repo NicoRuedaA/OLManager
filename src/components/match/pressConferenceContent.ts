@@ -328,7 +328,7 @@ export function buildPressConferenceQuestions({
     contextTags: context.tags,
     contextFacts: context.facts,
   });
-  const coherentCandidates = candidates.filter((candidate) => isQuestionCoherentWithResult(candidate, context.facts.result));
+  const coherentCandidates = candidates.filter((candidate) => isQuestionCoherentWithResult(candidate, context.facts.result as "win" | "loss"));
   const selectedCandidates = selectPressConferenceCandidates(coherentCandidates, random, recentQuestionIds);
 
   const fallbackResponses: PressResponse[] = [

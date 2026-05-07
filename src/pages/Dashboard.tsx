@@ -46,11 +46,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "../store/settingsStore";
 import { resolveExampleTeamLogo } from "../lib/teamLogos";
-import ChampionPage from "../pages/ChampionPage";
 
 const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Scrims", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
-
-const WORLD_TABS = new Set(["Players", "Teams", "Tournaments", "ChampionsWorld"]);
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
@@ -430,7 +427,7 @@ export default function Dashboard(): JSX.Element {
 
   const searchResults = gameState
     ? getDashboardSearchResults(gameState, searchQuery)
-    : { matchedPlayers: [], matchedTeams: [] };
+    : { matchedPlayers: [], matchedTeams: [], matchedChampions: [] };
   const dashboardAlerts = gameState
     ? getDashboardAlerts(gameState, hasMatchToday, t)
     : [];
@@ -560,7 +557,20 @@ export default function Dashboard(): JSX.Element {
           dashboardAlerts={dashboardAlerts}
           gameState={gameState}
           profileNavigation={profileNavigation}
-          dashboardTabContentModel={dashboardTabContentModel}
+          dashboardTabContentModel={dashboardTabContentModel ?? createDashboardTabContentModel({
+            activeTab: profileNavigation.activeTab,
+            gameState,
+            seasonComplete,
+            visitedOnboardingTabs,
+            initialMessageId: profileNavigation.initialMessageId,
+            handlers: {
+              onSelectPlayer: selectPlayer,
+              onSelectTeam: selectTeam,
+              onGameUpdate: setGameState,
+              onNavigate: handleNavigate,
+              onViewChampion: (championKey: string) => setViewingChampionKey(championKey),
+            },
+          })}
           onBack={handleBack}
           onNavigate={handleNavigate}
           onSelectPlayer={selectPlayer}

@@ -57,7 +57,7 @@ export interface TransferCollections {
   myTransferList: PlayerData[];
   myLoanList: PlayerData[];
   marketPlayers: PlayerData[];
-  erlPlayers: PlayerData[];
+  erlPlayers?: PlayerData[];
   loanPlayers: PlayerData[];
   playersWithOffers: PlayerData[];
 }
@@ -158,7 +158,7 @@ export function getCurrentTransferList(
     case "market":
       return collections.marketPlayers;
     case "erl":
-      return collections.erlPlayers;
+      return collections.erlPlayers ?? [];
     case "loans":
       return collections.loanPlayers;
     case "offers":
@@ -226,7 +226,7 @@ export function sortTransferPlayers(
         return ((order[roleA] ?? 0) - (order[roleB] ?? 0)) * factor;
       }
       case "age":
-        return (calcAge(a.date_of_birth) - calcAge(b.date_of_birth)) * factor;
+        return (calcAge(a.date_of_birth, new Date().toISOString()) - calcAge(b.date_of_birth, new Date().toISOString())) * factor;
       case "team": {
         const teamA = a.team_id ?? "";
         const teamB = b.team_id ?? "";

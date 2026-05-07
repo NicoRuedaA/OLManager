@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useTranslation } from "react-i18next";
-import { GameStateData } from "../store/gameStore";
+import { compareStandingsByLolScore, GameStateData } from "../store/gameStore";
 import { useGameStore } from "../store/gameStore";
 import { Card, CardBody } from "./ui";
 import PlayoffBracketBoard from "./playoffs/PlayoffBracketBoard";
@@ -57,9 +57,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
 
   // Compute standings for display
   const standings = league
-    ? [...league.standings].sort((a, b) =>
-      b.points - a.points || (b.goals_for - b.goals_against) - (a.goals_for - a.goals_against) || b.goals_for - a.goals_for
-    )
+    ? [...league.standings].sort(compareStandingsByLolScore)
     : [];
 
   const userStandingIdx = standings.findIndex(s => s.team_id === userTeamId);

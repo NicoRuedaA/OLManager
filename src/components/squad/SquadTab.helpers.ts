@@ -427,7 +427,7 @@ export function buildActiveLineupIds(
       .map((id) => byId.get(id))
       .find(
         (player): player is PlayerData =>
-          Boolean(player) && !used.has(player.id) && getLolRoleForPlayer(player) === role,
+          player !== undefined && !used.has(player.id) && getLolRoleForPlayer(player) === role,
       );
 
     if (savedRolePlayer) {

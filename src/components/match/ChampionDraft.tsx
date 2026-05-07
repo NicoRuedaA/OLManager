@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { MatchSnapshot } from "./types";
 import type { GameStateData, ScrimReportData } from "../../store/gameStore";
@@ -483,24 +483,6 @@ function mapSnapshotPositionToDraftRole(role: string): Role {
   if (key.includes("attackingmidfielder") || key === "mid") return "MID";
   if (key.includes("adc") || key.includes("bot") || key === "forward" || key === "striker") return "ADC";
   return "SUPPORT";
-}
-
-function roleOrderedSnapshotPlayers<T extends { role?: string; id: string; name?: string }>(players: T[]): T[] {
-  const byRole = new Map<Role, T>();
-  const used = new Set<string>();
-
-  for (const role of ROLE_ORDER) {
-    const player = players.find(
-      (candidate) => !used.has(candidate.id) && mapSnapshotPositionToDraftRole(candidate.role ?? "") === role,
-    );
-    if (!player) continue;
-    byRole.set(role, player);
-    used.add(player.id);
-  }
-
-  const remainder = players.filter((candidate) => !used.has(candidate.id));
-  const ordered = ROLE_ORDER.map((role) => byRole.get(role)).filter((value): value is T => !!value);
-  return [...ordered, ...remainder].slice(0, 5);
 }
 
 function roleOrderedSnapshotPlayersWithResolver<T extends { role?: string; id: string; name?: string }>(
@@ -1434,7 +1416,7 @@ export default function ChampionDraft({
       resolveScoringContext: (candidate) => {
         return {
           roleAlreadyCovered: candidate.roleHints.length > 0
-            && candidate.roleHints.every((role) => enemyCoveredRoles.has(role)),
+            && candidate.roleHints.every((role) => enemyCoveredRoles.has(role as Role)),
           enemyJungleLocked: enemyCoveredRoles.has("JUNGLE"),
           isFlexThreat: candidate.roleHints.length >= 2,
           draftHashSeed: `${stepIndex}:${targetSide}:${candidate.championId}`,
@@ -1565,7 +1547,7 @@ export default function ChampionDraft({
         resolveScoringContext: (candidate) => {
           return {
             roleAlreadyCovered: candidate.roleHints.length > 0
-              && candidate.roleHints.every((role) => enemyCoveredRoles.has(role)),
+              && candidate.roleHints.every((role) => enemyCoveredRoles.has(role as Role)),
             enemyJungleLocked: enemyCoveredRoles.has("JUNGLE"),
             isFlexThreat: candidate.roleHints.length >= 2,
             draftHashSeed: `${stepIndex}:${targetSide}:${candidate.championId}:debug`,
@@ -2069,7 +2051,7 @@ export default function ChampionDraft({
   // ---------------------------------------------------------------------------
   // Dynamic Draft Tips - Assistant Coach & Player Suggestions
   // ---------------------------------------------------------------------------
-  const assistantCoachTips = useMemo(() => {
+  const assistantCoachTips = useMemo<DraftAdviceTip[]>(() => {
     const tips: DraftAdviceTip[] = [];
     if (!gameState) return tips;
 

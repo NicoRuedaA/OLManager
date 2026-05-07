@@ -113,7 +113,7 @@ export function resolveStartingXiIds({
       .filter((player) => !usedPlayerIds.has(player.id))
       .sort(
         (leftPlayer, rightPlayer) =>
-          calcOvr(rightPlayer, slotPosition).ovr - calcOvr(leftPlayer, slotPosition).ovr,
+          calcOvr(rightPlayer, slotPosition as PlayerData["position"]).ovr - calcOvr(leftPlayer, slotPosition as PlayerData["position"]).ovr,
       )[0];
 
     if (!bestPlayer) break;
@@ -150,7 +150,7 @@ export function sortTacticsPlayers(
         return (
           (POSITION_ORDER[normalisePosition(leftPosition)] ?? 99) -
             (POSITION_ORDER[normalisePosition(rightPosition)] ?? 99) ||
-          calcOvr(rightPlayer, rightPosition).ovr - calcOvr(leftPlayer, leftPosition).ovr
+          calcOvr(rightPlayer, rightPosition as PlayerData["position"]).ovr - calcOvr(leftPlayer, leftPosition as PlayerData["position"]).ovr
         );
       case "name":
         return leftPlayer.full_name.localeCompare(rightPlayer.full_name);
@@ -161,7 +161,7 @@ export function sortTacticsPlayers(
       case "morale":
         return leftPlayer.morale - rightPlayer.morale;
       case "ovr":
-        return calcOvr(leftPlayer, leftPosition).ovr - calcOvr(rightPlayer, rightPosition).ovr;
+        return calcOvr(leftPlayer, leftPosition as PlayerData["position"]).ovr - calcOvr(rightPlayer, rightPosition as PlayerData["position"]).ovr;
       default:
         return 0;
     }

@@ -54,10 +54,11 @@ function player(id: string, teamId: string, ovr: number): PlayerData {
 }
 
 function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): TeamData {
+  const { id, name, ...rest } = overrides;
   return {
-    id: overrides.id,
-    name: overrides.name,
-    short_name: overrides.name.slice(0, 3).toUpperCase(),
+    id,
+    name,
+    short_name: name.slice(0, 3).toUpperCase(),
     country: "ES",
     city: "Madrid",
     stadium_name: "Arena",
@@ -79,7 +80,7 @@ function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): Tea
     starting_xi_ids: [],
     form: [],
     history: [],
-    ...overrides,
+    ...rest,
   };
 }
 

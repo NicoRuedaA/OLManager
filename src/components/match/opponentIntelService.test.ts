@@ -34,7 +34,7 @@ describe("buildOpponentIntel", () => {
       ],
       teamSeeds: [{ id: "fnc", name: "Fnatic" }],
       playerSeeds: [
-        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Ahri", 92], ["Azir", 86]] },
+        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Ahri", 92], ["Azir", 86]] as (string | number)[][] },
       ],
       championSeeds: [
         { id: "Ahri", name: "Ahri", roleHints: ["MID"] },
@@ -54,12 +54,12 @@ describe("buildOpponentIntel", () => {
       opponentPlayers: [{ id: "p1", name: "Humanoid" }],
       teamSeeds: [{ id: "fnc", name: "Fnatic" }],
       playerSeeds: [
-        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Ahri", 92], ["Azir", 86], ["Syndra", 84]] },
+        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Ahri", 92], ["Azir", 86], ["Syndra", 84]] as (string | number)[][] },
       ],
       championSeeds: [
-        { id: "Ahri", name: "Ahri", roleHints: ["MID"] },
-        { id: "Azir", name: "Azir", roleHints: ["MID"] },
-        { id: "Syndra", name: "Syndra", roleHints: ["MID"] },
+        { id: "Ahri", name: "Ahri", roleHints: ["MID"] as string[] },
+        { id: "Azir", name: "Azir", roleHints: ["MID"] as string[] },
+        { id: "Syndra", name: "Syndra", roleHints: ["MID"] as string[] },
       ],
     } as const;
 
@@ -162,8 +162,8 @@ describe("buildOpponentIntel", () => {
       ],
       teamSeeds: [{ id: "fnc", name: "Fnatic" }],
       playerSeeds: [
-        { ign: "Razork", teamId: "fnc", role: "Jungle", champions: [["Sejuani", 95]] },
-        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Nidalee", 95]] },
+        { ign: "Razork", teamId: "fnc", role: "Jungle", champions: [["Sejuani", 95]] as (string | number)[][] },
+        { ign: "Humanoid", teamId: "fnc", role: "Mid", champions: [["Nidalee", 95]] as (string | number)[][] },
       ],
       championSeeds: [
         { id: "Sejuani", name: "Sejuani", roleHints: ["JUNGLE"] },

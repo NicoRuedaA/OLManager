@@ -110,6 +110,8 @@ export interface EnginePlayerData {
   id: string;
   name: string;
   role?: string;
+  /** @deprecated Legacy football test fixture field. */
+  position?: string;
   condition: number;
   fitness: number;
   mechanics: number;
@@ -122,6 +124,26 @@ export interface EnginePlayerData {
   discipline: number;
   mental_resilience: number;
   traits: string[];
+  /** @deprecated Legacy football attributes retained for fixture compatibility. */
+  pace?: number;
+  stamina?: number;
+  strength?: number;
+  agility?: number;
+  passing?: number;
+  shooting?: number;
+  tackling?: number;
+  dribbling?: number;
+  defending?: number;
+  positioning?: number;
+  vision?: number;
+  decisions?: number;
+  composure?: number;
+  aggression?: number;
+  teamwork?: number;
+  leadership?: number;
+  handling?: number;
+  reflexes?: number;
+  aerial?: number;
 }
 
 export interface EngineTeamData {

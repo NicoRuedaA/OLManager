@@ -631,7 +631,7 @@ function getSeriesSessionKey(fixtureId: string): string {
   return `fixture-draft-session-active:${fixtureId}`;
 }
 
-function hasActiveSeriesSession(fixtureId: string): boolean {
+export function hasActiveSeriesSession(fixtureId: string): boolean {
   if (typeof window === "undefined") return false;
 
   try {

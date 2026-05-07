@@ -9,7 +9,11 @@ export type LolRoleTag = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
  */
 export function resolvePlayerLolRole(player: PlayerData): LolRoleTag {
   // Player's natural_position is already a LolRole from the backend
-  return player.natural_position;
+  const role = player.natural_position;
+  if (role === "TOP" || role === "JUNGLE" || role === "MID" || role === "ADC" || role === "SUPPORT") {
+    return role;
+  }
+  return "MID";
 }
 
 function normalizeKey(value: string): string {

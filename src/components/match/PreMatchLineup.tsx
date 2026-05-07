@@ -123,10 +123,8 @@ function TeamLineupColumn({
   teamColor,
   isUserSide,
   selectedStarterId,
-  isAutoSelecting,
   onSelectStarter,
   onSwap,
-  onAutoSelect,
 }: {
   team: MatchSnapshot["home_team"];
   bench: EnginePlayerData[];
@@ -263,8 +261,8 @@ function TeamLineupColumn({
         </div>
         {bench.length === 0 ? (
           <p className="text-xs text-gray-600 dark:text-gray-500">{t("match.noBenchAvailable2")}</p>
-        ) : (
-          <div className="flex flex-col gap-1">
+            ) : (
+            <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2 px-2 pb-1">
               <span className="w-7" />
               <span className="flex-1" />
@@ -279,7 +277,6 @@ function TeamLineupColumn({
               </span>
             </div>
             {bench.map((bp) => {
-              const ovr = getPositionOvr(bp);
               const role = getPlayerLolRole(bp);
               const keyStats = ROLE_KEY_STATS[role] || [];
               const canSwap = isUserSide && selectedStarterId;

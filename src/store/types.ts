@@ -32,6 +32,7 @@ export interface TeamSeasonRecord {
   lost: number;
   kills_for: number;
   kills_against: number;
+  points?: number;
 }
 
 export interface TeamRolesData {
@@ -136,8 +137,12 @@ export interface TeamData {
   short_name: string;
   country: string;
   city: string;
-  arena_name: string;
-  arena_capacity: number;
+  arena_name?: string;
+  /** @deprecated Compatibility alias for pre-LoL tests. Use arena_name. */
+  stadium_name?: string;
+  /** @deprecated Compatibility alias for pre-LoL tests. Use arena_capacity. */
+  stadium_capacity?: number;
+  arena_capacity?: number;
   finance: number;
   manager_id: string | null;
   reputation: number;
@@ -189,7 +194,8 @@ export type MatchOutcome = "Win" | "Loss";
 
 export type TeamSide = "Blue" | "Red";
 
-export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
+export type LegacyFootballRole = "Goalkeeper" | "Defender" | "Midfielder" | "Forward" | "UNKNOWN";
+export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT" | LegacyFootballRole;
 
 export type MatchEndReason = "NexusDestroyed" | "Surrender";
 
@@ -302,6 +308,8 @@ export interface CareerEntry {
   assists: number;
 }
 
+export type PlayerAttributes = Record<string, number>;
+
 export interface PlayerData {
   id: string;
   match_name: string;
@@ -318,27 +326,7 @@ export interface PlayerData {
   footedness?: string;
   weak_foot?: number;
   training_focus: string | null;
-  attributes: {
-    pace: number;
-    mental_resilience: number;
-    strength: number;
-    champion_pool: number;
-    passing: number;
-    laning: number;
-    tackling: number;
-    mechanics: number;
-    defending: number;
-    positioning: number;
-    macro_play: number;
-    consistency: number;
-    discipline: number;
-    aggression: number;
-    teamfighting: number;
-    shotcalling: number;
-    handling: number;
-    reflexes: number;
-    aerial: number;
-  };
+  attributes: PlayerAttributes;
   condition: number;
   morale: number;
   injury: null | { name: string; days_remaining: number };
@@ -352,6 +340,8 @@ export interface PlayerData {
   loan_listed: boolean;
   transfer_offers: TransferOfferData[];
   traits: string[];
+  /** @deprecated Compatibility for old world editor forms. Use competitive_region/nationality_code. */
+  football_nation?: string;
   potential_base?: number;
   potential_revealed?: number | null;
   potential_research_started_on?: string | null;
@@ -574,8 +564,10 @@ export interface MessageData {
 
 export interface ManagerCareerStats {
   matches_managed: number;
+  /** @deprecated Legacy test fixture alias. Use matches_managed. */
+  matches?: number;
   wins: number;
-  draws: number;
+  draws?: number;
   losses: number;
   trophies: number;
   best_finish: number | null;
@@ -649,9 +641,33 @@ export interface StandingData {
   won: number;
   drawn: number;
   lost: number;
-  kills_for: number;
-  kills_against: number;
+  kills_for?: number;
+  kills_against?: number;
+  /** @deprecated Compatibility alias while old fixture tests are migrated. Use kills_for. */
+  goals_for?: number;
+  /** @deprecated Compatibility alias while old fixture tests are migrated. Use kills_against. */
+  goals_against?: number;
   points: number;
+}
+
+export function getStandingKillsFor(standing: StandingData): number {
+  return standing.kills_for ?? standing.goals_for ?? 0;
+}
+
+export function getStandingKillsAgainst(standing: StandingData): number {
+  return standing.kills_against ?? standing.goals_against ?? 0;
+}
+
+export function getStandingKillDiff(standing: StandingData): number {
+  return getStandingKillsFor(standing) - getStandingKillsAgainst(standing);
+}
+
+export function compareStandingsByLolScore(left: StandingData, right: StandingData): number {
+  return (
+    right.points - left.points ||
+    getStandingKillDiff(right) - getStandingKillDiff(left) ||
+    getStandingKillsFor(right) - getStandingKillsFor(left)
+  );
 }
 
 export interface LeagueData {
@@ -799,7 +815,7 @@ export interface GameStateData {
   day_phase?: DayPhase;
   manager: {
     id: string;
-    nickname?: string;
+    nickname?: string | null;
     first_name: string;
     last_name: string;
     date_of_birth: string;

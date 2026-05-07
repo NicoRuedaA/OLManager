@@ -52,6 +52,7 @@ const ICON_TOWER = "/lol-map-icons/icon_ui_tower_minimap.png";
 const ICON_GOLD = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-event-hub/global/default/images/currency.png";
 const ICON_VOIDGRUB = "/lol-map-icons/grub.png";
 const ICON_LEC = "/lec-logo.svg";
+const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.png";
 
 interface TeamSeed {
   id: string;
@@ -279,7 +280,7 @@ function dragonKillIconsBySide(
 
   const fallback = [...parsed];
   while (fallback.length < expectedCount) {
-    fallback.push(defaultIcon);
+    fallback.push(DEFAULT_DRAGON_ICON);
   }
   return fallback;
 }
@@ -606,9 +607,14 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
   const lastRef = useRef<number>(0);
   const finishedRef = useRef(false);
 
-  const currentState = (): MatchState | null => {
+  const withRuntimeSpeed = (state: MatchState | LolSimV1RuntimeState): LolSimV1RuntimeState => ({
+    ...state,
+    speed: "speed" in state ? state.speed : speed,
+  });
+
+  const currentState = (): LolSimV1RuntimeState | null => {
     if (USE_RUST_SIM_V2 && backendStateRef.current) return backendStateRef.current;
-    return simRef.current?.state ?? null;
+    return simRef.current ? withRuntimeSpeed(simRef.current.state) : null;
   };
 
   useEffect(() => {

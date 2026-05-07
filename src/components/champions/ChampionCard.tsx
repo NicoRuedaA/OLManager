@@ -1,5 +1,4 @@
 import { memo, useState, useEffect, useRef } from "react";
-import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 
 export interface ChampionCardProps {
   id: number;
@@ -8,20 +7,6 @@ export interface ChampionCardProps {
   roles: string[];
   imageTileUrl?: string;
   onClick: (id: number) => void;
-}
-
-/**
- * Maps DB role names to ROLE_ICON_PATHS keys (uppercase)
- */
-function mapRoleToIconPath(role: string): string | undefined {
-  const normalized = role.toUpperCase();
-  if (normalized === "TOP") return ROLE_ICON_PATHS.TOP;
-  if (normalized === "JUNGLE") return ROLE_ICON_PATHS.JUNGLE;
-  if (normalized === "JUNGLER") return ROLE_ICON_PATHS.JUNGLE;
-  if (normalized === "MID") return ROLE_ICON_PATHS.MID;
-  if (normalized === "ADC" || normalized === "BOT") return ROLE_ICON_PATHS.ADC;
-  if (normalized === "SUPPORT") return ROLE_ICON_PATHS.SUPPORT;
-  return undefined;
 }
 
 /**
@@ -106,9 +91,7 @@ const LazyImage = memo(function LazyImage({
 
 export const ChampionCard = memo(function ChampionCard({
   id,
-  name,
   championKey,
-  roles,
   imageTileUrl,
   onClick,
 }: ChampionCardProps) {

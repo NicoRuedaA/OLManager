@@ -320,7 +320,7 @@ export default function ScrimsTab({
   };
 
   const staffSuggestions = buildStaffSuggestions(
-    t,
+    (key, fallback) => t(key, { defaultValue: fallback }),
     objective,
     weeklyCapacity,
     latestReports,

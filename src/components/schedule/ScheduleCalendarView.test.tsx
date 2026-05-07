@@ -57,7 +57,7 @@ function createFixture(overrides: Partial<FixtureData> = {}): FixtureData {
     away_team_id: "team-2",
     competition: "League",
     status: "Scheduled",
-    result: undefined,
+    result: null,
     ...overrides,
   };
 }

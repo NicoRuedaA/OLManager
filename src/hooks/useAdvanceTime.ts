@@ -49,13 +49,18 @@ export function useAdvanceTime(
     if (!team) return false;
     const date = new Date(game.clock.current_date);
     const weekday = (date.getUTCDay() + 6) % 7;
-    const slots = team.scrim_weekly_slots <= 2 ? 2 : team.scrim_weekly_slots <= 4 ? 4 : 6;
+    const weeklySlots = team.scrim_weekly_slots ?? 2;
+    const slots = weeklySlots <= 2 ? 2 : weeklySlots <= 4 ? 4 : 6;
     const slotDays = slots <= 2 ? [2, 2] : slots <= 4 ? [2, 2, 3, 3] : [2, 2, 3, 3, 4, 4];
     return slotDays.some((d) => d === weekday);
   }
 
   function shouldFastForwardDay(game: GameStateData): boolean {
     return scrimReviewMode === "assistant" || !hasScrimsToday(game);
+  }
+
+  function isAssistantReviewMode(): boolean {
+    return scrimReviewMode === "assistant";
   }
 
   function isAssistantScrimBlocker(id: string): boolean {
@@ -210,7 +215,7 @@ export function useAdvanceTime(
         });
       } else if (result.action === "blocked_scrim_decision" && result.game) {
         setGameState(result.game as GameStateData);
-        if (scrimReviewMode === "assistant") {
+        if (isAssistantReviewMode()) {
           try {
             const delegated = await delegateScrimDecision();
             setGameState(delegated);
@@ -251,7 +256,7 @@ export function useAdvanceTime(
         });
       } else if (result.action === "blocked_scrim_setup" && result.game) {
         setGameState(result.game as GameStateData);
-        if (scrimReviewMode === "assistant") {
+        if (isAssistantReviewMode()) {
           try {
             const configured = await autoConfigureWeeklyScrimSetup();
             setGameState(configured);

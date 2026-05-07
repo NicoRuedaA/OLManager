@@ -28,6 +28,7 @@ export type {
   TeamMatchStatsRecord,
   MatchResult,
   CareerEntry,
+  PlayerAttributes,
   PlayerMatchHistoryEntryData,
   PlayerData,
   TransferOfferData,
@@ -71,6 +72,14 @@ export type {
   ChampionPatchStateData,
   ChampionData,
   GameStateData,
+  DayPhase,
+} from './types';
+
+export {
+  compareStandingsByLolScore,
+  getStandingKillDiff,
+  getStandingKillsAgainst,
+  getStandingKillsFor,
 } from './types';
 
 interface GameStore {

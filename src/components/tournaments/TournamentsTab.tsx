@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GameStateData, FixtureData } from "../../store/gameStore";
+import { compareStandingsByLolScore, GameStateData, FixtureData, getStandingKillDiff, getStandingKillsAgainst, getStandingKillsFor } from "../../store/gameStore";
 import { Card, CardHeader, CardBody, Badge } from "../ui";
 import {
   Trophy,
@@ -44,12 +44,7 @@ export default function TournamentsTab({
     );
   }
 
-  const standings = [...league.standings].sort(
-    (a, b) =>
-      b.points - a.points ||
-      b.goals_for - b.goals_against - (a.goals_for - a.goals_against) ||
-      b.goals_for - a.goals_for,
-  );
+  const standings = [...league.standings].sort(compareStandingsByLolScore);
 
   const playoffFixtures = league.fixtures.filter((fixture) => fixture.competition === "Playoffs");
   const hasPlayoffsStarted = playoffFixtures.length > 0;
@@ -78,12 +73,7 @@ export default function TournamentsTab({
   ).length;
 
   const academyStandings = academyLeague
-    ? [...academyLeague.standings].sort(
-        (a, b) =>
-          b.points - a.points ||
-          b.goals_for - b.goals_against - (a.goals_for - a.goals_against) ||
-          b.goals_for - a.goals_for,
-      )
+      ? [...academyLeague.standings].sort(compareStandingsByLolScore)
     : [];
   const academyPlayoffFixtures = academyLeague
     ? academyLeague.fixtures.filter((fixture) => fixture.competition === "Playoffs")
@@ -272,7 +262,7 @@ export default function TournamentsTab({
                             {entry.lost}
                           </td>
                           <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                            {entry.goals_for}-{entry.goals_against}
+                            {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
                           </td>
                         </tr>
                       );
@@ -369,7 +359,7 @@ export default function TournamentsTab({
                             <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.played}</td>
                             <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.won}</td>
                             <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.lost}</td>
-                            <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.goals_for}-{entry.goals_against}</td>
+                            <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}</td>
                           </tr>
                         );
                       })}
@@ -444,7 +434,7 @@ export default function TournamentsTab({
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                   {standings.map((entry, idx) => {
                     const isUser = entry.team_id === userTeamId;
-                    const mapDiff = entry.goals_for - entry.goals_against;
+                    const mapDiff = getStandingKillDiff(entry);
                     return (
                       <tr
                         key={entry.team_id}
@@ -469,7 +459,7 @@ export default function TournamentsTab({
                           {entry.lost}
                         </td>
                         <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {entry.goals_for}-{entry.goals_against}
+                          {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
                         </td>
                         <td className={`py-3 px-4 text-center text-sm tabular-nums ${mapDiff > 0 ? "text-green-600 dark:text-green-400" : mapDiff < 0 ? "text-red-600 dark:text-red-400" : "text-gray-600 dark:text-gray-400"}`}>
                           {mapDiff > 0 ? "+" : ""}{mapDiff}

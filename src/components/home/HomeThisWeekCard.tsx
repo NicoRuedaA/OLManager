@@ -64,7 +64,9 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
     const todayKey = scrimDateKey(gameState.clock.current_date);
     const targetKey = toDateKey(date);
     if (todayKey !== targetKey) return false;
-    return slotWeekdays.some((candidateWeekday, index) => candidateWeekday === weekday && Boolean(userTeam.scrim_weekly_plan?.[index]?.trim()));
+    return slotWeekdays.some((candidateWeekday, index) => {
+      return candidateWeekday === weekday && Boolean(userTeam.weekly_scrim_plan_team_ids?.[index]?.some(Boolean));
+    });
   };
 
   const weekDays = Array.from({ length: 7 }, (_, index) => {

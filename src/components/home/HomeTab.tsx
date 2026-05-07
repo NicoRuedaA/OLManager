@@ -1,4 +1,4 @@
-import type { GameStateData } from "../../store/gameStore";
+import { compareStandingsByLolScore, type GameStateData } from "../../store/gameStore";
 import { normalizeTrainingFocus } from "../../lib/trainingFocus";
 import { Card, CardHeader, CardBody } from "../ui";
 import { formatDateShort } from "../../lib/helpers";
@@ -120,11 +120,13 @@ export default function HomeTab({
           : t("season.windowClosed");
 
   const sortedStandings = league
-    ? [...league.standings].sort(
-      (a, b) =>
-        b.points - a.points ||
-        b.goals_for - b.goals_against - (a.goals_for - a.goals_against),
-    )
+    ? [...league.standings]
+        .sort(compareStandingsByLolScore)
+        .map((standing) => ({
+          ...standing,
+          goals_for: standing.goals_for ?? standing.kills_for ?? 0,
+          goals_against: standing.goals_against ?? standing.kills_against ?? 0,
+        }))
     : [];
 
   const recentResults = getRecentResultsForTeam(gameState, myTeam?.id ?? null);
@@ -288,7 +290,6 @@ export default function HomeTab({
             />
             <HomeLeagueDigestCard
               articles={leagueDigest}
-              teams={gameState.teams}
               lang={lang}
               onNavigate={onNavigate}
             />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { GameStateData, FixtureData } from "../../store/gameStore";
+import { compareStandingsByLolScore, GameStateData, FixtureData, getStandingKillDiff, getStandingKillsAgainst, getStandingKillsFor } from "../../store/gameStore";
 import { Card, CardBody, Badge } from "../ui";
 import {
   Calendar as CalendarIcon,
@@ -143,12 +143,7 @@ export default function ScheduleTab({
   });
 
   // Sorted standings
-  const standings = [...league.standings].sort(
-    (a, b) =>
-      b.points - a.points ||
-      b.goals_for - b.goals_against - (a.goals_for - a.goals_against) ||
-      b.goals_for - a.goals_for,
-  );
+  const standings = [...league.standings].sort(compareStandingsByLolScore);
 
   return (
     <div className={view === "calendar" ? "w-full" : "max-w-6xl mx-auto"}>
@@ -396,7 +391,7 @@ export default function ScheduleTab({
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                   {standings.map((entry, idx) => {
                     const isUser = entry.team_id === userTeamId;
-                    const mapDiff = entry.goals_for - entry.goals_against;
+                    const mapDiff = getStandingKillDiff(entry);
                     return (
                       <tr
                         key={entry.team_id}
@@ -421,7 +416,7 @@ export default function ScheduleTab({
                           {entry.lost}
                         </td>
                         <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {entry.goals_for}-{entry.goals_against}
+                          {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
                         </td>
                         <td
                           className={`py-3 px-4 text-center text-sm font-semibold tabular-nums ${mapDiff > 0 ? "text-primary-500" : mapDiff < 0 ? "text-red-500" : "text-gray-500 dark:text-gray-400"}`}

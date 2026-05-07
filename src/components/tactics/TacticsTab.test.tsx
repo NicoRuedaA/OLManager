@@ -25,7 +25,7 @@ const mockedInvoke = vi.mocked(invoke);
 
 const makePlayer = (
   id: string,
-  position: string,
+  position: PlayerData["position"],
   overrides: Partial<PlayerData> = {},
 ): PlayerData => ({
   id,

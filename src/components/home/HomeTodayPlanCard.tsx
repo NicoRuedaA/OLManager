@@ -139,7 +139,7 @@ export default function HomeTodayPlanCard({
   onNavigate,
 }: HomeTodayPlanCardProps) {
   const { t } = useTranslation();
-  const REVIEW_DECISIONS = useMemo(() => buildReviewDecisions((k, f) => t(k, f)), [t]);
+  const REVIEW_DECISIONS = useMemo(() => buildReviewDecisions((k, f) => t(k, { defaultValue: f })), [t]);
   const DECISION_BY_ID = useMemo(() => new Map(REVIEW_DECISIONS.map((option) => [option.id, option])), [REVIEW_DECISIONS]);
   const [decisionSaving, setDecisionSaving] = useState<DailyScrimAction | null>(null);
   const [decisionFeedback, setDecisionFeedback] = useState<{ title: string; detail: string } | null>(null);
@@ -175,6 +175,7 @@ export default function HomeTodayPlanCard({
     )
     : false;
   const effectivePushThroughContext = scrimContext.pushThroughRecommended || pushThroughContext;
+  void effectivePushThroughContext;
   const dailyBlockMeta = unresolvedReviewReport
     ? deriveDailyScrimBlockMeta(
       effectiveWeeklyScrimSlots(team),

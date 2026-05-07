@@ -345,7 +345,7 @@ export default function TransfersTab({
         id: "erl",
         label: t("transfers.erlMarket", "Mercado ERL"),
         icon: <Globe className="w-4 h-4" />,
-        count: erlPlayers.length,
+        count: (erlPlayers ?? []).length,
       },
       {
         id: "loans",

@@ -105,6 +105,8 @@ function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
     };
 }
 
+void createPlayer;
+
 describe("PlayerProfile.helpers", function (): void {
     it("resolves the player team name with free-agent and unknown fallbacks", function (): void {
         const teams = [createTeam()];

@@ -19,7 +19,9 @@ type TranslateFn = (
 interface PlayerProfileHeroCardProps {
   player: PlayerData;
   ovr: number;
-  primaryRole: "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
+  primaryRole?: "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
+  /** @deprecated Legacy prop name kept for older focused tests. */
+  primaryPosition?: string;
   age: number;
   teamName: string;
   weeklySuffix: string;
@@ -45,7 +47,7 @@ interface PlayerProfileHeroCardProps {
 export default function PlayerProfileHeroCard({
   player,
   ovr,
-  primaryRole,
+  primaryRole = "MID",
   age,
   teamName,
   weeklySuffix,
@@ -67,7 +69,6 @@ export default function PlayerProfileHeroCard({
   t,
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
-  const roleVariant = getLolRoleBadgeVariant(role);
   const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
   const [insigniaBackground, setInsigniaBackground] = useState<string | null>(null);
   const [editingRole, setEditingRole] = useState(false);
@@ -84,6 +85,9 @@ export default function PlayerProfileHeroCard({
     !potentialResearchSubmitting;
   const potentialValueLabel =
     potentialRevealed !== null ? String(potentialRevealed) : "??";
+  void potentialProgress;
+  void canStartPotentialResearch;
+  void potentialValueLabel;
 
   useEffect(() => {
     let cancelled = false;
@@ -468,14 +472,3 @@ function MobileQuickStat({
     </div>
   );
 }
-function getLolRoleBadgeVariant(role: string) {
-  const roleVariants: Record<string, string> = {
-    TOP: "top",
-    JUNGLE: "jungle",
-    MID: "mid",
-    ADC: "adc",
-    SUPPORT: "support",
-  };
-  return roleVariants[role] || "top";
-}
-

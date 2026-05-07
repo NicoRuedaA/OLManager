@@ -153,7 +153,7 @@ export function getDashboardAlerts(
   const activeLineupRoleCount = new Set(
     lineupPlayersOnRoster
       .map((playerId) => roster.find((player) => player.id === playerId))
-      .filter((player): player is PlayerData => Boolean(player) && !player.injury)
+      .filter((player): player is PlayerData => player !== undefined && !player.injury)
       .map((player) => player.natural_position as LolRole)
       .filter((role) => LOL_ACTIVE_ROLES.includes(role)),
   ).size;

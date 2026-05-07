@@ -51,10 +51,11 @@ function report(overrides: Partial<ScrimReportData> = {}): ScrimReportData {
 }
 
 function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): TeamData {
+  const { id, name, ...rest } = overrides;
   return {
-    id: overrides.id,
-    name: overrides.name,
-    short_name: overrides.name.slice(0, 3).toUpperCase(),
+    id,
+    name,
+    short_name: name.slice(0, 3).toUpperCase(),
     country: "ES",
     city: "Madrid",
     stadium_name: "Arena",
@@ -76,7 +77,7 @@ function team(overrides: Partial<TeamData> & Pick<TeamData, "id" | "name">): Tea
     starting_xi_ids: [],
     form: [],
     history: [],
-    ...overrides,
+    ...rest,
   };
 }
 
@@ -90,7 +91,7 @@ function gameState(): GameStateData {
     players: [],
     clock: { current_date: "2026-04-29" },
     day_phase: "ScrimBlock",
-  } as GameStateData;
+  } as unknown as GameStateData;
 }
 
 function gameStateWithPhase(dayPhase: GameStateData["day_phase"]): GameStateData {

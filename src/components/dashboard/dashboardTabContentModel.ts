@@ -28,7 +28,7 @@ interface CreateDashboardTabContentModelArgs {
     seasonComplete: boolean;
     visitedOnboardingTabs: ReadonlySet<string>;
     initialMessageId: string | null;
-    handlers: DashboardTabContentHandlers;
+    handlers: Omit<DashboardTabContentHandlers, "onViewChampion"> & Partial<Pick<DashboardTabContentHandlers, "onViewChampion">>;
 }
 
 export function createDashboardTabContentModel(
@@ -41,6 +41,9 @@ export function createDashboardTabContentModel(
         visitedOnboardingTabs: args.visitedOnboardingTabs,
         initialMessageId: args.initialMessageId,
         managerId: args.gameState.manager.id,
-        handlers: args.handlers,
+        handlers: {
+            ...args.handlers,
+            onViewChampion: args.handlers.onViewChampion ?? (() => undefined),
+        },
     };
 }

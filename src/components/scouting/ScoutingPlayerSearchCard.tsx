@@ -103,7 +103,7 @@ export default function ScoutingPlayerSearchCard({
           return ((order[roleA] ?? 0) - (order[roleB] ?? 0)) * factor;
         }
         case "age":
-          return (calcAge(a.date_of_birth) - calcAge(b.date_of_birth)) * factor;
+          return (calcAge(a.date_of_birth, currentDate) - calcAge(b.date_of_birth, currentDate)) * factor;
         case "team": {
           const teamA = getTeamName(teams, a.team_id);
           const teamB = getTeamName(teams, b.team_id);

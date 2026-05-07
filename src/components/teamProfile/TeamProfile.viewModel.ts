@@ -1,4 +1,5 @@
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
+import { compareStandingsByLolScore } from "../../store/gameStore";
 import type { GameStateData, PlayerData, TeamData } from "../../store/gameStore";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
 
@@ -41,14 +42,7 @@ function getSortedStandings(gameState: GameStateData): LeagueStanding[] {
     return [];
   }
 
-  return [...gameState.league.standings].sort(
-    (leftEntry, rightEntry) =>
-      rightEntry.points - leftEntry.points ||
-      rightEntry.goals_for -
-        rightEntry.goals_against -
-        (leftEntry.goals_for - leftEntry.goals_against) ||
-      rightEntry.goals_for - leftEntry.goals_for,
-  );
+  return [...gameState.league.standings].sort(compareStandingsByLolScore);
 }
 
 export function buildTeamProfileViewModel(

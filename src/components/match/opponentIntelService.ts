@@ -109,10 +109,10 @@ function computeIntelQuality(gameState: GameStateData): IntelQualityProfile {
 export function buildOpponentIntel(params: {
   gameState: GameStateData;
   opponentTeamName: string;
-  opponentPlayers: Array<{ id: string; name: string }>;
-  teamSeeds: TeamSeed[];
-  playerSeeds: PlayerSeed[];
-  championSeeds: ChampionSeed[];
+  opponentPlayers: ReadonlyArray<{ id: string; name: string }>;
+  teamSeeds: ReadonlyArray<TeamSeed>;
+  playerSeeds: ReadonlyArray<PlayerSeed>;
+  championSeeds: ReadonlyArray<ChampionSeed>;
   enemyMasteryWeight?: number;
   metaWeight?: number;
 }): OpponentIntelSnapshot {

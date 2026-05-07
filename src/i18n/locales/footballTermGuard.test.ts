@@ -95,17 +95,17 @@ const LOLEGITIMATE_ROLES = new Set([
  * and only returns strings that would be shown to users.
  * Keys with very short values or that look like technical structure are excluded.
  */
-function getAllVisibleStringValues(obj: unknown, isRoot = true): string[] {
+function getAllVisibleStringValues(obj: unknown): string[] {
   if (typeof obj === "string") {
     // Exclude very short keys that are likely technical structure
     if (obj.length < 3) return [];
     return [obj];
   }
-  if (Array.isArray(obj)) return obj.flatMap((item) => getAllVisibleStringValues(item, false));
+  if (Array.isArray(obj)) return obj.flatMap((item) => getAllVisibleStringValues(item));
   if (obj && typeof obj === "object") {
     // At root level, include all values; deeper levels we check for visible content
     return Object.entries(obj as Record<string, unknown>).flatMap(([, value]) =>
-      getAllVisibleStringValues(value, false)
+      getAllVisibleStringValues(value)
     );
   }
   return [];
@@ -169,7 +169,7 @@ describe("i18n locale football guard", () => {
   for (const [localeCode, localeData] of Object.entries(LOCALE_RESOURCES)) {
     if (!localeData) continue;
 
-    it(`should not contain prohibited football terms in ${localeCode}`, () => {
+    itTest(`should not contain prohibited football terms in ${localeCode}`, () => {
       const values = getAllVisibleStringValues(localeData);
       const failures: string[] = [];
 

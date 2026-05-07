@@ -141,27 +141,27 @@ export function buildLolScrimPrepInsight(
   if (totalSignal <= 0) return null;
 
   const focusLabel = focusText(sidePayload.focus);
-  const details = [
+  const focusEntry: LolScrimPrepInsightText | null = focusLabel
+    ? { key: "match.scrimPrep.details.focus", defaultValue: "Focus: {{focus}}", values: { focus: focusLabel.defaultValue } }
+    : null;
+
+  const details: LolScrimPrepInsightText[] = [
     preparation > 0
       ? {
-        key: "match.scrimPrep.details.opponentPrep",
-        defaultValue: "Opponent prep +{{value}}",
-        values: { value: preparation },
-      }
+          key: "match.scrimPrep.details.opponentPrep",
+          defaultValue: "Opponent prep +{{value}}",
+          values: { value: preparation },
+        }
       : null,
     comfortTotal > 0
       ? {
-        key: "match.scrimPrep.details.championComfort",
-        defaultValue: "Champion comfort +{{value}}",
-        values: { value: comfortTotal },
-      }
+          key: "match.scrimPrep.details.championComfort",
+          defaultValue: "Champion comfort +{{value}}",
+          values: { value: comfortTotal },
+        }
       : null,
-    {
-      key: "match.scrimPrep.details.focus",
-      defaultValue: "Focus: {{focus}}",
-      values: { focus: focusLabel.defaultValue },
-    },
-  ].filter((entry): entry is LolScrimPrepInsightText => Boolean(entry));
+    focusEntry,
+  ].filter((entry): entry is LolScrimPrepInsightText => entry !== null);
 
   return {
     title: {

@@ -8,6 +8,7 @@ import type {
   PlayerData,
   TeamData,
 } from "../../store/gameStore";
+import { compareStandingsByLolScore } from "../../store/gameStore";
 
 const ONBOARDING_VISIBLE_DAYS = 7;
 const ONBOARDING_PAGE_TABS = new Set(["Squad", "Staff", "Tactics", "Training"]);
@@ -67,14 +68,7 @@ function getStandingPosition(
     return null;
   }
 
-  const sortedStandings = [...league.standings].sort((leftEntry, rightEntry) => {
-    return (
-      rightEntry.points - leftEntry.points ||
-      rightEntry.goals_for -
-        rightEntry.goals_against -
-        (leftEntry.goals_for - leftEntry.goals_against)
-    );
-  });
+  const sortedStandings = [...league.standings].sort(compareStandingsByLolScore);
   const standingIndex = sortedStandings.findIndex(
     (entry) => entry.team_id === teamId,
   );
