@@ -576,6 +576,8 @@ pub struct ScrimSlotResult {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ScrimStatus {
     Pending,
     Accepted,
@@ -585,6 +587,8 @@ pub enum ScrimStatus {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ScrimFocus {
     DraftPrep,
     ChampionPool,
@@ -595,6 +599,8 @@ pub enum ScrimFocus {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum ScrimIssue {
     DraftGap,
     LanePressure,
@@ -605,6 +611,8 @@ pub enum ScrimIssue {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub enum PostScrimDecision {
     ContinuePlan,
     VodReview,
@@ -615,6 +623,8 @@ pub enum PostScrimDecision {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ScrimChampionPick {
     pub player_id: String,
     pub champion_id: String,
@@ -622,6 +632,8 @@ pub struct ScrimChampionPick {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct ScrimReport {
     pub date: String,
     pub week_key: String,

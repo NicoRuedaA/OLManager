@@ -6,6 +6,8 @@ use ts_rs::TS;
 pub use crate::stats::{LolRole, Position};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
 pub struct Player {
     pub id: String,
     pub match_name: String,
