@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "competition": {
+    "id": "jp",
+    "name": "LJL",
+    "slug": "ljl",
+    "region": "JP",
+    "tier": "Regional"
+  },
+  "rules": {
+    "points_for_win": 3,
+    "points_for_draw": 1,
+    "best_of_default": 1,
+    "has_playoffs": true,
+    "playoff_best_of": 5,
+    "teams_count": 8
+  },
+  "phases": [
+    {
+      "id": "regular",
+      "name": "Regular Season",
+      "phase_type": "RoundRobin",
+      "scheduling": {
+        "rounds": 14,
+        "double_round_robin": true,
+        "days": [6, 0],
+        "matches_per_day": 4,
+        "start_offset_days": 7
+      }
+    },
+    {
+      "id": "playoffs",
+      "name": "Playoffs",
+      "phase_type": "SingleElimination",
+      "scheduling": {
+        "best_of": 5,
+        "teams_count": 4
+      }
+    }
+  ],
+  "data_path": ".",
+  "seed_file": "seed.json"
+}

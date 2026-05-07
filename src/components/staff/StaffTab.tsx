@@ -320,7 +320,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
             const ovr = ovrRating(staff);
             const best = bestAttr(staff);
             const impactRows = getStaffImpactRows(staff);
-            const photo = resolveStaffPhoto(staff.profile_image_url);
+            const photo = resolveStaffPhoto(`${staff.first_name} ${staff.last_name}`, staff.profile_image_url);
 
             return (
               <Card key={staff.id}>

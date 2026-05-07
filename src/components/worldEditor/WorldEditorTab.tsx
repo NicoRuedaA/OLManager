@@ -527,7 +527,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
   }
 
   const playerPhoto = selectedPlayer ? resolvePlayerPhoto(selectedPlayer.id, selectedPlayer.match_name, selectedPlayer.profile_image_url) : null;
-  const staffPhoto = selectedStaff ? resolveStaffPhoto(selectedStaff.profile_image_url) : null;
+  const staffPhoto = selectedStaff ? resolveStaffPhoto(`${selectedStaff.first_name} ${selectedStaff.last_name}`, selectedStaff.profile_image_url) : null;
   const selectedPlayerIsAcademy = world && selectedPlayer ? isAcademyPlayer(world, selectedPlayer) : false;
 
   return (

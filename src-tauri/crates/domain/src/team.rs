@@ -10,6 +10,14 @@ pub struct Team {
     pub name: String,
     pub short_name: String,
     pub country: String,
+    /// Competitive region derived from country (e.g. "EMEA", "KR", "NA", "BR").
+    /// Used to assign teams to the correct competition/league.
+    #[serde(default)]
+    pub region: String,
+    /// URL or path to the team's logo/shield image.
+    /// Populated from seed data or derived from team name.
+    #[serde(default)]
+    pub logo_url: Option<String>,
     pub city: String,
     pub arena_name: String,
     pub arena_capacity: u32,
@@ -1131,6 +1139,78 @@ mod facility_compatibility_tests {
     }
 }
 
+/// Generate a URL-friendly slug from a team name for logo lookup.
+/// E.g. "G2 Esports" → "g2-esports", "Fnatic" → "fnatic"
+pub fn team_name_to_logo_slug(name: &str) -> String {
+    name.to_lowercase()
+        .chars()
+        .filter(|c| c.is_alphanumeric() || *c == ' ' || *c == '-' || *c == '.')
+        .collect::<String>()
+        .split_whitespace()
+        .collect::<Vec<&str>>()
+        .join("-")
+}
+
+/// Map a country name to its competitive region.
+/// Used to assign teams to the correct competition/league.
+pub fn country_to_region(country: &str) -> &'static str {
+    match country {
+        // EMEA — Europe + Turkey + Israel
+        "Albania" | "Austria" | "Belgium" | "Bulgaria" | "Croatia"
+        | "Cyprus" | "Czech Republic" | "Denmark" | "Estonia"
+        | "Finland" | "France" | "fr" | "Germany" | "Great Britain"
+        | "Greece" | "Hungary" | "Iceland" | "Ireland" | "Israel"
+        | "Italy" | "Latvia" | "Lithuania" | "Luxembourg" | "Malta"
+        | "Netherlands" | "Norway" | "Poland" | "Portugal"
+        | "Republic of Ireland" | "Romania" | "Serbia" | "Slovakia"
+        | "Slovenia" | "Spain" | "Sweden" | "Switzerland" | "Turkey"
+        | "United Kingdom" => "EMEA",
+
+        // NA (North America)
+        "Canada" | "United States" | "USA" => "NA",
+
+        // KR (Korea)
+        "Korea" | "South Korea" => "KR",
+
+        // CN (China)
+        "China" => "CN",
+
+        // BRAZIL
+        "Brazil" | "Brasil" => "BRAZIL",
+
+        // JP (Japan)
+        "Japan" => "JP",
+
+        // SEA (Southeast Asia + Oceania)
+        "Hong Kong" | "India" | "Indonesia" | "Malaysia"
+        | "Philippines" | "Singapore" | "Taiwan" | "Thailand" => "SEA",
+
+        // LATAM (Latin America)
+        "Argentina" | "Chile" | "Colombia" | "Costa Rica"
+        | "Dominican Republic" | "Ecuador" | "Mexico" | "Panama"
+        | "Peru" | "Per�" => "LATAM",
+
+        // OCE (Oceania)
+        "Australia" | "New Zealand" => "OCE",
+
+        // VN (Vietnam)
+        "Vietnam" | "vn" => "VN",
+
+        // CIS — Russia + CIS states
+        "Kazakhstan" | "Kyrgyzstan" | "Russia" | "Ukraine"
+        | "Uzbekistan" => "CIS",
+
+        // MENA — Middle East & North Africa
+        "Algeria" | "Bahrain" | "Egypt" | "Iraq" | "Jordan" | "jordan"
+        | "Kuwait" | "Lebanon" | "Libya" | "Morocco" | "Oman"
+        | "Qatar" | "Saudi Arabia" | "Syria" | "Tunisia"
+        | "United Arab Emirates" | "Yemen" => "MENA",
+
+        // International / unknown
+        "International" | _ => "INT",
+    }
+}
+
 impl Team {
     pub fn is_main(&self) -> bool {
         self.team_kind == TeamKind::Main
@@ -1149,11 +1229,16 @@ impl Team {
         arena_name: String,
         arena_capacity: u32,
     ) -> Self {
+        let region = country_to_region(&country).to_string();
+        let logo_slug = team_name_to_logo_slug(&name);
+        let logo_url = Some(format!("/team-logos/{}.png", logo_slug));
         Self {
             id,
             name,
             short_name,
             country,
+            region,
+            logo_url,
             city,
             arena_name,
             arena_capacity,

@@ -346,6 +346,11 @@ export default function Dashboard(): JSX.Element {
     }
   };
 
+  const handleExitWithoutSaving = () => {
+    clearGame();
+    navigate("/");
+  };
+
   function selectPlayer(id: string, options?: PlayerSelectionOptions): void {
     setProfileNavigation((currentState) =>
       selectDashboardPlayer(currentState, id, options),
@@ -493,6 +498,7 @@ export default function Dashboard(): JSX.Element {
         currentModeMeta={currentModeMeta}
         handleConfirmMatch={handleConfirmMatch}
         handleExitToMenu={handleExitToMenu}
+        handleExitWithoutSaving={handleExitWithoutSaving}
         handleNavigate={handleNavigate}
         handleCloseQuit={handleCloseQuit}
         isExitingToMenu={isExitingToMenu}

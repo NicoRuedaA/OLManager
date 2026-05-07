@@ -658,10 +658,9 @@ pub(crate) fn ensure_example_academy_pool(game: &mut Game) {
 
 /// Bootstrap a Competition for the newly created game.
 /// Loads the manifest, generates the calendar, and pushes the Competition.
-fn bootstrap_competition(
+fn bootstrap_all_competitions(
     game: &mut Game,
-    _app_handle: &tauri::AppHandle,
-    competition_id: &str,
+    app_handle: &tauri::AppHandle,
 ) -> Result<(), String> {
     use chrono::NaiveDate;
     use domain::competition::{
@@ -669,103 +668,147 @@ fn bootstrap_competition(
     };
     use ofm_core::calendar::{generate_calendar, PhaseSchedule};
 
-    // 1. Resolve manifest path
+    // 1. Resolve competitions directory — try multiple candidates
     let cwd = std::env::current_dir().map_err(|e| format!("cwd: {}", e))?;
-    let manifest_path = cwd
-        .join("data")
-        .join("competitions")
-        .join(competition_id)
-        .join("manifest.json");
-    if !manifest_path.exists() {
-        return Err(format!("Manifest not found: {:?}", manifest_path));
+    let dir_candidates = [
+        cwd.join("data").join("competitions"),
+        cwd.parent().unwrap_or(&cwd).join("data").join("competitions"),
+        app_handle
+            .path()
+            .resource_dir()
+            .unwrap_or_default()
+            .join("data")
+            .join("competitions"),
+    ];
+
+    let comp_dir = dir_candidates.iter().find(|p| p.exists()).ok_or_else(|| {
+        format!(
+            "Competitions directory not found (tried: {:?})",
+            dir_candidates.iter().map(|p| p.display().to_string()).collect::<Vec<_>>()
+        )
+    })?;
+
+    // 2. Scan for all competition manifests
+    let mut found_any = false;
+    if let Ok(entries) = std::fs::read_dir(comp_dir) {
+        for entry in entries.flatten() {
+            let manifest_path = entry.path().join("manifest.json");
+            if !manifest_path.exists() {
+                continue;
+            }
+
+            // Load manifest
+            let manifest = match ofm_core::competition_registry::load_manifest(&manifest_path) {
+                Ok(m) => m,
+                Err(e) => {
+                    log::warn!("[cmd] bootstrap_competition: skipping '{}': {:?}", entry.path().display(), e);
+                    continue;
+                }
+            };
+            let m = &manifest.manifest;
+
+            // 3. Determine participating teams by region (non-academy)
+            let competition_region = m.competition.region.as_str();
+            let team_ids: Vec<String> = game
+                .teams
+                .iter()
+                .filter(|t| {
+                    t.team_kind != domain::team::TeamKind::Academy
+                        && t.region.eq_ignore_ascii_case(competition_region)
+                })
+                .map(|t| t.id.clone())
+                .collect();
+
+            if team_ids.is_empty() {
+                log::warn!(
+                    "[cmd] bootstrap_competition: skipping '{}' — no teams found for region '{}'",
+                    m.competition.id,
+                    competition_region,
+                );
+                continue;
+            }
+
+            // 4. Build phase schedules from manifest
+            let phase_schedules: Vec<PhaseSchedule> = m
+                .phases
+                .iter()
+                .map(|p| ofm_core::calendar::phase_schedule_from_manifest(
+                    &p.name,
+                    &p.phase_type,
+                    p.scheduling.rounds,
+                    p.scheduling.double_round_robin,
+                    p.scheduling.best_of,
+                    p.scheduling.teams_count,
+                    p.scheduling.days.clone(),
+                    p.scheduling.matches_per_day,
+                    p.scheduling.start_offset_days,
+                ))
+                .collect();
+
+            // 5. Generate calendar
+            let season_start = NaiveDate::from_ymd_opt(
+                game.clock.current_date.year(),
+                game.clock.current_date.month(),
+                game.clock.current_date.day(),
+            )
+            .unwrap_or_else(|| NaiveDate::from_ymd_opt(2025, 1, 18).unwrap());
+
+            let calendar = generate_calendar(&team_ids, &phase_schedules, season_start, &m.competition.id);
+
+            // 6. Create Competition
+            let tier = match m.competition.tier.as_str() {
+                "Regional" => CompetitionTier::Regional,
+                "Academy" => CompetitionTier::Academy,
+                "International" => CompetitionTier::International,
+                _ => CompetitionTier::Cup,
+            };
+
+            let rules = CompetitionRules {
+                points_for_win: m.rules.points_for_win,
+                points_for_draw: m.rules.points_for_draw,
+                best_of_default: m.rules.best_of_default,
+                has_playoffs: m.rules.has_playoffs,
+                playoff_best_of: m.rules.playoff_best_of,
+                teams_count: m.rules.teams_count,
+            };
+
+            let active_phase_id = calendar.phases.first().map(|p| p.id.clone());
+
+            let competition = Competition {
+                id: m.competition.id.clone(),
+                name: m.competition.name.clone(),
+                slug: m.competition.slug.clone(),
+                season: game.clock.current_date.year() as u32,
+                region: m.competition.region.clone(),
+                tier,
+                status: CompetitionStatus::NotStarted,
+                rules,
+                phases: calendar.phases,
+                runtime: CompetitionRuntime {
+                    has_manual_overrides: false,
+                    next_matchday: 1,
+                    is_active: true,
+                    active_phase_id,
+                },
+            };
+
+            game.competitions.push(competition);
+            info!(
+                "[cmd] bootstrap_competition: added '{}' with {} phase(s), {} teams (region: {})",
+                m.competition.id,
+                m.phases.len(),
+                team_ids.len(),
+                competition_region,
+            );
+            found_any = true;
+        }
     }
 
-    // 2. Load manifest
-    let manifest = ofm_core::competition_registry::load_manifest(&manifest_path)
-        .map_err(|e| format!("manifest load: {:?}", e))?;
-    let m = &manifest.manifest;
-
-    // 3. Determine participating teams (non-academy)
-    let team_ids: Vec<String> = game
-        .teams
-        .iter()
-        .filter(|t| t.team_kind != domain::team::TeamKind::Academy)
-        .map(|t| t.id.clone())
-        .collect();
-
-    // 4. Build phase schedules from manifest
-    let phase_schedules: Vec<PhaseSchedule> = m
-        .phases
-        .iter()
-        .map(|p| ofm_core::calendar::phase_schedule_from_manifest(
-            &p.name,
-            &p.phase_type,
-            p.scheduling.rounds,
-            p.scheduling.double_round_robin,
-            p.scheduling.best_of,
-            p.scheduling.teams_count,
-            p.scheduling.days.clone(),
-            p.scheduling.matches_per_day,
-            p.scheduling.start_offset_days,
-        ))
-        .collect();
-
-    // 5. Generate calendar
-    let season_start = NaiveDate::from_ymd_opt(
-        game.clock.current_date.year(),
-        game.clock.current_date.month(),
-        game.clock.current_date.day(),
-    )
-    .unwrap_or_else(|| NaiveDate::from_ymd_opt(2025, 1, 18).unwrap());
-
-    let calendar = generate_calendar(&team_ids, &phase_schedules, season_start, &m.competition.id);
-
-    // 6. Create Competition
-    let tier = match m.competition.tier.as_str() {
-        "Regional" => CompetitionTier::Regional,
-        "Academy" => CompetitionTier::Academy,
-        "International" => CompetitionTier::International,
-        _ => CompetitionTier::Cup,
-    };
-
-    let rules = CompetitionRules {
-        points_for_win: m.rules.points_for_win,
-        points_for_draw: m.rules.points_for_draw,
-        best_of_default: m.rules.best_of_default,
-        has_playoffs: m.rules.has_playoffs,
-        playoff_best_of: m.rules.playoff_best_of,
-        teams_count: m.rules.teams_count,
-    };
-
-    let active_phase_id = calendar.phases.first().map(|p| p.id.clone());
-
-    let competition = Competition {
-        id: m.competition.id.clone(),
-        name: m.competition.name.clone(),
-        slug: m.competition.slug.clone(),
-        season: game.clock.current_date.year() as u32,
-        region: m.competition.region.clone(),
-        tier,
-        status: CompetitionStatus::NotStarted,
-        rules,
-        phases: calendar.phases,
-        runtime: CompetitionRuntime {
-            has_manual_overrides: false,
-            next_matchday: 1,
-            is_active: true,
-            active_phase_id,
-        },
-    };
-
-    game.competitions.push(competition);
-    info!(
-        "[cmd] bootstrap_competition: added '{}' with {} phase(s), {} teams",
-        m.competition.id,
-        m.phases.len(),
-        team_ids.len()
-    );
-
-    Ok(())
+    if found_any {
+        Ok(())
+    } else {
+        Err("No competitions could be bootstrapped — no manifests or no matching teams".to_string())
+    }
 }
 
 fn resolve_competition_seed_path(
@@ -2012,10 +2055,13 @@ pub async fn start_new_game(
 
     let mut new_game = Game::new(clock, manager, teams, players, staff, vec![]);
 
-    // Generate competition from manifest and add it to the game
-    if let Err(e) = bootstrap_competition(&mut new_game, &app_handle, &competition_id) {
+    // Bootstrap all available competitions from manifests, filtered by team region
+    if let Err(e) = bootstrap_all_competitions(&mut new_game, &app_handle) {
         log::warn!("[cmd] start_new_game: competition bootstrap failed (non-fatal): {}", e);
     }
+
+    // Remember which competition the user selected so we can filter teams by region
+    new_game.started_competition_id = Some(competition_id.clone());
 
     info!(
         "[cmd] start_new_game: world generated with {} teams, {} players, {} staff, {} competition(s)",
@@ -2277,15 +2323,42 @@ pub async fn get_team_selection_data(
 ) -> Result<TeamSelectionData, String> {
     log::debug!("[cmd] get_team_selection_data");
     state
-        .get_game(|game| TeamSelectionData {
-            manager: game.manager.clone(),
-            teams: game
+        .get_game(|game| {
+            // Determine the competition region from the user's selection
+            let selected_region: Option<&str> = game
+                .started_competition_id
+                .as_deref()
+                .and_then(|comp_id| {
+                    game.competitions
+                        .iter()
+                        .find(|c| c.id == comp_id)
+                        .map(|c| c.region.as_str())
+                });
+
+            // Filter teams: only show teams from the selected competition's region
+            let filtered_teams: Vec<domain::team::Team> = game
                 .teams
                 .iter()
-                .filter(|team| team.team_kind != TeamKind::Academy)
+                .filter(|team| {
+                    if team.team_kind == TeamKind::Academy {
+                        return false;
+                    }
+                    // If we know the selected region, filter by it
+                    if let Some(region) = selected_region {
+                        team.region.eq_ignore_ascii_case(region)
+                    } else {
+                        // Fallback: show all non-academy teams
+                        true
+                    }
+                })
                 .cloned()
-                .collect(),
-            players: game.players.clone(),
+                .collect();
+
+            TeamSelectionData {
+                manager: game.manager.clone(),
+                teams: filtered_teams,
+                players: game.players.clone(),
+            }
         })
         .ok_or("No active game session".to_string())
 }

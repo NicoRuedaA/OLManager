@@ -113,7 +113,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl flex items-center gap-6 relative">
           <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary-500/40 shadow-lg shadow-primary-500/10 shrink-0 bg-gray-200 dark:bg-navy-600">
             <img
-              src={resolveStaffPhoto(mgr.avatar_path) ?? ""}
+              src={resolveStaffPhoto(displayName, mgr.avatar_path) ?? ""}
               alt={displayName}
               className="w-full h-full object-cover"
               loading="lazy"

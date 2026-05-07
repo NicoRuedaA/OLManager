@@ -6,11 +6,13 @@ import DashboardModalFrame from "./DashboardModalFrame";
 interface DashboardExitConfirmModalProps {
   onCancel: () => void;
   onConfirm: () => void;
+  onExitWithoutSaving: () => void;
 }
 
 export default function DashboardExitConfirmModal({
   onCancel,
   onConfirm,
+  onExitWithoutSaving,
 }: DashboardExitConfirmModalProps): JSX.Element {
   const { t } = useTranslation();
 
@@ -28,6 +30,12 @@ export default function DashboardExitConfirmModal({
           className="flex-1 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-heading font-bold uppercase tracking-wider text-gray-700 transition-colors hover:bg-gray-200 dark:bg-navy-700 dark:text-gray-300 dark:hover:bg-navy-600"
         >
           {t("exitConfirm.cancel")}
+        </button>
+        <button
+          onClick={onExitWithoutSaving}
+          className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-heading font-bold uppercase tracking-wider text-gray-600 transition-colors hover:bg-gray-50 dark:border-navy-500 dark:text-gray-400 dark:hover:bg-navy-700"
+        >
+          {t("exitConfirm.exitNoSave")}
         </button>
         <button
           onClick={onConfirm}

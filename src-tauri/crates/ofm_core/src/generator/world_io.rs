@@ -26,6 +26,15 @@ pub fn generate_world_data(data_dir: Option<&std::path::Path>) -> WorldData {
 pub fn load_world_from_json(json: &str) -> Result<WorldData, String> {
     let mut world: WorldData =
         serde_json::from_str(json).map_err(|e| format!("Failed to parse world database: {}", e))?;
+    for team in &mut world.teams {
+        if team.region.is_empty() {
+            team.region = domain::team::country_to_region(&team.country).to_string();
+        }
+        if team.logo_url.is_none() {
+            let slug = domain::team::team_name_to_logo_slug(&team.name);
+            team.logo_url = Some(format!("/team-logos/{}.png", slug));
+        }
+    }
     crate::identity_upgrade::upgrade_world_football_identities(
         &mut world.teams,
         &mut world.players,
@@ -68,8 +77,18 @@ pub fn load_world_from_split_dir(base_dir: &std::path::Path) -> Result<WorldData
                 .map_err(|e| format!("Failed to read {}: {}", path.display(), e))?;
             let container: serde_json::Value = serde_json::from_str(&json)
                 .map_err(|e| format!("Failed to parse {}: {}", path.display(), e))?;
-            let teams: Vec<domain::team::Team> = serde_json::from_value(container["teams"].clone())
+            let mut teams: Vec<domain::team::Team> = serde_json::from_value(container["teams"].clone())
                 .map_err(|e| format!("Failed to deserialize teams from {}: {}", path.display(), e))?;
+            // Populate region and logo_url for any team missing them (new fields, old JSON data)
+            for team in &mut teams {
+                if team.region.is_empty() {
+                    team.region = domain::team::country_to_region(&team.country).to_string();
+                }
+                if team.logo_url.is_none() {
+                    let slug = domain::team::team_name_to_logo_slug(&team.name);
+                    team.logo_url = Some(format!("/team-logos/{}.png", slug));
+                }
+            }
             all_teams.extend(teams);
         }
     }

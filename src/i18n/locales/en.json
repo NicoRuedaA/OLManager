@@ -289,6 +289,7 @@
     "message": "Your game will be saved automatically before returning to the main menu.",
     "cancel": "Cancel",
     "saveExit": "Save & Exit",
+    "exitNoSave": "Exit Without Saving",
     "savingTitle": "Saving your game...",
     "savingMessage": "Please wait while we save your progress and return to the main menu."
   },

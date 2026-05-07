@@ -205,11 +205,17 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
     let academy_team_id: Option<String> = row.get(45)?;
     let academy_metadata_json: Option<String> = row.get(46)?;
 
+    let name: String = row.get(1)?;
+    let country: String = row.get(3)?;
+    let logo_slug = domain::team::team_name_to_logo_slug(&name);
+    let logo_url = Some(format!("/team-logos/{}.png", logo_slug));
     Ok(Team {
         id: row.get(0)?,
-        name: row.get(1)?,
+        name,
         short_name: row.get(2)?,
-        country: row.get(3)?,
+        region: domain::team::country_to_region(&country).to_string(),
+        country,
+        logo_url,
         city: row.get(4)?,
         arena_name: row.get(5)?,
         arena_capacity: row.get(6)?,

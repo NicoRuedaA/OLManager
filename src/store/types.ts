@@ -172,6 +172,7 @@ export interface TeamData {
   team_roles?: TeamRolesData;
   form: string[];
   history: TeamSeasonRecord[];
+  logo_url?: string | null;
   team_kind?: TeamKind;
   parent_team_id?: string | null;
   academy_team_id?: string | null;

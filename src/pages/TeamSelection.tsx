@@ -76,6 +76,12 @@ function getTeamLogoPath(teamId: string): string {
   return `/team-logos/${slug}.png`;
 }
 
+function resolveTeamLogo(team: { logo_url?: string | null; id: string; name: string }): string {
+  if (team.logo_url) return team.logo_url;
+  // Fallback to the old path-based resolution
+  return getTeamLogoPath(team.id);
+}
+
 function isAcademyPlayer(playerId: string): boolean {
   return playerId.includes("-academy-");
 }
@@ -332,10 +338,17 @@ export default function TeamSelection() {
                           }`}
                         >
                           <img
-                            src={getTeamLogoPath(team.id)}
+                            src={resolveTeamLogo(team)}
                             alt={`${team.name} logo`}
                             className="w-10 h-10 object-contain"
                             loading="lazy"
+                            onError={(e) => {
+                              const target = e.currentTarget;
+                              if (!target.dataset.fallback) {
+                                target.dataset.fallback = "true";
+                                target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(team.short_name || team.name)}&background=374151&color=fff&size=80`;
+                              }
+                            }}
                           />
                         </div>
                         <div>

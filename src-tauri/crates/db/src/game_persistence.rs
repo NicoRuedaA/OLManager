@@ -221,6 +221,7 @@ impl GamePersistenceReader {
             days_since_last_job_offer: None,
             champion_masteries,
             champion_patch,
+            started_competition_id: None,
         };
         // Backfill: if no competitions exist but legacy league does,
         // create a Competition from the League projection.

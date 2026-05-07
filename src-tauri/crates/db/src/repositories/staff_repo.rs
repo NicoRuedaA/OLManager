@@ -47,6 +47,7 @@ fn parse_role(s: &str) -> StaffRole {
         "Coach" => StaffRole::Coach,
         "Scout" => StaffRole::Scout,
         "Physio" => StaffRole::Physio,
+        "Owner" => StaffRole::Owner,
         _ => StaffRole::Coach,
     }
 }

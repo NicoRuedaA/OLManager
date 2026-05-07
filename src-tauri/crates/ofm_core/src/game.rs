@@ -124,6 +124,10 @@ pub struct Game {
     pub champion_masteries: Vec<ChampionMasteryEntry>,
     #[serde(default)]
     pub champion_patch: ChampionPatchState,
+    /// The competition ID the user selected when starting the game.
+    /// Used to filter teams by region during team selection.
+    #[serde(default)]
+    pub started_competition_id: Option<String>,
 }
 
 impl Game {
@@ -156,6 +160,7 @@ impl Game {
             days_since_last_job_offer: None,
             champion_masteries: vec![],
             champion_patch: ChampionPatchState::default(),
+            started_competition_id: None,
         };
         crate::identity_upgrade::upgrade_game_football_identities(&mut game);
         crate::season_context::refresh_game_context(&mut game);

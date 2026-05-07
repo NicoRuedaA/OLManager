@@ -51,6 +51,33 @@ const AVAILABLE_LEAGUES: LeagueOption[] = [
     description: "Europe, Middle East & Africa — La liga europea de élite",
   },
   {
+    id: "na",
+    name: "LCS",
+    flag: "🇺🇸",
+    region: "NA",
+    tier: "Regional",
+    teamsCount: 10,
+    description: "North America — La liga norteamericana",
+  },
+  {
+    id: "kr",
+    name: "LCK",
+    flag: "🇰🇷",
+    region: "KR",
+    tier: "Regional",
+    teamsCount: 10,
+    description: "Korea — La liga coreana, la más competitiva del mundo",
+  },
+  {
+    id: "cn",
+    name: "LPL",
+    flag: "🇨🇳",
+    region: "CN",
+    tier: "Regional",
+    teamsCount: 17,
+    description: "China — La liga china de League of Legends",
+  },
+  {
     id: "cblol",
     name: "CBLOL",
     flag: "🇧🇷",
@@ -59,9 +86,87 @@ const AVAILABLE_LEAGUES: LeagueOption[] = [
     teamsCount: 10,
     description: "Campeonato Brasileño de League of Legends",
   },
+  {
+    id: "sea",
+    name: "PCS",
+    flag: "🌏",
+    region: "SEA",
+    tier: "Regional",
+    teamsCount: 10,
+    description: "Pacific Championship Series — Sureste Asiático y Oceanía",
+  },
+  {
+    id: "jp",
+    name: "LJL",
+    flag: "🇯🇵",
+    region: "JP",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "Japan — La liga japonesa de League of Legends",
+  },
+  {
+    id: "latam",
+    name: "LLA",
+    flag: "🇲🇽",
+    region: "LATAM",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "Latin America — La liga latinoamericana",
+  },
+  {
+    id: "oce",
+    name: "LCO",
+    flag: "🇦🇺",
+    region: "OCE",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "Oceania — La liga oceánica (LCO)",
+  },
+  {
+    id: "vn",
+    name: "VCS",
+    flag: "🇻🇳",
+    region: "VN",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "Vietnam — La liga vietnamita (VCS)",
+  },
+  {
+    id: "cis",
+    name: "LCL",
+    flag: "🇷🇺",
+    region: "CIS",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "CIS — La liga de la Comunidad de Estados Independientes",
+  },
+  {
+    id: "mena",
+    name: "MENA",
+    flag: "🌍",
+    region: "MENA",
+    tier: "Regional",
+    teamsCount: 8,
+    description: "Middle East & North Africa — La liga de Oriente Medio y África del Norte",
+  },
 ];
 
 const REGIONS = Array.from(new Set(AVAILABLE_LEAGUES.map((l) => l.region))).sort();
+
+const LEAGUE_ICONS: Record<string, string> = {
+  lec: "/regions-icons/lec.webp",
+  na: "/regions-icons/lcs.webp",
+  kr: "/regions-icons/lck.webp",
+  cn: "/regions-icons/lpl.webp",
+  cblol: "/regions-icons/cblol.webp",
+  sea: "/regions-icons/pcs.webp",
+  jp: "/regions-icons/ljl.webp",
+  latam: "/regions-icons/lla.webp",
+  oce: "/regions-icons/lco.webp",
+  vn: "/regions-icons/vsc-logo.webp",
+  cis: "/regions-icons/lcl.webp",
+  mena: "/regions-icons/mena.webp",
+};
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -350,7 +455,19 @@ export default function LeagueSelection() {
                             : "bg-gray-50 dark:bg-navy-800 border border-gray-200 dark:border-navy-600"
                         }`}
                       >
-                        {league.flag}
+                        <img
+                          src={LEAGUE_ICONS[league.id] ?? league.flag}
+                          alt={`${league.name} logo`}
+                          className="w-10 h-10 object-contain"
+                          loading="lazy"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (!target.dataset.fallback) {
+                              target.dataset.fallback = "true";
+                              target.style.display = "none";
+                            }
+                          }}
+                        />
                       </div>
 
                       {/* League info */}
