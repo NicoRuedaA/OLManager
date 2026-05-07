@@ -311,6 +311,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
           </p>
         </div>
       ) : (
+        <>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.slice(0, page * PAGE_SIZE).map((staff) => {
             const roleIcon = ROLE_ICONS[staff.role] || ROLE_ICONS.Coach;
@@ -469,6 +470,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
             </button>
           </div>
         )}
+        </>
       )}
     </div>
   );
