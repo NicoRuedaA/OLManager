@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useGameStore, GameStateData, PlayerData } from "../store/gameStore";
 import { Card, CardBody, Badge, TeamLocation, ThemeToggle } from "../components/ui";
-import { ArrowLeft, Users, Trophy, Landmark, ChevronRight, Star, Loader2 } from "lucide-react";
+import { ArrowLeft, Users, Trophy, Landmark, ChevronRight, Star, Loader2, Search } from "lucide-react";
 import { getMainTeams } from "../store/academySelectors";
 
 type TeamSelectionData = {
@@ -88,6 +88,7 @@ export default function TeamSelection() {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isRecoveringGame, setIsRecoveringGame] = useState(false);
   const [teamSelectionData, setTeamSelectionData] = useState<TeamSelectionData | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     if (gameState || teamSelectionData) return;
@@ -122,6 +123,17 @@ export default function TeamSelection() {
   }, [gameState, navigate, setGameState, teamSelectionData]);
 
   const viewState = gameState ?? teamSelectionData;
+  const teams = viewState ? getMainTeams(viewState.teams) : [];
+  const filteredTeams = useMemo(() => {
+    if (!search.trim() || teams.length === 0) return teams;
+    const q = search.trim().toLowerCase();
+    return teams.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.short_name.toLowerCase().includes(q) ||
+        t.city.toLowerCase().includes(q),
+    );
+  }, [teams, search]);
 
   if (!viewState) {
     return (
@@ -135,8 +147,6 @@ export default function TeamSelection() {
       </div>
     );
   }
-
-  const teams = getMainTeams(viewState.teams);
 
   const getTeamPlayers = (teamId: string): PlayerData[] =>
     viewState.players.filter((p) => p.team_id === teamId);
@@ -194,7 +204,7 @@ export default function TeamSelection() {
       <header className="bg-white dark:bg-navy-800 border-b border-gray-200 dark:border-navy-700 px-6 py-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/select-league")}
             className="p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-700 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -224,8 +234,70 @@ export default function TeamSelection() {
       </header>
 
       <div className="max-w-7xl mx-auto p-6">
+        {/* Step indicator */}
+        <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-1">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold">
+              ✓
+            </div>
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wide">
+              {t("createManager.title", "Head Coach")}
+            </span>
+          </div>
+          <div className="w-8 h-px bg-gray-300 dark:bg-navy-600" />
+          <div className="flex items-center gap-1">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold">
+              ✓
+            </div>
+            <span className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wide">
+              {t("leagueSelect.title", "Liga")}
+            </span>
+          </div>
+          <div className="w-8 h-px bg-gray-300 dark:bg-navy-600" />
+          <div className="flex items-center gap-1">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold">
+              3
+            </div>
+            <span className="text-xs text-primary-400 font-heading uppercase tracking-wide">
+              {t("teamSelect.title", "Equipo")}
+            </span>
+          </div>
+        </div>
+
+        {/* Search bar */}
+        <div className="relative max-w-xs mb-4">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("teamSelect.searchPlaceholder", "Buscar equipo...")}
+            className="w-full pl-9 pr-3 py-2 rounded-lg bg-white dark:bg-navy-800 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+          />
+        </div>
+
+        {/* Results count */}
+        <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mb-4">
+          <Users className="w-3.5 h-3.5 inline mr-1 -mt-0.5" />
+          {filteredTeams.length}{" "}
+          {filteredTeams.length === 1
+            ? t("teamSelect.team", "equipo")
+            : t("teamSelect.teams", "equipos")}{" "}
+          {t("teamSelect.available", "disponible(s)")}
+        </p>
+
+        {filteredTeams.length === 0 && (
+          <Card>
+            <CardBody>
+              <p className="text-center text-gray-400 dark:text-gray-500 py-8">
+                {t("teamSelect.noResults", "No se encontraron equipos")}
+              </p>
+            </CardBody>
+          </Card>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {teams.map((team) => {
+          {filteredTeams.map((team) => {
             const isSelected = selectedTeamId === team.id;
             const avgOvr = getTeamAvgOvr(team.id);
             const repInfo = getReputationLabel(team.reputation);

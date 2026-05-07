@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSettingsStore } from "./store/settingsStore";
 import { useUpdater } from "./hooks/useUpdater";
 import UpdateModal from "./components/updater/UpdateModal";
@@ -7,6 +7,7 @@ import i18n from "./i18n";
 import "./App.css";
 
 const MainMenu = lazy(() => import("./pages/MainMenu"));
+const LeagueSelection = lazy(() => import("./pages/LeagueSelection"));
 const TeamSelection = lazy(() => import("./pages/TeamSelection"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const MatchSimulation = lazy(() => import("./pages/MatchSimulation"));
@@ -139,6 +140,7 @@ function App() {
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<MainMenu />} />
+          <Route path="/select-league" element={<LeagueSelection />} />
           <Route path="/select-team" element={<TeamSelection />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/match" element={<MatchSimulation />} />

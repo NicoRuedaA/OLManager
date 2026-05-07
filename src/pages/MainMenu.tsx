@@ -21,14 +21,6 @@ import {
 } from "lucide-react";
 import { countryName, allNationalities } from "../lib/countries";
 
-const canUseTauriInvoke = () => {
-  if (import.meta.env.MODE === "test") return true;
-  if (typeof window === "undefined") return false;
-  const internals = (window as unknown as { __TAURI_INTERNALS__?: { invoke?: unknown } })
-    .__TAURI_INTERNALS__;
-  return typeof internals?.invoke === "function";
-};
-
 interface SaveEntry {
   id: string;
   name: string;
@@ -130,15 +122,12 @@ export default function MainMenu() {
   const [isLoadingSaves, setIsLoadingSaves] = useState(false);
   const [loadingSaveId, setLoadingSaveId] = useState<string | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
-  const [isStarting, setIsStarting] = useState(false);
-
   const [formData, setFormData] = useState({
     nickname: "",
     firstName: "",
     lastName: "",
     dob: "",
     nationality: "",
-    competition: "lec",
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [nationalityOpen, setNationalityOpen] = useState(false);
@@ -241,7 +230,26 @@ export default function MainMenu() {
       );
       return;
     }
-    void handleStartGame();
+    // Persist form data so LeagueSelection can recover it even after back/forward navigation
+    sessionStorage.setItem(
+      "league-selection-form",
+      JSON.stringify({
+        nickname: formData.nickname,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dob: formData.dob,
+        nationality: formData.nationality,
+      }),
+    );
+    navigate("/select-league", {
+      state: {
+        nickname: formData.nickname,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dob: formData.dob,
+        nationality: formData.nationality,
+      },
+    });
   };
 
   // Close nationality dropdown on outside click
@@ -274,43 +282,6 @@ export default function MainMenu() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [nationalityOpen]);
-
-  const handleStartGame = async () => {
-    setIsStarting(true);
-    try {
-      if (!canUseTauriInvoke()) {
-        throw new Error(
-          "Backend Tauri no disponible. Cierra cualquier `npm run tauri dev` suelto y ejecutá `npm run tauri dev`.",
-        );
-      }
-
-      const worldSource = "lec-default";
-
-      await invoke<string>("start_new_game", {
-        nickname: formData.nickname,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        dob: formData.dob,
-        nationality: formData.nationality,
-        competitionId: formData.competition,
-        worldSource,
-        avatarPath: null,
-      });
-
-      const displayName =
-        formData.nickname?.trim() || `${formData.firstName} ${formData.lastName}`;
-      setGameActive(true, displayName.trim());
-      console.debug(
-        "[MainMenu] start_new_game completed, navigating to /select-team",
-      );
-      navigate("/select-team");
-    } catch (error) {
-      console.error("Failed to start game:", error);
-      alert(t("menu.failedStartGame", { error: String(error) }));
-    } finally {
-      setIsStarting(false);
-    }
-  };
 
   const handleOpenLoadMenu = async () => {
     setMenuState("load");
@@ -614,37 +585,6 @@ export default function MainMenu() {
                 )}
               </div>
 
-              {/* Region selector */}
-              <div>
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                  {t("worldSelect.competition", "Competición")}
-                </label>
-                <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setFormData((prev) => ({ ...prev, competition: "lec" }))}
-                    className={`flex-1 p-3 rounded-lg border-2 text-sm font-heading font-bold uppercase tracking-wider transition-all ${
-                      formData.competition === "lec"
-                        ? "border-primary-500 bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400"
-                        : "border-gray-200 dark:border-navy-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-navy-500"
-                    }`}
-                  >
-                    🇪🇺 LEC
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setFormData((prev) => ({ ...prev, competition: "cblol" }))}
-                    className={`flex-1 p-3 rounded-lg border-2 text-sm font-heading font-bold uppercase tracking-wider transition-all ${
-                      formData.competition === "cblol"
-                        ? "border-primary-500 bg-primary-50 dark:bg-primary-500/10 text-primary-600 dark:text-primary-400"
-                        : "border-gray-200 dark:border-navy-600 text-gray-500 dark:text-gray-400 hover:border-gray-300 dark:hover:border-navy-500"
-                    }`}
-                  >
-                    🇧🇷 CBLOL
-                  </button>
-                </div>
-              </div>
-
               {/* Country/Region combobox — elevate stacking when open so the menu paints above the submit button */}
               <div
                 id="create-manager-field-nationality"
@@ -791,9 +731,8 @@ export default function MainMenu() {
                 size="lg"
                 className="mt-2 w-full"
                 iconRight={<ChevronRight />}
-                disabled={isStarting}
               >
-                {isStarting ? t("worldSelect.creatingWorld") : t("worldSelect.startCareer")}
+                {t("worldSelect.startCareer")}
               </Button>
             </form>
           )}
