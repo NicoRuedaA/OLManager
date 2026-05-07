@@ -13,8 +13,4 @@ pub fn upgrade_player_identity(_player: &mut Player, _assigned_slot: Option<&Lol
     false
 }
 
-/// Determines if a player needs identity upgrade.
-/// With LolRole, all players are already in the correct format.
-fn needs_identity_upgrade(_player: &Player) -> bool {
-    false
-}
+

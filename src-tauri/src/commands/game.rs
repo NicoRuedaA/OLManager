@@ -2316,6 +2316,7 @@ struct ManagerProfileInput {
     dob: Option<String>,
     #[validate(length(max = 3))]
     nationality: Option<String>,
+    #[allow(dead_code)]
     avatar_path: Option<String>,
 }
 
