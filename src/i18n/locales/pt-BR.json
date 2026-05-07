@@ -2821,7 +2821,7 @@
         "body2": "A rodada {{matchday}} trouxe mais uma série competitiva entre {{home}} e {{away}} ({{homeGoals}}-{{awayGoals}}). Teve disputas de draft e de objetivos até o fim.\n\nJogador da partida: {{playerOfMatch}}"
       },
       "roundup": {
-        "headline0": "Resumo da rodada {{matchday}}: {{totalMaps}} mapas no Rift",
+        "headline0": "Resumo da rodada {{matchday}}: {{totalMaps}} mapas (maps) no Rift",
         "headline1": "Rodada {{matchday}} da liga: todos os resultados",
         "headline2": "Drafts, objetivos e mapas definem a rodada {{matchday}}",
         "body": "A rodada {{matchday}} acabou. Confira os resultados completos das séries:\n\n{{results}}\n\nForam {{totalMaps}} mapas em {{matchCount}} séries."

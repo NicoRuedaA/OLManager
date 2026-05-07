@@ -16,7 +16,7 @@ const PLAYER_INCOMING_OFFER_COOLDOWN_DAYS: i64 = 7;
 const MANAGED_SQUAD_INCOMING_OFFER_COOLDOWN_DAYS: i64 = 14;
 const TRANSFER_BUDGET_SELLING_REALLOCATION_PCT: i64 = 60;
 const CONTRACT_RELEASE_PENALTY_PCT: i64 = 40;
-const MAX_INCOMING_OFFERS_PER_DAY: usize = 1;
+const MAX_INCOMING_OFFERS_PER_DAY: usize = 2;
 const MAX_OFFERS_PER_TEAM_PER_WEEK: usize = 2;
 const MAX_AI_FREE_AGENT_SIGNINGS_PER_DAY: usize = 2;
 const MAX_AI_INTERCLUB_TRANSFERS_PER_DAY: usize = 1;
@@ -300,7 +300,7 @@ fn has_recent_incoming_offer(
             return false;
         };
         let age_days = (current_date - offer_date).num_days();
-        age_days >= 0 && age_days < cooldown_days
+        age_days > 0 && age_days < cooldown_days
     })
 }
 

@@ -10,9 +10,9 @@ use domain::stats::{
 };
 use log::debug;
 
-fn compact_team_stats(stats: &engine::TeamStats) -> CompactTeamMatchStats {
+fn compact_team_stats(stats: &engine::TeamStats, possession_pct: u8) -> CompactTeamMatchStats {
     CompactTeamMatchStats {
-        possession_pct: 0,
+        possession_pct,
         kills: stats.kills,
         deaths: stats.deaths,
         gold_earned: stats.gold_earned,
@@ -48,8 +48,11 @@ fn compact_match_report(report: &engine::MatchReport) -> CompactMatchReport {
     CompactMatchReport {
         total_minutes: report.total_minutes.into(),
         game_duration_seconds: report.game_duration_seconds,
-        home_stats: compact_team_stats(&report.home_stats),
-        away_stats: compact_team_stats(&report.away_stats),
+        home_stats: compact_team_stats(&report.home_stats, report.home_possession.round() as u8),
+        away_stats: compact_team_stats(
+            &report.away_stats,
+            (100.0 - report.home_possession).round().clamp(0.0, 100.0) as u8,
+        ),
         events,
     }
 }
@@ -384,14 +387,38 @@ fn apply_player_stats(
 ) {
     for player in game.players.iter_mut() {
         if let Some(ps) = report.player_stats.get(&player.id) {
+            let minutes_played = if ps.duration_seconds > 0 {
+                ps.duration_seconds / 60
+            } else {
+                u32::from(ps.minutes_played)
+            };
+            let kills = if ps.kills > 0 {
+                ps.kills
+            } else {
+                report
+                    .kill_feed
+                    .iter()
+                    .filter(|kill| kill.killer_id == player.id)
+                    .count() as u16
+            };
             player.stats.appearances += 1;
-            player.stats.kills += ps.kills as u32;
+            player.stats.kills += kills as u32;
             player.stats.assists += ps.assists as u32;
-            player.stats.minutes_played += ps.duration_seconds / 60;
+            player.stats.minutes_played += minutes_played;
+            player.stats.shots += ps.shots as u32;
+            player.stats.shots_on_target += ps.shots_on_target as u32;
+            player.stats.passes_completed += ps.passes_completed as u32;
+            player.stats.passes_attempted += ps.passes_attempted as u32;
+            player.stats.tackles_won += ps.tackles_won as u32;
+            player.stats.interceptions += ps.interceptions as u32;
 
-            let match_rating = 6.0 + ((ps.kills + ps.assists) as f32 * 0.35)
-                - (ps.deaths as f32 * 0.25)
-                + ((ps.damage_dealt as f32 / 10_000.0).min(1.5));
+            let match_rating = if ps.rating > 0.0 {
+                ps.rating
+            } else {
+                6.0 + ((kills + ps.assists) as f32 * 0.35)
+                    - (ps.deaths as f32 * 0.25)
+                    + ((ps.damage_dealt as f32 / 10_000.0).min(1.5))
+            };
             if player.stats.appearances == 1 {
                 player.stats.avg_rating = match_rating.clamp(0.0, 10.0);
             } else {
@@ -400,8 +427,18 @@ fn apply_player_stats(
                     (player.stats.avg_rating * (n - 1.0) + match_rating.clamp(0.0, 10.0)) / n;
             }
 
-            // In LoL, this logic doesn't apply - there are no "clean sheets" in LoL
-            // (the concept doesn't map - keeping for API compatibility)
+            if player.id.ends_with("_gk") {
+                let conceded = if player.team_id.as_deref() == Some(_home_team_id) {
+                    report.away_wins
+                } else if player.team_id.as_deref() == Some(_away_team_id) {
+                    report.home_wins
+                } else {
+                    1
+                };
+                if minutes_played > 0 && conceded == 0 {
+                    player.stats.clean_sheets += 1;
+                }
+            }
         }
     }
 }
@@ -689,11 +726,20 @@ fn update_post_match_morale(
 
         let mut individual_delta: i16 = 0;
         if let Some(ps) = report.player_stats.get(&player.id) {
-            individual_delta += ps.kills as i16 * 3;
+            let kills = if ps.kills > 0 {
+                ps.kills
+            } else {
+                report
+                    .kill_feed
+                    .iter()
+                    .filter(|kill| kill.killer_id == player.id)
+                    .count() as u16
+            };
+            individual_delta += kills as i16 * 3;
             individual_delta += ps.assists as i16 * 2;
             if ps.deaths >= 5 {
                 individual_delta -= 3;
-            } else if ps.kills + ps.assists >= 6 {
+            } else if kills + ps.assists >= 6 {
                 individual_delta += 2;
             }
         }
@@ -717,11 +763,15 @@ fn update_team_form(
 
     let home_result = if report.home_wins > report.away_wins {
         "W"
+    } else if report.home_wins == report.away_wins {
+        "D"
     } else {
         "L"
     };
     let away_result = if report.away_wins > report.home_wins {
         "W"
+    } else if report.away_wins == report.home_wins {
+        "D"
     } else {
         "L"
     };
@@ -774,7 +824,13 @@ fn deplete_match_stamina(game: &mut Game, team_id: &str, report: &engine::MatchR
             let minutes = report
                 .player_stats
                 .get(&player.id)
-                .map(|ps| (ps.duration_seconds / 60) as u8)
+                .map(|ps| {
+                    if ps.duration_seconds > 0 {
+                        (ps.duration_seconds / 60) as u8
+                    } else {
+                        ps.minutes_played as u8
+                    }
+                })
                 .unwrap_or(0);
             if minutes == 0 {
                 continue;

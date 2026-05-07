@@ -2865,7 +2865,7 @@
         "body2": "La jornada {{matchday}} dejó otra serie competitiva entre {{home}} y {{away}} ({{homeGoals}}-{{awayGoals}}). Hubo pivotes de draft y peleas por objetivos hasta el final.\n\nJugador del partido: {{playerOfMatch}}"
       },
       "roundup": {
-        "headline0": "Resumen jornada {{matchday}}: {{totalMaps}} mapas en la Grieta",
+        "headline0": "Resumen jornada {{matchday}}: {{totalMaps}} mapas (maps) en la Grieta",
         "headline1": "Jornada {{matchday}} de liga: todos los resultados",
         "headline2": "Drafts, objetivos y mapas definen la jornada {{matchday}}",
         "body": "La jornada {{matchday}} terminó. Acá van todos los resultados de series:\n\n{{results}}\n\nSe jugaron {{totalMaps}} mapas en {{matchCount}} series."
