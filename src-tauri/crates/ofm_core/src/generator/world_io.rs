@@ -195,5 +195,7 @@ mod tests {
 
         let json = export_world_to_json(&world).unwrap();
         let reparsed: WorldData = serde_json::from_str(&json).unwrap();
+
+        assert_eq!(reparsed.teams[0].country, "GB");
     }
 }

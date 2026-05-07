@@ -177,7 +177,7 @@ describe("PlayerProfileHeroCard potential UX", () => {
       />,
     );
 
-    expect(screen.getByText("91")).toBeInTheDocument();
+    expect(screen.getAllByText("91").length).toBeGreaterThan(0);
     expect(screen.queryByRole("button", { name: "Investigar potencial" })).not.toBeInTheDocument();
   });
 });

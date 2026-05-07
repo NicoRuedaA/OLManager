@@ -13,6 +13,19 @@ export function resolvePlayerLolRole(player: PlayerData): LolRoleTag {
   if (role === "TOP" || role === "JUNGLE" || role === "MID" || role === "ADC" || role === "SUPPORT") {
     return role;
   }
+  const legacyRole = String(role ?? player.position ?? "").toLowerCase();
+  if (legacyRole === "defender" || legacyRole === "centre-back" || legacyRole === "center-back" || legacyRole === "full-back") {
+    return "TOP";
+  }
+  if (legacyRole === "midfielder") {
+    return "MID";
+  }
+  if (legacyRole === "forward" || legacyRole === "striker" || legacyRole === "winger") {
+    return "ADC";
+  }
+  if (legacyRole === "goalkeeper") {
+    return "SUPPORT";
+  }
   return "MID";
 }
 

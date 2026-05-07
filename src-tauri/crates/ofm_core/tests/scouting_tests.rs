@@ -340,12 +340,12 @@ fn report_has_i18n_keys() {
 
 fn count_revealed(report: &ScoutReportData) -> usize {
     [
-        report.pace,
-        report.laning,
-        report.passing,
         report.mechanics,
-        report.defending,
-        report.physical,
+        report.laning,
+        report.teamfighting,
+        report.macro_,
+        report.champion_pool,
+        report.discipline,
     ]
     .iter()
     .filter(|a| a.is_some())
@@ -496,12 +496,12 @@ fn high_ability_scout_attrs_are_close_to_real() {
             .as_ref()
             .unwrap();
 
-        // Real pace is 70, with noise ±2 → should be in [68, 72]
-        if let Some(pace) = report.pace {
+        // Real mechanics is 74, with noise ±2 → should be in [72, 76]
+        if let Some(mechanics) = report.mechanics {
             assert!(
-                pace >= 65 && pace <= 75,
-                "High-ability fuzzed pace {} should be close to real value 70",
-                pace
+                (72..=76).contains(&mechanics),
+                "High-ability fuzzed mechanics {} should be close to real value 74",
+                mechanics
             );
         }
     }

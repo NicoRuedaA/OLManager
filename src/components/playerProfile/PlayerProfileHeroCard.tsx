@@ -85,9 +85,6 @@ export default function PlayerProfileHeroCard({
     !potentialResearchSubmitting;
   const potentialValueLabel =
     potentialRevealed !== null ? String(potentialRevealed) : "??";
-  void potentialProgress;
-  void canStartPotentialResearch;
-  void potentialValueLabel;
 
   useEffect(() => {
     let cancelled = false;
@@ -288,6 +285,33 @@ export default function PlayerProfileHeroCard({
                 <span>{teamName}</span>
               )}
             </p>
+
+            {isOwnClub ? (
+              <div className="mt-3 inline-flex items-center gap-3 rounded-lg border border-white/15 bg-black/20 px-3 py-2 text-sm text-gray-200">
+                <span className="font-heading font-bold uppercase tracking-wider text-gray-400">
+                  {t("common.potential", { defaultValue: "Potencial" })}
+                </span>
+                <span className="font-heading font-bold text-accent-300">{potentialValueLabel}</span>
+                {potentialActive ? (
+                  <span className="text-xs text-gray-300">
+                    {t("playerProfile.potentialResearchProgress", {
+                      defaultValue: `Investigando… ${potentialProgress}/7`,
+                      current: potentialProgress,
+                      total: 7,
+                    })}
+                  </span>
+                ) : canStartPotentialResearch ? (
+                  <button
+                    type="button"
+                    onClick={onStartPotentialResearch}
+                    disabled={potentialResearchSubmitting}
+                    className="rounded-md border border-primary-400/60 px-2 py-1 text-xs font-heading font-bold uppercase tracking-wide text-primary-200 hover:bg-primary-500/20 disabled:opacity-60"
+                  >
+                    {t("playerProfile.startPotentialResearch", { defaultValue: "Investigar potencial" })}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
 
             <div className="mt-3">
               <PlayerProfileScoutAction

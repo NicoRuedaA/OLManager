@@ -20,6 +20,8 @@ interface YouthAcademyTabProps {
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
+const ACADEMY_LOAD_OPTIONS_ERROR_KEY = "youthAcademy.loadOptionsError";
+
 const LOL_ROLE_ICON_URLS: Record<DraftRole, string> = {
   TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
   JUNGLE: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
@@ -71,26 +73,36 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
   const [academyCustomLogoUrl, setAcademyCustomLogoUrl] = useState("");
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (academyTeam || !myTeam?.id) {
       setAcquisitionOptions([]);
       setAcquisitionBlockedReason(null);
+      setAcquisitionLoading(false);
       return;
     }
 
     setAcquisitionLoading(true);
     void getAcademyAcquisitionOptions(myTeam.id)
       .then((response) => {
+        if (isCancelled) return;
         setAcquisitionOptions(response.options ?? []);
         setAcquisitionBlockedReason(response.blocked_reason ?? null);
       })
       .catch(() => {
+        if (isCancelled) return;
         setAcquisitionOptions([]);
-        setAcquisitionBlockedReason(t("youthAcademy.loadOptionsError"));
+        setAcquisitionBlockedReason(ACADEMY_LOAD_OPTIONS_ERROR_KEY);
       })
       .finally(() => {
+        if (isCancelled) return;
         setAcquisitionLoading(false);
       });
-  }, [academyTeam, myTeam?.id, t]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [academyTeam, myTeam?.id]);
 
   const youthPlayers = useMemo(
     () =>
@@ -310,7 +322,9 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                   ? t("youthAcademy.acquisitionLoading")
                   : acquisitionOptions.length > 0
                     ? t("youthAcademy.acquisitionIntro")
-                    : acquisitionBlockedReason ?? t("youthAcademy.acquisitionNoOptions")}
+                    : acquisitionBlockedReason === ACADEMY_LOAD_OPTIONS_ERROR_KEY
+                      ? t(ACADEMY_LOAD_OPTIONS_ERROR_KEY)
+                      : acquisitionBlockedReason ?? t("youthAcademy.acquisitionNoOptions")}
               </p>
               {acquisitionOptions.length > 0 && (
                 <div className="grid gap-2 md:grid-cols-3">

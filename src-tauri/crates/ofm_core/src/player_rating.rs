@@ -165,7 +165,7 @@ fn critical_penalty(player: &Player, _role: &LolRole) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use domain::player::{PlayerAttributes, Position};
+    use domain::player::PlayerAttributes;
 
     fn make_player(role: LolRole) -> Player {
         let attrs = PlayerAttributes {

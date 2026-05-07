@@ -169,7 +169,7 @@ pub fn generate_world(
 mod tests {
     use super::data::{NATIONALITY_POOLS, TEAM_TEMPLATES};
     use super::*;
-    use domain::stats::{LolRole, Position};
+    use domain::stats::LolRole;
 
     #[test]
     fn test_generate_world_team_count() {

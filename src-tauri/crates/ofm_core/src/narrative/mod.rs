@@ -103,6 +103,7 @@ pub enum PersonaType {
 pub enum SocialTone {
     Professional,
     Analytical,
+    Calm,
     Community,
     Close,
     Dramatic,
@@ -371,6 +372,7 @@ fn is_real_persona_safe_tone(tone: SocialTone) -> bool {
         tone,
         SocialTone::Professional
             | SocialTone::Analytical
+            | SocialTone::Calm
             | SocialTone::Community
             | SocialTone::Close
     )
@@ -381,6 +383,7 @@ impl SocialTone {
         match self {
             SocialTone::Professional => "professional",
             SocialTone::Analytical => "analytical",
+            SocialTone::Calm => "calm",
             SocialTone::Community => "community",
             SocialTone::Close => "close",
             SocialTone::Dramatic => "dramatic",

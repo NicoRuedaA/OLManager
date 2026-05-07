@@ -1,5 +1,6 @@
 import type { PlayerData } from "../../store/gameStore";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
+import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 
 export type SquadSection = "xi" | "bench";
 export type DragState = {
@@ -255,7 +256,7 @@ export function translatePositionAbbreviation(
  * (no mapping needed - already LolRole from backend)
  */
 export function getLolRoleForPlayer(player: PlayerData): LolRole {
-  return canonicalPosition(player.natural_position) as LolRole;
+  return resolvePlayerLolRole(player);
 }
 
 export function getPreferredPositions(player: PlayerData): string[] {

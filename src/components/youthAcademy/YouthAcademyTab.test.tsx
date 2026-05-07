@@ -33,6 +33,13 @@ vi.mock("react-i18next", () => ({
       if (key === "youthAcademy.traits") return "Rasgos";
       if (key === "youthAcademy.condition") return "Energia";
       if (key === "youthAcademy.playersUnder21") return `${params?.count ?? 0} jugadores academia`;
+      if (key === "youthAcademy.promote") return "Subir";
+      if (key === "youthAcademy.promoting") return "Subiendo...";
+      if (key === "youthAcademy.fundAcademy") return "Financiar academia";
+      if (key === "youthAcademy.fundingAcademy") return "Financiando...";
+      if (key === "youthAcademy.placeholderCustomName") return "Nombre personalizado (opcional)";
+      if (key === "youthAcademy.placeholderCustomShortName") return "Sigla personalizada (opcional)";
+      if (key === "youthAcademy.placeholderCustomLogoUrl") return "URL logo (opcional)";
       return key;
     },
   }),
@@ -45,6 +52,12 @@ vi.mock("../TraitBadge", () => ({
 beforeEach(() => {
   promoteAcademyPlayer.mockReset();
   getAcademyAcquisitionOptions.mockReset();
+  getAcademyAcquisitionOptions.mockResolvedValue({
+    parent_team_id: "team-1",
+    acquisition_allowed: false,
+    blocked_reason: "No eligible ERL acquisition candidate configured for this team country",
+    options: [],
+  });
   acquireAcademyTeam.mockReset();
 });
 
@@ -95,20 +108,20 @@ function createGameState(): GameStateData {
     full_name: "Academy Player",
     match_name: "Prospect",
     date_of_birth: "2004-01-01",
-    natural_position: "Midfielder",
-    position: "Midfielder",
+    natural_position: "MID",
+    position: "MID",
     condition: 100,
     traits: [],
     attributes: {
-      dribbling: 70,
-      shooting: 70,
-      teamwork: 70,
-      vision: 70,
-      decisions: 70,
-      leadership: 70,
-      agility: 70,
-      composure: 70,
-      stamina: 70,
+      mechanics: 70,
+      laning: 70,
+      teamfighting: 70,
+      macro_play: 70,
+      consistency: 70,
+      shotcalling: 70,
+      champion_pool: 70,
+      discipline: 70,
+      mental_resilience: 70,
     },
   } as any;
 

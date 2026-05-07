@@ -7,6 +7,7 @@ import type {
   TeamData,
 } from "../store/gameStore";
 import type { BackendScrimContextResponse } from "../services/trainingService";
+import { calculateLolOvr } from "./lolPlayerStats";
 
 export type ScrimDayState =
   | "NoScrimToday"
@@ -365,10 +366,7 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
 }
 
 function playerLolOvr(player: PlayerData): number {
-  const a = player.attributes;
-  return Math.round((
-    a.mechanics + a.laning + a.teamfighting + a.macro_play + a.consistency + a.shotcalling + a.champion_pool + a.discipline + a.mental_resilience
-  ) / 9);
+  return calculateLolOvr(player);
 }
 
 export function teamLolOvr(gameState: GameStateData, teamId: string): number {

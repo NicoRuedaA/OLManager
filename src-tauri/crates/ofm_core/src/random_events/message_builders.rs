@@ -143,25 +143,25 @@ pub(super) fn media_story_message(
         match variant {
             0 => (
                 format!(
-                    "Esportmaníacos praises {} — the desk is unanimous",
+                    "Esportmaníacos praises {}'s Rift control — the desk is unanimous",
                     player_name
                 ),
                 format!(
                     "The Esportmaníacos panel spent a good chunk of today's stream on {} at {}.\n\n\
-                    \"Nothing to criticize this week. The guy is absolutely dominating.\" \
-                    The positive coverage should give confidence a boost in the locker room.",
+                    \"Nothing to criticize this week. The guy is absolutely dominating the Rift: objective setups, draft execution, solo queue discipline, everything.\" \
+                    The positive coverage should give confidence a boost in the team room.",
                     player_name, team_name
                 ),
                 "be.msg.esportmaniacos.positive.subject0",
             ),
             _ => (
                 format!(
-                    "Esportmaníacos: {} is carrying {} this split",
+                    "Esportmaníacos: {} is carrying {} through every Draft",
                     player_name, team_name
                 ),
                 format!(
                     "The Esportmaníacos tertulianos rarely agree on anything, but {} got a full pass today: \
-                    \"Consistent, solid, no dips in form. One of the best players in the league right now. \
+                    \"Consistent, solid, no dips in form. From draft reads to objective setups, one of the best players in the league right now. \
                     {} should do everything to keep him.\"\n\n\
                     Good for morale — and for the market value.",
                     player_name, team_name
@@ -173,26 +173,26 @@ pub(super) fn media_story_message(
         match variant {
             0 => (
                 format!(
-                    "Esportmaníacos goes after {} — panel shows no mercy",
+                    "Draft Pressure on {} — panel shows no mercy",
                     player_name
                 ),
                 format!(
                     "The Esportmaníacos panel did not hold back today on {}: \
-                    \"The guy has completely disappeared. What happened to him this split? \
+                    \"The guy has completely disappeared under lane pressure. What happened to him this split? \
                     {} can't keep relying on a player performing like this.\"\n\n\
-                    This kind of coverage tends to hit morale hard. Worth having a word with the player.",
+                    This kind of Rift coverage tends to hit morale hard. Worth having a word with the player after scrim review.",
                     player_name, team_name
                 ),
                 "be.msg.esportmaniacos.negative.subject0",
             ),
             _ => (
                 format!(
-                    "Esportmaníacos questions {}'s consistency at {}",
+                    "Pressure Watch: Esportmaníacos questions {}'s consistency at {}",
                     player_name, team_name
                 ),
                 format!(
                     "Today's Esportmaníacos tertulianos session turned into a full breakdown of {}'s recent form. \
-                    The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. \
+                    The verdict: \"Inconsistent in lane and shaky in scrim patterns. No regularity. Some days at top level, others completely invisible on the Rift. \
                     {} deserves better output from a player in that role.\"\n\n\
                     Keep an eye on the player's morale.",
                     player_name, team_name
@@ -269,13 +269,13 @@ pub fn build_media_story_from_narrative(
         match variant {
             0 => (
                 format!(
-                    "Esportmaníacos praises {} — the desk is unanimous",
+                    "Esportmaníacos praises {}'s Rift control — the desk is unanimous",
                     player_name
                 ),
                 format!(
                     "The Esportmaníacos panel spent a good chunk of today's stream on {} at {}.\n\n\
-                    \"Nothing to criticize this week. The guy is absolutely dominating.\" \
-                    The positive coverage should give confidence a boost in the locker room.",
+                    \"Nothing to criticize this week. The guy is absolutely dominating the Rift: objective setups, draft execution, solo queue discipline, everything.\" \
+                    The positive coverage should give confidence a boost in the team room.",
                     player_name, team_name
                 ),
                 "be.msg.esportmaniacos.positive.subject0",
@@ -283,12 +283,12 @@ pub fn build_media_story_from_narrative(
             ),
             _ => (
                 format!(
-                    "Esportmaníacos: {} is carrying {} this split",
+                    "Esportmaníacos: {} is carrying {} through every Draft",
                     player_name, team_name
                 ),
                 format!(
                     "The Esportmaníacos tertulianos rarely agree on anything, but {} got a full pass today: \
-                    \"Consistent, solid, no dips in form. One of the best players in the league right now. \
+                    \"Consistent, solid, no dips in form. From draft reads to objective setups, one of the best players in the league right now. \
                     {} should do everything to keep him.\"\n\n\
                     Good for morale — and for the market value.",
                     player_name, team_name
@@ -301,14 +301,14 @@ pub fn build_media_story_from_narrative(
         match variant {
             0 => (
                 format!(
-                    "Esportmaníacos goes after {} — panel shows no mercy",
+                    "Draft Pressure on {} — panel shows no mercy",
                     player_name
                 ),
                 format!(
                     "The Esportmaníacos panel did not hold back today on {}: \
-                    \"The guy has completely disappeared. What happened to him this split? \
+                    \"The guy has completely disappeared under lane pressure. What happened to him this split? \
                     {} can't keep relying on a player performing like this.\"\n\n\
-                    This kind of coverage tends to hit morale hard. Worth having a word with the player.",
+                    This kind of Rift coverage tends to hit morale hard. Worth having a word with the player after scrim review.",
                     player_name, team_name
                 ),
                 "be.msg.esportmaniacos.negative.subject0",
@@ -316,12 +316,12 @@ pub fn build_media_story_from_narrative(
             ),
             _ => (
                 format!(
-                    "Esportmaníacos questions {}'s consistency at {}",
+                    "Pressure Watch: Esportmaníacos questions {}'s consistency at {}",
                     player_name, team_name
                 ),
                 format!(
                     "Today's Esportmaníacos tertulianos session turned into a full breakdown of {}'s recent form. \
-                    The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. \
+                    The verdict: \"Inconsistent in lane and shaky in scrim patterns. No regularity. Some days at top level, others completely invisible on the Rift. \
                     {} deserves better output from a player in that role.\"\n\n\
                     Keep an eye on the player's morale.",
                     player_name, team_name

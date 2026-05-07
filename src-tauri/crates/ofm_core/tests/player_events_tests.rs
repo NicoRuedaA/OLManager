@@ -321,6 +321,7 @@ fn bench_complaint_after_5_missed_matches() {
 }
 
 #[test]
+#[ignore = "legacy: Goalkeeper maps to LoL Support; supports are valid bench-complaint candidates after role migration (see #92)"]
 fn bench_complaint_not_for_gk() {
     let mut game = make_game();
     let fixtures: Vec<Fixture> = (0..5)

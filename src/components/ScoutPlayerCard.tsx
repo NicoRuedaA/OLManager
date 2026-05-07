@@ -33,9 +33,9 @@ export default function ScoutPlayerCard({ report, onPlayerClick }: ScoutPlayerCa
 
   const attrs: AttrRow[] = [
     { label: t("playerProfile.lolStats.mechanics"), value: report.mechanics ?? report.pace ?? null },
-    { label: t("playerProfile.lolStats.laning"), value: report.laning ?? null },
+    { label: t("playerProfile.lolStats.laning"), value: report.laning ?? report.shooting ?? null },
     { label: t("playerProfile.lolStats.teamfighting"), value: report.teamfighting ?? report.passing ?? null },
-    { label: t("playerProfile.lolStats.macro"), value: report.macro ?? report.mechanics ?? null },
+    { label: t("playerProfile.lolStats.macro"), value: report.macro ?? report.dribbling ?? null },
     { label: t("playerProfile.lolStats.championPool"), value: report.champion_pool ?? report.defending ?? null },
     { label: t("playerProfile.lolStats.discipline"), value: report.discipline ?? report.physical ?? null },
   ];

@@ -1,25 +1,13 @@
 import type { PlayerData } from "../store/gameStore";
 import type { LolRole } from "../store/types";
+import { calculateLolOvr } from "./lolPlayerStats";
 
 /**
  * Base OVR: simple average of the 9 visible LoL stats.
  * Same formula as calculate_lol_ovr() in Rust (potential.rs).
  */
 function baseOvr(player: PlayerData): number {
-  const a = player.attributes;
-  return Math.round(
-    Math.max(1, Math.min(99,
-      (a.mechanics +
-        a.laning +
-        a.teamfighting +
-        a.macro_play +
-        a.consistency +
-        a.shotcalling +
-        a.champion_pool +
-        a.discipline +
-        a.mental_resilience) / 9
-    ))
-  );
+  return calculateLolOvr(player);
 }
 
 /**
@@ -61,7 +49,7 @@ export function calcOvr(player: PlayerData, role?: LolRole): { ovr: number; role
  * Role badge color mapping
  * Uses the same mapping as roleIcons.ts for consistency
  */
-export function positionBadgeVariant(role: LolRole): "accent" | "primary" | "success" | "danger" {
+export function positionBadgeVariant(role: LolRole): "accent" | "primary" | "success" | "danger" | "neutral" {
     switch (role) {
         case "TOP":
             return "danger";
@@ -72,7 +60,7 @@ export function positionBadgeVariant(role: LolRole): "accent" | "primary" | "suc
         case "ADC":
             return "accent";
         case "SUPPORT":
-            return "primary";
+            return "neutral";
         default:
             return "primary";
     }

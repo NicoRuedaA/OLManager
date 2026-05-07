@@ -443,6 +443,10 @@ function makeGameStateWithSeriesFixture(
 }
 
 async function playOneDraftMap(): Promise<void> {
+  if (screen.queryByTestId("prematch-start")) {
+    fireEvent.click(screen.getByTestId("prematch-start"));
+  }
+
   await waitFor(function (): void {
     expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
   });
@@ -460,6 +464,20 @@ async function playOneDraftMap(): Promise<void> {
 
   await waitFor(function (): void {
     expect(screen.getByTestId("postmatch-finish")).toBeInTheDocument();
+  });
+}
+
+async function advanceFromPrematchToDraft(): Promise<void> {
+  if (screen.queryByTestId("champion-draft")) {
+    return;
+  }
+
+  await waitFor(function (): void {
+    expect(screen.getByTestId("prematch-start")).toBeInTheDocument();
+  });
+  fireEvent.click(screen.getByTestId("prematch-start"));
+  await waitFor(function (): void {
+    expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
   });
 }
 
@@ -543,9 +561,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
 
@@ -571,9 +587,7 @@ describe("MatchSimulation", function (): void {
 
     fireEvent.click(screen.getByTestId("prematch-start"));
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
 
@@ -610,9 +624,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
     await waitFor(function (): void {
@@ -668,9 +680,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
     await waitFor(function (): void {
@@ -761,9 +771,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
     await waitFor(function (): void {
@@ -965,9 +973,8 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toHaveTextContent("Complete Draft (0)");
-    });
+    await advanceFromPrematchToDraft();
+    expect(screen.getByTestId("champion-draft")).toHaveTextContent("Complete Draft (0)");
 
     expect(
       localStorage.getItem("fixture-draft-result:fixture-playoff-restart-reset"),
@@ -1012,9 +1019,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     fireEvent.click(screen.getByTestId("champion-draft"));
     await waitFor(function (): void {
@@ -1092,9 +1097,7 @@ describe("MatchSimulation", function (): void {
 
     fireEvent.click(screen.getByTestId("postmatch-finish"));
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
     expect(navigateMock).not.toHaveBeenCalledWith("/dashboard");
   });
 
@@ -1138,9 +1141,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toBeInTheDocument();
-    });
+    await advanceFromPrematchToDraft();
 
     expect(localStorage.getItem("fixture-draft-result:fixture-bo3-invalid-complete")).toBeNull();
     expect(screen.queryByTestId("postmatch-press")).not.toBeInTheDocument();
@@ -1197,8 +1198,7 @@ describe("MatchSimulation", function (): void {
 
     render(<MatchSimulation />);
 
-    await waitFor(function (): void {
-      expect(screen.getByTestId("champion-draft")).toHaveTextContent("Complete Draft (0)");
-    });
+    await advanceFromPrematchToDraft();
+    expect(screen.getByTestId("champion-draft")).toHaveTextContent("Complete Draft (0)");
   });
 });
