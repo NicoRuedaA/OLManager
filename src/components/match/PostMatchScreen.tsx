@@ -143,9 +143,6 @@ export default function PostMatchScreen({
       return null;
     }
 
-    const totalKills =
-      report.home_stats.kills + report.away_stats.kills;
-
     return [
       `${report.home_stats.possession_pct}-${report.away_stats.possession_pct} ${t("match.possession")}`,
       `${report.home_stats.kills + report.away_stats.kills} ${t("match.kills")}`,

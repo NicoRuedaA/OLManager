@@ -618,7 +618,7 @@ export class PrototypeSimulation {
       if (parsed) return parsed;
     }
 
-    const style = teamData.play_style;
+    const style = teamData.draft_strategy;
     if (style === "HighPress" || style === "Attacking" || style === "Counter") return "red";
     if (style === "Defensive" || style === "Possession") return "blue";
     return team === "blue" ? "blue" : "red";
@@ -1855,7 +1855,7 @@ export class PrototypeSimulation {
   }
 
   private styleAggro(team: TeamId) {
-    const style = team === "blue" ? this.snapshot.home_team.play_style : this.snapshot.away_team.play_style;
+    const style = team === "blue" ? this.snapshot.home_team.draft_strategy : this.snapshot.away_team.draft_strategy;
     switch (style) {
       case "HighPress": return 1.12;
       case "Attacking": return 1.08;

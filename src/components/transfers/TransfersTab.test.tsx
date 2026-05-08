@@ -84,8 +84,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
     transfer_budget: 2000000,
     season_income: 0,
     season_expenses: 0,
-    formation: "4-4-2",
-    play_style: "Balanced",
+    draft_strategy: "Balanced",
     training_focus: "Physical",
     training_intensity: "Medium",
     training_schedule: "Balanced",
@@ -199,7 +198,6 @@ function createGameState(players: PlayerData[] = [createPlayer()]): GameStateDat
       career_stats: {
         matches_managed: 0,
         wins: 0,
-        draws: 0,
         losses: 0,
         trophies: 0,
         best_finish: null,

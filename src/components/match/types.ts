@@ -150,7 +150,7 @@ export interface EngineTeamData {
   id: string;
   name: string;
   formation: string;
-  play_style: string;
+  draft_strategy: string;
   players: EnginePlayerData[];
 }
 

@@ -437,7 +437,7 @@ export default function HalfTimeBreak({
                         key={s.id}
                         onClick={() => handleDraftStrategyChange(s.id)}
                         className={`flex items-center gap-1.5 py-2 px-3 rounded-lg text-xs font-heading font-bold transition-all ${
-                          userTeam.play_style === s.id
+                          userTeam.draft_strategy === s.id
                             ? "bg-primary-500/20 text-primary-400 ring-1 ring-primary-500/50"
                             : "bg-gray-100 text-gray-600 hover:text-gray-900 dark:bg-navy-700 dark:text-gray-400 dark:hover:text-gray-300"
                         }`}

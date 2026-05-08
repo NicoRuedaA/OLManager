@@ -1679,7 +1679,7 @@ export default function ChampionDraft({
   const scoreDraft = (side: Side): DraftScoreBreakdown => {
     const ownPicks = side === "blue" ? bluePicks : redPicks;
     const enemyPicks = side === "blue" ? redPicks : bluePicks;
-    const ownPlan = planTempo(side === "blue" ? snapshot.home_team.play_style : snapshot.away_team.play_style);
+    const ownPlan = planTempo(side === "blue" ? snapshot.home_team.draft_strategy : snapshot.away_team.draft_strategy);
     const teamId = side === "blue" ? snapshot.home_team.id : snapshot.away_team.id;
     const opponentTeamId = side === "blue" ? snapshot.away_team.id : snapshot.home_team.id;
     const playerIds = side === "blue" ? bluePlayerIds : redPlayerIds;
@@ -1751,7 +1751,7 @@ export default function ChampionDraft({
     redPicks,
     bluePlayerIds,
     snapshot.home_team.id,
-    snapshot.home_team.play_style,
+    snapshot.home_team.draft_strategy,
     snapshot.away_team.id,
     gameState?.staff,
     scrimReportsByTeamId,
@@ -1761,7 +1761,7 @@ export default function ChampionDraft({
     redPicks,
     redPlayerIds,
     snapshot.away_team.id,
-    snapshot.away_team.play_style,
+    snapshot.away_team.draft_strategy,
     snapshot.home_team.id,
     gameState?.staff,
     scrimReportsByTeamId,

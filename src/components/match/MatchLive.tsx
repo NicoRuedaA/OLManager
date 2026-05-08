@@ -365,7 +365,7 @@ export default function MatchLive({
                     { id: "Counter", icon: <Crosshair className="w-3 h-3" /> },
                     { id: "HighPress", icon: <Flag className="w-3 h-3" /> },
                   ].map(s => {
-                    const cur = userSide === "Home" ? snapshot.home_team.play_style : snapshot.away_team.play_style;
+                    const cur = userSide === "Home" ? snapshot.home_team.draft_strategy : snapshot.away_team.draft_strategy;
                     return (
                       <button key={s.id} onClick={() => handleDraftStrategyChange(s.id)}
                         className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-heading transition-colors ${cur === s.id ? "bg-primary-500/20 text-primary-500 dark:text-primary-400 ring-1 ring-primary-500/50" : "bg-gray-100 text-gray-600 hover:text-gray-900 dark:bg-navy-700 dark:text-gray-400 dark:hover:text-gray-300"}`}

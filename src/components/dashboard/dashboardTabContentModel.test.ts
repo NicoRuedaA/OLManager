@@ -24,7 +24,6 @@ function createGameState(): GameStateData {
             career_stats: {
                 matches_managed: 0,
                 wins: 0,
-                draws: 0,
                 losses: 0,
                 trophies: 0,
                 best_finish: null,

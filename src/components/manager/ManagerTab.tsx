@@ -311,7 +311,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             <StatBlock label={t('manager.matches')} value={stats.matches_managed} />
             <StatBlock label={t('manager.wins')} value={stats.wins} />
-            <StatBlock label={t('manager.draws')} value={stats.draws ?? 0} />
             <StatBlock label={t('manager.losses')} value={stats.losses} />
             <StatBlock label={t('manager.trophies')} value={stats.trophies} />
             <StatBlock label={t('manager.winPercent')} value={stats.matches_managed > 0 ? `${(stats.wins / stats.matches_managed * 100).toFixed(0)}%` : "—"} />
@@ -373,7 +372,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                   <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{t('manager.period')}</th>
                   <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.played')}</th>
                   <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.won')}</th>
-                  <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.drawn')}</th>
                   <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.lost')}</th>
                 </tr>
               </thead>
@@ -384,7 +382,6 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                     <td className="py-3 px-5 text-sm text-gray-500 dark:text-gray-400">{entry.start_date.substring(0, 4)} — {entry.end_date?.substring(0, 4) || t('common.present')}</td>
                     <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.matches}</td>
                     <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.wins}</td>
-                    <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.draws}</td>
                     <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.losses}</td>
                   </tr>
                 ))}

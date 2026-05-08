@@ -22,7 +22,7 @@ const makeGameState = (overrides: Partial<GameStateData> = {}): GameStateData =>
     id: "mgr1", first_name: "Test", last_name: "Manager",
     date_of_birth: "1985-01-01", nationality: "GB", team_id: "team1",
     satisfaction: 50, fan_approval: 50, reputation: 500,
-    career_stats: { matches_managed: 0, wins: 0, draws: 0, losses: 0, trophies: 0, best_finish: null },
+    career_stats: { matches_managed: 0, wins: 0, losses: 0, trophies: 0, best_finish: null },
     career_history: [],
   },
   teams: [],

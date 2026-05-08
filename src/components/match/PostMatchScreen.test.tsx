@@ -85,7 +85,7 @@ function makeSnapshot() {
       id: "team1",
       name: "Alpha FC",
       formation: "4-4-2",
-      play_style: "Balanced",
+      draft_strategy: "Balanced",
       players: [
         {
           id: "p1",
@@ -129,7 +129,7 @@ function makeSnapshot() {
       id: "team2",
       name: "Beta FC",
       formation: "4-4-2",
-      play_style: "Balanced",
+      draft_strategy: "Balanced",
       players: [
         {
           id: "p2",
@@ -234,8 +234,7 @@ function makeGameState() {
         transfer_budget: 500000,
         season_income: 0,
         season_expenses: 0,
-        formation: "4-4-2",
-        play_style: "Balanced",
+        draft_strategy: "Balanced",
         training_focus: "Physical",
         training_intensity: "Medium",
         training_schedule: "Balanced",
@@ -264,8 +263,7 @@ function makeGameState() {
         transfer_budget: 500000,
         season_income: 0,
         season_expenses: 0,
-        formation: "4-4-2",
-        play_style: "Balanced",
+        draft_strategy: "Balanced",
         training_focus: "Physical",
         training_intensity: "Medium",
         training_schedule: "Balanced",

@@ -147,7 +147,7 @@ export interface TeamData {
   season_income: number;
   season_expenses: number;
   installations?: FacilitiesData;
-  play_style: string;
+  draft_strategy: string;
   lol_tactics?: LolTacticsData;
   training_focus: string;
   training_intensity: string;

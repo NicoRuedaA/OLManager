@@ -8,10 +8,9 @@ interface LeagueStandingSnapshot {
   team_id: string;
   played: number;
   won: number;
-  drawn: number;
   lost: number;
-  goals_for: number;
-  goals_against: number;
+  maps_won: number;
+  maps_lost: number;
   points: number;
 }
 

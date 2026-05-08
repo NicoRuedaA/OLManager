@@ -123,9 +123,13 @@ export default function HomeTab({
     ? [...league.standings]
         .sort(compareStandingsByLolScore)
         .map((standing) => ({
-          ...standing,
-          goals_for: standing.goals_for ?? standing.kills_for ?? 0,
-          goals_against: standing.goals_against ?? standing.kills_against ?? 0,
+          team_id: standing.team_id,
+          played: standing.played,
+          won: standing.won,
+          lost: standing.lost,
+          maps_won: standing.maps_won ?? standing.kills_for ?? standing.goals_for ?? 0,
+          maps_lost: standing.maps_lost ?? standing.kills_against ?? standing.goals_against ?? 0,
+          points: standing.points,
         }))
     : [];
 

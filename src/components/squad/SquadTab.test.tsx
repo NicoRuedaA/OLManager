@@ -97,8 +97,7 @@ const makeTeam = (overrides: Partial<TeamData> = {}): TeamData => ({
   transfer_budget: 500000,
   season_income: 0,
   season_expenses: 0,
-  formation: "4-4-2",
-  play_style: "Balanced",
+  draft_strategy: "Balanced",
   training_focus: "General",
   training_intensity: "Balanced",
   training_schedule: "Balanced",
@@ -144,7 +143,6 @@ const makeGameState = (): GameStateData => {
       career_stats: {
         matches_managed: 0,
         wins: 0,
-        draws: 0,
         losses: 0,
         trophies: 0,
         best_finish: null,
