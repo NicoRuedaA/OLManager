@@ -373,9 +373,9 @@ describe("MainMenu", () => {
     });
   });
 
-  it("displays app title without OpenFoot/OpenFootball branding", () => {
+  it("displays OLManager logo", () => {
     render(<MainMenu />);
 
-    expect(screen.getByText("League Manager")).toBeInTheDocument();
+    expect(screen.getByAltText("Open League Manager")).toBeInTheDocument();
   });
 });

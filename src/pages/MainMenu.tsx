@@ -381,11 +381,8 @@ export default function MainMenu() {
             <img
               src="/olmanager-logo.svg"
               alt="Open League Manager"
-              className="h-16 mx-auto mb-3"
+              className="h-20 mx-auto"
             />
-            <h1 className="text-3xl font-heading font-bold uppercase tracking-widest text-gray-900 dark:text-white">
-              League Manager
-            </h1>
           </div>
 
           <div className="border-t border-gray-200 dark:border-navy-600 my-8 transition-colors duration-500" />
