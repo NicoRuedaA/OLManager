@@ -261,7 +261,7 @@ describe("TournamentsTab", () => {
 
     expect(screen.getByText("schedule.playoffs · Bracket")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /Fixtures/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Matches/i }));
     expect(screen.getAllByText("2 - 1").length).toBeGreaterThan(0);
   });
 

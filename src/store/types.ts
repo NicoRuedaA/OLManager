@@ -650,6 +650,14 @@ export function getStandingMapsLost(standing: StandingData): number {
   return standing.maps_lost ?? standing.kills_against ?? standing.goals_against ?? 0;
 }
 
+export function getStandingKillsFor(standing: StandingData): number {
+  return getStandingMapsWon(standing);
+}
+
+export function getStandingKillsAgainst(standing: StandingData): number {
+  return getStandingMapsLost(standing);
+}
+
 export function getStandingKillDiff(standing: StandingData): number {
   return getStandingMapsWon(standing) - getStandingMapsLost(standing);
 }
