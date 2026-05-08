@@ -376,8 +376,13 @@ export default function MainMenu() {
         <div className="h-1.5 bg-gradient-to-r from-primary-500 via-accent-400 to-primary-500 rounded-t-2xl" />
 
         <div className="bg-white dark:bg-navy-800 p-8 rounded-b-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-navy-600 border-t-0 transition-all duration-500">
-          {/* Logo — replaced OL Manager branding */}
-          <div className="text-center mb-4">
+          {/* Logo */}
+          <div className="text-center mb-6">
+            <img
+              src="/olmanager-logo.svg"
+              alt="Open League Manager"
+              className="h-16 mx-auto mb-3"
+            />
             <h1 className="text-3xl font-heading font-bold uppercase tracking-widest text-gray-900 dark:text-white">
               League Manager
             </h1>
