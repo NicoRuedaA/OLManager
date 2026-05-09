@@ -330,6 +330,7 @@ pub struct CareerEntry {
     pub team_name: String,
     pub appearances: u32,
     pub kills: u32,
+    pub deaths: u32,
     pub assists: u32,
     pub avg_rating: f32,
 }

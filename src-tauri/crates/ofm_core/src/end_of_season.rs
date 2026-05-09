@@ -301,6 +301,7 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
                 team_name,
                 appearances: player.stats.appearances,
                 kills: player.stats.kills,
+                deaths: 0, // TODO: track deaths in match stats
                 assists: player.stats.assists,
                 avg_rating: player.stats.avg_rating,
             });

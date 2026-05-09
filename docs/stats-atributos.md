@@ -129,6 +129,15 @@ Estos 9 atributos son los que usa el **motor de simulación** (`engine`). Se map
 | `loan_listed` | El jugador está disponible para cesión. |
 | `transfer_offers` | Lista de ofertas recibidas de otros clubes. |
 
+### Imágenes
+
+| Entidad | Campo | Cómo se resuelve |
+|---------|-------|------------------|
+| **Team** | No tiene campo de imagen. | El frontend resuelve el logo mediante `teamLogoMapping.ts` (mapping por slug del nombre del equipo). |
+| **Player** | `profile_image_url: Option<String>` | Campo opcional. Si es `None`, el frontend usa `playerPhotoMapping.ts` por `match_name`. |
+| **Staff** | `profile_image_url: Option<String>` | Campo opcional. Si es `None`, el frontend usa `staffPhotoMapping.ts` por nombre. |
+| **Academia** | `AcademyMetadata.original_logo_url` / `current_logo_url` | Guardan el logo del equipo academy (puede diferir del main team). |
+
 ---
 
 ## 3. STAFF (`Staff`)
