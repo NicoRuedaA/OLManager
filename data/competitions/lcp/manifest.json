@@ -4,7 +4,7 @@
   "full_name": "League of Legends Championship Pacific",
   "region": "ASIA PACIFIC",
   "country": "AP",
-  "tier": 2,
+  "tier": 1,
   "logo": "/competitions-icons/lcp.webp",
   "schedule": {
     "format": "double_round_robin",
@@ -13,17 +13,29 @@
     "splits": [
       {
         "name": "Spring",
-        "season_start": { "month": 1, "day": 18 },
+        "season_start": {
+          "month": 1,
+          "day": 18
+        },
         "superweek_offsets": [],
         "best_of": 3,
-        "playoffs": { "format": "DoubleElimination", "teams": 6 }
+        "playoffs": {
+          "format": "DoubleElimination",
+          "teams": 6
+        }
       },
       {
         "name": "Summer",
-        "season_start": { "month": 6, "day": 1 },
+        "season_start": {
+          "month": 6,
+          "day": 1
+        },
         "superweek_offsets": [],
         "best_of": 3,
-        "playoffs": { "format": "DoubleElimination", "teams": 6 }
+        "playoffs": {
+          "format": "DoubleElimination",
+          "teams": 6
+        }
       }
     ]
   },
