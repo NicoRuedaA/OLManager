@@ -14,14 +14,14 @@
       {
         "name": "Spring",
         "season_start": { "month": 1, "day": 18 },
-        "superweek_offsets": [0, 1, 2, 7, 8, 9],
+        "superweek_offsets": [],
         "best_of": 3,
         "playoffs": { "format": "DoubleElimination", "teams": 6 }
       },
       {
         "name": "Summer",
         "season_start": { "month": 6, "day": 1 },
-        "superweek_offsets": [0, 1, 2, 7, 8, 9],
+        "superweek_offsets": [],
         "best_of": 3,
         "playoffs": { "format": "DoubleElimination", "teams": 6 }
       }

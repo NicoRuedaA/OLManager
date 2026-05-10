@@ -14,14 +14,14 @@
       {
         "name": "Split 1",
         "season_start": { "month": 1, "day": 18 },
-        "superweek_offsets": [0, 1, 2, 7, 8, 9, 14, 15, 16],
+        "superweek_offsets": [],
         "best_of": 1,
         "playoffs": { "format": "SingleElimination", "teams": 6 }
       },
       {
         "name": "Split 2",
         "season_start": { "month": 6, "day": 1 },
-        "superweek_offsets": [0, 1, 2, 7, 8, 9, 14, 15, 16],
+        "superweek_offsets": [],
         "best_of": 1,
         "playoffs": { "format": "SingleElimination", "teams": 6 }
       }
