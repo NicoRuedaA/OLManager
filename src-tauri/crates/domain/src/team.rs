@@ -11,7 +11,9 @@ pub struct Team {
     pub short_name: String,
     pub country: String,
     pub city: String,
+    #[serde(default)]
     pub stadium_name: String,
+    #[serde(default)]
     pub stadium_capacity: u32,
 
     // Current state
