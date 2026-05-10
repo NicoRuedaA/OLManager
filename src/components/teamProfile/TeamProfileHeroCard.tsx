@@ -39,6 +39,9 @@ function academyLogoFromMetadata(team: TeamData): string | null {
 }
 
 function teamLogoSrc(team: TeamData): string {
+  // Use logo_url from backend if available (already mapped to /teams-icons/)
+  if (team.logo_url) return team.logo_url;
+
   const academyLogo = academyLogoFromMetadata(team);
   if (academyLogo) {
     return academyLogo;
