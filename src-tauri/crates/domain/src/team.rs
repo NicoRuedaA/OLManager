@@ -17,6 +17,7 @@ pub struct Team {
     pub stadium_capacity: u32,
 
     // Current state
+    #[serde(default)]
     pub finance: i64,
     pub manager_id: Option<String>,
     pub reputation: u32,
@@ -234,6 +235,7 @@ pub enum JungleStyle {
     Ganker,
     Invader,
     Farmer,
+    Carry,
     #[default]
     Enabler,
 }
