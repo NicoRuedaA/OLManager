@@ -318,7 +318,7 @@ export default function SquadRosterView({
               ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.match_name))
               ?? (fallbackChampion ? [fallbackChampion] : []);
             const inXI = activeIds.has(player.id);
-            const currentPos = player.natural_position || player.position;
+            const currentPos = player.position;
             const wrongPos = inXI && isPlayerOutOfPosition(player, currentPos);
             const annualWage = player.wage;
 
