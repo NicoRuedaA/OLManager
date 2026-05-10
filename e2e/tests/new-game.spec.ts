@@ -70,8 +70,8 @@ test.describe("New Game Flow", () => {
     // Confirm selection
     await confirmBtn.click();
 
-    // Should navigate to dashboard
+    // Should navigate to dashboard — verify by URL and team name presence
     await page.waitForURL("**/dashboard", { timeout: 30000 });
-    await expect(page.locator("text=Dashboard").first()).toBeVisible({ timeout: 15000 });
+    await expect(page.locator("text=Fnatic").first()).toBeVisible({ timeout: 15000 });
   });
 });
