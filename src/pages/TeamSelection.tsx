@@ -417,10 +417,10 @@ export default function TeamSelection() {
             </button>
             <div>
               <h1 className="text-xl font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
-                {t("teamSelect.title", "Select Competition")}
+                {t("teamSelect.selectLeague", "Select League")}
               </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                {t("teamSelect.subtitle", "Choose a league to get started")}
+                {t("teamSelect.selectLeagueSubtitle", "Choose a competition to get started")}
               </p>
             </div>
           </div>
