@@ -2110,6 +2110,7 @@ fn assemble_world_from_modular_data(
             }
             all_teams.extend(comp_teams);
         }
+        let player_count_before = all_players.len();
         if let Ok(comp_players) = crate::commands::competitions::load_competition_players(app_handle, manifest) {
             for mut player in comp_players {
                 if let Some(ref tid) = player.team_id.clone() {
@@ -2122,6 +2123,8 @@ fn assemble_world_from_modular_data(
                 all_players.push(player);
             }
         }
+        let loaded = all_players.len() - player_count_before;
+        info!("[game] loaded {} players for '{}'", loaded, cid);
     }
 
     // 2. Load staff free agents
