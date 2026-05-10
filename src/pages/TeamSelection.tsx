@@ -113,6 +113,11 @@ function lolPlayerOvr(player: PlayerData): number {
  * @param logoUrl Optional logo URL from the team data
  * @param competitionId Optional competition id for deriving path
  */
+/** Override map for team slugs that don't match the file name. */
+const LOGO_SLUG_OVERRIDES: Record<string, string> = {
+  "mad-lions": "movistar-koi",
+};
+
 function getTeamLogoPath(
   teamId: string,
   logoUrl?: string | null,
@@ -120,25 +125,28 @@ function getTeamLogoPath(
 ): string {
   // 1. Explicit logo URL — map from /team-logos/ to /teams-icons/
   if (logoUrl) {
-    const mapped = logoUrl.replace("/team-logos/", "/teams-icons/");
-    return mapped;
+    const slug = logoUrl.split("/").pop()?.replace(".webp", "") ?? "";
+    const overridden = LOGO_SLUG_OVERRIDES[slug] ?? slug;
+    return `/teams-icons/${overridden}.webp`;
   }
 
   // 2. Derive from competition + team id pattern (new flow)
   if (competitionId) {
     const prefix = `${competitionId}-`;
-    const slug = teamId.startsWith(prefix) ? teamId.slice(prefix.length) : teamId;
-    if (slug === "shifters") {
+    const rawSlug = teamId.startsWith(prefix) ? teamId.slice(prefix.length) : teamId;
+    if (rawSlug === "shifters") {
       return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
     }
+    const slug = LOGO_SLUG_OVERRIDES[rawSlug] ?? rawSlug;
     return `/teams-icons/${slug}.webp`;
   }
 
   // 3. Legacy fallback: strip "lec-" prefix
-  const slug = teamId.replace(/^lec-/, "");
-  if (slug === "shifters") {
+  const rawSlug = teamId.replace(/^lec-/, "");
+  if (rawSlug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
+  const slug = LOGO_SLUG_OVERRIDES[rawSlug] ?? rawSlug;
   return `/teams-icons/${slug}.webp`;
 }
 
