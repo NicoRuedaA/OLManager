@@ -5,7 +5,7 @@ use domain::staff::Staff;
 use domain::team::{
     AcademyLifecycle, AcademyMetadata, ErlAssignment, ErlAssignmentRule, Team, TeamKind,
 };
-use log::info;
+use log::{info, warn};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
@@ -17,6 +17,7 @@ use domain::manager::Manager;
 use domain::stats::StatsState;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
+use ofm_core::generator::definitions::PlayerDataFile;
 use ofm_core::state::StateManager;
 
 use crate::application::game_setup::avatar;
@@ -31,7 +32,7 @@ pub struct TeamSelectionData {
     pub players: Vec<domain::player::Player>,
 }
 
-const ACADEMY_FALLBACK_PHOTO: &str = "/player-photos/107455908655055017.png";
+const ACADEMY_FALLBACK_PHOTO: &str = "/player-photos/107455908655055017.webp";
 
 fn calculate_age_on_date(birth_date: chrono::NaiveDate, as_of_date: chrono::NaiveDate) -> i32 {
     let mut age = as_of_date.year() - birth_date.year();
@@ -893,6 +894,48 @@ fn load_external_more_fa_seed() -> Option<DraftSeedRoot> {
     }
 
     None
+}
+
+/// Load and cache free agent players from `data/players/free_agents.json`.
+/// Uses OnceLock for lazy init — file is read once per process lifetime.
+fn load_free_agent_players() -> &'static Vec<Player> {
+    static FREE_AGENTS: OnceLock<Vec<Player>> = OnceLock::new();
+    FREE_AGENTS.get_or_init(|| {
+        let cwd = std::env::current_dir().ok();
+        let candidates = [
+            cwd.as_ref().map(|p| p.join("data").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("..").join("data").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("src-tauri").join("data").join("players").join("free_agents.json")),
+        ];
+
+        for path in candidates.iter().flatten() {
+            if let Ok(content) = std::fs::read_to_string(path) {
+                if let Ok(data) = serde_json::from_str::<PlayerDataFile>(&content) {
+                    info!(
+                        "[game] loaded {} free agent players from {:?}",
+                        data.players.len(),
+                        path
+                    );
+                    return data.players;
+                }
+            }
+        }
+
+        warn!("[game] data/players/free_agents.json not found — using empty pool");
+        Vec::new()
+    })
+}
+
+/// Inject players from `data/players/free_agents.json` into the player list.
+/// Deduplicates by player ID to avoid collisions with competition-loaded players.
+pub(crate) fn inject_json_free_agents(players: &mut Vec<Player>) {
+    let mut existing_ids: HashSet<String> = players.iter().map(|p| p.id.clone()).collect();
+    for fa in load_free_agent_players() {
+        if !existing_ids.contains(&fa.id) {
+            players.push(fa.clone());
+            existing_ids.insert(fa.id.clone());
+        }
+    }
 }
 
 fn draft_seed_root() -> &'static DraftSeedRoot {
@@ -2008,6 +2051,7 @@ pub async fn start_new_game(
     bootstrap_example_academy_pool_from_example(&mut teams, &mut players, &academy_bootstrap_date);
     remove_free_agents_shadowed_by_academy(&mut players, &teams);
     inject_seed_free_agents(&mut players);
+    inject_json_free_agents(&mut players);
     apply_default_initial_contract_end(&mut players);
 
     let new_game = Game::new(clock, manager, teams, players, staff, vec![]);
@@ -2095,7 +2139,10 @@ fn assemble_world_from_modular_data(
         remove_free_agents_shadowed_by_academy(&mut all_players, &all_teams);
     }
 
-    // 4. Apply default contract ends
+    // 4. Inject free agent players from JSON
+    inject_json_free_agents(&mut all_players);
+
+    // 5. Apply default contract ends
     apply_default_initial_contract_end(&mut all_players);
 
     info!(
@@ -2487,6 +2534,7 @@ pub async fn load_game(
 
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);
+    inject_json_free_agents(&mut game.players);
     ofm_core::champions::bootstrap_champion_state(&mut game);
 
     info!("[cmd] load_game: loading stats state");

@@ -2,7 +2,7 @@ import lesExampleRaw from "../../data/erls/les.txt?raw";
 import lflExampleRaw from "../../data/erls/lfl.txt?raw";
 import primeLeagueExampleRaw from "../../data/erls/Prime League.txt?raw";
 
-const FALLBACK_PLAYER_PHOTO = "/player-photos/107455908655055017.png";
+const FALLBACK_PLAYER_PHOTO = "/player-photos/107455908655055017.webp";
 
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -53,7 +53,7 @@ export function resolvePlayerPhoto(playerId: string, matchName?: string, profile
   if (explicit) return explicit;
 
   const legacy = playerId.match(/^lec-player-(.+)$/);
-  if (legacy) return `/player-photos/${legacy[1]}.png`;
+  if (legacy) return `/player-photos/${legacy[1]}.webp`;
 
   const key = normalizeKey(matchName ?? "");
   if (!key) return FALLBACK_PLAYER_PHOTO;

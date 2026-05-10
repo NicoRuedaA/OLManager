@@ -16,7 +16,7 @@ Represents a League of Legends pro player.
 | `date_of_birth` | `String` | ✅ | ISO 8601 date (`YYYY-MM-DD`). |
 | `nationality` | `String` | ✅ | ISO 3166-1 alpha-2 country code (e.g. `"DK"`). |
 | `birth_country` | `Option<String>` | ❌ | Birth country if different from nationality. |
-| `profile_image_url` | `Option<String>` | ❌ | URL to player photo. Stored in `/player-photos/{id}.png`. |
+| `profile_image_url` | `Option<String>` | ❌ | URL to player photo. Stored in `/player-photos/{id}.webp`. |
 | `position` | `LolRole` | ✅ | Primary role. Accepts legacy football positions via custom deserializer (see LolRole table). |
 | `natural_position` | `LolRole` | ❌ | Natural role (never changed by formation logic). Defaults to `Unknown`. |
 | `alternate_positions` | `Vec<LolRole>` | ❌ | Other roles the player can play. |
