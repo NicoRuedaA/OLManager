@@ -25,9 +25,7 @@ interface HomeLeaguePositionCardProps {
   onNavigate?: (tab: string) => void;
 }
 
-const LOGO_SLUG_OVERRIDES: Record<string, string> = {
-  "mad-lions": "movistar-koi",
-};
+const LOGO_SLUG_OVERRIDES: Record<string, string> = {}
 
 function teamLogoUrl(team: TeamData | undefined): string | null {
   if (!team) return null;

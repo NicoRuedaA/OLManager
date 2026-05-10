@@ -227,12 +227,12 @@
       "arena_capacity": 2500
     },
     {
-      "id": "lec-mad-lions",
+      "id": "lec-movistar-koi",
       "name": "Movistar KOI",
       "short_name": "LIO",
       "country": "ES",
       "city": "Madrid",
-      "logo_url": "/team-logos/mad-lions.webp",
+      "logo_url": "/team-logos/movistar-koi.webp",
       "finance": 4500000,
       "reputation": 650,
       "wage_budget": 2250000,

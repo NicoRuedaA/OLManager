@@ -1007,7 +1007,7 @@
       "morale": 100,
       "fitness": 75,
       "injury": null,
-      "team_id": "lec-mad-lions",
+      "team_id": "lec-movistar-koi",
       "contract_end": null,
       "wage": 167000,
       "market_value": 170000,
@@ -1017,7 +1017,7 @@
       "career": [
         {
           "season": 2026,
-          "team_id": "lec-mad-lions",
+          "team_id": "lec-movistar-koi",
           "team_name": "Movistar KOI",
           "deaths": 0
         }
@@ -1056,7 +1056,7 @@
       "morale": 100,
       "fitness": 75,
       "injury": null,
-      "team_id": "lec-mad-lions",
+      "team_id": "lec-movistar-koi",
       "contract_end": null,
       "wage": 356000,
       "market_value": 200000,
@@ -1066,7 +1066,7 @@
       "career": [
         {
           "season": 2026,
-          "team_id": "lec-mad-lions",
+          "team_id": "lec-movistar-koi",
           "team_name": "Movistar KOI",
           "deaths": 0
         }
@@ -1105,7 +1105,7 @@
       "morale": 100,
       "fitness": 75,
       "injury": null,
-      "team_id": "lec-mad-lions",
+      "team_id": "lec-movistar-koi",
       "contract_end": null,
       "wage": 352000,
       "market_value": 240000,
@@ -1115,7 +1115,7 @@
       "career": [
         {
           "season": 2026,
-          "team_id": "lec-mad-lions",
+          "team_id": "lec-movistar-koi",
           "team_name": "Movistar KOI",
           "deaths": 0
         }
@@ -1154,7 +1154,7 @@
       "morale": 100,
       "fitness": 75,
       "injury": null,
-      "team_id": "lec-mad-lions",
+      "team_id": "lec-movistar-koi",
       "contract_end": null,
       "wage": 155000,
       "market_value": 160000,
@@ -1164,7 +1164,7 @@
       "career": [
         {
           "season": 2026,
-          "team_id": "lec-mad-lions",
+          "team_id": "lec-movistar-koi",
           "team_name": "Movistar KOI",
           "deaths": 0
         }
@@ -1203,7 +1203,7 @@
       "morale": 100,
       "fitness": 75,
       "injury": null,
-      "team_id": "lec-mad-lions",
+      "team_id": "lec-movistar-koi",
       "contract_end": null,
       "wage": 155000,
       "market_value": 200000,
@@ -1213,7 +1213,7 @@
       "career": [
         {
           "season": 2026,
-          "team_id": "lec-mad-lions",
+          "team_id": "lec-movistar-koi",
           "team_name": "Movistar KOI",
           "deaths": 0
         }

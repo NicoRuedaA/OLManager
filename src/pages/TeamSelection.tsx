@@ -114,9 +114,7 @@ function lolPlayerOvr(player: PlayerData): number {
  * @param competitionId Optional competition id for deriving path
  */
 /** Override map for team slugs that don't match the file name. */
-const LOGO_SLUG_OVERRIDES: Record<string, string> = {
-  "mad-lions": "movistar-koi",
-};
+const LOGO_SLUG_OVERRIDES: Record<string, string> = {};
 
 function getTeamLogoPath(
   teamId: string,
