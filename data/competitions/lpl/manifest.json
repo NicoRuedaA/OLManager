@@ -5,7 +5,7 @@
   "region": "CHINA",
   "country": "CN",
   "tier": 1,
-  "logo": "/competitions/lpl.png",
+  "logo": "/competitions-icons/lpl.webp",
   "schedule": {
     "format": "single_round_robin",
     "team_count": 14,

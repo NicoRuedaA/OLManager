@@ -5,7 +5,7 @@
   "region": "ASIA PACIFIC",
   "country": "AP",
   "tier": 2,
-  "logo": "/competitions/lcp.png",
+  "logo": "/competitions-icons/lcp.webp",
   "schedule": {
     "format": "double_round_robin",
     "team_count": 8,
