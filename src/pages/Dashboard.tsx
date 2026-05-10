@@ -490,7 +490,7 @@ export default function Dashboard(): JSX.Element {
           setIsSidebarCollapsed((currentValue) => !currentValue);
         }}
         unreadMessagesCount={unreadMessagesCount}
-        managerName={liveManagerName}
+        managerName={managerName}
         teamName={myTeamName}
         teamLogo={teamLogo}
         onNavigateSettings={handleNavigateSettings}
