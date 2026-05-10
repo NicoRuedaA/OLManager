@@ -12,7 +12,7 @@ use tauri::Manager as TauriManager;
 // ---------------------------------------------------------------------------
 
 /// Resolve the base `data/competitions/` directory with multi-tier fallback.
-/// Order: resource_dir → cwd/src-tauri/data/competitions/ → cwd/data/competitions/
+/// Order: resource_dir → cwd/data/competitions/ (root → preferred) → cwd/src-tauri/data/competitions/
 fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     let cwd = std::env::current_dir().ok()?;
 
@@ -22,8 +22,8 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .resource_dir()
             .ok()
             .map(|dir| dir.join("data").join("competitions")),
-        Some(cwd.join("src-tauri").join("data").join("competitions")),
         Some(cwd.join("data").join("competitions")),
+        Some(cwd.join("src-tauri").join("data").join("competitions")),
     ];
 
     for candidate in candidates.into_iter().flatten() {
@@ -114,6 +114,7 @@ pub fn load_competition_manifest(
 // ---------------------------------------------------------------------------
 
 /// Resolve the base `data/` directory for runtime file reads.
+/// Order: resource_dir → cwd/data/ (root → preferred) → cwd/src-tauri/data/
 fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     let cwd = std::env::current_dir().ok()?;
 
@@ -123,8 +124,10 @@ fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .resource_dir()
             .ok()
             .map(|dir| dir.join("data")),
-        Some(cwd.join("src-tauri").join("data")),
+        // Root data/ first (user's data lives here)
         Some(cwd.join("data")),
+        // Fallback to src-tauri/data/ (legacy random world files)
+        Some(cwd.join("src-tauri").join("data")),
     ];
 
     for candidate in candidates.into_iter().flatten() {

@@ -29,7 +29,12 @@
     "createUpdaterArtifacts": true,
     "resources": [
       "databases/world.json",
-      "data/competitions/**/*"
+      "../data/competitions/**/*",
+      "../data/teams/**/*",
+      "../data/players/**/*",
+      "../data/staffs/**/*",
+      "../data/erls/**/*",
+      "../data/draft/**/*"
     ],
     "icon": [
       "icons/32x32.png",
