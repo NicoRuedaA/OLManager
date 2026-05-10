@@ -2060,8 +2060,15 @@ fn assemble_world_from_modular_data(
     // 4. Load staff free agents
     let mut staff = crate::commands::competitions::load_staff_free_agents(app_handle)?;
 
-    // 5. Normalize team_id prefixing for players
-    //    User data uses "lec-fnatic" format, assembly uses same IDs directly
+    // 5. Normalize team IDs: prefix if they don't already have the competition prefix
+    let prefix = format!("{}-", competition_id);
+    for team in &mut teams {
+        if !team.id.starts_with(&prefix) {
+            team.id = format!("{}{}", prefix, team.id);
+        }
+    }
+
+    // 6. Normalize team_id prefixing for players
     for player in &mut players {
         if let Some(ref tid) = player.team_id {
             if tid != "fa" && tid != "freeagent" {
