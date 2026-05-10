@@ -289,7 +289,10 @@ export default function Dashboard(): JSX.Element {
         console.error("Auto-save on close failed:", err);
       }
     }
-    await getCurrentWindow().destroy();
+    // Go to menu instead of closing the app
+    await invoke("exit_to_menu").catch(() => {});
+    clearGame();
+    navigate("/");
   };
 
   const MODE_META: Record<MatchModeType, DashboardMatchModeMeta> = {
