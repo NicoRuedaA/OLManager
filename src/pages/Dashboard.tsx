@@ -420,13 +420,15 @@ export default function Dashboard(): JSX.Element {
     : "";
   const unreadMessagesCount = gameState ? getUnreadMessagesCount(gameState) : 0;
   const myTeamName = gameState ? getManagerTeamName(gameState) : null;
-  const liveManagerName = gameState
-    ? (gameState.manager.nickname?.trim() || `${gameState.manager.first_name} ${gameState.manager.last_name}`)
-    : managerName;
 
+  // Use the team's logo_url from backend (already mapped to /teams-icons/) instead of
+  // the hardcoded resolveTeamLogo map (which only covers LEC teams).
   const teamLogo = useMemo(() => {
+    if (!gameState || !gameState.manager.team_id) return null;
+    const myTeam = gameState.teams.find((t) => t.id === gameState.manager.team_id);
+    if (myTeam?.logo_url) return myTeam.logo_url;
     return resolveTeamLogo(myTeamName);
-  }, [myTeamName]);
+  }, [gameState, myTeamName]);
 
   const searchResults = gameState
     ? getDashboardSearchResults(gameState, searchQuery)
