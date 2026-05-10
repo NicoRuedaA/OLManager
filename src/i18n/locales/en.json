@@ -1124,7 +1124,8 @@
       "AssistantManager": "Assistant Manager",
       "Coach": "Coach",
       "Scout": "Scout",
-      "Physio": "Physio"
+      "Physio": "Physio",
+      "Owner": "Owner"
     },
     "attrs": {
       "coaching": "Coaching",
