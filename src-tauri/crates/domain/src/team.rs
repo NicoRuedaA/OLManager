@@ -11,9 +11,9 @@ pub struct Team {
     pub short_name: String,
     pub country: String,
     pub city: String,
-    #[serde(default)]
+    #[serde(default, alias = "arena_name")]
     pub stadium_name: String,
-    #[serde(default)]
+    #[serde(default, alias = "arena_capacity")]
     pub stadium_capacity: u32,
 
     // Current state
@@ -48,7 +48,7 @@ pub struct Team {
     pub facilities: Facilities,
 
     // Tactical
-    #[serde(alias = "play_style")]
+    #[serde(default, alias = "play_style")]
     pub draft_strategy: DraftStrategy,
     #[serde(default)]
     pub lol_tactics: LolTactics,
