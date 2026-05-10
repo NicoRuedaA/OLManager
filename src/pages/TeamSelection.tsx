@@ -515,7 +515,7 @@ export default function TeamSelection() {
       <header className="bg-white dark:bg-navy-800 border-b border-gray-200 dark:border-navy-700 px-6 py-4 flex justify-between items-center shadow-sm">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => selectedCompetitionId ? setSelectedCompetitionId(null) : navigate("/")}
             className="p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-navy-700 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
