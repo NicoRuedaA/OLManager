@@ -20,6 +20,7 @@ pub struct Team {
     #[serde(default)]
     pub finance: i64,
     pub manager_id: Option<String>,
+    #[serde(default)]
     pub reputation: u32,
 
     // Academy affiliation metadata. Defaults keep legacy saves and existing teams as main clubs.
@@ -37,9 +38,13 @@ pub struct Team {
     pub competition_id: Option<String>,
 
     // Financial breakdown
+    #[serde(default)]
     pub wage_budget: i64,
+    #[serde(default)]
     pub transfer_budget: i64,
+    #[serde(default)]
     pub season_income: i64,
+    #[serde(default)]
     pub season_expenses: i64,
     #[serde(default)]
     pub financial_ledger: Vec<FinancialTransaction>,
@@ -258,6 +263,7 @@ pub enum FightPlan {
     Pick,
     Dive,
     Siege,
+    Flank,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
@@ -266,6 +272,7 @@ pub enum FightPlan {
 pub enum SupportRoaming {
     #[default]
     Lane,
+    #[serde(alias = "Roam")]
     RoamMid,
     RoamTop,
 }
