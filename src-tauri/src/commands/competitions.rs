@@ -163,10 +163,16 @@ pub fn load_competition_teams(
     let data: TeamDataFile =
         serde_json::from_str(&json).map_err(|e| format!("Failed to parse teams data: {}", e))?;
 
-    // Inject competition_id into each team
+    // Inject competition_id and fix logo paths
     let mut teams = data.teams;
     for team in &mut teams {
         team.competition_id = Some(manifest.id.clone());
+        // Map legacy logo paths to actual files in public/teams-icons/
+        if let Some(ref mut url) = team.logo_url {
+            if url.starts_with("/team-logos/") {
+                *url = url.replacen("/team-logos/", "/teams-icons/", 1);
+            }
+        }
     }
     Ok(teams)
 }
