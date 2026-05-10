@@ -1,43 +1,32 @@
 {
-  "version": 1,
-  "competition": {
-    "id": "kr",
-    "name": "LCK",
-    "slug": "lck",
-    "region": "KR",
-    "tier": "Regional"
-  },
-  "rules": {
-    "points_for_win": 3,
-    "points_for_draw": 1,
-    "best_of_default": 3,
-    "has_playoffs": true,
-    "playoff_best_of": 5,
-    "teams_count": 10
-  },
-  "phases": [
-    {
-      "id": "regular",
-      "name": "Regular Season",
-      "phase_type": "RoundRobin",
-      "scheduling": {
-        "rounds": 18,
-        "double_round_robin": true,
-        "days": [3, 6, 0],
-        "matches_per_day": 3,
-        "start_offset_days": 7
+  "id": "lck",
+  "name": "LCK",
+  "full_name": "League of Legends Champions Korea",
+  "region": "KOREA",
+  "country": "KR",
+  "tier": 1,
+  "logo": "/competitions/lck.png",
+  "schedule": {
+    "format": "double_round_robin",
+    "team_count": 10,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Spring",
+        "season_start": { "month": 1, "day": 18 },
+        "superweek_offsets": [0, 1, 2, 7, 8, 9, 14, 15, 16],
+        "best_of": 3,
+        "playoffs": { "format": "DoubleElimination", "teams": 6 }
+      },
+      {
+        "name": "Summer",
+        "season_start": { "month": 6, "day": 7 },
+        "superweek_offsets": [0, 1, 2, 7, 8, 9, 14, 15, 16],
+        "best_of": 3,
+        "playoffs": { "format": "DoubleElimination", "teams": 6 }
       }
-    },
-    {
-      "id": "playoffs",
-      "name": "Playoffs",
-      "phase_type": "SingleElimination",
-      "scheduling": {
-        "best_of": 5,
-        "teams_count": 6
-      }
-    }
-  ],
-  "data_path": ".",
-  "seed_file": "seed.json"
+    ]
+  },
+  "teams_file": "teams/lck_teams.json",
+  "players_file": "players/kr_players.json"
 }
