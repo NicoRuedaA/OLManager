@@ -108,7 +108,7 @@ function lolPlayerOvr(player: PlayerData): number {
 
 /**
  * Resolve a team's logo path.
- * Priority: TeamData.logo_url → TeamSummary.logo_url → derived path from id.
+ * Priority: explicit logoUrl (mapped from /team-logos/ → /teams-icons/) → derived from id.
  * @param teamId  Scoped team id (e.g. "lec-g2")
  * @param logoUrl Optional logo URL from the team data
  * @param competitionId Optional competition id for deriving path
@@ -118,8 +118,11 @@ function getTeamLogoPath(
   logoUrl?: string | null,
   competitionId?: string | null,
 ): string {
-  // 1. Explicit logo URL always wins
-  if (logoUrl) return logoUrl;
+  // 1. Explicit logo URL — map from /team-logos/ to /teams-icons/
+  if (logoUrl) {
+    const mapped = logoUrl.replace("/team-logos/", "/teams-icons/");
+    return mapped;
+  }
 
   // 2. Derive from competition + team id pattern (new flow)
   if (competitionId) {
@@ -128,7 +131,7 @@ function getTeamLogoPath(
     if (slug === "shifters") {
       return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
     }
-    return `/team-logos/${competitionId}/${slug}.png`;
+    return `/teams-icons/${slug}.webp`;
   }
 
   // 3. Legacy fallback: strip "lec-" prefix
@@ -136,7 +139,7 @@ function getTeamLogoPath(
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
-  return `/team-logos/${slug}.png`;
+  return `/teams-icons/${slug}.webp`;
 }
 
 function isAcademyPlayer(playerId: string): boolean {
