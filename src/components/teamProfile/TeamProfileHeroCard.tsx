@@ -1,4 +1,4 @@
-import { Calendar, Trophy, Users } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { Card, TeamLocation } from "../ui";
@@ -138,7 +138,12 @@ export default function TeamProfileHeroCard({
             </div>
             {team.competition_id && (
               <div className="flex items-center gap-1.5 mt-1 text-white/80 text-sm">
-                <Trophy className="w-4 h-4" /> {team.competition_id.toUpperCase()}
+                <img
+                  src={`/competitions-icons/${team.competition_id}.webp`}
+                  alt={team.competition_id}
+                  className="w-4 h-4 object-contain"
+                />
+                {team.competition_id.toUpperCase()}
               </div>
             )}
             {viewModel.manager && (
