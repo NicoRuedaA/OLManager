@@ -698,7 +698,7 @@ fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path
     let embedded_world_json = include_str!("../../databases/world.json");
     let app_data_dir = app_handle.path().app_data_dir().map_err(|e| {
         format!(
-            "Default LEC world database not found and app data dir is unavailable: {}",
+            "Default world database not found and app data dir is unavailable: {}",
             e
         )
     })?;
@@ -709,14 +709,14 @@ fn resolve_default_world_path(app_handle: &tauri::AppHandle) -> Result<std::path
     let fallback_path = db_dir.join("world.json");
     if !fallback_path.exists() {
         std::fs::write(&fallback_path, embedded_world_json)
-            .map_err(|e| format!("Failed to write fallback LEC world database: {}", e))?;
+            .map_err(|e| format!("Failed to write fallback world database: {}", e))?;
     }
 
     if fallback_path.exists() {
         return Ok(fallback_path);
     }
 
-    Err("Default LEC world database not found (lec_world.json).".to_string())
+    Err("Default world database not found (world.json).".to_string())
 }
 
 #[allow(dead_code)]
@@ -1879,13 +1879,13 @@ pub async fn start_new_game(
     let clock = GameClock::new(start_date);
 
     // Load world based on source
-    let world_source = world_source.unwrap_or_else(|| "lec-default".to_string());
+    let world_source = world_source.unwrap_or_else(|| "default".to_string());
     let (teams, mut players, staff) = if world_source == "random" {
         ofm_core::generator::generate_world(None)
-    } else if world_source == "lec-default" {
+    } else if world_source == "default" {
         let path = resolve_default_world_path(&app_handle)?;
         let json = std::fs::read_to_string(&path)
-            .map_err(|e| format!("Failed to read default LEC world database: {}", e))?;
+            .map_err(|e| format!("Failed to read world database: {}", e))?;
         let has_explicit_potential_base = json.contains("\"potential_base\"");
         let mut world = ofm_core::generator::load_world_from_json(&json)?;
         if !has_explicit_potential_base {

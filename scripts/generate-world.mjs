@@ -116,70 +116,44 @@ function sanitizeText(value) {
 }
 
 function attrsFor(position) {
-  const base = {
-    reaction_speed: 68,
-    stamina: 72,
-    durability: 66,
-    agility: 67,
-    coordination: 67,
-    shooting: 64,
-    interception: 64,
-    dribbling: 66,
-    positional_defense: 64,
-    positioning: 67,
-    vision: 67,
-    decisions: 68,
-    composure: 67,
-    aggression: 58,
-    teamwork: 74,
-    leadership: 62,
+  // old-style internal base to compute new LoL attrs via merge formulas
+  const oldBase = {
+    reaction_speed: 68, stamina: 72, durability: 66, agility: 67,
+    coordination: 67, shooting: 64, interception: 64, dribbling: 66,
+    positional_defense: 64, positioning: 67, vision: 67, decisions: 68,
+    composure: 67, aggression: 58, teamwork: 74, leadership: 62,
   };
 
+  let old;
   if (position === "Goalkeeper") {
-    return {
-      ...base,
-      reaction_speed: 45,
-      agility: 58,
-      coordination: 55,
-      shooting: 30,
-      interception: 35,
-      dribbling: 44,
-      positional_defense: 58,
-    };
+    old = { ...oldBase, reaction_speed: 45, agility: 58, coordination: 55, shooting: 30, interception: 35, dribbling: 44, positional_defense: 58 };
+  } else if (position === "Defender") {
+    old = { ...oldBase, durability: 72, interception: 73, positional_defense: 74, shooting: 45 };
+  } else if (position === "DefensiveMidfielder" || position === "Midfielder" || position === "AttackingMidfielder") {
+    old = { ...oldBase, coordination: 74, vision: 73, decisions: 72, dribbling: 70, shooting: position === "AttackingMidfielder" ? 70 : 62, interception: position === "DefensiveMidfielder" ? 70 : 60 };
+  } else {
+    // Forward (Jungle / Adc)
+    old = { ...oldBase, reaction_speed: 73, shooting: 75, dribbling: 72, positioning: 71, interception: 48, positional_defense: 45 };
   }
-  if (position === "Defender") {
-    return {
-      ...base,
-      durability: 72,
-      interception: 73,
-      positional_defense: 74,
-      shooting: 45,
-    };
-  }
-  if (
-    position === "DefensiveMidfielder" ||
-    position === "Midfielder" ||
-    position === "AttackingMidfielder"
-  ) {
-    return {
-      ...base,
-      coordination: 74,
-      vision: 73,
-      decisions: 72,
-      dribbling: 70,
-      shooting: position === "AttackingMidfielder" ? 70 : 62,
-      interception: position === "DefensiveMidfielder" ? 70 : 60,
-    };
-  }
-  return {
-    ...base,
-    reaction_speed: 73,
-    shooting: 75,
-    dribbling: 72,
-    positioning: 71,
-    interception: 48,
-    positional_defense: 45,
+
+  const result = {
+    mechanics: Math.round((old.reaction_speed + old.dribbling) / 2),
+    laning: old.shooting,
+    teamfighting: Math.round((old.coordination + old.teamwork) / 2),
+    macro_play: Math.round((old.interception + old.vision) / 2),
+    consistency: Math.round((old.decisions + old.positioning) / 2),
+    shotcalling: Math.round((old.aggression + old.leadership) / 2),
+    champion_pool: old.agility,
+    discipline: Math.round((old.positional_defense + old.composure) / 2),
+    mental_resilience: Math.round((old.stamina + old.durability) / 2),
   };
+
+  // AttackingMidfielder overrides laning to 70
+  if (position === "AttackingMidfielder") {
+    result.laning = 70;
+  }
+
+  return result;
 }
 
 function applyRatingToAttrs(attrs, rating) {
@@ -219,7 +193,6 @@ function makePlayer({
     position,
     natural_position: position,
     alternate_positions: [],
-    weak_foot: 2,
     attributes: mappedAttrs,
     condition: 100,
     morale: 100,
