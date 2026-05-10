@@ -1,0 +1,365 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to verify, for example 0.2.1
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  source-release:
+    name: source-release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag_name: ${{ steps.version.outputs.tag_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag_name=v$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Verify version files and changelog
+        shell: python
+        run: |
+          import json
+          import pathlib
+          import re
+          import sys
+          import tomllib
+
+          version = "${{ steps.version.outputs.version }}"
+          package_version = json.loads(pathlib.Path("package.json").read_text())["version"]
+          cargo_version = tomllib.loads(pathlib.Path("src-tauri/Cargo.toml").read_text())["package"]["version"]
+          tauri_version = json.loads(pathlib.Path("src-tauri/tauri.conf.json").read_text())["version"]
+          changelog = pathlib.Path("CHANGELOG.md").read_text()
+
+          versions = {
+              "package.json": package_version,
+              "src-tauri/Cargo.toml": cargo_version,
+              "src-tauri/tauri.conf.json": tauri_version,
+          }
+          mismatches = [f"{path}={value}" for path, value in versions.items() if value != version]
+          if mismatches:
+              print("Version mismatch: " + ", ".join(mismatches), file=sys.stderr)
+              sys.exit(1)
+          if not re.search(rf"^## \[{re.escape(version)}\]", changelog, re.MULTILINE):
+              print(f"CHANGELOG.md is missing a ## [{version}] section", file=sys.stderr)
+              sys.exit(1)
+
+      - name: Create source archive
+        shell: bash
+        run: |
+          mkdir -p dist-release
+          git archive --format=tar.gz --prefix="olmanager-${{ steps.version.outputs.version }}/" HEAD > "dist-release/olmanager-${{ steps.version.outputs.version }}-source.tar.gz"
+
+      - name: Extract release notes
+        shell: python
+        run: |
+          import pathlib
+          import re
+
+          version = "${{ steps.version.outputs.version }}"
+          changelog = pathlib.Path("CHANGELOG.md").read_text()
+          match = re.search(
+              rf"^## \[{re.escape(version)}\].*?(?=^## \[|\Z)",
+              changelog,
+              re.MULTILINE | re.DOTALL,
+          )
+          notes = match.group(0).strip() if match else f"OLManager {version}"
+          pathlib.Path("dist-release/RELEASE_NOTES.md").write_text(notes + "\n")
+
+      - name: Record signing status
+        shell: bash
+        run: |
+          cat > dist-release/SIGNING_STATUS.txt <<'EOF'
+          Platform binaries are generated on GitHub-hosted runners.
+          Update bundles are signed with an Ed25519 key for tauri-plugin-updater verification.
+          Windows and macOS installer-level signing/notarization is not enabled until maintainers configure additional certificates.
+          EOF
+
+      - name: Generate source checksums
+        shell: bash
+        run: |
+          cd dist-release
+          sha256sum * > SHA256SUMS.txt
+
+      - name: Upload source artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: olmanager-${{ steps.version.outputs.version }}-source
+          path: dist-release/
+          if-no-files-found: error
+
+      - name: Publish source assets to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ steps.version.outputs.tag_name }}
+          VERSION: ${{ steps.version.outputs.version }}
+        shell: bash
+        run: |
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            gh release upload "$TAG_NAME" dist-release/* --clobber
+          else
+            gh release create "$TAG_NAME" dist-release/* --title "OLManager $VERSION" --notes-file dist-release/RELEASE_NOTES.md --target "$GITHUB_SHA"
+          fi
+
+  build-tauri:
+    name: build-tauri (${{ matrix.platform }})
+    needs: source-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows
+            os: windows-latest
+            tauri_target: windows-x86_64
+          - platform: linux
+            os: ubuntu-22.04
+            tauri_target: linux-x86_64
+          - platform: macos
+            os: macos-latest
+            tauri_target: darwin-aarch64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Linux Tauri dependencies
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev \
+            libgtk-3-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            patchelf
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Tauri bundle
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: npm run tauri build
+
+      - name: Collect bundle artifacts
+        env:
+          VERSION: ${{ needs.source-release.outputs.version }}
+          PLATFORM: ${{ matrix.platform }}
+          TAURI_TARGET: ${{ matrix.tauri_target }}
+          TAG_NAME: ${{ needs.source-release.outputs.tag_name }}
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import pathlib
+          import re
+          import shutil
+          import sys
+          import urllib.parse
+
+          version = "${{ env.VERSION }}"
+          platform = "${{ env.PLATFORM }}"
+          tauri_target = "${{ env.TAURI_TARGET }}"
+          tag_name = "${{ env.TAG_NAME }}"
+          bundle_dir = pathlib.Path("src-tauri/target/release/bundle")
+          out_dir = pathlib.Path("dist-bundle")
+          out_dir.mkdir(exist_ok=True)
+
+          allowed_suffixes = (
+              ".AppImage",
+              ".deb",
+              ".dmg",
+              ".exe",
+              ".msi",
+              ".rpm",
+              ".sig",
+              ".tar.gz",
+          )
+          allowed_double_suffixes = (".app.tar.gz",)
+
+          if not bundle_dir.exists():
+              print(f"Missing Tauri bundle directory: {bundle_dir}", file=sys.stderr)
+              sys.exit(1)
+
+          copied = []
+          for path in bundle_dir.rglob("*"):
+              if not path.is_file():
+                  continue
+              name = path.name
+              if not (name.endswith(allowed_suffixes) or name.endswith(allowed_double_suffixes)):
+                  continue
+              destination = out_dir / f"{name}"
+              shutil.copy2(path, destination)
+              copied.append(destination)
+
+          if not copied:
+              print(f"No distributable Tauri bundles found under {bundle_dir}", file=sys.stderr)
+              sys.exit(1)
+
+          checksum_file = out_dir / f"SHA256SUMS-{platform}.txt"
+          checksum_file.write_text(
+              "".join(
+                  f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}\n"
+                  for path in sorted(copied)
+              )
+          )
+
+          # Generate platform-info.json for latest.json assembly.  Tauri signs the
+          # actual updater artifact, so the manifest URL must point to the file
+          # that matches the .sig file, not to an arbitrary installer.
+          updater_priority = {
+              "windows": (".msi", ".exe"),
+              "linux": (".AppImage",),
+              "macos": (".app.tar.gz",),
+          }
+
+          signed_candidates = []
+          for sig_file in copied:
+              if sig_file.suffix != ".sig":
+                  continue
+              bundle_name = re.sub(r"\.sig$", "", sig_file.name)
+              bundle_file = out_dir / bundle_name
+              if bundle_file.exists():
+                  signed_candidates.append((bundle_file, sig_file))
+
+          def priority(candidate: tuple[pathlib.Path, pathlib.Path]) -> int:
+              bundle_file, _ = candidate
+              suffixes = updater_priority.get(platform, ())
+              for index, suffix in enumerate(suffixes):
+                  if bundle_file.name.endswith(suffix):
+                      return index
+              return len(suffixes)
+
+          signed_candidates.sort(key=priority)
+          if not signed_candidates:
+              print(
+                  "No signed updater bundle found. Configure TAURI_SIGNING_PRIVATE_KEY "
+                  "and TAURI_SIGNING_PRIVATE_KEY_PASSWORD if applicable.",
+                  file=sys.stderr,
+              )
+              sys.exit(1)
+
+          bundle_file, sig_file = signed_candidates[0]
+          asset_name = urllib.parse.quote(bundle_file.name)
+          platform_info = {
+              "platform": tauri_target,
+              "signature": sig_file.read_text().strip(),
+              "url": f"https://github.com/OpenLeagueManager/OLManager/releases/download/{tag_name}/{asset_name}",
+          }
+          (out_dir / "platform-info.json").write_text(json.dumps(platform_info, indent=2))
+
+      - name: Upload bundle artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: olmanager-${{ needs.source-release.outputs.version }}-${{ matrix.platform }}
+          path: dist-bundle/
+          if-no-files-found: error
+
+      - name: Publish bundle assets to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ needs.source-release.outputs.tag_name }}
+        shell: bash
+        run: |
+          for asset in dist-bundle/*; do
+            if [ "$(basename "$asset")" = "platform-info.json" ]; then
+              continue
+            fi
+            gh release upload "$TAG_NAME" "$asset" --clobber
+          done
+
+  generate-latest-json:
+    name: generate-latest-json
+    needs: [source-release, build-tauri]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all platform artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: olmanager-*
+
+      - name: Generate latest.json
+        shell: python
+        run: |
+          import datetime
+          import json
+          import pathlib
+          import re
+          import sys
+
+          version = "${{ needs.source-release.outputs.version }}"
+          tag_name = "${{ needs.source-release.outputs.tag_name }}"
+
+          platforms = {}
+          artifact_dir = pathlib.Path("artifacts")
+          for info_path in artifact_dir.rglob("platform-info.json"):
+              info = json.loads(info_path.read_text())
+              platforms[info["platform"]] = {
+                  "signature": info["signature"],
+                  "url": info["url"],
+              }
+
+          if not platforms:
+              print("No platform-info.json files found; signed updater artifacts are required.", file=sys.stderr)
+              sys.exit(1)
+
+          # Extract release notes from CHANGELOG.md if available in any artifact
+          notes = f"OLManager {version}"
+          release_notes_paths = list(artifact_dir.rglob("RELEASE_NOTES.md"))
+          if release_notes_paths:
+              notes = release_notes_paths[0].read_text().strip()
+
+          latest_json = {
+              "version": tag_name,
+              "notes": notes,
+              "pub_date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "platforms": platforms,
+          }
+
+          pathlib.Path("latest.json").write_text(json.dumps(latest_json, indent=2))
+          print(f"Generated latest.json with platforms: {list(platforms.keys())}")
+
+      - name: Upload latest.json to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ needs.source-release.outputs.tag_name }}
+        shell: bash
+        run: gh release upload "$TAG_NAME" latest.json --clobber

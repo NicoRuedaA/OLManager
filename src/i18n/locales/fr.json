@@ -1,0 +1,3021 @@
+{
+  "app": {
+    "name": "Open League Manager",
+    "version": "pre-alpha"
+  },
+  "content": {
+    "lol": {
+      "social": {
+        "questions": {
+          "cleanWinObjectives": {
+            "text": "Votre bot lane a empilé les dragons et contrôlé le Baron. Quelle part de cette victoire vient de la préparation des objectifs ?"
+          },
+          "firstBlood": {
+            "text": "Vous avez trouvé le premier sang et la carte s'est ouverte ensuite. C'était une action préparée ou une lecture sur le moment ?"
+          },
+          "resultWin": {
+            "text": "Une victoire importante avec un bon contrôle des objectifs. Comment analysez-vous la performance de l'équipe aujourd'hui ?"
+          },
+          "closeGame": {
+            "text": "La partie s'est compliquée, mais vous avez trouvé le comeback en fin de game. Qu'est-ce qui a changé dans la communication de l'équipe ?"
+          },
+          "underperformancePressure": {
+            "text": "Votre bot lane a souffert sous pression ce soir. Est-ce que cela devient une tendance ?"
+          },
+          "draftLoss": {
+            "text": "Après la draft, on avait l'impression qu'il vous manquait des outils pour les fights clés. Acceptez-vous qu'une partie de la série s'est jouée là ?"
+          },
+          "draftWinFlexibility": {
+            "text": "La draft vous a donné plusieurs conditions de victoire et l'équipe a semblé à l'aise pour changer de plan. Cette flexibilité était-elle l'idée principale ?"
+          },
+          "baronThrowLoss": {
+            "text": "L'appel autour du Baron a fini par faire basculer la partie. C'était une erreur de shotcall ou d'exécution ?"
+          },
+          "baronControlWin": {
+            "text": "Votre contrôle du Baron a été très propre et a forcé l'adversaire à répondre tard. À quel point aviez-vous travaillé cette mise en place ?"
+          },
+          "visionControlLoss": {
+            "text": "L'adversaire vous a privé de vision dans les moments décisifs, et cela a pesé sur les objectifs. Qu'est-ce qui s'est cassé dans votre contrôle de la carte ?"
+          },
+          "starPlayerCarry": {
+            "text": "Votre carry a encore décidé une énorme partie. Comment lui donnez-vous l'espace pour briller sans lui mettre trop de responsabilités ?"
+          },
+          "starPlayerSlump": {
+            "text": "L'un de vos joueurs clés ne retrouve pas son niveau ces dernières semaines. Sa confiance vous inquiète-t-elle ?"
+          },
+          "midlanePressureMap": {
+            "text": "La pression mid a façonné beaucoup de mouvements sur la carte. Le mid était-il la pièce que vous vouliez activer dès le départ ?"
+          },
+          "toplaneIsland": {
+            "text": "Votre toplaner a passé une grande partie de la partie isolé, presque sur une île. C'était tactique ou une adaptation à la draft adverse ?"
+          },
+          "teamfightExecutionLoss": {
+            "text": "Dans les teamfights décisifs, la coordination a manqué et l'adversaire a puni chaque engage. Qu'est-ce qui vous a manqué pour conclure ces combats ?"
+          },
+          "mentalResetAfterLoss": {
+            "text": "C'est une défaite difficile pour le groupe. Comment protégez-vous le vestiaire pour que cela ne pèse pas sur la prochaine série ?"
+          },
+          "rivalryWeekPressure": {
+            "text": "La semaine de rivalité amène du bruit en dehors du jeu et de la pression sur la Faille. La préparation de ce match est-elle différente ?"
+          },
+          "playoffBestOfSeries": {
+            "text": "Dans une série en best-of, les ajustements comptent énormément. À quel point est-il important de s'adapter vite entre les games ?"
+          },
+          "comebackLossHeartbreak": {
+            "text": "Vous êtes passés tout près de compléter le comeback, mais la fin vous a échappé. Comment digère-t-on une défaite comme celle-là ?"
+          },
+          "stompWinHumility": {
+            "text": "Vous avez gagné avec beaucoup d'autorité, en leur laissant à peine une ouverture. Comment gardez-vous l'équipe humble après une partie comme ça ?"
+          },
+          "stompLossAccountability": {
+            "text": "La défaite était claire dès les premières minutes. Quelle responsabilité prenez-vous, côté staff, pour une partie aussi difficile ?"
+          }
+        },
+        "responses": {
+          "creditPreparation": {
+            "label": "Professionnel",
+            "text": "Les joueurs l'ont mérité grâce à la préparation du draft et à des calls propres autour des objectifs."
+          },
+          "admitDraftMistake": {
+            "label": "Reconnaître l'erreur de draft",
+            "text": "La draft ne nous a pas donné les meilleurs outils, et c'est notre responsabilité. Nous devons en tirer des leçons sans nous cacher."
+          },
+          "calmRivalry": {
+            "label": "Calmer la rivalité",
+            "text": "Nous savons ce que cela représente pour les supporters, mais pour nous cela doit rester une partie bien préparée, jouée avec la tête froide."
+          },
+          "challengeRoster": {
+            "label": "Mettre le roster face à ses exigences",
+            "text": "Ce niveau ne suffit pas. Les joueurs comme le staff doivent aborder la compétition avec plus de présence dès la première minute."
+          },
+          "creditOpponent": {
+            "label": "Donner du crédit à l'adversaire",
+            "text": "L'adversaire a mieux joué les moments clés. Le reconnaître est la première étape pour corriger ce qui nous a manqué."
+          },
+          "demandReset": {
+            "label": "Exiger un reset",
+            "text": "Nous devons remettre les standards à niveau immédiatement ; la pression fait partie du haut niveau."
+          },
+          "defendDraft": {
+            "label": "Défendre la draft",
+            "text": "Le plan de draft avait du sens pour ce que nous voulions jouer. La différence s'est faite sur notre exécution dans les fenêtres importantes."
+          },
+          "focusNextSeries": {
+            "label": "Penser à la prochaine série",
+            "text": "Nous devons analyser honnêtement, mais nous ne pouvons pas rester bloqués ici. La prochaine série commence par notre reset mental."
+          },
+          "keepHungry": {
+            "label": "Garder la faim",
+            "text": "C'est une bonne victoire, mais elle ne change pas nos standards. Si nous voulons jouer le haut du tableau, demain nous travaillons de la même façon."
+          },
+          "leanIntoRivalry": {
+            "label": "Assumer la rivalité",
+            "text": "Ces matchs se jouent avec quelque chose en plus. Nous aimons cette pression et nous voulons que nos supporters sentent que nous venons tout chercher."
+          },
+          "praiseShotcalling": {
+            "label": "Saluer le shotcalling",
+            "text": "Les calls étaient très clairs, surtout autour des waves et des objectifs. Quand l'équipe communique comme ça, le plan paraît beaucoup plus solide."
+          },
+          "protectPlayer": {
+            "label": "Protéger le joueur",
+            "text": "Je ne vais pas pointer un joueur du doigt en public. Nous gagnons et nous perdons en équipe, et l'analyse se fera en interne."
+          },
+          "stayMeasured": {
+            "label": "Rester mesuré",
+            "text": "Un résultat ne définit pas notre forme. On l'analyse et on avance."
+          },
+          "takeResponsibility": {
+            "label": "Assumer la responsabilité",
+            "text": "La responsabilité commence par moi. Si l'équipe n'était pas prête pour ces moments, nous devons le corriger côté staff."
+          }
+        },
+        "conversations": {
+          "playerPressureReset": {
+            "body": "{{player}} a demandé un reset privé après un bloc de scrims compliqué. Son moral est à {{morale}} et il sent que la pression de la scène commence à impacter les communications d'équipe.\n\n\"J'ai besoin de reset avant que cette pression n'arrive dans la prochaine série, coach.\""
+          },
+          "playerStageTimeRequest": {
+            "body": "{{player}} est venu frustré par son manque de temps de jeu sur scène. Il estime avoir été solide en scrims et veut de la clarté sur ce qui lui donnera une place dans la prochaine série.\n\n\"Si je ne suis pas dans le plan de scène, j'ai besoin de savoir ce que je dois changer.\""
+          },
+          "playerHighFormCheckin": {
+            "body": "{{player}} est passé après une bonne série de solo queue et d'entraînements d'équipe. Il apprécie la clarté en salle de draft et pense que le roster est proche de franchir un cap.\n\n\"Si on garde cette structure, j'amènerai cette confiance sur scène.\""
+          },
+          "playerContractPressure": {
+            "body": "{{player}} veut des clarifications avant la prochaine fenêtre de ligue. Avec {{days}} jours restants sur son contrat, il demande s'il fait toujours partie du plan roster ou s'il doit se préparer à d'autres offres.\n\n\"J'ai besoin de savoir si ce projet a encore une place pour moi après le split.\""
+          }
+        }
+      }
+    }
+  },
+  "menu": {
+    "newGame": "Nouvelle Partie",
+    "loadGame": "Charger Partie",
+    "settings": "Paramètres",
+    "exitGame": "Quitter le jeu",
+    "noSaves": "Aucune sauvegarde trouvée.",
+    "loadingSaves": "Chargement des sauvegardes...",
+    "deleteConfirm": "Supprimer <strong>{{name}}</strong> ?",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "manager": "Head Coach : {{name}}",
+    "deleteSave": "Supprimer la sauvegarde",
+    "noResults": "Aucun résultat",
+    "importedDescription": "Base de données de monde importée",
+    "invalidWorldDb": "Fichier de base de données de monde invalide : {{error}}",
+    "failedStartGame": "Échec du démarrage du jeu : {{error}}"
+  },
+  "createManager": {
+    "title": "Créer un Head Coach",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "dob": "Date de Naissance",
+    "nationality": "Nationalité",
+    "countryOfOrigin": "Pays/Région d'Origine",
+    "selectNationality": "Sélectionner la nationalité...",
+    "selectCountry": "Sélectionner le Pays/Région...",
+    "searchNationalities": "Rechercher une nationalité...",
+    "chooseWorld": "Choisir le Monde",
+    "placeholderFirst": "ex. Lee",
+    "placeholderLast": "ex. Sang-hyeok"
+  },
+  "validation": {
+    "required": "{{field}} est obligatoire",
+    "maxLength": "{{field}} ne doit pas dépasser {{max}} caractères",
+    "minAge": "L'entraîneur doit avoir au moins {{min}} ans — modifie la date de naissance pour continuer.",
+    "invalidDate": "Date invalide",
+    "invalidDob": "Date de naissance invalide"
+  },
+  "worldSelect": {
+    "title": "Choisir le Monde",
+    "scanning": "Recherche de bases de données...",
+    "importFile": "Importer un fichier",
+    "startCareer": "Démarrer la Carrière",
+    "creatingWorld": "Création du Monde...",
+    "teams": "{{count}} équipes",
+    "players": "{{count}} joueurs",
+    "randomWorld": "Monde Aléatoire",
+    "randomDescription": "Ligue générée aléatoirement avec des équipes, joueurs et staff"
+  },
+  "dashboard": {
+    "home": "Accueil",
+    "inbox": "Boîte de Réception",
+    "manager": "Head Coach",
+    "squad": "Effectif",
+    "tactics": "Tactique",
+    "training": "Entraînement",
+    "scrims": "Scrims",
+    "champions": "Meta",
+    "meta": "Meta",
+    "staff": "Staff",
+    "finances": "Finances",
+    "transfers": "Transferts",
+    "players": "Joueurs",
+    "teams": "Équipes",
+    "tournaments": "Tournois",
+    "champions_world": "Champions",
+    "schedule": "Calendrier",
+    "news": "Actualités",
+    "social": "Social",
+    "settings": "Paramètres",
+    "exitToMenu": "Quitter vers le Menu",
+    "continue": "Continuer",
+    "simulating": "Simulation...",
+    "loading": "Chargement de l'état du jeu...",
+    "noResults": "Aucun résultat trouvé.",
+    "searchPlaceholder": "Rechercher joueurs, équipes...",
+    "sectionClub": "Club",
+    "sectionWorld": "Monde",
+    "searchTeams": "Équipes",
+    "searchPlayers": "Joueurs",
+    "searchChampions": "Champions",
+    "scouting": "Recrutement",
+    "youthAcademy": "Académie",
+    "saveGame": "Sauvegarder la partie",
+    "saving": "Sauvegarde...",
+    "saved": "Sauvegardé !",
+    "collapseSidebar": "Réduire la barre latérale",
+    "expandSidebar": "Développer la barre latérale",
+    "alerts": {
+      "exhausted": "{{count}} joueur(s) en condition critique (<25%)",
+      "injuredStartingXi": "{{count}} joueur(s) blessé(s) dans l'équipe titulaire — remplacez-les",
+      "incompleteStartingXi": "L'équipe titulaire est incomplète — définissez votre composition",
+      "urgentUnread": "{{count}} message(s) urgent(s) non lu(s)",
+      "matchTodayStartingXi": "Match aujourd'hui ! Définissez votre équipe titulaire"
+    },
+    "unemployedBanner": "Vous êtes actuellement sans club. Des offres d'emploi pourraient arriver dans votre boîte de réception."
+  },
+  "champions": {
+    "metaTitle": "Meta des champions",
+    "patchNumber": "Patch {{n}}",
+    "patchLastDate": "Dernier patch : {{date}}",
+    "patchPending": "Aucun patch n'a encore été appliqué.",
+    "metaHiddenHint": "Votre staff découvre encore la meta de ce patch. De meilleurs scouts la révèlent plus vite.",
+    "tierScore": "Score de tier : {{value}}",
+    "masteryTrainingTitle": "Entraînement de maîtrise des champions",
+    "noTarget": "Aucune cible",
+    "currentMastery": "Maîtrise : {{value}}",
+    "selectChampion": "Sélectionnez un champion",
+    "gain": "Gain",
+    "high": "Élevé",
+    "moderate": "Modéré",
+    "low": "Faible",
+    "discoveryProgress": "Progression de découverte",
+    "delegating": "Déléguant...",
+    "delegateToCoach": "Déléguer à l'Assistant Coach",
+    "loading": "Chargement des champions...",
+    "error": "Erreur de chargement",
+    "empty": "Aucun champion disponible",
+    "counterpicks": "Counterpicks",
+    "synergies": "Synergies",
+    "noData": "Aucune information sur les counterpicks ou synergies disponible.",
+    "worldTitle": "Champions du Monde",
+    "allChampions": "Tous les Champions",
+    "worldDescription": "Explorez tous les champions de League of Legends",
+    "totalChampions": "Total",
+    "170": "170+"
+  },
+  "continueMenu": {
+    "goToField": "Aller sur le Terrain",
+    "goToFieldDesc": "Contrôle total du match",
+    "watchSpectator": "Regarder en Spectateur",
+    "watchSpectatorDesc": "Regarder le match sans contrôles",
+    "delegateAssistant": "Déléguer à l'Assistant",
+    "delegateAssistantDesc": "L'IA gère tout",
+    "skipToMatchDay": "Avancer au Jour de Match",
+    "skipToMatchDayDesc": "Avancer jusqu'à votre prochain match",
+    "matchDayTitle": "Jour de Match",
+    "delegateWarning": "Votre assistant gérera le match. Vous ne pourrez pas intervenir."
+  },
+  "closeConfirm": {
+    "title": "Modifications non sauvegardées",
+    "message": "Vous avez des modifications non sauvegardées. Que souhaitez-vous faire ?",
+    "saveQuit": "Sauvegarder et Quitter",
+    "quitNoSave": "Quitter sans sauvegarder"
+  },
+  "exitConfirm": {
+    "title": "Quitter vers le Menu Principal ?",
+    "message": "Votre partie sera sauvegardée automatiquement avant de revenir au menu principal.",
+    "cancel": "Annuler",
+    "saveExit": "Sauvegarder et Quitter",
+    "savingTitle": "Sauvegarde de votre partie...",
+    "savingMessage": "Veuillez patienter pendant que nous sauvegardons votre progression et revenons au menu principal."
+  },
+  "onboarding": {
+    "title": "Premiers Pas",
+    "description": "Complétez ces étapes pour préparer votre équipe pour la saison à venir.",
+    "reviewSquad": "Examinez votre effectif",
+    "reviewSquadDesc": "Consultez les stats, la condition et les traits des joueurs",
+    "hireStaff": "Engagez du personnel",
+    "hireStaffDesc": "Le staff améliore la qualité de l'entraînement et la récupération",
+    "setTactics": "Définissez votre formation et tactique",
+    "setTacticsDesc": "Choisissez une formation et un style adaptés à votre effectif",
+    "configTraining": "Configurez l'entraînement",
+    "configTrainingDesc": "Choisissez un focus et un planning pour développer vos joueurs",
+    "readMessages": "Lisez vos messages",
+    "readMessagesDesc": "Des informations importantes de la direction et du staff vous attendent"
+  },
+  "home": {
+    "nextMatch": "Prochain Match",
+    "nextOpponent": "Prochain Adversaire",
+    "leaguePosition": "Position en Ligue",
+    "standings": "Classement",
+    "noLeague": "Pas encore de données de ligue.",
+    "squadOverview": "Aperçu de l'Effectif",
+    "avgCondition": "Condition Moyenne",
+    "avgOvr": "OVR Moyen",
+    "exhaustedPlayers": "{{count}} joueur(s) épuisé(s)",
+    "recentResults": "Résultats Récents",
+    "noMatches": "Aucun match joué.",
+    "latestNews": "Dernières Actualités",
+    "allNews": "Toutes les Actualités",
+    "noNews": "Pas encore d'actualités.",
+    "recentMessages": "Messages Récents",
+    "viewAll": "Voir Tout",
+    "noMessages": "Aucun message récent.",
+    "unreadMessages": "{{count}} message(s) non lu(s)",
+    "playerMomentum": "Dynamique des Joueurs",
+    "inForm": "En Forme",
+    "lowMorale": "Moral Bas",
+    "winningStreak": "Série de victoires !",
+    "losingStreak": "Série de défaites",
+    "unbeatenRun": "Série d'invincibilité",
+    "scheduleLabel": "Programme :",
+    "home": "Domicile",
+    "away": "Extérieur",
+    "daysUntilMatch": "jours restants",
+    "matchdayN": "Journée {{n}}",
+    "met": "Atteint",
+    "inProgress": "En Cours",
+    "boardObjectives": "Objectifs du Conseil",
+    "seasonComplete": "Saison terminée.",
+    "noLeagueSchedule": "Pas de données de ligue.",
+    "noUpcomingOpponent": "Aucune prochaine rencontre de championnat.",
+    "leagueDigest": "Résumé du Championnat",
+    "noLeagueDigest": "Aucun résumé du championnat pour le moment.",
+    "objectivesMet": "{{done}}/{{total}} objectifs atteints — Satisfaction du conseil : {{pct}}%",
+    "unavailablePlayers": "Joueurs indisponibles",
+    "daysUnavailable": "{{count}} jour(s) restant(s)",
+    "schedule": "Calendrier",
+    "roster": "Effectif",
+    "matchShort": "Match",
+    "restShort": "Repos",
+    "leagueShort": "Ligue",
+    "otherShort": "Autre",
+    "projectedBalance": "Solde projeté",
+    "rawCash": "Trésorerie disponible",
+    "monthlyNet": "Net mensuel",
+    "income": "Revenus",
+    "expenses": "Dépenses",
+    "noUpcomingPlayoffMatch": "Aucun prochain match de playoffs.",
+    "fullRoster": "Effectif complet",
+    "todayScrimReviewVs": "Review vs {{team}}",
+    "todayScrimReview": "Review post-scrim",
+    "todayScrimReviewDetail": "Choisissez comment transformer le scrim du jour en apprentissage.",
+    "today": "Today",
+    "currentPhase": "Current phase",
+    "recommendedNow": "Recommended now",
+    "riskRewardToday": "Risk and reward today",
+    "risk": "Risk",
+    "expectedLearning": "Expected learning",
+    "cancelCost": "Cancel cost",
+    "recommendation": "Recommendation",
+    "recommendationHighRisk": "High risk: consider cancelling and reviewing before forcing more volume.",
+    "recommendationNormalRisk": "Manageable risk: continue if you need reps, cancel if recovery is a priority.",
+    "scrimDecision": {
+      "cancelScrims": {
+        "desc": "Cancel the next block and switch to corrective work.",
+        "benefits": "Protects recovery and reduces immediate risk.",
+        "costs": "Loses planned volume for the day.",
+        "when": "When team state is unstable and quality is dropping."
+      },
+      "continueBlock2": {
+        "desc": "Keep the plan and play the second block."
+      },
+      "vodReview": {
+        "desc": "Review VOD to extract concrete learning from mistakes."
+      },
+      "mentalReset": {
+        "desc": "Prioritize morale and reset tilt before next sessions."
+      },
+      "targetedDrills": {
+        "desc": "Run focused drills on the detected issue."
+      },
+      "offerRest": {
+        "desc": "Offer rest after a good block to protect condition."
+      },
+      "dayOff": {
+        "desc": "Give the rest of the day off and recover."
+      },
+      "pushThrough": {
+        "desc": "Push volume despite the setback to maximize reps."
+      }
+    },
+    "scrimFeedback": {
+      "cancelledTitle": "Scrims cancelled for today",
+      "cancelledDetail": "Choose a corrective follow-up to close the day."
+    },
+    "todayMatch": "Today's match",
+    "todayScrimOpen": "Open scrim slot",
+    "todayScrimDetail": "Choose how to use today's scrim block.",
+    "todayTraining": "Training focus",
+    "todayTrainingDetail": "No scrim locked ? use the day to train and recover."
+  },
+  "season": {
+    "preseasonStatus": "État de la présaison",
+    "preseasonFocus": "Profitez de cette période pour préparer votre effectif, suivre le mercato et arriver prêt pour la reprise.",
+    "friendly": "Match amical",
+    "preseasonTournament": "Tournoi de présaison",
+    "opener": "Coup d'envoi de la saison",
+    "startsOn": "Débute le {{date}}",
+    "startsInDays": "{{count}} jour(s) avant le coup d'envoi",
+    "noOpener": "Le début de saison n'est pas encore programmé.",
+    "standingsLocked": "Le classement sera disponible une fois les matchs officiels commencés.",
+    "tournamentsPreseasonHint": "Les classements et courses aux récompenses apparaîtront lorsque la saison sera lancée.",
+    "windowClosed": "Mercato fermé",
+    "windowClosesToday": "Dernier jour du mercato",
+    "windowClosesInDays": "{{count}} jour(s) restants avant la fermeture du mercato",
+    "windowOpensInDays": "{{count}} jour(s) avant l'ouverture du mercato",
+    "windowOpensOn": "Le mercato ouvre le {{date}}",
+    "windowClosesOn": "Le mercato ferme le {{date}}",
+    "phases": {
+      "Preseason": "Présaison",
+      "InSeason": "Saison en cours",
+      "PostSeason": "Après-saison"
+    },
+    "transferWindowStatus": {
+      "Closed": "Mercato Fermé",
+      "Open": "Mercato Ouvert",
+      "DeadlineDay": "Dernier Jour"
+    }
+  },
+  "teamSelect": {
+    "title": "Choisissez Votre Club",
+    "subtitle": "Sélectionnez l'équipe que vous voulez entraîner",
+    "confirming": "Confirmation...",
+    "manage": "Entraîner {{name}}",
+    "reputation": "Réputation",
+    "squad": "Effectif",
+    "finances": "Finances",
+    "avgOvr": "Moy. OVR",
+    "seats": "{{name}} — {{capacity}} places",
+    "repWorldClass": "Classe Mondiale",
+    "repStrong": "Solide",
+    "repAverage": "Moyen",
+    "repDeveloping": "En Développement"
+  },
+  "youthAcademy": {
+    "title": "Académie",
+    "playersUnder21": "{{count}} joueurs ≤21",
+    "youthPlayers": "Joueurs d'académie",
+    "avgOvr": "Moy. OVR",
+    "avgPotential": "Moy. Potentiel",
+    "highPotential": "Haut Potentiel",
+    "youthCoach": "Coach de l'académie :",
+    "youthProspects": "Talents académie",
+    "noYouthPlayers": "Aucun joueur jeune (≤21) dans votre effectif.",
+    "player": "Joueur",
+    "pos": "Pos",
+    "age": "Âge",
+    "ovr": "OVR",
+    "potential": "Potentiel",
+    "growth": "Croissance",
+    "traits": "Traits",
+    "condition": "Condition",
+    "potWorldClass": "Classe Mondiale",
+    "potExcellent": "Excellent",
+    "potPromising": "Prometteur",
+    "potDecent": "Correct",
+    "potLimited": "Limité",
+    "loadOptionsError": "Impossible de charger les options d'académie.",
+    "academyCardTitle": "Académie",
+    "acquisitionLoading": "Chargement des options d'acquisition d'académie...",
+    "acquisitionIntro": "Vous n'avez pas encore d'académie liée. Choisissez une équipe ERL pour l'acquérir.",
+    "acquisitionNoOptions": "Aucune option d'académie n'est disponible pour votre équipe pour le moment.",
+    "placeholderCustomName": "Nom personnalisé (optionnel)",
+    "placeholderCustomShortName": "Sigle personnalisé (optionnel)",
+    "placeholderCustomLogoUrl": "URL du logo (optionnel)",
+    "fundAcademy": "Financer l'académie",
+    "fundingAcademy": "Financement...",
+    "sourceTeamLogoAlt": "Logo de {{team}}",
+    "academyRosterLinked": "Effectif de l'académie",
+    "academyNotLinked": "Académie non liée",
+    "promoting": "Promotion...",
+    "promote": "Promouvoir",
+    "academyPlayers": "joueurs d'académie",
+    "academyPlayersStartingMayus": "Joueurs d'académie"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "loadingGameState": "Chargement de l'état du jeu...",
+    "noResults": "Aucun résultat trouvé.",
+    "place": {
+      "1": "1er",
+      "2": "2e",
+      "3": "3e",
+      "other": "{{n}}e"
+    },
+    "pts": "Pts",
+    "played": "J",
+    "won": "V",
+    "drawn": "N",
+    "lost": "D",
+    "gf": "BP",
+    "ga": "BC",
+    "gd": "DB",
+    "injured": "Blessé",
+    "back": "Retour",
+    "all": "Tous",
+    "allPlayers": "Tous les joueurs",
+    "cancel": "Annuler",
+    "done": "Terminé",
+    "confirm": "Confirmer",
+    "save": "Sauvegarder",
+    "search": "Rechercher",
+    "noTeam": "Aucune équipe attribuée.",
+    "unemployed": "Vous êtes actuellement sans club.",
+    "freeAgent": "Agent Libre",
+    "unknown": "Inconnu",
+    "present": "Présent",
+    "season": "Saison {{n}}",
+    "matchday": "Journée {{n}}",
+    "result": "résultat",
+    "results": "résultats",
+    "vs": "vs",
+    "age": "Âge",
+    "ovr": "OVR",
+    "year": "Année",
+    "per_year_with_slash": "/an",
+    "condition": "Condition",
+    "morale": "Moral",
+    "potential": "Potentiel",
+    "value": "Valeur",
+    "wage": "Salaire",
+    "name": "Nom",
+    "team": "Équipe",
+    "player": "Joueur",
+    "actions": "Actions",
+    "position": "Position",
+    "nationality": "Nationalité",
+    "contract": "Contrat",
+    "renewContract": "Renouveler le contrat",
+    "status": "Statut",
+    "average": "Moyenne",
+    "goalsFor": "BP",
+    "goalsAgainst": "BC",
+    "goalDifference": "DB",
+    "nPlayersFound": "{{count}} joueur(s) trouvé(s)",
+    "nResults": "{{count}} résultat(s)",
+    "showingFirst": "Affichage des {{shown}} premiers sur {{total}} joueurs. Affinez votre recherche.",
+    "noPlayersMatch": "Aucun joueur ne correspond à vos filtres.",
+    "positions": {
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC",
+      "RightBack": "Top",
+      "CenterBack": "Jungle",
+      "LeftBack": "Jungle",
+      "RightWingBack": "Top",
+      "LeftWingBack": "Jungle",
+      "DefensiveMidfielder": "Mid",
+      "CentralMidfielder": "Mid",
+      "AttackingMidfielder": "Mid",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
+    },
+    "positionGroups": {
+      "Goalkeeper": "Top",
+      "Defender": "Jungle",
+      "Midfielder": "Mid",
+      "Forward": "ADC"
+    },
+    "posAbbr": {
+      "Goalkeeper": "TOP",
+      "Defender": "JGL",
+      "Midfielder": "MID",
+      "Forward": "ADC",
+      "RightBack": "TOP",
+      "CenterBack": "JGL",
+      "LeftBack": "JGL",
+      "RightWingBack": "TOP",
+      "LeftWingBack": "JGL",
+      "DefensiveMidfielder": "MID",
+      "CentralMidfielder": "MID",
+      "AttackingMidfielder": "MID",
+      "RightMidfielder": "ADC",
+      "LeftMidfielder": "ADC",
+      "RightWinger": "ADC",
+      "LeftWinger": "ADC",
+      "Striker": "ADC"
+    },
+    "footedness": {
+      "Left": "Gauche",
+      "Right": "Droit",
+      "Both": "Des deux pieds"
+    },
+    "footednessLabel": "Pied",
+    "weakFoot": "Mauvais pied",
+    "playStyles": {
+      "Balanced": "Équilibré",
+      "Attacking": "Offensif",
+      "Defensive": "Défensif",
+      "Possession": "Possession",
+      "Counter": "Contre-Attaque",
+      "HighPress": "Pressing Haut"
+    },
+    "trainingSchedules": {
+      "Intense": "Intense",
+      "Balanced": "Équilibré",
+      "Light": "Léger"
+    },
+    "trainingFocuses": {
+      "Scrims": "Scrims",
+      "VODReview": "Revue VOD",
+      "IndividualCoaching": "Coaching individuel",
+      "ChampionPoolPractice": "Pratique du champion pool",
+      "MacroSystems": "Systèmes macro",
+      "MentalResetRecovery": "Reset mental / récupération",
+      "Physical": "Scrims",
+      "Technical": "Pratique du champion pool",
+      "Tactical": "Systèmes macro",
+      "Defending": "Revue VOD",
+      "Attacking": "Coaching individuel",
+      "Recovery": "Reset mental / récupération",
+      "General": "Général"
+    },
+    "attributes": {
+      "pace": "Vitesse",
+      "stamina": "Endurance",
+      "strength": "Force",
+      "agility": "Agilité",
+      "passing": "Passe",
+      "shooting": "Tir",
+      "tackling": "Tacle",
+      "dribbling": "Dribble",
+      "defending": "Défense",
+      "positioning": "Placement",
+      "vision": "Vision",
+      "decisions": "Décision",
+      "composure": "Sang-froid",
+      "aggression": "Agressivité",
+      "teamwork": "Travail d'équipe",
+      "leadership": "Leadership",
+      "handling": "Prise de balle",
+      "reflexes": "Réflexes",
+      "aerial": "Jeu Aérien"
+    },
+    "moods": {
+      "excellent": "Excellent",
+      "good": "Bon",
+      "mixed": "Mitigé",
+      "poor": "Mauvais"
+    },
+    "injuries": {
+      "minorMuscleStrain": "Légère élongation musculaire",
+      "twistedAnkle": "Entorse de la cheville",
+      "kneeBruise": "Contusion au genou",
+      "hamstringTightness": "Raideur aux ischio-jambiers",
+      "calfStrain": "Élongation du mollet"
+    },
+    "scoutRatings": {
+      "excellent": "Excellent",
+      "veryGood": "Très Bon",
+      "good": "Bon",
+      "average": "Moyen",
+      "belowAverage": "Inférieur à la moyenne"
+    },
+    "scoutPotential": {
+      "worldClass": "Potentiel de classe mondiale",
+      "strong": "Fort potentiel de développement",
+      "moderate": "Potentiel de croissance modéré",
+      "unclear": "Potentiel incertain — observation supplémentaire recommandée"
+    },
+    "scoutConfidence": {
+      "high": "Élevée",
+      "moderate": "Modérée",
+      "low": "Faible"
+    },
+    "attrGroups": {
+      "physical": "Physique",
+      "technical": "Technique",
+      "mental": "Mental",
+      "goalkeeper": "Top"
+    }
+  },
+  "teamSelection": {
+    "title": "Choisissez Votre Club",
+    "subtitle": "Sélectionnez l'équipe que vous voulez entraîner",
+    "confirming": "Confirmation...",
+    "manage": "Entraîner {{team}}",
+    "reputation": "Réputation",
+    "squad": "Effectif",
+    "finances": "Finances",
+    "avgOvr": "OVR Moyen",
+    "worldClass": "Classe Mondiale",
+    "strong": "Fort",
+    "average": "Moyen",
+    "developing": "En Développement"
+  },
+  "squad": {
+    "title": "Effectif de {{team}}",
+    "detailsTitle": "Détails de l'effectif",
+    "playerCount": "{{count}} Joueurs",
+    "noPlayers": "Aucun joueur trouvé dans votre effectif.",
+    "pos": "Pos",
+    "traits": "Traits",
+    "fullRoster": "Effectif Complet",
+    "compare": "Comparer",
+    "selected": "sélectionné(s)",
+    "playersLabel": "joueurs",
+    "noBench": "Pas de remplaçants.",
+    "viewProfile": "Voir le profil",
+    "swapPlayer": "Changer de joueur",
+    "addToTransferList": "Ajouter à la liste des transferts",
+    "removeFromTransferList": "Retirer de la liste des transferts",
+    "addToLoanList": "Ajouter à la liste des prêts",
+    "removeFromLoanList": "Retirer de la liste des prêts",
+    "outOfPosition": "Hors de position",
+    "outOfPositionTooltip": "Joue en dehors du rôle préféré du joueur",
+    "dragHint": "Faites glisser des remplaçants sur le terrain ou échangez des titulaires entre les postes.",
+    "benchDragHint": "Utilisez la liste des remplaçants pour faire glisser directement des joueurs sur le terrain.",
+    "dropPlayerHere": "Déposez le joueur ici",
+    "dragToPitch": "Glisser sur le terrain",
+    "filterPlayers": "Filtrer par nom du joueur ou position",
+    "noBenchMatches": "Aucun remplaçant ne correspond aux filtres actuels.",
+    "noLineupMatches": "Aucun titulaire ne correspond aux filtres actuels.",
+    "playStyleImpactTitle": "Ce que cela change",
+    "playStyleDescriptions": {
+      "Balanced": "Garde votre équipe équilibrée avec et sans ballon, avec une structure stable et moins d'excès.",
+      "Attacking": "Projette davantage de joueurs vers l'avant, crée plus de soutien près de la surface et demande plus d'initiative.",
+      "Defensive": "Demande à votre équipe de protéger d'abord les espaces, de rester compacte et de prendre moins de risques sans ballon.",
+      "Possession": "Encourage votre équipe à faire circuler le ballon avec patience, contrôler le tempo et trouver des ouvertures plus nettes.",
+      "Counter": "Invite votre équipe à accélérer juste après la récupération, en attaquant les espaces avant que l'adversaire ne se replace.",
+      "HighPress": "Demande à votre équipe de presser plus tôt, récupérer plus haut et maintenir l'adversaire sous pression."
+    }
+  },
+  "tactics": {
+    "formationStyle": "Plan de jeu & Style",
+    "playStyle": "Style de jeu",
+    "lineupTab": "Composition",
+    "rolesTab": "Objectifs & Rôles",
+    "teamRoles": "Rôles de l'équipe",
+    "viceCaptain": "Vice-capitaine",
+    "setPiecesSection": "Rôles Objectif",
+    "rolesHint": "Choisissez votre hiérarchie de leadership et vos spécialistes sur objectifs dans l'équipe titulaire actuelle.",
+    "autoSelectAssignments": "Sélection automatique des défauts",
+    "noStartersForRoles": "Définissez votre équipe titulaire pour attribuer les rôles d'équipe et les objectifs.",
+    "startingXI": "Cinq de Départ",
+    "fullSquad": "Effectif complet",
+    "riftInteractionHint": "Faites glisser les joueurs entre le Rift et le banc, cliquez sur un joueur pour l'inspecter, cliquez sur un second pour les comparer, puis confirmez l'échange dans le panneau de comparaison.",
+    "selectedPlayer": "Joueur sélectionné",
+    "comparePlayer": "Joueur de comparaison",
+    "selectSecondPlayer": "Sélectionnez un deuxième joueur dans la vue de composition pour comparer les attributs et préparer l'échange.",
+    "compareSelectionHint": "Examinez les deux joueurs ci-dessous puis confirmez l'échange quand vous êtes prêt.",
+    "confirmSwap": "Confirmer l'échange",
+    "selectPitchPlayer": "Sélectionnez un joueur dans la vue de composition pour examiner ses attributs.",
+    "selectAnotherToSwap": "Sélectionnez un deuxième joueur pour les comparer et confirmer l'échange.",
+    "lol": {
+      "roles": {
+        "TOP": "Voie du haut",
+        "JUNGLE": "Jungle",
+        "MID": "Voie du milieu",
+        "ADC": "Voie du bas (ADC)",
+        "SUPPORT": "Support"
+      },
+      "sections": {
+        "gameTiming": "Timing de partie",
+        "strongSide": "Côté fort",
+        "jungleStyle": "Style de jungle",
+        "junglePathing": "Route de jungle",
+        "fightPlan": "Plan de combat",
+        "supportRoaming": "Roaming du support"
+      },
+      "options": {
+        "strongSide": {
+          "Top": {
+            "label": "Top",
+            "description": "On joue pour la top lane : priorité aux ressources et ganks côté haut."
+          },
+          "Mid": {
+            "label": "Mid",
+            "description": "Mid est l'axe de la carte : contrôle du tempo et des rotations."
+          },
+          "Bot": {
+            "label": "Bot",
+            "description": "On investit sur la bot lane pour scaler en fights et objectifs."
+          }
+        },
+        "gameTiming": {
+          "Early": {
+            "label": "Early game",
+            "description": "On cherche l'avantage avant la 14e minute avec un rythme agressif."
+          },
+          "Mid": {
+            "label": "Mid game",
+            "description": "Pic de puissance en mid game avec setup d'objectifs."
+          },
+          "Late": {
+            "label": "Late game",
+            "description": "On privilégie le scaling et l'exécution en longs teamfights."
+          }
+        },
+        "jungleStyle": {
+          "Ganker": {
+            "label": "Gank",
+            "description": "Jungle de pression sur les lanes : punit les erreurs tôt."
+          },
+          "Invader": {
+            "label": "Invade",
+            "description": "On envahit la jungle adverse pour nier ressources et vision."
+          },
+          "Farmer": {
+            "label": "Farm",
+            "description": "On maximise le farm pour arriver plus fort en mid/late."
+          },
+          "Enabler": {
+            "label": "Enable",
+            "description": "La jungle soutient les carries avec couverture et tempo."
+          }
+        },
+        "junglePathing": {
+          "TopToBot": {
+            "label": "Top -> Bot",
+            "description": "On ouvre côté top pour finir le pathing côté bot."
+          },
+          "BotToTop": {
+            "label": "Bot -> Top",
+            "description": "On ouvre côté bot pour impacter top dans les premières fenêtres."
+          }
+        },
+        "fightPlan": {
+          "FrontToBack": {
+            "label": "Front to back",
+            "description": "Teamfight structuré : la front line protège le carry."
+          },
+          "Pick": {
+            "label": "Pick",
+            "description": "On joue la vision et les picks pour combattre en avantage."
+          },
+          "Dive": {
+            "label": "Dive",
+            "description": "Entrées explosives sur la backline pour supprimer les carries."
+          },
+          "Siege": {
+            "label": "Siege",
+            "description": "Pression de portée et de structure sans overextend."
+          }
+        },
+        "supportRoaming": {
+          "Lane": {
+            "label": "Jouer la lane",
+            "description": "Le support priorise le 2v2 bot, le peel et le contrôle de vague."
+          },
+          "RoamMid": {
+            "label": "Roam mid",
+            "description": "Après le reset, rotation mid pour les picks et le contrôle de vision."
+          },
+          "RoamTop": {
+            "label": "Roam top",
+            "description": "Rotations tôt vers top pour dives, grubs et tempo de carte."
+          }
+        }
+      },
+      "noStarter": "Aucun titulaire défini",
+      "gamePlan": "Plan de jeu",
+      "gamePlanDescription": "Ces tactiques définissent comment votre équipe joue en simulation. Elles influencent l'impact par rôle et le comportement macro (objectifs/tempo) pendant le match. Elles sont aussi utilisées en scrims, avant-match et entre les maps en Bo3/Bo5.",
+      "impactAndCoherence": "Impact et cohérence",
+      "coherenceLabel": "Cohérence tactique",
+      "coherence": {
+        "high": "Haute",
+        "medium": "Moyenne",
+        "low": "Basse"
+      },
+      "coherenceChecks": {
+        "junglePathToBot": "Pathing jungle vers la bot side",
+        "junglePathToTop": "Pathing jungle vers la top side",
+        "timingVsJungleStyle": "Timing vs style de jungle",
+        "fightPlanVsExecution": "Plan de fight vs execution",
+        "supportRoamVsStrongSide": "Roaming support vs cote fort"
+      },
+      "score": "Score",
+      "roleImpact": "Impact par rôle",
+      "variance": "variance",
+      "tip": "Conseil : si le score de cohérence est bas, alignez côté fort + pathing jungle + timing.",
+      "autoSave": "Les changements sont enregistrés automatiquement"
+    }
+  },
+  "training": {
+    "weeklySchedule": "Calendrier Hebdomadaire",
+    "trainingFocus": "Focus d'Entraînement",
+    "intensity": "Intensité",
+    "squadFitness": "Forme de l'Effectif",
+    "playerFitness": "Forme des Joueurs",
+    "avgCondition": "Condition Moyenne",
+    "avgMorale": "Moral Moyen",
+    "train": "Entraîn.",
+    "rest": "Repos",
+    "todayIs": "Aujourd'hui c'est <strong>{{day}}</strong> — {{type}}.",
+    "aTrainingDay": "jour d'entraînement",
+    "aRestDay": "jour de repos",
+    "currentlyTraining": "Entraînement actuel : <strong>{{attrs}}</strong> à intensité <strong>{{intensity}}</strong>.",
+    "recoveryNote": "Les joueurs privilégieront reset, repos et récupération à chaque jour d'entraînement.",
+    "effectiveFocus": "Focus",
+    "trainingAppliedNote": "L'entraînement est appliqué les jours programmés quand vous avancez le temps. Les jours de repos offrent une récupération totale.",
+    "criticalCondition": "{{count}} joueur(s) en condition critique (<25%)",
+    "exhaustedPlayers": "{{count}} joueur(s) épuisé(s) (<40%)",
+    "staffAlert": "Alerte du Staff",
+    "staffWarning": "Avertissement du Staff",
+    "staffSuggestion": "Suggestion du Staff",
+    "staffAdvice": {
+      "critical": "Crise de condition physique ! {{criticalCount}} joueur(s) en état critique. {{scheduleAdvice}}",
+      "warn": "L'équipe est fatiguée (moy. {{avgCondition}}%, {{exhaustedCount}} en dessous de 40%). {{scheduleAdvice}}",
+      "ok": "La condition physique de l'équipe est bonne. Vous pourriez passer à Équilibré ou Intensif pour plus de développement.",
+      "scheduleAdvice": {
+        "criticalIntense": "Passez immédiatement à un programme Équilibré ou Léger.",
+        "criticalBalanced": "Envisagez un programme Léger ou Reset mental / récupération.",
+        "criticalLight": "Définissez le focus sur Reset mental / récupération jusqu'à amélioration de la condition.",
+        "warnIntense": "Un programme Équilibré donnerait plus de temps de récupération.",
+        "warnBalanced": "Un programme Léger pourrait aider l'équipe à rebondir.",
+        "warnLight": "Reset mental / récupération maximiserait la récupération de condition."
+      }
+    },
+    "focuses": {
+      "Scrims": {
+        "label": "Scrims",
+        "desc": "Parties d'entraînement pour l'exécution et la coordination"
+      },
+      "VODReview": {
+        "label": "Revue VOD",
+        "desc": "Revoir décisions, vision et placement"
+      },
+      "IndividualCoaching": {
+        "label": "Coaching individuel",
+        "desc": "Affiner mécanique et régularité"
+      },
+      "ChampionPoolPractice": {
+        "label": "Pratique du champion pool",
+        "desc": "Affiner picks de confort et automatismes mécaniques"
+      },
+      "MacroSystems": {
+        "label": "Systèmes macro",
+        "desc": "Améliorer carte, rotations et décisions d'équipe"
+      },
+      "MentalResetRecovery": {
+        "label": "Reset mental / récupération",
+        "desc": "Charge légère avec récupération maximale"
+      }
+    },
+    "intensities": {
+      "Low": {
+        "label": "Basse",
+        "desc": "Séance légère — moins de fatigue, progression lente"
+      },
+      "Medium": {
+        "label": "Moyenne",
+        "desc": "Charge équilibrée — résultats standards"
+      },
+      "High": {
+        "label": "Haute",
+        "desc": "Entraînement intense — progression rapide, plus de fatigue"
+      }
+    },
+    "schedules": {
+      "Intense": {
+        "label": "Intense",
+        "desc": "6 jours d'entraînement, 1 repos",
+        "detail": "Développement maximum. Seulement dimanche libre. Risque d'accumulation de fatigue."
+      },
+      "Balanced": {
+        "label": "Équilibré",
+        "desc": "4 jours d'entraînement, 3 repos",
+        "detail": "Entraîn. lun, mar, jeu, ven. Repos mer, sam, dim. Recommandé pour la plupart."
+      },
+      "Light": {
+        "label": "Léger",
+        "desc": "2 jours d'entraînement, 5 repos",
+        "detail": "Entraîn. mar et jeu uniquement. Priorité à la récupération. Bon après un calendrier chargé."
+      }
+    },
+    "days": {
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mer",
+      "thu": "Jeu",
+      "fri": "Ven",
+      "sat": "Sam",
+      "sun": "Dim"
+    },
+    "groups": {
+      "trainingGroups": "Groupes d'Entraînement",
+      "trainingGroupsDesc": "Assignez des joueurs à des groupes avec différents axes d'entraînement. Les joueurs sans groupe utilisent le focus par défaut de l'équipe.",
+      "addGroup": "Ajouter un Groupe",
+      "groupName": "Nom du Groupe",
+      "groupFocus": "Focus",
+      "removeGroup": "Supprimer le Groupe",
+      "ungrouped": "Sans Groupe",
+      "noGroups": "Aucun groupe d'entraînement créé. Ajoutez un groupe et assignez des joueurs pour personnaliser leur entraînement.",
+      "group": "Groupe",
+      "teamDefault": "Par Défaut",
+      "assignPlayer": "Assigner au groupe",
+      "removePlayer": "Retirer du groupe",
+      "playerCount": "{{count}} joueur(s)",
+      "maxGroups": "Maximum 5 groupes d'entraînement autorisés.",
+      "defaultGroupNames": {
+        "0": "Bloc scrim",
+        "1": "Unité VOD",
+        "2": "Carry pool",
+        "3": "Lab macro",
+        "4": "Bloc reset"
+      }
+    },
+    "scrims": {
+      "title": "Scrims hebdomadaires",
+      "description": "Planifiez les scrims par jour. Le niveau adverse est calcule sur les cinq titulaires; des rivaux plus forts accelerent la progression en scrims.",
+      "weekCapacity": "Capacite hebdomadaire",
+      "lossStreak": "Serie",
+      "autoRandom": "Auto-random actif",
+      "noOpponent": "Aleatoire",
+      "randomResolved": "Aleatoire -> {{team}}",
+      "opponentLogoAlt": "Logo adverse",
+      "slot": "Slot",
+      "planA": "Plan A",
+      "planB": "Plan B",
+      "planC": "Plan C",
+      "noFallback": "Sans alternative",
+      "pending": "En attente",
+      "weeklyObjective": "Objectif hebdomadaire",
+      "weeklyObjectiveDescription": "Définissez ce que vous voulez apprendre cette semaine. L'objectif guide les rapports et donne une intention au Plan A/B/C.",
+      "staffSuggestions": "Suggestions du staff",
+      "objectives": {
+        "none": "Aucun objectif défini",
+        "draftPrep": "Préparer le draft contre le prochain rival",
+        "championPool": "Élargir le champion pool",
+        "earlyGame": "Corriger l'early game",
+        "teamfighting": "Améliorer les teamfights",
+        "macro": "Travailler macro et objectifs",
+        "mental": "Stabiliser le mental"
+      },
+      "staff": {
+        "pickObjective": "Choisissez un objectif hebdomadaire avant de toucher aux rivaux : sans intention, le volume ne crée que du bruit.",
+        "mentalReset": "Priorisez Mental Reset ou VOD Review : la série affecte déjà la qualité d'apprentissage.",
+        "reduceCancellations": "Réduisez les annulations cette semaine ; la réputation de scrim est aussi une infrastructure compétitive.",
+        "moreVolumeForPool": "Pour élargir le champion pool, il faut au moins 4 blocs ; deux scrims ne donnent pas assez d'échantillon.",
+        "noPlannedOpponents": "L'objectif est bon, mais aucun rival n'est verrouillé : fixez au moins un Plan A pour donner une direction à la semaine.",
+        "draftPrepPlan": "Utilisez Plan A/B/C contre des équipes fortes : vous voulez punir le draft, pas farmer une confiance facile.",
+        "strongerOpponents": "Pour cet objectif, il faut des rivaux qui vous mettent mal à l'aise ; trouvez au moins un bloc contre une équipe plus forte.",
+        "softerMentalWeek": "Semaine mentale : ne commencez pas avec tous les rivaux au-dessus de votre niveau. Ajoutez un bloc contrôlé pour reconstruire la confiance.",
+        "addFallbacksForReputation": "Vos rivaux planifiés ont une meilleure réputation de scrim ; ajoutez Plan B/C ou vous subirez des refus évitables.",
+        "macroReview": "Planifiez un bloc de VOD Review : si le problème est le setup d'objectifs, plus de scrims sans review répètent l'erreur.",
+        "narrowFocus": "La qualité moyenne est basse ; gardez le volume, mais resserrez le focus avant d'ajouter plus de rivaux.",
+        "keepPlan": "Le plan actuel est sain : gardez l'objectif, choisissez des rivaux exigeants et relisez le premier rapport avant d'augmenter le volume."
+      }
+    }
+  },
+  "staff": {
+    "myStaff": "Mon Staff ({{count}})",
+    "available": "Disponibles ({{count}})",
+    "searchStaff": "Rechercher staff...",
+    "noStaffMatch": "Aucun membre du staff ne correspond à vos filtres.",
+    "noAvailableStaff": "Aucun staff disponible.",
+    "releaseStaff": "Libérer un membre du staff",
+    "hireStaff": "Engager un membre du staff",
+    "best": "Meilleur",
+    "roles": {
+      "AssistantManager": "Entraîneur Adjoint",
+      "Coach": "Entraîneur",
+      "Scout": "Recruteur",
+      "Physio": "Kinésithérapeute"
+    },
+    "attrs": {
+      "coaching": "Entraînement",
+      "judgingAbility": "Évaluer Capacité",
+      "judgingPotential": "Évaluer Potentiel",
+      "physiotherapy": "Kinésithérapie"
+    },
+    "specializations": {
+      "Fitness": "Condition Physique",
+      "Technique": "Technique",
+      "Tactics": "Tactique",
+      "Defending": "Défense",
+      "Attacking": "Attaque",
+      "GoalKeeping": "Top",
+      "Youth": "Académie"
+    },
+    "lolAttrs": {
+      "coaching": "Coaching LoL",
+      "judgingAbility": "Lecture de méta",
+      "judgingPotential": "Projection de méta",
+      "physiotherapy": "Récupération"
+    },
+    "lolImpactTeamTitle": "Impact LoL du staff",
+    "lolImpactTitle": "Impact LoL",
+    "lolImpact": {
+      "development": "Développement",
+      "tactics": "Prépa scrim",
+      "analysis": "Lecture méta",
+      "execution": "Exécution",
+      "recovery": "Récupération",
+      "draftAnalysis": "Analyse draft",
+      "futureMeta": "Méta future",
+      "tiltControl": "Contrôle du tilt"
+    }
+  },
+  "finances": {
+    "overview": "Aperçu Financier",
+    "wageBill": "Masse Salariale",
+    "weeklyTotal": "Total Hebdomadaire",
+    "budget": "Budget",
+    "underBudget": "Dans le budget",
+    "overBudget": "Hors budget !",
+    "payroll": "Paie — Plus Gros Salaires",
+    "squadValue": "Valeur de l'Effectif",
+    "clubBalance": "Solde du Club",
+    "wageBudget": "Budget Salarial",
+    "transferBudget": "Budget Transferts",
+    "seasonIncome": "Revenus de Saison",
+    "seasonExpenses": "Dépenses de Saison",
+    "perWeekSuffix": "/sem",
+    "wagePerWeek": "Salaire/sem",
+    "marketValue": "Valeur Marchande",
+    "until": "Jusqu'en {{year}}",
+    "facilities": "Installations",
+    "facilityScrimsRoom": "Salle de scrims",
+    "facilityAnalysisRoom": "Salle d'analyse",
+    "facilityBootcampArea": "Zone de bootcamp",
+    "facilityRecoverySuite": "Suite de récupération",
+    "facilityContentStudio": "Studio de contenu",
+    "facilityScoutingLab": "Laboratoire de recrutement",
+    "facilityScrimsRoomEffect": "Améliore la qualité des scrims et les répétitions d'équipe.",
+    "facilityAnalysisRoomEffect": "Améliore la revue VOD et la préparation des matchs.",
+    "facilityBootcampAreaEffect": "Améliore les blocs de préparation en bootcamp.",
+    "facilityRecoverySuiteEffect": "Améliore la récupération des joueurs et le soutien aux soins.",
+    "facilityContentStudioEffect": "Améliore l'activation des sponsors et les opérations de contenu.",
+    "facilityScoutingLabEffect": "Améliore la qualité du recrutement et la profondeur des informations.",
+    "facilityTraining": "Centre d'entraînement",
+    "facilityMedical": "Centre médical",
+    "facilityScouting": "Cellule de recrutement",
+    "facilityTrainingEffect": "Améliore l'efficacité de l'entraînement sur la durée.",
+    "facilityMedicalEffect": "Améliore la récupération et le suivi médical des joueurs.",
+    "facilityScoutingEffect": "Améliore la qualité du recrutement et la profondeur des informations.",
+    "facilityLevel": "Niveau {{level}}",
+    "monthlyUpkeep": "Entretien mensuel : €{{amount}}",
+    "nextUpgradeCost": "Prochaine amélioration : €{{amount}}",
+    "upgradeFacility": "Améliorer",
+    "expandOffices": "Agrandir les bureaux",
+    "hubExpansionRequired": "Agrandissez les bureaux pour débloquer ce module",
+    "insufficientFunds": "Fonds insuffisants",
+    "sponsors": "Sponsors",
+    "activeSponsor": "Sponsor actif",
+    "noActiveSponsor": "Aucun sponsor actif",
+    "sponsorWeeklyValue": "Valeur hebdomadaire : €{{amount}}",
+    "sponsorRemainingWeeks": "{{count}} semaines restantes",
+    "pendingSponsorOffers": "Offres en attente",
+    "noPendingSponsorOffers": "Aucune offre de sponsoring en attente",
+    "cashFlow": "Flux de trésorerie",
+    "weeklyWageSpend": "Dépenses salariales hebdomadaires",
+    "weeklySponsorIncome": "Revenus hebdomadaires de sponsoring",
+    "projectedWeeklyNet": "Net hebdomadaire projeté",
+    "cashRunway": "Autonomie de trésorerie",
+    "runwayWeeks": "{{count}} semaines au rythme actuel",
+    "runwayStable": "Stable au rythme actuel",
+    "wagePressure": "Pression salariale",
+    "wageBudgetUsed": "{{percent}}% du budget salarial utilisé",
+    "contractRisk": "Risque contractuel",
+    "delegateMostRenewals": "Déléguer la plupart des renouvellements",
+    "delegateSelectedRenewals": "Déléguer les renouvellements sélectionnés",
+    "selectAllAtRisk": "Tout sélectionner",
+    "delegatedRenewalsSummary": "{{successes}} réglés, {{stalled}} en attente, {{failures}} échoués",
+    "contractRiskCritical": "Critique",
+    "contractRiskWarning": "Alerte",
+    "contractRiskStable": "Stable",
+    "contractExpiresOn": "Expire le {{date}}",
+    "atRiskWages": "€{{amount}}/semaine à risque",
+    "noContractRisks": "Aucun risque contractuel imminent"
+  },
+  "inbox": {
+    "title": "Boîte de Réception",
+    "nMessages": "{{count}} message(s)",
+    "noMessages": "Aucun message",
+    "noMessagesInCategory": "Aucun message dans cette catégorie",
+    "selectMessage": "Sélectionnez un message à lire",
+    "backToInbox": "Retour à la boîte",
+    "unread": "Non lus ({{count}})",
+    "urgent": "Urgent",
+    "important": "Important",
+    "effectOutcomeLabel": "Résultat",
+    "chooseResponse": "Choisissez votre réponse",
+    "chooseResponseOutcomeVaries": "Choisissez votre réponse — le résultat peut varier",
+    "responded": "Réponse envoyée",
+    "markAllRead": "Tout marquer comme lu",
+    "clearOld": "Effacer les anciens",
+    "sortLabel": "Trier",
+    "sortByDate": "Trier les messages par date",
+    "sortNewest": "Plus récents d'abord",
+    "sortOldest": "Plus anciens d'abord",
+    "selectMessages": "Sélectionner des messages",
+    "cancelSelection": "Annuler la sélection",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "deleteSelected": "Supprimer la sélection",
+    "deleteMessage": "Supprimer le message",
+    "deleteMessageTitle": "Supprimer le message ?",
+    "deleteMessageBody": "Cela supprimera définitivement \"{{subject}}\". Cette action est irréversible.",
+    "deleteSelectedTitle": "Supprimer les messages sélectionnés ?",
+    "deleteSelectedBody": "Cela supprimera définitivement {{count}} message(s) sélectionné(s). Cette action est irréversible.",
+    "deleteAction": "Supprimer",
+    "selectMessageForDeletion": "Sélectionner {{subject}}",
+    "categories": {
+      "Welcome": "Bienvenue",
+      "LeagueInfo": "Ligue",
+      "MatchPreview": "Match",
+      "MatchResult": "Résultat",
+      "Transfer": "Transfert",
+      "BoardDirective": "Direction",
+      "PlayerMorale": "Moral",
+      "Injury": "Blessure",
+      "training": "Entraînement",
+      "Finance": "Finances",
+      "Contract": "Contrat",
+      "ScoutReport": "Recruteur",
+      "Media": "Médias",
+      "System": "Système",
+      "JobOffer": "Offres d'emploi"
+    }
+  },
+  "manager": {
+    "managerOf": "Head Coach de {{team}}",
+    "reputation": "Réputation",
+    "careerStats": "Statistiques de Carrière",
+    "boardStatus": "État de la Direction",
+    "satisfaction": "Satisfaction",
+    "careerHistory": "Historique de Carrière",
+    "club": "Club",
+    "period": "Période",
+    "matches": "Matchs",
+    "wins": "Victoires",
+    "draws": "Nuls",
+    "losses": "Défaites",
+    "trophies": "Trophées",
+    "winPercent": "% Victoires",
+    "boardVeryPleased": "La direction est très satisfaite de votre travail.",
+    "boardSatisfied": "La direction est satisfaite de vos performances.",
+    "boardConcerns": "La direction a des inquiétudes concernant les résultats.",
+    "boardThreat": "Votre poste est sérieusement menacé.",
+    "board": "Direction",
+    "fans": "Supporters",
+    "born": "Né le",
+    "fanAdore": "Les supporters vous adorent !",
+    "fanBehind": "Les supporters soutiennent l'équipe.",
+    "fanMixed": "Le sentiment des supporters est mitigé.",
+    "fanRestless": "Les supporters s'impatientent.",
+    "fanUnrest": "Agitation parmi les supporters — des protestations sont probables."
+  },
+  "boardObjectives": {
+    "objective": {
+      "LeaguePosition": "Terminez dans le top {{target}}",
+      "Wins": "Remportez au moins {{target}} séries",
+      "GoalsScored": "Remportez au moins {{target}} maps"
+    }
+  },
+  "transfers": {
+    "centre": "Centre de Transferts",
+    "transferWindow": "{{team}} — Mercato",
+    "myTransferList": "Ma Liste de Transferts",
+    "transferMarket": "Marché des Transferts",
+    "erlMarket": "Marché ERL",
+    "loanMarket": "Marché des Prêts",
+    "offers": "Offres",
+    "searchByName": "Rechercher par nom...",
+    "noPlayersListed": "Vous n'avez aucun joueur sur la liste de transferts ou de prêts.",
+    "goToProfile": "Allez au profil du joueur pour le mettre sur la liste de transferts ou de prêts.",
+    "noOffers": "Aucune offre de transfert active.",
+    "noTransferMarket": "Aucun joueur disponible pour transfert.",
+    "noErlMarket": "Aucun joueur ERL actuellement disponible pour transfert.",
+    "noLoanMarket": "Aucun joueur disponible pour prêt.",
+    "sortByValue": "Trier par valeur",
+    "sortByWage": "Trier par salaire",
+    "sortByOvr": "Trier par OVR",
+    "transfer": "Transfert",
+    "loan": "Prêt",
+    "none": "Aucune",
+    "listed": "Listés",
+    "makeBid": "Faire une Offre de Transfert",
+    "bid": "Offrir",
+    "playerValue": "Valeur : {{value}}",
+    "bidAmount": "Montant de l'Offre (€M)",
+    "bidAccepted": "Offre acceptée ! Joueur signé.",
+    "bidCountered": "Ils sont revenus avec des conditions révisées.",
+    "bidRejected": "Offre refusée — montant insuffisant.",
+    "submitting": "Envoi...",
+    "submitBid": "Envoyer l'Offre",
+    "close": "Fermer",
+    "counter": "Contrer",
+    "counterOffer": "Contre-offre",
+    "currentOffer": "Offre actuelle {{fee}}",
+    "counterAmount": "Montant de la contre-offre",
+    "submitCounter": "Envoyer la contre-offre",
+    "counterAccepted": "Contre-offre acceptée.",
+    "counterRejected": "Contre-offre refusée.",
+    "counterCountered": "Ils reviennent avec un montant plus bas.",
+    "acceptOffer": "Accepter",
+    "rejectOffer": "Refuser",
+    "negotiationPulse": "Tendance de la négociation",
+    "negotiationRound": "Tour {{count}}",
+    "negotiationPatience": "Patience",
+    "negotiationTension": "Tension",
+    "negotiationHistory": "Dernier échange",
+    "lastBidLabel": "Votre dernière offre",
+    "lastClubSignalLabel": "Leur dernier signal",
+    "lastCounterLabel": "Votre dernière contre-offre",
+    "currentOfferLabel": "Leur offre actuelle",
+    "offerStatusPending": "En cours",
+    "offerStatusAccepted": "Acceptée",
+    "offerStatusRejected": "Refusée",
+    "offerStatusWithdrawn": "Les discussions se sont refroidies",
+    "negotiationExpiredError": "Les discussions se sont refroidies avant que vous puissiez répondre. Relancez une nouvelle négociation si le club revient.",
+    "resumeNegotiationHint": "Les discussions avec ce club sont toujours en cours.",
+    "resumeNegotiationHeadline": "L'autre club attend votre prochain mouvement.",
+    "resumeNegotiationDetail": "Leur dernier signal pointait vers {{fee}}.",
+    "transferFeedbackAcceptedHeadline": "L'autre club est prêt à faire affaire.",
+    "transferFeedbackAcceptedDetail": "Votre montant est entré dans leur zone de confort, donc la discussion a avancé rapidement.",
+    "transferFeedbackCounterHeadline": "Ils veulent plus avant de conclure.",
+    "transferFeedbackCounterDetail": "L'offre était assez proche pour continuer à parler, mais leur camp vise plutôt un prix autour de {{fee}}.",
+    "transferFeedbackRejectedHeadline": "Ils ont fermé cette manche.",
+    "transferFeedbackRejectedDetail": "La proposition ne les a pas assez fait bouger. Il faudrait une somme plus forte, plus proche de {{fee}}, pour rouvrir des discussions sérieuses.",
+    "transferFeedbackPlayerRejectedDetail": "Le club a accepté, mais le joueur a refusé le transfert après avoir évalué son rôle, le salaire et le projet sportif."
+  },
+  "schedule": {
+    "noSchedule": "Aucun calendrier de ligue disponible.",
+    "noLeague": "Aucun calendrier de ligue disponible.",
+    "matches": "Matchs",
+    "calendar": "Calendrier",
+    "today": "Aujourd'hui",
+    "previousMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "moreMatches": "de plus",
+    "matchesOnDay": "Matchs du jour",
+    "playoffsStartEstimate": "Début playoffs (est.)",
+    "playoffsStartEstimateHint": "Date estimée — les affiches sont générées à la fin de la saison régulière.",
+    "seasonStart": "Début de saison",
+    "seasonStartHint": "Premier jour de la saison régulière.",
+    "standings": "Classement",
+    "viewResult": "Voir le résultat",
+    "matchday": "Journée {{number}}",
+    "playoffs": "Playoffs",
+    "round": "Tour {{number}}",
+    "season": "Saison {{number}}",
+    "lastResult": "Dernier résultat"
+  },
+  "players": {
+    "searchPlaceholder": "Rechercher par nom ou nationalité...",
+    "allPos": "Toutes Pos",
+    "allTeams": "Toutes les Équipes",
+    "nPlayersFound": "{{count}} joueur(s) trouvé(s)",
+    "noMatch": "Aucun joueur ne correspond à vos filtres.",
+    "showingFirst": "Affichage des {{shown}} premiers sur {{total}} joueurs. Affinez votre recherche.",
+    "showingRange": "{{from}}–{{to}} sur {{total}}"
+  },
+  "teams": {
+    "yourTeam": "Votre Équipe",
+    "hq": "QG :",
+    "squad": "Effectif",
+    "avgOvr": "OVR Moyen",
+    "rep": "Rép",
+    "est": "Fond.",
+    "roleSetupValue": "TOP · JG · MID · ADC · SUP",
+    "draftIdentity": "Draft",
+    "playStyleBalanced": "Équilibré",
+    "playStyleCounter": "Scaling et counter",
+    "playStyleDirect": "Escarmouche tôt",
+    "winRateShort": "WR"
+  },
+  "playersList": {
+    "searchPlaceholder": "Rechercher par nom ou nationalité...",
+    "allPos": "Toutes Pos",
+    "allTeams": "Toutes les Équipes",
+    "injured": "Blessé"
+  },
+  "teamsList": {
+    "yourTeam": "Votre Équipe",
+    "pos": "Pos",
+    "rep": "Rép",
+    "est": "Fond. {{year}}"
+  },
+  "tournaments": {
+    "noTournaments": "Aucun tournoi actif.",
+    "noActive": "Aucun tournoi actif.",
+    "nTeams": "{{count}} équipes",
+    "progress": "Progression",
+    "matches": "Matchs",
+    "bracket": "Bracket",
+    "winRateShort": "WR",
+    "killsShort": "K",
+    "deathsShort": "D",
+    "mapScore": "Map Score",
+    "mapsDiff": "Maps +/-",
+    "playoffBracketTitle": "Tableau des playoffs",
+    "upperBracket": "Bracket supérieur",
+    "lowerBracket": "Bracket inférieur",
+    "scheduled": "Programmé",
+    "goals": "Buts",
+    "overview": "Aperçu",
+    "leagueTable": "Tableau de la Ligue",
+    "topScorers": "Meilleurs Buteurs",
+    "noGoals": "Aucun but marqué."
+  },
+  "news": {
+    "noNews": "Pas encore d'actualités.",
+    "newsWillAppear": "Les actualités apparaîtront au fil de la saison.",
+    "backToNews": "Retour aux Actualités",
+    "nArticles": "{{count}} article(s)",
+    "allTeams": "Toutes les équipes",
+    "categories": {
+      "MatchReport": "Compte-Rendu",
+      "LeagueRoundup": "Résumé de Journée",
+      "StandingsUpdate": "Classement",
+      "TransferRumour": "Transfert",
+      "InjuryNews": "Blessure",
+      "SeasonPreview": "Avant-Saison",
+      "Editorial": "Éditorial",
+      "ManagerialChange": "Changement d'Entraîneur"
+    }
+  },
+  "playerProfile": {
+    "contractInfo": "Contrat et Infos",
+    "dateOfBirth": "Date de Naissance",
+    "noContract": "Sans contrat",
+    "weeklyWage": "Salaire Hebdomadaire",
+    "yearsRemaining": "Années restantes",
+    "contractRisk": "Risque contractuel",
+    "renewalTitle": "Renouveler le contrat",
+    "releaseContract": "Rompre le contrat",
+    "releaseContractConfirm": "Rompre ce contrat et payer l'indemnité ?",
+    "releasePenalty": "Coût de résiliation",
+    "makeTransferOffer": "Faire une offre",
+    "transferOfferPrompt": "Saisissez le montant de l'offre (€)",
+    "transferOfferAmount": "Montant de l'offre",
+    "transferOfferSubmit": "Envoyer l'offre",
+    "transferOfferInvalid": "Saisissez un montant d'offre valide.",
+    "transferOfferBudgetError": "Votre budget transferts est insuffisant pour ce montant.",
+    "transferOfferFundsError": "Vous n'avez pas les fonds suffisants pour cette offre.",
+    "transferOfferWindowClosed": "Le marché des transferts est fermé.",
+    "transferOfferFailed": "Impossible d'envoyer l'offre. Réessayez.",
+    "renewalWage": "Salaire proposé",
+    "renewalLength": "Durée du contrat",
+    "renewalSubmit": "Envoyer l'offre",
+    "renewalInvalidWage": "Saisissez un salaire hebdomadaire valide",
+    "renewalBudgetWarning": "Dépasse le budget salarial",
+    "renewalAccepted": "Offre acceptée",
+    "renewalRejected": "Offre refusée",
+    "renewalCounter": "Il veut plus : €{{wage}}/semaine pour {{years}} ans",
+    "renewalBlocked": "Les discussions sont bloquées après votre décision précédente",
+    "renewalCooledOff": "Les discussions précédentes se sont apaisées, donc cela repart comme une nouvelle négociation.",
+    "delegateRenewal": "Déléguer à l'adjoint",
+    "renewalDelegateMissingReport": "Le rapport de l'adjoint n'incluait pas ce joueur.",
+    "renewalConversationTitle": "Tendance de la négociation",
+    "renewalRound": "Tour {{count}}",
+    "renewalPatience": "Patience",
+    "renewalTension": "Tension",
+    "renewalFeedbackCalmHeadline": "Le clan du joueur reste à l'écoute.",
+    "renewalFeedbackCalmDetail": "Pour l'instant, c'est surtout une discussion de principe. Le timing compte, mais la relation n'est pas encore vraiment sous pression.",
+    "renewalFeedbackFirmHeadline": "Ils veulent de meilleures conditions avant d'avancer.",
+    "renewalFeedbackFirmDetail": "La discussion reste ouverte, mais le salaire et la durée doivent être nettement plus intéressants à leurs yeux.",
+    "renewalFeedbackTenseHeadline": "La discussion devient tendue.",
+    "renewalFeedbackTenseDetail": "Une confiance faible, un moral fragile ou la pression du contrat rendent leur position plus dure. Une nouvelle petite offre pourrait tout fermer.",
+    "renewalFeedbackAcceptedHeadline": "La proposition leur a convenu rapidement.",
+    "renewalFeedbackAcceptedDetail": "L'offre s'est approchée assez près de leurs attentes pour garder une discussion constructive.",
+    "renewalFeedbackAcceptedLateHeadline": "Ils ont accepté, mais la patience était presque épuisée.",
+    "renewalFeedbackAcceptedLateDetail": "Vous avez conclu l'accord après un échange plus difficile. Leur camp était proche d'abandonner la discussion.",
+    "renewalFeedbackBlockedHeadline": "Ils ne rouvrent pas la discussion pour le moment.",
+    "renewalFeedbackBlockedDetail": "Votre position précédente pèse encore sur l'ambiance, donc leur camp refuse de reprendre les discussions pour l'instant.",
+    "attributes": "Attributs",
+    "lolStatGroups": {
+      "gameplay": "Gameplay",
+      "gameIq": "Game IQ",
+      "competitive": "Compétitif"
+    },
+    "lolStats": {
+      "mechanics": "Mécaniques",
+      "laning": "Laning",
+      "teamfighting": "Teamfighting",
+      "macro": "Macro",
+      "consistency": "Régularité",
+      "shotcalling": "Shotcalling",
+      "championPool": "Champion Pool",
+      "discipline": "Discipline",
+      "mentalResilience": "Résilience mentale"
+    },
+    "attributesHidden": "Attributs Masqués",
+    "scoutToView": "Observez ou recrutez ce joueur pour voir les attributs détaillés.",
+    "seasonStats": "Statistiques de Saison",
+    "advancedStats": "Statistiques avancées",
+    "shots": "Tirs",
+    "shotsOnTarget": "Tirs cadrés",
+    "passes": "Passes",
+    "tacklesWon": "Tacles réussis",
+    "interceptions": "Interceptions",
+    "foulsCommitted": "Fautes commises",
+    "per90": "Par 90 min",
+    "passAccuracy": "Précision de passe",
+    "percentile": "Percentile",
+    "percentileUnavailable": "Percentile indisponible",
+    "recentMatches": "Matchs récents",
+    "vs": "vs",
+    "noRecentMatches": "Aucune donnée de match récente",
+    "apps": "Matchs",
+    "goals": "Buts",
+    "assists": "Passes D.",
+    "mins": "Min",
+    "cleanSheets": "Inv.",
+    "yellows": "Jaunes",
+    "reds": "Rouges",
+    "avgRating": "Note Moyenne",
+    "careerHistory": "Historique de Carrière",
+    "noCareer": "Aucun historique de carrière — première saison.",
+    "nApps": "{{count}} matchs",
+    "nGoals": "{{count}} buts",
+    "nAssists": "{{count}} passes D.",
+    "daysRemaining": "{{count}} jours restants — Joueur indisponible",
+    "renewalProjectionTitle": "Impact financier projeté",
+    "renewalProjectionWageBill": "Masse salariale hebdomadaire {{before}} → {{after}}",
+    "renewalProjectionBudgetUsage": "Utilisation du budget salarial {{before}}% → {{after}}%",
+    "renewalProjectionRunway": "Réserve de trésorerie {{before}} → {{after}}",
+    "scoutSending": "Envoi...",
+    "championPoolTitle": "Pool de champions",
+    "championInsignia": "Insigne",
+    "championWinRateShort": "WR",
+    "championMasteryLabel": "Maîtrise {{value}}",
+    "championGames": "Parties",
+    "promoteToMain": "Promouvoir en équipe première",
+    "demoteToAcademy": "Rétrograder en académie",
+    "rerollWarning": "Changer de position relance les attributs et peut modifier l'OVR des joueurs."
+  },
+  "teamProfile": {
+    "clubInfo": "Informations du Club",
+    "hq": "QG",
+    "erl": "ERL",
+    "activeRoster": "Effectif actif",
+    "roleSetup": "Rôles clés",
+    "draftIdentity": "Identité de draft",
+    "playStyleBalanced": "Équilibré",
+    "playStyleCounter": "Scaling et counter",
+    "playStyleDirect": "Escarmouche tôt",
+    "stadium": "Stade",
+    "capacity": "Capacité",
+    "leaguePos": "Pos en Ligue",
+    "leagueStanding": "Classement en Ligue",
+    "squadOverview": "Aperçu de l'Effectif",
+    "squadSize": "Taille de l'Effectif",
+    "seasonHistory": "Historique des Saisons",
+    "balance": "Solde",
+    "totalWages": "Total Salaires",
+    "managerLabel": "Head Coach :",
+    "advancedStats": "Statistiques de l'équipe",
+    "winRate": "WR",
+    "matchesPlayed": "Matchs",
+    "possession": "Possession",
+    "goalDifference": "Différence de buts",
+    "shots": "Tirs",
+    "shotsOnTarget": "Tirs cadrés",
+    "passes": "Passes",
+    "tacklesWon": "Tacles réussis",
+    "interceptions": "Interceptions",
+    "foulsCommitted": "Fautes commises",
+    "perMatch": "Par match",
+    "passAccuracy": "Précision de passe",
+    "recentMatches": "Matchs récents"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "display": "Affichage",
+    "theme": "Thème",
+    "themeDesc": "Choisissez l'apparence de l'application",
+    "language": "Langue",
+    "languageDesc": "Choisissez la langue d'affichage",
+    "currency": "Devise",
+    "currencyDesc": "Affichage des valeurs monétaires",
+    "gameplay": "Gameplay",
+    "defaultMatchMode": "Mode de Match par Défaut",
+    "defaultMatchModeDesc": "Comment les matchs démarrent quand vous appuyez sur Continuer",
+    "matchSpeed": "Vitesse du Match",
+    "matchSpeedDesc": "Vitesse de simulation par défaut pour les matchs en direct",
+    "matchCommentary": "Commentaires du Match",
+    "matchCommentaryDesc": "Afficher les commentaires d'événements pendant les matchs",
+    "confirmAdvance": "Confirmer Avant d'Avancer",
+    "confirmAdvanceDesc": "Demander confirmation avant d'avancer d'un jour",
+    "savesData": "Sauvegardes et Données",
+    "autoSave": "Sauvegarde Auto",
+    "autoSaveDesc": "Sauvegarder automatiquement après chaque jour",
+    "exportWorld": "Exporter la Base de Données",
+    "exportWorldDesc": "Sauvegarder les données du monde en fichier JSON partageable",
+    "export": "Exporter",
+    "exportedTo": "Exporté vers : {{path}}",
+    "clearSaves": "Supprimer Toutes les Sauvegardes",
+    "clearSavesDesc": "Supprimer définitivement toutes les parties sauvegardées",
+    "clear": "Supprimer",
+    "savesCleared": "Sauvegardes supprimées !",
+    "about": "À propos",
+    "matchModes": {
+      "live": "Aller sur le Terrain",
+      "liveDesc": "Contrôle total du match",
+      "spectator": "Regarder en Spectateur",
+      "spectatorDesc": "Regarder sans contrôles",
+      "delegate": "Déléguer à l'Assistant",
+      "delegateDesc": "L'IA gère tout"
+    },
+    "speeds": {
+      "slow": "Lent",
+      "normal": "Normal",
+      "fast": "Rapide"
+    },
+    "uiScale": "Échelle de l'UI",
+    "uiScaleDesc": "Ajuster la taille de police et l'espacement pour la lisibilité",
+    "highContrast": "Contraste Élevé",
+    "highContrastDesc": "Améliorer le contraste du texte en mode sombre",
+    "fullscreen": "Plein Écran",
+    "fullscreenDesc": "Basculer en mode plein écran",
+    "enterFullscreen": "Entrer",
+    "exitFullscreen": "Quitter",
+    "updates": "Mises à jour",
+    "currentVersion": "Version Actuelle",
+    "currentVersionDesc": "La version installée du jeu",
+    "checkForUpdates": "Vérifier les Mises à Jour",
+    "checkForUpdatesDesc": "Vérifier manuellement si une nouvelle version est disponible",
+    "checking": "Vérification...",
+    "updateAvailable": "Mise à Jour Disponible",
+    "checkNow": "Vérifier Maintenant",
+    "updateAvailableDetail": "La version {{version}} est disponible",
+    "upToDate": "Vous êtes à jour"
+  },
+  "preMatch": {
+    "roleCoverage": "Ajustement Stratégie",
+    "autoSelect": "Sélection Auto du Cinq",
+    "selecting": "Sélection...",
+    "startingXI": "Cinq de Départ",
+    "substitutes": "Remplaçants",
+    "opponent": "Adversaire",
+    "nPlayers": "{{count}} joueurs",
+    "nAvailable": "{{count}} disponibles",
+    "noBench": "Aucun remplaçant disponible.",
+    "cancelSwap": "Annuler",
+    "swapHint": "Sélectionnez un remplaçant pour l'échange",
+    "setPieces": "Coups de Pied Arrêtés et Capitaine",
+    "lineup": "Composition",
+    "startMatch": "Lancer le Match",
+    "captain": "Capitaine",
+    "penaltyTaker": "Tireur de Penalty",
+    "freeKickTaker": "Tireur de Coup Franc",
+    "cornerTaker": "Tireur de Corner",
+    "fit": "FIT",
+    "keyStats": "Stats Clés"
+  },
+  "scouting": {
+    "title": "Centre de Recrutement",
+    "scouts": "Recruteurs",
+    "activeAssignments": "Missions Actives",
+    "freeSlots": "Recruteurs Disponibles",
+    "activeScoutingAssignments": "Missions de Recrutement Actives",
+    "yourScouts": "Vos Recruteurs",
+    "slots": "places",
+    "judgingAbility": "Évaluation de Capacité",
+    "judgingPotential": "Évaluation de Potentiel",
+    "scoutLabel": "Recruteur : {{name}}",
+    "daysLeft": "{{days}} jours restants",
+    "noScouts": "Vous n'avez pas encore de recruteurs.",
+    "noScoutsHint": "Engagez un recruteur depuis la page Staff pour commencer à évaluer les joueurs.",
+    "findPlayers": "Trouver des Joueurs à Observer",
+    "searchPlaceholder": "Rechercher par nom, nationalité ou équipe...",
+    "player": "Joueur",
+    "pos": "Pos",
+    "age": "Âge",
+    "team": "Équipe",
+    "value": "Valeur",
+    "action": "Action",
+    "scoutingInProgress": "Observation...",
+    "noScoutsFree": "Aucun recruteur disponible",
+    "scoutBtn": "Observer",
+    "noPlayersFound": "Aucun joueur trouvé correspondant à votre recherche.",
+    "scoutingPlayer": "Observation : <strong>{{name}}</strong> — {{days}}j restants",
+    "showingRange": "Affichage {{from}}–{{to}} sur {{total}}",
+    "viewPlayer": "Voir",
+    "condition": "État",
+    "morale": "Moral",
+    "estimatedAttributes": "Attributs estimés",
+    "undiscovered": "Non découvert",
+    "confidence": "Confiance",
+    "academyScoutingTag": "Académie et scouting",
+    "academyAcquired": "Académie acquise",
+    "academyPending": "Acquisition de l'académie en attente",
+    "academyRosterCount": "{{count}} joueurs dans l'effectif acquis",
+    "academyPipelineHint": "Acquérez une équipe ERL existante depuis l'Académie pour débloquer le pipeline.",
+    "viewAcquisitionOptions": "Voir les options d'acquisition"
+  },
+  "match": {
+    "live": "En Direct",
+    "paused": "En Pause",
+    "events": "Événements",
+    "stats": "Statistiques",
+    "lineups": "Compositions",
+    "lineup": "Composition",
+    "simSpeed": "Vitesse de Simulation",
+    "pause": "Pause",
+    "slow": "Lent",
+    "normal": "Normal",
+    "fast": "Rapide",
+    "max": "Max",
+    "step1Min": "Avancer 1 Minute",
+    "teamControls": "Contrôles d'Équipe",
+    "subs": "Remplacements",
+    "playStyle": "Style de Jeu",
+    "keyEvents": "Événements Clés",
+    "noEventsYet": "Le match n'a pas encore commencé.",
+    "waitingKickoff": "En attente du coup d'envoi...",
+    "waitingFirstSkirmish": "En attente de la première escarmouche...",
+    "liveControls": "Contrôles live",
+    "play": "Lecture",
+    "reset": "Réinitialiser",
+    "skipWarningTitle": "Avertissement",
+    "skipWarningBody": "Skip Match relance maintenant la simulation depuis la minute 0. Vous perdrez toute la progression de ce match live.",
+    "resimFromZero": "Re-simuler depuis 0",
+    "clearingBattlefield": "Nettoyage du champ de bataille...",
+    "draft": {
+      "title": "Draft",
+      "completed": "Draft terminé",
+      "role": "Rôle",
+      "allRoles": "Tous",
+      "masteryMin": "Maîtrise minimale",
+      "blueBans": "Bans Bleu",
+      "bluePicks": "Picks Bleu",
+      "redBans": "Bans Rouge",
+      "redPicks": "Picks Rouge",
+      "startMatch": "Lancer la partie",
+      "finalizeDraft": "Finaliser le draft",
+      "loadingChampions": "Chargement des champions...",
+      "loadError": "Erreur lors du chargement des champions",
+      "noChampionsForFilters": "Aucun champion disponible avec les filtres actuels.",
+      "searchPlaceholder": "Rechercher...",
+      "selected": "Sélectionné",
+      "selectThenConfirm": "Sélectionnez un champion puis confirmez",
+      "enemyComfortUnknown": "Aucune maîtrise adverse découverte",
+      "masterySourceSignature": "Insigne",
+      "masterySourceScouting": "Scouting",
+      "masterySourceStaff": "Lecture du staff",
+      "assistantCoach": "Entraîneur adjoint",
+      "playerLabel": "Joueur",
+      "swapTargetTitle": "Choisir un champion à échanger",
+      "warnCounterLastPick": "Attention à {{champion}} : il contre votre dernier pick.",
+      "warnTimingIdentity": "Il manque une identité de timing claire. Cherchez un pick Early ou Late pour mieux conclure.",
+      "warnRoleCoverage": "Il reste des trous de rôle. Ajoutez un pick plus flexible.",
+      "scoreLine": "{{side}} · Total {{total}} (M {{mastery}}, S {{synergy}}, C {{counter}}, Co {{comfort}})",
+      "championSelection": "Sélection des champions",
+      "stepCounter": "Étape {{current}}/{{total}}",
+      "tipsTitle": "Conseils de draft",
+      "tip1": "Ciblez les comfort picks adverses en première phase de bans.",
+      "tip2": "Assurez la priorité de lane sur vos premiers picks.",
+      "tip3": "Évitez les compos sans engage clair ni front-to-back.",
+      "enemyComfortTitle": "Maîtrise adverse",
+      "enemyComfortSubtitle": "Référence des comfort picks (placeholder)",
+      "counterIntelTitle": "Counter intel · {{champion}}",
+      "counterIntelScale": "Lecture de méta : top {{count}} par côté",
+      "counterIntelScaleFull": "Consultation appliquée : vue complète des counters",
+      "counterIntelConsult": "Consulter le staff",
+      "counterIntelPros": "En votre faveur",
+      "counterIntelNoPros": "Aucun counter favorable clair détecté.",
+      "counterIntelCons": "Contre votre pick",
+      "counterIntelNoCons": "Aucun hard counter immédiat détecté.",
+      "counterIntelPicked": "Déjà pick par l'adversaire",
+      "counterIntelPotential": "Pick adverse potentiel",
+      "scoreTitle": "Note du draft",
+      "winProb": "Prob. de victoire",
+      "total": "Total",
+      "rivalTotal": "Total rival",
+      "scoreDelta": "Différence",
+      "grade": "Note",
+      "scoreLabels": {
+        "counter": "Counter",
+        "synergy": "Synergie",
+        "mastery": "Maîtrise",
+        "comfort": "Confort",
+        "preparation": "Préparation"
+      },
+      "seriesBans": "Series Bans · champions bannis",
+      "actions": {
+        "ban": "Ban",
+        "pick": "Pick"
+      },
+      "leagueLogoAlt": "Logo de la ligue",
+      "patchLabel": "Patch {{patch}}",
+      "sides": {
+        "blue": "Côté bleu",
+        "red": "Côté rouge"
+      },
+      "phrases": {
+        "coachBan": {
+          "0": "Si on laisse {{champion}}, {{player}} nous punit : {{mastery}}% de maîtrise.",
+          "1": "{{champion}} est un pick de confort pur pour {{player}} ({{mastery}}%). Je le retire en bans.",
+          "2": "Priorité de ban : {{champion}}. {{player}} le joue à {{mastery}}%.",
+          "3": "Ne donnons pas {{champion}} ; {{player}} a déjà montré {{mastery}}% sur ce pick.",
+          "4": "Ban tôt sur {{champion}}. Ce matchup est dangereux dans les mains de {{player}} ({{mastery}}%).",
+          "5": "{{champion}} m'inquiète : {{player}} est très à l'aise dessus ({{mastery}}%)."
+        },
+        "playerCounterPick": {
+          "0": "Pickez-moi {{champion}}. Je gagne le matchup contre {{enemy}}.",
+          "1": "Donnez-moi {{champion}}, je peux casser la lane contre {{enemy}}.",
+          "2": "Avec {{champion}} je prends un vrai avantage sur {{enemy}}. Faites-moi confiance.",
+          "3": "{{champion}} est la bonne réponse à {{enemy}}. Laissez-moi le jouer.",
+          "4": "S'ils jouent {{enemy}}, je veux {{champion}} : j'ai bossé ce matchup.",
+          "5": "Pick confort + counter : {{champion}} contre {{enemy}}. C'est le moment."
+        },
+        "playerSmartCounterPick": {
+          "0": "S'il vous plaît, pickez-moi {{champion}} ; avec ma lecture de game je peux casser ce matchup contre {{enemy}}.",
+          "1": "Avec {{champion}}, je peux outplay {{enemy}} dès la wave 1. Donnez-moi ce pick.",
+          "2": "{{enemy}} est exposé si vous me donnez {{champion}}. Je peux snowball.",
+          "3": "J'ai le timing parfait pour punir {{enemy}} avec {{champion}}.",
+          "4": "Faites-moi confiance : {{champion}} vs {{enemy}} est un avantage technique pour nous.",
+          "5": "Ce matchup me favorise fort : {{champion}} contre {{enemy}}. Je veux le jouer."
+        },
+        "playerComfortPick": {
+          "0": "Je me sens très solide avec {{champion}} ({{mastery}}% de maîtrise).",
+          "1": "Si vous me donnez {{champion}}, je garantis de la régularité ({{mastery}}%).",
+          "2": "{{champion}} est mon pick le plus fiable en ce moment ({{mastery}}%).",
+          "3": "Je suis à l'aise pour carry avec {{champion}} ({{mastery}}% mastery).",
+          "4": "{{champion}} me donne impact early et contrôle ({{mastery}}%).",
+          "5": "Je veux {{champion}} ; je l'ai énormément travaillé ({{mastery}}%)."
+        },
+        "playerBanRequest": {
+          "0": "On peut ban {{threat}} ? C'est l'un des rares picks qui freinent mon {{champion}}.",
+          "1": "Si on enlève {{threat}}, mon {{champion}} sera beaucoup plus libre.",
+          "2": "J'ai besoin que {{threat}} sorte ; ça bloque trop le plan avec {{champion}}.",
+          "3": "Ban {{threat}} et je joue {{champion}} avec beaucoup plus de pression.",
+          "4": "{{threat}} est un hard counter de {{champion}}. Mieux vaut le retirer maintenant.",
+          "5": "Si vous voulez que je joue {{champion}}, le mieux est d'enlever {{threat}}."
+        }
+      }
+    },
+    "assist": "passe décisive : {{name}}",
+    "subFor": "pour {{name}}",
+    "possession": "Possession",
+    "shots": "Tirs",
+    "shotsOnTarget": "Tirs Cadrés",
+    "fouls": "Fautes",
+    "corners": "Corners",
+    "yellowCards": "Cartons Jaunes",
+    "bench": "Banc",
+    "substitutions": "Remplacements",
+    "substitutionsTitle": "Remplacements",
+    "subsUsed": "{{used}}/{{max}} utilisés",
+    "allSubsUsed": "Tous les remplacements utilisés",
+    "selectPlayerOff": "Sélectionnez un joueur à remplacer",
+    "takingOff": "Sortie de : {{name}}",
+    "selectReplacement": "Sélectionnez un remplaçant du banc",
+    "benchPlayers": "Joueurs du banc",
+    "selectBenchToCompare": "Sélectionnez un joueur du banc à comparer",
+    "confirmSubstitution": "Confirmer le remplacement",
+    "noBenchAvailable": "Aucun joueur disponible sur le banc",
+    "history": "Historique",
+    "player": "Joueur",
+    "fitness": "Forme Physique",
+    "halfTime": "Mi-Temps",
+    "ht": "MT",
+    "fullTime": "Temps Plein",
+    "ft": "TP",
+    "firstHalfEvents": "Événements de la 1ère Mi-Temps",
+    "noMajorEvents": "Pas d'événements majeurs.",
+    "teamTalk": "Causerie",
+    "teamTalkPrompt": "Choisissez comment vous vous adressez à l'équipe à la mi-temps.",
+    "teamTalkOptions": {
+      "calm": {
+        "label": "Rester calme",
+        "description": "Demandez du calme à l'équipe et gardez le cap sur le plan de jeu."
+      },
+      "motivational": {
+        "label": "Motiver",
+        "description": "Poussez les joueurs à donner le meilleur d'eux-mêmes."
+      },
+      "assertive": {
+        "label": "En demander plus",
+        "description": "Faites comprendre que ce n'est pas encore suffisant."
+      },
+      "aggressive": {
+        "label": "Remonter l'équipe",
+        "description": "Faites une causerie agressive et pleine d'intensité."
+      },
+      "praise": {
+        "label": "Féliciter",
+        "description": "Dites-leur qu'ils ont été excellents."
+      },
+      "disappointed": {
+        "label": "Montrer sa déception",
+        "description": "Exprimez votre déception face à leurs efforts."
+      }
+    },
+    "deliverTeamTalk": "Donner la Causerie",
+    "delivered": "Donné",
+    "spectatorMode": "Mode Spectateur",
+    "spectatorHT": "Les deux entraîneurs parlent à leurs équipes dans les vestiaires.",
+    "makeSubstitution": "Effectuer un Remplacement",
+    "waitingSecondHalf": "En attente de la seconde mi-temps...",
+    "makeChanges": "Effectuez vos changements, puis reprenez le match.",
+    "resumeMatch": "Reprendre le Match",
+    "victory": "Victoire",
+    "defeat": "Défaite",
+    "draw": "Match Nul",
+    "matchEvents": "Événements du Match",
+    "quietMatch": "Un match tranquille.",
+    "quickStats": "Stats Rapides",
+    "postMatchTeamTalk": "Causerie d'Après-Match",
+    "addressPlayers": "Adressez-vous à vos joueurs après le match.",
+    "matchOver": "Match Terminé",
+    "tacticsBeforeLive": "Ajustez la stratégie et, quand vous êtes prêt, lançons la partie.",
+    "simulate": "Simuler",
+    "simulating": "Simulation...",
+    "simulatingFromTactics": "Simulation de la partie...",
+    "simulateFailed": "Impossible de simuler la partie. Réessayez.",
+    "startLive": "Aller au live",
+    "scrimPrep": {
+      "title": "La préparation de scrim est entrée dans le match",
+      "summary": "Les scrims récents ont donné à ce côté un petit signal d'exécution en {{focus}}. Cela affecte le timing et le confort, pas un résultat garanti.",
+      "details": {
+        "opponentPrep": "Préparation adversaire +{{value}}",
+        "championComfort": "Confort champions +{{value}}",
+        "focus": "Focus : {{focus}}"
+      },
+      "focus": {
+        "draftPrep": "préparation draft",
+        "championPool": "champion pool",
+        "earlyGame": "early game",
+        "teamfighting": "teamfight",
+        "macro": "macro",
+        "mental": "reset mental",
+        "general": "préparation générale"
+      }
+    },
+    "draftResult": {
+      "mvp": "MVP",
+      "series": "Série",
+      "bestOfMatch": "Meilleur du match",
+      "goldAdvantage": "Avantage en or",
+      "duration": "Durée",
+      "finalGold": "Final",
+      "evenGold": "Égalité",
+      "peakGold": "Pic",
+      "goldScale": "Échelle",
+      "performance": "Performance",
+      "gameTimeline": "Chronologie de la partie",
+      "blueNext": "Bleu au suivant",
+      "redNext": "Rouge au suivant"
+    },
+    "lolResult": {
+      "dragonSummary": "Dragon {{kind}} · Charges D/E {{home}}/{{away}} · Âme {{soul}}",
+      "performanceHeader": "Performance · K / D / A · CS · Or",
+      "teamStats": "Stats d'équipe",
+      "goldDiffOverTime": "Différence d'or au fil du temps",
+      "keyTimeline": "Chronologie clé",
+      "stats": {
+        "gold": "Or",
+        "towers": "Tourelles",
+        "dragons": "Dragons",
+        "barons": "Barons",
+        "kills": "Kills"
+      }
+    },
+    "liveMap": {
+      "teamBlue": "{{team}} (Bleu)",
+      "teamRed": "{{team}} (Rouge)",
+      "mapAlt": "Faille de l'invocateur",
+      "dragon": "Dragon",
+      "baron": "Baron",
+      "alive": "Actif",
+      "aliveWithKind": "Actif ({{kind}})",
+      "elemental": "Élémentaire",
+      "respawn": "Réapparition : {{minute}}m"
+    },
+    "liveA11y": {
+      "towerIcon": "Tourelle",
+      "goldIcon": "Or",
+      "lecLogo": "Logo de la ligue",
+      "dragonIcon": "Dragon",
+      "voidgrubIcon": "Voidgrub",
+      "killerIcon": "Tueur",
+      "victimIcon": "Victime"
+    },
+    "ratings": "Notes de {{team}}",
+    "motm": "Homme du Match",
+    "roundSummary": "Résumé de la Journée",
+    "roundSummaryUnavailable": "Résumé de la journée indisponible.",
+    "otherMatches": "Autres Matchs",
+    "otherMatchesToday": "Autres Matchs du Jour",
+    "otherMatchesUnavailable": "Le contexte des autres matchs n'est pas encore disponible pour cette rencontre.",
+    "viewDetails": "Voir les détails",
+    "matchDetails": "Détails du Match",
+    "scorers": "Buteurs",
+    "tactics": "Prépa et Tactique",
+    "noGoals": "Aucun but marqué.",
+    "matchComplete": "Match terminé.",
+    "addressPress": "Répondez à la presse ou rentrez.",
+    "skip": "Passer",
+    "pressConference": "Conférence de Presse",
+    "pressSubtitle": "Conférence de presse d'après-match — {{team}}",
+    "skipConference": "Passer la Conférence →",
+    "submitting": "Envoi...",
+    "leaveConference": "Quitter la Conférence",
+    "nextQuestion": "Question Suivante",
+    "pressReport": {
+      "headlineManagerQuote": "{{team}} Entraîneur: {{quote}}",
+      "headlinePressConf": "Conférence de Presse: \"{{quote}}\" — entraîneur de {{team}}",
+      "headlinePostMatch": "Après-Match: {{team}} sur {{result}}",
+      "bodyIntro": "Après le résultat {{result}}, l'entraîneur de {{team}} a pris la parole face à la presse.",
+      "bodyOutro": "La conférence a couvert le résultat, l'approche tactique et les prochaines échéances de l'équipe.",
+      "bodySingle": "L'entraîneur de {{team}} s'est exprimé brièvement après le résultat {{result}}.",
+      "bodyNone": "L'entraîneur de {{team}} a décliné de s'exprimer longuement après le résultat {{result}}."
+    },
+    "press": {
+      "result": {
+        "questions": {
+          "win": "Belle performance aujourd'hui, {{userScore}}-{{oppScore}} contre {{oppName}}. À quel point êtes-vous satisfait de la prestation ?",
+          "loss": "Résultat difficile aujourd'hui, défaite {{userScore}}-{{oppScore}} contre {{oppName}}. Qu'est-ce qui n'a pas fonctionné ?",
+          "draw": "Match nul {{userScore}}-{{oppScore}} contre {{oppName}}. Est-ce un résultat juste ?"
+        },
+        "responses": {
+          "win": {
+            "humble": {
+              "tone": "Humble",
+              "text": "Les joueurs ont beaucoup travaillé. Nous nous sommes bien préparés et avons exécuté le plan de jeu."
+            },
+            "confident": {
+              "tone": "Confiant",
+              "text": "Nous avons été supérieurs du début à la fin. Résultat mérité."
+            },
+            "deflect": {
+              "tone": "Évasif",
+              "text": "Ce ne sont que trois points. On passe au prochain match."
+            }
+          },
+          "loss": {
+            "accept": {
+              "tone": "Lucide",
+              "text": "Nous n'avons pas été assez bons aujourd'hui. Nous devons comprendre ce qui a cloché."
+            },
+            "defiant": {
+              "tone": "Combatif",
+              "text": "Je ne pense pas que nous méritions de perdre. Nous avons créé assez d'occasions."
+            },
+            "deflect": {
+              "tone": "Évasif",
+              "text": "Je préfère ne pas m'y attarder. Nous serons prêts pour le prochain match."
+            }
+          },
+          "draw": {
+            "fair": {
+              "tone": "Juste",
+              "text": "C'était un résultat juste. Les deux équipes ont eu leurs occasions."
+            },
+            "frustrated": {
+              "tone": "Frustré",
+              "text": "Nous aurions dû gagner. Trop d'occasions gâchées."
+            },
+            "positive": {
+              "tone": "Positif",
+              "text": "Un point reste un point. Il y a des éléments positifs à retenir aujourd'hui."
+            }
+          }
+        }
+      },
+      "playerFocus": {
+        "questions": {
+          "scored": "{{playerName}} a marqué aujourd'hui. Quelle importance a sa contribution pour l'équipe ?",
+          "default": "Pouvez-vous commenter la performance de {{playerName}} aujourd'hui ?"
+        },
+        "responses": {
+          "praise": {
+            "tone": "Éloge",
+            "text": "{{playerName}} a été fantastique. C'est un joueur clé pour nous et son engagement est exemplaire."
+          },
+          "demanding": {
+            "tone": "Exigeant",
+            "text": "{{playerName}} peut faire mieux. J'attends davantage d'un joueur de sa qualité."
+          },
+          "deflect": {
+            "tone": "Évasif",
+            "text": "Je n'aime pas mettre en avant les individualités. C'est un sport collectif."
+          }
+        }
+      },
+      "tactics": {
+        "question": "Pouvez-vous nous expliquer votre approche tactique aujourd'hui ?",
+        "responses": {
+          "detailed": {
+            "tone": "Détaillé",
+            "text": "Nous nous étions organisés pour contrôler le milieu et utiliser la largeur. Je pense que la structure a bien fonctionné."
+          },
+          "brief": {
+            "tone": "Bref",
+            "text": "Nous avions un plan et les joueurs l'ont appliqué. C'est tout ce qui compte."
+          },
+          "evasive": {
+            "tone": "Évasif",
+            "text": "Je préfère ne pas trop en dévoiler. Chaque équipe a ses secrets."
+          }
+        }
+      },
+      "fans": {
+        "questions": {
+          "win": "Les supporters ont été formidables aujourd'hui. Que représente leur soutien pour vous ?",
+          "loss": "Certains supporters ont exprimé leur frustration au coup de sifflet final. Avez-vous un message pour eux ?",
+          "draw": "L'atmosphère était tendue par moments aujourd'hui. Comment gérez-vous cette pression ?"
+        },
+        "responses": {
+          "win": {
+            "grateful": {
+              "tone": "Humble",
+              "text": "Les supporters sont incroyables. Ils nous poussent à chaque match et nous leur devons des prestations comme celle d'aujourd'hui."
+            },
+            "shared": {
+              "tone": "Confiant",
+              "text": "Nous célébrons tous ensemble — joueurs, staff et supporters. Cette victoire est aussi la leur."
+            },
+            "deflect": {
+              "tone": "Évasif",
+              "text": "Les supporters savent ce que nous représentons. Nous restons concentrés sur le terrain."
+            }
+          },
+          "loss": {
+            "apologize": {
+              "tone": "Lucide",
+              "text": "Je comprends totalement leur frustration. Ils méritent mieux et nous allons travailler dur pour leur offrir cela."
+            },
+            "patience": {
+              "tone": "Concentré",
+              "text": "Je demande de la patience. Nous construisons quelque chose et les mauvais jours arrivent. Nous reviendrons plus forts."
+            },
+            "curt": {
+              "tone": "Sec",
+              "text": "Je ne commenterai pas des mots prononcés sous le coup de l'émotion. Passons à la suite."
+            }
+          },
+          "draw": {
+            "appreciate": {
+              "tone": "Positif",
+              "text": "J'apprécie chaque supporter qui vient nous voir. Leur énergie porte l'équipe."
+            },
+            "understand": {
+              "tone": "Juste",
+              "text": "Ils veulent nous voir gagner, et moi aussi. Nous allons continuer à pousser jusqu'à obtenir les résultats."
+            },
+            "curt": {
+              "tone": "Sec",
+              "text": "Je ne me mêle pas de ce qui se passe dans les tribunes. Mon attention est sur le terrain."
+            }
+          }
+        }
+      },
+      "ahead": {
+        "question": "Sur quoi portera votre attention avant le prochain match ?",
+        "responses": {
+          "focused": {
+            "tone": "Concentré",
+            "text": "D'abord la récupération, puis la préparation. Nous prenons les matchs un par un."
+          },
+          "ambitious": {
+            "tone": "Ambitieux",
+            "text": "Nous voulons continuer à créer une dynamique. L'objectif est clair."
+          },
+          "curt": {
+            "tone": "Sec",
+            "text": "Question suivante, s'il vous plaît. Nous y penserons en temps voulu."
+          }
+        }
+      }
+    },
+    "pen": "PEN",
+    "home": "Domicile",
+    "away": "Extérieur",
+    "matchDay": "Jour de Match",
+    "preMatchPrep": "Préparation d'Avant-Match",
+    "startingLineup": "Composition de Départ",
+    "setPiecesCaptain": "Coups de Pied Arrêtés et Capitaine",
+    "roleCoverage": "Ajustement de Formation",
+    "selecting": "Sélection...",
+    "autoSelectXI": "Auto-Sélectionner le Meilleur Cinq",
+    "startingXI": "Cinq de Départ",
+    "cancel": "Annuler",
+    "nPlayers": "{{count}} joueurs",
+    "swapPrompt": "Sélectionnez un remplaçant pour échanger",
+    "substitutes": "Remplaçants",
+    "nAvailable": "{{count}} disponibles",
+    "noBenchAvailable2": "Aucun remplaçant disponible.",
+    "opponent": "Adversaire",
+    "autoSelectTakers": "Auto-Sélectionner les Meilleurs Tireurs",
+    "captain": "Capitaine",
+    "penaltyTaker": "Tireur de Penalty",
+    "freeKickTaker": "Tireur de Coup Franc",
+    "cornerTaker": "Tireur de Corner",
+    "startMatch": "Commencer le Match",
+    "notAssigned": "Non attribué",
+    "keyStats": "Stats Clés",
+    "continueDashboard": "Continuer vers le Tableau de Bord",
+    "opponentIntel": {
+      "kicker": "Pre-match preparation",
+      "title": "Opponent intelligence",
+      "confidence": "Intel confidence",
+      "rivalPoolByRole": "Rival champion pool by role",
+      "noPoolYet": "No champion pool revealed yet.",
+      "suggestedBans": "Suggested bans",
+      "threat": "Threat",
+      "metaThreats": "Meta threats",
+      "meta": "Meta",
+      "masteryHighlights": "Mastery highlights"
+    }
+  },
+  "endOfSeason": {
+    "seasonComplete": "Saison Terminée",
+    "champions": "Champions !",
+    "position": "Position",
+    "finalPosition": "Position finale",
+    "points": "Points",
+    "regularPhaseSummary": "Résumé de la phase régulière",
+    "regularPhaseStandings": "Classement de la phase régulière (Top 5)",
+    "finalStandings": "Classement Final (Top 5)",
+    "leagueChampions": "Champions de la Ligue",
+    "startNextSeason": "Démarrer la Saison Suivante",
+    "processing": "Traitement...",
+    "statsArchived": "Les statistiques des joueurs seront archivées. Un nouveau calendrier sera généré.",
+    "newSeason": "Saison {{n}}",
+    "newScheduleReleased": "Le nouveau calendrier a été publié. Bonne chance !",
+    "goldenBoot": "Soulier d'Or",
+    "nGoals": "{{count}} buts",
+    "playerOfYear": "Joueur de l'Année",
+    "avgRating": "Note moyenne : {{rating}}",
+    "continueDashboard": "Continuer vers le Tableau de Bord"
+  },
+  "notifications": {
+    "attentionRequired": "Attention Requise",
+    "resolveBeforeContinuing": "Résolvez ces problèmes avant de continuer",
+    "goTo": "Aller à",
+    "reviewIssues": "Examiner les problèmes",
+    "continueAnyway": "Continuer quand même"
+  },
+  "squadCompare": {
+    "compare": "Comparer"
+  },
+  "be": {
+    "sender": {
+      "boardOfDirectors": "Conseil d'Administration",
+      "leagueOffice": "Bureau de la Ligue",
+      "assistantManager": "Entraîneur Adjoint",
+      "matchReporter": "Journaliste Sportif",
+      "headPhysio": "Kinésithérapeute en Chef",
+      "financialDirector": "Directeur Financier",
+      "commercialDirector": "Directeur Commercial",
+      "communityManager": "Responsable Communauté",
+      "directorOfFootball": "Directeur Sportif",
+      "intlLiaison": "Chargé des Relations Internationales",
+      "player": "Joueur",
+      "pressOfficer": "Attaché de Presse",
+      "scout": "Recruteur",
+      "performanceStaff": "Staff Performance",
+      "coachingStaff": "Staff Technique",
+      "academyCoordinator": "Coordinateur de l'Académie",
+      "esportmaniacos": "Esportmaníacos",
+      "allioPodcast": "Al Lío Podcast",
+      "elYuste": "el_yuste"
+    },
+    "role": {
+      "chairman": "Président",
+      "competitionSecretary": "Secrétaire de Compétition",
+      "assistantManager": "Entraîneur Adjoint",
+      "pressOfficer": "Attaché de Presse",
+      "headPhysio": "Kinésithérapeute en Chef",
+      "financialDirector": "Directeur Financier",
+      "commercialDirector": "Directeur Commercial",
+      "communityManager": "Responsable Communauté",
+      "directorOfFootball": "Directeur Sportif",
+      "intlLiaison": "Chargé des Relations Internationales",
+      "player": "Joueur",
+      "scout": "Recruteur",
+      "performanceStaff": "Staff Performance",
+      "coachingStaff": "Staff Technique",
+      "academyCoordinator": "Coordinateur de l'Académie",
+      "esportmaniacos": "Panel",
+      "allioPodcast": "Eros",
+      "elYuste": "el_yuste"
+    },
+    "source": {
+      "sportsGazette": "Dot Esports",
+      "lolEsports": "LoL Esports",
+      "matchDayPress": "Dexerto Esports",
+      "leagueChronicle": "Sheep Esports",
+      "leagueWire": "Esports Insider",
+      "riftWire": "Inven Global",
+      "riftHerald": "Riot Games Newsroom",
+      "leaguePulse": "The Shotcaller"
+    },
+    "msg": {
+      "welcome": {
+        "subject0": "Bienvenue à {{team}}",
+        "subject1": "Nouvelle Ère à {{team}}",
+        "subject2": "{{team}} Attend Votre Leadership",
+        "body0": "Le conseil d'administration de {{team}} est ravi de vous accueillir en tant que nouveau manager.\n\nNous avons de grands espoirs pour votre mandat et croyons que vous pouvez mener ce club vers la gloire. Votre première tâche sera de passer en revue l'effectif et de préparer un plan tactique pour la saison à venir.\n\nNous vous souhaitons bonne chance.",
+        "body1": "Au nom de toute la famille {{team}}, nous sommes ravis d'annoncer votre nomination en tant que manager.\n\nLes supporters sont impatients de voir votre vision pour l'équipe. Prenez le temps d'évaluer l'effectif, de revoir notre situation financière et de définir votre approche tactique.\n\nLe conseil vous soutient.",
+        "body2": "Bienvenue à {{team}} ! Les supporters et le staff sont enthousiastes pour l'avenir sous votre direction.\n\nNous vous recommandons de commencer par évaluer les forces et faiblesses de votre effectif, puis de configurer votre formation et régime d'entraînement préférés.\n\nLa saison à venir sera un véritable test — rendez-nous fiers.",
+        "actionReview": "Examiner l'Effectif",
+        "actionThank": "Remercier le Conseil"
+      },
+      "schedule": {
+        "subject": "Calendrier de la Saison Publié",
+        "body0": "Le calendrier de la {{league}} a été publié. La saison commence le {{start}}.\n\nConsultez la liste des matchs et assurez-vous que votre effectif est prêt pour les défis à venir. La préparation de pré-saison sera cruciale.",
+        "body1": "Liste des matchs confirmée ! La saison de la {{league}} débute le {{start}}.\n\nÉtudiez attentivement les premiers matchs — un bon départ peut donner le ton de toute la campagne. Assurez-vous que vos joueurs clés sont en forme.",
+        "actionView": "Voir le Calendrier"
+      },
+      "preMatch": {
+        "subject": "À venir : vs {{opponent}} ({{venue}})",
+        "body0": "Votre match {{venue}} contre {{opponent}} approche le {{matchDate}}.\n\nJournée {{matchday}} de la Première Division. Assurez-vous que votre équipe titulaire est en forme et que vos tactiques sont en place.\n\nTirez le meilleur parti de jouer à {{venue}}.",
+        "body1": "Rappel : vous affrontez {{opponent}} {{venue}} le {{matchDate}}.\n\nC'est la Journée {{matchday}} — vérifiez la condition physique de votre effectif et envisagez des ajustements tactiques.",
+        "actionTactics": "Définir les Tactiques",
+        "actionScout": "Analyser l'Adversaire"
+      },
+      "matchResult": {
+        "subject": {
+          "victory": "Victoire : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}",
+          "defeat": "Défaite : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}",
+          "draw": "Match Nul : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}"
+        },
+        "body": {
+          "victory0": "Coup de sifflet final : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}.\n\nUn excellent résultat ! L'équipe a réalisé une belle performance. Journée {{matchday}} — gardez cet élan.",
+          "victory1": "Fin du match : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}.\n\nTrois points dans la poche ! Les gars ont montré un grand caractère. Journée {{matchday}} accomplie.",
+          "defeat0": "Coup de sifflet final : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}.\n\nUn résultat décevant. Il faudra se regrouper et travailler sur les points faibles. Journée {{matchday}} — il est encore temps de redresser la barre.",
+          "defeat1": "Score final : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}.\n\nPas le résultat espéré. Journée {{matchday}} — le conseil voudra voir des améliorations. Analysez ce qui n'a pas fonctionné et préparez-vous pour le prochain défi.",
+          "draw": "Coup de sifflet final : {{home}} {{homeGoals}} - {{awayGoals}} {{away}}.\n\nUn point pris à la Journée {{matchday}}. Selon les autres résultats, cela pourrait être précieux. L'équipe s'est battue mais n'a pas trouvé le but de la victoire."
+        },
+        "actionStandings": "Voir le Classement"
+      },
+      "staffAdvice": {
+        "subject": "Rapport du Staff — Postes Vacants",
+        "body": "Boss, j'ai examiné la situation du staff à {{team}} et je voulais signaler quelques points :\n\n• Un bon Entraîneur améliorera considérablement l'efficacité de l'entraînement — vos joueurs progresseront plus vite.\n• Un Kinésithérapeute qualifié aide à la prévention des blessures et accélère la récupération entre les matchs.\n• Nos Recruteurs peuvent aider à identifier des cibles de transfert et évaluer les adversaires.\n\nJe recommande fortement de combler les postes vacants avant le début de la saison. Vous trouverez le staff disponible dans la section Staff.\n\nJetez-y un œil quand vous pourrez.",
+        "actionView": "Voir le Staff"
+      },
+      "boardExpect": {
+        "subject": "{{team}} — Objectifs de Saison",
+        "body": "Le conseil a fixé les attentes suivantes pour cette saison :\n\n• Terminer dans la première moitié du classement LEC\n• Maintenir la stabilité financière\n• Développer les talents de l'académie pour le projet de roster\n\nAtteindre ces objectifs renforcera votre position. Ne pas atteindre les attentes minimales pourrait entraîner une remise en question de votre mandat.\n\nNous avons confiance en vos capacités.",
+        "actionAccept": "Accepter les Objectifs"
+      },
+      "boardObjectives": {
+        "subject": "Saison {{season}} — Objectifs du Conseil",
+        "body": "Le conseil a fixé les objectifs suivants pour ce split :\n\n1. Terminer dans le top {{expectedPos}}\n2. Remporter au moins {{winTarget}} séries\n3. Remporter au moins {{goalsTarget}} maps\n\nAtteindre ces objectifs renforcera la confiance du conseil dans votre gestion du roster, votre préparation de draft et vos performances sur scène. Ne pas répondre aux attentes peut entraîner une baisse des budgets ou d'autres conséquences."
+      },
+      "boardObjectiveReview": {
+        "subject": "Saison {{season}} — Bilan des objectifs du Conseil",
+        "body": "Le conseil a terminé son bilan des objectifs de fin de split. Vous avez atteint {{metCount}}/{{total}} objectifs.\n\nImpact sur la satisfaction du manager : {{satisfactionDelta}}.\n\nCe bilan reflète les performances compétitives sur l'ensemble du split : classement final, victoires en séries, maps remportées, préparation de draft et exécution du roster."
+      },
+      "financeCritical": {
+        "subject": "URGENT : Club endetté",
+        "body": "Le club affiche actuellement une dette de €{{amount}}. Cette situation n'est pas viable.\n\nLe conseil exige une action immédiate pour faire face à la crise financière. Envisagez de vendre des joueurs, de réduire le staff ou de trouver d'autres sources de revenus.\n\nNe pas résoudre cela pourrait avoir de graves conséquences pour votre poste."
+      },
+      "financeWarning": {
+        "subject": "Alerte financière — Réserves faibles",
+        "body": "Nos réserves financières diminuent rapidement. Au rythme actuel des dépenses (€{{weeklyWages}}/semaine en salaires), il nous reste environ {{weeksLeft}} semaines de marge.\n\nJe vous recommande de revoir la masse salariale et d'explorer des moyens d'augmenter les revenus."
+      },
+      "wageOverBudget": {
+        "subject": "La masse salariale dépasse le budget",
+        "body": "Notre masse salariale annuelle (€{{annualWages}}) dépasse actuellement le budget salarial alloué (€{{wageBudget}}).\n\nMême si cela reste soutenable à court terme, le conseil préférerait voir la masse salariale revenir sous contrôle."
+      },
+      "seasonPayout": {
+        "subject": "Saison {{season}} — Prime attribuée",
+        "body": "Le conseil a confirmé une prime de €{{amount}} pour votre {{position}}e place en championnat. Le montant a été ajouté au solde du club."
+      },
+      "seasonReview": {
+        "subject": "Bilan de la Saison {{season}}",
+        "body": {
+          "champion": "Félicitations ! {{team}} est champion de la ligue ! Une réalisation incroyable.\n\nLe conseil d'administration est absolument ravi de vos performances. Vous avez terminé avec {{points}} points.\n\nNous espérons défendre le titre la saison prochaine.",
+          "topFour": "Une solide saison pour {{team}}. Vous avez terminé à la {{position}}e place avec {{points}} points.\n\nLe conseil est satisfait de la campagne. Visons le titre la saison prochaine.",
+          "midTable": "{{team}} a terminé la saison à la {{position}}e place avec {{points}} points.\n\nUne saison de milieu de tableau. Le conseil attend des améliorations la saison prochaine. Nous devons être plus compétitifs.",
+          "lowerHalf": "Une saison décevante pour {{team}}. Terminer à la {{position}}e place avec seulement {{points}} points est en dessous des attentes.\n\nLe conseil est préoccupé. Des améliorations significatives seront nécessaires la saison prochaine, sinon votre poste pourrait être remis en question."
+        }
+      },
+      "newSeasonSchedule": {
+        "subject": "Saison {{season}} — Nouveau Calendrier Publié",
+        "body": "Le calendrier de la Saison {{season}} a été publié ! La nouvelle campagne commence dans 4 semaines.\n\nProfitez de cette pause pour évaluer votre effectif, effectuer les changements nécessaires et vous préparer aux défis à venir.\n\nBonne chance !"
+      },
+      "fitness": {
+        "critical": {
+          "subject": "URGENT : Crise de Forme Physique de l'Effectif",
+          "body": {
+            "intense": "Boss, nous avons une crise sérieuse de condition physique. {{criticalCount}} joueurs sont dans un état critique et risquent de se blesser :\n\n{{players}}\n\nLa condition physique moyenne de l'effectif est à {{avgCondition}}%. Avec le programme Intense actuel (6 jours d'entraînement), l'effectif est trop sollicité. Passer à un programme Équilibré leur donnerait du temps de récupération.\n\nSi on continue à forcer sans repos, les blessures seront inévitables.",
+            "balanced": "Boss, nous avons une crise sérieuse de condition physique. {{criticalCount}} joueurs sont dans un état critique et risquent de se blesser :\n\n{{players}}\n\nLa condition physique moyenne de l'effectif est à {{avgCondition}}%. Même avec un programme Équilibré, l'effectif a besoin d'attention. Envisagez de passer à un programme Léger temporairement.\n\nSi on continue à forcer sans repos, les blessures seront inévitables.",
+            "light": "Boss, nous avons une crise sérieuse de condition physique. {{criticalCount}} joueurs sont dans un état critique et risquent de se blesser :\n\n{{players}}\n\nLa condition physique moyenne de l'effectif est à {{avgCondition}}%. L'effectif est déjà en programme Léger — le problème pourrait être l'intensité élevée de l'entraînement. Envisagez de réduire l'intensité.\n\nSi on continue à forcer sans repos, les blessures seront inévitables."
+          }
+        },
+        "warning": {
+          "subject": "Alerte Condition Physique",
+          "body": {
+            "intense": "Boss, l'effectif semble fatigué. La condition physique moyenne est de {{avgCondition}}% et {{exhaustedCount}} joueurs sont en dessous de 40%.\n\nPasser à un programme Équilibré donnerait plus de temps de récupération.\n\nNous devrions envisager de donner du repos aux gars avant le prochain match.",
+            "balanced": "Boss, l'effectif semble fatigué. La condition physique moyenne est de {{avgCondition}}% et {{exhaustedCount}} joueurs sont en dessous de 40%.\n\nUn programme Léger pendant quelques jours pourrait aider l'effectif à récupérer.\n\nNous devrions envisager de donner du repos aux gars avant le prochain match.",
+            "light": "Boss, l'effectif semble fatigué. La condition physique moyenne est de {{avgCondition}}% et {{exhaustedCount}} joueurs sont en dessous de 40%.\n\nL'effectif est déjà en programme Léger, donc la récupération devrait venir naturellement. Gardez juste un œil sur les joueurs les plus épuisés.\n\nNous devrions envisager de donner du repos aux gars avant le prochain match."
+          }
+        },
+        "actionAdjust": "Ajuster l'Entraînement"
+      },
+      "event": {
+        "ack": "Understood",
+        "respond": "Respond"
+      },
+      "playerEvent": {
+        "respond": "Répondre",
+        "options": {
+          "moraleCrisis": {
+            "encourage": {
+              "label": "L'encourager",
+              "description": "Montrez de l'empathie et encouragez le joueur à continuer de travailler dur."
+            },
+            "promiseTime": {
+              "label": "Promettre plus de temps de jeu",
+              "description": "Dites-lui qu'il aura sa chance — gros boost de moral, mais cela crée des attentes."
+            },
+            "workHarder": {
+              "label": "Lui dire de travailler plus dur",
+              "description": "Approche plus dure — peut se retourner contre vous ou le motiver."
+            }
+          },
+          "benchComplaint": {
+            "explain": {
+              "label": "Expliquer la situation",
+              "description": "Expliquez calmement la concurrence et la rotation dans l'effectif. Bonus de moral modéré."
+            },
+            "promiseChance": {
+              "label": "Lui promettre une chance bientôt",
+              "description": "Il sera plus heureux, mais s'attendra à débuter dans les prochains matchs."
+            },
+            "proveYourself": {
+              "label": "Lui dire de faire ses preuves",
+              "description": "Mettez-le au défi de mériter sa place. Risqué — cela peut le motiver ou le frustrer."
+            }
+          },
+          "happyPlayer": {
+            "praiseBack": {
+              "label": "Rendre le compliment",
+              "description": "Dites-lui à quel point vous appréciez sa contribution."
+            },
+            "stayProfessional": {
+              "label": "Rester professionnel",
+              "description": "Reconnaissez sa forme, mais gardez un ton mesuré."
+            },
+            "higherExpectations": {
+              "label": "Fixer des attentes plus élevées",
+              "description": "Poussez-le à viser un niveau encore supérieur. Cela peut le stimuler ou lui mettre la pression."
+            }
+          },
+          "contractConcern": {
+            "reassure": {
+              "label": "Le rassurer sur une prolongation",
+              "description": "Dites-lui que vous voulez le garder. Gros boost de moral."
+            },
+            "noncommittal": {
+              "label": "Rester évasif",
+              "description": "Gardez vos options ouvertes. Le joueur pourrait devenir inquiet."
+            },
+            "noRenewal": {
+              "label": "Lui dire que vous ne prolongerez pas",
+              "description": "Honnête, mais brutal. Sa morale va chuter."
+            }
+          }
+        },
+        "effects": {
+          "moraleCrisis": {
+            "encourage": {
+              "positive": "Le joueur se sent un peu mieux. Moral {{delta}}",
+              "negative": "Le joueur n'y croit pas. Moral {{delta}}"
+            },
+            "promiseTime": "Le joueur est rassuré par la promesse. Moral {{delta}}. Il s'attendra à débuter bientôt.",
+            "workHarder": {
+              "positive": "Le joueur accepte le défi. Moral {{delta}}",
+              "negative": "Le joueur est vexé par cette fermeté. Moral {{delta}}"
+            }
+          },
+          "benchComplaint": {
+            "explain": {
+              "positive": "Le joueur l'accepte à contrecœur. Moral {{delta}}",
+              "negative": "Le joueur n'est pas convaincu. Moral {{delta}}"
+            },
+            "promiseChance": "Le joueur est enthousiasmé par cette opportunité. Moral {{delta}}. Il s'attend à débuter le prochain match.",
+            "proveYourself": {
+              "positive": "Le joueur est déterminé à faire ses preuves. Moral {{delta}}",
+              "negative": "Le joueur se sent rejeté et insulté. Moral {{delta}}"
+            }
+          },
+          "happyPlayer": {
+            "praiseBack": "Le joueur rayonne sous le compliment. Moral {{delta}}",
+            "stayProfessional": {
+              "positive": "Le joueur acquiesce avec professionnalisme. Moral {{delta}}",
+              "negative": "Le joueur espérait plus de chaleur. Moral {{delta}}"
+            },
+            "higherExpectations": {
+              "positive": "Le joueur relève le défi. Moral {{delta}}",
+              "negative": "Le joueur trouve cette pression injuste. Moral {{delta}}"
+            }
+          },
+          "contractConcern": {
+            "reassure": "Le joueur est rassuré sur son avenir. Moral {{delta}}",
+            "noncommittal": {
+              "positive": "Le joueur l'accepte à contrecœur pour l'instant. Moral {{delta}}",
+              "negative": "Le joueur est troublé et mécontent. Moral {{delta}}"
+            },
+            "noRenewal": "Le joueur est dévasté. Moral {{delta}}. Cela pourrait affecter le vestiaire.",
+            "noRenewalWithDressingRoom": "Le joueur est dévasté. Moral {{delta}}. Cela pourrait affecter le vestiaire. L'ambiance du vestiaire retombe — {{affected}} coéquipiers perdent du moral."
+          }
+        }
+      },
+      "sponsor": {
+        "subject": "Sponsorship Offer — {{sponsor}}",
+        "body": "Bonne nouvelle, boss ! {{sponsor}} a manifesté son intérêt pour devenir sponsor de {{team}}.\n\nIls proposent un paiement hebdomadaire de €{{amount}} sur les 12 prochaines semaines en échange d'un espace publicitaire au centre d'entraînement.\n\nCela semble être un accord raisonnable, mais la décision vous appartient.",
+        "options": {
+          "accept": {
+            "label": "Accepter l'accord",
+            "description": "Recevez €{{amount}} de revenus de sponsoring."
+          },
+          "decline": {
+            "label": "Refuser poliment",
+            "description": "Refusez l'offre. Aucun impact financier."
+          }
+        }
+      },
+      "trainingInjury": {
+        "subject": "Injury — {{player}} ({{injury}})",
+        "body0": "Bad news from the training ground. {{player}} has picked up a {{injury}} during today's session.\n\nThe medical team estimates {{days}} days on the sidelines. We'll monitor the recovery closely.",
+        "body1": "Unfortunately, {{player}} went down in training today with a {{injury}}.\n\nInitial assessment: out for approximately {{days}} days. We'll keep you updated on their progress."
+      },
+      "mediaPositive": {
+        "subject": "Positive Press — {{player}}",
+        "body": "The local papers are running a very positive piece on {{player}} today.\n\nThey are highlighting their excellent recent form and commitment to {{team}}. This kind of coverage is great for the player's confidence and the club's image."
+      },
+      "mediaNegative": {
+        "subject": "Negative Press — {{player}}",
+        "body": "Some unflattering coverage of {{player}} appeared in the tabloids today.\n\nJournalists are questioning their form and commitment to {{team}}. This could affect the player's morale — you might want to have a word."
+      },
+      "intlCallup": {
+        "subject": "International Call-Up — {{player}}",
+        "body": "{{player}} has been called up to the {{nationality}} national team for an upcoming international window.\n\nThis is a great honor for the player and reflects well on the club. They'll be in good spirits when they return, though keep an eye on their fatigue levels."
+      },
+      "community": {
+        "subject0": "Community Open Day",
+        "subject1": "Youth Coaching Session",
+        "subject2": "Charity Match Announcement",
+        "body0": "{{team}} hosted a community open day at the training ground today.\n\nFans got to meet the players and watch a training session. The atmosphere was fantastic and it's done wonders for team spirit.",
+        "body1": "Several first-team players from {{team}} volunteered for a youth coaching session at a local school.\n\nGreat PR for the club, and the players seem energized by the experience.",
+        "body2": "The club has organized a charity initiative in partnership with a local foundation.\n\n{{team}} continues to build strong ties with the community. The board is pleased with the positive image."
+      },
+      "moodReport": {
+        "subject": "Dressing Room Report — Mood: {{mood}}",
+        "body": "Here is your weekly dressing room report:\n\n• Overall mood: {{mood}} (avg morale: {{avgMorale}})\n• Players in high spirits (80+): {{highCount}}\n• Players with low morale (<40): {{lowCount}}\n• Total squad: {{total}}"
+      },
+      "boardConfidence": {
+        "subject": "Board Meeting — Results Under Scrutiny",
+        "body0": "The board has called an urgent meeting. Three consecutive defeats have raised serious concerns about the team's direction.\n\n\"We need to see improvement quickly. The fans are restless and results must change.\"\n\nHow do you respond?",
+        "body1": "After a string of poor results, the chairman has summoned you for a difficult conversation.\n\n\"We backed you with resources and time. The results simply aren't good enough. What's your plan?\"\n\nChoose your response carefully.",
+        "options": {
+          "reassureBoard": {
+            "label": "Les rassurer avec un plan",
+            "description": "Présentez une stratégie claire pour redresser la situation. Cela vous fait gagner du temps."
+          },
+          "acceptPressure": {
+            "label": "Assumer la responsabilité",
+            "description": "Assumez les mauvais résultats. La direction respecte l'honnêteté."
+          },
+          "blameCircumstances": {
+            "label": "Évoquer les blessures et la malchance",
+            "description": "Reportez la faute sur des facteurs extérieurs. Cela peut les convaincre ou non."
+          }
+        }
+      },
+      "fanPetition": {
+        "subject0": "Pétition des supporters — Drafts plus proactifs",
+        "subject1": "Pétition des supporters — Plus de scène pour l'académie",
+        "subject2": "Lettre ouverte — Transparence compétitive",
+        "body0": "Un groupe de supporters de {{team}} a lancé une pétition demandant des drafts plus proactifs et plus de tempo en early game.\n\n\"On veut une identité dès la première minute, pas du scaling passif à chaque série.\"\n\nLa pétition dépasse déjà 500 signatures. Comment répondez-vous ?",
+        "body1": "Des supporters de {{team}} ont lancé une campagne pour donner plus de scène aux joueurs d'académie et aux nouveaux prospects.\n\n\"L'avenir du club dépend du développement des talents, pas d'un banc permanent.\"\n\nLe sujet prend de l'ampleur sur les réseaux. Quelle est votre réponse ?",
+        "body2": "Une lettre ouverte des supporters de {{team}} demande plus de transparence à la cellule compétitive.\n\n\"On veut comprendre la direction : identité de draft, plan de roster et objectifs de playoffs.\"\n\nLa presse esports relaie largement le sujet. Comment gérez-vous cela ?",
+        "options": {
+          "listenFans": {
+            "label": "Écouter les supporters",
+            "description": "Rencontrez des représentants des supporters et écoutez leurs préoccupations. Bon pour le moral."
+          },
+          "ignoreFans": {
+            "label": "Se concentrer sur le jeu",
+            "description": "Refusez poliment — les décisions de l'équipe restent dans le vestiaire."
+          },
+          "addressPublicly": {
+            "label": "Faire une déclaration publique",
+            "description": "Abordez la pétition en conférence de presse. Transparent et proactif."
+          }
+        }
+      },
+      "rivalInterest": {
+        "subject": "Rumeur mercato — {{player}} dans le viseur de {{rival}}",
+        "body0": "Nous avons appris que {{rival}} a déjà commencé à se positionner sur {{player}}.\n\nLeur staff a été vu en train d'analyser les dernières séries et les données de solo queue, et nos sources évoquent une offre formelle imminente.\n\nComment souhaitez-vous réagir s'ils prennent contact ?",
+        "body1": "La presse esports indique que {{player}} est désormais une cible concrète de {{rival}}.\n\nLe joueur attire l'attention après ses dernières performances sur scène. Pas d'offre officielle pour l'instant, mais la pression monte vite.\n\nQuelle est votre position ?",
+        "options": {
+          "notForSale": {
+            "label": "Pas à vendre",
+            "description": "Faites comprendre que le joueur ne partira pas. Cela améliore son moral."
+          },
+          "openToOffers": {
+            "label": "Ouvert aux offres",
+            "description": "Signalez une volonté de négocier. Le joueur pourrait devenir inquiet."
+          },
+          "noComment": {
+            "label": "Pas de commentaire",
+            "description": "Restez silencieux et laissez la situation évoluer. Position neutre."
+          }
+        }
+      },
+      "moraleCrisis": {
+        "subject": "{{player}} — Crise de moral",
+        "body0": "Coach, {{player}} a demandé un entretien privé. Il semble vraiment abattu ces derniers temps et veut parler de sa situation au club.\n\nSon moral est à {{morale}} — vous devriez régler cela avant que cela n'affecte le vestiaire.",
+        "body1": "{{player}} a eu l'air très abattu à l'entraînement récemment. Il a demandé à vous parler de son état d'esprit actuel.\n\nMoral : {{morale}}. La manière dont vous gérerez cela pourrait renforcer ou briser sa confiance."
+      },
+      "benchComplaint": {
+        "subject": "{{player}} — Veut plus de temps de jeu",
+        "body0": "Coach, {{player}} est venu vous voir. Il est frustré par son manque de temps de jeu lors des derniers matchs et veut savoir ce qu'il doit faire pour réintégrer l'équipe.\n\n\"J'ai l'impression de bien m'entraîner, mais je n'ai pas l'occasion de le montrer sur le terrain.\"",
+        "body1": "{{player}} a frappé à la porte de votre bureau avec un air contrarié. Il n'a pas joué lors des derniers matchs et veut des réponses.\n\n\"Je suis venu dans ce club pour jouer. Si je ne fais pas partie de vos plans, je préfère que vous me le disiez franchement.\""
+      },
+      "happyPlayer": {
+        "subject": "{{player}} — Se sent en grande forme",
+        "body0": "{{player}} est passé à votre bureau avec un grand sourire. Il se sent très bien par rapport à sa forme et à la direction que prend l'équipe.\n\n\"Je voulais juste dire que je prends vraiment du plaisir à jouer en ce moment, coach. L'ambiance dans le vestiaire est fantastique.\"",
+        "body1": "Votre adjoint signale que {{player}} est d'excellente humeur ces derniers temps. Il est venu vous parler après l'entraînement.\n\n\"Coach, j'adore chaque minute passée ici. Si on continue comme ça, je me battrai pour vous jusqu'au bout.\""
+      },
+      "contractConcern": {
+        "subject": "{{player}} — Contrat en fin de course",
+        "body0": "{{player}} est venu te voir au sujet de sa situation contractuelle. Avec seulement {{days}} jours restants sur son contrat, il veut savoir à quoi s'en tenir.\n\n\"Coach, mon contrat arrive à son terme. J'ai besoin de savoir si je fais partie de tes plans ou si je dois chercher ailleurs.\"",
+        "body1": "Ton adjoint signale que le contrat de {{player}} expire dans environ {{months}} mois. Le joueur s'interroge déjà dans le vestiaire sur son avenir.\n\nMieux vaut sans doute en parler avant qu'il ne se trouble ou que d'autres clubs ne commencent à tourner autour."
+      },
+      "delegatedRenewals": {
+        "subject": "Rapport de l'adjoint — Renouvellements",
+        "body": "Coach, j'ai passé en revue notre liste de renouvellements à {{team}}. {{successes}} conclus, {{stalled}} encore en attente, {{failures}} échoués.",
+        "case": {
+          "successful": "Conclu : {{player}} a accepté {{years}} an(s) à €{{wage}}/semaine.",
+          "stalled": "Toujours compliqué : {{player}} — {{detail}}",
+          "failed": "Échec : {{player}} — {{detail}}"
+        },
+        "notes": {
+          "managerBlocked": "Tu m'as dit de ne pas rouvrir les discussions contractuelles pour l'instant.",
+          "completed": "J'ai pu régler ce dossier sans que tu aies besoin d'intervenir.",
+          "beyondLimits": "Le clan du joueur veut environ €{{wage}}/semaine pour {{years}} ans, au-delà des limites de délégation.",
+          "boardWagePolicy": "La politique salariale du conseil bloque ce renouvellement. Maintiens la masse salariale annuelle près de €{{budget}} pendant la phase de redressement.",
+          "prefersManager": "Ils écouteraient, mais demandent encore environ €{{wage}}/semaine pour {{years}} ans et préfèrent parler directement avec toi.",
+          "relationshipBlocked": "Ils ne sont pas prêts à s'engager par mon intermédiaire dans le contexte relationnel et contractuel actuel."
+        }
+      },
+      "scoutReport": {
+        "subject": "Rapport de scout : {{player}}",
+        "body": "Votre recruteur {{scout}} a terminé son évaluation de {{player}}. Rapport complet disponible dans la section recrutement."
+      },
+      "boardWarning": {
+        "subject": "Inquiétude du Conseil — Bilan de Performance",
+        "body": "Le conseil d'administration est de plus en plus préoccupé par les résultats récents au {{team}}. Votre poste fera l'objet d'un examen sérieux si aucune amélioration n'est constatée dans un avenir proche."
+      },
+      "boardFinalWarning": {
+        "subject": "Dernier Avertissement — Amélioration Immédiate Requise",
+        "body": "Ceci est votre dernier avertissement. Le conseil du {{team}} a perdu patience face aux résultats actuels. Sans amélioration immédiate et significative, nous n'aurons d'autre choix que de reconsidérer votre position."
+      },
+      "boardFired": {
+        "subject": "Avis de Licenciement — {{team}}",
+        "body": "Le conseil d'administration du {{team}} a décidé de vous relever de vos fonctions d'entraîneur, avec effet immédiat. Nous vous remercions pour votre service et vous souhaitons bonne chance pour la suite de votre carrière."
+      },
+      "jobOffer": {
+        "subject": "Poste d'entraîneur — {{team}}",
+        "body": "Le conseil du {{team}} ({{city}}) cherche un nouvel entraîneur pour guider le club. Classement la saison dernière : {{league_position}}.\n\nAprès avoir examiné votre parcours, nous pensons que vous pourriez être le bon candidat. Seriez-vous intéressé par ce défi ?",
+        "accept": "Accepter le poste",
+        "decline": "Décliner l'offre"
+      },
+      "jobHired": {
+        "subject": "Bienvenue au {{team}}",
+        "body": "Le conseil d'administration du {{team}} est ravi de vous accueillir comme nouvel entraîneur. Nous sommes impatients de travailler avec vous et d'accomplir de grandes choses ensemble."
+      },
+      "jobRejection": {
+        "subject": "Suivi de Candidature — {{team}}",
+        "body": "Merci de votre intérêt pour le poste d'entraîneur au {{team}}. Après mûre réflexion, nous avons décidé de poursuivre avec d'autres candidats. Nous vous souhaitons bonne chance pour la suite de votre carrière."
+      },
+      "transferComplete": {
+        "subject": "Transfert finalisé : {{player}}",
+        "body": "Le transfert de {{player}} a été finalisé pour un montant de {{fee}}.\n\nLe joueur a rejoint l'effectif et est disponible pour la sélection."
+      },
+      "transferOffer": {
+        "subject": "Offre reçue pour {{player}}",
+        "body": "{{club}} a soumis une offre de {{fee}} pour {{player}}. Consultez-la dans l'onglet Transferts pour accepter ou refuser.",
+        "actionReview": "Voir l'offre"
+      },
+      "potentialReport": {
+        "subject": "Rapport de potentiel terminé",
+        "body": "Le scouting a terminé l'évaluation de {{player}}. Nouvelle estimation de potentiel : {{potential}}."
+      },
+      "scrimWeekly": {
+        "subject": "Rapport hebdomadaire de scrims",
+        "body": "Rapport hebdomadaire de scrims :\n\nJoués : {{played}}\nVictoires : {{wins}}\nDéfaites : {{losses}}\nAnnulations : {{cancellations}}\nQualité moyenne : {{avgQuality}}\nSérie actuelle de défaites : {{lossStreak}}\n\nFocus principal : {{topFocus}}\nProblème récurrent : {{recurringIssue}}\nChampion le plus pratiqué : {{topChampion}}\n\nRecommandation : {{recommendation}}",
+        "focus": {
+          "draftPrep": "Préparation de draft",
+          "championPool": "Pool de champions",
+          "earlyGame": "Early game",
+          "teamfighting": "Teamfights",
+          "macro": "Macro",
+          "mental": "Mental"
+        },
+        "issues": {
+          "draftGap": "Écart de draft",
+          "lanePressure": "Pression de lane",
+          "objectiveSetup": "Setup d'objectifs",
+          "teamfightExecution": "Exécution des teamfights",
+          "championComfort": "Confort sur champion",
+          "tilt": "Tilt"
+        },
+        "recommendations": {
+          "lockPlans": "Verrouillez le Plan A/B/C plus tôt la semaine prochaine afin que le staff ait des données de préparation utiles.",
+          "reduceCancellations": "Réduisez les annulations la semaine prochaine ; la réputation de scrim fait partie de votre infrastructure compétitive.",
+          "resetBeforeVolume": "Commencez la semaine prochaine par Mental Reset ou VOD Review avant d'ajouter du volume.",
+          "narrowFocus": "Gardez le volume, mais resserrez le focus autour du problème récurrent ; la qualité est trop instable.",
+          "targetedDrills": "Planifiez Targeted Drills pour le problème récurrent et gardez le bloc principal de préparation stable.",
+          "keepPlan": "Gardez le plan actuel : il produit des reps utiles sans surcharger le roster."
+        }
+      },
+      "patchNotes": {
+        "subject": "Notes du patch {{label}}",
+        "body": "Patch {{label}} déployé.\n\nBuffs : {{buffed}}\nNerfs : {{nerfed}}\n\nVotre staff analyse déjà les nouveaux shifts de tier."
+      },
+      "academyWeeklyEmpty": {
+        "subject": "Rapport hebdomadaire de l'académie",
+        "body": "L'académie {{academy}} n'a aucun joueur actif cette semaine. Revoyez acquisition et promotion pour maintenir le pipeline."
+      },
+      "academyWeekly": {
+        "subject": "Rapport hebdomadaire de l'académie : {{academy}}",
+        "body": "Résumé hebdomadaire de l'académie :\n- Joueurs actifs : {{activePlayers}}\n- OVR moyen : {{avgOvr}}\n- Talents à haut potentiel (>= 80) : {{highPotential}}\n- Joueurs en vue : {{highlights}}\n- Position ERL actuelle : #{{position}} sur {{total}}\n- Tableau rapide : {{tablePreview}}",
+        "bodyWithPromotion": "Résumé hebdomadaire de l'académie :\n- Joueurs actifs : {{activePlayers}}\n- OVR moyen : {{avgOvr}}\n- Talents à haut potentiel (>= 80) : {{highPotential}}\n- Joueurs en vue : {{highlights}}\n- Position ERL actuelle : #{{position}} sur {{total}}\n- Tableau rapide : {{tablePreview}}\n\nRecommandation : {{promotionCount}} joueur(s) prêt(s) pour la promotion -> {{promotionList}}."
+      },
+      "esportmaniacos": {
+        "positive": {
+          "subject0": "Esportmaníacos fait l'éloge de {{player}} — le panel est unanime",
+          "body0": "Les tertulianos d'Esportmaníacos ont consacré un bon moment du stream d'aujourd'hui à parler de {{player}} chez {{team}}.\n\n« Rien à critiquer cette semaine. Le gars domine de façon impressionnante. » Difficile de contredire ça. La couverture positive devrait booster l'ambiance dans le vestiaire.",
+          "subject1": "Esportmaníacos : {{player}} porte {{team}} sur ses épaules ce split",
+          "body1": "Les tertulianos d'Esportmaníacos sont rarement d'accord, mais {{player}} a obtenu un blanc-seing aujourd'hui : « Constant, solide, sans creux de forme. L'un des meilleurs joueurs de la ligue en ce moment. {{team}} devrait tout faire pour le garder. »\n\nBon pour le moral — et pour la valeur marchande."
+        },
+        "negative": {
+          "subject0": "Esportmaníacos s'en prend à {{player}} — le panel sans pitié",
+          "body0": "Les tertulianos d'Esportmaníacos n'ont pas fait de cadeau à {{player}} aujourd'hui : « Le gars a complètement disparu. Qu'est-ce qui lui est arrivé ce split ? {{team}} ne peut pas continuer à compter sur un joueur qui performe comme ça. »\n\nCe type de couverture peut vraiment affecter le moral. Une discussion s'impose.",
+          "subject1": "Esportmaníacos remet en cause la régularité de {{player}} chez {{team}}",
+          "body1": "La session de la tertulia d'Esportmaníacos d'aujourd'hui s'est transformée en analyse complète des performances récentes de {{player}}. Verdict : « Irrégulier. Aucune constance. Certains jours au top, d'autres complètement invisible. {{team}} mérite mieux d'un joueur dans ce rôle. »\n\nGardez un œil sur le moral du joueur."
+        }
+      },
+      "allio": {
+        "subject0": "Al Lío Podcast — Rumeur de transfert : {{player}} dans le viseur",
+        "body0": "Eros a lâché un indice de mercato dans le dernier épisode d'Al Lío : « Je reçois des infos sur {{player}}. Plusieurs équipes posent des questions. Rien de confirmé pour l'instant, mais le mercato autour de {{team}} se réchauffe. »\n\nGardez ça en tête pour planifier votre effectif pour le prochain split.",
+        "subject1": "Al Lío Podcast — Eros insinue un mouvement entrant pour {{team}}",
+        "body1": "Eros lance des indices depuis plusieurs jours sur Al Lío : « On m'a dit qu'il y a des conversations autour de {{team}}. Quelque chose se prépare. Je ne peux pas encore donner de noms, mais restez connectés — ce mercato n'est pas terminé. »\n\nBruit de fond ou réalité ? Ça vaut la peine de rester attentif.",
+        "subject2": "Al Lío Podcast — Leak sur le format de la ligue, Eros explique tout",
+        "body2": "L'épisode d'Al Lío d'aujourd'hui a dévié quand Eros a révélé un possible leak : « On m'a informé que la ligue prépare des changements de format pour le prochain split. Pas officiel, mais mes sources sont généralement fiables. Ça pourrait changer la façon dont les équipes construisent leurs effectifs. »\n\nSi c'est vrai, ça pourrait affecter votre planification à long terme.",
+        "subject3": "Al Lío Podcast — Gros mouvement en approche, la ligue se réveille",
+        "body3": "Eros est entré en direct sur Al Lío avec ce qu'il a appelé un « bombazo » : « Il y a un mouvement de joueur important sur le point de se produire dans la ligue dont personne ne parle encore. Je dirai juste ça — certaines équipes vont devoir entièrement repenser leurs effectifs. »\n\nRestez vigilant — le marché bouge.",
+        "rivalInterest": {
+          "subject": "Al Lío Podcast — {{player}} dans le viseur de {{rival}}",
+          "body0": "Eros a ouvert le dernier épisode d'Al Lío avec une bombe : « J'ai des informations selon lesquelles {{rival}} a commencé à se positionner sur {{player}}. Leurs analystes passent en revue ses dernières séries et données de solo queue depuis des semaines. Pas d'offre formelle encore, mais ça chauffe vite. »\n\nQuelle est votre position s'ils prennent contact ?",
+          "body1": "Al Lío Podcast a révélé en exclusivité que {{player}} est désormais une cible concrète pour {{rival}}.\n\nSelon Eros, le joueur a attiré l'attention après ses dernières performances sur scène. Pas d'offre officielle encore, mais la pression monte vite.\n\nQuelle est votre position ?"
+        }
+      },
+      "yuste": {
+        "up": {
+          "subject0": "el_yuste — même Yuste l'admet : les viewers remontent cette semaine",
+          "body0": "Yuste a surpris son stream avec un avis positif qui se fait rare : « Je vais être honnête — les chiffres remontent cette semaine et je ne vais pas faire semblant de ne pas le voir. Quand les matchs sont bons, le public revient. Simple comme bonjour. »\n\nBon moment pour la scène.",
+          "subject1": "el_yuste — les matchs de cette semaine ont même enthousiasmé Yuste",
+          "body1": "Chose rare : Yuste était enthousiaste sur son stream matinal. « Cette semaine a livré. De vrais matchs, de vrais enjeux, des viewers qui sont restés jusqu'à la fin. C'est ce que peut être la ligue quand elle s'en donne les moyens. »\n\nBonne semaine pour être dans les esports."
+        },
+        "down": {
+          "subject0": "el_yuste — les viewers de la ligue s'effondrent et personne ne fait rien",
+          "body0": "Antonio Yuste a ouvert son stream du matin avec une vraie plainte : « Les chiffres ne mentent pas. Les viewers chutent semaine après semaine et la ligue continue à faire la même chose en espérant des résultats différents. C'est fini si rien ne change. »\n\nSimple bruit de fond — mais quand Yuste parle, la communauté écoute.",
+          "subject1": "el_yuste — le produit de la ligue est cassé, selon Yuste",
+          "body1": "Yuste a passé une bonne demi-heure de son stream matinal à analyser la baisse d'engagement de la ligue : « Je le dis depuis des mois. Le produit n'est pas assez bon. Le format ennuie, le calendrier tue le momentum. Les données sont claires. »\n\nDur, mais l'audience de Yuste le prend au sérieux."
+        }
+      }
+    },
+    "news": {
+      "matchReport": {
+        "headline": {
+          "homeWin": {
+            "0": "{{home}} {{homeGoals}} - {{awayGoals}} {{away}} : maîtrise de la Rift",
+            "1": "{{home}} prend le dessus sur {{away}} lors de la journée {{matchday}}",
+            "2": "Série maîtrisée de {{home}} face à {{away}}"
+          },
+          "awayWin": {
+            "0": "{{home}} {{homeGoals}} - {{awayGoals}} {{away}} : coup de force à l'extérieur",
+            "1": "{{away}} punit {{home}} au draft et au tempo",
+            "2": "Victoire à l'extérieur pour {{away}}"
+          },
+          "draw": {
+            "0": "{{home}} {{homeGoals}} - {{awayGoals}} {{away}} : série à égalité",
+            "1": "{{home}} et {{away}} se partagent les maps",
+            "2": "Aucun écart entre {{home}} et {{away}}"
+          }
+        },
+        "body0": "La journée {{matchday}} s'est terminée sur {{home}} {{homeGoals}} - {{awayGoals}} {{away}}. Ce résultat peut faire bouger la dynamique du classement pendant le split.\n\nJoueur du match : {{playerOfMatch}}",
+        "body1": "La série s'est conclue sur {{home}} {{homeGoals}} - {{awayGoals}} {{away}} lors de la journée {{matchday}}. Les deux équipes ont échangé adaptations de draft, setups d'objectifs et calls de late game.\n\nJoueur du match : {{playerOfMatch}}",
+        "body2": "La journée {{matchday}} a offert une nouvelle série disputée entre {{home}} et {{away}} ({{homeGoals}}-{{awayGoals}}). Le public a vu des pivots de draft et des fights d'objectifs jusqu'au bout.\n\nJoueur du match : {{playerOfMatch}}"
+      },
+      "roundup": {
+        "headline0": "Résumé journée {{matchday}} : {{totalMaps}} maps sur la Rift",
+        "headline1": "Journée de ligue {{matchday}} : tous les résultats",
+        "headline2": "Drafts, objectifs et maps ont défini la journée {{matchday}}",
+        "body": "La journée {{matchday}} est terminée. Voici tous les résultats des séries :\n\n{{results}}\n\n{{totalMaps}} maps jouées sur {{matchCount}} séries."
+      },
+      "standings": {
+        "headline0": "{{leader}} mène le classement après la journée {{matchday}}",
+        "headline1": "Classement de la ligue : {{leader}} garde la première place",
+        "headline2": "Mise à jour des power rankings — journée {{matchday}}",
+        "body": "Après la journée {{matchday}}, {{leader}} occupe la tête du classement.\n\nClassement par différentiel de maps :\n{{standings}}"
+      },
+      "seasonPreview": {
+        "headline0": "Aperçu du split : {{teamCount}} équipes visent le sommet",
+        "headline1": "Le nouveau split de ligue va commencer",
+        "headline2": "{{favourite}} peut-il contrôler la méta ?",
+        "body": "La ligue s'apprête à démarrer avec {{teamCount}} équipes dans le split.\n\nLes analystes placent {{favourite}} comme favori du départ, mais {{darkHorse}} peut être la surprise de la campagne.\n\nAvec des staffs qui affinent la préparation de draft, ce split s'annonce comme l'un des plus compétitifs de ces dernières années. Chaque map comptera dans la course aux playoffs.\n\nÉquipes : {{teamList}}"
+      },
+      "weeklyDigest": {
+        "headline": "Power rankings hebdomadaire — semaine du {{weekStart}}",
+        "bodyNoTopPerformer": "Le power ranking hebdomadaire est là. {{leader}} mène le classement, et {{storylineCount}} storyline(s) façonnent la ligue cette semaine.",
+        "bodyWithTopPerformer": "Le power ranking hebdomadaire est là. {{leader}} mène le classement, tandis que {{topPerformer}} domine la participation aux kills avec {{topPerformerPlays}} action(s) marquante(s). {{storylineCount}} storyline(s) façonnent la ligue cette semaine."
+      },
+      "storyline": {
+        "titleRace": {
+          "headline": "La course à la première place se resserre — {{leader}} devance {{challenger}} de {{gap}} point(s)",
+          "body": "{{leader}} reste devant, mais {{challenger}} n'est qu'à {{gap}} point(s) alors que la course aux playoffs prend forme."
+        },
+        "unbeatenStreak": {
+          "headline": "{{team}} porte sa série à {{runLength}} matchs",
+          "body": "{{team}} enchaîne {{runLength}} séries sans défaite et construit une vraie dynamique autour du draft et des objectifs."
+        }
+      },
+      "transferRumour": {
+        "headline": "{{player}} rejoint officiellement {{to}}",
+        "body": "{{to}} a finalisé la signature de {{player}} en provenance de {{from}} pour {{fee}}."
+      }
+    }
+  },
+  "traits": {
+    "Speedster": {
+      "label": "Flèche",
+      "desc": "Vitesse exceptionnelle"
+    },
+    "Tank": {
+      "label": "Tank",
+      "desc": "Puissant et infatigable"
+    },
+    "Agile": {
+      "label": "Agile",
+      "desc": "Rapide et vif"
+    },
+    "Tireless": {
+      "label": "Infatigable",
+      "desc": "Ne manque jamais d'énergie"
+    },
+    "Playmaker": {
+      "label": "Meneur de Jeu",
+      "desc": "Passeur créatif avec vision"
+    },
+    "Sharpshooter": {
+      "label": "Buteur",
+      "desc": "Finisseur clinique"
+    },
+    "Dribbler": {
+      "label": "Dribbleur",
+      "desc": "Habile avec le ballon"
+    },
+    "BallWinner": {
+      "label": "Récupérateur",
+      "desc": "Récupère le ballon sans relâche"
+    },
+    "Rock": {
+      "label": "Roc",
+      "desc": "Mur défensif immuable"
+    },
+    "Leader": {
+      "label": "Leader",
+      "desc": "Inspire ses coéquipiers"
+    },
+    "CoolHead": {
+      "label": "Sang-Froid",
+      "desc": "Calme sous pression"
+    },
+    "Visionary": {
+      "label": "Visionnaire",
+      "desc": "Voit des passes que d'autres ne voient pas"
+    },
+    "HotHead": {
+      "label": "Tête Brûlée",
+      "desc": "Enclin à perdre son sang-froid"
+    },
+    "TeamPlayer": {
+      "label": "Joueur d'Équipe",
+      "desc": "Met toujours l'équipe en premier"
+    },
+    "SafeHands": {
+      "label": "Mains Sûres",
+      "desc": "Gardien fiable"
+    },
+    "CatReflexes": {
+      "label": "Réflexes de Chat",
+      "desc": "Réflexes ultra-rapides"
+    },
+    "AerialDominance": {
+      "label": "Domination Aér.",
+      "desc": "Domine la surface dans les airs"
+    },
+    "CompleteForward": {
+      "label": "Attaquant Complet",
+      "desc": "Dangereux de toutes les manières"
+    },
+    "Engine": {
+      "label": "Moteur",
+      "desc": "Puissance de surface à surface"
+    },
+    "SetPieceSpecialist": {
+      "label": "Spécialiste Objectifs",
+      "desc": "Mortel dans les fights pour objectifs"
+    }
+  },
+  "date": {
+    "day": "JJ",
+    "month": "Mois",
+    "year": "AAAA"
+  },
+  "sacked": {
+    "title": "Vous Êtes Limogé",
+    "subtitle": "Le conseil d'administration a perdu confiance en votre capacité à diriger le club.",
+    "teamLabel": "Club",
+    "finalSatisfaction": "Confiance du Conseil",
+    "careerOverview": "Bilan de Carrière",
+    "matchesManaged": "Matchs",
+    "wins": "Victoires",
+    "draws": "Nuls",
+    "losses": "Défaites",
+    "winRate": "% Victoires",
+    "bestFinish": "Meilleur Classement",
+    "trophies": "Trophées",
+    "careerHistory": "Historique",
+    "returnToMenu": "Retour au Menu Principal",
+    "present": "Actuel",
+    "bestLabel": "Meilleur",
+    "dismissalLetter": "Le conseil d'administration a décidé de vous relever de vos fonctions d'entraîneur de {{team}}, avec effet immédiat.\n\nNous vous remercions pour vos services et vous souhaitons bonne chance pour la suite de votre carrière.\n\nCordialement,\nLe Conseil d'Administration"
+  },
+  "jobs": {
+    "opportunitiesTitle": "Opportunités d'emploi",
+    "applyButton": "Postuler",
+    "applicationSent": "Candidature...",
+    "hired": "Vous avez été nommé Head Coach !",
+    "rejected": "Votre candidature n'a pas été retenue.",
+    "noJobs": "Aucun poste disponible actuellement.",
+    "leaguePosition": "Dernière saison : {{position}}",
+    "refresh": "Vérifier les nouvelles offres"
+  },
+  "updater": {
+    "title": "Mise à Jour Disponible",
+    "description": "Une nouvelle version ({{version}}) est disponible. Vos parties sauvegardées seront conservées.",
+    "downloading": "Téléchargement...",
+    "preparing": "Préparation de la mise à jour...",
+    "installing": "Installation...",
+    "installAndRestart": "Installer & Redémarrer",
+    "playWithoutUpdating": "Jouer Sans Mettre à Jour"
+  },
+  "scrims": {
+    "reputation": "Scrim rep",
+    "reviewBlockTitle": "Block review",
+    "reviewWin": "Win",
+    "reviewLoss": "Loss",
+    "reportFocus": "Focus",
+    "detectedIssue": "Detected issue",
+    "freeDayOff": "Give the rest of the day off",
+    "decision": {
+      "cancelScrims": "Cancel scrims",
+      "continueBlock2": "Continue to block 2",
+      "vodReview": "VOD Review",
+      "mentalReset": "Mental Reset",
+      "targetedDrills": "Targeted Drills",
+      "offerRest": "Offer rest",
+      "dayOff": "Day off",
+      "pushThrough": "Push through"
+    },
+    "tag": {
+      "momentumPlus": "Momentum +",
+      "fatigueMinus": "Fatigue -",
+      "volumePlus": "Volume +",
+      "recoveryPlus": "Recovery +",
+      "fatiguePlus": "Fatigue +",
+      "volumeMinus": "Volume -",
+      "learningPlus": "Learning +",
+      "mentalMinus": "Mental -",
+      "riskMinus": "Risk -",
+      "analysisPlus": "Analysis +",
+      "qualityPlus": "Quality +",
+      "recoveryMinus": "Recovery -",
+      "mentalPlus": "Mental +",
+      "techniqueMinus": "Technique -",
+      "issuePlus": "Issue +",
+      "mechanicsPlus": "Mechanics +"
+    },
+    "weeklySetup": "Weekly setup"
+  }
+}

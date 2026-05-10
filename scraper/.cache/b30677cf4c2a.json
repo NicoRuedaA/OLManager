@@ -1,0 +1,2512 @@
+{
+  "batchcomplete": "",
+  "continue": {
+    "eicontinue": "0|287338",
+    "continue": "-||"
+  },
+  "query": {
+    "embeddedin": [
+      {
+        "pageid": 218153,
+        "ns": 0,
+        "title": "Gentside"
+      },
+      {
+        "pageid": 218178,
+        "ns": 0,
+        "title": "Tectonic"
+      },
+      {
+        "pageid": 218254,
+        "ns": 0,
+        "title": "Clutch Gaming Academy"
+      },
+      {
+        "pageid": 218275,
+        "ns": 0,
+        "title": "Victory Song Gaming"
+      },
+      {
+        "pageid": 218280,
+        "ns": 0,
+        "title": "Universidad Católica Esports"
+      },
+      {
+        "pageid": 218347,
+        "ns": 0,
+        "title": "OpTic Gaming Academy"
+      },
+      {
+        "pageid": 218387,
+        "ns": 0,
+        "title": "Golden Guardians Academy"
+      },
+      {
+        "pageid": 218991,
+        "ns": 0,
+        "title": "Kingzone DragonX"
+      },
+      {
+        "pageid": 219051,
+        "ns": 0,
+        "title": "KSV eSports"
+      },
+      {
+        "pageid": 219165,
+        "ns": 0,
+        "title": "UCAM Penguins"
+      },
+      {
+        "pageid": 219288,
+        "ns": 0,
+        "title": "FTV Esports"
+      },
+      {
+        "pageid": 219307,
+        "ns": 0,
+        "title": "PENTAGRAM"
+      },
+      {
+        "pageid": 219666,
+        "ns": 0,
+        "title": "Sinelight"
+      },
+      {
+        "pageid": 219760,
+        "ns": 0,
+        "title": "MEGA"
+      },
+      {
+        "pageid": 220119,
+        "ns": 0,
+        "title": "Dragon Army"
+      },
+      {
+        "pageid": 220146,
+        "ns": 0,
+        "title": "Elements Pro Gaming"
+      },
+      {
+        "pageid": 220472,
+        "ns": 0,
+        "title": "5Fox E-Sports Club"
+      },
+      {
+        "pageid": 220715,
+        "ns": 0,
+        "title": "SPGeSports"
+      },
+      {
+        "pageid": 220726,
+        "ns": 0,
+        "title": "Dire Cubs"
+      },
+      {
+        "pageid": 221150,
+        "ns": 0,
+        "title": "ES Sharks"
+      },
+      {
+        "pageid": 221323,
+        "ns": 0,
+        "title": "Team Vitality Academy"
+      },
+      {
+        "pageid": 222164,
+        "ns": 0,
+        "title": "Evilvice Esports"
+      },
+      {
+        "pageid": 222345,
+        "ns": 0,
+        "title": "Szata Maga"
+      },
+      {
+        "pageid": 222347,
+        "ns": 0,
+        "title": "Macro Maniacs"
+      },
+      {
+        "pageid": 222467,
+        "ns": 0,
+        "title": "Team Same Mordeczki"
+      },
+      {
+        "pageid": 222652,
+        "ns": 0,
+        "title": "Team DPD"
+      },
+      {
+        "pageid": 224643,
+        "ns": 0,
+        "title": "ROG Esport"
+      },
+      {
+        "pageid": 224648,
+        "ns": 0,
+        "title": "5 Hydra Esport"
+      },
+      {
+        "pageid": 224660,
+        "ns": 0,
+        "title": "Rising Star Gaming"
+      },
+      {
+        "pageid": 224674,
+        "ns": 0,
+        "title": "Crvena zvezda Esports"
+      },
+      {
+        "pageid": 224719,
+        "ns": 0,
+        "title": "Lamasticrew"
+      },
+      {
+        "pageid": 224742,
+        "ns": 0,
+        "title": "KlikTech"
+      },
+      {
+        "pageid": 224895,
+        "ns": 0,
+        "title": "Afro Beast"
+      },
+      {
+        "pageid": 225099,
+        "ns": 0,
+        "title": "EXtatus"
+      },
+      {
+        "pageid": 225297,
+        "ns": 0,
+        "title": "InFerno eSports"
+      },
+      {
+        "pageid": 225442,
+        "ns": 0,
+        "title": "Wind and Rain Balkan"
+      },
+      {
+        "pageid": 225462,
+        "ns": 0,
+        "title": "Wind and Rain Germany"
+      },
+      {
+        "pageid": 225530,
+        "ns": 0,
+        "title": "SCARZ Burning Core"
+      },
+      {
+        "pageid": 225540,
+        "ns": 0,
+        "title": "ArmaTeam"
+      },
+      {
+        "pageid": 225904,
+        "ns": 0,
+        "title": "Excel Esports"
+      },
+      {
+        "pageid": 226004,
+        "ns": 0,
+        "title": "Bigetron E-Sports"
+      },
+      {
+        "pageid": 226028,
+        "ns": 0,
+        "title": "QT DIG"
+      },
+      {
+        "pageid": 226035,
+        "ns": 0,
+        "title": "AKIHABARA ENCOUNT"
+      },
+      {
+        "pageid": 226079,
+        "ns": 0,
+        "title": "V3 New Generation"
+      },
+      {
+        "pageid": 226108,
+        "ns": 0,
+        "title": "Hyperion Esports (European Team)"
+      },
+      {
+        "pageid": 226112,
+        "ns": 0,
+        "title": "Dragon Army Academy"
+      },
+      {
+        "pageid": 226130,
+        "ns": 0,
+        "title": "Aston eSports"
+      },
+      {
+        "pageid": 226142,
+        "ns": 0,
+        "title": "The Largest Salary"
+      },
+      {
+        "pageid": 226400,
+        "ns": 0,
+        "title": "Comanche"
+      },
+      {
+        "pageid": 226667,
+        "ns": 0,
+        "title": "Mad Kings"
+      },
+      {
+        "pageid": 226671,
+        "ns": 0,
+        "title": "Team Just Ice"
+      },
+      {
+        "pageid": 226945,
+        "ns": 0,
+        "title": "Team Just Challenger"
+      },
+      {
+        "pageid": 227397,
+        "ns": 0,
+        "title": "Team Ascent"
+      },
+      {
+        "pageid": 228054,
+        "ns": 0,
+        "title": "ONE SEVEN EIGHT"
+      },
+      {
+        "pageid": 228278,
+        "ns": 0,
+        "title": "Suning-S"
+      },
+      {
+        "pageid": 228342,
+        "ns": 0,
+        "title": "K Special Forces"
+      },
+      {
+        "pageid": 228345,
+        "ns": 0,
+        "title": "Ares Gaming"
+      },
+      {
+        "pageid": 228351,
+        "ns": 0,
+        "title": "IDomina eSports"
+      },
+      {
+        "pageid": 228390,
+        "ns": 0,
+        "title": "Team Cappadocia"
+      },
+      {
+        "pageid": 228566,
+        "ns": 0,
+        "title": "Diabolus Esports"
+      },
+      {
+        "pageid": 228652,
+        "ns": 0,
+        "title": "TM Gaming"
+      },
+      {
+        "pageid": 228675,
+        "ns": 0,
+        "title": "Panathinaikos AC eSports"
+      },
+      {
+        "pageid": 228701,
+        "ns": 0,
+        "title": "VP Game"
+      },
+      {
+        "pageid": 228702,
+        "ns": 0,
+        "title": "Rogue Warriors Shark"
+      },
+      {
+        "pageid": 228709,
+        "ns": 0,
+        "title": "King of Future"
+      },
+      {
+        "pageid": 228711,
+        "ns": 0,
+        "title": "KeyMedia"
+      },
+      {
+        "pageid": 228712,
+        "ns": 0,
+        "title": "ThunderoBot Gaming"
+      },
+      {
+        "pageid": 228713,
+        "ns": 0,
+        "title": "VC Gaming"
+      },
+      {
+        "pageid": 228722,
+        "ns": 0,
+        "title": "OnlyGame"
+      },
+      {
+        "pageid": 228723,
+        "ns": 0,
+        "title": "Si Yi Xuan E-Sport"
+      },
+      {
+        "pageid": 228739,
+        "ns": 0,
+        "title": "Liberty Zeal Queue"
+      },
+      {
+        "pageid": 228754,
+        "ns": 0,
+        "title": "Qing Niao Yu Xing Game Team"
+      },
+      {
+        "pageid": 228756,
+        "ns": 0,
+        "title": "Scorpio Game"
+      },
+      {
+        "pageid": 228762,
+        "ns": 0,
+        "title": "SHEINOO"
+      },
+      {
+        "pageid": 228771,
+        "ns": 0,
+        "title": "Big One Gaming"
+      },
+      {
+        "pageid": 228774,
+        "ns": 0,
+        "title": "LanXiang Gaming"
+      },
+      {
+        "pageid": 228812,
+        "ns": 0,
+        "title": "Shadow Cream"
+      },
+      {
+        "pageid": 228813,
+        "ns": 0,
+        "title": "CCfuture"
+      },
+      {
+        "pageid": 229144,
+        "ns": 0,
+        "title": "Giants (Spanish Team)"
+      },
+      {
+        "pageid": 229174,
+        "ns": 0,
+        "title": "Fact Revolution"
+      },
+      {
+        "pageid": 229431,
+        "ns": 0,
+        "title": "Sky Gaming"
+      },
+      {
+        "pageid": 229472,
+        "ns": 0,
+        "title": "YeaH! Gaming"
+      },
+      {
+        "pageid": 229542,
+        "ns": 0,
+        "title": "Tech Titans"
+      },
+      {
+        "pageid": 230259,
+        "ns": 0,
+        "title": "Shock Gaming"
+      },
+      {
+        "pageid": 230291,
+        "ns": 0,
+        "title": "Coscu Army"
+      },
+      {
+        "pageid": 230311,
+        "ns": 0,
+        "title": "Sons of Tzu Gaming"
+      },
+      {
+        "pageid": 230471,
+        "ns": 0,
+        "title": "Naga Esports"
+      },
+      {
+        "pageid": 230541,
+        "ns": 0,
+        "title": "WP Gaming"
+      },
+      {
+        "pageid": 230603,
+        "ns": 0,
+        "title": "Valorous"
+      },
+      {
+        "pageid": 230805,
+        "ns": 0,
+        "title": "Undead Gaming"
+      },
+      {
+        "pageid": 231095,
+        "ns": 0,
+        "title": "Enclave"
+      },
+      {
+        "pageid": 231391,
+        "ns": 0,
+        "title": "Berlin International Gaming"
+      },
+      {
+        "pageid": 231412,
+        "ns": 0,
+        "title": "Grow uP eSports"
+      },
+      {
+        "pageid": 231773,
+        "ns": 0,
+        "title": "Redemption eSports Porto Alegre"
+      },
+      {
+        "pageid": 231774,
+        "ns": 0,
+        "title": "Ad hoc gaming"
+      },
+      {
+        "pageid": 231798,
+        "ns": 0,
+        "title": "Lunary"
+      },
+      {
+        "pageid": 232044,
+        "ns": 0,
+        "title": "Spain5"
+      },
+      {
+        "pageid": 232057,
+        "ns": 0,
+        "title": "Could Be Better"
+      },
+      {
+        "pageid": 232120,
+        "ns": 0,
+        "title": "X25 Esports"
+      },
+      {
+        "pageid": 232390,
+        "ns": 0,
+        "title": "MOBA ROG"
+      },
+      {
+        "pageid": 232456,
+        "ns": 0,
+        "title": "Team Atlantis"
+      },
+      {
+        "pageid": 232527,
+        "ns": 0,
+        "title": "Hanwha Life Esports"
+      },
+      {
+        "pageid": 232615,
+        "ns": 0,
+        "title": "RED Academy"
+      },
+      {
+        "pageid": 233014,
+        "ns": 0,
+        "title": "Ichor Gaming"
+      },
+      {
+        "pageid": 233325,
+        "ns": 0,
+        "title": "ASUS ROG ELITE"
+      },
+      {
+        "pageid": 233409,
+        "ns": 0,
+        "title": "LoL Academia"
+      },
+      {
+        "pageid": 233970,
+        "ns": 0,
+        "title": "Till Dawn"
+      },
+      {
+        "pageid": 234067,
+        "ns": 0,
+        "title": "MAMMOTH"
+      },
+      {
+        "pageid": 234147,
+        "ns": 0,
+        "title": "ORDER Academy"
+      },
+      {
+        "pageid": 234307,
+        "ns": 0,
+        "title": "Mammoth Academy"
+      },
+      {
+        "pageid": 234325,
+        "ns": 0,
+        "title": "Gen.G"
+      },
+      {
+        "pageid": 234648,
+        "ns": 0,
+        "title": "CLN Vipers"
+      },
+      {
+        "pageid": 235143,
+        "ns": 0,
+        "title": "IDM Pirata"
+      },
+      {
+        "pageid": 235203,
+        "ns": 0,
+        "title": "Racoon (Italian Team)"
+      },
+      {
+        "pageid": 235230,
+        "ns": 0,
+        "title": "Cyberground Gaming"
+      },
+      {
+        "pageid": 235370,
+        "ns": 0,
+        "title": "Saigon Buffalo"
+      },
+      {
+        "pageid": 235495,
+        "ns": 0,
+        "title": "Cube Adonis"
+      },
+      {
+        "pageid": 235726,
+        "ns": 0,
+        "title": "Bursaspor Esports"
+      },
+      {
+        "pageid": 235772,
+        "ns": 0,
+        "title": "Vikings Gaming"
+      },
+      {
+        "pageid": 235786,
+        "ns": 0,
+        "title": "D-City Gaming Stars"
+      },
+      {
+        "pageid": 236216,
+        "ns": 0,
+        "title": "Made in France"
+      },
+      {
+        "pageid": 236312,
+        "ns": 0,
+        "title": "GC Busan Rising Star"
+      },
+      {
+        "pageid": 236406,
+        "ns": 0,
+        "title": "EVOPLAY"
+      },
+      {
+        "pageid": 236431,
+        "ns": 0,
+        "title": "Impact Gaming"
+      },
+      {
+        "pageid": 236507,
+        "ns": 0,
+        "title": "Tempered Fate"
+      },
+      {
+        "pageid": 236657,
+        "ns": 0,
+        "title": "NextGaming"
+      },
+      {
+        "pageid": 236674,
+        "ns": 0,
+        "title": "True eSport"
+      },
+      {
+        "pageid": 237109,
+        "ns": 0,
+        "title": "Valhalla Vikings"
+      },
+      {
+        "pageid": 237347,
+        "ns": 0,
+        "title": "Aequilibritas E-Sports"
+      },
+      {
+        "pageid": 237352,
+        "ns": 0,
+        "title": "Unicorns of Love Sexy Edition"
+      },
+      {
+        "pageid": 237404,
+        "ns": 0,
+        "title": "Good Game Esport"
+      },
+      {
+        "pageid": 238096,
+        "ns": 0,
+        "title": "Santos e-Sports"
+      },
+      {
+        "pageid": 238229,
+        "ns": 0,
+        "title": "Chinese Taipei (National Team)"
+      },
+      {
+        "pageid": 238230,
+        "ns": 0,
+        "title": "China (National Team)"
+      },
+      {
+        "pageid": 238231,
+        "ns": 0,
+        "title": "South Korea (National Team)"
+      },
+      {
+        "pageid": 238233,
+        "ns": 0,
+        "title": "Vietnam (National Team)"
+      },
+      {
+        "pageid": 238234,
+        "ns": 0,
+        "title": "Thailand (National Team)"
+      },
+      {
+        "pageid": 238285,
+        "ns": 0,
+        "title": "Hong Kong (National Team)"
+      },
+      {
+        "pageid": 238302,
+        "ns": 0,
+        "title": "Super Star Destroyers"
+      },
+      {
+        "pageid": 238308,
+        "ns": 0,
+        "title": "The Tower"
+      },
+      {
+        "pageid": 238425,
+        "ns": 0,
+        "title": "Pakistan (National Team)"
+      },
+      {
+        "pageid": 238426,
+        "ns": 0,
+        "title": "Saudi Arabia (National Team)"
+      },
+      {
+        "pageid": 238430,
+        "ns": 0,
+        "title": "Indonesia (National Team)"
+      },
+      {
+        "pageid": 238431,
+        "ns": 0,
+        "title": "Kazakhstan (National Team)"
+      },
+      {
+        "pageid": 238436,
+        "ns": 0,
+        "title": "Malaysia (National Team)"
+      },
+      {
+        "pageid": 238438,
+        "ns": 0,
+        "title": "Macau (National Team)"
+      },
+      {
+        "pageid": 238697,
+        "ns": 0,
+        "title": "ESC Gaming Omega"
+      },
+      {
+        "pageid": 238753,
+        "ns": 0,
+        "title": "ESC Gaming (Italian Team)"
+      },
+      {
+        "pageid": 238780,
+        "ns": 0,
+        "title": "Pars eSports"
+      },
+      {
+        "pageid": 238785,
+        "ns": 0,
+        "title": "GamerLegion"
+      },
+      {
+        "pageid": 238817,
+        "ns": 0,
+        "title": "Packa Pappas Kappsäck"
+      },
+      {
+        "pageid": 238820,
+        "ns": 0,
+        "title": "BowQen Blackbucks"
+      },
+      {
+        "pageid": 238828,
+        "ns": 0,
+        "title": "Two-eyed Monsters"
+      },
+      {
+        "pageid": 238863,
+        "ns": 0,
+        "title": "SunSister ReUnion"
+      },
+      {
+        "pageid": 238931,
+        "ns": 0,
+        "title": "BUFF"
+      },
+      {
+        "pageid": 238990,
+        "ns": 0,
+        "title": "WLGaming Esports"
+      },
+      {
+        "pageid": 239058,
+        "ns": 0,
+        "title": "Intuition"
+      },
+      {
+        "pageid": 239069,
+        "ns": 0,
+        "title": "Chiefs Academy"
+      },
+      {
+        "pageid": 239474,
+        "ns": 0,
+        "title": "Outlawz"
+      },
+      {
+        "pageid": 239479,
+        "ns": 0,
+        "title": "Supremacy"
+      },
+      {
+        "pageid": 239615,
+        "ns": 0,
+        "title": "Smash It Down"
+      },
+      {
+        "pageid": 239651,
+        "ns": 0,
+        "title": "Aftershock Esports"
+      },
+      {
+        "pageid": 239815,
+        "ns": 0,
+        "title": "Alice Queen"
+      },
+      {
+        "pageid": 239945,
+        "ns": 0,
+        "title": "Virtual Reality Game"
+      },
+      {
+        "pageid": 239946,
+        "ns": 0,
+        "title": "Chong Qing Gaming"
+      },
+      {
+        "pageid": 239947,
+        "ns": 0,
+        "title": "Vortex Team"
+      },
+      {
+        "pageid": 240278,
+        "ns": 0,
+        "title": "XD Prinfor B"
+      },
+      {
+        "pageid": 240314,
+        "ns": 0,
+        "title": "Forger Esports"
+      },
+      {
+        "pageid": 241781,
+        "ns": 0,
+        "title": "NoFancy"
+      },
+      {
+        "pageid": 241827,
+        "ns": 0,
+        "title": "HANAGUMI KAREN"
+      },
+      {
+        "pageid": 242020,
+        "ns": 0,
+        "title": "EGN Esports"
+      },
+      {
+        "pageid": 242094,
+        "ns": 0,
+        "title": "WuDu"
+      },
+      {
+        "pageid": 242189,
+        "ns": 0,
+        "title": "Team Furca"
+      },
+      {
+        "pageid": 242343,
+        "ns": 0,
+        "title": "SanHe Gaming"
+      },
+      {
+        "pageid": 242361,
+        "ns": 0,
+        "title": "LaoPengYou"
+      },
+      {
+        "pageid": 242362,
+        "ns": 0,
+        "title": "OuYi Game Team"
+      },
+      {
+        "pageid": 242363,
+        "ns": 0,
+        "title": "DengKaiLi Game Team"
+      },
+      {
+        "pageid": 242392,
+        "ns": 0,
+        "title": "SuperEsports"
+      },
+      {
+        "pageid": 242572,
+        "ns": 0,
+        "title": "Havan Liberty Gaming"
+      },
+      {
+        "pageid": 247762,
+        "ns": 0,
+        "title": "Level One"
+      },
+      {
+        "pageid": 248027,
+        "ns": 0,
+        "title": "Gamespace Mediterranean College Esports"
+      },
+      {
+        "pageid": 248408,
+        "ns": 0,
+        "title": "AVANGAR"
+      },
+      {
+        "pageid": 248411,
+        "ns": 0,
+        "title": "PlaPro.c58"
+      },
+      {
+        "pageid": 248442,
+        "ns": 0,
+        "title": "Team Sky"
+      },
+      {
+        "pageid": 248495,
+        "ns": 0,
+        "title": "Monolith Gaming"
+      },
+      {
+        "pageid": 248607,
+        "ns": 0,
+        "title": "XD Prinfor"
+      },
+      {
+        "pageid": 248870,
+        "ns": 0,
+        "title": "Eyeshield Gaming"
+      },
+      {
+        "pageid": 249018,
+        "ns": 0,
+        "title": "Emprox"
+      },
+      {
+        "pageid": 249038,
+        "ns": 0,
+        "title": "Crimson Gaming"
+      },
+      {
+        "pageid": 249042,
+        "ns": 0,
+        "title": "QUT Tigers"
+      },
+      {
+        "pageid": 249046,
+        "ns": 0,
+        "title": "Avant Academy"
+      },
+      {
+        "pageid": 249380,
+        "ns": 0,
+        "title": "Czas na zasady"
+      },
+      {
+        "pageid": 249384,
+        "ns": 0,
+        "title": "Copenhagen Flames"
+      },
+      {
+        "pageid": 249790,
+        "ns": 0,
+        "title": "Adive"
+      },
+      {
+        "pageid": 249841,
+        "ns": 0,
+        "title": "Iron Wolves"
+      },
+      {
+        "pageid": 249842,
+        "ns": 0,
+        "title": "Team Atlantis Baltics"
+      },
+      {
+        "pageid": 249844,
+        "ns": 0,
+        "title": "Žalgiris Esports"
+      },
+      {
+        "pageid": 249846,
+        "ns": 0,
+        "title": "Turing eSports"
+      },
+      {
+        "pageid": 249906,
+        "ns": 0,
+        "title": "Sector One"
+      },
+      {
+        "pageid": 249913,
+        "ns": 0,
+        "title": "Ground Zero Gaming"
+      },
+      {
+        "pageid": 249945,
+        "ns": 0,
+        "title": "Sector One Black"
+      },
+      {
+        "pageid": 250156,
+        "ns": 0,
+        "title": "Polar Bears"
+      },
+      {
+        "pageid": 250192,
+        "ns": 0,
+        "title": "Tectonic Academy"
+      },
+      {
+        "pageid": 250252,
+        "ns": 0,
+        "title": "WiLD MultiGaming"
+      },
+      {
+        "pageid": 250263,
+        "ns": 0,
+        "title": "Falcon E-Sports"
+      },
+      {
+        "pageid": 250340,
+        "ns": 0,
+        "title": "New Dynasty"
+      },
+      {
+        "pageid": 250369,
+        "ns": 0,
+        "title": "Mythus Esports"
+      },
+      {
+        "pageid": 250552,
+        "ns": 0,
+        "title": "Andes Esports"
+      },
+      {
+        "pageid": 250851,
+        "ns": 0,
+        "title": "Team Echo Zulu"
+      },
+      {
+        "pageid": 250995,
+        "ns": 0,
+        "title": "Ravioli Ravioli"
+      },
+      {
+        "pageid": 251015,
+        "ns": 0,
+        "title": "Falkol"
+      },
+      {
+        "pageid": 251115,
+        "ns": 0,
+        "title": "Just Toys Gaming"
+      },
+      {
+        "pageid": 251129,
+        "ns": 0,
+        "title": "Heroes of the Universe E-Sports Brazil"
+      },
+      {
+        "pageid": 251133,
+        "ns": 0,
+        "title": "Royal Penguins"
+      },
+      {
+        "pageid": 251153,
+        "ns": 0,
+        "title": "ToxicFalcons eSports"
+      },
+      {
+        "pageid": 251508,
+        "ns": 0,
+        "title": "BloodRain-Gaming"
+      },
+      {
+        "pageid": 251611,
+        "ns": 0,
+        "title": "Defusekids"
+      },
+      {
+        "pageid": 253193,
+        "ns": 0,
+        "title": "Zeu5 Gaming"
+      },
+      {
+        "pageid": 253417,
+        "ns": 0,
+        "title": "Instinct Gaming"
+      },
+      {
+        "pageid": 254065,
+        "ns": 0,
+        "title": "VAULT"
+      },
+      {
+        "pageid": 254122,
+        "ns": 0,
+        "title": "Powned.it"
+      },
+      {
+        "pageid": 254209,
+        "ns": 0,
+        "title": "DIVIZON"
+      },
+      {
+        "pageid": 255122,
+        "ns": 0,
+        "title": "Dark Zone"
+      },
+      {
+        "pageid": 255304,
+        "ns": 0,
+        "title": "ToxicFalcons eSports Belgium"
+      },
+      {
+        "pageid": 255520,
+        "ns": 0,
+        "title": "Team EasyFix Co-Hop"
+      },
+      {
+        "pageid": 255564,
+        "ns": 0,
+        "title": "Dark Crows"
+      },
+      {
+        "pageid": 256370,
+        "ns": 0,
+        "title": "Imperium Gaming"
+      },
+      {
+        "pageid": 256543,
+        "ns": 0,
+        "title": "Wisła Płock eSports"
+      },
+      {
+        "pageid": 256633,
+        "ns": 0,
+        "title": "Regular Team"
+      },
+      {
+        "pageid": 256674,
+        "ns": 0,
+        "title": "Astralis"
+      },
+      {
+        "pageid": 256785,
+        "ns": 0,
+        "title": "Bring It On"
+      },
+      {
+        "pageid": 257099,
+        "ns": 0,
+        "title": "Phelan Gaming"
+      },
+      {
+        "pageid": 257253,
+        "ns": 0,
+        "title": "Brussels Guardians"
+      },
+      {
+        "pageid": 257383,
+        "ns": 0,
+        "title": "All Knights"
+      },
+      {
+        "pageid": 257429,
+        "ns": 0,
+        "title": "FroztFire Team"
+      },
+      {
+        "pageid": 257522,
+        "ns": 0,
+        "title": "Xavier Esports"
+      },
+      {
+        "pageid": 257651,
+        "ns": 0,
+        "title": "ASP Esports"
+      },
+      {
+        "pageid": 258103,
+        "ns": 0,
+        "title": "Kraken E-Sports"
+      },
+      {
+        "pageid": 258174,
+        "ns": 0,
+        "title": "R-SIXTEAM"
+      },
+      {
+        "pageid": 258408,
+        "ns": 0,
+        "title": "Asura eSports"
+      },
+      {
+        "pageid": 258502,
+        "ns": 0,
+        "title": "Sangal Esports"
+      },
+      {
+        "pageid": 258542,
+        "ns": 0,
+        "title": "Black Lion"
+      },
+      {
+        "pageid": 258626,
+        "ns": 0,
+        "title": "Predators Academy"
+      },
+      {
+        "pageid": 258705,
+        "ns": 0,
+        "title": "Piast Gliwice Esports"
+      },
+      {
+        "pageid": 258750,
+        "ns": 0,
+        "title": "Reload eSports"
+      },
+      {
+        "pageid": 258784,
+        "ns": 0,
+        "title": "Estoril Praia eSports"
+      },
+      {
+        "pageid": 258889,
+        "ns": 0,
+        "title": "VCS Allstars"
+      },
+      {
+        "pageid": 258931,
+        "ns": 0,
+        "title": "LCL Allstars"
+      },
+      {
+        "pageid": 258932,
+        "ns": 0,
+        "title": "CLS Allstars"
+      },
+      {
+        "pageid": 258933,
+        "ns": 0,
+        "title": "LLN Allstars"
+      },
+      {
+        "pageid": 258934,
+        "ns": 0,
+        "title": "LJL Allstars"
+      },
+      {
+        "pageid": 258935,
+        "ns": 0,
+        "title": "OPL Allstars"
+      },
+      {
+        "pageid": 259092,
+        "ns": 0,
+        "title": "Valkiria Esports"
+      },
+      {
+        "pageid": 259096,
+        "ns": 0,
+        "title": "Akademia"
+      },
+      {
+        "pageid": 259173,
+        "ns": 0,
+        "title": "Sharks Esports Team"
+      },
+      {
+        "pageid": 259175,
+        "ns": 0,
+        "title": "Stormbringers"
+      },
+      {
+        "pageid": 259178,
+        "ns": 0,
+        "title": "Movistar Riders Academy"
+      },
+      {
+        "pageid": 259181,
+        "ns": 0,
+        "title": "MAD Lions Academy"
+      },
+      {
+        "pageid": 259185,
+        "ns": 0,
+        "title": "Vodafone Giants Academy"
+      },
+      {
+        "pageid": 259371,
+        "ns": 0,
+        "title": "Polar Ace"
+      },
+      {
+        "pageid": 259487,
+        "ns": 0,
+        "title": "Supernova"
+      },
+      {
+        "pageid": 259580,
+        "ns": 0,
+        "title": "Philippines (National Team)"
+      },
+      {
+        "pageid": 259824,
+        "ns": 0,
+        "title": "Namibia (National Team)"
+      },
+      {
+        "pageid": 259826,
+        "ns": 0,
+        "title": "Mexico (National Team)"
+      },
+      {
+        "pageid": 259827,
+        "ns": 0,
+        "title": "Australia (National Team)"
+      },
+      {
+        "pageid": 259869,
+        "ns": 0,
+        "title": "Royal Youth Academy"
+      },
+      {
+        "pageid": 259911,
+        "ns": 0,
+        "title": "Italy (National Team)"
+      },
+      {
+        "pageid": 259912,
+        "ns": 0,
+        "title": "South Africa (National Team)"
+      },
+      {
+        "pageid": 259958,
+        "ns": 0,
+        "title": "Israel (National Team)"
+      },
+      {
+        "pageid": 259959,
+        "ns": 0,
+        "title": "Sweden (National Team)"
+      },
+      {
+        "pageid": 259960,
+        "ns": 0,
+        "title": "Russia (National Team)"
+      },
+      {
+        "pageid": 259963,
+        "ns": 0,
+        "title": "Romania (National Team)"
+      },
+      {
+        "pageid": 260049,
+        "ns": 0,
+        "title": "Netherlands (National Team)"
+      },
+      {
+        "pageid": 260051,
+        "ns": 0,
+        "title": "France (National Team)"
+      },
+      {
+        "pageid": 260055,
+        "ns": 0,
+        "title": "Sri Lanka (National Team)"
+      },
+      {
+        "pageid": 260062,
+        "ns": 0,
+        "title": "Switzerland (National Team)"
+      },
+      {
+        "pageid": 260093,
+        "ns": 0,
+        "title": "Dawn of Stars"
+      },
+      {
+        "pageid": 260097,
+        "ns": 0,
+        "title": "RIFT Esports"
+      },
+      {
+        "pageid": 260113,
+        "ns": 0,
+        "title": "Rogue (European Team)"
+      },
+      {
+        "pageid": 260119,
+        "ns": 0,
+        "title": "North (2018 European Team)"
+      },
+      {
+        "pageid": 260622,
+        "ns": 0,
+        "title": "Egypt (National Team)"
+      },
+      {
+        "pageid": 260626,
+        "ns": 0,
+        "title": "AZIO eSports"
+      },
+      {
+        "pageid": 260779,
+        "ns": 0,
+        "title": "Iran (National Team)"
+      },
+      {
+        "pageid": 260812,
+        "ns": 0,
+        "title": "Georgia (National Team)"
+      },
+      {
+        "pageid": 260813,
+        "ns": 0,
+        "title": "Finland (National Team)"
+      },
+      {
+        "pageid": 260819,
+        "ns": 0,
+        "title": "Denmark (National Team)"
+      },
+      {
+        "pageid": 260820,
+        "ns": 0,
+        "title": "Costa Rica (National Team)"
+      },
+      {
+        "pageid": 260822,
+        "ns": 0,
+        "title": "Macedonia (National Team)"
+      },
+      {
+        "pageid": 260824,
+        "ns": 0,
+        "title": "Tunisia (National Team)"
+      },
+      {
+        "pageid": 260826,
+        "ns": 0,
+        "title": "Brazil (National Team)"
+      },
+      {
+        "pageid": 260827,
+        "ns": 0,
+        "title": "New Zealand (National Team)"
+      },
+      {
+        "pageid": 260830,
+        "ns": 0,
+        "title": "Azerbaijan (National Team)"
+      },
+      {
+        "pageid": 260831,
+        "ns": 0,
+        "title": "Belgium (National Team)"
+      },
+      {
+        "pageid": 260834,
+        "ns": 0,
+        "title": "Mongolia (National Team)"
+      },
+      {
+        "pageid": 260835,
+        "ns": 0,
+        "title": "Portugal (National Team)"
+      },
+      {
+        "pageid": 260836,
+        "ns": 0,
+        "title": "Austria (National Team)"
+      },
+      {
+        "pageid": 260837,
+        "ns": 0,
+        "title": "Spain (National Team)"
+      },
+      {
+        "pageid": 260839,
+        "ns": 0,
+        "title": "Canada (National Team)"
+      },
+      {
+        "pageid": 261025,
+        "ns": 0,
+        "title": "Eternals Gaming"
+      },
+      {
+        "pageid": 261114,
+        "ns": 0,
+        "title": "Maryville University"
+      },
+      {
+        "pageid": 261164,
+        "ns": 0,
+        "title": "Team Cloud Drake (NASG Team)"
+      },
+      {
+        "pageid": 261169,
+        "ns": 0,
+        "title": "Team Infernal Drake (NASG Team)"
+      },
+      {
+        "pageid": 261174,
+        "ns": 0,
+        "title": "Team Mountain Drake (NASG Team)"
+      },
+      {
+        "pageid": 261178,
+        "ns": 0,
+        "title": "Team Ocean Drake (NASG Team)"
+      },
+      {
+        "pageid": 261358,
+        "ns": 0,
+        "title": "Team Arcade"
+      },
+      {
+        "pageid": 261376,
+        "ns": 0,
+        "title": "Austrian Force willhaben"
+      },
+      {
+        "pageid": 261556,
+        "ns": 0,
+        "title": "SeaDoggos"
+      },
+      {
+        "pageid": 261562,
+        "ns": 0,
+        "title": "Royal Youth"
+      },
+      {
+        "pageid": 261689,
+        "ns": 0,
+        "title": "Furious Gaming Academy"
+      },
+      {
+        "pageid": 261691,
+        "ns": 0,
+        "title": "Isurus Academy"
+      },
+      {
+        "pageid": 261699,
+        "ns": 0,
+        "title": "Doxa Gaming"
+      },
+      {
+        "pageid": 263122,
+        "ns": 0,
+        "title": "MAD Lions E.C. Colombia"
+      },
+      {
+        "pageid": 263265,
+        "ns": 0,
+        "title": "MJ-Esports"
+      },
+      {
+        "pageid": 263398,
+        "ns": 0,
+        "title": "Gravitas"
+      },
+      {
+        "pageid": 264443,
+        "ns": 0,
+        "title": "Germany (National Team)"
+      },
+      {
+        "pageid": 264513,
+        "ns": 0,
+        "title": "VIS eSports"
+      },
+      {
+        "pageid": 265440,
+        "ns": 0,
+        "title": "Gama Dream"
+      },
+      {
+        "pageid": 265586,
+        "ns": 0,
+        "title": "Wild Jaguars"
+      },
+      {
+        "pageid": 265600,
+        "ns": 0,
+        "title": "Östersunds FK Esports"
+      },
+      {
+        "pageid": 265849,
+        "ns": 0,
+        "title": "Solwing Esports"
+      },
+      {
+        "pageid": 265987,
+        "ns": 0,
+        "title": "GG Esports Academy"
+      },
+      {
+        "pageid": 265999,
+        "ns": 0,
+        "title": "Columbia College"
+      },
+      {
+        "pageid": 266076,
+        "ns": 0,
+        "title": "Meme Stream Dream Team"
+      },
+      {
+        "pageid": 266156,
+        "ns": 0,
+        "title": "University of Maryland College Park"
+      },
+      {
+        "pageid": 266239,
+        "ns": 0,
+        "title": "Loto Gaming"
+      },
+      {
+        "pageid": 266326,
+        "ns": 0,
+        "title": "T3H Esports"
+      },
+      {
+        "pageid": 266329,
+        "ns": 0,
+        "title": "D-City Gaming Stars Gold"
+      },
+      {
+        "pageid": 266546,
+        "ns": 0,
+        "title": "EDward Gaming Youth Team"
+      },
+      {
+        "pageid": 266575,
+        "ns": 0,
+        "title": "Robert Morris University Illinois"
+      },
+      {
+        "pageid": 266613,
+        "ns": 0,
+        "title": "Dragon Gate Team"
+      },
+      {
+        "pageid": 266616,
+        "ns": 0,
+        "title": "Alpha Esports"
+      },
+      {
+        "pageid": 266685,
+        "ns": 0,
+        "title": "Max Tigers"
+      },
+      {
+        "pageid": 266693,
+        "ns": 0,
+        "title": "Chi Army"
+      },
+      {
+        "pageid": 266701,
+        "ns": 0,
+        "title": "Infinity Esports Colombia"
+      },
+      {
+        "pageid": 266738,
+        "ns": 0,
+        "title": "Victory Five"
+      },
+      {
+        "pageid": 266760,
+        "ns": 0,
+        "title": "SuperMassive Academy"
+      },
+      {
+        "pageid": 266946,
+        "ns": 0,
+        "title": "FC Schalke 04 Evolution"
+      },
+      {
+        "pageid": 267445,
+        "ns": 0,
+        "title": "LEC Allstars"
+      },
+      {
+        "pageid": 268941,
+        "ns": 0,
+        "title": "Falkol Storm"
+      },
+      {
+        "pageid": 269121,
+        "ns": 0,
+        "title": "Hexagone Esports"
+      },
+      {
+        "pageid": 269216,
+        "ns": 0,
+        "title": "Dropz Esports"
+      },
+      {
+        "pageid": 269533,
+        "ns": 0,
+        "title": "LP Gaming"
+      },
+      {
+        "pageid": 269607,
+        "ns": 0,
+        "title": "Campus Party Sparks"
+      },
+      {
+        "pageid": 269788,
+        "ns": 0,
+        "title": "VSG (Korean Team)"
+      },
+      {
+        "pageid": 269798,
+        "ns": 0,
+        "title": "JDXL"
+      },
+      {
+        "pageid": 269816,
+        "ns": 0,
+        "title": "Team AURORA Academy"
+      },
+      {
+        "pageid": 269836,
+        "ns": 0,
+        "title": "XTEN Esports"
+      },
+      {
+        "pageid": 269905,
+        "ns": 0,
+        "title": "Uppercut esports"
+      },
+      {
+        "pageid": 269931,
+        "ns": 0,
+        "title": "Cream Esports"
+      },
+      {
+        "pageid": 269932,
+        "ns": 0,
+        "title": "Cream Real Betis.Mexico"
+      },
+      {
+        "pageid": 270145,
+        "ns": 0,
+        "title": "Czeska Husaria"
+      },
+      {
+        "pageid": 270149,
+        "ns": 0,
+        "title": "MAD Lions E.C. Mexico"
+      },
+      {
+        "pageid": 270152,
+        "ns": 0,
+        "title": "XTEN Mexico"
+      },
+      {
+        "pageid": 270366,
+        "ns": 0,
+        "title": "CERBERUS Esports (Vietnamese Team)"
+      },
+      {
+        "pageid": 270403,
+        "ns": 0,
+        "title": "Seoul"
+      },
+      {
+        "pageid": 270415,
+        "ns": 0,
+        "title": "Harrisburg University"
+      },
+      {
+        "pageid": 270435,
+        "ns": 0,
+        "title": "Liiv SANDBOX"
+      },
+      {
+        "pageid": 270459,
+        "ns": 0,
+        "title": "HOU GAMING"
+      },
+      {
+        "pageid": 270524,
+        "ns": 0,
+        "title": "Barrage (British Team)"
+      },
+      {
+        "pageid": 270525,
+        "ns": 0,
+        "title": "Rogue Esports Club"
+      },
+      {
+        "pageid": 270596,
+        "ns": 0,
+        "title": "Team Clarity"
+      },
+      {
+        "pageid": 270618,
+        "ns": 0,
+        "title": "Rampage Quintet"
+      },
+      {
+        "pageid": 270766,
+        "ns": 0,
+        "title": "Dark Passage Academy"
+      },
+      {
+        "pageid": 270773,
+        "ns": 0,
+        "title": "AZIO Black"
+      },
+      {
+        "pageid": 270777,
+        "ns": 0,
+        "title": "AZIO White"
+      },
+      {
+        "pageid": 270814,
+        "ns": 0,
+        "title": "Poland (National Team)"
+      },
+      {
+        "pageid": 270815,
+        "ns": 0,
+        "title": "Team Forge Academy"
+      },
+      {
+        "pageid": 270834,
+        "ns": 0,
+        "title": "Fenerbahçe Academy"
+      },
+      {
+        "pageid": 270835,
+        "ns": 0,
+        "title": "Galatasaray Academy"
+      },
+      {
+        "pageid": 270844,
+        "ns": 0,
+        "title": "Beşiktaş Academy"
+      },
+      {
+        "pageid": 270876,
+        "ns": 0,
+        "title": "Galakticos Academy"
+      },
+      {
+        "pageid": 271034,
+        "ns": 0,
+        "title": "AXIZ"
+      },
+      {
+        "pageid": 271037,
+        "ns": 0,
+        "title": "Bursaspor Academy"
+      },
+      {
+        "pageid": 271097,
+        "ns": 0,
+        "title": "MachiX"
+      },
+      {
+        "pageid": 271107,
+        "ns": 0,
+        "title": "Arctic Gaming Mexico"
+      },
+      {
+        "pageid": 271402,
+        "ns": 0,
+        "title": "Kaizen Esports"
+      },
+      {
+        "pageid": 271424,
+        "ns": 0,
+        "title": "X6tence Mexico"
+      },
+      {
+        "pageid": 271653,
+        "ns": 0,
+        "title": "Anáhuac Esports"
+      },
+      {
+        "pageid": 271662,
+        "ns": 0,
+        "title": "Universidad de Chile Esports"
+      },
+      {
+        "pageid": 271689,
+        "ns": 0,
+        "title": "Inaequalis"
+      },
+      {
+        "pageid": 271874,
+        "ns": 0,
+        "title": "Bloody Gaming"
+      },
+      {
+        "pageid": 271880,
+        "ns": 0,
+        "title": "Lowkey Esports"
+      },
+      {
+        "pageid": 271912,
+        "ns": 0,
+        "title": "Vireo.Pro"
+      },
+      {
+        "pageid": 271961,
+        "ns": 0,
+        "title": "HG Esports"
+      },
+      {
+        "pageid": 272010,
+        "ns": 0,
+        "title": "G-Rex Infinite"
+      },
+      {
+        "pageid": 272074,
+        "ns": 0,
+        "title": "PostFinance Helix"
+      },
+      {
+        "pageid": 272085,
+        "ns": 0,
+        "title": "WarKidZ E-Sports"
+      },
+      {
+        "pageid": 272090,
+        "ns": 0,
+        "title": "TT willhaben"
+      },
+      {
+        "pageid": 272094,
+        "ns": 0,
+        "title": "Alpaka Esports"
+      },
+      {
+        "pageid": 272193,
+        "ns": 0,
+        "title": "LinGan e-Sports"
+      },
+      {
+        "pageid": 272254,
+        "ns": 0,
+        "title": "Samsung Morning Stars"
+      },
+      {
+        "pageid": 272439,
+        "ns": 0,
+        "title": "Sølvkikkert Esports"
+      },
+      {
+        "pageid": 272554,
+        "ns": 0,
+        "title": "QLASH Forge"
+      },
+      {
+        "pageid": 272569,
+        "ns": 0,
+        "title": "Gripen Esport"
+      },
+      {
+        "pageid": 272607,
+        "ns": 0,
+        "title": "Pepehands"
+      },
+      {
+        "pageid": 272715,
+        "ns": 0,
+        "title": "Team Plague"
+      },
+      {
+        "pageid": 272763,
+        "ns": 0,
+        "title": "S2V Esports"
+      },
+      {
+        "pageid": 272941,
+        "ns": 0,
+        "title": "ExceL Academy"
+      },
+      {
+        "pageid": 272956,
+        "ns": 0,
+        "title": "PRIDE (Polish Team)"
+      },
+      {
+        "pageid": 272960,
+        "ns": 0,
+        "title": "INEA Esports"
+      },
+      {
+        "pageid": 272965,
+        "ns": 0,
+        "title": "Esports Academy"
+      },
+      {
+        "pageid": 272970,
+        "ns": 0,
+        "title": "ACTINA PACT"
+      },
+      {
+        "pageid": 272977,
+        "ns": 0,
+        "title": "Infinity Esports Costa Rica"
+      },
+      {
+        "pageid": 272989,
+        "ns": 0,
+        "title": "Esports Performance Center"
+      },
+      {
+        "pageid": 272993,
+        "ns": 0,
+        "title": "OP innogy eSport"
+      },
+      {
+        "pageid": 273146,
+        "ns": 0,
+        "title": "ESTORM"
+      },
+      {
+        "pageid": 273218,
+        "ns": 0,
+        "title": "North Carolina State University"
+      },
+      {
+        "pageid": 273306,
+        "ns": 0,
+        "title": "The Final Tribe"
+      },
+      {
+        "pageid": 273352,
+        "ns": 0,
+        "title": "Bulldog Esports"
+      },
+      {
+        "pageid": 273354,
+        "ns": 0,
+        "title": "Splyce Vipers"
+      },
+      {
+        "pageid": 273474,
+        "ns": 0,
+        "title": "F-Soul Esports"
+      },
+      {
+        "pageid": 273481,
+        "ns": 0,
+        "title": "Fish Dive Team"
+      },
+      {
+        "pageid": 273525,
+        "ns": 0,
+        "title": "Nordavind"
+      },
+      {
+        "pageid": 273534,
+        "ns": 0,
+        "title": "Team MCES"
+      },
+      {
+        "pageid": 273537,
+        "ns": 0,
+        "title": "DarkSpawn Gaming"
+      },
+      {
+        "pageid": 273625,
+        "ns": 0,
+        "title": "Vitality.Bee"
+      },
+      {
+        "pageid": 273627,
+        "ns": 0,
+        "title": "G2 Heretics"
+      },
+      {
+        "pageid": 273762,
+        "ns": 0,
+        "title": "Origen BCN"
+      },
+      {
+        "pageid": 274098,
+        "ns": 0,
+        "title": "Indictive Esports"
+      },
+      {
+        "pageid": 274441,
+        "ns": 0,
+        "title": "NYYRIKKI Blue"
+      },
+      {
+        "pageid": 274447,
+        "ns": 0,
+        "title": "NYYRIKKI White"
+      },
+      {
+        "pageid": 274644,
+        "ns": 0,
+        "title": "Level Up esports"
+      },
+      {
+        "pageid": 274931,
+        "ns": 0,
+        "title": "Team PHZ"
+      },
+      {
+        "pageid": 275047,
+        "ns": 0,
+        "title": "HWA Gaming Academy"
+      },
+      {
+        "pageid": 275111,
+        "ns": 0,
+        "title": "Arizona State University"
+      },
+      {
+        "pageid": 275187,
+        "ns": 0,
+        "title": "Asura (Korean Team)"
+      },
+      {
+        "pageid": 275309,
+        "ns": 0,
+        "title": "PANTHERS Gaming"
+      },
+      {
+        "pageid": 275322,
+        "ns": 0,
+        "title": "Misfits Premier"
+      },
+      {
+        "pageid": 275436,
+        "ns": 0,
+        "title": "Sector One Academy"
+      },
+      {
+        "pageid": 275456,
+        "ns": 0,
+        "title": "Konix eSport"
+      },
+      {
+        "pageid": 276040,
+        "ns": 0,
+        "title": "Vikingekrig Esports"
+      },
+      {
+        "pageid": 276072,
+        "ns": 0,
+        "title": "TopHard Esports"
+      },
+      {
+        "pageid": 276296,
+        "ns": 0,
+        "title": "Sour Savoury"
+      },
+      {
+        "pageid": 276434,
+        "ns": 0,
+        "title": "Another Troll Team"
+      },
+      {
+        "pageid": 276622,
+        "ns": 0,
+        "title": "Dark Quality"
+      },
+      {
+        "pageid": 276625,
+        "ns": 0,
+        "title": "Kokoro No Senshi"
+      },
+      {
+        "pageid": 276628,
+        "ns": 0,
+        "title": "OG Esports"
+      },
+      {
+        "pageid": 276631,
+        "ns": 0,
+        "title": "Unknowns Gamers"
+      },
+      {
+        "pageid": 276633,
+        "ns": 0,
+        "title": "Vortex Gaming (Latin American Team)"
+      },
+      {
+        "pageid": 276655,
+        "ns": 0,
+        "title": "University of Illinois at Urbana-Champaign"
+      },
+      {
+        "pageid": 276817,
+        "ns": 0,
+        "title": "Future Perfect Demacia"
+      },
+      {
+        "pageid": 276912,
+        "ns": 0,
+        "title": "Future Perfect Zaun"
+      },
+      {
+        "pageid": 276913,
+        "ns": 0,
+        "title": "Future Perfect Ionia"
+      },
+      {
+        "pageid": 276914,
+        "ns": 0,
+        "title": "Future Perfect Noxus"
+      },
+      {
+        "pageid": 276987,
+        "ns": 0,
+        "title": "Wind and Rain Nordic"
+      },
+      {
+        "pageid": 276998,
+        "ns": 0,
+        "title": "Random 5"
+      },
+      {
+        "pageid": 277002,
+        "ns": 0,
+        "title": "Reflex Esport Club"
+      },
+      {
+        "pageid": 277798,
+        "ns": 0,
+        "title": "Team Nerotec"
+      },
+      {
+        "pageid": 278345,
+        "ns": 0,
+        "title": "Illinois Wesleyan University"
+      },
+      {
+        "pageid": 278552,
+        "ns": 0,
+        "title": "Florida State University"
+      },
+      {
+        "pageid": 278771,
+        "ns": 0,
+        "title": "University of Texas at Dallas"
+      },
+      {
+        "pageid": 278790,
+        "ns": 0,
+        "title": "ZeroSeven Gera"
+      },
+      {
+        "pageid": 278981,
+        "ns": 0,
+        "title": "Ventus Esports"
+      },
+      {
+        "pageid": 279003,
+        "ns": 0,
+        "title": "MCon esports"
+      },
+      {
+        "pageid": 279096,
+        "ns": 0,
+        "title": "Florida Southern College"
+      },
+      {
+        "pageid": 279177,
+        "ns": 0,
+        "title": "AS Trenčín esports"
+      },
+      {
+        "pageid": 279243,
+        "ns": 0,
+        "title": "Inside Games"
+      },
+      {
+        "pageid": 279317,
+        "ns": 0,
+        "title": "Bastille Legacy"
+      },
+      {
+        "pageid": 279711,
+        "ns": 0,
+        "title": "Liyab Esports"
+      },
+      {
+        "pageid": 279744,
+        "ns": 0,
+        "title": "SAMCLAN Esports Club"
+      },
+      {
+        "pageid": 279841,
+        "ns": 0,
+        "title": "Fnatic Rising"
+      },
+      {
+        "pageid": 279988,
+        "ns": 0,
+        "title": "Buff Katarina"
+      },
+      {
+        "pageid": 280579,
+        "ns": 0,
+        "title": "University of Ottawa"
+      },
+      {
+        "pageid": 281137,
+        "ns": 0,
+        "title": "Fortress Esports"
+      },
+      {
+        "pageid": 281178,
+        "ns": 0,
+        "title": "Devils.one inStreamly"
+      },
+      {
+        "pageid": 281194,
+        "ns": 0,
+        "title": "ENsure"
+      },
+      {
+        "pageid": 281322,
+        "ns": 0,
+        "title": "V5 87"
+      },
+      {
+        "pageid": 281336,
+        "ns": 0,
+        "title": "FunPlus Phoenix Blaze"
+      },
+      {
+        "pageid": 281353,
+        "ns": 0,
+        "title": "Legend Esport Gaming"
+      },
+      {
+        "pageid": 281369,
+        "ns": 0,
+        "title": "SinoDragon Prince"
+      },
+      {
+        "pageid": 281382,
+        "ns": 0,
+        "title": "Shu Dai Xiong Gaming"
+      },
+      {
+        "pageid": 281391,
+        "ns": 0,
+        "title": "Snake WuDu"
+      },
+      {
+        "pageid": 281424,
+        "ns": 0,
+        "title": "Vici Gaming Potential"
+      },
+      {
+        "pageid": 281434,
+        "ns": 0,
+        "title": "Bilibili Gaming Junior"
+      },
+      {
+        "pageid": 281442,
+        "ns": 0,
+        "title": "Invictus Gaming Young"
+      },
+      {
+        "pageid": 281962,
+        "ns": 0,
+        "title": "Hokuto Esports"
+      },
+      {
+        "pageid": 281963,
+        "ns": 0,
+        "title": "DeToNator (Japanese Team)"
+      },
+      {
+        "pageid": 281982,
+        "ns": 0,
+        "title": "Legion Gaming (European Team)"
+      },
+      {
+        "pageid": 282690,
+        "ns": 0,
+        "title": "Optimization Gaming"
+      },
+      {
+        "pageid": 283132,
+        "ns": 0,
+        "title": "UQ Union"
+      },
+      {
+        "pageid": 283310,
+        "ns": 0,
+        "title": "As Gordinhas"
+      },
+      {
+        "pageid": 283409,
+        "ns": 0,
+        "title": "Delta Five"
+      },
+      {
+        "pageid": 283675,
+        "ns": 0,
+        "title": "DeToNator (Southeast Asian Team)"
+      },
+      {
+        "pageid": 283685,
+        "ns": 0,
+        "title": "Pyrsos Esports"
+      },
+      {
+        "pageid": 283693,
+        "ns": 0,
+        "title": "ESport Rhein-Neckar"
+      },
+      {
+        "pageid": 283698,
+        "ns": 0,
+        "title": "TKA E-Sports"
+      },
+      {
+        "pageid": 284209,
+        "ns": 0,
+        "title": "Resurgence"
+      },
+      {
+        "pageid": 284733,
+        "ns": 0,
+        "title": "Imperio eSports"
+      },
+      {
+        "pageid": 284931,
+        "ns": 0,
+        "title": "Bombers Academy"
+      },
+      {
+        "pageid": 284940,
+        "ns": 0,
+        "title": "Team Flash.Vietnam"
+      },
+      {
+        "pageid": 285137,
+        "ns": 0,
+        "title": "Elysium Gaming"
+      },
+      {
+        "pageid": 285150,
+        "ns": 0,
+        "title": "Capital Esports"
+      },
+      {
+        "pageid": 285274,
+        "ns": 0,
+        "title": "ISC Pro Team"
+      },
+      {
+        "pageid": 285304,
+        "ns": 0,
+        "title": "Radiance"
+      },
+      {
+        "pageid": 285608,
+        "ns": 0,
+        "title": "QTV Gaming"
+      },
+      {
+        "pageid": 285650,
+        "ns": 0,
+        "title": "PaiN Gaming Academy"
+      },
+      {
+        "pageid": 285809,
+        "ns": 0,
+        "title": "SteelWolves Gaia"
+      },
+      {
+        "pageid": 286130,
+        "ns": 0,
+        "title": "ESCORT P9"
+      },
+      {
+        "pageid": 286959,
+        "ns": 0,
+        "title": "Dramatik Royal"
+      },
+      {
+        "pageid": 287008,
+        "ns": 0,
+        "title": "University of Western Ontario"
+      }
+    ]
+  },
+  "_cachedAt": 1778050358416
+}

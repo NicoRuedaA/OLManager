@@ -1,0 +1,10 @@
+{
+  "parse": {
+    "title": "Oserv Esport",
+    "pageid": 187753,
+    "wikitext": {
+      "*": "{{Infobox Team|isdisbanded=yes\n|name= Oserv Esport\n|orgcountry= France  \n|country=France\n|region= EMEA\n|image=\n|coaches=\n|manager=\n|captain= \n|website= https://esport.oserv.fr\n|youtube=https://www.youtube.com/channel/UCHbWqCwlFzBh-ikyZ33aCtA\n|facebook=https://www.facebook.com/OservEsport\n|twitter= OservEsport\n|instagram=oserv_esport\n|sponsor=[https://www.oserv.fr/ Oserv.fr]<br>[https://eu.coolermaster.com/fr/ Cooler Master]<br>[https://scoup-esport.fr/ Scoup Esport]<br>[https://www.eliminate.fr/ LMN8]<br>[https://bequipe.com/ BeEquipe]<br>[https://esportagora.org/ Esport Agora]\n|created= July 2016\n}}{{TOCRWI|2}}\n\n'''Oserv Esport''' is a French team.\n\n== History ==\n\n== Timeline ==\n{{TeamNews}}\n\n== Player Roster ==\n===Active===\n{{TeamMembersCurrent}}\n\n===Former===\n{{TeamMembersFormer}}\n\n== Organization ==\n===Current===\n{{listplayer/Start|staff=yes}}\n{{listplayersp|Noisy|fr|Adrien Breton|'''Head of Esport'''}}\n{{listplayer/End}}\n\n=== Former ===\n{{listplayer/Start|staff=yes|newteam=yes}}\n{{listplayer|Galib|fr|Rémi Galibert|'''Head Coach'''|newteam=FCN}}\n{{listplayersp|Brnwx|fr|Bruno De Luca|'''Manager'''|newteam=Opportunity Esport}}\n{{listplayersp|DxR|fr|Allan Joncour|'''Head Coach'''|newteam=none}}\n{{listplayersp|ChypRiotE|fr|Nicolas|'''Coach'''|newteam=none}}\n{{listplayersp|Kayvaan|fr|Tadija Knezevic|'''Manager'''|newteam=none}}\n{{listplayer/End}}\n\n== Tournaments ==\n{{TeamResults|show=overviewpage}}\n\n{{TeamShowmatchResults|show=overviewpage}}\n== Media ==\n{{TeamMedia}}\n=== Images ===\n<gallery>\nOserv Esport Old logo square.png|Old Logo (- 2021)\n</gallery>\n=== References ===\n<references />"
+    }
+  },
+  "_cachedAt": 1778050924160
+}

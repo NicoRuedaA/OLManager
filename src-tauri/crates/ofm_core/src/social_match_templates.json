@@ -1,0 +1,419 @@
+{
+  "templates": [
+    {
+      "id": "team-global-es",
+      "language": "es",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Buen partido y seguimos sumando. {score}",
+        "Victoria importante. Gracias a todos los que nos apoyaron hoy. #Vamos{winner_short_name}",
+        "Cerramos la serie con calma, buen macro y mucha confianza. {score}"
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-es",
+      "language": "es",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Partido muy serio de {winner_short_name}. Cuando juegan asi, da gusto verlos.",
+        "{winner_short_name} gano y el chat ya esta hablando de playoffs. Un dia normal.",
+        "No fue perfecto, pero el {score} cuenta igual. Tres mapas de tension y buen League."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-es",
+      "language": "es",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "La clave fue simple: {winner_name} controlo objetivos y obligo a {loser_short_name} a jugar siempre tarde.",
+        "{winner_short_name} no necesito hacer nada raro. Buena preparacion, buen tempo y ejecucion limpia.",
+        "Si ganas {winner_objectives} objetivos, normalmente el mapa termina jugando para ti. Hoy se vio claro."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-es",
+      "language": "es",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Buen trabajo del equipo, seguimos enfocados.",
+        "Contento por la victoria. Gracias por el apoyo, nos vemos en el siguiente partido.",
+        "Hoy salio el plan. Orgulloso del equipo y del trabajo de la semana."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-en",
+      "language": "en",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Clean series, clean comms, clean finish. {score}",
+        "Big win today. Thank you for showing up with us. #Go{winner_short_name}",
+        "We take the {score} and keep moving. One step at a time."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-en",
+      "language": "en",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "That was a very serious game from {winner_short_name}. Good League is still good League.",
+        "{winner_short_name} won and the timeline is already talking playoffs. Classic.",
+        "Not perfect, but a {score} is a {score}. Take the win and review the chaos later."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-en",
+      "language": "en",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "The difference was map control. {winner_name} kept tempo and made {loser_short_name} answer late.",
+        "Nothing flashy needed from {winner_short_name}. Good prep, good timing, clean execution.",
+        "When you secure {winner_objectives} objectives, the map usually starts playing for you. Clear today."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-en",
+      "language": "en",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Proud of the team, back to work tomorrow.",
+        "Happy with the win. Thanks for the support, see you next match.",
+        "Plan worked today. We keep building."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-fr",
+      "language": "fr",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Serie propre, communication propre, fin propre. {score}",
+        "Grosse victoire aujourd'hui. Merci pour le soutien. #Go{winner_short_name}",
+        "On prend le {score} et on continue. Match apres match."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-fr",
+      "language": "fr",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Match tres serieux de {winner_short_name}. Quand ils jouent comme ca, c'est un plaisir.",
+        "{winner_short_name} gagne et la timeline parle deja des playoffs. Classique.",
+        "Pas parfait, mais un {score} reste un {score}. On prend et on respire."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-fr",
+      "language": "fr",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "La difference etait le controle de carte. {winner_name} a garde le tempo et force {loser_short_name} a repondre tard.",
+        "Pas besoin de magie pour {winner_short_name}. Preparation solide, timings propres, execution nette.",
+        "Avec {winner_objectives} objectifs, la carte finit souvent par jouer pour toi. C'etait clair aujourd'hui."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-fr",
+      "language": "fr",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Fier de l'equipe, on retourne travailler demain.",
+        "Content de la victoire. Merci pour le soutien, a bientot pour le prochain match.",
+        "Le plan a fonctionne aujourd'hui. On continue de construire."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-de",
+      "language": "de",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Saubere Serie, klare Calls, guter Abschluss. {score}",
+        "Wichtiger Sieg heute. Danke fuer euren Support. #Go{winner_short_name}",
+        "Wir nehmen das {score} und machen weiter. Schritt fuer Schritt."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-de",
+      "language": "de",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Sehr solides Spiel von {winner_short_name}. So macht League Spass.",
+        "{winner_short_name} gewinnt und die Timeline redet schon ueber Playoffs. Klassiker.",
+        "Nicht perfekt, aber ein {score} bleibt ein {score}. Mitnehmen und weiter."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-de",
+      "language": "de",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "Der Unterschied war Map Control. {winner_name} hielt das Tempo und zwang {loser_short_name} zu spaeten Antworten.",
+        "{winner_short_name} brauchte nichts Spektakulaeres. Gute Vorbereitung, gutes Timing, saubere Ausfuehrung.",
+        "Mit {winner_objectives} Objectives spielt die Map meistens fuer dich. Heute war das sehr klar."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-de",
+      "language": "de",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Stolz auf das Team, morgen geht die Arbeit weiter.",
+        "Freue mich ueber den Sieg. Danke fuer den Support, bis zum naechsten Match.",
+        "Der Plan hat heute funktioniert. Wir bauen weiter darauf auf."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-it",
+      "language": "it",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Serie pulita, comunicazione chiara, chiusura solida. {score}",
+        "Vittoria importante oggi. Grazie per il supporto. #Go{winner_short_name}",
+        "Prendiamo il {score} e continuiamo. Una partita alla volta."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-it",
+      "language": "it",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Partita molto seria di {winner_short_name}. Quando giocano cosi, e bello guardarli.",
+        "{winner_short_name} vince e la timeline parla gia di playoff. Classico.",
+        "Non perfetto, ma un {score} resta un {score}. Si prende e si va avanti."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-it",
+      "language": "it",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "La differenza e stata il controllo della mappa. {winner_name} ha tenuto il tempo e costretto {loser_short_name} a rispondere tardi.",
+        "Niente magie per {winner_short_name}. Preparazione solida, timing buoni, esecuzione pulita.",
+        "Con {winner_objectives} obiettivi, spesso la mappa inizia a giocare per te. Oggi si e visto."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-it",
+      "language": "it",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Orgoglioso del team, domani si torna al lavoro.",
+        "Felice per la vittoria. Grazie per il supporto, ci vediamo al prossimo match.",
+        "Il piano ha funzionato oggi. Continuiamo a costruire."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-pt",
+      "language": "pt",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Serie limpa, comunicacao clara e boa finalizacao. {score}",
+        "Vitoria importante hoje. Obrigado pelo apoio. #Go{winner_short_name}",
+        "Levamos o {score} e seguimos. Um jogo de cada vez."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-pt",
+      "language": "pt",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Jogo muito serio de {winner_short_name}. Quando jogam assim, e bom de ver.",
+        "{winner_short_name} ganhou e a timeline ja fala de playoffs. Classico.",
+        "Nao foi perfeito, mas um {score} e um {score}. Aceita e segue."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-pt",
+      "language": "pt",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "A diferenca foi o controlo do mapa. {winner_name} manteve o ritmo e obrigou {loser_short_name} a responder tarde.",
+        "{winner_short_name} nao precisou de inventar. Boa preparacao, bons tempos e execucao limpa.",
+        "Com {winner_objectives} objetivos, o mapa normalmente passa a jogar contigo. Hoje foi claro."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-pt",
+      "language": "pt",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Orgulhoso da equipa, amanha voltamos ao trabalho.",
+        "Feliz pela vitoria. Obrigado pelo apoio, ate ao proximo jogo.",
+        "O plano funcionou hoje. Continuamos a construir."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-pt-br",
+      "language": "pt-BR",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Serie limpa, comunicacao clara e finalizacao solida. {score}",
+        "Vitoria importante hoje. Obrigado pelo apoio. #Go{winner_short_name}",
+        "Levamos o {score} e seguimos em frente. Um jogo por vez."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-pt-br",
+      "language": "pt-BR",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "Jogo muito serio da {winner_short_name}. Quando joga assim, e bom demais assistir.",
+        "{winner_short_name} venceu e a timeline ja esta falando de playoffs. Classico.",
+        "Nao foi perfeito, mas um {score} e um {score}. Pega a win e revisa depois."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-pt-br",
+      "language": "pt-BR",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "A diferenca foi o controle de mapa. {winner_name} manteve o ritmo e fez {loser_short_name} responder atrasado.",
+        "{winner_short_name} nao precisou inventar. Boa preparacao, bons tempos e execucao limpa.",
+        "Com {winner_objectives} objetivos, o mapa normalmente comeca a jogar por voce. Hoje ficou claro."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-pt-br",
+      "language": "pt-BR",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Orgulhoso do time, amanha voltamos ao trabalho.",
+        "Feliz pela vitoria. Obrigado pelo apoio, vejo voces no proximo jogo.",
+        "O plano funcionou hoje. Seguimos construindo."
+      ],
+      "tags": ["player", "reaction", "global"]
+    },
+
+    {
+      "id": "team-global-tr",
+      "language": "tr",
+      "slot": "TeamBanter",
+      "weight": 5,
+      "variants": [
+        "GG {loser_short_name}. Temiz seri, net iletisim, saglam kapanis. {score}",
+        "Bugun onemli bir galibiyet aldik. Destek icin tesekkurler. #Go{winner_short_name}",
+        "{score} sonucunu aliyoruz ve devam ediyoruz. Mac mac ilerliyoruz."
+      ],
+      "tags": ["match", "team", "global"]
+    },
+    {
+      "id": "fan-global-tr",
+      "language": "tr",
+      "slot": "FanOpinion",
+      "weight": 5,
+      "author_id": "fan_random_lec",
+      "variants": [
+        "{winner_short_name} tarafindan cok ciddi bir oyun. Boyle oynadiklarinda izlemek keyifli.",
+        "{winner_short_name} kazandi ve timeline simdiden playoff konusuyor. Klasik.",
+        "Mukemmel degildi ama {score} yine de {score}. Galibiyeti al, sonra analiz et."
+      ],
+      "tags": ["fan", "match", "global"]
+    },
+    {
+      "id": "analyst-global-tr",
+      "language": "tr",
+      "slot": "AnalystTake",
+      "weight": 5,
+      "author_id": "analyst_manu",
+      "variants": [
+        "Fark harita kontroluydu. {winner_name} tempoyu tuttu ve {loser_short_name} tarafini gec cevap vermeye zorladi.",
+        "{winner_short_name} ekstra bir sey yapmak zorunda kalmadi. Iyi hazirlik, iyi zamanlama, temiz uygulama.",
+        "{winner_objectives} objektif aldiginda harita genelde senin icin oynamaya baslar. Bugun netti."
+      ],
+      "tags": ["analysis", "match", "global"]
+    },
+    {
+      "id": "player-global-tr",
+      "language": "tr",
+      "slot": "PlayerReaction",
+      "weight": 5,
+      "conditions": { "requires_player_name": true },
+      "variants": [
+        "GGs. Takimla gurur duyuyorum, yarin calismaya devam.",
+        "Galibiyet icin mutluyum. Destek icin tesekkurler, sonraki macta gorusuruz.",
+        "Plan bugun calisti. Uzerine koymaya devam ediyoruz."
+      ],
+      "tags": ["player", "reaction", "global"]
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+<h1 align="center">Open League Manager</h1>
+
+<p align="center">
+  <a href="https://v2.tauri.app/">
+    <img src="https://img.shields.io/badge/Tauri-v2-%23FFC131?logo=tauri" />
+  </a>
+  <a href="https://www.rust-lang.org/">
+    <img src="https://img.shields.io/badge/Rust-1.80+-orange?logo=rust" />
+  </a>
+  <a href="https://react.dev/">
+    <img src="https://img.shields.io/badge/React-18+-blue?logo=react" />
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-5.4+-3178C6?logo=typescript&logoColor=white" />
+  </a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0">
+    <img src="https://img.shields.io/badge/License-GPL--3.0-brightgreen" />
+  </a>
+  <img src="https://img.shields.io/badge/Status-Pre--alpha-yellow" />
+</p>
+
+<img src="https://github.com/OpenLeagueManager/.github/raw/main/Game-Banner.png">
+
+---
+
+> **Current Status:** Pre-alpha — expect incomplete gameplay systems, evolving save formats, and frequent documentation updates.  
+> **Last Updated:** 02-MAY-2026
+
+---
+
+## 1. What is Open League Manager?
+
+**Open League Manager (OLManager)** is a public, GPL-3.0 desktop management game built with **Tauri v2**, **Rust**, **React**, and **TypeScript**. The project continues the OpenFootManager lineage while focusing on transparent community contribution, maintainable releases, and careful data provenance.
+
+- **Cross-platform desktop** — native performance via Tauri v2, runs on Windows, macOS, and Linux
+- **Rust-powered backend** — type-safe, zero-cost abstractions for game simulation and data processing
+- **React + TypeScript frontend** — modern reactive UI with full type coverage
+- **Community-first** — public, transparent development with an issue-first contribution model
+- **Data provenance** — careful tracking of external data and asset sources
+
+**Architecture:** Hybrid Tauri v2 (Rust backend / React-TypeScript frontend), Hexagonal architecture in Rust with domain-driven design.
+
+---
+
+## 2. Architecture
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                        APPLICATION ARCHITECTURE                            │
+│                                                                            │
+│   ┌─────────────────────────────────────────────────────────────────┐      │
+│   │  FRONTEND (React + TypeScript)                                  │      │
+│   │                                                                 │      │
+│   │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌──────────────┐  │      │
+│   │  │  Pages    │  │Components │  │  Stores   │  │  Lib/Utils   │  │      │
+│   │  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └──────┬───────┘  │      │
+│   │        └──────────────┴──────────────┴───────────────┘          │      │
+│   │                          │ Tauri IPC                            │      │
+│   └──────────────────────────┼──────────────────────────────────────┘      │
+│                              │                                             │
+│   ┌──────────────────────────┼──────────────────────────────────────┐      │
+│   │  BACKEND (Rust)          │                                      │      │
+│   │                          ▼                                      │      │
+│   │  ┌──────────────────────────────────────────────────────────┐   │      │
+│   │  │  Tauri Commands ───► Domain Logic ───► Persistence       │   │      │
+│   │  │  (IPC handlers)      (crates/)         (SQLite/FS)       │   │      │
+│   │  └──────────────────────────────────────────────────────────┘   │      │
+│   └─────────────────────────────────────────────────────────────────┘      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+The full system overview is documented at [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — including the React/Tauri boundary, Rust crate map, persistence layer, testing strategy, and feature-extension rules.
+
+---
+
+## 3. Technical Requirements
+
+| Technology    | Version      | Notes                                        |
+|---------------|-------------|----------------------------------------------|
+| Rust          | **1.80+**   | Edition 2021, required for Tauri v2 builds   |
+| Node.js       | **20+**     | Required for frontend tooling                |
+| npm           | **10+**     | Package manager for frontend dependencies    |
+| Tauri CLI     | **2.x**     | `cargo install tauri-cli --version "^2"`     |
+
+### Core Dependencies
+
+```bash
+# Rust crates (Cargo.toml)
+tauri = "2"
+serde = "1"       # Serialization
+rusqlite = "0.31" # SQLite persistence
+
+# Frontend (package.json)
+react = "^18"
+typescript = "^5.4"
+@tauri-apps/api = "^2"
+```
+
+---
+
+## 4. Quick Installation
+
+```bash
+# 1. Install frontend dependencies
+npm ci
+
+# 2. Run stable non-production checks
+cargo fmt --manifest-path src-tauri/Cargo.toml --check
+cargo check --manifest-path src-tauri/Cargo.toml
+```
+
+Broader non-production checks are also available, currently tracked as pre-existing runtime/test debt and exposed through manual experimental CI jobs:
+
+```bash
+npm test
+npm run build:types
+cargo clippy --manifest-path src-tauri/Cargo.toml --workspace --all-targets -- -D warnings
+cargo test --manifest-path src-tauri/Cargo.toml --workspace
+```
+
+> Do not run production Tauri bundle builds as part of normal PR validation. Packaging belongs to the release process.
+
+---
+
+## 5. Project Structure
+
+```
+OLManager/
+├── src/                                        # Frontend (React + TypeScript)
+│   ├── App.tsx                                 # Root application component
+│   ├── main.tsx                                # Entry point
+│   ├── components/                             # UI components
+│   ├── pages/                                  # Route pages
+│   ├── store/                                  # State management
+│   └── lib/                                    # Utilities and helpers
+│
+├── src-tauri/                                  # Backend (Rust)
+│   ├── Cargo.toml                              # Rust dependencies
+│   ├── src/                                    # Tauri commands and setup
+│   └── crates/                                 # Domain crates
+│       ├── domain/                             # Domain models and enums
+│       ├── ofm_core/                           # Core game logic
+│       └── ...                                 # Additional crates
+│
+├── docs/                                       # Documentation
+│   ├── ARCHITECTURE.md                         # System architecture
+│   ├── GOVERNANCE.md                           # Branch model and review gates
+│   ├── RELEASE_PROCESS.md                      # Release workflow
+│   ├── DATA_PROVENANCE.md                      # External data sources
+│   └── INHERITED_DOCS_AUDIT.md                 # Documentation audit
+│
+├── README.md                                   # This file
+├── CONTRIBUTING.md                             # Contribution guidelines
+├── SECURITY.md                                 # Vulnerability reporting
+└── LICENSE                                     # GPL-3.0 license
+```
+
+---
+
+## 6. Code Conventions
+
+### Rust Conventions
+
+- **Crates:** Lowercase with underscores (e.g., `ofm_core`, `player_rating`)
+- **Types:** PascalCase (e.g., `Player`, `TeamComposition`)
+- **Functions/Methods:** snake_case (e.g., `calculate_rating()`)
+- **Enums:** PascalCase variants (e.g., `LolRole::Support`)
+- **Error handling:** Custom error types with `thiserror`
+
+### TypeScript / React Conventions
+
+- **Components:** PascalCase (e.g., `PlayerCard`, `SquadView`)
+- **Hooks:** camelCase with `use` prefix (e.g., `usePlayerData`)
+- **Files:** PascalCase for components, camelCase for utilities
+- **Types:** PascalCase interfaces and type aliases
+
+### Commits
+
+Format: `<type>(<scope>): <description>`
+
+```bash
+feat(player): add LolRole assignment
+fix(scouting): correct rating calculation
+refactor(team): replace formation with TeamComposition
+docs(readme): update architecture diagram
+```
+
+---
+
+## 7. License and Lineage
+
+This repository is licensed under the **GNU General Public License v3.0**. See [`LICENSE`](LICENSE).
+
+Code and assets inherited from OpenFootManager are treated as GPL-3.0-compatible unless a later audit documents otherwise. Third-party datasets, generated caches, and source-derived content such as Leaguepedia data are **not** automatically GPL by inheritance; they require separate provenance, attribution, and redistribution review. See [`docs/DATA_PROVENANCE.md`](docs/DATA_PROVENANCE.md).
+
+---
+
+## 8. Contributing
+
+Contributions are **issue-first**:
+
+1. **Open a template-based issue** or join **Discussions** for questions.
+2. **Wait for maintainer approval** via `status:approved`.
+3. **Branch from `development`** using `type/lowercase-slug`, for example `fix/ci-labels`.
+4. **Open the PR against `development`** unless it is a maintainer release or hotfix promotion.
+
+Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), then review:
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system overview, React/Tauri boundary, Rust crates, persistence, testing, and feature-extension rules.
+- [`docs/GOVERNANCE.md`](docs/GOVERNANCE.md) — branch model, labels, review gates, and repository settings.
+- [`docs/RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md) — release PRs, version sync, tags, artifacts, and unsigned status rules.
+- [`docs/INHERITED_DOCS_AUDIT.md`](docs/INHERITED_DOCS_AUDIT.md) — required audit follow-up for inherited documentation before public OSS release.
+- [`docs/DATA_PROVENANCE.md`](docs/DATA_PROVENANCE.md) — external data and asset provenance requirements.
+- [`SECURITY.md`](SECURITY.md) — private vulnerability reporting guidance.
+
+---
+
+## 9. Resources
+
+## Rama `QoL-UI-2` — Resumen de cambios
+
+### 🎨 Sidebar (Dashboard)
+- **Escudo del equipo**: reemplazado el logo genérico de la LEC por el escudo del equipo que gestionás
+- **Sin saltos al expandir/colapsar**: altura fija (`h-8 overflow-visible`), texto y botón toggle siempre en DOM ocultos con `max-w-0/max-h-0` y `delay-150`
+- **Cursor pointer** en el escudo cuando el sidebar está colapsado
+- **Botón toggle oculto** en colapsado (el logo funciona como botón para expandir)
+
+### 📸 Fotos de jugadores
+- **ScoutingPlayerSearchCard**: nueva columna Foto con `resolvePlayerPhoto` (soporta IDs `lec-player-{id}`)
+- **YouthAcademyTab**: misma columna de foto agregada
+- **TeamProfileRosterCard**: misma columna de foto agregada
+
+### 🏷️ Iconos de rol (Community Dragon)
+Reemplazados los badges de texto (`SUPPORT`, `MID`, etc.) por iconos Community Dragon en:
+- `ScoutingPlayerSearchCard`
+- `YouthAcademyTab`
+- `TeamProfileRosterCard`
+
+### 🔄 Ordenación por columnas
+- **PlayersListTab**: ordenación por Nacionalidad; eliminada ordenación por Foto
+- **ScoutingPlayerSearchCard**: ordenable por Jugador, Posición, Edad, Equipo, Valor
+- **TransfersTab**: agregadas ordenaciones por Nombre, Posición, Edad, Equipo, Estado
+- **PlayersListTab**: columna Estado ordenable (préstamo > fichaje > lesionado > normal)
+
+### 🏟️ Modal de confirmación de partido
+- **DashboardMatchConfirmModal**: muestra escudos de los equipos junto a los nombres
+
+### 🔧 Fixes
+- **V43 migration** (`bans_json` column) sincronizada de `feat/champion-stats` a `develop`
+- **Football→LoL position mapping**: corregido en TacticsTab, TeamSelection, NextMatchDisplay, draftResultSimulator
+
+---
+- **Repository:** [github.com/NicoRuedaA/OLManager](https://github.com/OpenLeagueManager/OLManager)
+- **Documentation index:** [`docs/README.md`](docs/README.md)
+- **Tauri v2 Docs:** [https://v2.tauri.app/](https://v2.tauri.app/)
+- **Rust Docs:** [https://doc.rust-lang.org/](https://doc.rust-lang.org/)
+- **React Docs:** [https://react.dev/](https://react.dev/)
+
+---
+
+<i>Built with Rust + Tauri + React + TypeScript + Community + Passion</i>

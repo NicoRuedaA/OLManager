@@ -1,0 +1,151 @@
+export interface BanCandidateInput {
+  championId: string;
+  roleHints: string[];
+}
+
+export type BanMetaTier = "S" | "A" | "B" | "C" | "D";
+
+export interface BanRecommendationContext {
+  enemyMastery: number;
+  metaScore: number;
+  tier: BanMetaTier;
+  roleHints: string[];
+  roleAlreadyCovered: boolean;
+  enemyJungleLocked: boolean;
+  isFlexThreat: boolean;
+  isSpecialThreat: boolean;
+  draftHashSeed: string;
+}
+
+export interface BanScoringContext {
+  tier?: BanMetaTier;
+  roleAlreadyCovered?: boolean;
+  enemyJungleLocked?: boolean;
+  isFlexThreat?: boolean;
+  isSpecialThreat?: boolean;
+  draftHashSeed?: string;
+}
+
+interface RankBanCandidatesParams {
+  available: BanCandidateInput[];
+  enemyCoveredRoles: Set<string>;
+  resolveEnemyMastery: (championId: string) => number;
+  resolveMetaScore: (championId: string) => number;
+  resolveScoringContext?: (candidate: BanCandidateInput) => BanScoringContext;
+}
+
+export interface RankedBanCandidate {
+  championId: string;
+  enemyMastery: number;
+  metaScore: number;
+  score: number;
+}
+
+function hashText(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
+
+function deterministicJitter(seed: string): number {
+  const normalized = hashText(seed) % 1000;
+  return normalized / 1000;
+}
+
+function tierPenaltyByTier(tier: BanMetaTier): number {
+  if (tier === "D") return -35;
+  if (tier === "C") return -10;
+  if (tier === "B") return -3;
+  return 0;
+}
+
+function metaScoreToTier(score: number): BanMetaTier {
+  if (score >= 19) return "S";
+  if (score >= 16) return "A";
+  if (score >= 13) return "B";
+  if (score >= 9) return "C";
+  return "D";
+}
+
+export function computeBanRecommendationScore(context: BanRecommendationContext): number {
+  const metaWeight = 3.2;
+  const masteryWeight = 0.9;
+  const signatureException = context.tier === "D" && context.enemyMastery >= 94 ? 24 : 0;
+  const roleCoveredPenalty = context.roleAlreadyCovered && !context.isFlexThreat && !context.isSpecialThreat
+    ? -12
+    : 0;
+  const jungleGuardrailPenalty = context.enemyJungleLocked
+    && context.roleHints.includes("JUNGLE")
+    && !context.isFlexThreat
+    && !context.isSpecialThreat
+    ? -25
+    : 0;
+  const flexThreatBonus = context.isFlexThreat ? 8 : 0;
+  const specialThreatBonus = context.isSpecialThreat ? 10 : 0;
+  const contextualJitter = deterministicJitter(`${context.draftHashSeed}:${context.tier}:${context.enemyMastery}`);
+
+  return (
+    context.metaScore * metaWeight +
+    context.enemyMastery * masteryWeight +
+    tierPenaltyByTier(context.tier) +
+    signatureException +
+    roleCoveredPenalty +
+    jungleGuardrailPenalty +
+    flexThreatBonus +
+    specialThreatBonus +
+    contextualJitter
+  );
+}
+
+export function rankBanCandidates({
+  available,
+  enemyCoveredRoles,
+  resolveEnemyMastery,
+  resolveMetaScore,
+  resolveScoringContext,
+}: RankBanCandidatesParams): RankedBanCandidate[] {
+  const roleRelevant = available.filter((champion) => {
+    if (enemyCoveredRoles.size === 0) return true;
+    if (champion.roleHints.length === 0) return true;
+    return !champion.roleHints.every((role) => enemyCoveredRoles.has(role));
+  });
+
+  const banPool = roleRelevant.length > 0 ? roleRelevant : available;
+
+  return banPool
+    .map((candidate) => {
+      const enemyMastery = resolveEnemyMastery(candidate.championId);
+      const metaScore = resolveMetaScore(candidate.championId);
+      const contextual = resolveScoringContext?.(candidate);
+      const tier = contextual?.tier ?? metaScoreToTier(metaScore);
+      const roleAlreadyCovered =
+        contextual?.roleAlreadyCovered
+        ?? (candidate.roleHints.length > 0 && candidate.roleHints.every((role) => enemyCoveredRoles.has(role)));
+      const isFlexThreat = contextual?.isFlexThreat ?? candidate.roleHints.length >= 2;
+      const isSpecialThreat = contextual?.isSpecialThreat ?? enemyMastery >= 97;
+      const enemyJungleLocked = contextual?.enemyJungleLocked ?? enemyCoveredRoles.has("JUNGLE");
+      const draftHashSeed = contextual?.draftHashSeed ?? `ban:${candidate.championId}`;
+
+      const score = computeBanRecommendationScore({
+        enemyMastery,
+        metaScore,
+        tier,
+        roleHints: candidate.roleHints,
+        roleAlreadyCovered,
+        enemyJungleLocked,
+        isFlexThreat,
+        isSpecialThreat,
+        draftHashSeed,
+      });
+
+      return {
+        championId: candidate.championId,
+        enemyMastery,
+        metaScore,
+        score,
+      };
+    })
+    .sort((left, right) => right.score - left.score);
+}

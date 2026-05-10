@@ -1,0 +1,147 @@
+import { useEffect, lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useSettingsStore } from "./store/settingsStore";
+import { useUpdater } from "./hooks/useUpdater";
+import UpdateModal from "./components/updater/UpdateModal";
+import i18n from "./i18n";
+import "./App.css";
+
+const MainMenu = lazy(() => import("./pages/MainMenu"));
+const TeamSelection = lazy(() => import("./pages/TeamSelection"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const MatchSimulation = lazy(() => import("./pages/MatchSimulation"));
+const Settings = lazy(() => import("./pages/Settings"));
+
+function LazyFallback() {
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-navy-900 flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
+
+const SCALE_MAP: Record<string, string> = {
+  xsmall: "9px",
+  small: "14px",
+  normal: "16px",
+  large: "18px",
+  xlarge: "20px",
+};
+
+const AUTO_CHECK_UPDATES = import.meta.env.PROD;
+
+function App() {
+  const { settings, loaded, loadSettings } = useSettingsStore();
+  const {
+    updateAvailable,
+    updateInfo,
+    downloading,
+    progress,
+    error,
+    dismissed,
+    install,
+    dismiss,
+  } = useUpdater(AUTO_CHECK_UPDATES);
+
+  useEffect(() => {
+    if (!loaded) loadSettings();
+  }, [loaded, loadSettings]);
+
+  useEffect(() => {
+    const size = SCALE_MAP[settings.ui_scale] || "16px";
+    document.documentElement.style.fontSize = size;
+  }, [settings.ui_scale]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle(
+      "high-contrast",
+      settings.high_contrast,
+    );
+  }, [settings.high_contrast]);
+
+  // Apply saved language from settings once loaded (overrides OS detection)
+  useEffect(() => {
+    if (loaded && settings.language && settings.language !== i18n.language) {
+      i18n.changeLanguage(settings.language);
+    }
+  }, [loaded, settings.language]);
+
+  useEffect(() => {
+    const blockHistoryNavigation = () => {
+      window.history.go(1);
+    };
+
+    const blockMouseBackForward = (event: MouseEvent) => {
+      if (event.button === 3 || event.button === 4) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    const blockAuxClickBackForward = (event: MouseEvent) => {
+      if (event.button === 3 || event.button === 4) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    const blockKeyboardHistoryShortcuts = (event: KeyboardEvent) => {
+      if (
+        event.key === "BrowserBack" ||
+        event.key === "BrowserForward" ||
+        event.code === "BrowserBack" ||
+        event.code === "BrowserForward"
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      if (event.altKey && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+
+    window.history.pushState({ navigationGuard: true }, "", window.location.href);
+    window.addEventListener("popstate", blockHistoryNavigation);
+    window.addEventListener("mousedown", blockMouseBackForward, { capture: true });
+    window.addEventListener("mouseup", blockMouseBackForward, { capture: true });
+    window.addEventListener("auxclick", blockAuxClickBackForward, { capture: true });
+    window.addEventListener("keydown", blockKeyboardHistoryShortcuts, { capture: true });
+
+    return () => {
+      window.removeEventListener("popstate", blockHistoryNavigation);
+      window.removeEventListener("mousedown", blockMouseBackForward, { capture: true });
+      window.removeEventListener("mouseup", blockMouseBackForward, { capture: true });
+      window.removeEventListener("auxclick", blockAuxClickBackForward, { capture: true });
+      window.removeEventListener("keydown", blockKeyboardHistoryShortcuts, { capture: true });
+    };
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<LazyFallback />}>
+        <Routes>
+          <Route path="/" element={<MainMenu />} />
+          <Route path="/select-team" element={<TeamSelection />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/match" element={<MatchSimulation />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Suspense>
+      {updateAvailable && !dismissed && updateInfo && (
+        <UpdateModal
+          updateInfo={updateInfo}
+          downloading={downloading}
+          progress={progress}
+          error={error}
+          onInstall={install}
+          onDismiss={dismiss}
+        />
+      )}
+    </BrowserRouter>
+  );
+}
+
+export default App;

@@ -1,0 +1,10 @@
+{
+  "parse": {
+    "title": "Imaginary Gaming",
+    "pageid": 167370,
+    "wikitext": {
+      "*": "{{Infobox Team|isdisbanded=yes\n|name= Imaginary Gaming\n|orgcountry= France \n|country=France\n|region=EU\n|image=Imaginary_Gaming.png\n|analysts= \n|coaches= \n|manager= \n|captain= \n|website= \n|youtube=\n|facebook= https://www.facebook.com/imG.fr\n|twitter= ImaginaryEsport\n|irc= \n|sponsor= [http://qpad.com/ QPAD] <br> [https://www.noscopeglasses.com/ NoScope] <br> [https://www.mtxserv.fr/ mTxServ] <br> [http://www.gamestuff.fr/ Game Stuff]\n|created= \n|rosterphoto=img2015.png\n|disbanded= \n|trades=\n|organization= \n|sister-current=\n|sister-former=\n|affiliated-current= \n|affiliated-former=\n}}{{TOCRWI}}\n== History ==\n\n== Timeline ==\n{{TeamNews}}\n\n== Player Roster ==\n===Former===\n{{TeamMembersFormer}}\n\n===Temporary Subs===\n{|class=\"sortable wikitable\"\n!\n!ID\n!Name\n!Role\n!Replacing\n!Tournament\n|-\n{{listplayer|Shemek|fr|Damien Soulagnet|Top}}\n|'''{{player|Satorius|flag=de}}'''\n|[[FEST Lyon 2015]]\n{{Listplayer/EndTemp}}\n\n==Organization==\n===Former===\n{|class=\"sortable wikitable\"\n!\n!ID\n!Name\n!Position\n!Next Team\n{{listplayersp|Arkanox|fr|Franck Girard|'''Chief Executive Officer'''|newteam=none}}\n{{listplayersp|Neoskai|fr|Loïc Potages|'''Chief Operating Officer'''|newteam=none}}\n{{listplayersp|Galette|fr|Guillaume Lobjois|'''Coach/Analyst'''|newteam=against All authority}}\n{{listplayer|Shanei|fr|Erwin Pierlot|'''Coach'''|newteam=Millenium}}\n{{Listplayer/EndTemp}}\n\n== Tournaments ==\n{{TeamResults|show=overviewpage}}\n\n{{TeamShowmatchResults|show=overviewpage}}\n== Highlight Videos ==\n\n==Interviews==\n\n==See Also==\n\n==External Links==\n\n==References==\n<references />"
+    }
+  },
+  "_cachedAt": 1778050700959
+}
