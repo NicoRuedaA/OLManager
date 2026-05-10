@@ -317,7 +317,7 @@ fn tier_map_from_working(working: &[WorkingMeta]) -> HashMap<String, String> {
 
 fn champion_catalog() -> &'static Vec<(String, String)> {
     CHAMPION_CATALOG.get_or_init(|| {
-        let raw = include_str!("../../../../data/lec/draft/champions.json");
+        let raw = include_str!("../../../../data/draft/champions.json");
         let parsed: ChampionCatalogRoot =
             serde_json::from_str(raw).unwrap_or(ChampionCatalogRoot {
                 data: ChampionCatalogData {
