@@ -6,7 +6,8 @@ import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { useTranslation } from "react-i18next";
 import { getMainTeams } from "../../store/academySelectors";
 
-function teamLogoSrc(teamId: string): string {
+function teamLogoSrc(teamId: string, logoUrl?: string | null): string {
+  if (logoUrl) return logoUrl;
   const slug = teamId.replace(/^lec-/, "");
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
@@ -66,7 +67,7 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
                     style={{ backgroundColor: team.colors.primary }}
                   >
                     <img
-                      src={teamLogoSrc(team.id)}
+                      src={teamLogoSrc(team.id, team.logo_url)}
                       alt={`${team.name} logo`}
                       className="w-10 h-10 object-contain"
                       loading="lazy"
