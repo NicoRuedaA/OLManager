@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
-import playersSeed from "../../data/lec/draft/players.json";
+import playersSeed from "../../data/draft/players.json";
 
 import { GameStateData } from "../store/gameStore";
 import { Badge } from "./ui";

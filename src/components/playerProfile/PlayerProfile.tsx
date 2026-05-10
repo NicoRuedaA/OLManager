@@ -35,8 +35,8 @@ import {
   type PlayerProfileScoutStatus,
 } from "./PlayerProfile.scouting";
 import PlayerProfileChampionsCard from "./PlayerProfileChampionsCard";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
 import { startPotentialResearch } from "../../services/playerService";
 import { demoteMainPlayerToAcademy, promoteAcademyPlayer } from "../../services/academyService";
 import { findAcademyTeamForParent } from "../../store/academySelectors";

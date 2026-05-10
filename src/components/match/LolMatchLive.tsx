@@ -20,7 +20,7 @@ import { renderSimulation } from "./lol-prototype/ui/render";
 import { LecLowerThirdPanel } from "./lol-prototype/ui/panels";
 import { useSettingsStore } from "../../store/settingsStore";
 import type { GameStateData } from "../../store/gameStore";
-import teamsSeed from "../../../data/lec/draft/teams.json";
+import teamsSeed from "../../../data/draft/teams.json";
 
 export interface ChampionSelectionByPlayer {
   home: Record<string, string>;

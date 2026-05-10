@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import teamsSeed from "../../../data/lec/draft/teams.json";
+import teamsSeed from "../../../data/draft/teams.json";
 import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveTeamLogo } from "../../lib/teamLogos";

@@ -10,7 +10,7 @@ import { AlertTriangle, ChevronRight, Repeat, ShoppingCart, User } from "lucide-
 import { calcAge, formatVal } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
-import playersSeed from "../../../data/lec/draft/players.json";
+import playersSeed from "../../../data/draft/players.json";
 import {
   buildActiveLineupIds,
   buildActiveLineupSlots,
