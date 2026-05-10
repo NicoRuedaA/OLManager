@@ -9,7 +9,7 @@ import type {
   ScoutAvailability,
 } from "./PlayerProfile.scouting";
 import PlayerProfileScoutAction from "./PlayerProfileScoutAction";
-import { RoleBadge, Card } from "../ui";
+import { CountryFlag, RoleBadge, Card } from "../ui";
 
 type TranslateFn = (
   key: string,
@@ -67,6 +67,7 @@ export default function PlayerProfileHeroCard({
   academyActionLoading = false,
   onAcademyAction = null,
   t,
+  language = "en",
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
   const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
@@ -200,9 +201,18 @@ export default function PlayerProfileHeroCard({
           </div>
 
           <div className="flex-1">
-            <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
-              {player.match_name}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
+                {player.match_name}
+              </h2>
+              {player.nationality && (
+                <CountryFlag
+                  code={player.nationality}
+                  locale={language}
+                  className="w-6 h-4 rounded-sm shadow-sm"
+                />
+              )}
+            </div>
             <div className="flex items-center gap-3 mt-2">
               <RoleBadge role={role} size="sm" />
               {isOwnClub && academyActionLabel && onAcademyAction ? (
