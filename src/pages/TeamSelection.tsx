@@ -188,10 +188,14 @@ export default function TeamSelection() {
         );
         if (cancelled) return;
 
+        console.debug("[TeamSelection] leagueResult:", JSON.stringify(leagueResult));
+
         if (leagueResult.competitions.length > 0) {
           console.debug(
             "[TeamSelection] leagues loaded:",
             leagueResult.competitions.length,
+            "names:",
+            leagueResult.competitions.map((c) => c.id),
           );
           setLeagueData(leagueResult);
           // Show league picker regardless of count (user wants to see it)
@@ -204,7 +208,10 @@ export default function TeamSelection() {
           "get_team_selection_data",
         );
         if (cancelled) return;
-        console.debug("[TeamSelection] legacy data recovered");
+        console.debug(
+          "[TeamSelection] legacy data recovered, teams:",
+          legacyResult.teams.length,
+        );
         setOldTeamData(legacyResult);
       } catch (error) {
         console.debug(
@@ -216,7 +223,10 @@ export default function TeamSelection() {
             "get_team_selection_data",
           );
           if (cancelled) return;
-          console.debug("[TeamSelection] legacy data recovered via fallback");
+          console.debug(
+            "[TeamSelection] legacy data recovered via fallback, teams:",
+            legacyResult.teams.length,
+          );
           setOldTeamData(legacyResult);
         } catch (err) {
           console.error("Failed to recover team selection data:", err);
@@ -371,8 +381,19 @@ export default function TeamSelection() {
   }
 
   // -----------------------------------------------------------------------
-  // League picker step (new flow — multiple competitions)
+  // League picker step (new flow — one or more competitions)
   // -----------------------------------------------------------------------
+
+  console.debug(
+    "[TeamSelection] render check — leagueData:",
+    !!leagueData,
+    "comps:",
+    leagueData?.competitions.length ?? 0,
+    "selectedCompId:",
+    selectedCompetitionId,
+    "legacyTeams:",
+    !!legacyTeams,
+  );
 
   if (leagueData && leagueData.competitions.length > 0 && !selectedCompetitionId) {
     return (
