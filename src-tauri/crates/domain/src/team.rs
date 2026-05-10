@@ -62,6 +62,7 @@ pub struct Team {
     pub training_schedule: TrainingSchedule,
 
     // Club info
+    #[serde(default)]
     pub founded_year: u32,
     pub colors: TeamColors,
 
