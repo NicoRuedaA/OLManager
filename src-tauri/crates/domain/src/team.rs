@@ -64,6 +64,7 @@ pub struct Team {
     // Club info
     #[serde(default)]
     pub founded_year: u32,
+    #[serde(default)]
     pub colors: TeamColors,
 
     // Training groups: allow per-group focus overrides for subsets of players
@@ -657,11 +658,13 @@ pub struct ScrimReport {
     pub created_on: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct TeamColors {
+    #[serde(default)]
     pub primary: String,
+    #[serde(default)]
     pub secondary: String,
 }
 
