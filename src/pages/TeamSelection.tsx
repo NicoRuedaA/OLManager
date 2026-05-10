@@ -194,9 +194,7 @@ export default function TeamSelection() {
             leagueResult.competitions.length,
           );
           setLeagueData(leagueResult);
-          if (leagueResult.competitions.length === 1) {
-            setSelectedCompetitionId(leagueResult.competitions[0].id);
-          }
+          // Show league picker regardless of count (user wants to see it)
           return;
         }
 
@@ -376,7 +374,7 @@ export default function TeamSelection() {
   // League picker step (new flow — multiple competitions)
   // -----------------------------------------------------------------------
 
-  if (leagueData && leagueData.competitions.length > 1 && !selectedCompetitionId) {
+  if (leagueData && leagueData.competitions.length > 0 && !selectedCompetitionId) {
     return (
       <div className="min-h-screen bg-gray-100 dark:bg-navy-900 transition-colors duration-300">
         <header className="bg-white dark:bg-navy-800 border-b border-gray-200 dark:border-navy-700 px-6 py-4 flex justify-between items-center shadow-sm">
