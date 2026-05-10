@@ -1,5 +1,4 @@
 import { GameStateData, FixtureData } from "../../store/gameStore";
-import teamsSeed from "../../../data/draft/teams.json";
 import type { MatchSnapshot } from "../match/types";
 import type { DraftMatchResult } from "../match/draftResultSimulator";
 
@@ -21,15 +20,6 @@ export interface StoredFixtureDraftResult {
   homeSeriesWins?: number;
   awaySeriesWins?: number;
 }
-
-interface TeamSeed {
-  id: string;
-  name: string;
-  shortName: string;
-  logo?: string;
-}
-
-const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
 
 const TEAM_LOGO_BY_NORMALIZED_NAME: Record<string, string> = {
   [normalizeKey("G2 Esports")]: "/teams-icons/g2-esports.webp",
@@ -148,13 +138,7 @@ export function getTeamLogoPath(teams: GameStateData["teams"], teamId: string): 
   if (team.logo_url) return team.logo_url;
 
   const normalizedName = normalizeKey(team.name);
-  if (TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName]) {
-    return TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName];
-  }
-
-  const seed = TEAM_SEEDS.find((candidate) => normalizeKey(candidate.name) === normalizedName);
-  if (!seed) return null;
-  return TEAM_LOGO_BY_NORMALIZED_NAME[normalizeKey(seed.name)] ?? null;
+  return TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName] ?? null;
 }
 
 export function readStoredFixtureDraftResult(fixtureId: string): StoredFixtureDraftResult | null {
