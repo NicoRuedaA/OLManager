@@ -1,3 +1,14 @@
+// LEGACY / DEPRECATED: World Editor module
+// =========================================
+// This module reads and writes the monolithic `world.json` file for the
+// World Editor UI. It is kept for backward compatibility with the editor
+// and for loading legacy saves that reference world.json.
+//
+// All NEW game flows use modular competition data (Phase 2+ of the
+// multi-league change). The world editor will be updated to support
+// modular data in a FUTURE change.
+// =========================================
+
 use log::info;
 use tauri::Manager as TauriManager;
 use tauri::State;

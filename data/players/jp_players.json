@@ -1,0 +1,6701 @@
+{
+  "name": "JP Players",
+  "description": "",
+  "players": [
+    {
+      "id": "player-a68b3676",
+      "match_name": "Corn (Hong Jae-hee)",
+      "full_name": "Hong Jae-hee",
+      "date_of_birth": "1998-01-12",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 53,
+        "discipline": 55,
+        "macro_play": 54,
+        "mechanics": 52,
+        "champion_pool": 49,
+        "mental_resilience": 49,
+        "teamfighting": 48,
+        "shotcalling": 52
+      },
+      "condition": 88,
+      "morale": 62,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-90912bb0",
+      "match_name": "Day1",
+      "full_name": "Wataru Shimizu",
+      "date_of_birth": "1994-12-15",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 75,
+        "discipline": 73,
+        "macro_play": 70,
+        "mechanics": 70,
+        "champion_pool": 73,
+        "mental_resilience": 72,
+        "teamfighting": 67,
+        "shotcalling": 67
+      },
+      "condition": 89,
+      "morale": 62,
+      "fitness": 90,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-axiz",
+          "team_name": "AXIZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-the-shaka",
+          "team_name": "Team The SHAKA",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-陽陰",
+          "team_name": "↑陽～陰↓",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-pihiro-team-f",
+          "team_name": "Pihiro Team F",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-50-collective-years",
+          "team_name": "50+ collective years",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-teambsyaruru-cup-9th",
+          "team_name": "TeamB(Syaruru Cup 9th)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-resolve-regalia-core",
+          "team_name": "Resolve Regalia Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-resolve-regalia-next",
+          "team_name": "Resolve Regalia Next",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0782be10",
+      "match_name": "Enty",
+      "full_name": "Ryosei Tanioka",
+      "date_of_birth": "1997-09-25",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 74,
+        "discipline": 76,
+        "macro_play": 77,
+        "mechanics": 71,
+        "champion_pool": 71,
+        "mental_resilience": 79,
+        "teamfighting": 77,
+        "shotcalling": 70
+      },
+      "condition": 90,
+      "morale": 68,
+      "fitness": 90,
+      "injury": null,
+      "team_id": "team-cfa20b61",
+      "contract_end": "2026-12-20",
+      "wage": 20000,
+      "market_value": 300000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-usg",
+          "team_name": "usg",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-jpn18",
+          "team_name": "JPN18",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-sengoku-gaming",
+          "team_name": "Sengoku Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-support",
+          "team_name": "Team Support",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-sgg",
+          "team_name": "SGG",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-pihiro-team-b",
+          "team_name": "Pihiro Team B",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-負けたらえんてぃ引退",
+          "team_name": "負けたらえんてぃ引退",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-teamdsyaruru-cup-9th",
+          "team_name": "TeamD(Syaruru Cup 9th)",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f5492218",
+      "match_name": "Evi",
+      "full_name": "Shunsuke Murase",
+      "date_of_birth": "1995-11-15",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/4075c74a.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 49,
+        "consistency": 56,
+        "discipline": 51,
+        "macro_play": 54,
+        "mechanics": 50,
+        "champion_pool": 42,
+        "mental_resilience": 49,
+        "teamfighting": 46,
+        "shotcalling": 53
+      },
+      "condition": 81,
+      "morale": 94,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-f4306bce",
+      "contract_end": "2026-12-20",
+      "wage": 131000,
+      "market_value": 1965000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-detonation-rabbitfive",
+          "team_name": "DetonatioN RabbitFive",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-team-japan",
+          "team_name": "Team Japan",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-210bdd73",
+          "team_name": "Rampage",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-rpg",
+          "team_name": "RPG",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-cbc2ec83",
+          "team_name": "DetonatioN FocusMe",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-jpn18",
+          "team_name": "JPN18",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-dfm",
+          "team_name": "DFM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-5a42fa1b",
+          "team_name": "LJL Allstars",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-blue-team-2018-all-star",
+          "team_name": "Blue Team (2018 All-Star)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-blue-team-2019-all-star",
+          "team_name": "Blue Team (2019 All-Star)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-top",
+          "team_name": "Team Top",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-htics",
+          "team_name": "HTICS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-dynasty-season-kickoff-emea",
+          "team_name": "Team Dynasty (Season Kickoff EMEA)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-9245882c",
+          "team_name": "Team Heretics",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-hrts",
+          "team_name": "HRTS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-the-k4sen",
+          "team_name": "Team The K4sen",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-team-araneae",
+          "team_name": "Team Araneae",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-eu-style",
+          "team_name": "Team EU Style",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-fukuoka",
+          "team_name": "Fukuoka",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-fukuoka-softbank-hawks-gaming",
+          "team_name": "Fukuoka SoftBank HAWKS gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-fshg",
+          "team_name": "FSHG",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-にじンモtv-3時間スペシャル",
+          "team_name": "にじンモTV 3時間スペシャル",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2026,
+          "team_id": "team-f4306bce",
+          "team_name": "SoftBank HAWKS",
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-3cf69c71",
+      "match_name": "Garon",
+      "full_name": "Shotaro Matsuo",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 50,
+        "consistency": 65,
+        "discipline": 62,
+        "macro_play": 63,
+        "mechanics": 57,
+        "champion_pool": 52,
+        "mental_resilience": 58,
+        "teamfighting": 64,
+        "shotcalling": 60
+      },
+      "condition": 100,
+      "morale": 74,
+      "fitness": 69,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 50000,
+      "market_value": 750000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-943d557a",
+      "match_name": "Hollis",
+      "full_name": "Lee Do-yeol",
+      "date_of_birth": "1998-02-14",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "consistency": 83,
+        "discipline": 81,
+        "macro_play": 78,
+        "mechanics": 80,
+        "champion_pool": 75,
+        "mental_resilience": 78,
+        "teamfighting": 74,
+        "shotcalling": 68
+      },
+      "condition": 86,
+      "morale": 86,
+      "fitness": 92,
+      "injury": null,
+      "team_id": "team-2a48518a",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-2a48518a",
+          "team_name": "DetonatioN Rising",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-bco",
+          "team_name": "bco",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-1506108b",
+          "team_name": "BowQen Blackbucks",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-bqb",
+          "team_name": "BQB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-gimme-more-mua",
+          "team_name": "Gimme More Mua",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2610b965",
+      "match_name": "ISeNN",
+      "full_name": "Takahito Ogawa",
+      "date_of_birth": "1994-07-05",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 77,
+        "consistency": 80,
+        "discipline": 78,
+        "macro_play": 76,
+        "mechanics": 79,
+        "champion_pool": 79,
+        "mental_resilience": 74,
+        "teamfighting": 72,
+        "shotcalling": 76
+      },
+      "condition": 82,
+      "morale": 91,
+      "fitness": 75,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 86000,
+      "market_value": 1290000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c379ffdc",
+      "match_name": "Ilven",
+      "full_name": "Rai Kei",
+      "date_of_birth": "2000-01-01",
+      "nationality": "China",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 64,
+        "discipline": 63,
+        "macro_play": 58,
+        "mechanics": 62,
+        "champion_pool": 55,
+        "mental_resilience": 62,
+        "teamfighting": 58,
+        "shotcalling": 52
+      },
+      "condition": 89,
+      "morale": 80,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 77000,
+      "market_value": 1155000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-6bcbddda",
+      "match_name": "Isurugi",
+      "full_name": "Yoshitaka Hayasaki",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 80,
+        "consistency": 83,
+        "discipline": 76,
+        "macro_play": 80,
+        "mechanics": 72,
+        "champion_pool": 79,
+        "mental_resilience": 77,
+        "teamfighting": 72,
+        "shotcalling": 74
+      },
+      "condition": 83,
+      "morale": 82,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 26000,
+      "market_value": 390000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-65f1268e",
+      "match_name": "Inu",
+      "full_name": "Akito Kuwabara",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 60,
+        "consistency": 60,
+        "discipline": 60,
+        "macro_play": 57,
+        "mechanics": 57,
+        "champion_pool": 60,
+        "mental_resilience": 56,
+        "teamfighting": 59,
+        "shotcalling": 53
+      },
+      "condition": 76,
+      "morale": 89,
+      "fitness": 89,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7d8b29d2",
+      "match_name": "Lavie",
+      "full_name": "Lee Ji-san",
+      "date_of_birth": "2000-01-01",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 79,
+        "consistency": 73,
+        "discipline": 75,
+        "macro_play": 74,
+        "mechanics": 70,
+        "champion_pool": 75,
+        "mental_resilience": 72,
+        "teamfighting": 69,
+        "shotcalling": 65
+      },
+      "condition": 82,
+      "morale": 71,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 47000,
+      "market_value": 705000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-rj",
+          "team_name": "rj",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-e809a412",
+          "team_name": "Crest Gaming Act",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-aae69d85",
+      "match_name": "Lem0n",
+      "full_name": "Yuya Kobayashi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 69,
+        "consistency": 74,
+        "discipline": 75,
+        "macro_play": 69,
+        "mechanics": 75,
+        "champion_pool": 66,
+        "mental_resilience": 78,
+        "teamfighting": 74,
+        "shotcalling": 70
+      },
+      "condition": 70,
+      "morale": 79,
+      "fitness": 79,
+      "injury": null,
+      "team_id": "team-210bdd73",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-210bdd73",
+          "team_name": "Rampage",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-sky-rocket",
+          "team_name": "Sky Rocket",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-rpg-quintet",
+          "team_name": "RPG Quintet",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-1506108b",
+          "team_name": "BowQen Blackbucks",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-bqb",
+          "team_name": "BQB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-bilingual",
+          "team_name": "BILINGUAL",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-tokyo-university-of-technology",
+          "team_name": "Tokyo University of Technology",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-30d6aa32",
+      "match_name": "Lillebelt",
+      "full_name": "Yoshiaki Koka",
+      "date_of_birth": "1993-04-14",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 80,
+        "consistency": 81,
+        "discipline": 79,
+        "macro_play": 82,
+        "mechanics": 81,
+        "champion_pool": 78,
+        "mental_resilience": 72,
+        "teamfighting": 75,
+        "shotcalling": 73
+      },
+      "condition": 97,
+      "morale": 89,
+      "fitness": 71,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-rj",
+          "team_name": "rj",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-3440c7a9",
+          "team_name": "unsold stuff gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-jpn18",
+          "team_name": "JPN18",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-c868b57e",
+          "team_name": "Japan",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7109a806",
+      "match_name": "Mei",
+      "full_name": "Masaru Hatate",
+      "date_of_birth": "1997-01-16",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 57,
+        "consistency": 71,
+        "discipline": 72,
+        "macro_play": 67,
+        "mechanics": 65,
+        "champion_pool": 61,
+        "mental_resilience": 67,
+        "teamfighting": 73,
+        "shotcalling": 64
+      },
+      "condition": 82,
+      "morale": 71,
+      "fitness": 83,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-sz",
+          "team_name": "sz",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-caf00fab",
+      "match_name": "Mugoon",
+      "full_name": "Ryo Sameshima",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 76,
+        "consistency": 78,
+        "discipline": 71,
+        "macro_play": 72,
+        "mechanics": 70,
+        "champion_pool": 76,
+        "mental_resilience": 68,
+        "teamfighting": 73,
+        "shotcalling": 70
+      },
+      "condition": 75,
+      "morale": 85,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-2058158b",
+      "contract_end": "2026-12-20",
+      "wage": 110000,
+      "market_value": 1650000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-2058158b",
+          "team_name": "Team Kamikaze",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-45f52738",
+          "team_name": "Team BlackEye",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-ikdysak",
+          "team_name": "IkdYsak",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5fc5ecf0",
+      "match_name": "NaeMisa",
+      "full_name": "Yusuke Takano",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "consistency": 68,
+        "discipline": 67,
+        "macro_play": 65,
+        "mechanics": 72,
+        "champion_pool": 68,
+        "mental_resilience": 71,
+        "teamfighting": 63,
+        "shotcalling": 63
+      },
+      "condition": 85,
+      "morale": 87,
+      "fitness": 74,
+      "injury": null,
+      "team_id": "team-e2e7378f",
+      "contract_end": "2026-12-20",
+      "wage": 128000,
+      "market_value": 1920000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-e2e7378f",
+          "team_name": "7th heaven X",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-40e91cc1",
+      "match_name": "Namakemono",
+      "full_name": "Kazuki Asai",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 67,
+        "discipline": 65,
+        "macro_play": 58,
+        "mechanics": 61,
+        "champion_pool": 59,
+        "mental_resilience": 61,
+        "teamfighting": 54,
+        "shotcalling": 53
+      },
+      "condition": 83,
+      "morale": 68,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 50000,
+      "market_value": 750000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cc848b66",
+      "match_name": "Nap",
+      "full_name": "Akihito Ohno",
+      "date_of_birth": "1997-01-29",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 76,
+        "discipline": 75,
+        "macro_play": 75,
+        "mechanics": 67,
+        "champion_pool": 68,
+        "mental_resilience": 75,
+        "teamfighting": 74,
+        "shotcalling": 69
+      },
+      "condition": 88,
+      "morale": 83,
+      "fitness": 62,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 95000,
+      "market_value": 1425000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-157f9d51",
+          "team_name": "Hex Alligators",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-rj",
+          "team_name": "RJ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-crest-gaming",
+          "team_name": "Crest Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-e809a412",
+          "team_name": "Crest Gaming Act",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-cg-act",
+          "team_name": "CG ACT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-recruit-season-kickoff-japan",
+          "team_name": "Team Recruit (Season Kickoff Japan)",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-25ffff73",
+      "match_name": "Neo (Moon Ji-won)",
+      "full_name": "Moon Ji-won",
+      "date_of_birth": "1998-01-23",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 78,
+        "consistency": 78,
+        "discipline": 79,
+        "macro_play": 75,
+        "mechanics": 74,
+        "champion_pool": 75,
+        "mental_resilience": 71,
+        "teamfighting": 70,
+        "shotcalling": 66
+      },
+      "condition": 94,
+      "morale": 61,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 74000,
+      "market_value": 1110000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-8a882248",
+          "team_name": "Galakticos",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-3df20815",
+          "team_name": "Macro Maniacs",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-v3",
+          "team_name": "V3",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-80288ff9",
+      "match_name": "NoA (Shunya Honda)",
+      "full_name": "Shunya Honda",
+      "date_of_birth": "1995-06-19",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 69,
+        "consistency": 67,
+        "discipline": 67,
+        "macro_play": 67,
+        "mechanics": 67,
+        "champion_pool": 66,
+        "mental_resilience": 60,
+        "teamfighting": 57,
+        "shotcalling": 58
+      },
+      "condition": 96,
+      "morale": 80,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 77000,
+      "market_value": 1155000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-rj",
+          "team_name": "RJ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-axiz",
+          "team_name": "AXIZ",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 65,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b1f998a0",
+      "match_name": "Tete",
+      "full_name": "Nozomi Mizo",
+      "date_of_birth": "1996-10-14",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 69,
+        "consistency": 73,
+        "discipline": 74,
+        "macro_play": 70,
+        "mechanics": 72,
+        "champion_pool": 64,
+        "mental_resilience": 67,
+        "teamfighting": 66,
+        "shotcalling": 63
+      },
+      "condition": 97,
+      "morale": 93,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-f4981991",
+      "contract_end": "2026-12-20",
+      "wage": 68000,
+      "market_value": 1020000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2592260c",
+      "match_name": "A M U S E 4",
+      "full_name": "Takashi Otsuka",
+      "date_of_birth": "1995-06-19",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 67,
+        "discipline": 66,
+        "macro_play": 70,
+        "mechanics": 63,
+        "champion_pool": 57,
+        "mental_resilience": 71,
+        "teamfighting": 64,
+        "shotcalling": 67
+      },
+      "condition": 80,
+      "morale": 92,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 53000,
+      "market_value": 795000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-3c89001d",
+          "team_name": "Okinawan Tigers",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-ozone-rampage",
+          "team_name": "Ozone Rampage",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f58dedcc",
+      "match_name": "Air (Sota Kadoyama)",
+      "full_name": "Sota Kadoyama",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 48,
+        "consistency": 55,
+        "discipline": 61,
+        "macro_play": 58,
+        "mechanics": 53,
+        "champion_pool": 55,
+        "mental_resilience": 60,
+        "teamfighting": 59,
+        "shotcalling": 57
+      },
+      "condition": 75,
+      "morale": 76,
+      "fitness": 60,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 86000,
+      "market_value": 1290000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-9c8d43d2",
+      "match_name": "Aripo",
+      "full_name": "Eisho Nagata",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 78,
+        "consistency": 86,
+        "discipline": 79,
+        "macro_play": 78,
+        "mechanics": 77,
+        "champion_pool": 74,
+        "mental_resilience": 81,
+        "teamfighting": 73,
+        "shotcalling": 72
+      },
+      "condition": 77,
+      "morale": 86,
+      "fitness": 80,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2cf9b50a",
+      "match_name": "Atyamomo",
+      "full_name": "Takahito Suzuki",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 43,
+        "consistency": 53,
+        "discipline": 56,
+        "macro_play": 53,
+        "mechanics": 49,
+        "champion_pool": 46,
+        "mental_resilience": 53,
+        "teamfighting": 55,
+        "shotcalling": 53
+      },
+      "condition": 80,
+      "morale": 62,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 20000,
+      "market_value": 300000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-e809a412",
+          "team_name": "Crest Gaming Act",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-925b6050",
+      "match_name": "Bakudanx",
+      "full_name": "Alex Ortiz",
+      "date_of_birth": "1995-06-09",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 68,
+        "consistency": 73,
+        "discipline": 69,
+        "macro_play": 67,
+        "mechanics": 61,
+        "champion_pool": 64,
+        "mental_resilience": 58,
+        "teamfighting": 66,
+        "shotcalling": 60
+      },
+      "condition": 77,
+      "morale": 88,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 59000,
+      "market_value": 885000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-3c89001d",
+          "team_name": "Okinawan Tigers",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-ozone-rampage",
+          "team_name": "Ozone Rampage",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-twerk-team",
+          "team_name": "Twerk Team",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 65,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-333b5e7d",
+      "match_name": "Beni (Ryohei Tsuji)",
+      "full_name": "Ryohei Tsuji",
+      "date_of_birth": "1994-01-03",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 74,
+        "discipline": 74,
+        "macro_play": 69,
+        "mechanics": 60,
+        "champion_pool": 65,
+        "mental_resilience": 72,
+        "teamfighting": 69,
+        "shotcalling": 65
+      },
+      "condition": 92,
+      "morale": 67,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-cfa20b61",
+      "contract_end": "2026-12-20",
+      "wage": 50000,
+      "market_value": 750000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2014,
+          "team_id": "team-fb219001",
+          "team_name": "Salvage Javelin",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5371fb7e",
+      "match_name": "Challenger",
+      "full_name": "Hiroki Tadokoro",
+      "date_of_birth": "1995-12-22",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 65,
+        "discipline": 66,
+        "macro_play": 64,
+        "mechanics": 57,
+        "champion_pool": 58,
+        "mental_resilience": 60,
+        "teamfighting": 53,
+        "shotcalling": 53
+      },
+      "condition": 94,
+      "morale": 70,
+      "fitness": 73,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 77000,
+      "market_value": 1155000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 60,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-6c0ad5c1",
+      "match_name": "Rainbrain",
+      "full_name": "Shin Iwasaki",
+      "date_of_birth": "1987-12-31",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 82,
+        "consistency": 89,
+        "discipline": 87,
+        "macro_play": 84,
+        "mechanics": 79,
+        "champion_pool": 84,
+        "mental_resilience": 78,
+        "teamfighting": 76,
+        "shotcalling": 76
+      },
+      "condition": 96,
+      "morale": 72,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 65000,
+      "market_value": 975000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-3934cbd7",
+          "team_name": "RabbitFive",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-team-japan",
+          "team_name": "Team Japan",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-rj",
+          "team_name": "rj",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-rpg",
+          "team_name": "rpg",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-pa",
+          "team_name": "pa",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-myrevenge-rampage",
+          "team_name": "myRevenge Rampage",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-rainbrainアカデミー",
+          "team_name": "Rainbrainアカデミー",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-れれめっちょ",
+          "team_name": "れれめっちょ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-50-collective-years",
+          "team_name": "50+ collective years",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-the-shakanmi",
+          "team_name": "Team The SHAKANMI",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-teamdsyaruru-cup-9th",
+          "team_name": "TeamD(Syaruru Cup 9th)",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4723541c",
+      "match_name": "Ramune",
+      "full_name": "Osamu Ozawa",
+      "date_of_birth": "1997-11-26",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/258baaca.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 74,
+        "consistency": 79,
+        "discipline": 79,
+        "macro_play": 77,
+        "mechanics": 77,
+        "champion_pool": 71,
+        "mental_resilience": 76,
+        "teamfighting": 74,
+        "shotcalling": 71
+      },
+      "condition": 97,
+      "morale": 80,
+      "fitness": 64,
+      "injury": null,
+      "team_id": "team-210bdd73",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-210bdd73",
+          "team_name": "Rampage",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-crest-gaming",
+          "team_name": "Crest Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-rpg",
+          "team_name": "RPG",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-89072d5b",
+          "team_name": "Pentagram",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-pgm",
+          "team_name": "PGM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-cbc2ec83",
+          "team_name": "DetonatioN FocusMe",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-fukuoka",
+          "team_name": "Fukuoka",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-sengoku-gaming",
+          "team_name": "Sengoku Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-dream-in-24",
+          "team_name": "Dream in 24",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-191b30ec",
+      "match_name": "Rkp",
+      "full_name": "Rikiya Yuasa",
+      "date_of_birth": "1991-07-15",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 83,
+        "consistency": 78,
+        "discipline": 78,
+        "macro_play": 74,
+        "mechanics": 81,
+        "champion_pool": 78,
+        "mental_resilience": 77,
+        "teamfighting": 78,
+        "shotcalling": 78
+      },
+      "condition": 89,
+      "morale": 66,
+      "fitness": 67,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 20000,
+      "market_value": 300000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-rj",
+          "team_name": "rj",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-181e8e74",
+      "match_name": "Ssol",
+      "full_name": "Seo Jin-sol",
+      "date_of_birth": "1998-03-04",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/45555424.webp",
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 72,
+        "consistency": 70,
+        "discipline": 74,
+        "macro_play": 70,
+        "mechanics": 74,
+        "champion_pool": 75,
+        "mental_resilience": 69,
+        "teamfighting": 69,
+        "shotcalling": 63
+      },
+      "condition": 85,
+      "morale": 89,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 38000,
+      "market_value": 570000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2021,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-rj",
+          "team_name": "RJ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-4ae5ecc9",
+          "team_name": "FENNEL",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-32f4412e",
+          "team_name": "AXIZ CREST",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-e4441c19",
+      "match_name": "SatoRy",
+      "full_name": "Yuhki Tange",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 67,
+        "discipline": 70,
+        "macro_play": 67,
+        "mechanics": 60,
+        "champion_pool": 66,
+        "mental_resilience": 65,
+        "teamfighting": 62,
+        "shotcalling": 61
+      },
+      "condition": 94,
+      "morale": 74,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-cfa20b61",
+      "contract_end": "2026-12-20",
+      "wage": 41000,
+      "market_value": 615000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-f37f0626",
+          "team_name": "Smash It Down",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-786ddbd7",
+      "match_name": "Serick",
+      "full_name": "Masato Hidaka",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 60,
+        "discipline": 60,
+        "macro_play": 61,
+        "mechanics": 57,
+        "champion_pool": 58,
+        "mental_resilience": 60,
+        "teamfighting": 57,
+        "shotcalling": 52
+      },
+      "condition": 93,
+      "morale": 87,
+      "fitness": 83,
+      "injury": null,
+      "team_id": "team-45f52738",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-45f52738",
+          "team_name": "Team BlackEye",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2aeda4df",
+      "match_name": "Shinmori",
+      "full_name": "Sho Shinmori",
+      "date_of_birth": "1994-04-15",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 74,
+        "consistency": 75,
+        "discipline": 76,
+        "macro_play": 78,
+        "mechanics": 71,
+        "champion_pool": 69,
+        "mental_resilience": 69,
+        "teamfighting": 72,
+        "shotcalling": 73
+      },
+      "condition": 72,
+      "morale": 86,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-3934cbd7",
+      "contract_end": "2026-12-20",
+      "wage": 47000,
+      "market_value": 705000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-3934cbd7",
+          "team_name": "RabbitFive",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2015,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2014,
+          "team_id": "team-det-rf",
+          "team_name": "det rf",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-glory",
+          "team_name": "TEAM GLORY",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-843f5ef5",
+      "match_name": "Gango",
+      "full_name": "Byun Se-hoon",
+      "date_of_birth": "1997-05-16",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 79,
+        "consistency": 73,
+        "discipline": 73,
+        "macro_play": 77,
+        "mechanics": 72,
+        "champion_pool": 79,
+        "mental_resilience": 70,
+        "teamfighting": 67,
+        "shotcalling": 73
+      },
+      "condition": 70,
+      "morale": 81,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-usg",
+          "team_name": "USG",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-932ee946",
+          "team_name": "KT Rolster",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-e809a412",
+          "team_name": "Crest Gaming Act",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-adc",
+          "team_name": "Team ADC",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-sengoku-gaming",
+          "team_name": "Sengoku Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-holdthegun",
+          "team_name": "Holdthegun",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-밧들어총",
+          "team_name": "밧들어총",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-34834bcb",
+      "match_name": "Sweet (Ryota Murakami)",
+      "full_name": "Ryota Murakami",
+      "date_of_birth": "1992-05-22",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 61,
+        "discipline": 59,
+        "macro_play": 62,
+        "mechanics": 60,
+        "champion_pool": 59,
+        "mental_resilience": 54,
+        "teamfighting": 58,
+        "shotcalling": 57
+      },
+      "condition": 70,
+      "morale": 67,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-fb219001",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-fb219001",
+          "team_name": "Salvage Javelin",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 60,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4e10c5d6",
+      "match_name": "Terette",
+      "full_name": "Yuji Mamiya",
+      "date_of_birth": "1996-09-25",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 67,
+        "discipline": 73,
+        "macro_play": 67,
+        "mechanics": 60,
+        "champion_pool": 65,
+        "mental_resilience": 65,
+        "teamfighting": 69,
+        "shotcalling": 69
+      },
+      "condition": 90,
+      "morale": 62,
+      "fitness": 80,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 68000,
+      "market_value": 1020000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-7269134a",
+          "team_name": "HarmoniX Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ddaaed49",
+      "match_name": "ThintoN",
+      "full_name": "Junya Matsuoka",
+      "date_of_birth": "1995-10-17",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 74,
+        "consistency": 80,
+        "discipline": 88,
+        "macro_play": 85,
+        "mechanics": 72,
+        "champion_pool": 74,
+        "mental_resilience": 79,
+        "teamfighting": 87,
+        "shotcalling": 85
+      },
+      "condition": 85,
+      "morale": 69,
+      "fitness": 74,
+      "injury": null,
+      "team_id": "team-cfa20b61",
+      "contract_end": "2026-12-20",
+      "wage": 113000,
+      "market_value": 1695000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-cfa20b61",
+          "team_name": "7th heaven",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2014,
+          "team_id": "team-7h",
+          "team_name": "7h",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-f37f0626",
+          "team_name": "Smash It Down",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-axiz",
+          "team_name": "AXIZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-あつまれろうじんの森",
+          "team_name": "あつまれろうじんの森",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-たかやスペシャル送別会",
+          "team_name": "たかやスペシャル送別会",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-ねすてぃー送別会",
+          "team_name": "ねすてぃー送別会",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-41178d08",
+      "match_name": "Toshibu",
+      "full_name": "Tosiyasu Tamura",
+      "date_of_birth": "1991-06-17",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 69,
+        "discipline": 67,
+        "macro_play": 66,
+        "mechanics": 68,
+        "champion_pool": 60,
+        "mental_resilience": 70,
+        "teamfighting": 64,
+        "shotcalling": 61
+      },
+      "condition": 91,
+      "morale": 86,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 95000,
+      "market_value": 1425000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-17482d90",
+      "match_name": "Yoshiaki",
+      "full_name": "Yoshiaki Matsuura",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 78,
+        "discipline": 73,
+        "macro_play": 79,
+        "mechanics": 65,
+        "champion_pool": 62,
+        "mental_resilience": 72,
+        "teamfighting": 74,
+        "shotcalling": 75
+      },
+      "condition": 99,
+      "morale": 91,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-45f52738",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-45f52738",
+          "team_name": "Team BlackEye",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-tbe",
+          "team_name": "TBE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-sengoku-gaming-legends",
+          "team_name": "Sengoku Gaming Legends",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-f37f0626",
+          "team_name": "Smash It Down",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-80d13716",
+      "match_name": "Yunn",
+      "full_name": "Yuki Doi",
+      "date_of_birth": "1989-02-13",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 72,
+        "discipline": 80,
+        "macro_play": 70,
+        "mechanics": 72,
+        "champion_pool": 65,
+        "mental_resilience": 76,
+        "teamfighting": 74,
+        "shotcalling": 74
+      },
+      "condition": 84,
+      "morale": 70,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-cfa20b61",
+      "contract_end": "2026-12-20",
+      "wage": 50000,
+      "market_value": 750000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-981dd51c",
+      "match_name": "Yutapon",
+      "full_name": "Yuta Sugiura",
+      "date_of_birth": "1996-09-10",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 82,
+        "consistency": 79,
+        "discipline": 78,
+        "macro_play": 82,
+        "mechanics": 82,
+        "champion_pool": 76,
+        "mental_resilience": 72,
+        "teamfighting": 79,
+        "shotcalling": 72
+      },
+      "condition": 96,
+      "morale": 85,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-e308ba86",
+      "contract_end": "2026-12-20",
+      "wage": 131000,
+      "market_value": 1965000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-cbc2ec83",
+          "team_name": "DetonatioN FocusMe",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-dfm",
+          "team_name": "DFM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-adc",
+          "team_name": "Team ADC",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-recruit-season-kickoff-japan",
+          "team_name": "Team Recruit (Season Kickoff Japan)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-優勝してあげて",
+          "team_name": "優勝してあげて",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-streamer-team-1",
+          "team_name": "Streamer Team 1",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-teambsyaruru-cup-9th",
+          "team_name": "TeamB(Syaruru Cup 9th)",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-dfc075f2",
+      "match_name": "Akasi",
+      "full_name": "Kazuki Tomono",
+      "date_of_birth": "1997-02-02",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "consistency": 70,
+        "discipline": 78,
+        "macro_play": 72,
+        "mechanics": 75,
+        "champion_pool": 77,
+        "mental_resilience": 72,
+        "teamfighting": 70,
+        "shotcalling": 66
+      },
+      "condition": 90,
+      "morale": 87,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-04b27f73",
+      "contract_end": "2026-12-20",
+      "wage": 83000,
+      "market_value": 1245000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-04b27f73",
+          "team_name": "Cyclone",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-2a48518a",
+          "team_name": "DetonatioN Rising",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-bco",
+          "team_name": "bco",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-3dbd8ba1",
+          "team_name": "SCARZ Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f94c6715",
+      "match_name": "Keymaker",
+      "full_name": "Hiroto Ito",
+      "date_of_birth": "1996-03-21",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 62,
+        "discipline": 65,
+        "macro_play": 61,
+        "mechanics": 60,
+        "champion_pool": 63,
+        "mental_resilience": 55,
+        "teamfighting": 54,
+        "shotcalling": 59
+      },
+      "condition": 75,
+      "morale": 71,
+      "fitness": 68,
+      "injury": null,
+      "team_id": "team-3440c7a9",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 60,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-663ce487",
+      "match_name": "Recap",
+      "full_name": "Norifumi Yamazaki",
+      "date_of_birth": "1997-01-25",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/165c443d.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 83,
+        "consistency": 82,
+        "discipline": 85,
+        "macro_play": 84,
+        "mechanics": 84,
+        "champion_pool": 78,
+        "mental_resilience": 78,
+        "teamfighting": 75,
+        "shotcalling": 76
+      },
+      "condition": 84,
+      "morale": 70,
+      "fitness": 64,
+      "injury": null,
+      "team_id": "team-0d2352c9",
+      "contract_end": "2026-12-20",
+      "wage": 20000,
+      "market_value": 300000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-0d2352c9",
+          "team_name": "V3 New Generation",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-v3",
+          "team_name": "v3",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-あつまれろうじんの森",
+          "team_name": "あつまれろうじんの森",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-rj",
+          "team_name": "RJ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-4ae5ecc9",
+          "team_name": "FENNEL",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-pihiro-team-a",
+          "team_name": "Pihiro Team A",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-reject",
+          "team_name": "REJECT",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-88fc69cf",
+      "match_name": "Wilder",
+      "full_name": "Jeong Jin-woo",
+      "date_of_birth": "1997-07-09",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 81,
+        "consistency": 84,
+        "discipline": 79,
+        "macro_play": 79,
+        "mechanics": 77,
+        "champion_pool": 76,
+        "mental_resilience": 77,
+        "teamfighting": 78,
+        "shotcalling": 73
+      },
+      "condition": 93,
+      "morale": 65,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-3dbd8ba1",
+      "contract_end": "2026-12-20",
+      "wage": 95000,
+      "market_value": 1425000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-3dbd8ba1",
+          "team_name": "SCARZ Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-bmr",
+          "team_name": "BMR",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-nine-tale",
+          "team_name": "Nine Tale",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-a9b0616c",
+      "match_name": "Fanxy",
+      "full_name": "Kim Hyeok",
+      "date_of_birth": "1997-10-26",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 65,
+        "discipline": 66,
+        "macro_play": 64,
+        "mechanics": 62,
+        "champion_pool": 61,
+        "mental_resilience": 58,
+        "teamfighting": 56,
+        "shotcalling": 52
+      },
+      "condition": 78,
+      "morale": 74,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 83000,
+      "market_value": 1245000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 60,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ebff4a59",
+      "match_name": "Paladin (Cheon Joon-hee)",
+      "full_name": "Cheon Joon-hee",
+      "date_of_birth": "1999-06-16",
+      "nationality": "Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 73,
+        "discipline": 71,
+        "macro_play": 69,
+        "mechanics": 70,
+        "champion_pool": 70,
+        "mental_resilience": 78,
+        "teamfighting": 77,
+        "shotcalling": 75
+      },
+      "condition": 85,
+      "morale": 86,
+      "fitness": 70,
+      "injury": null,
+      "team_id": "team-0d2352c9",
+      "contract_end": "2026-12-20",
+      "wage": 53000,
+      "market_value": 795000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-0d2352c9",
+          "team_name": "V3 New Generation",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-apk-prince",
+          "team_name": "APK Prince",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-apk",
+          "team_name": "APK",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0b20532c",
+      "match_name": "Arumik",
+      "full_name": "Naoya Kimura",
+      "date_of_birth": "1996-09-27",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 79,
+        "discipline": 74,
+        "macro_play": 70,
+        "mechanics": 68,
+        "champion_pool": 67,
+        "mental_resilience": 75,
+        "teamfighting": 74,
+        "shotcalling": 70
+      },
+      "condition": 74,
+      "morale": 88,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-7269134a",
+      "contract_end": "2026-12-20",
+      "wage": 47000,
+      "market_value": 705000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-7269134a",
+          "team_name": "HarmoniX Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-31506d26",
+          "team_name": "AKIHABARA ENCOUNT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-3440c7a9",
+          "team_name": "Unsold Stuff Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-fukuoka",
+          "team_name": "Fukuoka",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ac1f34cd",
+      "match_name": "Masyo",
+      "full_name": "Shoma Sasaki",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 72,
+        "consistency": 64,
+        "discipline": 72,
+        "macro_play": 63,
+        "mechanics": 68,
+        "champion_pool": 69,
+        "mental_resilience": 67,
+        "teamfighting": 66,
+        "shotcalling": 60
+      },
+      "condition": 87,
+      "morale": 91,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-31506d26",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31506d26",
+          "team_name": "AKIHABARA ENCOUNT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-v3",
+          "team_name": "V3",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-bd1fcfcd",
+      "match_name": "Raina",
+      "full_name": "Shin Okubo",
+      "date_of_birth": "1997-03-04",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/7db33294.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 74,
+        "discipline": 68,
+        "macro_play": 67,
+        "mechanics": 67,
+        "champion_pool": 58,
+        "mental_resilience": 70,
+        "teamfighting": 72,
+        "shotcalling": 63
+      },
+      "condition": 98,
+      "morale": 89,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-31506d26",
+      "contract_end": "2026-12-20",
+      "wage": 128000,
+      "market_value": 1920000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31506d26",
+          "team_name": "AKIHABARA ENCOUNT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-sengoku-gaming",
+          "team_name": "Sengoku Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-v3",
+          "team_name": "V3",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-support",
+          "team_name": "Team Support",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-e4e92591",
+          "team_name": "V3 Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fukuoka",
+          "team_name": "Fukuoka",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fukuoka-softbank-hawks-gaming",
+          "team_name": "Fukuoka SoftBank HAWKS gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-bco",
+          "team_name": "BCO",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-recruit-season-kickoff-japan",
+          "team_name": "Team Recruit (Season Kickoff Japan)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-れれめっちょ",
+          "team_name": "れれめっちょ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-bct",
+          "team_name": "BCT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-reject",
+          "team_name": "REJECT",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-8399096a",
+      "match_name": "RayFarky",
+      "full_name": "Minato Shinohara",
+      "date_of_birth": "1999-05-28",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/26ebdbd8.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 71,
+        "discipline": 74,
+        "macro_play": 69,
+        "mechanics": 68,
+        "champion_pool": 65,
+        "mental_resilience": 73,
+        "teamfighting": 75,
+        "shotcalling": 72
+      },
+      "condition": 89,
+      "morale": 84,
+      "fitness": 70,
+      "injury": null,
+      "team_id": "team-f4981991",
+      "contract_end": "2026-12-20",
+      "wage": 71000,
+      "market_value": 1065000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-f4981991",
+          "team_name": "Two-eyed Monsters",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-bco",
+          "team_name": "BCO",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-cbc2ec83",
+          "team_name": "DetonatioN FocusMe",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b910a612",
+      "match_name": "Cream",
+      "full_name": "Heo Jun",
+      "date_of_birth": "1997-07-17",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 78,
+        "consistency": 78,
+        "discipline": 73,
+        "macro_play": 74,
+        "mechanics": 71,
+        "champion_pool": 75,
+        "mental_resilience": 70,
+        "teamfighting": 67,
+        "shotcalling": 70
+      },
+      "condition": 75,
+      "morale": 70,
+      "fitness": 74,
+      "injury": null,
+      "team_id": "team-b777d366",
+      "contract_end": "2026-12-20",
+      "wage": 41000,
+      "market_value": 615000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31506d26",
+          "team_name": "AKIHABARA ENCOUNT",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-south-korea-national-team",
+          "team_name": "South Korea (National Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-열심히하는팀",
+          "team_name": "열심히하는팀",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2026,
+          "team_id": "team-b777d366",
+          "team_name": "Top Esports",
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b3f0e434",
+      "match_name": "Asato",
+      "full_name": "Yuutarou Asato",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 67,
+        "discipline": 60,
+        "macro_play": 63,
+        "mechanics": 60,
+        "champion_pool": 56,
+        "mental_resilience": 55,
+        "teamfighting": 56,
+        "shotcalling": 51
+      },
+      "condition": 92,
+      "morale": 91,
+      "fitness": 80,
+      "injury": null,
+      "team_id": "team-31506d26",
+      "contract_end": "2026-12-20",
+      "wage": 23000,
+      "market_value": 345000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31506d26",
+          "team_name": "AKIHABARA ENCOUNT",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-e91b0f49",
+      "match_name": "Kabupun",
+      "full_name": "Kabupun",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 69,
+        "discipline": 67,
+        "macro_play": 75,
+        "mechanics": 67,
+        "champion_pool": 61,
+        "mental_resilience": 69,
+        "teamfighting": 72,
+        "shotcalling": 64
+      },
+      "condition": 98,
+      "morale": 86,
+      "fitness": 79,
+      "injury": null,
+      "team_id": "team-1506108b",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-1506108b",
+          "team_name": "BowQen Blackbucks",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-bqb",
+          "team_name": "BQB",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-84bed332",
+      "match_name": "Aiden (Japanese Player)",
+      "full_name": "Aiden (Japanese Player)",
+      "date_of_birth": "1996-08-28",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 67,
+        "discipline": 63,
+        "macro_play": 62,
+        "mechanics": 57,
+        "champion_pool": 60,
+        "mental_resilience": 58,
+        "teamfighting": 56,
+        "shotcalling": 54
+      },
+      "condition": 75,
+      "morale": 71,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-44273e34",
+      "contract_end": "2026-12-20",
+      "wage": 128000,
+      "market_value": 1920000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-44273e34",
+          "team_name": "Master of Chicken Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 60,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2133b646",
+      "match_name": "Nova (Motoyuki Yamanaka)",
+      "full_name": "Motoyuki Yamanaka",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 51,
+        "consistency": 60,
+        "discipline": 59,
+        "macro_play": 54,
+        "mechanics": 58,
+        "champion_pool": 57,
+        "mental_resilience": 63,
+        "teamfighting": 56,
+        "shotcalling": 52
+      },
+      "condition": 70,
+      "morale": 66,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 95000,
+      "market_value": 1425000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b60940f9",
+      "match_name": "Aki (Edo Aki)",
+      "full_name": "Edo Aki",
+      "date_of_birth": "2002-04-29",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 59,
+        "discipline": 59,
+        "macro_play": 62,
+        "mechanics": 60,
+        "champion_pool": 64,
+        "mental_resilience": 57,
+        "teamfighting": 53,
+        "shotcalling": 51
+      },
+      "condition": 73,
+      "morale": 82,
+      "fitness": 69,
+      "injury": null,
+      "team_id": "team-7269134a",
+      "contract_end": "2026-12-20",
+      "wage": 26000,
+      "market_value": 390000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-7269134a",
+          "team_name": "HarmoniX Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-99cf1b9a",
+      "match_name": "KAGE (Kim Jae-hwi)",
+      "full_name": "Kim Jae-hwi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 49,
+        "consistency": 58,
+        "discipline": 63,
+        "macro_play": 58,
+        "mechanics": 57,
+        "champion_pool": 51,
+        "mental_resilience": 62,
+        "teamfighting": 59,
+        "shotcalling": 55
+      },
+      "condition": 79,
+      "morale": 67,
+      "fitness": 90,
+      "injury": null,
+      "team_id": "team-a7097045",
+      "contract_end": "2026-12-20",
+      "wage": 86000,
+      "market_value": 1290000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-a7097045",
+          "team_name": "RPG-KINGDOM",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-03c0552e",
+      "match_name": "Sloth (Takuya Asakura)",
+      "full_name": "Takuya Asakura",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 52,
+        "consistency": 63,
+        "discipline": 58,
+        "macro_play": 64,
+        "mechanics": 53,
+        "champion_pool": 56,
+        "mental_resilience": 63,
+        "teamfighting": 63,
+        "shotcalling": 61
+      },
+      "condition": 92,
+      "morale": 89,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-e2e7378f",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-e2e7378f",
+          "team_name": "7th heaven X",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c0455c13",
+      "match_name": "Fank",
+      "full_name": "Fank",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 65,
+        "discipline": 71,
+        "macro_play": 66,
+        "mechanics": 66,
+        "champion_pool": 68,
+        "mental_resilience": 71,
+        "teamfighting": 62,
+        "shotcalling": 60
+      },
+      "condition": 97,
+      "morale": 83,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-0d2352c9",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0a8236ce",
+      "match_name": "Decoy (Japanese Player)",
+      "full_name": "Decoy (Japanese Player)",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 53,
+        "consistency": 58,
+        "discipline": 64,
+        "macro_play": 65,
+        "mechanics": 53,
+        "champion_pool": 55,
+        "mental_resilience": 60,
+        "teamfighting": 66,
+        "shotcalling": 57
+      },
+      "condition": 96,
+      "morale": 83,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-0d2352c9",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-0d2352c9",
+          "team_name": "V3 New Generation",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-39f6ad34",
+      "match_name": "Strider (Haruki Yamaguchi)",
+      "full_name": "Haruki Yamaguchi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 73,
+        "discipline": 75,
+        "macro_play": 76,
+        "mechanics": 67,
+        "champion_pool": 70,
+        "mental_resilience": 74,
+        "teamfighting": 76,
+        "shotcalling": 75
+      },
+      "condition": 85,
+      "morale": 89,
+      "fitness": 71,
+      "injury": null,
+      "team_id": "team-2a48518a",
+      "contract_end": "2026-12-20",
+      "wage": 62000,
+      "market_value": 930000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c36cbce2",
+      "match_name": "Dominion (Rui Nagasawa)",
+      "full_name": "Rui Nagasawa",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 75,
+        "discipline": 78,
+        "macro_play": 71,
+        "mechanics": 71,
+        "champion_pool": 72,
+        "mental_resilience": 72,
+        "teamfighting": 68,
+        "shotcalling": 68
+      },
+      "condition": 74,
+      "morale": 90,
+      "fitness": 71,
+      "injury": null,
+      "team_id": "team-2a48518a",
+      "contract_end": "2026-12-20",
+      "wage": 53000,
+      "market_value": 795000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-2a48518a",
+          "team_name": "DetonatioN Rising",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-road-creation",
+          "team_name": "Road Creation",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-tokyo-college-of-anime",
+          "team_name": "Tokyo College of Anime",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-8467801f",
+      "match_name": "Muzyura",
+      "full_name": "Muzyura",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 56,
+        "discipline": 64,
+        "macro_play": 58,
+        "mechanics": 64,
+        "champion_pool": 61,
+        "mental_resilience": 56,
+        "teamfighting": 56,
+        "shotcalling": 53
+      },
+      "condition": 95,
+      "morale": 91,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-2a48518a",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-2a48518a",
+          "team_name": "DetonatioN Rising",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-e51cb759",
+      "match_name": "Irony",
+      "full_name": "Yu Ui-jin",
+      "date_of_birth": "2000-01-01",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 60,
+        "discipline": 62,
+        "macro_play": 58,
+        "mechanics": 62,
+        "champion_pool": 59,
+        "mental_resilience": 54,
+        "teamfighting": 61,
+        "shotcalling": 52
+      },
+      "condition": 77,
+      "morale": 66,
+      "fitness": 69,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 71000,
+      "market_value": 1065000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ca284ce3",
+      "match_name": "Ai",
+      "full_name": "Aiitiro Oshima",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 61,
+        "discipline": 63,
+        "macro_play": 63,
+        "mechanics": 62,
+        "champion_pool": 59,
+        "mental_resilience": 61,
+        "teamfighting": 53,
+        "shotcalling": 57
+      },
+      "condition": 76,
+      "morale": 71,
+      "fitness": 87,
+      "injury": null,
+      "team_id": "team-7a86e4e7",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-7a86e4e7",
+          "team_name": "ApeX R Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-12a9388a",
+      "match_name": "Ayask",
+      "full_name": "Ryosuke Ohashi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 64,
+        "discipline": 65,
+        "macro_play": 59,
+        "mechanics": 64,
+        "champion_pool": 57,
+        "mental_resilience": 62,
+        "teamfighting": 56,
+        "shotcalling": 52
+      },
+      "condition": 94,
+      "morale": 62,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-697070b0",
+      "contract_end": "2026-12-20",
+      "wage": 53000,
+      "market_value": 795000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-697070b0",
+          "team_name": "Nibble Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0ea4fe98",
+      "match_name": "Racia",
+      "full_name": "Ran Shimizu",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 55,
+        "discipline": 61,
+        "macro_play": 56,
+        "mechanics": 64,
+        "champion_pool": 61,
+        "mental_resilience": 57,
+        "teamfighting": 55,
+        "shotcalling": 51
+      },
+      "condition": 94,
+      "morale": 81,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-697070b0",
+      "contract_end": "2026-12-20",
+      "wage": 65000,
+      "market_value": 975000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-697070b0",
+          "team_name": "Nibble Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f08572c1",
+      "match_name": "Albis (Shuhei Yamaguchi)",
+      "full_name": "Shuhei Yamaguchi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 67,
+        "discipline": 60,
+        "macro_play": 59,
+        "mechanics": 62,
+        "champion_pool": 63,
+        "mental_resilience": 56,
+        "teamfighting": 57,
+        "shotcalling": 55
+      },
+      "condition": 86,
+      "morale": 68,
+      "fitness": 66,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 23000,
+      "market_value": 345000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-68ed5050",
+      "match_name": "SyoRyo Batta",
+      "full_name": "Shugo Yokoi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 50,
+        "consistency": 59,
+        "discipline": 60,
+        "macro_play": 60,
+        "mechanics": 55,
+        "champion_pool": 54,
+        "mental_resilience": 57,
+        "teamfighting": 55,
+        "shotcalling": 58
+      },
+      "condition": 91,
+      "morale": 62,
+      "fitness": 90,
+      "injury": null,
+      "team_id": "team-b18275b9",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-b18275b9",
+          "team_name": "Team Zan",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-81288393",
+      "match_name": "KABUKING",
+      "full_name": "Masaru Kanehira",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 63,
+        "discipline": 63,
+        "macro_play": 64,
+        "mechanics": 63,
+        "champion_pool": 57,
+        "mental_resilience": 57,
+        "teamfighting": 54,
+        "shotcalling": 52
+      },
+      "condition": 73,
+      "morale": 87,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-157f9d51",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-157f9d51",
+          "team_name": "Hex Alligators",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-28ff27a0",
+      "match_name": "Candy (Morin Koide)",
+      "full_name": "Morin Koide",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 56,
+        "discipline": 65,
+        "macro_play": 60,
+        "mechanics": 62,
+        "champion_pool": 58,
+        "mental_resilience": 62,
+        "teamfighting": 51,
+        "shotcalling": 54
+      },
+      "condition": 88,
+      "morale": 85,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-b18275b9",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-b18275b9",
+          "team_name": "Team Zan",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4fb3ebb2",
+      "match_name": "NR",
+      "full_name": "Daisuke Takada",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 57,
+        "discipline": 63,
+        "macro_play": 62,
+        "mechanics": 57,
+        "champion_pool": 54,
+        "mental_resilience": 57,
+        "teamfighting": 63,
+        "shotcalling": 54
+      },
+      "condition": 90,
+      "morale": 70,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-b18275b9",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-b18275b9",
+          "team_name": "Team Zan",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-22304802",
+      "match_name": "WildSpeed",
+      "full_name": "Kota Terada",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 47,
+        "consistency": 64,
+        "discipline": 65,
+        "macro_play": 58,
+        "mechanics": 53,
+        "champion_pool": 53,
+        "mental_resilience": 57,
+        "teamfighting": 66,
+        "shotcalling": 54
+      },
+      "condition": 96,
+      "morale": 79,
+      "fitness": 92,
+      "injury": null,
+      "team_id": "team-e2e7378f",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-e2e7378f",
+          "team_name": "7th heaven X",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2cc4e4c1",
+      "match_name": "Makinyan",
+      "full_name": "Manase Yoshida",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 65,
+        "discipline": 69,
+        "macro_play": 68,
+        "mechanics": 61,
+        "champion_pool": 58,
+        "mental_resilience": 72,
+        "teamfighting": 64,
+        "shotcalling": 64
+      },
+      "condition": 95,
+      "morale": 70,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-9fb79b1e",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-9fb79b1e",
+          "team_name": "Saikyo Makinyan",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-saikyo",
+          "team_name": "saikyo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-teamwondercomet",
+          "team_name": "TeamWonderComet",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ljlsg-team-cloud",
+          "team_name": "LJLSG TEAM CLOUD",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-ljlsg-team-noxus",
+          "team_name": "LJLSG TEAM NOXUS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-えりあとまきにゃん",
+          "team_name": "えりあとまきにゃん",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-d923c062",
+      "match_name": "Dorothy",
+      "full_name": "Aoi Yumoto",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 44,
+        "consistency": 50,
+        "discipline": 56,
+        "macro_play": 57,
+        "mechanics": 49,
+        "champion_pool": 48,
+        "mental_resilience": 49,
+        "teamfighting": 59,
+        "shotcalling": 54
+      },
+      "condition": 88,
+      "morale": 63,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-89e310f6",
+      "contract_end": "2026-12-20",
+      "wage": 125000,
+      "market_value": 1875000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7067ec89",
+      "match_name": "Ino",
+      "full_name": "Fumiya Aino",
+      "date_of_birth": "1997-04-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/301bbd6d.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 44,
+        "consistency": 58,
+        "discipline": 55,
+        "macro_play": 51,
+        "mechanics": 48,
+        "champion_pool": 46,
+        "mental_resilience": 54,
+        "teamfighting": 52,
+        "shotcalling": 55
+      },
+      "condition": 90,
+      "morale": 89,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-5098af24",
+      "contract_end": "2026-12-20",
+      "wage": 113000,
+      "market_value": 1695000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-5098af24",
+          "team_name": "Hokuto Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-f37f0626",
+          "team_name": "Smash It Down",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ljlsg-team-cloud",
+          "team_name": "LJLSG TEAM CLOUD",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-zoo-keeper",
+          "team_name": "ZOO KEEPER",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-axiz",
+          "team_name": "AXIZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-32f4412e",
+          "team_name": "AXIZ CREST",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-97aeef36",
+      "match_name": "Fujimoto",
+      "full_name": "Ryo Fujimoto",
+      "date_of_birth": "1996-10-16",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 71,
+        "discipline": 63,
+        "macro_play": 65,
+        "mechanics": 60,
+        "champion_pool": 54,
+        "mental_resilience": 66,
+        "teamfighting": 65,
+        "shotcalling": 63
+      },
+      "condition": 75,
+      "morale": 66,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-44273e34",
+      "contract_end": "2026-12-20",
+      "wage": 89000,
+      "market_value": 1335000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-44273e34",
+          "team_name": "Master of Chicken Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-dfm-academy",
+          "team_name": "DFM Academy",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-burning-core",
+          "team_name": "Burning Core",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 65,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-bb6eb84e",
+      "match_name": "Raphonitte",
+      "full_name": "Takashi Yageta",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 59,
+        "discipline": 58,
+        "macro_play": 62,
+        "mechanics": 62,
+        "champion_pool": 59,
+        "mental_resilience": 56,
+        "teamfighting": 60,
+        "shotcalling": 56
+      },
+      "condition": 87,
+      "morale": 95,
+      "fitness": 75,
+      "injury": null,
+      "team_id": "team-fb219001",
+      "contract_end": "2026-12-20",
+      "wage": 83000,
+      "market_value": 1245000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-fb219001",
+          "team_name": "Salvage Javelin",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-9d59ded0",
+      "match_name": "Yung (Dean Baquir)",
+      "full_name": "Dean Baquir",
+      "date_of_birth": "1996-06-19",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 57,
+        "consistency": 54,
+        "discipline": 55,
+        "macro_play": 50,
+        "mechanics": 54,
+        "champion_pool": 48,
+        "mental_resilience": 47,
+        "teamfighting": 49,
+        "shotcalling": 47
+      },
+      "condition": 89,
+      "morale": 94,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 26000,
+      "market_value": 390000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-3c89001d",
+          "team_name": "Okinawan Tigers",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-twerk-team",
+          "team_name": "Twerk Team",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-daf1b72f",
+      "match_name": "R0J0",
+      "full_name": "Rodger Johnson",
+      "date_of_birth": "1993-01-31",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 72,
+        "consistency": 67,
+        "discipline": 67,
+        "macro_play": 71,
+        "mechanics": 72,
+        "champion_pool": 72,
+        "mental_resilience": 62,
+        "teamfighting": 64,
+        "shotcalling": 61
+      },
+      "condition": 71,
+      "morale": 60,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-3c89001d",
+          "team_name": "Okinawan Tigers",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-twerk-team",
+          "team_name": "Twerk Team",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 69,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f97ff66c",
+      "match_name": "OkamuraTakashiX",
+      "full_name": "Masaki Inoda",
+      "date_of_birth": "1993-03-31",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 56,
+        "discipline": 52,
+        "macro_play": 57,
+        "mechanics": 57,
+        "champion_pool": 53,
+        "mental_resilience": 49,
+        "teamfighting": 46,
+        "shotcalling": 48
+      },
+      "condition": 100,
+      "morale": 68,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-3c89001d",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2014,
+          "team_id": "team-3c89001d",
+          "team_name": "Okinawan Tigers",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2013,
+          "team_id": "team-twerk-team",
+          "team_name": "Twerk Team",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ec649173",
+      "match_name": "Reje (Naoki Morimoto)",
+      "full_name": "Naoki Morimoto",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 54,
+        "consistency": 55,
+        "discipline": 60,
+        "macro_play": 60,
+        "mechanics": 52,
+        "champion_pool": 56,
+        "mental_resilience": 62,
+        "teamfighting": 59,
+        "shotcalling": 58
+      },
+      "condition": 70,
+      "morale": 92,
+      "fitness": 83,
+      "injury": null,
+      "team_id": "team-e2e7378f",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-e2e7378f",
+          "team_name": "7th heaven X",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-d86df144",
+      "match_name": "Kinatu",
+      "full_name": "Yuto Enomoto",
+      "date_of_birth": "2003-05-21",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 49,
+        "consistency": 50,
+        "discipline": 51,
+        "macro_play": 47,
+        "mechanics": 49,
+        "champion_pool": 43,
+        "mental_resilience": 55,
+        "teamfighting": 48,
+        "shotcalling": 50
+      },
+      "condition": 89,
+      "morale": 91,
+      "fitness": 62,
+      "injury": null,
+      "team_id": "team-9f0acea4",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2021,
+          "team_id": "team-9f0acea4",
+          "team_name": "Rascal Jester",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-rj",
+          "team_name": "RJ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fukuoka",
+          "team_name": "Fukuoka",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fukuoka-softbank-hawks-gaming",
+          "team_name": "Fukuoka SoftBank HAWKS gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-jaeger-season-kickoff-japan",
+          "team_name": "Team Jaeger (Season Kickoff Japan)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-sengoku-gaming",
+          "team_name": "Sengoku Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-reject",
+          "team_name": "REJECT",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 61,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-11b572c5",
+      "match_name": "Ibuki",
+      "full_name": "Ibuki Nago",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 60,
+        "consistency": 54,
+        "discipline": 57,
+        "macro_play": 60,
+        "mechanics": 61,
+        "champion_pool": 62,
+        "mental_resilience": 56,
+        "teamfighting": 54,
+        "shotcalling": 56
+      },
+      "condition": 82,
+      "morale": 87,
+      "fitness": 87,
+      "injury": null,
+      "team_id": "team-5098af24",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-5098af24",
+          "team_name": "Hokuto Esports",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-401d2267",
+      "match_name": "Poka",
+      "full_name": "Poka",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 67,
+        "discipline": 66,
+        "macro_play": 66,
+        "mechanics": 63,
+        "champion_pool": 62,
+        "mental_resilience": 66,
+        "teamfighting": 68,
+        "shotcalling": 65
+      },
+      "condition": 87,
+      "morale": 60,
+      "fitness": 87,
+      "injury": null,
+      "team_id": "team-44273e34",
+      "contract_end": "2026-12-20",
+      "wage": 29000,
+      "market_value": 435000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-11f67d3c",
+      "match_name": "Phantom (Gen Takahashi)",
+      "full_name": "Gen Takahashi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 61,
+        "discipline": 63,
+        "macro_play": 59,
+        "mechanics": 51,
+        "champion_pool": 51,
+        "mental_resilience": 58,
+        "teamfighting": 65,
+        "shotcalling": 56
+      },
+      "condition": 97,
+      "morale": 87,
+      "fitness": 80,
+      "injury": null,
+      "team_id": "team-c868b57e",
+      "contract_end": "2026-12-20",
+      "wage": 125000,
+      "market_value": 1875000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-c868b57e",
+          "team_name": "Japan",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f270cdab",
+      "match_name": "Neat (Justin Hao)",
+      "full_name": "Justin Hao",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Canadian",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 61,
+        "discipline": 62,
+        "macro_play": 63,
+        "mechanics": 67,
+        "champion_pool": 62,
+        "mental_resilience": 63,
+        "teamfighting": 62,
+        "shotcalling": 55
+      },
+      "condition": 99,
+      "morale": 64,
+      "fitness": 83,
+      "injury": null,
+      "team_id": "team-bfecc8d5",
+      "contract_end": "2026-12-20",
+      "wage": 41000,
+      "market_value": 615000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cc24d7b3",
+      "match_name": "Yell",
+      "full_name": "Yoshimasa Sato",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 64,
+        "discipline": 58,
+        "macro_play": 59,
+        "mechanics": 63,
+        "champion_pool": 57,
+        "mental_resilience": 59,
+        "teamfighting": 58,
+        "shotcalling": 53
+      },
+      "condition": 97,
+      "morale": 84,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-bfecc8d5",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-e7842699",
+      "match_name": "Aries (Takayuki Shinjo)",
+      "full_name": "Takayuki Shinjo",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 60,
+        "discipline": 66,
+        "macro_play": 62,
+        "mechanics": 64,
+        "champion_pool": 60,
+        "mental_resilience": 55,
+        "teamfighting": 59,
+        "shotcalling": 54
+      },
+      "condition": 93,
+      "morale": 60,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-bfecc8d5",
+      "contract_end": "2026-12-20",
+      "wage": 38000,
+      "market_value": 570000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7793138e",
+      "match_name": "Misty",
+      "full_name": "Keisuke Iei",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 67,
+        "discipline": 62,
+        "macro_play": 66,
+        "mechanics": 59,
+        "champion_pool": 58,
+        "mental_resilience": 67,
+        "teamfighting": 59,
+        "shotcalling": 60
+      },
+      "condition": 76,
+      "morale": 84,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-89e310f6",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2016,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-41111cdf",
+      "match_name": "Oh4HO",
+      "full_name": "Masaya Hirata",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 54,
+        "discipline": 65,
+        "macro_play": 57,
+        "mechanics": 59,
+        "champion_pool": 63,
+        "mental_resilience": 60,
+        "teamfighting": 53,
+        "shotcalling": 53
+      },
+      "condition": 82,
+      "morale": 65,
+      "fitness": 92,
+      "injury": null,
+      "team_id": "team-bfecc8d5",
+      "contract_end": "2026-12-20",
+      "wage": 128000,
+      "market_value": 1920000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-bfecc8d5",
+          "team_name": "Overdrive",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-63b029ab",
+      "match_name": "Sylvia",
+      "full_name": "Tatuyuki Hukuda",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 60,
+        "discipline": 61,
+        "macro_play": 60,
+        "mechanics": 64,
+        "champion_pool": 60,
+        "mental_resilience": 61,
+        "teamfighting": 52,
+        "shotcalling": 56
+      },
+      "condition": 85,
+      "morale": 93,
+      "fitness": 72,
+      "injury": null,
+      "team_id": "team-89e310f6",
+      "contract_end": "2026-12-20",
+      "wage": 98000,
+      "market_value": 1470000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-155d5ec5",
+      "match_name": "Sebun",
+      "full_name": "Sebun",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 54,
+        "consistency": 58,
+        "discipline": 57,
+        "macro_play": 65,
+        "mechanics": 56,
+        "champion_pool": 55,
+        "mental_resilience": 58,
+        "teamfighting": 59,
+        "shotcalling": 56
+      },
+      "condition": 100,
+      "morale": 66,
+      "fitness": 67,
+      "injury": null,
+      "team_id": "team-89e310f6",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-292362f7",
+      "match_name": "Miuna24",
+      "full_name": "Miuna24",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Japan",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 49,
+        "consistency": 56,
+        "discipline": 61,
+        "macro_play": 56,
+        "mechanics": 58,
+        "champion_pool": 55,
+        "mental_resilience": 59,
+        "teamfighting": 59,
+        "shotcalling": 59
+      },
+      "condition": 80,
+      "morale": 63,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-89e310f6",
+      "contract_end": "2026-12-20",
+      "wage": 23000,
+      "market_value": 345000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-89e310f6",
+          "team_name": "Dragonfly Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-3991c7f6",
+      "match_name": "Araragi",
+      "full_name": "Araragi",
+      "date_of_birth": "2000-01-01",
+      "nationality": "United States",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 79,
+        "consistency": 81,
+        "discipline": 84,
+        "macro_play": 80,
+        "mechanics": 80,
+        "champion_pool": 78,
+        "mental_resilience": 76,
+        "teamfighting": 77,
+        "shotcalling": 74
+      },
+      "condition": 81,
+      "morale": 84,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-90e92c27",
+      "contract_end": "2026-12-20",
+      "wage": 68000,
+      "market_value": 1020000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2016,
+          "team_id": "team-90e92c27",
+          "team_name": "SCARZ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2010,
+          "team_id": "team-2dcf9517",
+          "team_name": "Rock Solid",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2011,
+          "team_id": "team-versa",
+          "team_name": "Versa",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    }
+  ]
+}

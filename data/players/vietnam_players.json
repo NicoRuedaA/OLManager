@@ -1,0 +1,5602 @@
+{
+  "name": "VIETNAM Players",
+  "description": "",
+  "players": [
+    {
+      "id": "player-eb38e1a9",
+      "match_name": "MeW",
+      "full_name": "Nguyễn Thành Trung",
+      "date_of_birth": "1991-11-12",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 42,
+        "consistency": 48,
+        "discipline": 54,
+        "macro_play": 54,
+        "mechanics": 48,
+        "champion_pool": 48,
+        "mental_resilience": 54,
+        "teamfighting": 50,
+        "shotcalling": 47
+      },
+      "condition": 74,
+      "morale": 60,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-b2608f72",
+          "team_name": "Full Louis",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 53,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-83d77c30",
+      "match_name": "Palette",
+      "full_name": "Nguyễn Hải Trung",
+      "date_of_birth": "1999-11-06",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/3acf1ee5.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 77,
+        "discipline": 76,
+        "macro_play": 78,
+        "mechanics": 73,
+        "champion_pool": 69,
+        "mental_resilience": 79,
+        "teamfighting": 84,
+        "shotcalling": 74
+      },
+      "condition": 83,
+      "morale": 85,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-1210cdf2",
+      "contract_end": "2026-12-20",
+      "wage": 104000,
+      "market_value": 1560000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-1210cdf2",
+          "team_name": "Young Generation",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-yge",
+          "team_name": "YGE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-vcsa",
+          "team_name": "VCSA",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-pvb",
+          "team_name": "PVB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-team-sofm",
+          "team_name": "Team SofM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-world-2018",
+          "team_name": "World 2018",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-dashing-buffalo",
+          "team_name": "Dashing Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-dashing",
+          "team_name": "Dashing",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-494fc51a",
+          "team_name": "GAM Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-gam",
+          "team_name": "GAM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-flash-vn",
+          "team_name": "Flash VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-c73e8228",
+          "team_name": "VCS Allstars",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-team-kit",
+          "team_name": "Team Kit",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-se",
+          "team_name": "SE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-levi-season-kickoff-vietnam",
+          "team_name": "Team Levi (Season Kickoff Vietnam)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-vie22",
+          "team_name": "VIE22",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-secret-vn",
+          "team_name": "Secret VN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7cb835f5",
+      "match_name": "Shinie",
+      "full_name": "Lê Phước Nhân",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 67,
+        "discipline": 60,
+        "macro_play": 65,
+        "mechanics": 61,
+        "champion_pool": 60,
+        "mental_resilience": 58,
+        "teamfighting": 55,
+        "shotcalling": 53
+      },
+      "condition": 84,
+      "morale": 91,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-3888c0f4",
+      "match_name": "Venus",
+      "full_name": "Bùi Nguyễn Quốc Hoàng",
+      "date_of_birth": "1999-06-06",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 68,
+        "consistency": 83,
+        "discipline": 76,
+        "macro_play": 78,
+        "mechanics": 71,
+        "champion_pool": 73,
+        "mental_resilience": 80,
+        "teamfighting": 81,
+        "shotcalling": 79
+      },
+      "condition": 86,
+      "morale": 68,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-1210cdf2",
+      "contract_end": "2026-12-20",
+      "wage": 116000,
+      "market_value": 1740000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-1210cdf2",
+          "team_name": "Young Generation",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-yge",
+          "team_name": "YGE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-ffq",
+          "team_name": "FFQ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-team-stark",
+          "team_name": "Team Stark",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-lowkey-vietnam",
+          "team_name": "Lowkey Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-lowkey-vn",
+          "team_name": "Lowkey VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-d3a30577",
+          "team_name": "Lowkey Esports.Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-secret-vietnamese-team",
+          "team_name": "Team Secret (Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-secret-vn",
+          "team_name": "Secret VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-secret",
+          "team_name": "Secret",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-se",
+          "team_name": "SE",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-1c35337f",
+      "match_name": "SunSieu",
+      "full_name": "Trần Nhớ Thương",
+      "date_of_birth": "1997-10-24",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 67,
+        "discipline": 69,
+        "macro_play": 67,
+        "mechanics": 72,
+        "champion_pool": 62,
+        "mental_resilience": 77,
+        "teamfighting": 70,
+        "shotcalling": 68
+      },
+      "condition": 98,
+      "morale": 84,
+      "fitness": 73,
+      "injury": null,
+      "team_id": "team-5d7d4eec",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-lg-red",
+          "team_name": "LG Red",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-ffq",
+          "team_name": "ffq",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-ftv",
+          "team_name": "ftv",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-sky",
+          "team_name": "Sky",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cb95b8ec",
+      "match_name": "Shaoran",
+      "full_name": "Trần Hoàng Phúc",
+      "date_of_birth": "1999-09-20",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 60,
+        "consistency": 73,
+        "discipline": 72,
+        "macro_play": 76,
+        "mechanics": 63,
+        "champion_pool": 65,
+        "mental_resilience": 72,
+        "teamfighting": 74,
+        "shotcalling": 72
+      },
+      "condition": 100,
+      "morale": 67,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-e3cf86fa",
+      "contract_end": "2026-12-20",
+      "wage": 47000,
+      "market_value": 705000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-e3cf86fa",
+          "team_name": "Hall of Fame",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-hof",
+          "team_name": "hof",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ces",
+          "team_name": "CES",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-binh-thanh-gaming",
+          "team_name": "Binh Thanh Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-018159b0",
+      "match_name": "Sorn",
+      "full_name": "Nguyễn Minh Hào",
+      "date_of_birth": "2000-09-25",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 79,
+        "consistency": 80,
+        "discipline": 82,
+        "macro_play": 84,
+        "mechanics": 77,
+        "champion_pool": 82,
+        "mental_resilience": 77,
+        "teamfighting": 79,
+        "shotcalling": 77
+      },
+      "condition": 86,
+      "morale": 92,
+      "fitness": 72,
+      "injury": null,
+      "team_id": "team-e3cf86fa",
+      "contract_end": "2026-12-20",
+      "wage": 89000,
+      "market_value": 1335000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-e3cf86fa",
+          "team_name": "Hall of Fame",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-hof",
+          "team_name": "hof",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-c3f83011",
+          "team_name": "Cube Adonis",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-cubea",
+          "team_name": "CubeA",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ces",
+          "team_name": "CES",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-team-zeros",
+          "team_name": "Team Zeros",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ctr",
+          "team_name": "CTR",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-evos",
+          "team_name": "EVOS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ab30921d",
+          "team_name": "EVOS Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-a73083fe",
+          "team_name": "Luxury Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-glx",
+          "team_name": "GLX",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-494fc51a",
+          "team_name": "GAM Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-mbe",
+          "team_name": "MBE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-mgn-blue",
+          "team_name": "MGN Blue",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-56f174c8",
+      "match_name": "Kit",
+      "full_name": "Phạm Tuấn Vỉ",
+      "date_of_birth": "1997-08-18",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 68,
+        "consistency": 70,
+        "discipline": 72,
+        "macro_play": 75,
+        "mechanics": 71,
+        "champion_pool": 62,
+        "mental_resilience": 75,
+        "teamfighting": 71,
+        "shotcalling": 67
+      },
+      "condition": 79,
+      "morale": 87,
+      "fitness": 74,
+      "injury": null,
+      "team_id": "team-c3f83011",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-c3f83011",
+          "team_name": "Cube Adonis",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-cubea",
+          "team_name": "CubeA",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-sbtc",
+          "team_name": "SBTC",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-team-kit",
+          "team_name": "Team Kit",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-jack-joker-esports",
+          "team_name": "Jack Joker Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-academy-sbtc",
+          "team_name": "Academy SBTC",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2e5760da",
+      "match_name": "Keiko",
+      "full_name": "Trần Thanh Cương",
+      "date_of_birth": "1999-08-11",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 67,
+        "discipline": 68,
+        "macro_play": 68,
+        "mechanics": 69,
+        "champion_pool": 64,
+        "mental_resilience": 61,
+        "teamfighting": 66,
+        "shotcalling": 56
+      },
+      "condition": 84,
+      "morale": 66,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-8e5f3b47",
+      "contract_end": "2026-12-20",
+      "wage": 104000,
+      "market_value": 1560000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2017,
+          "team_id": "team-ehu",
+          "team_name": "EHU",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2017,
+          "team_id": "team-6e842210",
+          "team_name": "E.Hub United",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5fde620c",
+      "match_name": "Spot",
+      "full_name": "Nguyễn Phan Đình Khôi",
+      "date_of_birth": "2000-08-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 79,
+        "consistency": 80,
+        "discipline": 78,
+        "macro_play": 79,
+        "mechanics": 73,
+        "champion_pool": 74,
+        "mental_resilience": 76,
+        "teamfighting": 71,
+        "shotcalling": 74
+      },
+      "condition": 83,
+      "morale": 80,
+      "fitness": 67,
+      "injury": null,
+      "team_id": "team-1c0cac38",
+      "contract_end": "2026-12-20",
+      "wage": 89000,
+      "market_value": 1335000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-utm",
+          "team_name": "utm",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-ultimate",
+          "team_name": "Ultimate",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2018,
+          "team_id": "team-494fc51a",
+          "team_name": "GAM Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-box-gaming",
+          "team_name": "BOX Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-box",
+          "team_name": "BOX",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-phạm",
+          "team_name": "Phạm",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-a339c36a",
+          "team_name": "Vietsun Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-se",
+          "team_name": "SE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-rwvn",
+          "team_name": "RWVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-078295d3",
+      "match_name": "Hani",
+      "full_name": "Nguyễn Tấn Phát",
+      "date_of_birth": "2000-08-03",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 74,
+        "discipline": 77,
+        "macro_play": 80,
+        "mechanics": 72,
+        "champion_pool": 76,
+        "mental_resilience": 81,
+        "teamfighting": 73,
+        "shotcalling": 71
+      },
+      "condition": 93,
+      "morale": 85,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-ffq",
+          "team_name": "FFQ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-lowkey-vietnam",
+          "team_name": "Lowkey Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-lowkey-vn",
+          "team_name": "Lowkey VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-d3a30577",
+          "team_name": "Lowkey Esports.Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-secret-vietnamese-team",
+          "team_name": "Team Secret (Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-secret-vn",
+          "team_name": "Secret VN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 82,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-061dae3b",
+      "match_name": "Qeo",
+      "full_name": "Phạm Vũ Khánh Toàn",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 60,
+        "consistency": 62,
+        "discipline": 63,
+        "macro_play": 58,
+        "mechanics": 63,
+        "champion_pool": 60,
+        "mental_resilience": 54,
+        "teamfighting": 59,
+        "shotcalling": 54
+      },
+      "condition": 82,
+      "morale": 88,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-f207c5b7",
+      "contract_end": "2026-12-20",
+      "wage": 65000,
+      "market_value": 975000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-f207c5b7",
+          "team_name": "Đạt Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-33817b03",
+      "match_name": "OPG1",
+      "full_name": "Phan Hoàng Tài",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 66,
+        "discipline": 64,
+        "macro_play": 58,
+        "mechanics": 63,
+        "champion_pool": 62,
+        "mental_resilience": 57,
+        "teamfighting": 61,
+        "shotcalling": 57
+      },
+      "condition": 72,
+      "morale": 90,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 59000,
+      "market_value": 885000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-7fd58c2e",
+      "match_name": "Genza",
+      "full_name": "Trần Hồng Phúc",
+      "date_of_birth": "1998-10-20",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/5e03d5b7.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 72,
+        "consistency": 72,
+        "discipline": 75,
+        "macro_play": 70,
+        "mechanics": 76,
+        "champion_pool": 74,
+        "mental_resilience": 71,
+        "teamfighting": 67,
+        "shotcalling": 71
+      },
+      "condition": 74,
+      "morale": 87,
+      "fitness": 64,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-qtv",
+          "team_name": "QTV",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-gam",
+          "team_name": "GAM",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5913bf67",
+      "match_name": "Light (Nguyễn Đức Minh)",
+      "full_name": "Nguyễn Đức Minh",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 60,
+        "consistency": 59,
+        "discipline": 58,
+        "macro_play": 62,
+        "mechanics": 60,
+        "champion_pool": 57,
+        "mental_resilience": 56,
+        "teamfighting": 61,
+        "shotcalling": 53
+      },
+      "condition": 73,
+      "morale": 69,
+      "fitness": 83,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-019c7cfc",
+      "match_name": "Eragon (Nguyễn Ngọc Huy)",
+      "full_name": "Nguyễn Ngọc Huy",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 61,
+        "discipline": 66,
+        "macro_play": 64,
+        "mechanics": 61,
+        "champion_pool": 56,
+        "mental_resilience": 60,
+        "teamfighting": 61,
+        "shotcalling": 59
+      },
+      "condition": 85,
+      "morale": 93,
+      "fitness": 82,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-2186f2e1",
+      "match_name": "Osas",
+      "full_name": "Hoàng Văn Cường",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 52,
+        "consistency": 63,
+        "discipline": 57,
+        "macro_play": 64,
+        "mechanics": 58,
+        "champion_pool": 52,
+        "mental_resilience": 57,
+        "teamfighting": 59,
+        "shotcalling": 54
+      },
+      "condition": 90,
+      "morale": 70,
+      "fitness": 89,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 50000,
+      "market_value": 750000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-96310b68",
+      "match_name": "1Ground",
+      "full_name": "Trần Dần",
+      "date_of_birth": "1998-07-14",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 63,
+        "discipline": 69,
+        "macro_play": 70,
+        "mechanics": 61,
+        "champion_pool": 62,
+        "mental_resilience": 67,
+        "teamfighting": 71,
+        "shotcalling": 63
+      },
+      "condition": 96,
+      "morale": 85,
+      "fitness": 79,
+      "injury": null,
+      "team_id": "team-88fd36de",
+      "contract_end": "2026-12-20",
+      "wage": 20000,
+      "market_value": 300000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-88fd36de",
+          "team_name": "FTV Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-2205df28",
+          "team_name": "V Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 65,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b7a12a24",
+      "match_name": "Twice (Nguyễn Trọng Phú)",
+      "full_name": "Nguyễn Trọng Phú",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 51,
+        "consistency": 60,
+        "discipline": 61,
+        "macro_play": 57,
+        "mechanics": 53,
+        "champion_pool": 57,
+        "mental_resilience": 57,
+        "teamfighting": 56,
+        "shotcalling": 52
+      },
+      "condition": 70,
+      "morale": 77,
+      "fitness": 89,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-5192b0ff",
+          "team_name": "LP Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-caaae4eb",
+      "match_name": "Aihgn",
+      "full_name": "Võ Hồng Nghĩa",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 59,
+        "discipline": 65,
+        "macro_play": 57,
+        "mechanics": 57,
+        "champion_pool": 63,
+        "mental_resilience": 61,
+        "teamfighting": 58,
+        "shotcalling": 58
+      },
+      "condition": 97,
+      "morale": 63,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 53000,
+      "market_value": 795000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-5192b0ff",
+          "team_name": "LP Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-a83f7927",
+      "match_name": "Escanor (Nguyễn Phước Thành Duy)",
+      "full_name": "Nguyễn Phước Thành Duy",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 66,
+        "discipline": 59,
+        "macro_play": 62,
+        "mechanics": 61,
+        "champion_pool": 57,
+        "mental_resilience": 57,
+        "teamfighting": 55,
+        "shotcalling": 51
+      },
+      "condition": 72,
+      "morale": 86,
+      "fitness": 68,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-5192b0ff",
+          "team_name": "LP Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f49ecac4",
+      "match_name": "Tofu (Đinh Tấn Phát)",
+      "full_name": "Đinh Tấn Phát",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 59,
+        "discipline": 60,
+        "macro_play": 56,
+        "mechanics": 63,
+        "champion_pool": 58,
+        "mental_resilience": 61,
+        "teamfighting": 58,
+        "shotcalling": 56
+      },
+      "condition": 74,
+      "morale": 64,
+      "fitness": 66,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-5192b0ff",
+          "team_name": "LP Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cf68c858",
+      "match_name": "BByYoO",
+      "full_name": "Đinh Tấn Tài",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 69,
+        "discipline": 70,
+        "macro_play": 66,
+        "mechanics": 56,
+        "champion_pool": 61,
+        "mental_resilience": 64,
+        "teamfighting": 64,
+        "shotcalling": 64
+      },
+      "condition": 82,
+      "morale": 81,
+      "fitness": 61,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c02ae5d2",
+      "match_name": "Zodiac",
+      "full_name": "Tiêu Quốc Lương",
+      "date_of_birth": "2001-03-26",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 76,
+        "discipline": 77,
+        "macro_play": 74,
+        "mechanics": 74,
+        "champion_pool": 67,
+        "mental_resilience": 72,
+        "teamfighting": 77,
+        "shotcalling": 76
+      },
+      "condition": 87,
+      "morale": 66,
+      "fitness": 82,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-qtv",
+          "team_name": "QTV",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-gesp",
+          "team_name": "GESP",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-mbe",
+          "team_name": "MBE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-mgn-blue",
+          "team_name": "MGN Blue",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-eeae8841",
+      "match_name": "Biob",
+      "full_name": "Nguyễn Lâm Việt Sinh",
+      "date_of_birth": "2002-02-27",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/7d8191f1.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 76,
+        "consistency": 81,
+        "discipline": 79,
+        "macro_play": 87,
+        "mechanics": 73,
+        "champion_pool": 80,
+        "mental_resilience": 86,
+        "teamfighting": 85,
+        "shotcalling": 79
+      },
+      "condition": 72,
+      "morale": 83,
+      "fitness": 66,
+      "injury": null,
+      "team_id": "team-0e5ea591",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2018,
+          "team_id": "team-9a2c93e9",
+          "team_name": "Headhunters",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-adonis-esports",
+          "team_name": "Adonis Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-evos",
+          "team_name": "EVOS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-d3587c19",
+          "team_name": "OverPower Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-8e5f3b47",
+          "team_name": "Genius Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-gesp",
+          "team_name": "GESP",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-cybercore-esports",
+          "team_name": "CyberCore Esports",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 90,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-a71c90e5",
+      "match_name": "HoangTuGT",
+      "full_name": "Trần Mai Anh Khoa",
+      "date_of_birth": "2000-07-23",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 47,
+        "consistency": 53,
+        "discipline": 48,
+        "macro_play": 53,
+        "mechanics": 45,
+        "champion_pool": 42,
+        "mental_resilience": 50,
+        "teamfighting": 52,
+        "shotcalling": 52
+      },
+      "condition": 96,
+      "morale": 64,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 89000,
+      "market_value": 1335000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-228cbe3e",
+          "team_name": "Apollo Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-flex",
+          "team_name": "Flex",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-99947b72",
+      "match_name": "Taki (Đinh Anh Tài)",
+      "full_name": "Đinh Anh Tài",
+      "date_of_birth": "2003-06-30",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 78,
+        "discipline": 78,
+        "macro_play": 83,
+        "mechanics": 69,
+        "champion_pool": 71,
+        "mental_resilience": 75,
+        "teamfighting": 81,
+        "shotcalling": 73
+      },
+      "condition": 81,
+      "morale": 82,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-494fc51a",
+      "contract_end": "2026-12-20",
+      "wage": 125000,
+      "market_value": 1875000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-sgb",
+          "team_name": "SGB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-artemis-season-kickoff-vietnam",
+          "team_name": "Team Artemis (Season Kickoff Vietnam)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-secret-vn",
+          "team_name": "Secret VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-secret-whales",
+          "team_name": "Secret Whales",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-vietnam-national-team",
+          "team_name": "Vietnam (National Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-3gà",
+          "team_name": "Team 3GÀ",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-kanmei-team",
+          "team_name": "Kanmei Team",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2026,
+          "team_id": "team-494fc51a",
+          "team_name": "GAM Esports",
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 87,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0fb63115",
+      "match_name": "Night (Nguyễn Huy Thắng)",
+      "full_name": "Nguyễn Huy Thắng",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 73,
+        "consistency": 83,
+        "discipline": 86,
+        "macro_play": 85,
+        "mechanics": 78,
+        "champion_pool": 77,
+        "mental_resilience": 81,
+        "teamfighting": 84,
+        "shotcalling": 82
+      },
+      "condition": 73,
+      "morale": 75,
+      "fitness": 91,
+      "injury": null,
+      "team_id": "team-31bf06a8",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2015,
+          "team_id": "team-31bf06a8",
+          "team_name": "Vikings Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2014,
+          "team_id": "team-ultimate",
+          "team_name": "Ultimate",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 85,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-8f04ffb7",
+      "match_name": "KemKen",
+      "full_name": "Huỳnh Tấn Danh",
+      "date_of_birth": "2000-07-09",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 82,
+        "consistency": 82,
+        "discipline": 79,
+        "macro_play": 74,
+        "mechanics": 73,
+        "champion_pool": 79,
+        "mental_resilience": 70,
+        "teamfighting": 76,
+        "shotcalling": 74
+      },
+      "condition": 73,
+      "morale": 64,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-a73083fe",
+      "contract_end": "2026-12-20",
+      "wage": 23000,
+      "market_value": 345000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 79,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-be5a2ed3",
+      "match_name": "Hype (Nguyễn Trọng Nhân)",
+      "full_name": "Nguyễn Trọng Nhân",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 75,
+        "discipline": 76,
+        "macro_play": 77,
+        "mechanics": 69,
+        "champion_pool": 69,
+        "mental_resilience": 76,
+        "teamfighting": 76,
+        "shotcalling": 68
+      },
+      "condition": 84,
+      "morale": 87,
+      "fitness": 63,
+      "injury": null,
+      "team_id": "team-f207c5b7",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-f207c5b7",
+          "team_name": "Đạt Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-adonis-academy",
+          "team_name": "Adonis Academy",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 76,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-56f17d36",
+      "match_name": "Coated",
+      "full_name": "Đinh Văn Tráng",
+      "date_of_birth": "2000-05-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/2db5e77c.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 45,
+        "consistency": 50,
+        "discipline": 53,
+        "macro_play": 54,
+        "mechanics": 48,
+        "champion_pool": 50,
+        "mental_resilience": 49,
+        "teamfighting": 47,
+        "shotcalling": 49
+      },
+      "condition": 87,
+      "morale": 93,
+      "fitness": 73,
+      "injury": null,
+      "team_id": "team-8c558d5f",
+      "contract_end": "2026-12-20",
+      "wage": 116000,
+      "market_value": 1740000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-8c558d5f",
+          "team_name": "Maximal",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-secret-vietnamese-team",
+          "team_name": "Team Secret (Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-secret-vn",
+          "team_name": "Secret VN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-secret",
+          "team_name": "Secret",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-secret-vietnam",
+          "team_name": "Team Secret Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-lxe",
+          "team_name": "LXE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-team-ling",
+          "team_name": "Team Ling",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-gesp",
+          "team_name": "GESP",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-sgb",
+          "team_name": "SGB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-genz-gaming-2025-vietnamese-team",
+          "team_name": "GenZ Gaming (2025 Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-f50d49c0",
+          "team_name": "Apex Predator",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c9456d3f",
+      "match_name": "Văn Tùng",
+      "full_name": "Lê Văn Tùng",
+      "date_of_birth": "1995-07-19",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 65,
+        "discipline": 71,
+        "macro_play": 69,
+        "mechanics": 61,
+        "champion_pool": 65,
+        "mental_resilience": 62,
+        "teamfighting": 60,
+        "shotcalling": 61
+      },
+      "condition": 97,
+      "morale": 65,
+      "fitness": 94,
+      "injury": null,
+      "team_id": "team-8d09a7ff",
+      "contract_end": "2026-12-20",
+      "wage": 29000,
+      "market_value": 435000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-8d09a7ff",
+          "team_name": "Vietnam Esports TV",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-1-korea-travel-festa-2024",
+          "team_name": "Team 1 (Korea Travel Festa 2024)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-piltover-hòa-nhịp-arcane",
+          "team_name": "Team Piltover (Hòa Nhịp Arcane)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-team-optimus",
+          "team_name": "Team Optimus",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 65,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-a82490c0",
+      "match_name": "Simon (Dương Thanh Hoà)",
+      "full_name": "Dương Thanh Hoà",
+      "date_of_birth": "2002-02-17",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 74,
+        "discipline": 72,
+        "macro_play": 65,
+        "mechanics": 64,
+        "champion_pool": 68,
+        "mental_resilience": 75,
+        "teamfighting": 72,
+        "shotcalling": 68
+      },
+      "condition": 92,
+      "morale": 93,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-d3587c19",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-d3587c19",
+          "team_name": "OverPower Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-overpower",
+          "team_name": "OverPower",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-box",
+          "team_name": "BOX",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-se",
+          "team_name": "SE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-1am",
+          "team_name": "1AM",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-b40f796e",
+      "match_name": "Shine (Tôn Nguyễn Phi Long)",
+      "full_name": "Tôn Nguyễn Phi Long",
+      "date_of_birth": "2002-03-25",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 78,
+        "consistency": 70,
+        "discipline": 75,
+        "macro_play": 71,
+        "mechanics": 69,
+        "champion_pool": 76,
+        "mental_resilience": 70,
+        "teamfighting": 66,
+        "shotcalling": 67
+      },
+      "condition": 86,
+      "morale": 63,
+      "fitness": 81,
+      "injury": null,
+      "team_id": "team-8c558d5f",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-8c558d5f",
+          "team_name": "Maximal",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-percent-team",
+          "team_name": "Percent Team",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-a73083fe",
+          "team_name": "Luxury Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-glx",
+          "team_name": "GLX",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-lxe",
+          "team_name": "LXE",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c88ff6ef",
+      "match_name": "Jad",
+      "full_name": "Trần Công Hưng",
+      "date_of_birth": "2001-01-13",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 47,
+        "consistency": 59,
+        "discipline": 61,
+        "macro_play": 61,
+        "mechanics": 53,
+        "champion_pool": 52,
+        "mental_resilience": 60,
+        "teamfighting": 63,
+        "shotcalling": 59
+      },
+      "condition": 91,
+      "morale": 60,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-97771eb2",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-97771eb2",
+          "team_name": "Saigon Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-yg-20",
+          "team_name": "YG 2.0",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-kac5",
+          "team_name": "KAC5",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-c410b574",
+      "match_name": "DuySiêuNhân",
+      "full_name": "Nguyễn Quốc Duy",
+      "date_of_birth": "2002-03-16",
+      "nationality": "vn",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 46,
+        "discipline": 55,
+        "macro_play": 46,
+        "mechanics": 50,
+        "champion_pool": 52,
+        "mental_resilience": 53,
+        "teamfighting": 52,
+        "shotcalling": 43
+      },
+      "condition": 86,
+      "morale": 91,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-4f44e8a2",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4f44e8a2",
+          "team_name": "Tồ Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 61,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4886da3a",
+      "match_name": "Zefef",
+      "full_name": "Trần Xuân Phương<!--Trần Minh Tiến-->",
+      "date_of_birth": "2003-06-05",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 44,
+        "consistency": 50,
+        "discipline": 51,
+        "macro_play": 56,
+        "mechanics": 51,
+        "champion_pool": 49,
+        "mental_resilience": 50,
+        "teamfighting": 54,
+        "shotcalling": 53
+      },
+      "condition": 93,
+      "morale": 89,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-4f44e8a2",
+      "contract_end": "2026-12-20",
+      "wage": 38000,
+      "market_value": 570000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4f44e8a2",
+          "team_name": "Tồ Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 61,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-e9d2c71e",
+      "match_name": "Dante (Lương Thành Đạt)",
+      "full_name": "Lương Thành Đạt",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 69,
+        "consistency": 64,
+        "discipline": 69,
+        "macro_play": 68,
+        "mechanics": 61,
+        "champion_pool": 60,
+        "mental_resilience": 59,
+        "teamfighting": 64,
+        "shotcalling": 57
+      },
+      "condition": 74,
+      "morale": 66,
+      "fitness": 75,
+      "injury": null,
+      "team_id": "team-1b88adcb",
+      "contract_end": "2026-12-20",
+      "wage": 89000,
+      "market_value": 1335000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-1b88adcb",
+          "team_name": "FPT Hanoi",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-4f44e8a2",
+          "team_name": "Tồ Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-6a35ab1f",
+      "match_name": "Yuki (Nguyễn Anh Kiệt)",
+      "full_name": "Nguyễn Anh Kiệt",
+      "date_of_birth": "2004-03-25",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 67,
+        "discipline": 68,
+        "macro_play": 72,
+        "mechanics": 66,
+        "champion_pool": 67,
+        "mental_resilience": 69,
+        "teamfighting": 66,
+        "shotcalling": 70
+      },
+      "condition": 92,
+      "morale": 95,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-4ee3c842",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-mbe",
+          "team_name": "MBE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-secret-vietnamese-team-academy",
+          "team_name": "Team Secret (Vietnamese Team) Academy",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-228cbe3e",
+          "team_name": "APOLLO GAMING",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-rwvn",
+          "team_name": "RWVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cf3e08b1",
+      "match_name": "Fengfeng (Trần Gia Phong)",
+      "full_name": "Trần Gia Phong",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 64,
+        "discipline": 63,
+        "macro_play": 61,
+        "mechanics": 61,
+        "champion_pool": 58,
+        "mental_resilience": 67,
+        "teamfighting": 65,
+        "shotcalling": 64
+      },
+      "condition": 84,
+      "morale": 60,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-1b88adcb",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5d1849a6",
+      "match_name": "Arrietty",
+      "full_name": "Nguyễn Phước Nghĩa",
+      "date_of_birth": "2002-04-13",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/030e9556.webp",
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 76,
+        "consistency": 72,
+        "discipline": 76,
+        "macro_play": 74,
+        "mechanics": 76,
+        "champion_pool": 75,
+        "mental_resilience": 75,
+        "teamfighting": 66,
+        "shotcalling": 71
+      },
+      "condition": 92,
+      "morale": 65,
+      "fitness": 73,
+      "injury": null,
+      "team_id": "team-4ee3c842",
+      "contract_end": "2026-12-20",
+      "wage": 77000,
+      "market_value": 1155000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-sgb",
+          "team_name": "SGB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-tw",
+          "team_name": "TW",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-scbc",
+          "team_name": "SCBC",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cdae9330",
+      "match_name": "Jarvis",
+      "full_name": "Lê Văn Tuấn Tú",
+      "date_of_birth": "2004-07-20",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/07fa2d7c.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 65,
+        "discipline": 64,
+        "macro_play": 62,
+        "mechanics": 66,
+        "champion_pool": 63,
+        "mental_resilience": 71,
+        "teamfighting": 62,
+        "shotcalling": 65
+      },
+      "condition": 80,
+      "morale": 92,
+      "fitness": 65,
+      "injury": null,
+      "team_id": "team-4ee3c842",
+      "contract_end": "2026-12-20",
+      "wage": 74000,
+      "market_value": 1110000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-team-secret-vietnam",
+          "team_name": "Team Secret Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-3b262a72",
+          "team_name": "Silent Storm Esports",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 77,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-a8830137",
+      "match_name": "Shogun (Nguyễn Văn Huy)",
+      "full_name": "Nguyễn Văn Huy",
+      "date_of_birth": "2004-03-31",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 59,
+        "discipline": 68,
+        "macro_play": 65,
+        "mechanics": 67,
+        "champion_pool": 67,
+        "mental_resilience": 64,
+        "teamfighting": 56,
+        "shotcalling": 55
+      },
+      "condition": 80,
+      "morale": 63,
+      "fitness": 72,
+      "injury": null,
+      "team_id": "team-4ee3c842",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2021,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-sgb",
+          "team_name": "SGB",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-levi-season-kickoff-vietnam",
+          "team_name": "Team Levi (Season Kickoff Vietnam)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-vke",
+          "team_name": "VKE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-6a6ed4c1",
+          "team_name": "MGN Vikings Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2026,
+          "team_id": "team-mvke",
+          "team_name": "MVKE",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-65103355",
+      "match_name": "Puddin",
+      "full_name": "Lương Thành Tài",
+      "date_of_birth": "2004-02-07",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/4153461b.webp",
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 77,
+        "consistency": 73,
+        "discipline": 80,
+        "macro_play": 79,
+        "mechanics": 75,
+        "champion_pool": 78,
+        "mental_resilience": 73,
+        "teamfighting": 75,
+        "shotcalling": 71
+      },
+      "condition": 89,
+      "morale": 88,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-760bf795",
+      "contract_end": "2026-12-20",
+      "wage": 98000,
+      "market_value": 1470000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-760bf795",
+          "team_name": "Puppies Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-ces",
+          "team_name": "CES",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2019,
+          "team_id": "team-legends-epic-wars",
+          "team_name": "Legends Epic Wars",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-vietnam-national-team",
+          "team_name": "Vietnam (National Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-future-team-fpt-techday-24",
+          "team_name": "Future Team (FPT Techday 24)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-team-flashvietnam",
+          "team_name": "Team Flash.Vietnam",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 87,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-40671d28",
+      "match_name": "Marcus",
+      "full_name": "Đinh Bùi Quốc Cường",
+      "date_of_birth": "2003-12-13",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 65,
+        "discipline": 59,
+        "macro_play": 63,
+        "mechanics": 62,
+        "champion_pool": 57,
+        "mental_resilience": 68,
+        "teamfighting": 62,
+        "shotcalling": 64
+      },
+      "condition": 73,
+      "morale": 91,
+      "fitness": 79,
+      "injury": null,
+      "team_id": "team-4ee3c842",
+      "contract_end": "2026-12-20",
+      "wage": 44000,
+      "market_value": 660000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2021,
+          "team_id": "team-4ee3c842",
+          "team_name": "Young Buffalo",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-1b8200c6",
+      "match_name": "2T",
+      "full_name": "Nguyễn Trọng Trí",
+      "date_of_birth": "2003-02-02",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 69,
+        "consistency": 68,
+        "discipline": 68,
+        "macro_play": 67,
+        "mechanics": 64,
+        "champion_pool": 64,
+        "mental_resilience": 71,
+        "teamfighting": 67,
+        "shotcalling": 66
+      },
+      "condition": 71,
+      "morale": 60,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-760bf795",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-760bf795",
+          "team_name": "Puppies Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-gam",
+          "team_name": "GAM",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-se",
+          "team_name": "SE",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-aesp",
+          "team_name": "AESP",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-adonis-esports",
+          "team_name": "Adonis Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-1c0cac38",
+          "team_name": "Rainbow Warriors",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-rwvn",
+          "team_name": "RWVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-17e0ee00",
+      "match_name": "Erdbeere",
+      "full_name": "Nguyễn Hữu Trung",
+      "date_of_birth": "2003-07-26",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 66,
+        "discipline": 69,
+        "macro_play": 67,
+        "mechanics": 61,
+        "champion_pool": 67,
+        "mental_resilience": 59,
+        "teamfighting": 58,
+        "shotcalling": 58
+      },
+      "condition": 76,
+      "morale": 66,
+      "fitness": 95,
+      "injury": null,
+      "team_id": "team-a339c36a",
+      "contract_end": "2026-12-20",
+      "wage": 101000,
+      "market_value": 1515000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2021,
+          "team_id": "team-a339c36a",
+          "team_name": "VietSun Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-phạm",
+          "team_name": "Phạm",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-19bc7cc6",
+      "match_name": "Henli",
+      "full_name": "Tạ Đình Huy",
+      "date_of_birth": "2001-11-11",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/2367d679.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 71,
+        "consistency": 66,
+        "discipline": 63,
+        "macro_play": 64,
+        "mechanics": 68,
+        "champion_pool": 65,
+        "mental_resilience": 59,
+        "teamfighting": 62,
+        "shotcalling": 63
+      },
+      "condition": 70,
+      "morale": 94,
+      "fitness": 73,
+      "injury": null,
+      "team_id": "team-8e5f3b47",
+      "contract_end": "2026-12-20",
+      "wage": 35000,
+      "market_value": 525000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-8e5f3b47",
+          "team_name": "Genius Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-cybercore-esports",
+          "team_name": "CyberCore Esports",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0b885190",
+      "match_name": "Jetsu",
+      "full_name": "Nguyễn Bá Thành",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 61,
+        "discipline": 57,
+        "macro_play": 56,
+        "mechanics": 56,
+        "champion_pool": 62,
+        "mental_resilience": 55,
+        "teamfighting": 58,
+        "shotcalling": 56
+      },
+      "condition": 87,
+      "morale": 67,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 38000,
+      "market_value": 570000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV GAMING",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-2205df28",
+          "team_name": "V Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-fvn",
+          "team_name": "FVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4c88aeb9",
+      "match_name": "Hyo",
+      "full_name": "Nguyễn Trung Hiếu",
+      "date_of_birth": "2002-11-26",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/01ce1132.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 73,
+        "consistency": 72,
+        "discipline": 74,
+        "macro_play": 77,
+        "mechanics": 69,
+        "champion_pool": 70,
+        "mental_resilience": 75,
+        "teamfighting": 72,
+        "shotcalling": 70
+      },
+      "condition": 93,
+      "morale": 66,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-3fff1a3b",
+      "contract_end": "2026-12-20",
+      "wage": 44000,
+      "market_value": 660000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2022,
+          "team_id": "team-3fff1a3b",
+          "team_name": "AS Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2022,
+          "team_id": "team-aesp",
+          "team_name": "AESP",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-adonis-esports",
+          "team_name": "Adonis Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-1c0cac38",
+          "team_name": "Rainbow Warriors",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-rwvn",
+          "team_name": "RWVN",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-995a9376",
+      "match_name": "Remind (Du Phong Linh)",
+      "full_name": "Du Phong Linh",
+      "date_of_birth": "1999-03-14",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 54,
+        "consistency": 56,
+        "discipline": 53,
+        "macro_play": 51,
+        "mechanics": 52,
+        "champion_pool": 48,
+        "mental_resilience": 49,
+        "teamfighting": 50,
+        "shotcalling": 46
+      },
+      "condition": 73,
+      "morale": 81,
+      "fitness": 89,
+      "injury": null,
+      "team_id": "team-c73e8228",
+      "contract_end": "2026-12-20",
+      "wage": 59000,
+      "market_value": 885000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-c73e8228",
+          "team_name": "VCS Allstars",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-team-minh-nghi",
+          "team_name": "Team Minh Nghi",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-28d4677d",
+      "match_name": "Qiang",
+      "full_name": "Quách Khánh Hoàng",
+      "date_of_birth": "2004-04-21",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 61,
+        "consistency": 62,
+        "discipline": 59,
+        "macro_play": 59,
+        "mechanics": 58,
+        "champion_pool": 57,
+        "mental_resilience": 59,
+        "teamfighting": 58,
+        "shotcalling": 54
+      },
+      "condition": 78,
+      "morale": 62,
+      "fitness": 88,
+      "injury": null,
+      "team_id": "team-a339c36a",
+      "contract_end": "2026-12-20",
+      "wage": 113000,
+      "market_value": 1695000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2022,
+          "team_id": "team-a339c36a",
+          "team_name": "VietSun Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-svn",
+          "team_name": "SVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2023,
+          "team_id": "team-team-7núi",
+          "team_name": "Team 7NÚI",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-10e17408",
+      "match_name": "TT (Trần Quốc Thanh)",
+      "full_name": "Trần Quốc Thanh",
+      "date_of_birth": "2002-11-20",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "consistency": 77,
+        "discipline": 73,
+        "macro_play": 69,
+        "mechanics": 70,
+        "champion_pool": 74,
+        "mental_resilience": 71,
+        "teamfighting": 71,
+        "shotcalling": 70
+      },
+      "condition": 89,
+      "morale": 86,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-2eb10623",
+      "contract_end": "2026-12-20",
+      "wage": 119000,
+      "market_value": 1785000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2025,
+          "team_id": "team-2eb10623",
+          "team_name": "Saigon Dino",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-nguvn",
+          "team_name": "NGUVN",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-never-give-up-vietnamese-team",
+          "team_name": "Never Give Up (Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-3b262a72",
+          "team_name": "Silent Storm Esports",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-genz-gaming-2025-vietnamese-team",
+          "team_name": "GenZ Gaming (2025 Vietnamese Team)",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 81,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-4fc15577",
+      "match_name": "Swiss",
+      "full_name": "Vũ Trần Tuấn Vĩ",
+      "date_of_birth": "2001-03-21",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/5e9c7a3e.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 67,
+        "consistency": 68,
+        "discipline": 66,
+        "macro_play": 68,
+        "mechanics": 71,
+        "champion_pool": 66,
+        "mental_resilience": 64,
+        "teamfighting": 70,
+        "shotcalling": 67
+      },
+      "condition": 95,
+      "morale": 62,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-228cbe3e",
+      "contract_end": "2026-12-20",
+      "wage": 62000,
+      "market_value": 930000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-228cbe3e",
+          "team_name": "Apollo Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-109-gaming",
+          "team_name": "109 Gaming",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2021,
+          "team_id": "team-keep-it-simple",
+          "team_name": "Keep It Simple",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-dbr",
+          "team_name": "DBR",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-paradise",
+          "team_name": "Paradise",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-anohana",
+          "team_name": "Anohana",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 72,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-04d29ad8",
+      "match_name": "Qy",
+      "full_name": "Qy",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 63,
+        "discipline": 66,
+        "macro_play": 57,
+        "mechanics": 63,
+        "champion_pool": 60,
+        "mental_resilience": 58,
+        "teamfighting": 61,
+        "shotcalling": 58
+      },
+      "condition": 71,
+      "morale": 93,
+      "fitness": 72,
+      "injury": null,
+      "team_id": "team-228cbe3e",
+      "contract_end": "2026-12-20",
+      "wage": 26000,
+      "market_value": 390000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-228cbe3e",
+          "team_name": "APOLLO GAMING",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ad7219c0",
+      "match_name": "2Vest",
+      "full_name": "2Vest",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 53,
+        "consistency": 63,
+        "discipline": 63,
+        "macro_play": 58,
+        "mechanics": 50,
+        "champion_pool": 50,
+        "mental_resilience": 56,
+        "teamfighting": 60,
+        "shotcalling": 62
+      },
+      "condition": 70,
+      "morale": 87,
+      "fitness": 66,
+      "injury": null,
+      "team_id": "team-228cbe3e",
+      "contract_end": "2026-12-20",
+      "wage": 26000,
+      "market_value": 390000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-228cbe3e",
+          "team_name": "APOLLO GAMING",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-725c6246",
+      "match_name": "Be",
+      "full_name": "Đinh Văn Khang",
+      "date_of_birth": "2004-12-09",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/767d1b11.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 62,
+        "discipline": 65,
+        "macro_play": 68,
+        "mechanics": 68,
+        "champion_pool": 64,
+        "mental_resilience": 68,
+        "teamfighting": 67,
+        "shotcalling": 65
+      },
+      "condition": 78,
+      "morale": 69,
+      "fitness": 85,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 23000,
+      "market_value": 345000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-60773fef",
+          "team_name": "CYRUS",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 77,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-00dc50af",
+      "match_name": "Mounnika",
+      "full_name": "Phan Hồ Thuận",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/2e8390dc.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 61,
+        "discipline": 59,
+        "macro_play": 56,
+        "mechanics": 56,
+        "champion_pool": 53,
+        "mental_resilience": 64,
+        "teamfighting": 61,
+        "shotcalling": 51
+      },
+      "condition": 71,
+      "morale": 75,
+      "fitness": 68,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 122000,
+      "market_value": 1830000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-60773fef",
+          "team_name": "CYRUS",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-89d88f67",
+      "match_name": "NoNoNo1",
+      "full_name": "Quang Quốc Huy",
+      "date_of_birth": "2002-02-03",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/4acbf5c5.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 62,
+        "consistency": 58,
+        "discipline": 58,
+        "macro_play": 61,
+        "mechanics": 57,
+        "champion_pool": 58,
+        "mental_resilience": 62,
+        "teamfighting": 61,
+        "shotcalling": 56
+      },
+      "condition": 96,
+      "morale": 89,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 68000,
+      "market_value": 1020000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-60773fef",
+          "team_name": "CYRUS",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-f3dc5f11",
+      "match_name": "Dttt",
+      "full_name": "Phạm Anh Thi",
+      "date_of_birth": "2000-12-10",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/448d7134.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 67,
+        "discipline": 63,
+        "macro_play": 66,
+        "mechanics": 65,
+        "champion_pool": 68,
+        "mental_resilience": 63,
+        "teamfighting": 58,
+        "shotcalling": 62
+      },
+      "condition": 80,
+      "morale": 86,
+      "fitness": 82,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 86000,
+      "market_value": 1290000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-17a2d656",
+      "match_name": "Nemo (Nguyễn Phạm Hoàng Long)",
+      "full_name": "Nguyễn Phạm Hoàng Long",
+      "date_of_birth": "2004-11-25",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 55,
+        "discipline": 56,
+        "macro_play": 56,
+        "mechanics": 58,
+        "champion_pool": 64,
+        "mental_resilience": 59,
+        "teamfighting": 52,
+        "shotcalling": 50
+      },
+      "condition": 92,
+      "morale": 71,
+      "fitness": 76,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 59000,
+      "market_value": 885000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-60773fef",
+          "team_name": "CYRUS",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ce9a52e1",
+      "match_name": "Uncle4",
+      "full_name": "Võ Văn Toàn",
+      "date_of_birth": "2003-01-13",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/26590e69.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 55,
+        "consistency": 69,
+        "discipline": 68,
+        "macro_play": 63,
+        "mechanics": 58,
+        "champion_pool": 61,
+        "mental_resilience": 68,
+        "teamfighting": 65,
+        "shotcalling": 61
+      },
+      "condition": 87,
+      "morale": 84,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-60773fef",
+      "contract_end": "2026-12-20",
+      "wage": 41000,
+      "market_value": 615000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 73,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-23031d61",
+      "match_name": "Robin (Vũ Triệu Thái Huy)",
+      "full_name": "Vũ Triệu Thái Huy",
+      "date_of_birth": "2004-11-22",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 49,
+        "consistency": 59,
+        "discipline": 58,
+        "macro_play": 55,
+        "mechanics": 55,
+        "champion_pool": 53,
+        "mental_resilience": 56,
+        "teamfighting": 60,
+        "shotcalling": 54
+      },
+      "condition": 82,
+      "morale": 71,
+      "fitness": 64,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 98000,
+      "market_value": 1470000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0044e674",
+      "match_name": "Chopper (Dương Hoàng Sơn)",
+      "full_name": "Dương Hoàng Sơn",
+      "date_of_birth": "2005-01-21",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 61,
+        "discipline": 57,
+        "macro_play": 64,
+        "mechanics": 62,
+        "champion_pool": 65,
+        "mental_resilience": 54,
+        "teamfighting": 56,
+        "shotcalling": 50
+      },
+      "condition": 78,
+      "morale": 64,
+      "fitness": 79,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 113000,
+      "market_value": 1695000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 75,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-3abd430b",
+      "match_name": "Zoro (Nguyễn Phúc Minh Tinh)",
+      "full_name": "Nguyễn Phúc Minh Tinh",
+      "date_of_birth": "2005-10-31",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 64,
+        "discipline": 64,
+        "macro_play": 58,
+        "mechanics": 60,
+        "champion_pool": 60,
+        "mental_resilience": 61,
+        "teamfighting": 60,
+        "shotcalling": 57
+      },
+      "condition": 89,
+      "morale": 66,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 116000,
+      "market_value": 1740000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 75,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-9a950156",
+      "match_name": "Nami (Phạm Hữu Hiếu)",
+      "full_name": "Phạm Hữu Hiếu",
+      "date_of_birth": "2002-11-30",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 66,
+        "discipline": 58,
+        "macro_play": 57,
+        "mechanics": 56,
+        "champion_pool": 58,
+        "mental_resilience": 58,
+        "teamfighting": 60,
+        "shotcalling": 53
+      },
+      "condition": 94,
+      "morale": 75,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 110000,
+      "market_value": 1650000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-9feec71d",
+      "match_name": "Luffy (Nguyễn Quang Minh)",
+      "full_name": "Nguyễn Quang Minh",
+      "date_of_birth": "2001-10-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 54,
+        "consistency": 61,
+        "discipline": 64,
+        "macro_play": 61,
+        "mechanics": 55,
+        "champion_pool": 54,
+        "mental_resilience": 63,
+        "teamfighting": 62,
+        "shotcalling": 62
+      },
+      "condition": 87,
+      "morale": 86,
+      "fitness": 84,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 80000,
+      "market_value": 1200000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2024,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-0fb517b0",
+      "match_name": "5L",
+      "full_name": "Nguyễn Trung Nguyên",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 56,
+        "consistency": 57,
+        "discipline": 59,
+        "macro_play": 55,
+        "mechanics": 50,
+        "champion_pool": 49,
+        "mental_resilience": 55,
+        "teamfighting": 50,
+        "shotcalling": 50
+      },
+      "condition": 97,
+      "morale": 67,
+      "fitness": 70,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 59000,
+      "market_value": 885000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV GAMING",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2020,
+          "team_id": "team-2205df28",
+          "team_name": "V Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 56,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-3d842aef",
+      "match_name": "Kawi",
+      "full_name": "Trần Gia Huy",
+      "date_of_birth": "2004-09-14",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/3d51abbc.webp",
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 70,
+        "consistency": 66,
+        "discipline": 66,
+        "macro_play": 69,
+        "mechanics": 72,
+        "champion_pool": 74,
+        "mental_resilience": 68,
+        "teamfighting": 61,
+        "shotcalling": 66
+      },
+      "condition": 91,
+      "morale": 81,
+      "fitness": 62,
+      "injury": null,
+      "team_id": "team-53ab3828",
+      "contract_end": "2026-12-20",
+      "wage": 92000,
+      "market_value": 1380000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2023,
+          "team_id": "team-53ab3828",
+          "team_name": "Apollo gaming academy",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-eae28615",
+          "team_name": "D1VERSE",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 77,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-d7458499",
+      "match_name": "Archer (Danh Thanh Huy)",
+      "full_name": "Danh Thanh Huy",
+      "date_of_birth": "2004-07-15",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 60,
+        "discipline": 61,
+        "macro_play": 57,
+        "mechanics": 61,
+        "champion_pool": 61,
+        "mental_resilience": 62,
+        "teamfighting": 52,
+        "shotcalling": 56
+      },
+      "condition": 81,
+      "morale": 69,
+      "fitness": 77,
+      "injury": null,
+      "team_id": "team-53ab3828",
+      "contract_end": "2026-12-20",
+      "wage": 32000,
+      "market_value": 480000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2023,
+          "team_id": "team-53ab3828",
+          "team_name": "Apollo gaming academy",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-aee213b1",
+      "match_name": "Kudo (Nguyễn Minh Hiếu)",
+      "full_name": "Nguyễn Minh Hiếu",
+      "date_of_birth": "2004-11-08",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 52,
+        "consistency": 57,
+        "discipline": 55,
+        "macro_play": 57,
+        "mechanics": 49,
+        "champion_pool": 49,
+        "mental_resilience": 50,
+        "teamfighting": 48,
+        "shotcalling": 46
+      },
+      "condition": 72,
+      "morale": 94,
+      "fitness": 87,
+      "injury": null,
+      "team_id": "team-53ab3828",
+      "contract_end": "2026-12-20",
+      "wage": 56000,
+      "market_value": 840000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2023,
+          "team_id": "team-53ab3828",
+          "team_name": "Apollo gaming academy",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2024,
+          "team_id": "team-vinh-last-dance-memories",
+          "team_name": "Vinh Last Dance Memories",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 61,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-cc84ddda",
+      "match_name": "Senpai (Nguyễn Trương Trường Gia Hậu)",
+      "full_name": "Nguyễn Trương Trường Gia Hậu",
+      "date_of_birth": "2005-04-15",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 59,
+        "consistency": 62,
+        "discipline": 64,
+        "macro_play": 58,
+        "mechanics": 59,
+        "champion_pool": 62,
+        "mental_resilience": 54,
+        "teamfighting": 58,
+        "shotcalling": 52
+      },
+      "condition": 91,
+      "morale": 92,
+      "fitness": 86,
+      "injury": null,
+      "team_id": "team-53ab3828",
+      "contract_end": "2026-12-20",
+      "wage": 65000,
+      "market_value": 975000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2023,
+          "team_id": "team-53ab3828",
+          "team_name": "Apollo gaming academy",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 75,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-30ab6253",
+      "match_name": "JaTien",
+      "full_name": "Trương Gia Tiến",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 59,
+        "discipline": 66,
+        "macro_play": 60,
+        "mechanics": 57,
+        "champion_pool": 59,
+        "mental_resilience": 61,
+        "teamfighting": 56,
+        "shotcalling": 53
+      },
+      "condition": 93,
+      "morale": 67,
+      "fitness": 90,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 47000,
+      "market_value": 705000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV GAMING",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-5d3e2efc",
+      "match_name": "Eriz",
+      "full_name": "Châu Gia Bảo",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 60,
+        "discipline": 66,
+        "macro_play": 64,
+        "mechanics": 58,
+        "champion_pool": 61,
+        "mental_resilience": 60,
+        "teamfighting": 56,
+        "shotcalling": 53
+      },
+      "condition": 80,
+      "morale": 68,
+      "fitness": 75,
+      "injury": null,
+      "team_id": "team-3c88cdcc",
+      "contract_end": "2026-12-20",
+      "wage": 113000,
+      "market_value": 1695000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2020,
+          "team_id": "team-3c88cdcc",
+          "team_name": "QTV GAMING",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-ffb37ae1",
+      "match_name": "JAun",
+      "full_name": "Phạm Gia Ân",
+      "date_of_birth": "2000-01-01",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 63,
+        "consistency": 63,
+        "discipline": 65,
+        "macro_play": 61,
+        "mechanics": 61,
+        "champion_pool": 61,
+        "mental_resilience": 60,
+        "teamfighting": 53,
+        "shotcalling": 51
+      },
+      "condition": 99,
+      "morale": 85,
+      "fitness": 67,
+      "injury": null,
+      "team_id": "team-5192b0ff",
+      "contract_end": "2026-12-20",
+      "wage": 74000,
+      "market_value": 1110000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2019,
+          "team_id": "team-5192b0ff",
+          "team_name": "LP Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 63,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-508a4a89",
+      "match_name": "Tomoe",
+      "full_name": "Nguyễn Quốc Mạnh",
+      "date_of_birth": "2002-07-18",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/1b498340.webp",
+      "position": "Adc",
+      "natural_position": "Adc",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 64,
+        "consistency": 58,
+        "discipline": 61,
+        "macro_play": 56,
+        "mechanics": 58,
+        "champion_pool": 60,
+        "mental_resilience": 58,
+        "teamfighting": 54,
+        "shotcalling": 51
+      },
+      "condition": 96,
+      "morale": 72,
+      "fitness": 93,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 86000,
+      "market_value": 1290000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2025,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-24647e73",
+      "match_name": "5cmps",
+      "full_name": "Vũ Minh Hiếu",
+      "date_of_birth": "2005-01-02",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 65,
+        "consistency": 60,
+        "discipline": 59,
+        "macro_play": 64,
+        "mechanics": 58,
+        "champion_pool": 58,
+        "mental_resilience": 58,
+        "teamfighting": 59,
+        "shotcalling": 53
+      },
+      "condition": 81,
+      "morale": 69,
+      "fitness": 80,
+      "injury": null,
+      "team_id": "team-4999f019",
+      "contract_end": "2026-12-20",
+      "wage": 107000,
+      "market_value": 1605000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2025,
+          "team_id": "team-4999f019",
+          "team_name": "Original Gaming",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 75,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-db1dac10",
+      "match_name": "Callian",
+      "full_name": "Phạm Lê Cao Tấn",
+      "date_of_birth": "2006-05-17",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/193d8915.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 58,
+        "consistency": 65,
+        "discipline": 65,
+        "macro_play": 66,
+        "mechanics": 64,
+        "champion_pool": 66,
+        "mental_resilience": 73,
+        "teamfighting": 67,
+        "shotcalling": 66
+      },
+      "condition": 80,
+      "morale": 80,
+      "fitness": 78,
+      "injury": null,
+      "team_id": "team-2eb10623",
+      "contract_end": "2026-12-20",
+      "wage": 44000,
+      "market_value": 660000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2025,
+          "team_id": "team-2eb10623",
+          "team_name": "Saigon Dino",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-e78a2e33",
+          "team_name": "MGN Vikings Academy",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2025,
+          "team_id": "team-mvka",
+          "team_name": "MVKA",
+          "appearances": 0,
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 84,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-787741d1",
+      "match_name": "AisyL",
+      "full_name": "Nguyễn Hoàng Phú",
+      "date_of_birth": "2005-02-20",
+      "nationality": "Vietnam",
+      "birth_country": null,
+      "profile_image_url": "/player-photos/38b1f349.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 76,
+        "consistency": 81,
+        "discipline": 73,
+        "macro_play": 77,
+        "mechanics": 74,
+        "champion_pool": 82,
+        "mental_resilience": 76,
+        "teamfighting": 69,
+        "shotcalling": 74
+      },
+      "condition": 92,
+      "morale": 87,
+      "fitness": 63,
+      "injury": null,
+      "team_id": "team-2eb10623",
+      "contract_end": "2026-12-20",
+      "wage": 125000,
+      "market_value": 1875000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 91,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    },
+    {
+      "id": "player-8654bdab",
+      "match_name": "POUT",
+      "full_name": "Han In-woong",
+      "date_of_birth": "2003-10-03",
+      "nationality": "South Korea",
+      "birth_country": null,
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 66,
+        "consistency": 63,
+        "discipline": 61,
+        "macro_play": 60,
+        "mechanics": 56,
+        "champion_pool": 64,
+        "mental_resilience": 54,
+        "teamfighting": 56,
+        "shotcalling": 53
+      },
+      "condition": 93,
+      "morale": 74,
+      "fitness": 89,
+      "injury": null,
+      "team_id": "team-83d3342f",
+      "contract_end": "2026-12-20",
+      "wage": 110000,
+      "market_value": 1650000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "season": 2025,
+          "team_id": "team-2eb10623",
+          "team_name": "Saigon Dino",
+          "appearances": 0,
+          "deaths": 0
+        },
+        {
+          "season": 2026,
+          "team_id": "team-83d3342f",
+          "team_name": "CTBC Flying Oyster",
+          "deaths": 0
+        }
+      ],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 68,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_target": null,
+      "champion_training_targets": [],
+      "champion_mastery": []
+    }
+  ]
+}

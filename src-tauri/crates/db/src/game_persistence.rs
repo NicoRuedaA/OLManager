@@ -202,6 +202,7 @@ impl GamePersistenceReader {
             social_accounts,
             social_templates,
             league,
+            leagues: vec![],
             academy_league: None,
             scouting_assignments,
             board_objectives,

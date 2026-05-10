@@ -489,6 +489,7 @@ mod tests {
             social_accounts: vec![],
             social_templates: vec![],
             league: None,
+            leagues: vec![],
             academy_league: None,
             scouting_assignments: vec![],
             board_objectives: vec![],

@@ -3,6 +3,9 @@ import type { GameStateData } from './types';
 
 // Re-export all types so existing imports from gameStore keep working
 export type {
+  CompetitionSummary,
+  TeamSummary,
+  LeagueSelectionData,
   TeamColors,
   TeamSeasonRecord,
   TeamRolesData,

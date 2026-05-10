@@ -265,6 +265,7 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
         academy_team_id,
         academy: parse_academy_metadata(academy_metadata_json),
         logo_url: None,
+        competition_id: None,
         financial_ledger: serde_json::from_str(&financial_ledger_json).unwrap_or_default(),
         sponsorship: serde_json::from_str(&sponsorship_json).unwrap_or_default(),
         facilities: Facilities::from_persisted_json(&facilities_json),

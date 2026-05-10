@@ -142,7 +142,24 @@ fn refresh_hiring_cycle_budgets(team: &mut domain::team::Team) {
 
 /// Process end-of-season: record history, compute awards, reset stats, generate next season.
 /// Returns a summary struct for the frontend to display.
+/// Accepts an optional ScheduleConfig for manifest-driven schedule generation.
 pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
+    process_end_of_season_inner(game, None)
+}
+
+/// Like `process_end_of_season` but accepts a ScheduleConfig for manifest-driven
+/// schedule generation in the next split.
+pub fn process_end_of_season_with_config(
+    game: &mut Game,
+    schedule_config: Option<&crate::generator::definitions::ScheduleConfig>,
+) -> EndOfSeasonSummary {
+    process_end_of_season_inner(game, schedule_config)
+}
+
+fn process_end_of_season_inner(
+    game: &mut Game,
+    schedule_config: Option<&crate::generator::definitions::ScheduleConfig>,
+) -> EndOfSeasonSummary {
     crate::board_objectives::update_objective_progress(game);
 
     let league = match &game.league {
@@ -373,36 +390,107 @@ pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
     game.news.clear();
 
     // 7. Generate next season schedule
-    let (next_league_name, next_season, next_split, next_start, round_offsets) =
-        next_lec_split(&league_name, season);
     let team_ids: Vec<String> = final_standings
         .iter()
         .map(|standing| standing.team_id.clone())
         .collect();
-    let expected_round_count = team_ids.len().saturating_sub(1);
-    let next_round_offsets = if round_offsets.len() == expected_round_count {
-        Some(round_offsets.as_slice())
-    } else {
-        None
-    };
-    let mut new_league = generate_single_round_league_with_offsets_and_bo(
-        &next_league_name,
-        next_season,
-        &team_ids,
-        next_start,
-        next_round_offsets,
-        regular_best_of(next_split),
-    );
-    if !user_team_id.is_empty() {
-        let opponents: Vec<String> = team_ids
+
+    // Determine next season number (may be used by both manifest and legacy paths)
+    let next_season_num: u32;
+
+    let mut new_league = if let Some(config) = schedule_config {
+        // Manifest-driven schedule generation
+        let current_split_name = parse_lec_split(&league_name)
+            .map(|s| match s {
+                LecSplit::Winter => "Winter",
+                LecSplit::Spring => "Spring",
+                LecSplit::Summer => "Summer",
+            })
+            .unwrap_or("Winter");
+
+        // Find the current split index
+        let current_idx = config
+            .splits
             .iter()
-            .filter(|team_id| team_id.as_str() != user_team_id)
-            .cloned()
-            .collect();
-        let friendlies = generate_preseason_friendlies(&user_team_id, &opponents, next_start, 3);
-        append_fixtures(&mut new_league, friendlies);
-    }
+            .position(|s| s.name.eq_ignore_ascii_case(current_split_name))
+            .unwrap_or(0);
+
+        // Next split index (wrap with year increment)
+        let next_idx = current_idx + 1;
+        let (ns, split_idx) = if next_idx >= config.splits.len() {
+            (season + 1, 0) // Next year, first split
+        } else {
+            (season, next_idx)
+        };
+        next_season_num = ns;
+
+        let mut league = crate::schedule::generate_schedule_from_config(
+            &config.splits[split_idx].name,
+            next_season_num,
+            &team_ids,
+            config,
+            split_idx,
+        );
+
+        if !user_team_id.is_empty() {
+            let opponents: Vec<String> = team_ids
+                .iter()
+                .filter(|tid| tid.as_str() != user_team_id)
+                .cloned()
+                .collect();
+            let split = &config.splits[split_idx];
+            let next_start = Utc
+                .with_ymd_and_hms(
+                    next_season_num as i32,
+                    split.season_start.month,
+                    split.season_start.day,
+                    0, 0, 0,
+                )
+                .unwrap();
+            let friendlies = generate_preseason_friendlies(
+                &user_team_id,
+                &opponents,
+                next_start,
+                config.preseason_friendlies as usize,
+            );
+            append_fixtures(&mut league, friendlies);
+        }
+
+        league
+    } else {
+        // Legacy LEC hardcoded schedule generation
+        let (next_league_name, ns, next_split, next_start, round_offsets) =
+            next_lec_split(&league_name, season);
+        next_season_num = ns;
+        let expected_round_count = team_ids.len().saturating_sub(1);
+        let next_round_offsets = if round_offsets.len() == expected_round_count {
+            Some(round_offsets.as_slice())
+        } else {
+            None
+        };
+        let mut league = generate_single_round_league_with_offsets_and_bo(
+            &next_league_name,
+            next_season_num,
+            &team_ids,
+            next_start,
+            next_round_offsets,
+            regular_best_of(next_split),
+        );
+        if !user_team_id.is_empty() {
+            let opponents: Vec<String> = team_ids
+                .iter()
+                .filter(|tid| tid.as_str() != user_team_id)
+                .cloned()
+                .collect();
+            let friendlies =
+                generate_preseason_friendlies(&user_team_id, &opponents, next_start, 3);
+            append_fixtures(&mut league, friendlies);
+        }
+        league
+    };
     game.league = Some(new_league);
+
+    let next_season = next_season_num;
 
     let preview_date = game.clock.current_date.to_rfc3339();
     let team_names: Vec<String> = team_ids

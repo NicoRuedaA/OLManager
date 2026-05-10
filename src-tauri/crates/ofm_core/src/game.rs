@@ -108,7 +108,14 @@ pub struct Game {
     pub social_accounts: Vec<SocialAccount>,
     #[serde(default)]
     pub social_templates: Vec<SocialTemplate>,
+    /// Legacy single-league field. Still used by the engine in Phase 1.
+    /// New `leagues` vec is populated via `migrate_legacy_league()` when ready.
+    #[serde(default)]
     pub league: Option<League>,
+    /// Multi-league storage (Phase 1 preparation). Populated by
+    /// `migrate_legacy_league()`. Currently empty; engine still reads `league`.
+    #[serde(default)]
+    pub leagues: Vec<League>,
     #[serde(default)]
     pub academy_league: Option<League>,
     #[serde(default)]
@@ -147,6 +154,7 @@ impl Game {
             social_accounts: vec![],
             social_templates: vec![],
             league: None,
+            leagues: vec![],
             academy_league: None,
             scouting_assignments: vec![],
             board_objectives: vec![],
@@ -155,8 +163,23 @@ impl Game {
             champion_masteries: vec![],
             champion_patch: ChampionPatchState::default(),
         };
+        game.migrate_legacy_league();
         crate::identity_upgrade::upgrade_game_football_identities(&mut game);
         crate::season_context::refresh_game_context(&mut game);
         game
+    }
+
+    /// Migrate a legacy single `league` into the new `leagues` vec.
+    /// If `league` is `Some` and `leagues` is empty, wraps it.
+    /// Safe to call on already-migrated games (no-op when leagues is non-empty).
+    pub fn migrate_legacy_league(&mut self) {
+        if let Some(legacy) = self.league.take() {
+            if self.leagues.is_empty() {
+                self.leagues.push(legacy);
+            } else {
+                // Already migrated — put it back if we took it
+                self.league = Some(legacy);
+            }
+        }
     }
 }
