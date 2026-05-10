@@ -349,7 +349,7 @@ fn champion_catalog() -> &'static Vec<(String, String)> {
 
 fn seed_players() -> &'static Vec<SeedPlayer> {
     PLAYER_MASTERY_SEED.get_or_init(|| {
-        let raw = include_str!("../../../../data/lec/draft/players.json");
+        let raw = include_str!("../../../../data/draft/players.json");
         serde_json::from_str::<SeedRoot>(raw)
             .map(|root| {
                 let mut all = root.data.rostered_seeds;

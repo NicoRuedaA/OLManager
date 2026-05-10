@@ -795,7 +795,7 @@ fn seed_profile_image_url(photo: Option<&str>) -> Option<String> {
 }
 
 fn load_draft_seed_root() -> DraftSeedRoot {
-    let content = include_str!("../../../data/lec/draft/players.json");
+    let content = include_str!("../../../data/draft/players.json");
     let mut merged = serde_json::from_str::<DraftSeedRoot>(content).unwrap_or(DraftSeedRoot {
         data: DraftSeedData {
             rostered_seeds: vec![],
@@ -2051,13 +2051,7 @@ fn assemble_world_from_modular_data(
         }
     }
 
-    // 6. Inject free agents from compile-time draft seed (supplemental)
-    inject_seed_free_agents(&mut players);
-
-    // 7. Apply seed potentials (from compile-time draft data)
-    apply_seed_potential_defaults(&mut players);
-
-    // 8. Bootstrap academy seeds from ERL references in manifest
+    // 6. Bootstrap academy seeds from ERL references in manifest
     let academy_bootstrap_date = "2025-01-01".to_string();
     let erl_teams = crate::commands::competitions::load_erls_from_manifest(app_handle, &manifest);
     if !erl_teams.is_empty() {

@@ -1,4 +1,4 @@
-import playersSeed from "../../data/lec/draft/players.json";
+import playersSeed from "../../data/draft/players.json";
 import lesExampleRaw from "../../data/erls/les.txt?raw";
 import lflExampleRaw from "../../data/erls/lfl.txt?raw";
 import primeLeagueExampleRaw from "../../data/erls/Prime League.txt?raw";

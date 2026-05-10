@@ -1,8 +1,8 @@
 import type { GameStateData } from "../../store/gameStore";
 import type { ChampionDraftResultPayload } from "./ChampionDraft";
 import type { MatchSnapshot } from "./types";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
+import teamsSeed from "../../../data/draft/teams.json";
+import playersSeed from "../../../data/draft/players.json";
 import {
   DEFAULT_LOL_TACTICS,
   ROLE_ORDER,

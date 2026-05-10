@@ -1,5 +1,5 @@
 import { GameStateData, FixtureData } from "../../store/gameStore";
-import teamsSeed from "../../../data/lec/draft/teams.json";
+import teamsSeed from "../../../data/draft/teams.json";
 import type { MatchSnapshot } from "../match/types";
 import type { DraftMatchResult } from "../match/draftResultSimulator";
 
