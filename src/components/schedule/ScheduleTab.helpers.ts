@@ -32,18 +32,18 @@ interface TeamSeed {
 const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
 
 const TEAM_LOGO_BY_NORMALIZED_NAME: Record<string, string> = {
-  [normalizeKey("G2 Esports")]: "/team-logos/g2-esports.png",
-  [normalizeKey("Movistar KOI")]: "/team-logos/mad-lions.png",
-  [normalizeKey("MAD Lions KOI")]: "/team-logos/mad-lions.png",
-  [normalizeKey("Fnatic")]: "/team-logos/fnatic.png",
-  [normalizeKey("GIANTX")]: "/team-logos/giantx-lec.png",
-  [normalizeKey("Karmine Corp")]: "/team-logos/karmine-corp.png",
-  [normalizeKey("Natus Vincere")]: "/team-logos/natus-vincere.png",
-  [normalizeKey("SK Gaming")]: "/team-logos/sk-gaming.png",
-  [normalizeKey("Team Heretics")]: "/team-logos/team-heretics-lec.png",
-  [normalizeKey("Team Vitality")]: "/team-logos/team-vitality.png",
-  [normalizeKey("Team BDS")]: "/team-logos/team-bds.png",
-  [normalizeKey("Shifters")]: "/team-logos/team-bds.png",
+  [normalizeKey("G2 Esports")]: "/teams-icons/g2-esports.webp",
+  [normalizeKey("Movistar KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("MAD Lions KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("Fnatic")]: "/teams-icons/fnatic.webp",
+  [normalizeKey("GIANTX")]: "/teams-icons/giantx-lec.webp",
+  [normalizeKey("Karmine Corp")]: "/teams-icons/karmine-corp.webp",
+  [normalizeKey("Natus Vincere")]: "/teams-icons/natus-vincere.webp",
+  [normalizeKey("SK Gaming")]: "/teams-icons/sk-gaming.webp",
+  [normalizeKey("Team Heretics")]: "/teams-icons/team-heretics-lec.webp",
+  [normalizeKey("Team Vitality")]: "/teams-icons/team-vitality.webp",
+  [normalizeKey("Team BDS")]: "/teams-icons/team-bds.webp",
+  [normalizeKey("Shifters")]: "/teams-icons/shifters.webp",
 };
 
 export function normalizeKey(value: string): string {
@@ -143,6 +143,9 @@ export function normalizeLolScore(
 export function getTeamLogoPath(teams: GameStateData["teams"], teamId: string): string | null {
   const team = teams.find((candidate) => candidate.id === teamId);
   if (!team) return null;
+
+  // Use logo_url from backend if available (already mapped to /teams-icons/)
+  if (team.logo_url) return team.logo_url;
 
   const normalizedName = normalizeKey(team.name);
   if (TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName]) {
