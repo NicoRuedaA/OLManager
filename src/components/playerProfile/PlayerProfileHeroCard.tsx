@@ -42,6 +42,7 @@ interface PlayerProfileHeroCardProps {
   academyActionLoading?: boolean;
   onAcademyAction?: (() => void) | null;
   t: TranslateFn;
+  teamLogoUrl?: string | null;
 }
 
 export default function PlayerProfileHeroCard({
@@ -68,6 +69,7 @@ export default function PlayerProfileHeroCard({
   onAcademyAction = null,
   t,
   language = "en",
+  teamLogoUrl,
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
   const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
@@ -277,7 +279,7 @@ export default function PlayerProfileHeroCard({
             ) : null}
             <p className="text-gray-400 text-sm mt-2 flex items-center gap-1.5">
               {(() => {
-                const logoUrl = resolveTeamLogo(teamName);
+                const logoUrl = teamLogoUrl || resolveTeamLogo(teamName);
                 return logoUrl ? (
                   <img src={logoUrl} alt={teamName} className="w-4 h-4 object-contain" />
                 ) : (
