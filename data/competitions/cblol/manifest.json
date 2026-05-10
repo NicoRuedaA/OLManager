@@ -28,5 +28,5 @@
     ]
   },
   "teams_file": "teams/cblol_teams.json",
-  "players_file": "players/br_players.json"
+  "players_file": "players/cblol_players.json"
 }

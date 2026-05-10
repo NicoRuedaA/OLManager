@@ -28,5 +28,5 @@
     ]
   },
   "teams_file": "teams/lcs_teams.json",
-  "players_file": "players/na_players.json"
+  "players_file": "players/lcs_players.json"
 }

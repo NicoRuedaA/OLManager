@@ -28,5 +28,5 @@
     ]
   },
   "teams_file": "teams/lpl_teams.json",
-  "players_file": "players/cn_players.json"
+  "players_file": "players/lpl_players.json"
 }
