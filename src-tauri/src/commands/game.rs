@@ -795,8 +795,37 @@ fn seed_profile_image_url(photo: Option<&str>) -> Option<String> {
 }
 
 fn load_draft_seed_root() -> DraftSeedRoot {
-    let content = include_str!("../../../data/draft/players.json");
-    let mut merged = serde_json::from_str::<DraftSeedRoot>(content).unwrap_or(DraftSeedRoot {
+    // Runtime read from draft/players.json for world editor compatibility.
+    // Returns empty if file doesn't exist — Flow C provides players from modular data.
+    let content = match std::fs::read_to_string(
+        std::env::current_dir().ok().map_or_else(
+            || std::path::PathBuf::from("data/draft/players.json"),
+            |cwd| {
+                let mut path = cwd.clone();
+                path.push("data");
+                path.push("draft");
+                path.push("players.json");
+                if path.exists() { return path; }
+                // tauri dev: cwd is src-tauri/
+                path = cwd;
+                path.push("..");
+                path.push("data");
+                path.push("draft");
+                path.push("players.json");
+                path
+            },
+        ),
+    ) {
+        Ok(c) => c,
+        Err(_) => return DraftSeedRoot {
+            data: DraftSeedData {
+                rostered_seeds: vec![],
+                free_agent_seeds: vec![],
+            },
+        },
+    };
+
+    let mut merged = serde_json::from_str::<DraftSeedRoot>(&content).unwrap_or(DraftSeedRoot {
         data: DraftSeedData {
             rostered_seeds: vec![],
             free_agent_seeds: vec![],
