@@ -56,7 +56,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 3
     },
     {
       "id": "lec-g2-esports",
@@ -112,7 +113,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 1
     },
     {
       "id": "lec-giantx-lec",
@@ -168,7 +170,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 2
     },
     {
       "id": "lec-karmine-corp",
@@ -224,7 +227,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 1
     },
     {
       "id": "lec-movistar-koi",
@@ -280,7 +284,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 2
     },
     {
       "id": "lec-natus-vincere",
@@ -336,7 +341,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 2
     },
     {
       "id": "lec-shifters",
@@ -392,7 +398,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 2
     },
     {
       "id": "lec-sk-gaming",
@@ -448,7 +455,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 3
     },
     {
       "id": "lec-team-heretics-lec",
@@ -504,7 +512,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 3
     },
     {
       "id": "lec-team-vitality",
@@ -560,7 +569,8 @@
       "academy_team_id": null,
       "academy": null,
       "arena_name": "",
-      "arena_capacity": 2500
+      "arena_capacity": 2500,
+      "tier": 2
     }
   ]
 }
