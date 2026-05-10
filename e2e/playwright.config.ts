@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: false,
   retries: 1,
   workers: 1,
-  reporter: [["html", { outputFolder: "../test-results/e2e" }]],
+  reporter: [["html", { outputFolder: "../e2e-report" }]],
   webServer: {
     command: "npm run dev",
     port: 1420,

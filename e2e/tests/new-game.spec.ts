@@ -7,13 +7,26 @@ test.describe("New Game Flow", () => {
     await page.goto("/");
   });
 
-  test("should display the main menu with create manager form", async ({ page }) => {
-    await expect(page.locator("text=Nueva Partida")).toBeVisible({ timeout: 15000 });
-    await expect(page.locator("#create-manager-field-firstName")).toBeVisible();
+  test("should display the main menu with new game button", async ({ page }) => {
+    // Main menu should show the "Nueva Partida" button (menuState === "main")
+    const newGameBtn = page.locator('button:has-text("Nueva Partida")');
+    await expect(newGameBtn).toBeVisible({ timeout: 15000 });
+
+    // Click to open the create manager form
+    await newGameBtn.click();
+
+    // Form fields should now be visible
+    await expect(page.locator("#create-manager-field-firstName")).toBeVisible({ timeout: 5000 });
     await expect(page.locator("#create-manager-field-lastName")).toBeVisible();
   });
 
   test("should create a new game and navigate to team selection", async ({ page }) => {
+    // Click "Nueva Partida" to open the create manager form
+    await page.locator('button:has-text("Nueva Partida")').click({ timeout: 15000 });
+
+    // Wait for form to appear
+    await expect(page.locator("#create-manager-field-firstName")).toBeVisible({ timeout: 5000 });
+
     // Fill manager form
     await page.locator("#create-manager-field-firstName input").fill("John");
     await page.locator("#create-manager-field-lastName input").fill("Doe");
@@ -28,9 +41,13 @@ test.describe("New Game Flow", () => {
       'input[placeholder*="nationality" i], input[placeholder*="pa\u00eds" i]',
     );
     await nationalitySearch.fill("ES");
-    await page.locator("text=Spain").first().click();
 
-    // Click "Iniciar carrera" / "Start Career"
+    // Wait for dropdown results and select Spain
+    const spainOption = page.locator("text=Spain").first();
+    await expect(spainOption).toBeVisible({ timeout: 5000 });
+    await spainOption.click();
+
+    // Click "Comenzar" / "Start Career"
     await page.locator('button:has-text("Comenzar")').click();
 
     // Should navigate to /select-team
@@ -49,7 +66,7 @@ test.describe("New Game Flow", () => {
     // Confirm selection
     await confirmBtn.click();
 
-    // Should navigate to dashboard after a brief loading
+    // Should navigate to dashboard
     await page.waitForURL("**/dashboard", { timeout: 30000 });
     await expect(page.locator("text=Dashboard").first()).toBeVisible({ timeout: 15000 });
   });
