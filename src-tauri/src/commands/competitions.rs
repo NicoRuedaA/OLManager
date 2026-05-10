@@ -225,9 +225,16 @@ pub fn get_league_selection_data(
         };
 
         let mut team_summaries = Vec::new();
+        let prefix = format!("{}-", manifest.id);
         for entry in &teams {
+            // Avoid double-prefixing: team IDs from data files may already include the competition prefix
+            let display_id = if entry.id.starts_with(&prefix) {
+                entry.id.clone()
+            } else {
+                format!("{}-{}", manifest.id, entry.id)
+            };
             team_summaries.push(TeamSummary {
-                id: format!("{}-{}", manifest.id, entry.id),
+                id: display_id,
                 name: entry.name.clone(),
                 short_name: entry.short_name.clone(),
                 logo_url: entry.logo_url.clone(),
