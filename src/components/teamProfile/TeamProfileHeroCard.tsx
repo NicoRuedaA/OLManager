@@ -135,12 +135,12 @@ export default function TeamProfileHeroCard({
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" /> {t("teams.est")} {team.founded_year}
               </span>
-              {team.competition_id && (
-                <span className="flex items-center gap-1.5">
-                  <Trophy className="w-4 h-4" /> {team.competition_id.toUpperCase()}
-                </span>
-              )}
             </div>
+            {team.competition_id && (
+              <div className="flex items-center gap-1.5 mt-1 text-white/80 text-sm">
+                <Trophy className="w-4 h-4" /> {team.competition_id.toUpperCase()}
+              </div>
+            )}
             {viewModel.manager && (
               <p className="text-white/70 text-sm mt-1 flex items-center gap-1.5">
                 <Users className="w-4 h-4" /> {t("teamProfile.managerLabel")} {viewModel.manager.first_name} {viewModel.manager.last_name}
