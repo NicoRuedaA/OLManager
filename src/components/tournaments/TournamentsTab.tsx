@@ -24,7 +24,7 @@ export default function TournamentsTab({
   onSelectTeam,
 }: TournamentsTabProps) {
   const { t } = useTranslation();
-  const league = gameState.league;
+  const league = gameState.league ?? gameState.leagues?.[0] ?? null;
   const academyLeague = gameState.academy_league ?? null;
   const userTeamId = gameState.manager.team_id;
   const seasonContext = resolveSeasonContext(gameState);
