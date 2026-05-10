@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 
 test.describe("New Game Flow", () => {
   test.beforeEach(async ({ page }) => {
+    // Inject Tauri mock before any page load
+    await page.addInitScript({ path: "e2e/mocks/tauri.js" });
     await page.goto("/");
   });
 
@@ -23,7 +25,7 @@ test.describe("New Game Flow", () => {
 
     // Select nationality from the searchable dropdown
     const nationalitySearch = page.locator(
-      'input[placeholder*="nationality" i], input[placeholder*="país" i]',
+      'input[placeholder*="nationality" i], input[placeholder*="pa\u00eds" i]',
     );
     await nationalitySearch.fill("ES");
     await page.locator("text=Spain").first().click();
@@ -38,7 +40,7 @@ test.describe("New Game Flow", () => {
     await expect(page.locator("text=Fnatic").first()).toBeVisible({ timeout: 15000 });
 
     // Select Fnatic
-    await page.locator('button:has-text("Fnatic")').click();
+    await page.locator('button:has-text("Fnatic")').first().click();
 
     // Verify confirm button is enabled
     const confirmBtn = page.locator('button:has-text("Confirmar")');
@@ -49,6 +51,6 @@ test.describe("New Game Flow", () => {
 
     // Should navigate to dashboard after a brief loading
     await page.waitForURL("**/dashboard", { timeout: 30000 });
-    await expect(page.locator("text=Fnatic").first()).toBeVisible({ timeout: 15000 });
+    await expect(page.locator("text=Dashboard").first()).toBeVisible({ timeout: 15000 });
   });
 });

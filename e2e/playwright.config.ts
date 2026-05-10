@@ -8,6 +8,12 @@ export default defineConfig({
   retries: 1,
   workers: 1,
   reporter: [["html", { outputFolder: "../test-results/e2e" }]],
+  webServer: {
+    command: "npm run dev",
+    port: 1420,
+    timeout: 120000,
+    reuseExistingServer: !process.env.CI,
+  },
   use: {
     baseURL: "http://localhost:1420",
     headless: true,
@@ -17,7 +23,9 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { browserName: "chromium" },
+      use: {
+        browserName: "chromium",
+      },
     },
   ],
 });
