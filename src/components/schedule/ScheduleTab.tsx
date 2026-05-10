@@ -57,8 +57,19 @@ export default function ScheduleTab({
     }
   }, [isDesktop, view]);
   const [fixtureResultView, setFixtureResultView] = useState<StoredFixtureDraftResult | null>(null);
-  const league = gameState.league;
+  // Determine user's competition from their team ID (e.g. "lec-fnatic" → "lec")
+  const userCompId = gameState.manager.team_id?.split("-")[0] ?? null;
+  const userLeague = userCompId
+    ? (gameState.leagues ?? []).find((l) =>
+        l.fixtures.some((f) => f.home_team_id.startsWith(userCompId + "-")),
+      ) ?? null
+    : gameState.league ?? null;
+
+  const league = userLeague;
   const userTeamId = gameState.manager.team_id;
+
+  // All fixtures from all leagues for the calendar view
+  const allFixtures: FixtureData[] = (gameState.leagues ?? []).flatMap((l) => l.fixtures);
   const seasonContext = resolveSeasonContext(gameState);
   const isPreseason = seasonContext.phase === "Preseason";
 
@@ -121,7 +132,9 @@ export default function ScheduleTab({
     );
   }
 
-  const fixturesForDisplay = league.fixtures;
+  // Partidos: only user's league. Calendario: all leagues.
+  const fixturesForDisplay = league ? league.fixtures : [];
+  const calendarFixtures = allFixtures;
   const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.competition === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
 
@@ -211,7 +224,7 @@ export default function ScheduleTab({
       {view === "calendar" && (
         <ScheduleCalendarView
           gameState={gameState}
-          fixtures={fixturesForDisplay}
+          fixtures={calendarFixtures}
           onOpenFixtureResult={(stored) => setFixtureResultView(stored)}
         />
       )}
