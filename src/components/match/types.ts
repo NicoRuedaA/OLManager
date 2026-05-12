@@ -109,6 +109,7 @@ export interface LolMapState {
 export interface EnginePlayerData {
   id: string;
   name: string;
+  profile_image_url?: string | null;
   role?: string;
   /** @deprecated Legacy football test fixture field. */
   position?: string;

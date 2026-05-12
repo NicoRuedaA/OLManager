@@ -34,6 +34,7 @@ fn make_player(id: &str, name: &str, position: &str, skill: u8) -> PlayerData {
     PlayerData {
         id: id.to_string(),
         name: name.to_string(),
+        profile_image_url: None,
         role: football_position_to_lol_role(position),
         condition: 90,
         fitness: 75,

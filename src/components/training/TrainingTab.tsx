@@ -21,6 +21,7 @@ import {
   normalizeTrainingFocus,
 } from "../../lib/trainingFocus";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
+import { resolvePlayerCurrentLolRole } from "../../lib/lolIdentity";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import type { GameStateData } from "../../store/gameStore";
@@ -149,16 +150,11 @@ function soloQEmblemUrl(tier: SoloQTier): string {
   return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/master.png";
 }
 
-type UiRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
-
-function inferRoleIcon(player: GameStateData["players"][number]): string {
-  const key = String(player.natural_position || player.position || "").toLowerCase().replace(/[^a-z]/g, "");
-  let role: UiRole = "SUPPORT";
-  if (key.includes("defender") && !key.includes("midfielder")) role = "TOP";
-  else if (key.includes("midfielder") && !key.includes("attacking")) role = "JUNGLE";
-  else if (key.includes("attackingmidfielder")) role = "MID";
-  else if (key.includes("forward") || key.includes("striker")) role = "ADC";
-  return ROLE_ICON_PATHS[role];
+function inferRoleIcon(
+  player: GameStateData["players"][number],
+  team: GameStateData["teams"][number],
+): string {
+  return ROLE_ICON_PATHS[resolvePlayerCurrentLolRole(player, team)];
 }
 
 interface TrainingTabProps {
@@ -407,7 +403,7 @@ export default function TrainingTab({
                             }}
                           />
                           <img
-                            src={inferRoleIcon(player)}
+                            src={inferRoleIcon(player, myTeam)}
                             alt={t("training.roleIconAlt")}
                             className="absolute bottom-0 left-0 h-4 w-4 rounded-tr bg-navy-900/90 p-0.5"
                             loading="lazy"

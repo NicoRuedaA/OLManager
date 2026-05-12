@@ -25,6 +25,9 @@ pub enum PlayStyle {
 pub struct PlayerData {
     pub id: String,
     pub name: String,
+    /// Optional explicit player portrait URL carried from the domain roster.
+    #[serde(default)]
+    pub profile_image_url: Option<String>,
     /// Player's LoL role (Top, Jungle, Mid, Adc, Support)
     pub role: LolRole,
     pub condition: u8, // 0-100

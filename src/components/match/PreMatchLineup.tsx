@@ -181,6 +181,7 @@ function TeamLineupColumn({
               players.map((p) => {
                 const ovr = getPositionOvr(p);
                 const isSelected = isUserSide && selectedStarterId === p.id;
+                const photoUrl = resolvePlayerPhoto(p.id, p.name, p.profile_image_url);
                 return (
                   <button
                     key={p.id}
@@ -196,9 +197,9 @@ function TeamLineupColumn({
                           : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
                     }`}
                   >
-                    {resolvePlayerPhoto(p.id, p.name) ? (
+                    {photoUrl ? (
                       <img
-                        src={resolvePlayerPhoto(p.id, p.name) || ""}
+                        src={photoUrl}
                         alt={p.name}
                         className="w-7 h-7 rounded-full object-cover flex-shrink-0"
                         loading="lazy"
@@ -280,6 +281,7 @@ function TeamLineupColumn({
               const role = getPlayerLolRole(bp);
               const keyStats = ROLE_KEY_STATS[role] || [];
               const canSwap = isUserSide && selectedStarterId;
+              const photoUrl = resolvePlayerPhoto(bp.id, bp.name, bp.profile_image_url);
               return (
                 <button
                   key={bp.id}
@@ -295,9 +297,9 @@ function TeamLineupColumn({
                         : "cursor-default"
                   }`}
                 >
-                  {resolvePlayerPhoto(bp.id, bp.name) ? (
+                  {photoUrl ? (
                     <img
-                      src={resolvePlayerPhoto(bp.id, bp.name) || ""}
+                      src={photoUrl}
                       alt={bp.name}
                       className="w-7 h-7 rounded-full object-cover flex-shrink-0"
                       loading="lazy"

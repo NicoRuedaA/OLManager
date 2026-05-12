@@ -216,4 +216,40 @@ describe("TrainingTab", () => {
     expect(screen.getByText("Staff alert")).toBeInTheDocument();
     expect(screen.getByText(/Critical advice/)).toBeInTheDocument();
   });
+
+  it("renders SoloQ role icons from each player's LoL role", () => {
+    const gameState = createGameState(true);
+    gameState.players = [
+      createPlayer({ id: "top", match_name: "Top", natural_position: "TOP", position: "TOP" }),
+      createPlayer({ id: "adc", match_name: "Adc", natural_position: "ADC", position: "ADC" }),
+      createPlayer({ id: "support", match_name: "Support", natural_position: "SUPPORT", position: "SUPPORT" }),
+    ];
+
+    render(<TrainingTab gameState={gameState} />);
+
+    expect(screen.getAllByAltText("training.roleIconAlt").map((icon) => icon.getAttribute("src"))).toEqual([
+      "/role-icons/adc.png",
+      "/role-icons/support.png",
+      "/role-icons/top.png",
+    ]);
+  });
+
+  it("renders SoloQ role icons from active lineup roles before natural roles", () => {
+    const gameState = createGameState(true);
+    gameState.teams = [
+      createTeam({ active_lineup_ids: ["swapped-support", "jungler", "mid", "adc", "support"] }),
+    ];
+    gameState.players = [
+      createPlayer({
+        id: "swapped-support",
+        match_name: "Swapped Support",
+        natural_position: "SUPPORT",
+        position: "SUPPORT",
+      }),
+    ];
+
+    render(<TrainingTab gameState={gameState} />);
+
+    expect(screen.getByAltText("training.roleIconAlt")).toHaveAttribute("src", "/role-icons/top.png");
+  });
 });

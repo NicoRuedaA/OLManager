@@ -32,6 +32,7 @@ fn make_player(id: &str, name: &str, pos: &str, skill: u8) -> PlayerData {
     PlayerData {
         id: id.to_string(),
         name: name.to_string(),
+        profile_image_url: None,
         role: football_position_to_lol_role(pos),
         condition: 90,
         fitness: 75,
@@ -966,6 +967,7 @@ fn make_player_with_traits(
     PlayerData {
         id: id.to_string(),
         name: name.to_string(),
+        profile_image_url: None,
         role: football_position_to_lol_role(pos),
         condition: 90,
         fitness: 75,

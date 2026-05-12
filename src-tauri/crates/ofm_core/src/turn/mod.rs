@@ -178,6 +178,7 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         .map(|p| engine::PlayerData {
             id: p.id.clone(),
             name: p.match_name.clone(),
+            profile_image_url: p.profile_image_url.clone(),
             role: to_engine_role(p.natural_position),
             condition: p.condition,
             fitness: p.fitness,

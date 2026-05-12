@@ -130,6 +130,29 @@ describe("PreMatchLineup component", () => {
     expect(screen.getByText("Away Bench")).toBeInTheDocument();
   });
 
+  it("renders explicit profile images from match player snapshots", () => {
+    render(
+      <PreMatchLineup
+        {...defaultProps}
+        homeTeam={makeTeam({
+          players: [
+            makePlayer({
+              id: "custom-top",
+              name: "Custom Top",
+              role: "Top",
+              profile_image_url: "/images/players/custom-top.webp",
+            }),
+          ],
+        })}
+      />,
+    );
+
+    expect(screen.getByRole("img", { name: "Custom Top" })).toHaveAttribute(
+      "src",
+      "/data/lec/images/players/custom-top.webp",
+    );
+  });
+
   it("calls callbacks for auto-select, starter select and swap on user side", () => {
     const onAutoSelect = vi.fn();
     const onSelectStarter = vi.fn();
