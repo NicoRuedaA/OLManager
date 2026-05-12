@@ -167,6 +167,7 @@ pub fn load_league(conn: &Connection) -> Result<Option<League>, String> {
         season,
         fixtures,
         standings,
+        competition_id: None,
     }))
 }
 
@@ -222,6 +223,7 @@ mod tests {
             "Premier Division".to_string(),
             2026,
             &team_ids,
+            None,
         );
         league.fixtures = vec![
             Fixture {

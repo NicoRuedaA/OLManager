@@ -191,7 +191,7 @@ describe("ScheduleTab", () => {
         gameState={{
           ...createGameState(true),
           league: {
-            ...createGameState(true).league!,
+            ...createGameState(true).leagues[0]s[0]!,
             fixtures: [playoffFixture],
           },
         }}
@@ -232,7 +232,7 @@ describe("ScheduleTab", () => {
         gameState={{
           ...createGameState(true),
           league: {
-            ...createGameState(true).league!,
+            ...createGameState(true).leagues[0]s[0]!,
             fixtures: [playoffFixture],
           },
         }}
@@ -265,7 +265,7 @@ describe("ScheduleTab", () => {
         gameState={{
           ...createGameState(true),
           league: {
-            ...createGameState(true).league!,
+            ...createGameState(true).leagues[0]s[0]!,
             fixtures: [playoffRoundOne, playoffRoundTwo],
           },
         }}
@@ -300,7 +300,7 @@ describe("ScheduleTab", () => {
         gameState={{
           ...createGameState(true),
           league: {
-            ...createGameState(true).league!,
+            ...createGameState(true).leagues[0]s[0]!,
             fixtures: [friendlyOne, friendlyTwo],
           },
         }}
@@ -340,7 +340,7 @@ describe("ScheduleTab", () => {
         gameState={{
           ...createGameState(true),
           league: {
-            ...createGameState(true).league!,
+            ...createGameState(true).leagues[0]s[0]!,
             fixtures: [playoffFixture],
           },
         }}

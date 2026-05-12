@@ -63,9 +63,9 @@ export default function ScheduleTab({
     ? (gameState.leagues ?? []).find((l) =>
         l.fixtures.some((f) => f.home_team_id.startsWith(userCompId + "-")),
       ) ?? null
-    : gameState.league ?? null;
+    : gameState.leagues[0] ?? null;
 
-  const league = userLeague;
+  const playerLeague = userLeague;
   const userTeamId = gameState.manager.team_id;
 
   // All fixtures from all leagues for the calendar view
@@ -91,7 +91,7 @@ export default function ScheduleTab({
     }
 
     if (fixture.competition === "Playoffs") {
-      const playoffStart = league?.fixtures
+      const playoffStart = playerLeague?.fixtures
         ?.filter((candidate) => candidate.competition === "Playoffs")
         .map((candidate) => candidate.matchday)
         .reduce((min, value) => Math.min(min, value), Number.POSITIVE_INFINITY);
@@ -108,7 +108,7 @@ export default function ScheduleTab({
     return `${t("season.friendly")} — ${formatMatchDate(fixture.date)}`;
   };
 
-  if (!league) {
+  if (!playerLeague) {
     return (
       <p className="text-gray-500 dark:text-gray-400 text-center py-8">
         {t("schedule.noLeague")}
@@ -133,7 +133,7 @@ export default function ScheduleTab({
   }
 
   // Partidos: only user's league. Calendario: all leagues.
-  const fixturesForDisplay = league ? league.fixtures : [];
+  const fixturesForDisplay = playerLeague ? playerLeague.fixtures : [];
   const calendarFixtures = allFixtures;
   const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.competition === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
@@ -156,7 +156,7 @@ export default function ScheduleTab({
   });
 
   // Sorted standings
-  const standings = [...league.standings].sort(compareStandingsByLolScore);
+  const standings = [...playerLeague.standings].sort(compareStandingsByLolScore);
 
   return (
     <div className={view === "calendar" ? "w-full" : "max-w-6xl mx-auto"}>
@@ -233,7 +233,7 @@ export default function ScheduleTab({
         <div className="flex flex-col gap-4">
           {playoffFixtures.length > 0 ? (
             <PlayoffBracketBoard
-              league={league}
+              league={playerLeague}
               teams={gameState.teams}
               onSelectTeam={onSelectTeam}
               title={`${t("schedule.playoffs")} · Bracket`}

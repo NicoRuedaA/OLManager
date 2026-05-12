@@ -32,7 +32,7 @@ interface EndOfSeasonScreenProps {
 }
 
 function resolvePlayoffChampionTeamId(gameState: GameStateData): string | null {
-  const playoffFixtures = (gameState.league?.fixtures ?? [])
+  const playoffFixtures = (gameState.leagues?.[0]?.fixtures ?? [])
     .filter((fixture) => fixture.competition === "Playoffs" && fixture.status === "Completed" && fixture.result)
     .sort((left, right) => right.matchday - left.matchday);
 
@@ -51,13 +51,13 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const [summary, setSummary] = useState<EndOfSeasonSummary | null>(null);
   const [step, setStep] = useState<"review" | "done">("review");
 
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
   const userTeam = gameState.teams.find(t => t.id === userTeamId);
 
   // Compute standings for display
   const standings = league
-    ? [...league.standings].sort(compareStandingsByLolScore)
+    ? [...playerLeague.standings].sort(compareStandingsByLolScore)
     : [];
 
   const userStandingIdx = standings.findIndex(s => s.team_id === userTeamId);
@@ -113,7 +113,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
               {t('endOfSeason.seasonComplete')}
             </h1>
             <p className="text-lg text-gray-500 dark:text-gray-400 mt-1">
-              {league?.name} — Season {league?.season}
+              {playerLeague?.name} — Season {playerLeague?.season}
             </p>
             {isChampion && (
               <p className="text-xl font-heading font-bold text-accent-500 mt-2 uppercase tracking-wider animate-pulse">
@@ -155,7 +155,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
           {hasPlayoffs ? (
             <div className="mb-6">
               <PlayoffBracketBoard
-                league={league!}
+                league={playerLeague!}
                 teams={gameState.teams}
                 title={`${t("schedule.playoffs")} · Bracket`}
               />

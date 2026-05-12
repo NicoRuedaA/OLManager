@@ -98,7 +98,7 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
 
         let today = game.clock.current_date.format("%Y-%m-%d").to_string();
 
-        let has_match = game.league.as_ref().is_some_and(|league| {
+        let has_match = game.leagues.first().is_some_and(|league| {
             league.fixtures.iter().any(|fixture| {
                 fixture.date == today
                     && fixture.status == domain::league::FixtureStatus::Scheduled
@@ -294,10 +294,11 @@ mod tests {
 
         game.teams[0].active_lineup_ids =
             game.players.iter().take(11).map(|p| p.id.clone()).collect();
-        game.league = Some(domain::league::League {
+        game.leagues = vec![domain::league::League {
             id: "league-1".to_string(),
             name: "League".to_string(),
             season: 2025,
+            competition_id: None,
             fixtures: vec![Fixture {
                 id: "fixture-1".to_string(),
                 matchday: 1,
@@ -313,7 +314,7 @@ mod tests {
                 domain::league::StandingEntry::new("team1".to_string()),
                 domain::league::StandingEntry::new("team2".to_string()),
             ],
-        });
+        }];
         game
     }
 
@@ -673,6 +674,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![
                 domain::league::Fixture {
                     id: "fix1".to_string(),
@@ -706,7 +708,7 @@ mod tests {
         };
 
         let mut game = Game::new(clock, manager, teams, players, vec![], vec![]);
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 

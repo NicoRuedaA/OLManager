@@ -24,8 +24,8 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
   const { t, i18n } = useTranslation();
   const userTeamId = gameState.manager.team_id;
 
-  const allStandings = gameState.league?.standings
-    ? [...gameState.league.standings].sort(compareStandingsByLolScore)
+  const allStandings = gameState.leagues?.[0]?.standings
+    ? [...gameState.leagues[0].standings].sort(compareStandingsByLolScore)
     : [];
 
   const teamsData = getMainTeams(gameState.teams).map(team => {

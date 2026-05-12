@@ -867,10 +867,8 @@ export interface GameStateData {
   social_posts?: SocialPostData[];
   social_accounts?: SocialAccountData[];
   social_templates?: SocialTemplateData[];
-  /** @deprecated Use `leagues` array — kept for backward compat with old saves. */
-  league: LeagueData | null;
-  /** Multi-league support (populated from new modular data flow). */
-  leagues?: LeagueData[];
+  /** Multi-league support. The first element is the player's active league. */
+  leagues: LeagueData[];
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];
   board_objectives: BoardObjective[];

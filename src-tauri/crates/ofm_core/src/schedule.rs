@@ -76,7 +76,7 @@ pub fn generate_league(
     assert!(n >= 2, "Need at least 2 teams for a league");
 
     let league_id = Uuid::new_v4().to_string();
-    let mut league = League::new(league_id, name.to_string(), season, team_ids);
+    let mut league = League::new(league_id, name.to_string(), season, team_ids, None);
 
     // For round-robin with n teams (n must be even; if odd, add a "bye" — we assume even here)
     // Number of rounds in a single round-robin = n - 1
@@ -203,7 +203,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
     );
 
     let league_id = Uuid::new_v4().to_string();
-    let mut league = League::new(league_id, name.to_string(), season, team_ids);
+    let mut league = League::new(league_id, name.to_string(), season, team_ids, None);
 
     let rounds = n - 1;
     let half = n / 2;

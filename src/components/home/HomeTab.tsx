@@ -72,7 +72,7 @@ export default function HomeTab({
   const myTeam = gameState.teams.find(
     (tm) => tm.id === gameState.manager.team_id,
   );
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
   const roster = myTeam
     ? gameState.players.filter((p) => p.team_id === myTeam.id)
     : [];
@@ -120,7 +120,7 @@ export default function HomeTab({
           : t("season.windowClosed");
 
   const sortedStandings = league
-    ? [...league.standings]
+    ? [...playerLeague.standings]
         .sort(compareStandingsByLolScore)
         .map((standing) => ({
           team_id: standing.team_id,
@@ -250,7 +250,7 @@ export default function HomeTab({
               isPreseason={isPreseason}
               phase={seasonContext.phase}
               seasonStartLabel={seasonStartLabel}
-              league={league}
+              league={playerLeague}
               sortedStandings={sortedStandings}
               teams={gameState.teams}
               myTeamId={myTeam.id}
@@ -264,7 +264,7 @@ export default function HomeTab({
             isPreseason={isPreseason}
             phase={seasonContext.phase}
             seasonStartLabel={seasonStartLabel}
-            league={league}
+            league={playerLeague}
             sortedStandings={sortedStandings}
             teams={gameState.teams}
             myTeamId={null}

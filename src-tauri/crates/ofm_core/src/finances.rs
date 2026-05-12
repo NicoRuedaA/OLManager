@@ -187,7 +187,7 @@ pub fn evaluate_sponsorship_bonus(
 }
 
 fn current_league_position(game: &Game, team_id: &str) -> Option<u32> {
-    let league = game.league.as_ref()?;
+    let league = game.leagues.first()?;
 
     league
         .sorted_standings()
@@ -197,7 +197,7 @@ fn current_league_position(game: &Game, team_id: &str) -> Option<u32> {
 }
 
 fn count_recent_home_matches(game: &Game, team_id: &str) -> i64 {
-    let Some(league) = &game.league else {
+    let Some(league) = game.leagues.first() else {
         return 0;
     };
 
@@ -299,7 +299,7 @@ pub fn process_weekly_finances(game: &mut Game) {
     }
 
     // --- Matchday income for home matches completed in last 7 days ---
-    if game.league.is_some() {
+    if !game.leagues.is_empty() {
         let home_match_counts: Vec<(String, i64)> = game
             .teams
             .iter()

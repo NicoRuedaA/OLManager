@@ -60,6 +60,12 @@ pub fn advance_to_next_season(state: State<'_, StateManager>) -> Result<serde_js
         ofm_core::end_of_season::process_end_of_season(&mut game)
     };
 
+    // Process background league seasons
+    {
+        let configs = game.competition_configs.clone();
+        ofm_core::end_of_season::process_background_seasons(&mut game, &configs);
+    }
+
     // End-of-season objective evaluation may have dropped satisfaction — check firing
     ofm_core::firing::check_manager_firing(&mut game);
 

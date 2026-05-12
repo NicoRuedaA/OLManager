@@ -107,7 +107,7 @@ pub fn create_live_match(
         "[live_match] create_live_match: fixture={}, mode={:?}, extra_time={}",
         fixture_index, mode, allows_extra_time
     );
-    let league = game.league.as_ref().ok_or("No league")?;
+    let league = game.leagues.first().ok_or("No league")?;
     let fixture = league
         .fixtures
         .get(fixture_index)

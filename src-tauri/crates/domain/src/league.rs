@@ -11,6 +11,8 @@ pub struct League {
     pub season: u32,
     pub fixtures: Vec<Fixture>,
     pub standings: Vec<StandingEntry>,
+    #[serde(default)]
+    pub competition_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
@@ -171,7 +173,7 @@ impl Fixture {
 }
 
 impl League {
-    pub fn new(id: String, name: String, season: u32, team_ids: &[String]) -> Self {
+    pub fn new(id: String, name: String, season: u32, team_ids: &[String], competition_id: Option<String>) -> Self {
         let standings = team_ids
             .iter()
             .map(|tid| StandingEntry::new(tid.clone()))
@@ -183,6 +185,7 @@ impl League {
             season,
             fixtures: Vec::new(),
             standings,
+            competition_id,
         }
     }
 

@@ -90,8 +90,8 @@ export default function TournamentsTab({ gameState, onSelectTeam }: TournamentsT
   }
 
   // Competition selected — find its data in gameState.leagues
-  const league = selectedLeague;
-  if (!league) {
+  const playerLeague = selectedLeague;
+  if (!playerLeague) {
     // Fallback: show teams from get_league_selection_data
     const comp = allComps?.find((c) => c.id === selectedCompId);
     if (!comp) return <div className="text-center py-12"><p className="text-gray-500">{t("tournaments.notFound", "Competition not found.")}</p></div>;
@@ -116,7 +116,7 @@ export default function TournamentsTab({ gameState, onSelectTeam }: TournamentsT
   }
 
   // Full tournament data view
-  const standings = [...league.standings].sort(compareStandingsByLolScore);
+  const standings = [...playerLeague.standings].sort(compareStandingsByLolScore);
   const playoffFixtures = league.fixtures.filter((f) => f.competition === "Playoffs");
   const hasPlayoffsStarted = playoffFixtures.length > 0;
   const tournamentFixtures = league.fixtures.filter((f) => f.competition === "League" || f.competition === "Playoffs");

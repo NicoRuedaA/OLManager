@@ -2394,11 +2394,17 @@ pub async fn select_team(
             }
         }
 
+        league.competition_id = Some(cid.clone());
         all_leagues.push(league);
     }
 
+    // Populate competition_configs from all manifests for bg season cycling
+    for manifest in &all_manifests {
+        game.competition_configs
+            .insert(manifest.id.clone(), manifest.schedule.clone());
+    }
+
     game.leagues = all_leagues;
-    game.league = game.leagues.first().cloned();
     ofm_core::champions::bootstrap_champion_state(&mut game);
     ofm_core::season_context::refresh_game_context(&mut game);
 
@@ -2532,8 +2538,7 @@ pub async fn load_game(
         game.teams.len()
     );
 
-    // Migrate legacy single-league save → multi-league format
-    game.migrate_legacy_league();
+    // Legacy migration is handled by Game's custom Deserialize
 
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);

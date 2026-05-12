@@ -565,6 +565,7 @@ fn home_match_generates_income() {
         id: "l1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![Fixture {
             id: "f1".to_string(),
             matchday: 1,
@@ -584,7 +585,7 @@ fn home_match_generates_income() {
         }],
         standings: vec![StandingEntry::new("team1".to_string())],
     };
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     finances::process_weekly_finances(&mut game);
 
@@ -612,6 +613,7 @@ fn away_match_no_income() {
         id: "l1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![Fixture {
             id: "f1".to_string(),
             matchday: 1,
@@ -631,7 +633,7 @@ fn away_match_no_income() {
         }],
         standings: vec![StandingEntry::new("team1".to_string())],
     };
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     let initial_finance = game.teams[0].finance;
     finances::process_weekly_finances(&mut game);
