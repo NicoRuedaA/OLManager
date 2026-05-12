@@ -225,7 +225,7 @@ export interface PlayerMatchStatsRecord {
   fixture_id: string;
   season?: number;
   date: string;
-  competition: string;
+  match_type: string;
   matchday: number;
   player_id?: string;
   team_id?: string;
@@ -277,7 +277,7 @@ export interface TeamMatchStatsRecord {
   season?: number;
   matchday: number;
   date: string;
-  competition: string;
+  match_type: string;
   team_id: string;
   opponent_team_id: string;
   side?: TeamSide;
@@ -584,7 +584,7 @@ export interface FixtureData {
   date: string;
   home_team_id: string;
   away_team_id: string;
-  competition: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
+  match_type: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
   best_of?: number;
   status: "Scheduled" | "InProgress" | "Completed";
   result: MatchResult | null;

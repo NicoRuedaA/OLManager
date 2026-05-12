@@ -1,5 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::FixtureCompetition;
+use domain::league::MatchType;
 use domain::manager::Manager;
 use domain::player::{Player, PlayerAttributes, LolRole};
 use domain::stats::{
@@ -99,7 +99,7 @@ fn player_record(
         season: 2025,
         matchday: 1,
         date: fixture_id.to_string(),
-        competition: FixtureCompetition::League,
+        match_type: MatchType::League,
         player_id: player_id.to_string(),
         team_id: "team-1".to_string(),
         opponent_team_id: "team-2".to_string(),
@@ -132,7 +132,7 @@ fn team_record(
         season: 2025,
         matchday: 1,
         date: fixture_id.to_string(),
-        competition: FixtureCompetition::League,
+        match_type: MatchType::League,
         team_id: "team-1".to_string(),
         opponent_team_id: "team-2".to_string(),
         side,

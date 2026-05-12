@@ -414,7 +414,7 @@ function makeReportedFixture(id: string) {
     date: "2026-08-01",
     home_team_id: "team1",
     away_team_id: "team2",
-    competition: "League" as const,
+    match_type: "League" as const,
     status: "Completed" as const,
     result: {
       home_goals: 2,
@@ -482,7 +482,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-08-01",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "League",
+            match_type: "League",
             status: "Completed",
             result: null,
           }}
@@ -570,7 +570,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-08-01",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "League",
+            match_type: "League",
             status: "Completed",
             result: null,
           }}
@@ -625,7 +625,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-07-20",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "Friendly",
+            match_type: "Friendly",
             status: "Completed",
             result: null,
           }}

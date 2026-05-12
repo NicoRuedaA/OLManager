@@ -421,7 +421,7 @@ function makeGameStateWithSeriesFixture(
         date: "2026-08-01",
         home_team_id: "home1",
         away_team_id: "away1",
-        competition: "Playoffs",
+        match_type: "Playoffs",
         best_of: 3,
         status: "InProgress",
         result: {
@@ -726,7 +726,7 @@ describe("MatchSimulation", function (): void {
           date: "2026-08-01",
           home_team_id: "home1",
           away_team_id: "away1",
-          competition: "Playoffs",
+          match_type: "Playoffs",
           status: "InProgress",
           result: {
             home_wins: 1,
@@ -933,7 +933,7 @@ describe("MatchSimulation", function (): void {
           date: "2026-08-01",
           home_team_id: "home1",
           away_team_id: "away1",
-          competition: "Playoffs",
+          match_type: "Playoffs",
           best_of: 3,
           status: "InProgress",
           result: {
@@ -992,7 +992,7 @@ describe("MatchSimulation", function (): void {
           date: "2026-08-01",
           home_team_id: "home1",
           away_team_id: "away1",
-          competition: "Playoffs",
+          match_type: "Playoffs",
           status: "InProgress",
           result: {
             home_wins: 0,
@@ -1158,7 +1158,7 @@ describe("MatchSimulation", function (): void {
           date: "2026-08-01",
           home_team_id: "home1",
           away_team_id: "away1",
-          competition: "Regular Season",
+          match_type: "Regular Season",
           best_of: 1,
           status: "Scheduled",
           result: {

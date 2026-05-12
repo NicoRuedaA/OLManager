@@ -134,9 +134,9 @@ export default function NextMatchDisplay({
     ? nextFixture.away_team_id
     : nextFixture.home_team_id;
   const fixtureLabel =
-    nextFixture.competition === "League"
+    nextFixture.match_type === "League"
       ? t("home.matchdayN", { n: nextFixture.matchday })
-      : nextFixture.competition === "PreseasonTournament"
+      : nextFixture.match_type === "PreseasonTournament"
         ? t("season.preseasonTournament")
         : t("season.friendly");
 

@@ -111,7 +111,7 @@ pub struct WeeklyScrimContextResponse {
     pub top_focus: Option<domain::team::ScrimFocus>,
     pub top_issue: Option<domain::team::ScrimIssue>,
     pub next_official_rival_team_id: Option<String>,
-    pub next_official_rival_competition: Option<domain::league::FixtureCompetition>,
+    pub next_official_rival_competition: Option<domain::league::MatchType>,
     pub setup_locked: bool,
     pub setup_locked_reason: Option<String>,
     pub can_finalize_setup: bool,
@@ -1661,7 +1661,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
             }
         }),
         next_official_rival_competition: next_official_fixture
-            .map(|fixture| fixture.competition.clone()),
+            .map(|fixture| fixture.match_type.clone()),
         setup_locked,
         setup_locked_reason,
         can_finalize_setup: !setup_locked,

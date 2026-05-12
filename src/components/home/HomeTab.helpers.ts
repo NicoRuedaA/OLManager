@@ -105,7 +105,7 @@ export function getNextOpponentWidgetData(
   }
 
   const canShowStandings =
-    hasCompetitiveStandings(gameState) && nextFixture.competition === "League";
+    hasCompetitiveStandings(gameState) && nextFixture.match_type === "League";
   const standingEntry = canShowStandings
     ? playerLeague.standings.find((entry) => entry.team_id === opponentId)
     : null;

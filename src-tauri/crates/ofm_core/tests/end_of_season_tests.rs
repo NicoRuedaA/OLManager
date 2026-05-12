@@ -1,6 +1,6 @@
 use chrono::{TimeZone, Utc};
 use domain::league::{
-    Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
 };
 use domain::manager::Manager;
 use domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
@@ -60,7 +60,7 @@ fn make_completed_fixture(id: &str, home: &str, away: &str, hg: u8, ag: u8) -> F
         date: "2025-06-01".to_string(),
         home_team_id: home.to_string(),
         away_team_id: away.to_string(),
-        competition: FixtureCompetition::League,
+        match_type: MatchType::League,
         best_of: 1,
         status: FixtureStatus::Completed,
         result: Some(MatchResult {
@@ -218,7 +218,7 @@ fn season_not_complete_with_truncated_completed_fixture_list() {
                 date: "2026-08-01".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -235,7 +235,7 @@ fn season_not_complete_with_truncated_completed_fixture_list() {
                 date: "2026-08-01".to_string(),
                 home_team_id: "team3".to_string(),
                 away_team_id: "team4".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {

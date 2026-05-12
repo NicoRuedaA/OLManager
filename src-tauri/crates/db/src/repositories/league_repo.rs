@@ -1,4 +1,4 @@
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
 use rusqlite::{Connection, params};
 
 /// Insert or replace the league row and its fixtures + standings.
@@ -17,7 +17,7 @@ pub fn upsert_league(conn: &Connection, league: &League) -> Result<(), String> {
     .map_err(|e| format!("Failed to upsert league: {}", e))?;
 
     for f in &league.fixtures {
-        let competition_str = format!("{:?}", f.competition);
+        let competition_str = format!("{:?}", f.match_type);
         let status_str = format!("{:?}", f.status);
         let result_json = f
             .result
@@ -71,12 +71,12 @@ fn parse_fixture_status(s: &str) -> FixtureStatus {
     }
 }
 
-fn parse_fixture_competition(s: &str) -> FixtureCompetition {
+fn parse_fixture_match_type(s: &str) -> MatchType {
     match s {
-        "Friendly" => FixtureCompetition::Friendly,
-        "PreseasonTournament" => FixtureCompetition::PreseasonTournament,
-        "Playoffs" => FixtureCompetition::Playoffs,
-        _ => FixtureCompetition::League,
+        "Friendly" => MatchType::Friendly,
+        "PreseasonTournament" => MatchType::PreseasonTournament,
+        "Playoffs" => MatchType::Playoffs,
+        _ => MatchType::League,
     }
 }
 
@@ -121,7 +121,7 @@ pub fn load_league(conn: &Connection) -> Result<Option<League>, String> {
                 date: row.get(2)?,
                 home_team_id: row.get(3)?,
                 away_team_id: row.get(4)?,
-                competition: parse_fixture_competition(&competition_str),
+                match_type: parse_fixture_match_type(&competition_str),
                 best_of: row.get(6)?,
                 status: parse_fixture_status(&status_str),
                 result: result_json.and_then(|j| serde_json::from_str(&j).ok()),
@@ -232,7 +232,7 @@ mod tests {
                 date: "2026-08-15".to_string(),
                 home_team_id: "team-001".to_string(),
                 away_team_id: "team-002".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 status: FixtureStatus::Scheduled,
                 result: None,
                 best_of: 1,
@@ -243,7 +243,7 @@ mod tests {
                 date: "2026-08-22".to_string(),
                 home_team_id: "team-002".to_string(),
                 away_team_id: "team-001".to_string(),
-                competition: FixtureCompetition::Friendly,
+                match_type: MatchType::Friendly,
                 status: FixtureStatus::Completed,
                 best_of: 1,
                 result: Some(MatchResult {
@@ -283,7 +283,7 @@ mod tests {
         assert_eq!(loaded.fixtures[0].status, FixtureStatus::Scheduled);
         assert!(loaded.fixtures[0].result.is_none());
         assert_eq!(loaded.fixtures[1].status, FixtureStatus::Completed);
-        assert_eq!(loaded.fixtures[1].competition, FixtureCompetition::Friendly);
+        assert_eq!(loaded.fixtures[1].match_type, MatchType::Friendly);
         assert!(loaded.fixtures[1].result.is_some());
         let result = loaded.fixtures[1].result.as_ref().unwrap();
         assert_eq!(result.home_wins, 1);
@@ -320,9 +320,9 @@ mod tests {
             matchday: 3,
             date: "2026-08-29".to_string(),
             home_team_id: "team-001".to_string(),
-            away_team_id: "team-002".to_string(),
-            competition: FixtureCompetition::League,
-            status: FixtureStatus::Scheduled,
+                away_team_id: "team-002".to_string(),
+                match_type: MatchType::League,
+                status: FixtureStatus::Scheduled,
             result: None,
             best_of: 1,
         }];
@@ -349,7 +349,7 @@ mod tests {
                 date: "2027-08-15".to_string(),
                 home_team_id: "team-001".to_string(),
                 away_team_id: "team-002".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 status: FixtureStatus::Scheduled,
                 result: None,
                 best_of: 1,

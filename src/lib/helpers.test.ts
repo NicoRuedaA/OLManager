@@ -93,7 +93,7 @@ const makeFixture = (overrides: Partial<FixtureData> = {}): FixtureData => ({
   date: "2026-08-01",
   home_team_id: "team_1",
   away_team_id: "team_2",
-  competition: "League",
+  match_type: "League",
   status: "Scheduled",
   result: null,
   ...overrides,
@@ -212,7 +212,7 @@ describe("season helpers", () => {
       fixtures: [
         makeFixture({
           id: "friendly-1",
-          competition: "Friendly",
+          match_type: "Friendly",
           matchday: 0,
           status: "Completed",
         }),
@@ -281,7 +281,7 @@ describe("season helpers", () => {
             home_team_id: homeTeamId,
             away_team_id: awayTeamId,
             status: "Completed",
-            competition: "League",
+            match_type: "League",
           }),
         );
         fixtureCounter += 1;
@@ -291,7 +291,7 @@ describe("season helpers", () => {
     fixtures.push(
       makeFixture({
         id: "playoff-1",
-        competition: "Playoffs",
+        match_type: "Playoffs",
         status: "Scheduled",
         home_team_id: "team_1",
         away_team_id: "team_4",
@@ -329,7 +329,7 @@ describe("season helpers", () => {
             home_team_id: homeTeamId,
             away_team_id: awayTeamId,
             status: "Completed",
-            competition: "League",
+            match_type: "League",
           }),
         );
         fixtureCounter += 1;
@@ -339,7 +339,7 @@ describe("season helpers", () => {
     fixtures.push(
       makeFixture({
         id: "playoff-1",
-        competition: "Playoffs",
+        match_type: "Playoffs",
         status: "Completed",
         home_team_id: "team_1",
         away_team_id: "team_4",
@@ -591,7 +591,7 @@ describe("isSeasonComplete with unplayed season", () => {
           home_team_id: home,
           away_team_id: away,
           status: "Scheduled",
-          competition: "League",
+          match_type: "League",
         }));
       }
     }

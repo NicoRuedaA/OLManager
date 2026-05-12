@@ -1,5 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
 use domain::manager::Manager;
 use domain::player::{
     Injury, Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, PlayerPromise,
@@ -148,7 +148,7 @@ fn make_game_with_match() -> Game {
             date: today,
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Scheduled,
             result: None,
@@ -1368,7 +1368,7 @@ fn make_round_summary_game() -> Game {
                 date: today.clone(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(domain::league::MatchResult {
@@ -1385,7 +1385,7 @@ fn make_round_summary_game() -> Game {
                 date: today,
                 home_team_id: "team3".to_string(),
                 away_team_id: "team4".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(domain::league::MatchResult {
@@ -1562,7 +1562,7 @@ fn build_round_summary_ignores_non_competitive_matchday_zero_fixtures() {
 
     league.fixtures.iter_mut().for_each(|fixture| {
         fixture.matchday = 0;
-        fixture.competition = FixtureCompetition::Friendly;
+        fixture.match_type = MatchType::Friendly;
     });
 
     let summary = turn::build_round_summary(&game, 0, &previous_round_standings());

@@ -156,7 +156,7 @@ mod tests {
     use crate::game::Game;
     use crate::live_match_manager::{self, MatchMode};
     use chrono::{TimeZone, Utc};
-    use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+    use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
     use domain::manager::Manager;
     use domain::player::{Player, PlayerAttributes};
     use domain::team::Team;
@@ -273,7 +273,7 @@ mod tests {
             date: "2025-06-15".to_string(),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Scheduled,
             result: None,

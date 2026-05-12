@@ -399,7 +399,7 @@ mod tests {
     use crate::game::Game;
     use chrono::{TimeZone, Utc};
     use domain::league::{
-        Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+        Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
     };
     use domain::manager::Manager;
     use domain::message::{MessageCategory, MessagePriority};
@@ -448,7 +448,7 @@ mod tests {
             date: date.to_string(),
             home_team_id: home_team_id.to_string(),
             away_team_id: away_team_id.to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status,
             result: result.map(|(home_goals, away_goals)| MatchResult {

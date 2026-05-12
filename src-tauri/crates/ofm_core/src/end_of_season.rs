@@ -7,7 +7,7 @@ use crate::schedule::{
 };
 use crate::season_awards::compute_season_awards;
 use chrono::{TimeZone, Utc};
-use domain::league::{FixtureCompetition, FixtureStatus, League};
+use domain::league::{MatchType, FixtureStatus, League};
 use domain::message::*;
 use domain::player::PlayerSeasonStats;
 use domain::team::{FinancialTransaction, FinancialTransactionKind, TeamSeasonRecord};
@@ -60,12 +60,12 @@ pub fn is_league_complete(league: &League) -> bool {
     let playoffs_exist = league
         .fixtures
         .iter()
-        .any(|fixture| fixture.competition == FixtureCompetition::Playoffs);
+        .any(|fixture| fixture.match_type == MatchType::Playoffs);
     let playoffs_complete = !playoffs_exist
         || league
             .fixtures
             .iter()
-            .filter(|fixture| fixture.competition == FixtureCompetition::Playoffs)
+            .filter(|fixture| fixture.match_type == MatchType::Playoffs)
             .all(|fixture| fixture.status == FixtureStatus::Completed);
 
     regular_complete && playoffs_complete
@@ -263,7 +263,7 @@ fn process_end_of_season_inner(
     let playoff_champion_id = league
         .fixtures
         .iter()
-        .filter(|fixture| fixture.competition == FixtureCompetition::Playoffs)
+        .filter(|fixture| fixture.match_type == MatchType::Playoffs)
         .max_by_key(|fixture| fixture.matchday)
         .and_then(|fixture| {
             fixture.result.as_ref().and_then(|result| {

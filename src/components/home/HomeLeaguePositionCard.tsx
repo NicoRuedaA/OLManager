@@ -59,10 +59,10 @@ export default function HomeLeaguePositionCard({
 }: HomeLeaguePositionCardProps) {
   const { t } = useTranslation();
   const hasPlayoffsStarted = Boolean(
-    league?.fixtures.some((fixture) => fixture.competition === "Playoffs"),
+    league?.fixtures.some((fixture) => fixture.match_type === "Playoffs"),
   );
   const playoffFixtures = league?.fixtures.filter(
-    (fixture) => fixture.competition === "Playoffs",
+    (fixture) => fixture.match_type === "Playoffs",
   ) ?? [];
   const myPlayoffFixtures = myTeamId
     ? playoffFixtures.filter(

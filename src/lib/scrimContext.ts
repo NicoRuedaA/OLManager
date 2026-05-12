@@ -356,7 +356,7 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
     topFocus: playedReports[0]?.focus ?? null,
     topIssue: Object.entries(recurringIssue).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null,
     nextOfficialRivalTeamId,
-    nextOfficialRivalCompetition: nextOfficialFixture?.competition ?? null,
+    nextOfficialRivalCompetition: nextOfficialFixture?.match_type ?? null,
     setupLocked: false,
     setupLockedReason: null,
     canFinalizeSetup: true,

@@ -300,7 +300,7 @@ mod tests {
     use crate::game::{BoardObjective, Game, ObjectiveType};
     use chrono::{TimeZone, Utc};
     use domain::league::{
-        Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+        Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
     };
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessageCategory, MessagePriority};
@@ -657,7 +657,7 @@ mod tests {
                 date: "2025-08-01".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(make_result(2, 1)),
@@ -668,7 +668,7 @@ mod tests {
                 date: "2025-08-08".to_string(),
                 home_team_id: "team3".to_string(),
                 away_team_id: "team1".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(make_result(0, 3)),
@@ -706,7 +706,7 @@ mod tests {
                 date: format!("2025-08-{:02}", matchday),
                 home_team_id: home_team_id.to_string(),
                 away_team_id: away_team_id.to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status,
                 result: score.map(|(home_wins, away_wins)| make_result(home_wins, away_wins)),

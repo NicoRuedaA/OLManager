@@ -1,6 +1,6 @@
 use chrono::{TimeZone, Utc};
 use domain::league::{
-    Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
 };
 use domain::manager::Manager;
 use domain::message::{
@@ -93,7 +93,7 @@ fn make_game_with_league() -> Game {
             date: today,
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Scheduled,
             result: None,
@@ -275,7 +275,7 @@ fn check_random_events_board_confidence_triggers_on_losses() {
                 date: "2025-06-01".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "opp1".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -292,7 +292,7 @@ fn check_random_events_board_confidence_triggers_on_losses() {
                 date: "2025-06-05".to_string(),
                 home_team_id: "opp2".to_string(),
                 away_team_id: "team1".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -309,7 +309,7 @@ fn check_random_events_board_confidence_triggers_on_losses() {
                 date: "2025-06-10".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "opp3".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -361,7 +361,7 @@ fn check_random_events_board_confidence_no_trigger_without_losses() {
                 date: "2025-06-01".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "opp1".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -378,7 +378,7 @@ fn check_random_events_board_confidence_no_trigger_without_losses() {
                 date: "2025-06-05".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "opp2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -395,7 +395,7 @@ fn check_random_events_board_confidence_no_trigger_without_losses() {
                 date: "2025-06-10".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "opp3".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -440,7 +440,7 @@ fn check_random_events_international_callup_with_upcoming_match() {
             date: future_date,
             home_team_id: "team1".to_string(),
             away_team_id: "opp1".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Scheduled,
             result: None,

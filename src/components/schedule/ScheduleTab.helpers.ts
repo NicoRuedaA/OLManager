@@ -56,11 +56,11 @@ export function inferBestOf(fixture: FixtureData, ctx: BestOfContext): 1 | 3 | 5
     return explicitBestOf;
   }
 
-  if (fixture.competition === "Friendly") {
+  if (fixture.match_type === "Friendly") {
     return ctx.friendlySeriesLengthById[fixture.id] ?? 1;
   }
 
-  if (fixture.competition !== "Playoffs") return 1;
+  if (fixture.match_type !== "Playoffs") return 1;
 
   const { start, end } = ctx.playoffBounds;
   if (start === null) return 3;
@@ -152,13 +152,13 @@ export function readStoredFixtureDraftResult(fixtureId: string): StoredFixtureDr
 }
 
 export function buildBestOfContext(fixtures: FixtureData[]): BestOfContext {
-  const playoffFixtures = fixtures.filter((f) => f.competition === "Playoffs");
+  const playoffFixtures = fixtures.filter((f) => f.match_type === "Playoffs");
   const playoffBounds = {
     start: playoffFixtures.length > 0 ? Math.min(...playoffFixtures.map((f) => f.matchday)) : null,
     end: playoffFixtures.length > 0 ? Math.max(...playoffFixtures.map((f) => f.matchday)) : null,
   };
   const preseasonFriendlyFixtures = fixtures
-    .filter((f) => f.competition === "Friendly" && f.matchday === 0)
+    .filter((f) => f.match_type === "Friendly" && f.matchday === 0)
     .sort(
       (l, r) =>
         l.date.localeCompare(r.date) ||

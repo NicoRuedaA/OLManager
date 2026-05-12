@@ -278,7 +278,7 @@ describe("TeamProfile", () => {
           {
             fixtureId: "fixture-2",
             date: "2026-08-01",
-            competition: "League",
+            match_type: "League",
             matchday: 1,
             opponentTeamId: "team-2",
             opponentName: "Bravo FC",

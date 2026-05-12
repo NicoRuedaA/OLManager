@@ -81,8 +81,8 @@ export default function PostMatchScreen({
 
   const resultType = userScore > oppScore ? "win" : "loss";
   const isLeagueFixture =
-    currentFixture?.competition !== "Friendly" &&
-    currentFixture?.competition !== "PreseasonTournament";
+    currentFixture?.match_type !== "Friendly" &&
+    currentFixture?.match_type !== "PreseasonTournament";
   const summaryTitle = isLeagueFixture
     ? t("match.roundSummary")
     : t("match.otherMatches");
@@ -205,7 +205,7 @@ export default function PostMatchScreen({
             fixture.status === "Completed" &&
             fixture.result &&
             fixture.date === currentFixture?.date &&
-            fixture.competition === currentFixture?.competition,
+            fixture.match_type === currentFixture?.match_type,
         )
         .map((fixture) => ({
           fixture,

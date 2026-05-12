@@ -108,7 +108,7 @@ mod tests {
     use crate::game::Game;
     use chrono::{TimeZone, Utc};
     use domain::league::{
-        Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+        Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
     };
     use domain::manager::Manager;
     use domain::season::{SeasonPhase, TransferWindowStatus};
@@ -141,7 +141,7 @@ mod tests {
             date: date.to_string(),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: status.clone(),
             result: (status == FixtureStatus::Completed).then_some(make_result(1, 0)),

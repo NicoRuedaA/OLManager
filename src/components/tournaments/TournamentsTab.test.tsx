@@ -135,7 +135,7 @@ function createFixture(overrides: Partial<FixtureData> = {}): FixtureData {
     date: "2026-08-01",
     home_team_id: "team-1",
     away_team_id: "team-2",
-    competition: "League",
+    match_type: "League",
     status: "Completed",
     result: {
       home_goals: 1,
@@ -239,7 +239,7 @@ describe("TournamentsTab", () => {
     gameState.leagues[0]!.fixtures = [
       createFixture({
         id: "playoff-1",
-        competition: "Playoffs",
+        match_type: "Playoffs",
         matchday: 12,
         best_of: 3,
         result: {
@@ -287,7 +287,7 @@ describe("TournamentsTab", () => {
       fixtures: [
         createFixture({
           id: "academy-po-1",
-          competition: "Playoffs",
+          match_type: "Playoffs",
           home_team_id: "academy-1",
           away_team_id: "academy-2",
           matchday: 10,

@@ -224,7 +224,7 @@ export default function HomeTodayPlanCard({
     ? {
         icon: <Trophy className="h-6 w-6" />,
         title: t("home.todayMatch"),
-        detail: todayFixture.competition,
+        detail: todayFixture.match_type,
         accent: "text-primary-500",
         actionLabel: t("dashboard.schedule"),
         actionTab: "Schedule",
