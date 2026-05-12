@@ -63,7 +63,7 @@ fn migrate_stadium_to_arena_capacity(tx: &Transaction<'_>) -> HookResult {
     Ok(())
 }
 
-/// V39 hook: drop football_nation column from players, managers, staff (legacy).
+/// V39 hook: drop football_nation column from players, managers, staff.
 /// First ensures all required columns exist via add_column_if_missing,
 /// then recreates each table via CREATE TABLE AS (SQLite lacks DROP COLUMN).
 fn migrate_drop_football_nation(tx: &Transaction<'_>) -> HookResult {
@@ -95,12 +95,12 @@ fn migrate_drop_football_nation(tx: &Transaction<'_>) -> HookResult {
     Ok(())
 }
 
-/// V40 hook: audit legacy columns in teams table and log findings.
+/// V40 hook: audit football legacy columns in teams table and log findings.
 /// This is a non-destructive audit — columns are NOT removed yet.
 /// If the audit shows all defaults, columns can be removed in a future migration.
 fn migrate_audit_teams_legacy(tx: &Transaction<'_>) -> HookResult {
     let non_default: i64 = tx.query_row(
-        "SELECT COUNT(*) FROM teams WHERE wage_budget != 0 OR transfer_budget != 0 OR season_income != 0 OR season_expenses != 0",
+        "SELECT COUNT(*) FROM teams WHERE formation != '4-4-2' OR wage_budget != 0 OR transfer_budget != 0 OR season_income != 0 OR season_expenses != 0",
         [],
         |row| row.get(0),
     )?;
@@ -296,8 +296,47 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
     Ok(())
 }
 
+/// V52 hook: create competitions/seasons tables, add competition_id to
+/// fixtures and standings, backfill from legacy league table.
+fn migrate_multi_competitions(tx: &Transaction<'_>) -> HookResult {
+    // Run SQL: create tables, add columns, create indexes
+    tx.execute_batch(include_str!("sql/v052_multi_competitions.sql"))?;
+
+    // Backfill: detect legacy league data and create a competition record
+    let league_count: i64 = tx
+        .query_row("SELECT COUNT(*) FROM league", [], |row| row.get(0))?;
+
+    if league_count > 0 {
+        // Create a competition record from the legacy league
+        tx.execute(
+            "INSERT OR IGNORE INTO competitions (id, name, region, tier)
+             SELECT id, name, '', 1 FROM league LIMIT 1",
+            [],
+        )?;
+
+        // Backfill competition_id in fixtures from league.id
+        tx.execute(
+            "UPDATE fixtures SET competition_id = (SELECT id FROM league LIMIT 1)
+             WHERE competition_id = ''",
+            [],
+        )?;
+
+        // Backfill competition_id in standings from league.id
+        tx.execute(
+            "UPDATE standings SET competition_id = (SELECT id FROM league LIMIT 1)
+             WHERE competition_id = ''",
+            [],
+        )?;
+
+        log::info!("[migration] V52: backfilled competition_id from legacy league");
+    }
+
+    log::info!("[migration] V52: multi-competition schema applied");
+    Ok(())
+}
+
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 55;
+pub const MIGRATION_COUNT: usize = 53;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -329,7 +368,7 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v012_fixture_competition.sql")),
         // V13: Player long-term fitness value
         M::up(include_str!("sql/v013_player_fitness.sql")),
-        // V14: Legacy: explicit national identity fields for teams and people
+        // V14: Explicit football identity fields for teams and people
         M::up(include_str!("sql/v014_football_identity.sql")),
         // V15: Historical player and team match stats
         M::up(include_str!("sql/v015_match_stats_history.sql")),
@@ -378,18 +417,18 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up_with_hook("SELECT 1;", migrate_stadium_to_arena),
         // V36: Rename stadium_capacity to stadium_capacity for LoL terminology
         M::up_with_hook("SELECT 1;", migrate_stadium_to_arena_capacity),
-        // V37: Rename legacy stat tables to _deprecated_ prefix
+        // V37: Rename legacy football stat tables to _deprecated_ prefix
         M::up(include_str!("sql/v037_rename_legacy_stats.sql")),
         // V38: Drop deprecated legacy stat tables
         M::up(include_str!("sql/v038_drop_deprecated_stats.sql")),
-        // V39: Remove football_nation column from players, managers, staff (legacy)
+        // V39: Remove football_nation column from players, managers, staff
         // Recreates tables via CREATE TABLE AS (SQLite lacks DROP COLUMN)
         M::up_with_hook("SELECT 1;", migrate_drop_football_nation),
-        // V40: Audit legacy columns in teams (non-destructive)
+        // V40: Audit football legacy columns in teams (non-destructive)
         M::up_with_hook("SELECT 1;", migrate_audit_teams_legacy),
         // V41: Add team_roles column (replaces match_roles)
         M::up(include_str!("sql/v041_team_roles.sql")),
-        // V42: Drop dead columns from teams table (football_nation legacy, match_roles, nationality_code)
+        // V42: Drop dead columns from teams table (football_nation, match_roles, nationality_code)
         M::up_with_hook("SELECT 1;", migrate_v42_drop_dead_team_columns),
         // V43: Add bans_json column to lol_player_match_stats for ban rate
         M::up(include_str!("sql/v043_add_bans_column.sql")),
@@ -409,12 +448,9 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v036_social_registry.sql")),
         // V51: Add missing scrim columns to teams table (weekly_scrim_plan_team_ids, scrim_weekly_slots, scrim_reputation, scrim_weekly_cancellations)
         M::up_with_hook("SELECT 1;", migrate_missing_scrim_columns),
-        // V52: Reserved — no-op (originally planned for season_context)
-        M::up("SELECT 1;"),
-        // V53: Drop formation column from teams table (formation no longer used)
-        M::up(include_str!("sql/v053_remove_formation.sql")),
-        // V54: Rename play_style column to draft_strategy
-        M::up(include_str!("sql/v054_rename_play_style_to_draft_strategy.sql")),
+        // V52: Multi-competition schema — competitions + seasons tables,
+        // competition_id on fixtures/standings, backfill from legacy league
+        M::up_with_hook("SELECT 1;", migrate_multi_competitions),
     ])
 }
 
@@ -493,6 +529,14 @@ mod tests {
         assert!(
             tables.contains(&"scouting_assignments".to_string()),
             "missing scouting_assignments"
+        );
+        assert!(
+            tables.contains(&"competitions".to_string()),
+            "missing competitions"
+        );
+        assert!(
+            tables.contains(&"seasons".to_string()),
+            "missing seasons"
         );
     }
 
