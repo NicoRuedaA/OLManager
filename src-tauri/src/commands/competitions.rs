@@ -1,5 +1,6 @@
 use domain::staff::Staff;
 use log::info;
+use serde::Serialize;
 use ofm_core::generator::definitions::{
     CompetitionManifest, CompetitionSummary, LeagueSelectionData, PlayerDataFile, StaffDataFile,
     TeamDataFile, TeamSummary,
@@ -59,6 +60,8 @@ pub fn scan_competitions(app_handle: &tauri::AppHandle) -> Vec<CompetitionManife
         }
     };
 
+    let data_base = resolve_data_base(app_handle);
+
     let mut manifests = Vec::new();
     for entry in entries.flatten() {
         let path = entry.path();
@@ -72,8 +75,25 @@ pub fn scan_competitions(app_handle: &tauri::AppHandle) -> Vec<CompetitionManife
         match std::fs::read_to_string(&manifest_path) {
             Ok(json) => match serde_json::from_str::<CompetitionManifest>(&json) {
                 Ok(manifest) => {
+                    // Validate manifest
+                    if let Some(ref data_base) = data_base {
+                        let validation = validate_competition_manifest(&manifest, data_base);
+                        if !validation.valid {
+                            info!(
+                                "[competitions] SKIPPED '{}' — validation failed: {:?}",
+                                manifest.id, validation.errors
+                            );
+                            continue;
+                        }
+                        if !validation.warnings.is_empty() {
+                            for w in &validation.warnings {
+                                info!("[competitions] WARNING '{}': {}", manifest.id, w);
+                            }
+                        }
+                    }
+
                     info!(
-                        "[competitions] loaded manifest: {} ({})",
+                        "[competitions] loaded + validated manifest: {} ({})",
                         manifest.id, manifest.name
                     );
                     manifests.push(manifest);
@@ -112,8 +132,123 @@ pub fn load_competition_manifest(
 }
 
 // ---------------------------------------------------------------------------
-// Team / Player data loading
+// Manifest validation
 // ---------------------------------------------------------------------------
+
+/// Validation errors for a competition manifest.
+#[derive(Debug, Clone, Serialize)]
+pub struct ManifestValidation {
+    pub id: String,
+    pub name: String,
+    pub tier: Option<u8>,
+    pub version: Option<u32>,
+    pub valid: bool,
+    pub errors: Vec<String>,
+    pub warnings: Vec<String>,
+}
+
+/// Validate a competition manifest against tier requirements.
+/// Returns a list of errors (fatal) and warnings (advisory).
+pub fn validate_competition_manifest(
+    manifest: &CompetitionManifest,
+    data_base: &std::path::Path,
+) -> ManifestValidation {
+    let mut errors: Vec<String> = Vec::new();
+    let mut warnings: Vec<String> = Vec::new();
+
+    let tier = manifest.tier.unwrap_or(2);
+
+    // General checks (all tiers)
+    if manifest.id.is_empty() {
+        errors.push("id is empty".to_string());
+    }
+    if manifest.name.is_empty() {
+        errors.push("name is empty".to_string());
+    }
+    if manifest.schedule.splits.is_empty() {
+        errors.push("schedule.splits is empty — must define at least one split".to_string());
+    }
+    if manifest.schedule.team_count == 0 {
+        errors.push("schedule.team_count must be > 0".to_string());
+    }
+
+    // Tier 1 checks: MUST have real teams + players + scheduling rules
+    if tier >= 1 {
+        // teams_file must exist
+        let teams_path = data_base.join(&manifest.teams_file);
+        if !teams_path.exists() {
+            errors.push(format!(
+                "teams_file '{}' not found at {:?}",
+                manifest.teams_file, teams_path
+            ));
+        }
+
+        // players_file must exist
+        let players_path = data_base.join(&manifest.players_file);
+        if !players_path.exists() {
+            errors.push(format!(
+                "players_file '{}' not found at {:?}",
+                manifest.players_file, players_path
+            ));
+        }
+
+        // schedule must define a known format
+        let known_formats = [
+            "double_round_robin",
+            "single_round_robin",
+            "swiss",
+            "groups",
+        ];
+        if !known_formats.contains(&manifest.schedule.format.as_str()) {
+            warnings.push(format!(
+                "schedule.format '{}' is not a known format — calendar generation may fail",
+                manifest.schedule.format
+            ));
+        }
+
+        // Check team_count matches actual teams file (best-effort, not fatal)
+        if teams_path.exists() {
+            if let Ok(json) = std::fs::read_to_string(&teams_path) {
+                if let Ok(data) = serde_json::from_str::<TeamDataFile>(&json) {
+                    if data.teams.len() as u32 != manifest.schedule.team_count {
+                        warnings.push(format!(
+                            "schedule.team_count ({}) does not match actual teams in '{}' ({})",
+                            manifest.schedule.team_count,
+                            manifest.teams_file,
+                            data.teams.len()
+                        ));
+                    }
+                }
+            }
+        }
+    } else {
+        // Tier 2+: warn if referenced files don't exist (not fatal)
+        let teams_path = data_base.join(&manifest.teams_file);
+        if !teams_path.exists() {
+            warnings.push(format!(
+                "teams_file '{}' not found — Tier 2 competition may be incomplete",
+                manifest.teams_file
+            ));
+        }
+        let players_path = data_base.join(&manifest.players_file);
+        if !players_path.exists() {
+            warnings.push(format!(
+                "players_file '{}' not found — Tier 2 competition may be incomplete",
+                manifest.players_file
+            ));
+        }
+    }
+
+    ManifestValidation {
+        id: manifest.id.clone(),
+        name: manifest.name.clone(),
+        tier: manifest.tier,
+        version: manifest.version,
+        valid: errors.is_empty(),
+        errors,
+        warnings,
+    }
+}
 
 /// Resolve the base `data/` directory for runtime file reads.
 /// Order: resource_dir → cwd/../data/ (project root) → cwd/data/ → cwd/src-tauri/data/
@@ -209,6 +344,70 @@ pub fn load_staff_free_agents(
     let data: StaffDataFile = serde_json::from_str(&json)
         .map_err(|e| format!("Failed to parse staff data: {}", e))?;
     Ok(data.staff)
+}
+
+// ---------------------------------------------------------------------------
+// Validation report (Tauri command)
+// ---------------------------------------------------------------------------
+
+/// Returns validation reports for all competition manifests.
+/// Useful for debugging manifest issues.
+#[tauri::command]
+pub fn validate_all_competitions(
+    app_handle: tauri::AppHandle,
+) -> Vec<ManifestValidation> {
+    let manifests = scan_competitions_raw(&app_handle);
+    let data_base = resolve_data_base(&app_handle);
+
+    manifests
+        .into_iter()
+        .map(|manifest| {
+            if let Some(ref data_base) = data_base {
+                validate_competition_manifest(&manifest, data_base)
+            } else {
+                ManifestValidation {
+                    id: manifest.id,
+                    name: manifest.name,
+                    tier: manifest.tier,
+                    version: manifest.version,
+                    valid: false,
+                    errors: vec!["Data directory not found.".to_string()],
+                    warnings: vec![],
+                }
+            }
+        })
+        .collect()
+}
+
+/// Scan manifest files WITHOUT validation (used for validation reporting).
+fn scan_competitions_raw(app_handle: &tauri::AppHandle) -> Vec<CompetitionManifest> {
+    let base = match resolve_competitions_base(app_handle) {
+        Some(b) => b,
+        None => return vec![],
+    };
+
+    let entries = match std::fs::read_dir(&base) {
+        Ok(e) => e,
+        Err(_) => return vec![],
+    };
+
+    let mut manifests = Vec::new();
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if !path.is_dir() {
+            continue;
+        }
+        let manifest_path = path.join("manifest.json");
+        if !manifest_path.exists() {
+            continue;
+        }
+        if let Ok(json) = std::fs::read_to_string(&manifest_path) {
+            if let Ok(manifest) = serde_json::from_str::<CompetitionManifest>(&json) {
+                manifests.push(manifest);
+            }
+        }
+    }
+    manifests
 }
 
 // ---------------------------------------------------------------------------

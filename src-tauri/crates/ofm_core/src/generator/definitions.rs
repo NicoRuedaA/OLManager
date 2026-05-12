@@ -144,6 +144,8 @@ pub struct WorldData {
 /// Top-level manifest for a single competition (league / tournament).
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CompetitionManifest {
+    #[serde(default)]
+    pub version: Option<u32>,
     pub id: String,
     pub name: String,
     #[serde(default)]
