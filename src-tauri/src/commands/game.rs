@@ -2330,6 +2330,23 @@ pub async fn select_team(
         let competition_id = competition_id_from_team_id(&team_id)
             .ok_or_else(|| format!("Invalid team ID format '{}': missing competition prefix", team_id))?;
 
+        // Validate competition is playable (Tier 1)
+        let manifest = crate::commands::competitions::load_competition_manifest(&app_handle, competition_id)
+            .map_err(|_| format!("Competition '{}' not found or not supported", competition_id))?;
+        let tier = manifest.tier.unwrap_or(0);
+        if tier < 1 {
+            return Err(format!(
+                "Competition '{}' is Tier {} — only Tier 1 competitions are playable",
+                manifest.name, tier
+            ));
+        }
+        if manifest.teams_file.is_empty() || manifest.players_file.is_empty() {
+            return Err(format!(
+                "Competition '{}' is missing required data files",
+                manifest.name
+            ));
+        }
+
         // Assemble teams, players, staff from modular data
         let (assembled_teams, assembled_players, assembled_staff) =
             assemble_world_from_modular_data(&app_handle, competition_id, &team_id)?;
