@@ -1,10 +1,10 @@
 {
   "id": "lfl",
   "name": "LFL",
-  "full_name": "La Ligue Française (French ERL)",
+  "full_name": "La Ligue Fran\u00c3\u00a7aise (French ERL)",
   "region": "LFL",
   "country": "FR",
-  "tier": 1,
+  "tier": 2,
   "logo": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778617587308_rpikj120jkd.webp",
   "teams_file": "teams/lfl_teams.json",
   "players_file": "players/lfl_players.json",

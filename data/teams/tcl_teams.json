@@ -166,7 +166,7 @@
     {
       "city": "Istanbul",
       "colors": {
-        "secondary": null
+        "secondary": "#000000"
       },
       "country": "TR",
       "finance": 100000,
