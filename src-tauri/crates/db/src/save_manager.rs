@@ -9,7 +9,7 @@ use std::sync::{Arc, Mutex};
 use domain::player::{LolRole, Player};
 use ofm_core::game::Game;
 use ofm_core::player_identity;
-use ofm_core::player_rating::{effective_rating_for_assignment, formation_slots};
+use ofm_core::player_rating::effective_rating_for_assignment;
 
 use crate::game_database::GameDatabase;
 use crate::game_persistence::{GamePersistenceReader, GamePersistenceWriter};
@@ -234,7 +234,7 @@ impl SaveManager {
 
         if league_repo::needs_cleanup(
             db.conn(),
-            game.league.as_ref().map(|league| league.id.as_str()),
+            game.leagues.first().map(|league| league.id.as_str()),
         )? {
             info!(
                 "[save_manager] cleaning stale league rows for save {}",
@@ -323,8 +323,8 @@ impl SaveManager {
             player.transfer_offers.clear();
         }
 
-        // Clear league (will be regenerated)
-        game.league = None;
+        // Clear leagues (will be regenerated)
+        game.leagues.clear();
 
         info!(
             "[save_manager] created new game template from save {}",
@@ -354,57 +354,14 @@ fn canonicalize_team_active_lineup_ids(
     team: &mut domain::team::Team,
     players_by_id: &HashMap<String, Player>,
 ) -> bool {
-    let row_lengths = formation_row_lengths(&team.formation);
-    let slots = formation_slots(&team.formation);
-    let mut row_start_index = 0;
-    let mut changed = false;
-
-    for row_length in row_lengths {
-        if row_length < 2 {
-            row_start_index += row_length;
-            continue;
-        }
-
-        let left_index = row_start_index;
-        let right_index = row_start_index + row_length - 1;
-        let left_slot = slots.get(left_index);
-        let right_slot = slots.get(right_index);
-
-        row_start_index += row_length;
-
-        let (Some(left_slot), Some(right_slot)) = (left_slot, right_slot) else {
-            continue;
-        };
-
-        if !is_mirrored_side_pair(left_slot, right_slot) {
-            continue;
-        }
-
-        let left_player = team
-            .active_lineup_ids
-            .get(left_index)
-            .and_then(|id| players_by_id.get(id));
-        let right_player = team
-            .active_lineup_ids
-            .get(right_index)
-            .and_then(|id| players_by_id.get(id));
-
-        let (Some(left_player), Some(right_player)) = (left_player, right_player) else {
-            continue;
-        };
-
-        let current_fit = effective_rating_for_assignment(left_player, left_slot)
-            + effective_rating_for_assignment(right_player, right_slot);
-        let swapped_fit = effective_rating_for_assignment(left_player, right_slot)
-            + effective_rating_for_assignment(right_player, left_slot);
-
-        if swapped_fit > current_fit {
-            team.active_lineup_ids.swap(left_index, right_index);
-            changed = true;
-        }
-    }
-
-    changed
+    // In the LoL-native model, team lineup is managed via active_lineup_ids
+    // directly rather than formation-based slot assignment.
+    // Ensure the lineup doesn't contain duplicate or invalid player IDs.
+    let original_len = team.active_lineup_ids.len();
+    team.active_lineup_ids.retain(|pid| players_by_id.contains_key(pid));
+    team.active_lineup_ids.sort();
+    team.active_lineup_ids.dedup();
+    team.active_lineup_ids.len() != original_len
 }
 
 fn formation_row_lengths(formation: &str) -> Vec<usize> {

@@ -33,7 +33,7 @@ pub fn upsert_competition(conn: &Connection, league: &League) -> Result<(), Stri
 
     // Insert fixtures
     for f in &league.fixtures {
-        let competition_str = format!("{:?}", f.competition);
+        let competition_str = format!("{:?}", f.match_type);
         let status_str = format!("{:?}", f.status);
         let result_json = f
             .result
@@ -69,10 +69,10 @@ pub fn upsert_competition(conn: &Connection, league: &League) -> Result<(), Stri
                 s.team_id,
                 s.played,
                 s.won,
-                s.drawn,
+                0_i32,       // drawn: no longer tracked in domain model
                 s.lost,
-                s.kills_for,
-                s.kills_against,
+                s.maps_won,
+                s.maps_lost,
                 s.points,
                 cid,
             ],
@@ -104,12 +104,14 @@ pub fn load_competition(conn: &Connection, competition_id: &str) -> Result<Optio
     let fixtures = load_fixtures(conn, &id)?;
     let standings = load_standings(conn, &id)?;
 
+    let cid = id.clone();
     Ok(Some(League {
         id,
         name,
         season: 0, // season is stored separately in seasons table
         fixtures,
         standings,
+        competition_id: Some(cid),
     }))
 }
 
@@ -128,14 +130,16 @@ pub fn load_competitions(conn: &Connection) -> Result<Vec<League>, String> {
     let mut leagues = Vec::new();
     for row in rows {
         let (id, name) = row.map_err(|e| format!("Failed to read competition row: {}", e))?;
-        let fixtures = load_fixtures(conn, &id)?;
-        let standings = load_standings(conn, &id)?;
+        let cid = id.clone();
+        let fixtures = load_fixtures(conn, &cid)?;
+        let standings = load_standings(conn, &cid)?;
         leagues.push(League {
             id,
             name,
             season: 0,
             fixtures,
             standings,
+            competition_id: Some(cid),
         });
     }
 
@@ -186,7 +190,7 @@ fn load_fixtures(conn: &Connection, competition_id: &str) -> Result<Vec<Fixture>
                 date: row.get(2)?,
                 home_team_id: row.get(3)?,
                 away_team_id: row.get(4)?,
-                competition: league_repo::parse_fixture_competition(&competition_str),
+                match_type: league_repo::parse_fixture_competition(&competition_str),
                 best_of: row.get(6)?,
                 status: league_repo::parse_fixture_status(&status_str),
                 result: result_json.and_then(|j| serde_json::from_str(&j).ok()),
@@ -215,10 +219,9 @@ fn load_standings(conn: &Connection, competition_id: &str) -> Result<Vec<Standin
                 team_id: row.get(0)?,
                 played: row.get(1)?,
                 won: row.get(2)?,
-                drawn: row.get(3)?,
                 lost: row.get(4)?,
-                kills_for: row.get(5)?,
-                kills_against: row.get(6)?,
+                maps_won: row.get(5)?,
+                maps_lost: row.get(6)?,
                 points: row.get(7)?,
             })
         })
