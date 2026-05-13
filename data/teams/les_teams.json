@@ -118,7 +118,15 @@
       "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778620569280_291twpop3ok.webp",
       "id": "team-854f6893",
       "name": "GiantX Itero",
-      "short_name": "GXI"
+      "short_name": "GXI",
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "id": "team-129835c5",
@@ -292,7 +300,15 @@
       "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778620576682_tbzurlej70i.webp",
       "id": "team-ac846213",
       "name": "UB Alma Mater",
-      "short_name": "UAM"
+      "short_name": "UAM",
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "id": "team-f10b156f",

@@ -26,13 +26,18 @@
       "id": "22044a11-9896-4414-a10a-e7a220d949c4",
       "name": "Dark Passage",
       "short_name": "DP",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447149159_e0exxrbok8u.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447149159_e0exxrbok8u.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
       "country": "TR",
       "finance": 150000,
-      "data.city": "Istanbul",
       "team_kind": "Main",
       "facilities": {
         "medical": 1,
@@ -54,7 +59,13 @@
       "id": "2dfea661-3fe3-4d6f-9fe8-4929d13dfb57",
       "name": "BoostGate Esports",
       "short_name": "BGT",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778592232426_1n8d7tqg3lx.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778592232426_1n8d7tqg3lx.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -80,7 +91,13 @@
       "id": "db0a5701-c0d4-4efd-8f3d-5a766b851dd8",
       "name": "Misa Esports",
       "short_name": "MISA",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447313156_g2co29xxsj9.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447313156_g2co29xxsj9.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -106,7 +123,13 @@
       "id": "45d91ccc-a6c5-440e-a679-56376cfe50c8",
       "name": "Ozarox Esports",
       "short_name": "OZO",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778592372475_ak0gmt4oqs.png"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778592372475_ak0gmt4oqs.png",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -132,7 +155,13 @@
       "id": "619f80b8-9d91-4029-a2dd-ac9542dd3f67",
       "name": "SU Esports",
       "short_name": "SU",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447631678_9nlieezt8wc.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447631678_9nlieezt8wc.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -161,7 +190,13 @@
       "id": "5af10d06-7e0f-4f4e-bed6-41535ebf9577",
       "name": "PCIFIC Esports",
       "short_name": "PCF",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778486522026_oka4hcr34pr.png"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778486522026_oka4hcr34pr.png",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -185,7 +220,13 @@
       "id": "c90914b1-459c-4f60-9402-098aface7c5f",
       "name": "Bushido Wildcats",
       "short_name": "BW",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778444882834_et0jbx7raj.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778444882834_et0jbx7raj.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "city": "Istanbul",
@@ -211,7 +252,13 @@
       "id": "e53ba799-4896-4970-a5b5-435b35b01443",
       "name": "Team Phoenix",
       "short_name": "PHX",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447691042_qlu1qwxmq0h.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778447691042_qlu1qwxmq0h.webp",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     }
   ]
 }

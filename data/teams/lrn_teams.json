@@ -11,13 +11,28 @@
       "id": "df69c13a-1c2f-4b14-8154-186cb35d932c",
       "name": "Fuego",
       "short_name": "FUE",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778442363338_9uiem3eeebi.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778442363338_9uiem3eeebi.webp",
+      "city": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "id": "7a6f6ac7-801b-40fe-a55c-5a469020a2c5",
       "name": "Polar Squad Esport",
       "short_name": "PLS",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778522746302_m3uv8pjeb3.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778522746302_m3uv8pjeb3.webp",
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "colors": {
@@ -26,7 +41,15 @@
       "id": "4cbd0eaf-a8f3-44bf-8263-0c4bae290456",
       "name": "NCG Esports",
       "short_name": "NCG",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778505286605_dfpq3ims83.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778505286605_dfpq3ims83.webp",
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "colors": {
@@ -37,14 +60,28 @@
       "id": "4d30ca42-cae6-44e6-a92a-162cf08183dc",
       "name": "SDM Tigres",
       "short_name": "SDM",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778525511226_63mroaugisq.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778525511226_63mroaugisq.webp",
+      "city": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "country": "Colombia",
       "id": "9085df4d-ba33-4743-9466-aa06cd83d795",
       "name": "Zeu5 Esport",
       "short_name": "Z5",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778506372868_whlz65f5nm.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778506372868_whlz65f5nm.webp",
+      "city": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "colors": {
@@ -53,7 +90,15 @@
       "id": "e995ef88-2e14-4fe0-a4c4-b644bd453fd2",
       "name": "LYON Academy",
       "short_name": "LYON",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778509301517_p9vxpt668lb.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778509301517_p9vxpt668lb.webp",
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "colors": {
@@ -63,14 +108,28 @@
       "id": "bc375203-1484-40a5-8787-30ffad1a1e22",
       "name": "G3V E-sports",
       "short_name": "G3V",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778502097958_yd05u7jgee.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778502097958_yd05u7jgee.webp",
+      "city": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     },
     {
       "country": "MX",
       "id": "fd0fd26c-9edf-4064-8eef-2ef818fcdd1e",
       "name": "Icon Esports",
       "short_name": "ICON",
-      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778585156935_sa4z7v5y21.webp"
+      "logo_url": "https://gfllmaxmiuyqnlbabwsx.supabase.co/storage/v1/object/public/entity-images/uploads/1778585156935_sa4z7v5y21.webp",
+      "city": "",
+      "arena_name": "",
+      "history": [],
+      "form": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": []
     }
   ]
 }
