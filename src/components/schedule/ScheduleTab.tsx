@@ -121,9 +121,18 @@ export default function ScheduleTab({
     );
   }
 
+  // Fixtures for the player's league (list view + standings)
   const fixturesForDisplay = league.fixtures;
   const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.match_type === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
+
+  // All fixtures from ALL competitions (calendar view)
+  const allFixtures = gameState.leagues.flatMap((l) => l.fixtures);
+  // Map fixture_id -> competition name for display
+  const competitionLabelMap = new Map<string, string>();
+  gameState.leagues.forEach((l) => {
+    l.fixtures.forEach((f) => competitionLabelMap.set(f.id, l.name));
+  });
 
   // Group fixtures by matchday
   const matchdays = new Map<string, FixtureData[]>();
@@ -211,7 +220,8 @@ export default function ScheduleTab({
       {view === "calendar" && (
         <ScheduleCalendarView
           gameState={gameState}
-          fixtures={fixturesForDisplay}
+          fixtures={allFixtures}
+          competitionLabelMap={competitionLabelMap}
           onOpenFixtureResult={(stored) => setFixtureResultView(stored)}
         />
       )}
