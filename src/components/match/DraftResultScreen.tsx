@@ -352,7 +352,7 @@ export default function DraftResultScreen({
         <section className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-4">
           <aside className="space-y-4 order-2">
             <div className="rounded-xl border border-yellow-400/25 bg-[#0a1433] p-4">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-yellow-300">{t("match.draftResult.bestOfMatch")}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-yellow-300">{t("match.draftResult.bestOfMatch")}</p>
               <div className="mt-3 flex items-center gap-3">
                 {mvpPhoto ? (
                   <img
@@ -378,7 +378,7 @@ export default function DraftResultScreen({
             {controlledPrepInsight ? (
               <div className="rounded-xl border border-emerald-400/25 bg-emerald-500/10 p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-emerald-200">
+                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">
                     {t(controlledPrepInsight.title.key, { defaultValue: controlledPrepInsight.title.defaultValue })}
                   </p>
                   <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2 py-0.5 text-xs font-bold text-emerald-100">
@@ -396,7 +396,7 @@ export default function DraftResultScreen({
                   {controlledPrepInsight.details.map((detail) => (
                     <span
                       key={detail.key}
-                      className="rounded-full border border-white/10 bg-black/20 px-2 py-1 text-[11px] text-emerald-100"
+                      className="rounded-full border border-white/10 bg-black/20 px-2 py-1 text-xs text-emerald-100"
                     >
                       {t(detail.key, {
                         ...detail.values,
@@ -412,18 +412,18 @@ export default function DraftResultScreen({
             <div className="overflow-hidden rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200">{t("match.draftResult.goldAdvantage")}</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-cyan-200">{t("match.draftResult.goldAdvantage")}</p>
                   <p className="mt-1 text-xs text-gray-400">
                     {t("match.draftResult.duration")}: {selectedResult.durationMinutes}m
                   </p>
-                  <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400" aria-label={goldAxisLabel}>
+                  <p className="mt-1 text-2xs font-bold uppercase tracking-[0.14em] text-gray-400" aria-label={goldAxisLabel}>
                     <span className="text-cyan-200">+ {blueTri}</span>
                     <span className="mx-1 text-gray-600">·</span>
                     <span className="text-orange-200">- {redTri}</span>
                   </p>
                 </div>
                 <div className={`rounded-lg border px-3 py-2 text-right ${leadingSide === "red" ? "border-orange-400/35 bg-orange-500/10" : leadingSide === "blue" ? "border-cyan-400/35 bg-cyan-500/10" : "border-white/15 bg-white/5"}`}>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-gray-400">{t("match.draftResult.finalGold")}</p>
+                  <p className="text-2xs uppercase tracking-[0.18em] text-gray-400">{t("match.draftResult.finalGold")}</p>
                   <p className={`font-heading text-lg font-black ${leadingSide === "red" ? "text-orange-200" : leadingSide === "blue" ? "text-cyan-200" : "text-gray-200"}`}>
                     {leadingTri ? `${leadingTri} +${formatGoldDiff(finalGoldDiff)}` : t("match.draftResult.evenGold")}
                   </p>
@@ -431,7 +431,7 @@ export default function DraftResultScreen({
               </div>
 
               <div className="mt-4 rounded-xl border border-white/10 bg-[#061126] p-3 shadow-inner shadow-black/30">
-                <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.18em]">
+                <div className="mb-2 flex items-center justify-between text-2xs font-bold uppercase tracking-[0.18em]">
                   <span className="text-cyan-200">{blueTri}</span>
                   <span className="text-gray-500">+{formatGoldDiff(maxAbsGold)}</span>
                 </div>
@@ -508,7 +508,7 @@ export default function DraftResultScreen({
                     />
                   ) : null}
                 </svg>
-                <div className="mt-1 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.18em]">
+                <div className="mt-1 flex items-center justify-between text-2xs font-bold uppercase tracking-[0.18em]">
                   <span className="text-gray-500">0m</span>
                   <span className="text-gray-500">-{formatGoldDiff(maxAbsGold)}</span>
                   <span className="text-orange-200">{redTri}</span>
@@ -517,13 +517,13 @@ export default function DraftResultScreen({
 
               <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
                 <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500">{t("match.draftResult.peakGold")}</p>
+                  <p className="text-2xs uppercase tracking-[0.16em] text-gray-500">{t("match.draftResult.peakGold")}</p>
                   <p className={`mt-1 font-bold ${peakGoldDiff.diff < 0 ? "text-orange-200" : "text-cyan-200"}`}>
                     {(peakGoldDiff.diff < 0 ? redTri : blueTri)} +{formatGoldDiff(peakGoldDiff.diff)} · {peakGoldDiff.minute}m
                   </p>
                 </div>
                 <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-gray-500">{t("match.draftResult.goldScale")}</p>
+                  <p className="text-2xs uppercase tracking-[0.16em] text-gray-500">{t("match.draftResult.goldScale")}</p>
                   <p className="mt-1 font-bold text-gray-200">±{formatGoldDiff(maxAbsGold)}</p>
                 </div>
               </div>
@@ -570,7 +570,7 @@ export default function DraftResultScreen({
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
               <div className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 self-start">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{blueTri}</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200 mb-3">{blueTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {blueRows.map((row) => {
                     const icon = resolvePlayerPhoto(row.playerId, row.playerName);
@@ -592,9 +592,8 @@ export default function DraftResultScreen({
                   })}
                 </div>
               </div>
-
               <div className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 self-start">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-200 mb-3">{redTri}</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200 mb-3">{redTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {redRows.map((row) => {
                     const icon = resolvePlayerPhoto(row.playerId, row.playerName);
@@ -618,13 +617,13 @@ export default function DraftResultScreen({
               </div>
             </div>
 
-          <section className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 flex-1 w-full flex flex-col">
-            <p className="text-sm uppercase tracking-[0.2em] text-cyan-200 mb-3 text-center">{t("match.draftResult.gameTimeline")}</p>
-            <div className="space-y-2 flex flex-col flex-1 overflow-hidden">
-              <div className="h-px bg-white/10 shrink-0" />
-              {renderTimeline()}
-            </div>
-          </section>
+            <section className="rounded-xl border border-cyan-400/25 bg-[#0a1433] p-4 flex-1 w-full flex flex-col">
+              <p className="text-sm uppercase tracking-[0.2em] text-cyan-200 mb-3 text-center">{t("match.draftResult.gameTimeline")}</p>
+              <div className="space-y-2 flex flex-col flex-1 overflow-hidden">
+                <div className="h-px bg-white/10 shrink-0" />
+                {renderTimeline()}
+              </div>
+            </section>
           </div>
         </section>
       </div>

@@ -130,17 +130,17 @@ export default function ScrimPlanningCard({
         </p>
 
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-gray-300 dark:border-navy-600 px-2.5 py-1 text-[11px] font-heading uppercase tracking-wide text-gray-600 dark:text-gray-300">
+          <span className="rounded-full border border-gray-300 dark:border-navy-600 px-2.5 py-1 text-xs font-heading uppercase tracking-wide text-gray-600 dark:text-gray-300">
             {t("training.scrims.weekCapacity")}: {slots}
           </span>
-          <span className="rounded-full border border-gray-300 dark:border-navy-600 px-2.5 py-1 text-[11px] font-heading uppercase tracking-wide text-gray-600 dark:text-gray-300">
+          <span className="rounded-full border border-gray-300 dark:border-navy-600 px-2.5 py-1 text-xs font-heading uppercase tracking-wide text-gray-600 dark:text-gray-300">
             {t("training.scrims.lossStreak")}: {streak}
           </span>
           <button
             type="button"
             disabled={isSaving || readOnly || !weeklyContext.slots.every((slot) => slot.canEdit)}
             onClick={autofillPlansFromObjective}
-            className="inline-flex items-center gap-1 rounded-full border border-gray-300 px-2.5 py-1 text-[11px] font-heading uppercase tracking-wide text-gray-600 transition-colors hover:border-gray-400 disabled:opacity-60 dark:border-navy-600 dark:text-gray-300 dark:hover:border-navy-500"
+            className="inline-flex items-center gap-1 rounded-full border border-gray-300 px-2.5 py-1 text-xs font-heading uppercase tracking-wide text-gray-600 transition-colors hover:border-gray-400 disabled:opacity-60 dark:border-navy-600 dark:text-gray-300 dark:hover:border-navy-500"
           >
             <WandSparkles className="h-3.5 w-3.5" />
             Rellenar por objetivo
@@ -168,7 +168,7 @@ export default function ScrimPlanningCard({
                       <CalendarDays className="h-4 w-4" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-gray-400">
+                      <p className="text-2xs font-heading font-bold uppercase tracking-wider text-gray-400">
                         {t("training.scrims.slot", "Slot")} {index + 1}
                       </p>
                       <p className="truncate font-heading text-sm font-bold uppercase tracking-wide text-gray-900 dark:text-white">
@@ -190,12 +190,12 @@ export default function ScrimPlanningCard({
                     ) : null}
                     {hasResult ? (
                       <span
-                        className={`rounded-full border px-2.5 py-1 text-[10px] font-heading font-bold uppercase tracking-wide ${slotContext?.resultWon ? "border-emerald-400/40 bg-emerald-500/15 text-emerald-300" : "border-rose-400/40 bg-rose-500/15 text-rose-300"}`}
+                        className={`rounded-full border px-2.5 py-1 text-2xs font-heading font-bold uppercase tracking-wide ${slotContext?.resultWon ? "border-emerald-400/40 bg-emerald-500/15 text-emerald-300" : "border-rose-400/40 bg-rose-500/15 text-rose-300"}`}
                       >
                         {slotContext?.resultWon ? "Win" : "Loss"}
                       </span>
                     ) : (
-                      <span className="rounded-full border border-gray-200 px-2.5 py-1 text-[10px] font-heading font-bold uppercase tracking-wide text-gray-400 dark:border-navy-600">
+                      <span className="rounded-full border border-gray-200 px-2.5 py-1 text-2xs font-heading font-bold uppercase tracking-wide text-gray-400 dark:border-navy-600">
                         {t("training.scrims.pending", "Pendiente")}
                       </span>
                     )}
@@ -212,7 +212,7 @@ export default function ScrimPlanningCard({
 
                     return (
                       <div key={`scrim-slot-${index}-plan-${priorityIndex}`} className="min-w-0">
-                        <label className="mb-1 flex items-center gap-1 text-[10px] font-heading font-bold uppercase tracking-wider text-gray-400">
+                        <label className="mb-1 flex items-center gap-1 text-2xs font-heading font-bold uppercase tracking-wider text-gray-400">
                           {priorityIndex > 0 ? <ChevronRight className="h-3 w-3" /> : null}
                           {label}
                         </label>

@@ -28,6 +28,7 @@
   /* Typography */
   --font-sans: "Inter", "Avenir", "Helvetica", "Arial", sans-serif;
   --font-heading: "Barlow Condensed", "Inter", "Arial Narrow", sans-serif;
+  --text-2xs: 0.625rem;
 
   /* Primary: Emerald Green */
   --color-primary-50: #ecfdf5;

@@ -25,7 +25,7 @@ export default function TeamProfile({
   const { recentMatches } = useTeamProfileStats(team.id);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       <button
         onClick={onClose}
         className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors mb-4"

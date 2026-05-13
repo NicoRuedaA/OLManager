@@ -315,7 +315,7 @@ export default function MatchLive({
                   }`}
                 >
                   {s.icon}
-                  <span className="text-[10px]">{s.label}</span>
+                  <span className="text-2xs">{s.label}</span>
                 </button>
               ))}
             </div>
@@ -342,7 +342,7 @@ export default function MatchLive({
                 {t('match.subs')} ({userSide === "Home" ? snapshot.home_subs_made : snapshot.away_subs_made}/{snapshot.max_subs})
               </button>
               <div>
-                <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.formation')}</p>
+                <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.formation')}</p>
                 <div className="flex flex-wrap gap-1">
                   {["4-4-2", "4-3-3", "3-5-2", "4-5-1", "4-2-3-1", "3-4-3"].map(f => {
                     const cur = userSide === "Home" ? snapshot.home_team.formation : snapshot.away_team.formation;
@@ -355,7 +355,7 @@ export default function MatchLive({
                 </div>
               </div>
               <div>
-                <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.playStyle')}</p>
+                <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.playStyle')}</p>
                 <div className="flex flex-wrap gap-1">
                   {[
                     { id: "Balanced", icon: <Target className="w-3 h-3" /> },

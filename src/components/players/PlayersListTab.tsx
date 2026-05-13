@@ -163,7 +163,7 @@ export default function PlayersListTab({
   const positions: LolRole[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4 items-center">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
@@ -343,7 +343,7 @@ export default function PlayersListTab({
                             <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
                               {player.match_name}
                             </p>
-                            <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                               {player.full_name}
                             </p>
                           </div>

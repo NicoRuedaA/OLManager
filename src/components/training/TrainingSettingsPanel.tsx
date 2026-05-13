@@ -72,7 +72,7 @@ export default function TrainingSettingsPanel({
                 <p className="font-heading font-bold text-sm uppercase tracking-wider text-gray-800 dark:text-gray-200">
                   {t(`training.schedules.${scheduleId}.label`)}
                 </p>
-                <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {t(`training.schedules.${scheduleId}.desc`)}
                 </p>
               </button>
@@ -123,7 +123,7 @@ export default function TrainingSettingsPanel({
                     {trainingFocusAttrs[focusId].map((attribute) => (
                       <span
                         key={attribute}
-                        className="text-[10px] bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider"
+                        className="text-2xs bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider"
                       >
                         {statLabel(attribute)}
                       </span>
@@ -157,7 +157,7 @@ export default function TrainingSettingsPanel({
                   >
                     {t(`training.intensities.${intensityId}.label`)}
                   </p>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
+                  <p className="text-2xs text-gray-500 dark:text-gray-400 mt-0.5">
                     {t(`training.intensities.${intensityId}.desc`)}
                   </p>
                 </button>

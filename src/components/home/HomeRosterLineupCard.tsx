@@ -164,7 +164,7 @@ export default function HomeRosterLineupCard({
                 ) : null}
 
                 <div className="relative z-10">
-                <p className="text-[10px] font-heading font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <p className="text-2xs font-heading font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {role}
                 </p>
 
@@ -183,16 +183,16 @@ export default function HomeRosterLineupCard({
                     <p className="text-xs font-heading font-bold truncate text-gray-800 dark:text-gray-100">
                       {player?.match_name ?? "—"}
                     </p>
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                    <p className="text-2xs text-gray-500 dark:text-gray-400">
                       {t("common.ovr")} {ovr ?? "—"}
                     </p>
                     {topChampion ? (
-                      <p className="text-[10px] text-primary-300 truncate">{topChampion}</p>
+                      <p className="text-2xs text-primary-300 truncate">{topChampion}</p>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-1 text-[10px]">
+                <div className="mt-2 grid grid-cols-2 gap-1 text-2xs">
                   <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">
                     <p className="text-gray-400">{t("common.condition")}</p>
                     <p className="font-heading font-bold text-primary-400">

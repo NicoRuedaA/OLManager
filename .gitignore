@@ -68,3 +68,18 @@ Thumbs.db
 # Tauri mobile generated files (optional, Tauri v2)
 # =========================
 src-tauri/gen/
+
+# =========================
+# Engram local memory
+# =========================
+.engram/
+
+# =========================
+# Scraper tool
+# =========================
+scraper/
+
+# =========================
+# SDD planning artifacts
+# =========================
+openspec/

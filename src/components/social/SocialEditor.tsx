@@ -870,7 +870,188 @@ function AccountEditor({
                   }}
                 />
                 {team.name}
-              </label>
+              </label>                      <select
+                        value={template.language}
+                        onChange={(event) =>
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id ? { ...entry, language: event.target.value } : entry,
+                            ),
+                          )
+                        }
+                        className="mt-1 w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                      >
+                        <option value="all">all</option>
+                        <option value="es">es</option>
+                        <option value="fr">fr</option>
+                        <option value="de">de</option>
+                        <option value="en">en</option>
+                      </select>
+                    </label>
+                    <label className="text-xs text-gray-500">
+                      slot
+                      <input
+                        value={template.slot}
+                        onChange={(event) =>
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id ? { ...entry, slot: event.target.value } : entry,
+                            ),
+                          )
+                        }
+                        className="mt-1 w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                      />
+                    </label>
+                    <label className="text-xs text-gray-500">
+                      weight
+                      <input
+                        type="number"
+                        min={1}
+                        value={template.weight}
+                        onChange={(event) => {
+                          const nextWeight = Number.parseInt(event.target.value, 10);
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id
+                                ? { ...entry, weight: Number.isFinite(nextWeight) ? Math.max(1, nextWeight) : 1 }
+                                : entry,
+                            ),
+                          );
+                        }}
+                        className="mt-1 w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                      />
+                    </label>
+                  </div>
+                  <input
+                    value={template.author_id ?? ""}
+                    onChange={(event) =>
+                      setTemplates((current) =>
+                        current.map((entry) =>
+                          entry.id === template.id
+                            ? { ...entry, author_id: event.target.value || null }
+                            : entry,
+                        ),
+                      )
+                    }
+                    placeholder="author_id (opcional)"
+                    className="w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                  />
+                  <textarea
+                    value={template.variants.join("\n---\n")}
+                    onChange={(event) =>
+                      setTemplates((current) =>
+                        current.map((entry) =>
+                          entry.id === template.id
+                            ? {
+                                ...entry,
+                                variants: event.target.value
+                                  .split("\n---\n")
+                                  .map((value) => value.trim())
+                                  .filter(Boolean),
+                              }
+                            : entry,
+                        ),
+                      )
+                    }
+                    className="min-h-[88px] w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                  />
+                  <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+                    <label className="text-xs text-gray-500">
+                      requires_stomp
+                      <select
+                        value={
+                          typeof parsedConditions.requires_stomp === "boolean"
+                            ? String(parsedConditions.requires_stomp)
+                            : "any"
+                        }
+                        onChange={(event) => {
+                          const next: TemplateConditions = { ...parsedConditions };
+                          if (event.target.value === "any") delete next.requires_stomp;
+                          else next.requires_stomp = event.target.value === "true";
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id
+                                ? { ...entry, conditions_json: stringifyConditions(next) }
+                                : entry,
+                            ),
+                          );
+                        }}
+                        className="mt-1 w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                      >
+                        <option value="any">any</option>
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                      </select>
+                    </label>
+                    <label className="text-xs text-gray-500">
+                      winner_team_slug
+                      <input
+                        value={parsedConditions.winner_team_slug ?? ""}
+                        onChange={(event) => {
+                          const next: TemplateConditions = {
+                            ...parsedConditions,
+                            winner_team_slug: event.target.value,
+                          };
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id
+                                ? { ...entry, conditions_json: stringifyConditions(next) }
+                                : entry,
+                            ),
+                          );
+                        }}
+                        className="mt-1 w-full rounded border border-gray-300 bg-white px-2 py-1 text-xs text-gray-700 dark:border-navy-500 dark:bg-navy-800 dark:text-gray-200"
+                      />
+                    </label>
+                    <label className="inline-flex items-center gap-1 self-end text-xs text-gray-500">
+                      <input
+                        type="checkbox"
+                        checked={Boolean(parsedConditions.requires_player_name)}
+                        onChange={(event) => {
+                          const next: TemplateConditions = {
+                            ...parsedConditions,
+                            requires_player_name: event.target.checked,
+                          };
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id
+                                ? { ...entry, conditions_json: stringifyConditions(next) }
+                                : entry,
+                            ),
+                          );
+                        }}
+                      />
+                      requires_player_name
+                    </label>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <label className="inline-flex items-center gap-1 text-xs text-gray-500">
+                      <input
+                        type="checkbox"
+                        checked={template.active}
+                        onChange={(event) =>
+                          setTemplates((current) =>
+                            current.map((entry) =>
+                              entry.id === template.id
+                                ? { ...entry, active: event.target.checked }
+                                : entry,
+                            ),
+                          )
+                        }
+                      />
+                      Activo
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setTemplates((current) => current.filter((entry) => entry.id !== template.id))
+                      }
+                      className="rounded-full border border-red-300 px-2 py-0.5 text-2xs font-bold uppercase tracking-wider text-red-500"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
             );
           })}
         </div>

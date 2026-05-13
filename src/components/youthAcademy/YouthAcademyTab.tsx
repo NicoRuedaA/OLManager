@@ -236,7 +236,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
             <div className="text-center">
               <Users className="w-5 h-5 text-gray-400 dark:text-gray-500 mx-auto mb-1" />
               <p className="font-heading font-bold text-2xl text-gray-800 dark:text-gray-100">{youthPlayers.length}</p>
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider">
+              <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider">
                 {t("youthAcademy.academyPlayersStartingMayus")}
               </p>
             </div>
@@ -250,7 +250,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
               <div className="w-full max-w-[120px] mx-auto mt-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
                 <div className="h-full rounded-full bg-accent-400" style={{ width: `${avgOvr}%` }} />
               </div>
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
+              <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
                 {t("youthAcademy.avgOvr")}
               </p>
             </div>
@@ -272,7 +272,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                   <div className="h-full rounded-full bg-green-500" style={{ width: `${avgPotential}%` }} />
                 </div>
               )}
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
+              <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
                 {t("youthAcademy.avgPotential")}
               </p>
             </div>
@@ -284,11 +284,11 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
               <Sparkles className="w-5 h-5 text-accent-400 mx-auto mb-1" />
               <p className="font-heading font-bold text-2xl text-accent-500">{highPotential}</p>
               {highPotential > 0 && (
-                <span className="inline-flex items-center font-bold font-heading uppercase tracking-wider rounded-md bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 px-1.5 py-0.5 text-[10px]">
+                <span className="inline-flex items-center font-bold font-heading uppercase tracking-wider rounded-md bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 px-1.5 py-0.5 text-2xs">
                   {t("youthAcademy.highPotentialBadge", "Talento")}
                 </span>
               )}
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
+              <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-1">
                 {t("youthAcademy.highPotential")}
               </p>
             </div>
@@ -370,7 +370,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                               loading="lazy"
                             />
                           ) : (
-                            <span className="text-[10px] font-heading text-gray-300">{option.source_team_short_name}</span>
+                            <span className="text-2xs font-heading text-gray-300">{option.source_team_short_name}</span>
                           )}
                         </div>
                         <div className="min-w-0">
@@ -438,6 +438,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                   className="w-full pl-9 pr-3 py-1.5 text-sm bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500/50 text-gray-800 dark:text-gray-100 placeholder-gray-400"
                 />
               </div>
+              <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
@@ -559,7 +560,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                         ) : (
                           <span className="inline-flex items-center gap-1 text-accent-500/60" title={t("youthAcademy.potentialHiddenHint", "Potencial oculto — requiere investigación")}>
                             <EyeOff className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-heading font-bold">{t("youthAcademy.hidden", "Oculto")}</span>
+                            <span className="text-2xs font-heading font-bold">{t("youthAcademy.hidden", "Oculto")}</span>
                           </span>
                         )}
                       </td>
@@ -571,7 +572,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                               style={{ width: `${player.condition ?? 0}%` }}
                             />
                           </div>
-                          <span className="text-[11px] font-medium tabular-nums text-gray-700 dark:text-gray-300">
+                          <span className="text-xs font-medium tabular-nums text-gray-700 dark:text-gray-300">
                             {player.condition}%
                           </span>
                         </div>
@@ -601,6 +602,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                 })}
               </tbody>
             </table>
+            </div>
             </>
           )}
         </CardBody>

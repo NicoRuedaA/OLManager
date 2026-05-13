@@ -194,7 +194,7 @@ function FixtureChip({
       ) : null}
       <span
         className={`font-heading font-bold tabular-nums text-gray-700 dark:text-gray-200 ${
-          isFull ? "text-sm px-2" : "text-[10px] px-0.5"
+          isFull ? "text-sm px-2" : "text-2xs px-0.5"
         }`}
       >
         {score ? `${score.home}-${score.away}` : "vs"}
@@ -220,7 +220,7 @@ function FixtureChip({
         className={
           isFull
             ? "ml-auto"
-            : "ml-auto !text-[8px] !px-1 !py-0"
+            : "ml-auto !text-2xs !px-1 !py-0"
         }
       >
         BO{bo}
@@ -258,7 +258,7 @@ function ScrimChip({ scrim, gameState, size = "compact" }: ScrimChipProps) {
           loading="lazy"
         />
       ) : null}
-      <span className={`font-heading font-bold uppercase tracking-wider truncate ${isFull ? "text-xs" : "text-[10px]"}`}>
+      <span className={`font-heading font-bold uppercase tracking-wider truncate ${isFull ? "text-xs" : "text-2xs"}`}>
         {t("schedule.scrimVs", { team: opponentName, defaultValue: "Scrim vs {{team}}" })}
       </span>
     </div>
@@ -373,7 +373,7 @@ export default function ScheduleCalendarView({
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <h4 className="font-heading font-bold text-sm uppercase tracking-wider text-gray-700 dark:text-gray-200 min-w-[160px] text-center">
+          <h4 className="font-heading font-bold text-sm uppercase tracking-wider text-gray-700 dark:text-gray-200 min-w-40 text-center">
             {monthLabel}
           </h4>
           <button
@@ -399,7 +399,7 @@ export default function ScheduleCalendarView({
           {weekdayLabels.map((label, idx) => (
             <div
               key={`${label}-${idx}`}
-              className="text-center text-[10px] font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 py-1"
+              className="text-center text-2xs font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 py-1"
             >
               {label}
             </div>
@@ -439,7 +439,7 @@ export default function ScheduleCalendarView({
               >
                 <div className="flex items-center justify-between">
                   <span
-                    className={`text-[11px] font-heading font-bold tabular-nums ${
+                    className={`text-xs font-heading font-bold tabular-nums ${
                       isToday
                         ? "text-primary-500"
                         : inMonth
@@ -450,7 +450,7 @@ export default function ScheduleCalendarView({
                     {cell.getDate()}
                   </span>
                   {cellEvents.length > 1 ? (
-                    <span className="text-[9px] text-gray-400 dark:text-gray-500 tabular-nums">
+                    <span className="text-2xs text-gray-400 dark:text-gray-500 tabular-nums">
                       ×{cellEvents.length}
                     </span>
                   ) : null}
@@ -462,7 +462,7 @@ export default function ScheduleCalendarView({
                       title={t("schedule.seasonStartHint", "Día de inicio de la temporada regular")}
                     >
                       <Flag className="w-3 h-3 shrink-0" />
-                      <span className="text-[10px] font-heading font-bold uppercase tracking-wider truncate">
+                      <span className="text-2xs font-heading font-bold uppercase tracking-wider truncate">
                         {t("schedule.seasonStart", "Inicio de temporada")}
                       </span>
                     </div>
@@ -473,7 +473,7 @@ export default function ScheduleCalendarView({
                       title={t("schedule.playoffsStartEstimateHint", "Fecha estimada — los emparejamientos se generan al cerrar la liga regular")}
                     >
                       <Trophy className="w-3 h-3 shrink-0" />
-                      <span className="text-[10px] font-heading font-bold uppercase tracking-wider truncate">
+                      <span className="text-2xs font-heading font-bold uppercase tracking-wider truncate">
                         {t("schedule.playoffsStartEstimate", "Inicio playoffs (est.)")}
                       </span>
                     </div>
@@ -500,7 +500,7 @@ export default function ScheduleCalendarView({
                     <button
                       type="button"
                       onClick={() => setOpenDayKey(cellKey)}
-                      className="text-[9px] font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-300 px-1 text-left transition-colors"
+                      className="text-2xs font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-300 px-1 text-left transition-colors"
                     >
                       +{overflow} {t("schedule.moreMatches", "más")}
                     </button>

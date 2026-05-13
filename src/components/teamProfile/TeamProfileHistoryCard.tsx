@@ -19,66 +19,68 @@ export default function TeamProfileHistoryCard({
     <Card className="lg:col-span-3">
       <CardHeader>{t("teamProfile.seasonHistory")}</CardHeader>
       <CardBody className="p-0">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                {t("schedule.season", { number: "" })}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("common.position")}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("common.played")}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("common.won")}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("common.lost")}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("teamProfile.winRate")}
-              </th>
-              <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                {t("common.pts")}
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
-            {history.map((record, index) => {
-              const decisiveGames = record.won + record.lost;
-              const winRate = decisiveGames > 0
-                ? `${Math.round((record.won / decisiveGames) * 100)}%`
-                : "0%";
-
-              return (
-              <tr key={index}>
-                <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
-                  {record.season}/{record.season + 1}
-                </td>
-                <td className="py-3 px-5 text-center font-heading font-bold text-sm text-primary-500">
-                  #{record.league_position}
-                </td>
-                <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                  {record.played}
-                </td>
-                <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                  {record.won}
-                </td>
-                <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                  {record.lost}
-                </td>
-                <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                  {winRate}
-                </td>
-                <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                  {record.points}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("schedule.season", { number: "" })}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("common.position")}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("common.played")}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("common.won")}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("common.lost")}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("teamProfile.winRate")}
+                </th>
+                <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                  {t("common.pts")}
+                </th>
               </tr>
-            )})}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
+              {history.map((record, index) => {
+                const decisiveGames = record.won + record.lost;
+                const winRate = decisiveGames > 0
+                  ? `${Math.round((record.won / decisiveGames) * 100)}%`
+                  : "0%";
+
+                return (
+                <tr key={index}>
+                  <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
+                    {record.season}/{record.season + 1}
+                  </td>
+                  <td className="py-3 px-5 text-center font-heading font-bold text-sm text-primary-500">
+                    #{record.league_position}
+                  </td>
+                  <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                    {record.played}
+                  </td>
+                  <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                    {record.won}
+                  </td>
+                  <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                    {record.lost}
+                  </td>
+                  <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                    {winRate}
+                  </td>
+                  <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                    {record.points}
+                  </td>
+                </tr>
+              )})}
+            </tbody>
+          </table>
+        </div>
       </CardBody>
     </Card>
   );

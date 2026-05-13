@@ -194,7 +194,7 @@ export default function TrainingGroupsCard({
                       </option>
                     ))}
                   </Select>
-                  <span className="text-[10px] text-gray-400 tabular-nums">
+                  <span className="text-2xs text-gray-400 tabular-nums">
                     {count}
                   </span>
                   <button
@@ -220,16 +220,16 @@ export default function TrainingGroupsCard({
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="bg-gray-50 dark:bg-navy-700/50">
-                  <th className="py-2 px-3 text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  <th className="py-2 px-3 text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     {t("common.player")}
                   </th>
-                  <th className="py-2 px-3 text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  <th className="py-2 px-3 text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     {t("common.position")}
                   </th>
-                  <th className="py-2 px-3 text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  <th className="py-2 px-3 text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     {t("training.groups.group")}
                   </th>
-                  <th className="py-2 px-3 text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+                  <th className="py-2 px-3 text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400">
                     {t("training.effectiveFocus")}
                   </th>
                 </tr>

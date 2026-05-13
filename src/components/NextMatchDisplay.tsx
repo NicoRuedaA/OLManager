@@ -233,7 +233,7 @@ export default function NextMatchDisplay({
       <div className="flex items-center justify-end">
         <div className="px-2.5 py-1 rounded-md bg-navy-900/70 border border-navy-600 text-right">
           <p className="font-heading font-bold text-gray-100 text-base leading-none">{countdown}d</p>
-          <p className="text-[10px] text-gray-400 leading-none mt-1">
+          <p className="text-2xs text-gray-400 leading-none mt-1">
             {t("home.daysUntilMatch")}
           </p>
         </div>

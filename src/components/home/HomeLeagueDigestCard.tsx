@@ -48,7 +48,7 @@ export default function HomeLeagueDigestCard({
                   <Badge variant="neutral" size="sm">
                     {t(`news.categories.${article.category}`)}
                   </Badge>
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                  <span className="text-2xs text-gray-400 dark:text-gray-500">
                     {formatDateShort(article.date, lang)} - {article.source}
                   </span>
                 </div>

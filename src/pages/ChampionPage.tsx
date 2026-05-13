@@ -431,7 +431,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                               {champKey}
                             </p>
                             {item.value !== undefined && (
-                              <p className="text-[10px] text-gray-400">
+                              <p className="text-2xs text-gray-400">
                                 {item.value} {item.value === 1 ? "game" : "games"}
                               </p>
                             )}

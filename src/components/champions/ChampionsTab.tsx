@@ -430,8 +430,8 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
       <section className="rounded-2xl border border-navy-600 bg-navy-700 p-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-widest text-gray-400 font-heading">
-              {t("champions.patchLabel")}
+            <p className="text-xs uppercase tracking-widest text-gray-400 font-heading">
+              {t("champions.patchLabel", "Patch")}
             </p>
             <h2 className="mt-1 text-2xl font-heading font-bold text-white">
               {patch?.current_patch_label || t("champions.patchFallback")}
@@ -446,7 +446,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
             </p>
           </div>
 
-          <div className="min-w-[230px] rounded-xl border border-navy-600 bg-navy-800/30 px-4 py-3">
+          <div className="min-w-56 rounded-xl border border-navy-600 bg-navy-800/30 px-4 py-3">
             <div className="flex items-center justify-between text-xs text-gray-300">
               <span className="inline-flex items-center gap-1"><Search className="h-3.5 w-3.5" />
                 {t("champions.discoveryProgress")}</span>
@@ -455,8 +455,8 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
             <div className="mt-2 h-2 rounded-full bg-navy-700">
               <div className="h-2 rounded-full bg-primary-500" style={{ width: `${discoveredPct}%` }} />
             </div>
-            <p className="mt-2 text-[11px] text-gray-400">
-              {t("champions.staffMetaImpact")}: {formatStaffEffectPercent(staffEffects.metaDiscovery)} · {t("champions.staffMasteryImpact")}: {formatStaffEffectPercent(staffEffects.development)}
+            <p className="mt-2 text-xs text-gray-400">
+              {t("champions.staffMetaImpact", "Scout read")}: {formatStaffEffectPercent(staffEffects.metaDiscovery)} · {t("champions.staffMasteryImpact", "mastery learning")}: {formatStaffEffectPercent(staffEffects.development)}
             </p>
           </div>
         </div>
@@ -471,7 +471,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
               <button
                 type="button"
                 onClick={() => setMetaRoleFilter("ALL")}
-                className={`rounded-md border px-2 py-1 text-[11px] font-heading transition-colors ${metaRoleFilter === "ALL" ? "border-primary-500 bg-primary-500 text-white" : "border-navy-600 text-gray-300 hover:border-navy-500"}`}
+                className={`rounded-md border px-2 py-1 text-xs font-heading transition-colors ${metaRoleFilter === "ALL" ? "border-primary-500 bg-primary-500 text-white" : "border-navy-600 text-gray-300 hover:border-navy-500"}`}
               >
                 {t("common.all")}
               </button>
@@ -623,16 +623,16 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
+                      <p className={`text-xs font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
                         {soloQ.tier}
                       </p>
-                      <p className="text-[11px] text-gray-100 font-semibold">
+                      <p className="text-xs text-gray-100 font-semibold">
                         {soloQ.lp} LP
                         <span className={`ml-1 ${soloQ.delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                           {soloQ.delta >= 0 ? `+${soloQ.delta}` : soloQ.delta}
                         </span>
                       </p>
-                      <p className="text-[10px] text-gray-300">x{soloQMult.toFixed(1)} mastery</p>
+                      <p className="text-2xs text-gray-300">x{soloQMult.toFixed(1)} mastery</p>
                     </div>
                     <img
                       src={soloQEmblemUrl(soloQ.tier)}
@@ -666,18 +666,18 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                       >
                         <div className="mb-2 flex items-start justify-between gap-2">
                           <div>
-                            <p className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                            <p className="text-2xs font-heading uppercase tracking-wider text-gray-400">
                               P{slotIndex + 1}
                             </p>
                             <p className="font-heading text-xs font-bold uppercase tracking-wider text-gray-200">
                               {slotTitle}
                             </p>
                           </div>
-                          <p className={`text-[10px] font-heading uppercase tracking-wide ${gainHint.className}`}>
+                          <p className={`text-2xs font-heading uppercase tracking-wide ${gainHint.className}`}>
                             {t("champions.gain")} {gainHint.label}
                           </p>
                         </div>
-                        <p className="mb-2 text-[11px] text-gray-400">{slotDesc}</p>
+                        <p className="mb-2 text-xs text-gray-400">{slotDesc}</p>
 
                         <select
                           value={target}
@@ -708,13 +708,13 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                           />
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
-                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                          <span className="text-2xs font-heading uppercase tracking-wider text-gray-400">
                             {t("champions.mastery")} {masteryValue}
                           </span>
-                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                          <span className="text-2xs font-heading uppercase tracking-wider text-gray-400">
                             {t("training.effectiveFocus")} x{gainHint.baseMult.toFixed(2)}
                           </span>
-                          <span className="text-[10px] font-heading uppercase tracking-wider text-gray-400">
+                          <span className="text-2xs font-heading uppercase tracking-wider text-gray-400">
                             SoloQ x{soloQMult.toFixed(1)}
                           </span>
                         </div>

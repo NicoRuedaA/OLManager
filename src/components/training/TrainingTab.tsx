@@ -304,7 +304,7 @@ export default function TrainingTab({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
       <div className="lg:col-span-2 flex flex-col gap-5">
         {staffAdvice ? (
           <div
@@ -412,7 +412,7 @@ export default function TrainingTab({
                         <p className="truncate text-sm font-heading font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
                           {player.match_name}
                         </p>
-                        <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
+                        <p className={`text-xs font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
                           {soloQTierLabel} · {soloQ.lp} LP
                           <span className={`ml-1 ${soloQ.delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                             {soloQ.delta >= 0 ? `+${soloQ.delta}` : soloQ.delta}

@@ -331,7 +331,7 @@ export default function ScrimsTab({
   );
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto flex flex-col gap-5">
       <Card accent="primary">
         <CardBody>
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -355,7 +355,7 @@ export default function ScrimsTab({
                 <p className="text-2xl font-heading font-bold text-gray-900 dark:text-white">
                   {plannedScrims}/{weeklyCapacity}
                 </p>
-                <p className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <p className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   {t("scrims.planned")}
                 </p>
               </div>
@@ -364,7 +364,7 @@ export default function ScrimsTab({
                 <p className="text-2xl font-heading font-bold text-gray-900 dark:text-white">
                   {wins}-{losses}
                 </p>
-                <p className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <p className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   {t("scrims.weekRecord")}
                 </p>
               </div>
@@ -373,7 +373,7 @@ export default function ScrimsTab({
                 <p className="text-2xl font-heading font-bold text-gray-900 dark:text-white">
                   {weeklyContext.reputation}
                 </p>
-                <p className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <p className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   {t("scrims.reputation")}
                 </p>
               </div>
@@ -424,7 +424,7 @@ export default function ScrimsTab({
               </Select>
               <p className="text-xs text-gray-500 dark:text-gray-400">{scrimFocusImpactText(objective)}</p>
               {objective ? (
-                <div className="flex flex-wrap items-center gap-2 text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                <div className="flex flex-wrap items-center gap-2 text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   <span>Main growth:</span>
                   {objectiveGrowth.primary.map((tag) => (
                     <span key={`primary-${tag}`}>{tag} +</span>
@@ -558,7 +558,7 @@ export default function ScrimsTab({
                   />
                 ) : null}
                 <div className="min-w-0">
-                  <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  <p className="text-2xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     {t("scrims.todayOpponent", "Today's rival")}
                   </p>
                   <p className="truncate font-heading text-sm font-bold uppercase tracking-wide text-gray-900 dark:text-white">
@@ -584,7 +584,7 @@ export default function ScrimsTab({
             ) : null}
             {(todayContext.state === "PlayedNeedsReview" || todayContext.state === "Reviewed") && todayContext.report ? (
               <div className="mt-3 rounded-lg border border-gray-200 bg-transparent p-4 text-sm dark:border-navy-600">
-                <p className="font-heading text-[11px] font-bold uppercase tracking-wider text-gray-300">
+                <p className="font-heading text-xs font-bold uppercase tracking-wider text-gray-300">
                   {t("scrims.postScrimFeedback", "Post-scrim feedback")}
                 </p>
                 <p className="mt-1 text-gray-900 dark:text-gray-100">
@@ -639,7 +639,7 @@ export default function ScrimsTab({
                           {decisionImpactTags[option.id].map((tag) => (
                             <span
                               key={tag}
-                              className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                              className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400"
                             >
                               {tag}
                             </span>
@@ -690,7 +690,7 @@ export default function ScrimsTab({
                             {teamNameById.get(report.opponent_team_id) ?? report.opponent_team_id}
                           </p>
                         </div>
-                        <span className="shrink-0 text-[10px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                        <span className="shrink-0 text-2xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                           {report.won ? "W" : "L"}
                         </span>
                       </div>
@@ -722,8 +722,8 @@ export default function ScrimsTab({
                     {wins}-{losses} · {t("scrims.played", "Jugadas")}: {played} · {t("scrims.reportQuality", "Calidad")}: {weeklyContext.avgQuality}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    <span className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">{weeklyMainGain}</span>
-                    <span className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">{weeklyMainFailure}</span>
+                    <span className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">{weeklyMainGain}</span>
+                    <span className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400">{weeklyMainFailure}</span>
                   </div>
                 </>
               ) : (

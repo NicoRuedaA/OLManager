@@ -40,7 +40,7 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
   }).sort((a, b) => a.leaguePos - b.leaguePos);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {teamsData.map(({ team, roster, avgOvr, totalValue, leaguePos, standing }) => {
           const isUser = team.id === userTeamId;

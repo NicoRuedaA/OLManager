@@ -236,7 +236,7 @@ export default function PlayerProfileHeroCard({
 
             {isOwnClub && editingRole ? (
               <div className="mt-3 rounded-lg border border-amber-300/30 bg-amber-500/10 p-3 max-w-xl">
-                <p className="text-[11px] text-amber-200 mb-2">
+                <p className="text-xs text-amber-200 mb-2">
                   {t("playerProfile.rerollWarning", {
                     defaultValue:
                       "Cambiar posición hace un reroll y puede modificar el OVR del jugador.",

@@ -232,7 +232,7 @@ export default function HomeTab({
             onNavigate={onNavigate}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-3 gap-5">
             {/* Next Match Card */}
             <Card accent="primary" className="md:col-span-2">
               <CardHeader>{t("home.nextMatch")}</CardHeader>

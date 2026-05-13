@@ -277,7 +277,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
               {TEAM_IMPACT_ROWS.map((row) => (
                 <span
                   key={row.key}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 dark:bg-primary-500/10 px-2 py-1 text-[11px] font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 dark:bg-primary-500/10 px-2 py-1 text-xs font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300"
                 >
                     <span>{t(row.labelKey)}</span>
                   <span className="font-bold tabular-nums">
@@ -360,13 +360,13 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
                       {/* Specialization + Wage */}
                       <div className="flex flex-wrap gap-1.5 mt-1.5">
                         {staff.specialization && (
-                          <span className="inline-flex items-center gap-1 text-[10px] bg-accent-50 dark:bg-accent-500/10 text-accent-600 dark:text-accent-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 text-2xs bg-accent-50 dark:bg-accent-500/10 text-accent-600 dark:text-accent-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
                             <Star className="w-3 h-3" />{" "}
                             {t(`staff.specializations.${staff.specialization}`)}
                           </span>
                         )}
                         {staff.wage > 0 && (
-                          <span className="text-[10px] bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
+                          <span className="text-2xs bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
                             {formatWeeklyAmount(
                               formatVal(staff.wage),
                               weeklySuffix,
@@ -396,14 +396,14 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
                       </div>
 
                       <div className="mt-3">
-                        <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
+                        <p className="text-2xs font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
                           {t("staff.lolImpactTitle")}
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {impactRows.map((row) => (
                             <span
                               key={row.labelKey}
-                              className="inline-flex items-center gap-1 rounded bg-navy-50 dark:bg-navy-700/70 px-1.5 py-0.5 text-[10px] font-heading uppercase tracking-wider text-gray-600 dark:text-gray-300"
+                              className="inline-flex items-center gap-1 rounded bg-navy-50 dark:bg-navy-700/70 px-1.5 py-0.5 text-2xs font-heading uppercase tracking-wider text-gray-600 dark:text-gray-300"
                             >
                               <span>{t(row.labelKey)}</span>
                               <span className="font-bold tabular-nums text-primary-500">

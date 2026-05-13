@@ -132,7 +132,7 @@ function Slot({ className = "h-4 w-4", trinket = false, goldBorder = false, item
     <div className={`${className} relative overflow-hidden border ${borderClass} bg-black`}>
       {effectiveIcon ? <img src={effectiveIcon} alt={itemKey ?? spellKey ?? "slot"} className="h-full w-full object-cover" loading="lazy" /> : null}
       {shouldShowCd ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/55 text-[8px] font-black text-amber-300">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/55 text-2xs font-black text-amber-300">
           {cooldownText}
         </div>
       ) : null}
@@ -215,7 +215,7 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
     <div className={`side ${red ? "red" : "blue"} flex flex-1 items-center gap-[6px] px-[10px] ${red ? "border-r-[3px] border-r-orange-400" : "border-l-[3px] border-l-cyan-400"}`}>
       {red && (
         <div className={`stats flex min-w-0 flex-1 flex-col gap-[1px] px-[5px] text-right`}>
-          <div className="top-info flex flex-row-reverse justify-between text-[10px] font-black uppercase">
+          <div className="top-info flex flex-row-reverse justify-between text-2xs font-black uppercase">
             <span className="truncate">{name}{banished ? " (Realm)" : ""}</span>
             <span className="farm text-amber-300">{cs}</span>
           </div>
@@ -223,7 +223,7 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
             <div className="hp h-[7px] rounded-[1px] bg-rose-400 shadow-[0_0_6px_rgba(248,113,113,0.3)]" style={{ width: `${hp <= 0 ? 0 : Math.max(8, hp * 100)}%` }} />
             <div className="mp ml-auto h-[2px] bg-blue-500" style={{ width: `${Math.max(8, mp * 55)}%` }} />
           </div>
-          <div className="kda text-[8px] font-bold text-white/45">{kda}</div>
+          <div className="kda text-2xs font-bold text-white/45">{kda}</div>
         </div>
       )}
 
@@ -248,16 +248,16 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
           <div className="portrait-container relative h-[34px] w-[34px] border border-white/15 bg-black">
             {icon ? <img src={icon} alt={name} className={`h-full w-full object-cover ${champion && (!champion.alive || banished) ? "grayscale opacity-55" : ""}`} /> : null}
             {champion && !champion.alive && respawnText && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-[12px] font-black text-amber-300">
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-xs font-black text-amber-300">
                 {respawnText}
               </div>
             )}
             {banished && (
-              <div className="absolute inset-0 flex items-center justify-center bg-violet-900/55 text-[9px] font-black text-violet-200">
+              <div className="absolute inset-0 flex items-center justify-center bg-violet-900/55 text-2xs font-black text-violet-200">
                 REALM
               </div>
             )}
-            <div className="lvl absolute -bottom-[2px] -right-[2px] flex h-[12px] w-[12px] items-center justify-center border border-cyan-400 bg-black text-[8px] font-black">
+            <div className="lvl absolute -bottom-[2px] -right-[2px] flex h-[12px] w-[12px] items-center justify-center border border-cyan-400 bg-black text-2xs font-black">
               {level}
             </div>
           </div>
@@ -266,7 +266,7 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
 
       {!red && (
         <div className="stats flex min-w-0 flex-1 flex-col gap-[1px] px-[5px] text-left">
-          <div className="top-info flex justify-between text-[10px] font-black uppercase">
+          <div className="top-info flex justify-between text-2xs font-black uppercase">
             <span className="truncate">{name}{banished ? " (Realm)" : ""}</span>
             <span className="farm text-amber-300">{cs}</span>
           </div>
@@ -274,7 +274,7 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
             <div className="hp h-[7px] rounded-[1px] bg-emerald-400 shadow-[0_0_6px_rgba(74,222,128,0.3)]" style={{ width: `${hp <= 0 ? 0 : Math.max(8, hp * 100)}%` }} />
             <div className="mp h-[2px] bg-blue-500" style={{ width: `${Math.max(8, mp * 55)}%` }} />
           </div>
-          <div className="kda text-[8px] font-bold text-white/45">{kda}</div>
+          <div className="kda text-2xs font-bold text-white/45">{kda}</div>
         </div>
       )}
 
@@ -283,16 +283,16 @@ function SidePane({ champion, team, championByPlayerId, timeSec }: {
           <div className="portrait-container relative h-[34px] w-[34px] border border-white/15 bg-black">
             {icon ? <img src={icon} alt={name} className={`h-full w-full object-cover ${champion && (!champion.alive || banished) ? "grayscale opacity-55" : ""}`} /> : null}
             {champion && !champion.alive && respawnText && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-[12px] font-black text-amber-300">
+              <div className="absolute inset-0 flex items-center justify-center bg-black/45 text-xs font-black text-amber-300">
                 {respawnText}
               </div>
             )}
             {banished && (
-              <div className="absolute inset-0 flex items-center justify-center bg-violet-900/55 text-[9px] font-black text-violet-200">
+              <div className="absolute inset-0 flex items-center justify-center bg-violet-900/55 text-2xs font-black text-violet-200">
                 REALM
               </div>
             )}
-            <div className="lvl absolute -bottom-[2px] -left-[2px] flex h-[12px] w-[12px] items-center justify-center border border-orange-400 bg-black text-[8px] font-black">
+            <div className="lvl absolute -bottom-[2px] -left-[2px] flex h-[12px] w-[12px] items-center justify-center border border-orange-400 bg-black text-2xs font-black">
               {level}
             </div>
           </div>
@@ -342,9 +342,9 @@ export function LecLowerThirdPanel({ champions, championByPlayerId, timeSec = 0 
             <SidePane champion={blue} team="blue" championByPlayerId={championByPlayerId} timeSec={timeSec} />
 
             <div className="gold-indicator flex w-[80px] items-center justify-center border-x border-white/[0.05] bg-[#080808]">
-              <span className={`arrow to-blue mr-[6px] text-[11px] ${toBlue ? "text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,1)]" : "text-transparent"}`}>◀</span>
-              <span className="gold-value text-[11px] font-black text-white">{diffLabel}</span>
-              <span className={`arrow to-red ml-[6px] text-[11px] ${!toBlue ? "text-orange-400 drop-shadow-[0_0_3px_rgba(249,115,22,1)]" : "text-transparent"}`}>▶</span>
+              <span className={`arrow to-blue mr-[6px] text-xs ${toBlue ? "text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,1)]" : "text-transparent"}`}>◀</span>
+              <span className="gold-value text-xs font-black text-white">{diffLabel}</span>
+              <span className={`arrow to-red ml-[6px] text-xs ${!toBlue ? "text-orange-400 drop-shadow-[0_0_3px_rgba(249,115,22,1)]" : "text-transparent"}`}>▶</span>
             </div>
 
             <SidePane champion={red} team="red" championByPlayerId={championByPlayerId} timeSec={timeSec} />

@@ -42,7 +42,7 @@ export default function HomePlayerMomentumCard({
             <div>
               <div className="flex items-center gap-1.5 mb-2">
                 <TrendingUp className="w-3.5 h-3.5 text-green-500" />
-                <span className="text-[10px] font-heading font-bold uppercase tracking-widest text-green-500">
+                <span className="text-2xs font-heading font-bold uppercase tracking-widest text-green-500">
                   {t("home.inForm")}
                 </span>
               </div>
@@ -70,7 +70,7 @@ export default function HomePlayerMomentumCard({
             <div>
               <div className="flex items-center gap-1.5 mb-2">
                 <TrendingDown className="w-3.5 h-3.5 text-red-500" />
-                <span className="text-[10px] font-heading font-bold uppercase tracking-widest text-red-500">
+                <span className="text-2xs font-heading font-bold uppercase tracking-widest text-red-500">
                   {t("home.lowMorale")}
                 </span>
               </div>

@@ -71,7 +71,7 @@ export default function HomeRecentMessagesCard({
                     {message.body}
                   </p>
                 </div>
-                <span className="text-[10px] text-gray-400 dark:text-gray-500 flex-shrink-0 mt-1">
+                <span className="text-2xs text-gray-400 dark:text-gray-500 flex-shrink-0 mt-1">
                   {formatDateShort(message.date, lang)}
                 </span>
               </div>

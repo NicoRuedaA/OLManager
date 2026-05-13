@@ -35,7 +35,7 @@ export default function TournamentsTab({
 
   if (!league) {
     return (
-      <div className="max-w-4xl mx-auto text-center py-12">
+      <div className="w-[92%] max-w-[2000px] mx-auto text-center py-12">
         <Trophy className="w-12 h-12 text-gray-300 dark:text-navy-600 mx-auto mb-3" />
         <p className="text-gray-500 dark:text-gray-400 text-sm">
           {t("tournaments.noActive")}
@@ -81,7 +81,7 @@ export default function TournamentsTab({
   const hasAcademyPlayoffsStarted = academyPlayoffFixtures.length > 0;
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       {isPreseason && (
         <Card accent="accent" className="mb-5">
           <CardBody>
@@ -212,43 +212,38 @@ export default function TournamentsTab({
                   </p>
                 </div>
               ) : (
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-8">
-                        #
-                      </th>
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                        {t("common.team")}
-                      </th>
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                        {t("common.played")}
-                      </th>
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                        {t("common.won")}
-                      </th>
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                        {t("common.lost")}
-                      </th>
-                      <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                        {t("tournaments.mapScore")}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
-                    {standings.map((entry, idx) => {
-                      const isUser = entry.team_id === userTeamId;
-                      return (
-                        <tr
-                          key={entry.team_id}
-                          onClick={() => onSelectTeam(entry.team_id)}
-                          className={`cursor-pointer transition-colors ${isUser ? "bg-primary-50 dark:bg-primary-500/10" : "hover:bg-gray-50 dark:hover:bg-navy-700/50"}`}
-                        >
-                          <td className="py-2 px-3 font-heading font-bold text-sm text-gray-400">
-                            {idx + 1}
-                          </td>
-                          <td
-                            className={`py-2 px-3 font-semibold text-sm ${isUser ? "text-primary-600 dark:text-primary-400" : "text-gray-800 dark:text-gray-200"}`}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-8">
+                          #
+                        </th>
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                          {t("common.team")}
+                        </th>
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                          {t("common.played")}
+                        </th>
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                          {t("common.won")}
+                        </th>
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                          {t("common.lost")}
+                        </th>
+                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                          {t("tournaments.mapScore")}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
+                      {standings.map((entry, idx) => {
+                        const isUser = entry.team_id === userTeamId;
+                        return (
+                          <tr
+                            key={entry.team_id}
+                            onClick={() => onSelectTeam(entry.team_id)}
+                            className={`cursor-pointer transition-colors ${isUser ? "bg-primary-50 dark:bg-primary-500/10" : "hover:bg-gray-50 dark:hover:bg-navy-700/50"}`}
                           >
                             {getTeamName(gameState.teams, entry.team_id)}
                           </td>
@@ -286,7 +281,7 @@ export default function TournamentsTab({
                     const first = fixtures[0];
                     return (
                       <div key={`overview-md-${md}`} className="px-4 py-3">
-                        <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-heading font-bold">
+                        <p className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-heading font-bold">
                           {first.competition === "Playoffs"
                             ? `${t("schedule.playoffs")} · ${t("schedule.round", { number: md })}`
                             : t("schedule.matchday", { number: md })}
@@ -328,6 +323,7 @@ export default function TournamentsTab({
               <Card>
                 <CardHeader>{t("tournaments.leagueTable")}</CardHeader>
                 <CardBody className="p-0">
+                  <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
@@ -365,6 +361,7 @@ export default function TournamentsTab({
                       })}
                     </tbody>
                   </table>
+                  </div>
                 </CardBody>
               </Card>
             </div>

@@ -91,7 +91,7 @@ export default function ScoutingTab({
   };
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto flex flex-col gap-5">
       {/* Header */}
       <div className="flex items-center gap-3">
         <ScanSearch className="w-5 h-5 text-primary-500" />

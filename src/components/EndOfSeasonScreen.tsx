@@ -98,7 +98,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
+    <div className="w-[92%] max-w-[2000px] mx-auto py-8 px-4">
       {step === "review" && (
         <>
           {/* Hero */}
@@ -129,7 +129,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
                 <p className="text-xs font-heading font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">
                   {userTeam?.name}
                 </p>
-                <p className="text-[11px] font-heading font-bold uppercase tracking-widest text-primary-500 mb-4">
+                <p className="text-xs font-heading font-bold uppercase tracking-widest text-primary-500 mb-4">
                   {t("endOfSeason.regularPhaseSummary")}
                 </p>
                 <div className="flex items-center justify-center gap-6 mb-4">

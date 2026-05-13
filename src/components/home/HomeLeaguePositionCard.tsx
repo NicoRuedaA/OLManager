@@ -123,7 +123,7 @@ export default function HomeLeaguePositionCard({
                       ? t("home.nextMatch")
                       : t("schedule.lastResult")}
                   </Badge>
-                  <span className="text-[10px] font-heading font-bold uppercase tracking-wider text-cyan-300/90">
+                  <span className="text-2xs font-heading font-bold uppercase tracking-wider text-cyan-300/90">
                     {t("schedule.round", {
                       number: spotlightFixture.matchday,
                     })}
@@ -166,7 +166,7 @@ export default function HomeLeaguePositionCard({
               return (
                 <div
                   key={entry.team_id}
-                  className={`grid grid-cols-[18px_1fr_24px_24px_44px] items-center gap-2 rounded px-2 py-1 text-[11px] ${isMine ? "bg-cyan-500/10 border border-cyan-400/30" : "bg-gray-50 dark:bg-navy-800/40"}`}
+                  className={`grid grid-cols-[18px_1fr_24px_24px_44px] items-center gap-2 rounded px-2 py-1 text-xs ${isMine ? "bg-cyan-500/10 border border-cyan-400/30" : "bg-gray-50 dark:bg-navy-800/40"}`}
                 >
                   <span className={`font-heading font-black ${isMine ? "text-cyan-300" : "text-gray-500 dark:text-gray-400"}`}>
                     {index + 1}

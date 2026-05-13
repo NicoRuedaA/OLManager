@@ -332,7 +332,7 @@ export default function FinancesTab({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
       {/* Financial overview */}
       <Card accent="accent" className="lg:col-span-2">
         <CardHeader>{t("finances.overview")}</CardHeader>

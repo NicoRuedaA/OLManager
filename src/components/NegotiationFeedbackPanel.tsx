@@ -41,7 +41,7 @@ export default function NegotiationFeedbackPanel({
     >
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             {t(titleKey)}
           </p>
           <p className="text-sm font-medium text-gray-900 dark:text-gray-100 mt-1">
@@ -70,13 +70,13 @@ export default function NegotiationFeedbackPanel({
 
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-1">
-          <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             {t(patienceKey)}
           </p>
           <ProgressBar value={feedback.patience} variant="success" size="md" showLabel />
         </div>
         <div className="space-y-1">
-          <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             {t(tensionKey)}
           </p>
           <ProgressBar value={feedback.tension} variant="danger" size="md" showLabel />

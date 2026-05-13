@@ -48,11 +48,11 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
               <div className="relative z-10 p-2.5 h-full flex flex-col">
                 <div className="flex items-start justify-between">
                   {item.rank === "insignia" ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-heading font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-300/35">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-2xs font-heading font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-300/35">
                       <Crown className="w-3 h-3" /> {t("playerProfile.championInsignia")}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-heading font-bold uppercase tracking-wide bg-white/20 text-white border border-white/35">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-2xs font-heading font-bold uppercase tracking-wide bg-white/20 text-white border border-white/35">
                       #{item.rank}
                     </span>
                   )}

@@ -120,7 +120,7 @@ export default function NewsTab({ gameState, onSelectTeam }: NewsTabProps) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto flex flex-col gap-5">
       {/* Filters row */}
       <div className="flex items-center gap-2 flex-wrap">
         {/* Category pills */}
@@ -263,12 +263,12 @@ function HeroArticle({
       <div className="p-6">
         <div className="flex items-center gap-2 mb-3">
           <span
-            className={`inline-flex items-center gap-1.5 text-[10px] font-heading font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${meta.color} ${meta.bg}`}
+            className={`inline-flex items-center gap-1.5 text-2xs font-heading font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${meta.color} ${meta.bg}`}
           >
             {meta.icon}
             {meta.label}
           </span>
-          <span className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
+          <span className="text-2xs text-gray-400 dark:text-gray-500 flex items-center gap-1">
             <Clock className="w-3 h-3" />
             {formatNewsDate(article.date)}
           </span>
@@ -299,7 +299,7 @@ function HeroArticle({
         </p>
 
         <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100 dark:border-navy-700">
-          <p className="text-[10px] text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
+          <p className="text-2xs text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
             — {article.source}
           </p>
           {article.team_ids.length > 0 && onSelectTeam && (
@@ -311,7 +311,7 @@ function HeroArticle({
                     e.stopPropagation();
                     onSelectTeam(tid);
                   }}
-                  className="text-[10px] font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 bg-primary-500/5 hover:bg-primary-500/10 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
+                  className="text-2xs font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 bg-primary-500/5 hover:bg-primary-500/10 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
                 >
                   {getTeamName(gameState.teams, tid)}
                 </span>
@@ -350,7 +350,7 @@ function ArticleCard({
       <div className="p-4 flex-1 flex flex-col">
         <div className="flex items-center gap-2 mb-2">
           <span
-            className={`inline-flex items-center gap-1 text-[9px] font-heading font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${meta.color} ${meta.bg}`}
+            className={`inline-flex items-center gap-1 text-2xs font-heading font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${meta.color} ${meta.bg}`}
           >
             {meta.icon}
             {meta.label}
@@ -381,10 +381,10 @@ function ArticleCard({
         </p>
 
         <div className="flex items-center justify-between mt-3 pt-2 border-t border-gray-100 dark:border-navy-700">
-          <span className="text-[10px] text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
+          <span className="text-2xs text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
             {article.source}
           </span>
-          <span className="text-[10px] text-gray-400 dark:text-gray-500 flex items-center gap-1">
+          <span className="text-2xs text-gray-400 dark:text-gray-500 flex items-center gap-1">
             <Clock className="w-3 h-3" />
             {formatNewsDate(article.date)}
           </span>
@@ -429,7 +429,7 @@ function ArticleDetail({
           {/* Category + date */}
           <div className="flex items-center gap-3 mb-4">
             <span
-              className={`inline-flex items-center gap-1.5 text-[10px] font-heading font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${meta.color} ${meta.bg}`}
+              className={`inline-flex items-center gap-1.5 text-2xs font-heading font-bold uppercase tracking-widest px-2.5 py-1 rounded-full ${meta.color} ${meta.bg}`}
             >
               {meta.icon}
               {meta.label}
@@ -478,7 +478,7 @@ function ArticleDetail({
 
           {/* Footer */}
           <div className="mt-6 pt-4 border-t border-gray-100 dark:border-navy-700 flex items-center justify-between">
-            <p className="text-[10px] text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
+            <p className="text-2xs text-gray-400 dark:text-gray-600 font-heading uppercase tracking-widest">
               — {article.source}
             </p>
             {article.team_ids.length > 0 && onSelectTeam && (
@@ -487,7 +487,7 @@ function ArticleDetail({
                   <button
                     key={tid}
                     onClick={() => onSelectTeam(tid)}
-                    className="text-[10px] font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 bg-primary-500/5 hover:bg-primary-500/10 px-2.5 py-1 rounded-md transition-colors"
+                    className="text-2xs font-heading font-bold uppercase tracking-wider text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 bg-primary-500/5 hover:bg-primary-500/10 px-2.5 py-1 rounded-md transition-colors"
                   >
                     {getTeamName(gameState.teams, tid)}
                   </button>

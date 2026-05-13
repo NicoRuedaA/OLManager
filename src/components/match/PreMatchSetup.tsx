@@ -272,7 +272,7 @@ export default function PreMatchSetup({
         </>
       }
     >
-      <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col gap-6">
+      <div className="w-[92%] max-w-[2000px] mx-auto px-6 py-6 flex flex-col gap-6">
         <PreMatchLineup
           homeTeam={snapshot.home_team}
           homeBench={snapshot.home_bench || []}

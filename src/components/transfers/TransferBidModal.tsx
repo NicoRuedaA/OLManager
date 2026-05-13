@@ -144,7 +144,7 @@ export default function TransferBidModal({
         />
         {myTeam && bidFee !== null && bidProjection ? (
           <div className="rounded-lg border border-gray-200 dark:border-navy-700 bg-white/70 dark:bg-navy-900/40 p-3 mb-3 space-y-2">
-            <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
               {t("transfers.bidImpactTitle", {
                 defaultValue: "Projected impact",
               })}

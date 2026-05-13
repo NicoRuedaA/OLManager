@@ -58,13 +58,13 @@ export default function HomeLatestNewsCard({
                 </p>
                 {article.match_score && (
                   <div className="flex items-center gap-1.5 mt-1">
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                    <span className="text-2xs text-gray-500 dark:text-gray-400">
                       {getTeamName(teams, article.match_score.home_team_id)}
                     </span>
-                    <span className="text-[10px] font-heading font-bold text-primary-500">
+                    <span className="text-2xs font-heading font-bold text-primary-500">
                       {article.match_score.home_goals}-{article.match_score.away_goals}
                     </span>
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400">
+                    <span className="text-2xs text-gray-500 dark:text-gray-400">
                       {getTeamName(teams, article.match_score.away_team_id)}
                     </span>
                   </div>

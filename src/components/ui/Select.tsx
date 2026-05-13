@@ -238,7 +238,7 @@ export function Select({
   };
 
   const sizes = {
-    xs: "py-0.5 text-[10px]",
+    xs: "py-0.5 text-2xs",
     sm: "py-1.5 text-xs",
     md: "py-2 text-sm",
   };
@@ -255,7 +255,7 @@ export function Select({
   const chevronSize = { xs: "w-3 h-3", sm: "w-4 h-4", md: "w-4 h-4" }[
     selectSize
   ];
-  const optionTextSize = { xs: "text-[10px]", sm: "text-xs", md: "text-sm" }[
+  const optionTextSize = { xs: "text-2xs", sm: "text-xs", md: "text-sm" }[
     selectSize
   ];
 

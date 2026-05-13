@@ -244,7 +244,7 @@ export default function HalfTimeBreak({
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto px-6 py-6 grid grid-cols-3 gap-6">
+        <div className="w-[92%] max-w-[2000px] mx-auto px-6 py-6 grid grid-cols-3 gap-6">
           {/* Left: First Half Summary */}
           <div className="flex flex-col gap-4">
             <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-4 transition-colors duration-300">
@@ -326,7 +326,7 @@ export default function HalfTimeBreak({
                               >
                                 {opt.label}
                               </p>
-                              <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
                                 {opt.description}
                               </p>
                           </div>

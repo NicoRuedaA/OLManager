@@ -417,7 +417,7 @@ export default function TransfersTab({
     bidProjection.exceeds_finance;
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       {/* Budget header */}
       {myTeam && (
         <Card accent="primary" className="mb-5">

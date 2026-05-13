@@ -375,7 +375,7 @@ export default function PostMatchScreen({
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto px-6 py-6 grid grid-cols-3 gap-6">
+        <div className="w-[92%] max-w-[2000px] mx-auto px-6 py-6 grid grid-cols-3 gap-6">
           {/* Left: Match Events */}
           <div className="flex flex-col gap-4">
             <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-4 transition-colors duration-300">
@@ -486,19 +486,19 @@ export default function PostMatchScreen({
                                         entry.fixture.id,
                                       )
                                     }
-                                    className="shrink-0 rounded-md px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-widest text-accent-400 hover:bg-gray-200 dark:hover:bg-navy-600/60 transition-colors"
+                                    className="shrink-0 rounded-md px-2 py-1 text-2xs font-heading font-bold uppercase tracking-widest text-accent-400 hover:bg-gray-200 dark:hover:bg-navy-600/60 transition-colors"
                                   >
                                     {t("match.viewDetails")}
                                   </button>
                                 )}
                               </div>
                               {scorerSummary && (
-                                <p className="mt-1 text-[11px] text-gray-500 dark:text-gray-400">
+                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                                   {scorerSummary}
                                 </p>
                               )}
                               {statSummary && (
-                                <p className="mt-1 text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                <p className="mt-1 text-2xs uppercase tracking-wider text-gray-500 dark:text-gray-400">
                                   {statSummary}
                                 </p>
                               )}
@@ -514,7 +514,7 @@ export default function PostMatchScreen({
                   {isLeagueFixture && roundSummary && (
                     <>
                       <div>
-                        <p className="text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
+                        <p className="text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
                           {t("home.leagueTable")}
                         </p>
                         <div className="flex flex-col gap-1 text-xs">
@@ -537,7 +537,7 @@ export default function PostMatchScreen({
                       </div>
 
                       <div>
-                        <p className="text-[10px] font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
+                        <p className="text-2xs font-heading font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">
                           {t("home.topScorers")}
                         </p>
                         <div className="flex flex-col gap-1 text-xs">
@@ -626,7 +626,7 @@ export default function PostMatchScreen({
                                   <Star className="w-3 h-3 text-accent-400" />
                                 )}
                               </div>
-                              <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
                                 {opt.description}
                               </p>
                             </div>

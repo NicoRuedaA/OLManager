@@ -122,12 +122,12 @@ export default function PlayoffBracketBoard({
   });
 
   const renderRound = ([matchday, fixtures]: [number, FixtureData[]], indexInLane: number, roundIndex: number) => (
-    <div key={`round-${matchday}`} className="relative min-w-[220px]">
+    <div key={`round-${matchday}`} className="relative min-w-56">
       {indexInLane > 0 ? (
         <div className="hidden lg:block absolute -left-6 top-1/2 w-6 h-px bg-cyan-300/40" />
       ) : null}
       <div className="rounded-xl border border-cyan-300/20 bg-navy-900/60 p-3">
-        <p className="text-[11px] font-heading font-bold uppercase tracking-[0.18em] text-cyan-200/90">
+        <p className="text-xs font-heading font-bold uppercase tracking-[0.18em] text-cyan-200/90">
           {playoffRoundLabel(split, roundIndex)}
         </p>
         <div className="mt-2 space-y-2">
@@ -138,7 +138,7 @@ export default function PlayoffBracketBoard({
             const matchNumber = fixtureOrder.get(fixture.id) ?? 0;
             return (
               <div key={fixture.id} className="rounded-lg border border-white/10 bg-white/[0.03] px-2.5 py-2">
-                <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-cyan-300/85 mb-1">
+                <p className="text-2xs font-heading font-bold uppercase tracking-wider text-cyan-300/85 mb-1">
                   M{matchNumber} · BO{bestOf}
                 </p>
 
@@ -157,7 +157,7 @@ export default function PlayoffBracketBoard({
                   {getTeamName(teams, fixture.away_team_id)}
                 </button>
 
-                <p className="mt-1.5 text-[11px] text-gray-400 font-heading uppercase tracking-wider">
+                <p className="mt-1.5 text-xs text-gray-400 font-heading uppercase tracking-wider">
                   {score ? `${score.home} - ${score.away}` : t("tournaments.scheduled")}
                 </p>
               </div>
@@ -176,13 +176,13 @@ export default function PlayoffBracketBoard({
 
       <div className="space-y-5">
         <div>
-          <p className="text-[11px] font-heading font-bold uppercase tracking-[0.2em] text-cyan-300/90 mb-2">{t("tournaments.upperBracket")}</p>
+          <p className="text-xs font-heading font-bold uppercase tracking-[0.2em] text-cyan-300/90 mb-2">{t("tournaments.upperBracket")}</p>
           <div className="flex gap-3 overflow-x-auto pb-2">{upperRounds.map((round, i) => renderRound(round, i, rounds.indexOf(round)))}</div>
         </div>
 
         {lowerRounds.length > 0 ? (
           <div>
-            <p className="text-[11px] font-heading font-bold uppercase tracking-[0.2em] text-cyan-300/90 mb-2">{t("tournaments.lowerBracket")}</p>
+            <p className="text-xs font-heading font-bold uppercase tracking-[0.2em] text-cyan-300/90 mb-2">{t("tournaments.lowerBracket")}</p>
             <div className="flex gap-3 overflow-x-auto pb-1">{lowerRounds.map((round, i) => renderRound(round, i, rounds.indexOf(round)))}</div>
           </div>
         ) : null}

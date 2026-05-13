@@ -102,14 +102,14 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
                 key={`${day.label}-${day.date.toISOString()}`}
                 className={`rounded-md border px-1.5 py-2 text-center ${day.isToday ? "border-accent-400/70 bg-accent-500/10" : "border-gray-100 dark:border-navy-600 bg-gray-50 dark:bg-navy-800/40"}`}
               >
-                <p className="text-[10px] font-heading font-bold text-gray-500 dark:text-gray-400">
+                <p className="text-2xs font-heading font-bold text-gray-500 dark:text-gray-400">
                   {day.label}
                 </p>
                 <p className="text-xs font-heading font-bold text-gray-800 dark:text-gray-100 mt-1">
                   {day.date.getDate()}
                 </p>
                 <p
-                  className={`text-[10px] mt-2 font-heading font-bold ${isMatchDay ? "text-primary-500" : isScrimDay ? "text-blue-500" : "text-gray-400 dark:text-gray-500"}`}
+                  className={`text-2xs mt-2 font-heading font-bold ${isMatchDay ? "text-primary-500" : isScrimDay ? "text-blue-500" : "text-gray-400 dark:text-gray-500"}`}
                 >
                   {isMatchDay
                     ? t("home.matchShort")
@@ -118,7 +118,7 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
                       : t("home.restShort")}
                 </p>
                 {isMatchDay ? (
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-1">
+                  <p className="text-2xs text-gray-500 dark:text-gray-400 truncate mt-1">
                     {day.fixture?.competition === "League"
                       ? t("home.leagueShort")
                       : t("home.otherShort")}
