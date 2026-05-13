@@ -59,8 +59,6 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
             .then_with(|| right.condition.cmp(&left.condition))
     });
 
-<<<<<<< HEAD
-=======
     let mut starters = ordered_players;
     let bench_domain = if starters.len() > 5 {
         starters.split_off(5)
@@ -93,8 +91,6 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
     }
     uniq.extend(dup);
     starters = uniq.into_iter().take(5).collect();
-
->>>>>>> origin/feat/frontend-dto-store
     // Keep LoL lane order stable for draft/pre-match UIs.
     // Selection follows the reconciled role slots; this only normalizes display order.
     let mut starters = starters;
