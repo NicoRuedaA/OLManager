@@ -4,6 +4,18 @@ All notable changes to OLManager will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project uses GPL-3.0 licensing inherited from the OpenFootManager lineage unless otherwise documented.
 
+## [0.2.1] - 2026-05-13
+
+### Added
+
+- Added profile image URL support to player data and related frontend components.
+- Added SoloQ rank and staff impact localisation strings across supported languages.
+
+### Changed
+
+- Improved transfer handling in squad flows, including roster destination behaviour and related transfer tests.
+- Improved player role resolution so active lineup role data and natural position are handled consistently across live match, dashboard, squad and training views.
+
 ## [0.2.0] - 2026-05-07
 
 ### Added
