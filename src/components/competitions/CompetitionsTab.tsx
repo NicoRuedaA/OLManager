@@ -51,7 +51,7 @@ export default function CompetitionsTab({ gameState }: CompetitionsTabProps) {
   // Teams in selected competition
   const selectedTeamIds = selectedCompId
     ? gameState.teams
-        .filter((t) => t.competition_id === selectedCompId)
+        .filter((t) => t.competition_id != null && t.competition_id === selectedCompId)
         .map((t) => t.id)
     : [];
 
