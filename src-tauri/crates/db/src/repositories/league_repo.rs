@@ -18,55 +18,7 @@ pub fn upsert_league(conn: &Connection, league: &League) -> Result<(), String> {
         "INSERT OR REPLACE INTO league (id, name, season) VALUES (?1, ?2, ?3)",
         params![league.id, league.name, league.season],
     )
-<<<<<<< HEAD
-    .map_err(|e| format!("Failed to upsert league: {}", e))?;
-
-    for f in &league.fixtures {
-        let competition_str = format!("{:?}", f.competition);
-        let status_str = format!("{:?}", f.status);
-        let result_json = f
-            .result
-            .as_ref()
-            .map(|r| serde_json::to_string(r).unwrap_or_default());
-        conn.execute(
-            "INSERT INTO fixtures (id, league_id, matchday, date, home_team_id, away_team_id, competition, best_of, status, result)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
-            params![
-                f.id,
-                league.id,
-                f.matchday,
-                f.date,
-                f.home_team_id,
-                f.away_team_id,
-                competition_str,
-                f.best_of,
-                status_str,
-                result_json,
-            ],
-        )
-        .map_err(|e| format!("Failed to insert fixture: {}", e))?;
-    }
-
-    for s in &league.standings {
-        conn.execute(
-            "INSERT INTO standings (league_id, team_id, played, won, lost, goals_for, goals_against, points)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-            params![
-                league.id,
-                s.team_id,
-                s.played,
-                s.won,
-                s.lost,
-                s.maps_won,
-                s.maps_lost,
-                s.points,
-            ],
-        )
-        .map_err(|e| format!("Failed to insert standing: {}", e))?;
-    }
-=======
     .map_err(|e| format!("Failed to upsert league marker: {}", e))?;
->>>>>>> origin/feat/frontend-dto-store
 
     Ok(())
 }
@@ -102,45 +54,7 @@ pub fn load_league(conn: &Connection) -> Result<Option<League>, String> {
     if let Some(ref mut league) = league {
         league.season = season;
     }
-<<<<<<< HEAD
-
-    // Load standings
-    let mut stand_stmt = conn
-        .prepare(
-            "SELECT team_id, played, won, lost, goals_for, goals_against, points
-             FROM standings WHERE league_id = ?1",
-        )
-        .map_err(|e| format!("Failed to prepare standings query: {}", e))?;
-
-    let standing_rows = stand_stmt
-        .query_map(params![league_id], |row| {
-            Ok(StandingEntry {
-                team_id: row.get(0)?,
-                played: row.get(1)?,
-                won: row.get(2)?,
-                lost: row.get(3)?,
-                maps_won: row.get(4)?,
-                maps_lost: row.get(5)?,
-                points: row.get(6)?,
-            })
-        })
-        .map_err(|e| format!("Failed to query standings: {}", e))?;
-
-    let mut standings = Vec::new();
-    for row in standing_rows {
-        standings.push(row.map_err(|e| format!("Failed to read standing: {}", e))?);
-    }
-
-    Ok(Some(League {
-        id: league_id,
-        name,
-        season,
-        fixtures,
-        standings,
-    }))
-=======
     Ok(league)
->>>>>>> origin/feat/frontend-dto-store
 }
 
 /// Check if stale/unlinked competition data exists.

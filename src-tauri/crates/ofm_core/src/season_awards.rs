@@ -425,8 +425,4 @@ mod tests {
             .collect();
         assert_eq!(young_player_ids, vec!["young-four-apps", "young-eligible"]);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/pr/166-171
 }

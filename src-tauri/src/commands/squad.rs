@@ -512,12 +512,6 @@ fn apply_active_lineup(game: &mut Game, team_id: &str, player_ids: Vec<String>) 
 }
 
 #[tauri::command]
-<<<<<<< HEAD
-pub fn set_draft_strategy(
-    state: State<'_, StateManager>,
-    draft_strategy: String,
-) -> Result<Game, String> {
-=======
 pub fn set_draft_strategy(state: State<'_, StateManager>, draft_strategy: String) -> Result<Game, String> {
 >>>>>>> origin/pr/166-171
     info!("[cmd] set_draft_strategy: {}", draft_strategy);

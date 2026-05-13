@@ -880,19 +880,11 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
-<<<<<<< HEAD
-        // Input was swapped order ["sup","jng","mid","top","adc"];
-        // canonicalization reorders to match position_slots fit
-        assert_eq!(
-            starting_xi_ids,
-            vec!["top", "jng", "mid", "adc", "sup"]
-=======
         // Input was ["sup","jng","mid","top","adc"];
         // canonicalization now sorts + deduplicates
         assert_eq!(
             starting_xi_ids,
             vec!["adc", "jng", "mid", "sup", "top"]
->>>>>>> origin/feat/frontend-dto-store
                 .into_iter()
                 .map(str::to_string)
                 .collect::<Vec<_>>()

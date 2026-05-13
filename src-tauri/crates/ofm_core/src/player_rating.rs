@@ -86,40 +86,7 @@ fn footedness_penalty(_player: &Player, _slot_role: &LolRole) -> f64 {
     0.0
 }
 
-<<<<<<< HEAD
-fn weighted_score(player: &Player, _role: &LolRole) -> f64 {
-    natural_ovr(player)
-}
 
-fn weighted_average(scores: &[(u8, f64)]) -> f64 {
-    let total_weight: f64 = scores.iter().map(|(_, w)| w).sum();
-    let weighted_sum: f64 = scores.iter().map(|(s, w)| (*s as f64) * w).sum();
-    weighted_sum / total_weight
-}
-
-fn weighted_sum(weights: &[(u8, i32)]) -> i32 {
-    weights.iter().map(|(v, w)| (*v as i32) * w).sum()
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Side {
-    Left,
-    Right,
-}
-
-fn slot_side(_role: &LolRole) -> Option<Side> {
-    // In LoL, there's no left/right distinction (unlike traditional sports)
-    None
-}
-
-fn critical_penalty(player: &Player, _role: &LolRole) -> f64 {
-    let _attrs = &player.attributes;
-    // No critical position penalty in LoL
-    0.0
-}
-
-=======
->>>>>>> origin/feat/frontend-dto-store
 #[cfg(test)]
 mod tests {
     use super::*;
