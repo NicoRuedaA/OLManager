@@ -1,6 +1,6 @@
 use chrono::{TimeZone, Utc};
 use domain::league::{
-    Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
 };
 use domain::manager::Manager;
 use domain::message::{ActionOption, ActionType, MessageAction, MessageContext};
@@ -264,7 +264,7 @@ fn bench_complaint_after_5_missed_matches() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -280,10 +280,11 @@ fn bench_complaint_after_5_missed_matches() {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![StandingEntry::new("team1".to_string())],
     };
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     // Make p_fwd0 have low morale (< 50), 0 appearances, decent OVR
     let player = game.players.iter_mut().find(|p| p.id == "p_fwd0").unwrap();
@@ -321,7 +322,7 @@ fn bench_complaint_not_for_gk() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -333,10 +334,11 @@ fn bench_complaint_not_for_gk() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![],
     });
@@ -366,7 +368,7 @@ fn bench_complaint_not_with_fewer_than_5_fixtures() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -378,10 +380,11 @@ fn bench_complaint_not_with_fewer_than_5_fixtures() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![],
     });

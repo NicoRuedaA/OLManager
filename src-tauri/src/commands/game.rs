@@ -1,10 +1,11 @@
 use chrono::{Datelike, TimeZone};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::player::{LolRole, Player, PlayerAttributes};
+use domain::player::{Player, PlayerAttributes};
+use domain::staff::Staff;
 use domain::team::{
     AcademyLifecycle, AcademyMetadata, ErlAssignment, ErlAssignmentRule, Team, TeamKind,
 };
-use log::info;
+use log::{info, warn};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
@@ -16,6 +17,7 @@ use domain::manager::Manager;
 use domain::stats::StatsState;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
+use ofm_core::generator::definitions::PlayerDataFile;
 use ofm_core::state::StateManager;
 
 use crate::SaveManagerState;
@@ -30,7 +32,7 @@ pub struct TeamSelectionData {
     pub players: Vec<domain::player::Player>,
 }
 
-const ACADEMY_FALLBACK_PHOTO: &str = "/player-photos/107455908655055017.png";
+const ACADEMY_FALLBACK_PHOTO: &str = "/player-photos/107455908655055017.webp";
 
 fn calculate_age_on_date(birth_date: chrono::NaiveDate, as_of_date: chrono::NaiveDate) -> i32 {
     let mut age = as_of_date.year() - birth_date.year();
@@ -209,7 +211,7 @@ fn seed_role_to_canonical(role: &str) -> String {
     .to_string()
 }
 
-fn parse_example_academy_file(
+pub(crate) fn parse_example_academy_file(
     league_id: &str,
     league_name: &str,
     country_code: &str,
@@ -794,8 +796,37 @@ fn seed_profile_image_url(photo: Option<&str>) -> Option<String> {
 }
 
 fn load_draft_seed_root() -> DraftSeedRoot {
-    let content = include_str!("../../../data/lec/draft/players.json");
-    let mut merged = serde_json::from_str::<DraftSeedRoot>(content).unwrap_or(DraftSeedRoot {
+    // Runtime read from draft/players.json for world editor compatibility.
+    // Returns empty if file doesn't exist — Flow C provides players from modular data.
+    let content = match std::fs::read_to_string(
+        std::env::current_dir().ok().map_or_else(
+            || std::path::PathBuf::from("data/draft/players.json"),
+            |cwd| {
+                let mut path = cwd.clone();
+                path.push("data");
+                path.push("draft");
+                path.push("players.json");
+                if path.exists() { return path; }
+                // tauri dev: cwd is src-tauri/
+                path = cwd;
+                path.push("..");
+                path.push("data");
+                path.push("draft");
+                path.push("players.json");
+                path
+            },
+        ),
+    ) {
+        Ok(c) => c,
+        Err(_) => return DraftSeedRoot {
+            data: DraftSeedData {
+                rostered_seeds: vec![],
+                free_agent_seeds: vec![],
+            },
+        },
+    };
+
+    let mut merged = serde_json::from_str::<DraftSeedRoot>(&content).unwrap_or(DraftSeedRoot {
         data: DraftSeedData {
             rostered_seeds: vec![],
             free_agent_seeds: vec![],
@@ -863,6 +894,48 @@ fn load_external_more_fa_seed() -> Option<DraftSeedRoot> {
     }
 
     None
+}
+
+/// Load and cache free agent players from `data/players/free_agents.json`.
+/// Uses OnceLock for lazy init — file is read once per process lifetime.
+fn load_free_agent_players() -> &'static Vec<Player> {
+    static FREE_AGENTS: OnceLock<Vec<Player>> = OnceLock::new();
+    FREE_AGENTS.get_or_init(|| {
+        let cwd = std::env::current_dir().ok();
+        let candidates = [
+            cwd.as_ref().map(|p| p.join("data").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("..").join("data").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("src-tauri").join("data").join("players").join("free_agents.json")),
+        ];
+
+        for path in candidates.iter().flatten() {
+            if let Ok(content) = std::fs::read_to_string(path) {
+                if let Ok(data) = serde_json::from_str::<PlayerDataFile>(&content) {
+                    info!(
+                        "[game] loaded {} free agent players from {:?}",
+                        data.players.len(),
+                        path
+                    );
+                    return data.players;
+                }
+            }
+        }
+
+        warn!("[game] data/players/free_agents.json not found — using empty pool");
+        Vec::new()
+    })
+}
+
+/// Inject players from `data/players/free_agents.json` into the player list.
+/// Deduplicates by player ID to avoid collisions with competition-loaded players.
+pub(crate) fn inject_json_free_agents(players: &mut Vec<Player>) {
+    let mut existing_ids: HashSet<String> = players.iter().map(|p| p.id.clone()).collect();
+    for fa in load_free_agent_players() {
+        if !existing_ids.contains(&fa.id) {
+            players.push(fa.clone());
+            existing_ids.insert(fa.id.clone());
+        }
+    }
 }
 
 fn draft_seed_root() -> &'static DraftSeedRoot {
@@ -1560,7 +1633,8 @@ pub(crate) fn apply_default_initial_contract_end(players: &mut [Player]) {
 #[cfg(test)]
 mod tests {
     use super::{apply_default_initial_contract_end, default_initial_contract_end_for_start_year};
-    use domain::player::{LolRole, Player, PlayerAttributes};
+    use domain::player::{Player, PlayerAttributes};
+    use domain::stats::LolRole;
 
     fn default_attrs() -> PlayerAttributes {
         PlayerAttributes {
@@ -1689,17 +1763,8 @@ fn build_lol_stats_from_seed(seed: &DraftPlayerSeed) -> [u8; 9] {
 }
 
 fn build_attributes_from_seed(seed: &DraftPlayerSeed) -> PlayerAttributes {
-    let [
-        mechanics,
-        laning,
-        teamfighting,
-        macro_play,
-        consistency,
-        shotcalling,
-        champion_pool,
-        discipline,
-        mental_resilience,
-    ] = build_lol_stats_from_seed(seed);
+    let [mechanics, laning, teamfighting, macro_play, consistency, shotcalling, champion_pool, discipline, mental_resilience] =
+        build_lol_stats_from_seed(seed);
 
     PlayerAttributes {
         mechanics,
@@ -1824,6 +1889,73 @@ pub(crate) fn remove_free_agents_shadowed_by_academy(players: &mut Vec<Player>, 
     });
 }
 
+/// Step 1 (Flow C / lightweight): Create manager only, no world loaded.
+/// Teams, players, staff are empty — they'll be assembled on select_team().
+/// Used when the frontend wants to show league/team selection first.
+#[tauri::command]
+pub async fn start_new_game_lightweight(
+    app_handle: tauri::AppHandle,
+    state: State<'_, StateManager>,
+    nickname: Option<String>,
+    first_name: String,
+    last_name: String,
+    dob: String,
+    nationality: String,
+) -> Result<String, String> {
+    info!(
+        "[cmd] start_new_game_lightweight: {} {} (nickname={:?}, nationality={})",
+        first_name, last_name, nickname, nationality
+    );
+    // Validate inputs (same as start_new_game)
+    let first_name = first_name.trim().to_string();
+    let last_name = last_name.trim().to_string();
+    let nickname = nickname.unwrap_or_default().trim().to_string();
+    if first_name.is_empty() || last_name.is_empty() {
+        return Err("First name and last name are required.".to_string());
+    }
+    if first_name.len() > 30 || last_name.len() > 30 {
+        return Err("First name and last name must not exceed 30 characters.".to_string());
+    }
+    if nickname.len() > 20 {
+        return Err("Nickname must not exceed 20 characters.".to_string());
+    }
+    let nationality = nationality.trim().to_string();
+    if nationality.is_empty() {
+        return Err("Nationality is required.".to_string());
+    }
+
+    let start_date = chrono::Utc.with_ymd_and_hms(2025, 1, 1, 0, 0, 0).unwrap();
+
+    let birth_date = chrono::NaiveDate::parse_from_str(&dob, "%Y-%m-%d")
+        .map_err(|_| "Invalid date of birth. Use YYYY-MM-DD format.".to_string())?;
+    let age = calculate_age_on_date(birth_date, start_date.date_naive());
+    if age > 99 {
+        return Err("Invalid date of birth.".to_string());
+    }
+
+    let mut manager = Manager::new(
+        "mgr_user".to_string(),
+        first_name,
+        last_name,
+        dob,
+        nationality,
+    );
+    manager.nickname = nickname;
+
+    let clock = GameClock::new(start_date);
+
+    // Empty world — will be assembled on select_team()
+    let new_game = Game::new(clock, manager, vec![], vec![], vec![], vec![]);
+
+    info!(
+        "[cmd] start_new_game_lightweight: manager created (no world), storing game in state"
+    );
+    state.set_game(new_game);
+    state.set_stats_state(StatsState::default());
+    info!("[cmd] start_new_game_lightweight: completed");
+    Ok("ok".to_string())
+}
+
 /// Step 1: Create manager + generate world. No team assigned yet.
 /// Returns the Game object so the frontend can show team selection.
 /// world_source: "random" (default) or a file path to a JSON world database.
@@ -1915,6 +2047,7 @@ pub async fn start_new_game(
     bootstrap_example_academy_pool_from_example(&mut teams, &mut players, &academy_bootstrap_date);
     remove_free_agents_shadowed_by_academy(&mut players, &teams);
     inject_seed_free_agents(&mut players);
+    inject_json_free_agents(&mut players);
     apply_default_initial_contract_end(&mut players);
 
     let new_game = Game::new(clock, manager, teams, players, staff, vec![]);
@@ -1932,17 +2065,275 @@ pub async fn start_new_game(
     Ok("ok".to_string())
 }
 
+/// Extract competition ID from a scoped team ID like "lec-g2" → "lec".
+fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
+    let dash_pos = team_id.find('-')?;
+    let prefix = &team_id[..dash_pos];
+    if prefix.is_empty() {
+        return None;
+    }
+    Some(prefix)
+}
+
+/// Assemble teams, players, and staff from modular competition data files.
+/// Used by Flow C: the game was created lightweight (empty teams/players),
+/// and now we need to load the selected competition's data.
+fn assemble_world_from_modular_data(
+    app_handle: &tauri::AppHandle,
+    competition_id: &str,
+    team_id: &str,
+) -> Result<(Vec<Team>, Vec<Player>, Vec<Staff>), String> {
+    info!(
+        "[game] assemble_world_from_modular_data: competition={}, team_id={}",
+        competition_id, team_id
+    );
+
+    // 1. Scan ALL competitions and load every team + player
+    let manifests = crate::commands::competitions::scan_competitions(app_handle);
+    let mut all_teams: Vec<Team> = Vec::new();
+    let mut all_players: Vec<Player> = Vec::new();
+
+    for manifest in &manifests {
+        let cid = &manifest.id;
+        let prefix = format!("{}-", cid);
+
+        if let Ok(mut comp_teams) = crate::commands::competitions::load_competition_teams(app_handle, manifest) {
+            for team in &mut comp_teams {
+                if !team.id.starts_with(&prefix) {
+                    team.id = format!("{}{}", prefix, team.id);
+                }
+                team.competition_id = Some(cid.to_string());
+            }
+            all_teams.extend(comp_teams);
+        }
+        let player_count_before = all_players.len();
+        if let Ok(comp_players) = crate::commands::competitions::load_competition_players(app_handle, manifest) {
+            for mut player in comp_players {
+                if let Some(ref tid) = player.team_id.clone() {
+                    if tid != "fa" && tid != "freeagent" && !tid.starts_with(&prefix) {
+                        player.team_id = Some(format!("{}-{}", cid, tid));
+                    }
+                }
+                if player.morale == 0 { player.morale = 68; }
+                if player.condition == 0 { player.condition = 100; }
+                all_players.push(player);
+            }
+        }
+        let loaded = all_players.len() - player_count_before;
+        info!("[game] loaded {} players for '{}'", loaded, cid);
+    }
+
+    // 2. Load staff free agents
+    let mut staff = crate::commands::competitions::load_staff_free_agents(app_handle)?;
+
+    // 3. Bootstrap academy seeds from ERL references
+    let academy_bootstrap_date = "2025-01-01".to_string();
+    if let Ok(lec_manifest) = crate::commands::competitions::load_competition_manifest(app_handle, "lec") {
+        let erl_teams = crate::commands::competitions::load_erls_from_manifest(app_handle, &lec_manifest);
+        if !erl_teams.is_empty() {
+            bootstrap_example_academy_pool_from_erl_teams(&mut all_teams, &mut all_players, &erl_teams, &academy_bootstrap_date);
+        } else {
+            bootstrap_example_academy_pool_from_example(&mut all_teams, &mut all_players, &academy_bootstrap_date);
+        }
+        remove_free_agents_shadowed_by_academy(&mut all_players, &all_teams);
+    }
+
+    // 4. Inject free agent players from JSON
+    inject_json_free_agents(&mut all_players);
+
+    // 5. Apply default contract ends
+    apply_default_initial_contract_end(&mut all_players);
+
+    info!(
+        "[game] assemble_world_from_modular_data: {} teams, {} players",
+        all_teams.len(),
+        all_players.len()
+    );
+
+    Ok((all_teams, all_players, staff))
+}
+
+/// Alternative to `bootstrap_example_academy_pool_from_example` that takes
+/// a pre-loaded Vec<ExampleAcademyTeamSeed> (from runtime ERL loading).
+fn bootstrap_example_academy_pool_from_erl_teams(
+    teams: &mut Vec<Team>,
+    players: &mut Vec<Player>,
+    seed_catalog: &[ExampleAcademyTeamSeed],
+    current_date_iso: &str,
+) {
+    if seed_catalog.is_empty() {
+        return;
+    }
+
+    let mut existing_team_ids: HashSet<String> = teams.iter().map(|team| team.id.clone()).collect();
+
+    for seed_team in seed_catalog.iter() {
+        let academy_id = academy_seed_team_id(&seed_team.league_id, &seed_team.team_name);
+        if existing_team_ids.contains(&academy_id) {
+            continue;
+        }
+
+        let mut academy_team = Team::new(
+            academy_id.clone(),
+            seed_team.team_name.clone(),
+            seed_team.short_name.clone(),
+            seed_team.country_code.clone(),
+            seed_team.league_name.clone(),
+            format!("{} Academy Arena", seed_team.short_name),
+            2_500,
+        );
+        academy_team.team_kind = TeamKind::Academy;
+        academy_team.parent_team_id = None;
+        academy_team.manager_id = None;
+        academy_team.reputation = 6_000;
+        academy_team.finance = 0;
+        academy_team.wage_budget = 0;
+        academy_team.transfer_budget = 0;
+        academy_team.academy = Some(AcademyMetadata {
+            lifecycle: AcademyLifecycle::Planned,
+            erl_assignment: ErlAssignment {
+                erl_league_id: seed_team.league_id.clone(),
+                country_rule: ErlAssignmentRule::Domestic,
+                fallback_reason: Some(format!(
+                    "Seeded from {} academy roster",
+                    seed_team.league_name
+                )),
+                reputation: 60,
+                acquisition_cost: 0,
+                acquired_at: String::new(),
+                creation_cost: 0,
+                created_at: current_date_iso.to_string(),
+            },
+            source_team_id: academy_id.clone(),
+            original_name: seed_team.team_name.clone(),
+            original_short_name: seed_team.short_name.clone(),
+            original_logo_url: seed_team.logo_url.clone(),
+            current_logo_url: seed_team.logo_url.clone(),
+            acquisition_cost: 0,
+            acquired_at: String::new(),
+        });
+
+        for (player_index, seed_player) in seed_team.players.iter().enumerate() {
+            let ovr = generated_academy_ovr(&seed_player.nickname);
+            let potential = generated_academy_potential(&seed_player.nickname, ovr);
+            let seed = DraftPlayerSeed {
+                ign: seed_player.nickname.clone(),
+                first_name: None,
+                last_name: None,
+                dob: Some(
+                    seed_player
+                        .dob
+                        .clone()
+                        .unwrap_or_else(|| generate_fallback_dob(&seed_player.nickname)),
+                ),
+                nationality: Some(seed_player.nationality.clone()),
+                role: Some(seed_role_to_canonical(&seed_player.role)),
+                team_id: Some(academy_id.clone()),
+                rating: Some(ovr),
+                potential: Some(potential),
+                salary: Some(8_000),
+                contract_end: Some("2028-11-30".to_string()),
+                market_value: Some(suggested_seed_market_value(ovr, potential, true)),
+                reputation: Some(62),
+                photo: seed_profile_image_url(
+                    (!seed_player.image_url.is_empty()).then_some(seed_player.image_url.as_str()),
+                ),
+            };
+
+            let attributes = build_attributes_from_seed(&seed);
+            let position = role_to_lol_role(seed.role.as_deref());
+            let player_id = format!("{}-player-{}", academy_id, player_index + 1);
+
+            let mut player = Player::new(
+                player_id,
+                seed_player.nickname.clone(),
+                seed_player.full_name.clone(),
+                seed.dob
+                    .clone()
+                    .unwrap_or_else(|| generate_fallback_dob(&seed_player.nickname)),
+                seed_player.nationality.clone(),
+                position,
+                attributes,
+            );
+            player.team_id = Some(academy_id.clone());
+            player.contract_end = seed.contract_end.clone();
+            player.wage = seed.salary.unwrap_or(8_000);
+            player.market_value = seed.market_value.unwrap_or(240_000);
+            player.potential_base = potential;
+            player.profile_image_url = seed.photo.clone();
+            player.morale = 68;
+            player.condition = 100;
+
+            players.push(player);
+        }
+
+        existing_team_ids.insert(academy_id.clone());
+        teams.push(academy_team);
+    }
+
+    // Link parent teams to academy teams
+    let link_ids: Vec<(String, String)> = {
+        let mut links = Vec::new();
+        for seed_team in seed_catalog.iter() {
+            let academy_id = academy_seed_team_id(&seed_team.league_id, &seed_team.team_name);
+            let normalized_academy = normalize_academy_key(&seed_team.team_name);
+
+            if let Some(parent) = teams.iter().find(|team| {
+                team.team_kind == TeamKind::Main
+                    && team.academy_team_id.is_none()
+                    && academy_team_alias_for_parent(&team.name)
+                        .map_or(false, |a| normalize_academy_key(a) == normalized_academy)
+            }) {
+                links.push((parent.id.clone(), academy_id));
+            }
+        }
+        links
+    };
+
+    for (parent_id, academy_id) in link_ids {
+        if let Some(parent) = teams.iter_mut().find(|t| t.id == parent_id) {
+            parent.academy_team_id = Some(academy_id.clone());
+        }
+        if let Some(academy) = teams.iter_mut().find(|t| t.id == academy_id) {
+            academy.parent_team_id = Some(parent_id);
+            if let Some(ref mut meta) = academy.academy {
+                meta.lifecycle = AcademyLifecycle::Active;
+                meta.erl_assignment.reputation = 62;
+            }
+        }
+    }
+}
+
 /// Step 2: User picks a team. Assigns manager, generates welcome message, saves to DB.
+/// Supports both Flow A (world pre-loaded) and Flow C (modular assembly).
 #[tauri::command]
 pub async fn select_team(
     state: State<'_, StateManager>,
     sm_state: State<'_, SaveManagerState>,
+    app_handle: tauri::AppHandle,
     team_id: String,
 ) -> Result<Game, String> {
     info!("[cmd] select_team: team_id={}", team_id);
     let mut game = state
         .get_game(|g: &Game| g.clone())
         .ok_or("No active game session".to_string())?;
+
+    // Detect flow: if game has no teams, this is Flow C (modular assembly)
+    if game.teams.is_empty() {
+        info!("[cmd] select_team: empty game state — assembling from modular data");
+
+        // Extract competition ID from team ID (e.g. "lec-g2" → "lec")
+        let competition_id = competition_id_from_team_id(&team_id)
+            .ok_or_else(|| format!("Invalid team ID format '{}': missing competition prefix", team_id))?;
+
+        // Assemble teams, players, staff from modular data
+        let (assembled_teams, assembled_players, assembled_staff) =
+            assemble_world_from_modular_data(&app_handle, competition_id, &team_id)?;
+
+        game.teams = assembled_teams;
+        game.players = assembled_players;
+        game.staff = assembled_staff;
+    }
 
     // Validate team exists
     let team = game
@@ -1961,55 +2352,67 @@ pub async fn select_team(
         t.manager_id = Some(game.manager.id.clone());
     }
 
-    // Generate Winter schedule (LEC):
-    // - Regular season: single round-robin (9 matchdays with 10 teams)
-    // - Superweeks: Sat/Sun/Mon blocks (3 rounds per superweek)
-    //
-    // Reference windows:
-    // Winter 2025: 2025-01-18 → 2025-03-02
-    // Spring 2025: 2025-03-29 → 2025-06-08
-    // Summer 2025: 2025-08-02 → 2025-09-28
+    // Generate schedules for ALL competitions
     let season_year = game.clock.current_date.year();
-    let season_start = chrono::Utc
-        .with_ymd_and_hms(season_year, 1, 18, 0, 0, 0)
-        .unwrap();
-    // 9 rounds in 3 superweeks (Sat/Sun/Mon, then +7 days)
-    let winter_round_offsets: [i64; 9] = [0, 1, 2, 7, 8, 9, 14, 15, 16];
-    let team_ids: Vec<String> = game
-        .teams
-        .iter()
-        .filter(|team| team.team_kind != TeamKind::Academy)
-        .map(|team| team.id.clone())
-        .collect();
-    let mut league = ofm_core::schedule::generate_single_round_league_with_offsets_and_bo(
-        "LEC Winter",
-        season_year as u32,
-        &team_ids,
-        season_start,
-        Some(&winter_round_offsets),
-        ofm_core::schedule::regular_best_of(ofm_core::schedule::LecSplit::Winter),
-    );
+    let user_cid = competition_id_from_team_id(&team_id);
+    let all_manifests = crate::commands::competitions::scan_competitions(&app_handle);
+    let mut all_leagues: Vec<domain::league::League> = Vec::new();
 
-    // IMPORTANT: playoffs are generated later from real standings.
-    // Do not pre-seed playoff fixtures at game start (would leak teams before matches are played).
+    for manifest in &all_manifests {
+        let cid = &manifest.id;
+        let prefix = format!("{}-", cid);
+        let team_ids: Vec<String> = game.teams.iter()
+            .filter(|team| team.team_kind != TeamKind::Academy && team.id.starts_with(&prefix))
+            .map(|team| team.id.clone()).collect();
 
-    let opponents: Vec<String> = team_ids
-        .iter()
-        .filter(|candidate_team_id| candidate_team_id.as_str() != team_id)
-        .cloned()
-        .collect();
-    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-    let mut friendlies =
-        ofm_core::schedule::generate_preseason_friendlies(&team_id, &opponents, season_start, 3);
-    // Avoid scheduling preseason fixtures in the past relative to game start.
-    friendlies.retain(|fixture| fixture.date >= today);
-    ofm_core::schedule::append_fixtures(&mut league, friendlies);
-    game.league = Some(league);
+        if team_ids.len() < 2 { continue; }
+
+        let schedule_config = &manifest.schedule;
+        let mut league = ofm_core::schedule::generate_schedule_from_config(
+            &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
+        );
+
+        // Only generate friendlies for the user's competition
+        if user_cid == Some(cid.as_str()) {
+            let opponents: Vec<String> = team_ids.iter()
+                .filter(|tid| tid.as_str() != team_id).cloned().collect();
+            if !opponents.is_empty() {
+                let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+                let split = &schedule_config.splits[0];
+                let season_start = chrono::Utc
+                    .with_ymd_and_hms(season_year, split.season_start.month, split.season_start.day, 0, 0, 0)
+                    .unwrap();
+                let mut friendlies = ofm_core::schedule::generate_preseason_friendlies(
+                    &team_id, &opponents, season_start, schedule_config.preseason_friendlies as usize,
+                );
+                friendlies.retain(|fixture| fixture.date >= today);
+                ofm_core::schedule::append_fixtures(&mut league, friendlies);
+            }
+        }
+
+        league.competition_id = Some(cid.clone());
+        all_leagues.push(league);
+    }
+
+    // Populate competition_configs from all manifests for bg season cycling
+    for manifest in &all_manifests {
+        game.competition_configs
+            .insert(manifest.id.clone(), manifest.schedule.clone());
+    }
+
+    game.leagues = all_leagues;
     ofm_core::champions::bootstrap_champion_state(&mut game);
     ofm_core::season_context::refresh_game_context(&mut game);
 
     // Rich templated messages
     let date_str = game.clock.current_date.to_rfc3339();
+
+    // Get league name for messages
+    let league_display_name = user_cid
+        .and_then(|cid| crate::commands::competitions::load_competition_manifest(&app_handle, cid).ok())
+        .map(|m| format!("{} {}", m.name, m.schedule.splits.first().map(|s| s.name.as_str()).unwrap_or("")))
+        .unwrap_or_else(|| "LEC Winter".to_string());
+
     let welcome_msg = ofm_core::messages::welcome_message(&team_name, &team_id, &date_str);
     game.messages.push(welcome_msg);
 
@@ -2031,9 +2434,26 @@ pub async fn select_team(
         }
     }
 
+    // For schedule message, compute season start from user competition manifest or fallback
+    let season_start_str = if let Some(cid) = user_cid {
+        if let Ok(m) = crate::commands::competitions::load_competition_manifest(&app_handle, cid) {
+            let split = &m.schedule.splits[0];
+            format!(
+                "{} {}, {}",
+                chrono::Month::try_from(split.season_start.month as u8).map(|mon| mon.name()).unwrap_or("January"),
+                split.season_start.day,
+                season_year
+            )
+        } else {
+            format!("January 18, {}", season_year)
+        }
+    } else {
+        format!("January 18, {}", season_year)
+    };
+
     let season_msg = ofm_core::messages::season_schedule_message(
-        "LEC Winter",
-        &season_start.format("%B %d, %Y").to_string(),
+        &league_display_name,
+        &season_start_str,
         &date_str,
     );
     game.messages.push(season_msg);
@@ -2114,8 +2534,11 @@ pub async fn load_game(
         game.teams.len()
     );
 
+    // Legacy migration is handled by Game's custom Deserialize
+
     remove_free_agents_shadowed_by_academy(&mut game.players, &game.teams);
     inject_seed_free_agents(&mut game.players);
+    inject_json_free_agents(&mut game.players);
     ofm_core::champions::bootstrap_champion_state(&mut game);
 
     info!("[cmd] load_game: loading stats state");

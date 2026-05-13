@@ -1,5 +1,7 @@
-import championsSeed from "../../data/lec/draft/champions.json";
+import championsSeed from "../../data/draft/champions.json";
 import type { PlayerData, TeamData } from "../store/gameStore";
+import type { PlayerData } from "../store/gameStore";
+>>>>>>> origin/pr/166-171
 
 export type LolRoleTag = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -16,12 +18,18 @@ const ACTIVE_LINEUP_ROLES: readonly LolRoleTag[] = [
  * Now that the backend uses LolRole directly, this is straightforward.
  */
 export function resolvePlayerLolRole(player: PlayerData): LolRoleTag {
-  // Player's natural_position is already a LolRole from the backend
-  const role = player.natural_position;
+  // Use position first (set by Rust LolRole custom deserializer from data files)
+  const role = player.position;
   if (role === "TOP" || role === "JUNGLE" || role === "MID" || role === "ADC" || role === "SUPPORT") {
     return role;
   }
-  const legacyRole = String(role ?? player.position ?? "").toLowerCase();
+  // Fall back to natural_position (may be "UNKNOWN" if not set in data)
+  const np = player.natural_position;
+  if (np === "TOP" || np === "JUNGLE" || np === "MID" || np === "ADC" || np === "SUPPORT") {
+    return np;
+  }
+  // Last resort: try legacy football position mapping from either field
+  const legacyRole = String(role || np || "").toLowerCase();
   if (legacyRole === "defender" || legacyRole === "centre-back" || legacyRole === "center-back" || legacyRole === "full-back") {
     return "TOP";
   }
@@ -34,7 +42,8 @@ export function resolvePlayerLolRole(player: PlayerData): LolRoleTag {
   if (legacyRole === "goalkeeper") {
     return "SUPPORT";
   }
-  return "MID";
+  // Absolute fallback — should never reach here with LEC data
+  return "TOP";
 }
 
 /**

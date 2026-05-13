@@ -414,7 +414,7 @@ function makeReportedFixture(id: string) {
     date: "2026-08-01",
     home_team_id: "team1",
     away_team_id: "team2",
-    competition: "League" as const,
+    match_type: "League" as const,
     status: "Completed" as const,
     result: {
       home_goals: 2,
@@ -463,7 +463,7 @@ function makeReportedFixture(id: string) {
 describe("PostMatchScreen", function (): void {
   it("renders the round summary mini table and scorer list when summary data exists", function (): void {
     const gameState = makeGameState();
-    gameState.league = {
+    gameState.leagues[0] = {
       id: "league-1",
       name: "League",
       season: 1,
@@ -482,7 +482,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-08-01",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "League",
+            match_type: "League",
             status: "Completed",
             result: null,
           }}
@@ -551,7 +551,7 @@ describe("PostMatchScreen", function (): void {
 
   it("opens a read-only detail modal for another completed fixture", function (): void {
     const gameState = makeGameState();
-    gameState.league = {
+    gameState.leagues[0] = {
       id: "league-1",
       name: "League",
       season: 1,
@@ -570,7 +570,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-08-01",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "League",
+            match_type: "League",
             status: "Completed",
             result: null,
           }}
@@ -625,7 +625,7 @@ describe("PostMatchScreen", function (): void {
             date: "2026-07-20",
             home_team_id: "team1",
             away_team_id: "team2",
-            competition: "Friendly",
+            match_type: "Friendly",
             status: "Completed",
             result: null,
           }}

@@ -7,10 +7,10 @@ import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolvePlayerLolRole } from "../../lib/lolIdentity";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
-import aiConfigSeed from "../../../data/lec/draft/ai-config.json";
+import teamsSeed from "../../../data/draft/teams.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
+import aiConfigSeed from "../../../data/draft/ai-config.json";
 import {
   computeBanRecommendationScore as computeUnifiedBanRecommendationScore,
   rankBanCandidates,
@@ -281,7 +281,7 @@ const META_CHAMPION_SCORES: Record<string, number> = {
 };
 
 const ROLE_ORDER: Role[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
-const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.png";
+const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.webp";
 const LEC_LOGO_URL = "/lec-logo.svg";
 const EMPTY_LOCKED_CHAMPION_IDS: string[] = [];
 const ROLE_ICON_URLS: Record<Role, string> = {
@@ -2274,7 +2274,7 @@ export default function ChampionDraft({
       const sourceImage =
         resolvePlayerPhoto(player.id, player.name) ??
         playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
-        `/player-photos/${player.id}.png`;
+        `/player-photos/${player.id}.webp`;
 
       const playerState = gameState.players.find((item) => item.id === player.id);
       const gameIq = playerState
@@ -2411,7 +2411,7 @@ export default function ChampionDraft({
           sourceImage:
             resolvePlayerPhoto(fallbackPlayer.id, fallbackPlayer.name) ??
             playerSeedPhotoUrl(fallbackSeedPlayer?.photo) ??
-            `/player-photos/${fallbackPlayer.id}.png`,
+            `/player-photos/${fallbackPlayer.id}.webp`,
           type: "pick",
           text: uniquePhrase(
             "match.draft.phrases.playerComfortPick",

@@ -89,6 +89,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             list_world_databases,
             start_new_game,
+            start_new_game_lightweight,
             export_world_database,
             write_temp_database,
             load_world_editor_database,
@@ -98,6 +99,7 @@ pub fn run() {
             load_game,
             get_active_game,
             get_team_selection_data,
+            get_league_selection_data,
             get_academy_acquisition_options,
             acquire_academy_team,
             promote_academy_player,

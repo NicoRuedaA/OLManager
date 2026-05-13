@@ -46,10 +46,10 @@ export default function TournamentsTab({
 
   const standings = [...league.standings].sort(compareStandingsByLolScore);
 
-  const playoffFixtures = league.fixtures.filter((fixture) => fixture.competition === "Playoffs");
+  const playoffFixtures = league.fixtures.filter((fixture) => fixture.match_type === "Playoffs");
   const hasPlayoffsStarted = playoffFixtures.length > 0;
   const tournamentFixtures = league.fixtures.filter(
-    (fixture) => fixture.competition === "League" || fixture.competition === "Playoffs",
+    (fixture) => fixture.match_type === "League" || fixture.match_type === "Playoffs",
   );
 
   const matchdays = new Map<number, FixtureData[]>();
@@ -76,7 +76,7 @@ export default function TournamentsTab({
       ? [...academyLeague.standings].sort(compareStandingsByLolScore)
     : [];
   const academyPlayoffFixtures = academyLeague
-    ? academyLeague.fixtures.filter((fixture) => fixture.competition === "Playoffs")
+    ? academyLeague.fixtures.filter((fixture) => fixture.match_type === "Playoffs")
     : [];
   const hasAcademyPlayoffsStarted = academyPlayoffFixtures.length > 0;
 
@@ -287,7 +287,7 @@ export default function TournamentsTab({
                     return (
                       <div key={`overview-md-${md}`} className="px-4 py-3">
                         <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-heading font-bold">
-                          {first.competition === "Playoffs"
+                          {first.match_type === "Playoffs"
                             ? `${t("schedule.playoffs")} · ${t("schedule.round", { number: md })}`
                             : t("schedule.matchday", { number: md })}
                         </p>
@@ -480,7 +480,7 @@ export default function TournamentsTab({
             <Card key={md}>
               <div className="px-5 py-3 border-b border-gray-100 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 rounded-t-xl">
                 <h4 className="font-heading font-bold text-sm uppercase tracking-wider text-gray-600 dark:text-gray-300">
-                  {fixtures[0].competition === "Playoffs"
+                  {fixtures[0].match_type === "Playoffs"
                     ? `${t("schedule.playoffs")} · ${t("schedule.round", { number: md })}`
                     : t("schedule.matchday", { number: md })} — {formatMatchDate(fixtures[0].date)}
                 </h4>

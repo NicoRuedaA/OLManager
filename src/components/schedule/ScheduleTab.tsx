@@ -63,25 +63,25 @@ export default function ScheduleTab({
   const isPreseason = seasonContext.phase === "Preseason";
 
   const getFixtureGroupKey = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `league-${fixture.matchday}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       return `playoffs-${fixture.matchday}`;
     }
 
-    return `${fixture.competition}-${fixture.date}`;
+    return `${fixture.match_type}-${fixture.date}`;
   };
 
   const getFixtureGroupLabel = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `${t("schedule.matchday", { number: fixture.matchday })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       const playoffStart = league?.fixtures
-        ?.filter((candidate) => candidate.competition === "Playoffs")
+        ?.filter((candidate) => candidate.match_type === "Playoffs")
         .map((candidate) => candidate.matchday)
         .reduce((min, value) => Math.min(min, value), Number.POSITIVE_INFINITY);
       const round = Number.isFinite(playoffStart)
@@ -90,7 +90,7 @@ export default function ScheduleTab({
       return `${t("schedule.playoffs")} · ${t("schedule.round", { number: round })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "PreseasonTournament") {
+    if (fixture.match_type === "PreseasonTournament") {
       return `${t("season.preseasonTournament")} — ${formatMatchDate(fixture.date)}`;
     }
 
@@ -122,7 +122,7 @@ export default function ScheduleTab({
   }
 
   const fixturesForDisplay = league.fixtures;
-  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.competition === "Playoffs");
+  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.match_type === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
 
   // Group fixtures by matchday

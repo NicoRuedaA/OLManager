@@ -414,9 +414,7 @@ pub fn all_migrations() -> Migrations<'static> {
         // V53: Drop formation column from teams table (formation no longer used)
         M::up(include_str!("sql/v053_remove_formation.sql")),
         // V54: Rename play_style column to draft_strategy
-        M::up(include_str!(
-            "sql/v054_rename_play_style_to_draft_strategy.sql"
-        )),
+        M::up(include_str!("sql/v054_rename_play_style_to_draft_strategy.sql")),
     ])
 }
 

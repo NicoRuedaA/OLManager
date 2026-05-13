@@ -1,5 +1,5 @@
 use chrono::{DateTime, Duration, Utc};
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League};
+use domain::league::{Fixture, MatchType, FixtureStatus, League};
 use uuid::Uuid;
 
 fn build_fixture(
@@ -7,7 +7,7 @@ fn build_fixture(
     date: String,
     home_team_id: String,
     away_team_id: String,
-    competition: FixtureCompetition,
+    match_type: MatchType,
     best_of: u8,
 ) -> Fixture {
     Fixture {
@@ -16,7 +16,7 @@ fn build_fixture(
         date,
         home_team_id,
         away_team_id,
-        competition,
+        match_type,
         best_of,
         status: FixtureStatus::Scheduled,
         result: None,
@@ -104,7 +104,7 @@ pub fn generate_league(
                 date: date_str.clone(),
                 home_team_id: team_ids[home_idx].clone(),
                 away_team_id: team_ids[away_idx].clone(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -136,7 +136,7 @@ pub fn generate_league(
                 date: date_str.clone(),
                 home_team_id: team_ids[home_idx].clone(),
                 away_team_id: team_ids[away_idx].clone(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -239,7 +239,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
                 date_str.clone(),
                 home_team_id,
                 away_team_id,
-                FixtureCompetition::League,
+                MatchType::League,
                 best_of,
             ));
         }
@@ -299,7 +299,7 @@ pub fn generate_winter_playoffs(
                 date_str.clone(),
                 home_team_id.clone(),
                 away_team_id.clone(),
-                FixtureCompetition::Playoffs,
+                MatchType::Playoffs,
                 playoff_best_of(LecSplit::Winter, round_index == rounds.len() - 1),
             ));
         }
@@ -351,7 +351,7 @@ pub fn generate_spring_summer_playoffs(
                 date_str.clone(),
                 home_team_id.clone(),
                 away_team_id.clone(),
-                FixtureCompetition::Playoffs,
+                MatchType::Playoffs,
                 playoff_best_of(split, is_grand_final),
             ));
         }
@@ -388,7 +388,7 @@ pub fn generate_preseason_friendlies(
                 date,
                 home_team_id,
                 away_team_id,
-                competition: FixtureCompetition::Friendly,
+                match_type: MatchType::Friendly,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -489,7 +489,7 @@ mod tests {
         assert!(
             friendlies
                 .iter()
-                .all(|fixture| fixture.competition == FixtureCompetition::Friendly)
+                .all(|fixture| fixture.match_type == MatchType::Friendly)
         );
         assert!(friendlies.iter().all(|fixture| fixture.matchday == 0));
         assert!(friendlies.iter().all(|fixture| fixture.best_of == 1));

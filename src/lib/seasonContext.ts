@@ -60,7 +60,7 @@ function deriveSeasonContext(gameState: GameStateData): SeasonContextData {
   }
 
   const competitiveFixtures = league.fixtures.filter((fixture) =>
-    !fixture.competition || fixture.competition === "League",
+    !fixture.match_type || fixture.match_type === "League",
   );
 
   const fixtureDates = competitiveFixtures

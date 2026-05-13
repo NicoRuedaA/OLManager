@@ -512,10 +512,14 @@ fn apply_active_lineup(game: &mut Game, team_id: &str, player_ids: Vec<String>) 
 }
 
 #[tauri::command]
+<<<<<<< HEAD
 pub fn set_draft_strategy(
     state: State<'_, StateManager>,
     draft_strategy: String,
 ) -> Result<Game, String> {
+=======
+pub fn set_draft_strategy(state: State<'_, StateManager>, draft_strategy: String) -> Result<Game, String> {
+>>>>>>> origin/pr/166-171
     info!("[cmd] set_draft_strategy: {}", draft_strategy);
     let mut game = state
         .get_game(|g| g.clone())
@@ -1353,8 +1357,8 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
     );
 
     let has_official_match = game
-        .league
-        .as_ref()
+        .leagues
+        .first()
         .map(|league| {
             league.fixtures.iter().any(|fixture| {
                 fixture.status == domain::league::FixtureStatus::Scheduled
@@ -1617,7 +1621,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         .max_by_key(|(_, count)| *count)
         .map(|(issue, _)| issue);
 
-    let next_official_fixture = game.league.as_ref().and_then(|league| {
+    let next_official_fixture = game.leagues.first().and_then(|league| {
         let mut fixtures: Vec<&domain::league::Fixture> = league
             .fixtures
             .iter()
@@ -1848,7 +1852,8 @@ pub fn auto_select_team_roles(
 mod tests {
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes};
+    use domain::player::{Player, PlayerAttributes, LolRole};
+>>>>>>> origin/pr/166-171
     use domain::staff::{Staff, StaffAttributes, StaffRole};
     use domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
     use ofm_core::clock::GameClock;

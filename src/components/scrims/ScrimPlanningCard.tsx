@@ -24,7 +24,7 @@ function teamLogoPath(teamId: string): string {
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
-  return `/team-logos/${slug}.png`;
+  return `/teams-icons/${slug}.webp`;
 }
 
 function opponentLabel(teamName: string, ovr: number): string {

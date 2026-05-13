@@ -11,12 +11,14 @@ pub struct League {
     pub season: u32,
     pub fixtures: Vec<Fixture>,
     pub standings: Vec<StandingEntry>,
+    #[serde(default)]
+    pub competition_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
-pub enum FixtureCompetition {
+pub enum MatchType {
     #[default]
     League,
     Friendly,
@@ -34,7 +36,8 @@ pub struct Fixture {
     pub date: String,
     pub home_team_id: String,
     pub away_team_id: String,
-    pub competition: FixtureCompetition,
+    #[serde(alias = "competition")]
+    pub match_type: MatchType,
     #[serde(default = "default_best_of")]
     pub best_of: u8,
     pub status: FixtureStatus,
@@ -166,12 +169,12 @@ impl StandingEntry {
 
 impl Fixture {
     pub fn counts_for_league_standings(&self) -> bool {
-        matches!(self.competition, FixtureCompetition::League)
+        matches!(self.match_type, MatchType::League)
     }
 }
 
 impl League {
-    pub fn new(id: String, name: String, season: u32, team_ids: &[String]) -> Self {
+    pub fn new(id: String, name: String, season: u32, team_ids: &[String], competition_id: Option<String>) -> Self {
         let standings = team_ids
             .iter()
             .map(|tid| StandingEntry::new(tid.clone()))
@@ -183,6 +186,7 @@ impl League {
             season,
             fixtures: Vec::new(),
             standings,
+            competition_id,
         }
     }
 
@@ -206,7 +210,7 @@ impl Default for Fixture {
             date: String::new(),
             home_team_id: String::new(),
             away_team_id: String::new(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: default_best_of(),
             status: FixtureStatus::Scheduled,
             result: None,

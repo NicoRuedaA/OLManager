@@ -136,7 +136,7 @@ pub fn apply_match_report_with_capture<F>(
     let mut counts_for_standings = false;
 
     // Update fixture status, standings
-    if let Some(league) = game.league.as_mut() {
+    if let Some(league) = game.leagues.first_mut() {
         let fixture = &mut league.fixtures[fixture_index];
         fixture.status = FixtureStatus::Completed;
         counts_for_standings = fixture.counts_for_league_standings();
@@ -224,7 +224,7 @@ pub fn apply_match_report_with_capture<F>(
         && let Some(user_team_id) = &game.manager.team_id
         && (*user_team_id == home_team_id || *user_team_id == away_team_id)
     {
-        let fixture = &game.league.as_ref().unwrap().fixtures[fixture_index];
+        let fixture = &game.leagues.first().unwrap().fixtures[fixture_index];
         let res = fixture.result.as_ref().unwrap();
         let home_name = game
             .teams
@@ -267,7 +267,7 @@ fn build_stats_state_capture(
     away_team_id: &str,
     report: &engine::MatchReport,
 ) -> StatsState {
-    let Some(league) = game.league.as_ref() else {
+    let Some(league) = game.leagues.first() else {
         return StatsState::default();
     };
     let Some(fixture) = league.fixtures.get(fixture_index) else {
@@ -308,7 +308,7 @@ fn build_stats_state_capture(
                 season: league.season,
                 matchday: fixture.matchday,
                 date: fixture.date.clone(),
-                competition: fixture.competition.clone(),
+                match_type: fixture.match_type.clone(),
                 player_id: player_id.clone(),
                 team_id: team_id.to_string(),
                 opponent_team_id: opponent_team_id.to_string(),
@@ -338,7 +338,7 @@ fn build_stats_state_capture(
             season: league.season,
             matchday: fixture.matchday,
             date: fixture.date.clone(),
-            competition: fixture.competition.clone(),
+            match_type: fixture.match_type.clone(),
             team_id: home_team_id.to_string(),
             opponent_team_id: away_team_id.to_string(),
             side: TeamSide::Blue,
@@ -355,7 +355,7 @@ fn build_stats_state_capture(
             season: league.season,
             matchday: fixture.matchday,
             date: fixture.date.clone(),
-            competition: fixture.competition.clone(),
+            match_type: fixture.match_type.clone(),
             team_id: away_team_id.to_string(),
             opponent_team_id: home_team_id.to_string(),
             side: TeamSide::Red,

@@ -1,5 +1,5 @@
 use crate::game::Game;
-use crate::player_rating::{effective_rating_for_assignment, natural_ovr, position_slots};
+use crate::player_rating::{effective_rating_for_assignment, position_slots, natural_ovr};
 use domain::league::{Fixture, FixtureStatus, StandingEntry};
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
@@ -76,7 +76,7 @@ pub fn build_round_summary(
     matchday: u32,
     previous_standings: &[StandingEntry],
 ) -> Option<RoundSummary> {
-    let league = game.league.as_ref()?;
+    let league = game.leagues.first()?;
     let round_fixtures: Vec<&Fixture> = league
         .fixtures
         .iter()

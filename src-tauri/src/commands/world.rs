@@ -1,3 +1,14 @@
+// LEGACY / DEPRECATED: World Editor module
+// =========================================
+// This module reads and writes the monolithic `world.json` file for the
+// World Editor UI. It is kept for backward compatibility with the editor
+// and for loading legacy saves that reference world.json.
+//
+// All NEW game flows use modular competition data (Phase 2+ of the
+// multi-league change). The world editor will be updated to support
+// modular data in a FUTURE change.
+// =========================================
+
 use log::info;
 use tauri::Manager as TauriManager;
 use tauri::State;
@@ -14,7 +25,9 @@ fn resolve_default_world_editor_path(
 ) -> Result<std::path::PathBuf, String> {
     let cwd = std::env::current_dir().map_err(|e| format!("Failed to read current dir: {}", e))?;
     let candidates = [
-        cwd.join("src-tauri").join("databases").join("world.json"),
+        cwd.join("src-tauri")
+            .join("databases")
+            .join("world.json"),
         cwd.join("databases").join("world.json"),
         app_handle
             .path()
@@ -254,7 +267,7 @@ mod tests {
     use super::{export_world_database_internal, write_database_json_to_dir};
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes};
+    use domain::player::{Player, PlayerAttributes, LolRole};
     use domain::team::Team;
     use ofm_core::clock::GameClock;
     use ofm_core::game::Game;

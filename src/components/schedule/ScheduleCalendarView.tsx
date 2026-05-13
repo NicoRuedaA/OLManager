@@ -309,7 +309,7 @@ export default function ScheduleCalendarView({
 
   const seasonStartKey = useMemo(() => {
     const firstLeagueDate = fixtures
-      .filter((f) => f.competition === "League")
+      .filter((f) => f.match_type === "League")
       .map((f) => parseFixtureDate(f.date))
       .filter((d): d is Date => d !== null)
       .sort((a, b) => a.getTime() - b.getTime())[0];
@@ -318,10 +318,10 @@ export default function ScheduleCalendarView({
   }, [fixtures]);
 
   const estimatedPlayoffsStartKey = useMemo(() => {
-    const hasPlayoffs = fixtures.some((f) => f.competition === "Playoffs");
+    const hasPlayoffs = fixtures.some((f) => f.match_type === "Playoffs");
     if (hasPlayoffs) return null;
     const lastLeagueDate = fixtures
-      .filter((f) => f.competition === "League")
+      .filter((f) => f.match_type === "League")
       .map((f) => parseFixtureDate(f.date))
       .filter((d): d is Date => d !== null)
       .sort((a, b) => b.getTime() - a.getTime())[0];

@@ -101,6 +101,7 @@ pub enum Footedness {
 pub struct PlayerAttributes {
     // These 9 attributes are used by the engine simulation.
     // Aliases provide backward compat with old save files (football-era names + removed fields).
+
     /// Mechanical skill — replaces reaction_speed
     #[serde(alias = "dribbling", alias = "reaction_speed")]
     pub mechanics: u8,
@@ -130,11 +131,7 @@ pub struct PlayerAttributes {
     pub champion_pool: u8,
 
     /// Discipline / composure — replaces positional_defense
-    #[serde(
-        default = "default_attr",
-        alias = "composure",
-        alias = "positional_defense"
-    )]
+    #[serde(default = "default_attr", alias = "composure", alias = "positional_defense")]
     pub discipline: u8,
 
     /// Mental resilience / stamina — replaces durability
@@ -311,16 +308,27 @@ fn default_transfer_offer_destination_team_id() -> Option<String> {
 #[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerSeasonStats {
+    #[serde(default)]
     pub appearances: u32,
+    #[serde(default)]
     pub kills: u32,
+    #[serde(default)]
     pub assists: u32,
+    #[serde(default)]
     pub avg_rating: f32,
+    #[serde(default)]
     pub minutes_played: u32,
+    #[serde(default)]
     pub shots: u32,
+    #[serde(default)]
     pub shots_on_target: u32,
+    #[serde(default)]
     pub passes_completed: u32,
+    #[serde(default)]
     pub passes_attempted: u32,
+    #[serde(default)]
     pub tackles_won: u32,
+    #[serde(default)]
     pub interceptions: u32,
 }
 
@@ -331,10 +339,15 @@ pub struct CareerEntry {
     pub season: u32,
     pub team_id: String,
     pub team_name: String,
+    #[serde(default)]
     pub appearances: u32,
+    #[serde(default)]
     pub kills: u32,
+    #[serde(default)]
     pub deaths: u32,
+    #[serde(default)]
     pub assists: u32,
+    #[serde(default)]
     pub avg_rating: f32,
 }
 

@@ -251,7 +251,8 @@ mod tests {
     };
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes, TransferOffer, TransferOfferStatus};
+    use domain::player::{Player, PlayerAttributes, TransferOffer, TransferOfferStatus, LolRole};
+>>>>>>> origin/pr/166-171
     use domain::season::TransferWindowStatus;
     use domain::team::Team;
     use ofm_core::clock::GameClock;

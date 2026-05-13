@@ -228,7 +228,7 @@ mod tests {
     use crate::game::Game;
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, Position};
+    use domain::player::{Player, PlayerAttributes};
     use domain::team::Team;
 
     fn attrs(stat: u8) -> PlayerAttributes {

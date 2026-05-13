@@ -58,6 +58,9 @@ pnpm-debug.log*
 # Agent Teams Lite local registry
 .atl/
 
+# Engram persistent memory (local only)
+.engram/
+
 # =========================
 # OS files
 # =========================

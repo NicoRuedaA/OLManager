@@ -1,12 +1,12 @@
-use domain::league::FixtureCompetition;
+use domain::league::MatchType;
 use ofm_core::state::StateManager;
 
-pub(super) fn competition_label(competition: &FixtureCompetition) -> String {
-    match competition {
-        FixtureCompetition::League => "League".to_string(),
-        FixtureCompetition::Friendly => "Friendly".to_string(),
-        FixtureCompetition::PreseasonTournament => "PreseasonTournament".to_string(),
-        FixtureCompetition::Playoffs => "Playoffs".to_string(),
+pub(super) fn competition_label(match_type: &MatchType) -> String {
+    match match_type {
+        MatchType::League => "League".to_string(),
+        MatchType::Friendly => "Friendly".to_string(),
+        MatchType::PreseasonTournament => "PreseasonTournament".to_string(),
+        MatchType::Playoffs => "Playoffs".to_string(),
     }
 }
 

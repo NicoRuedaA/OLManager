@@ -40,7 +40,7 @@ function startOfWeek(date: Date): Date {
 export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
   const { t, i18n } = useTranslation();
 
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
   const teamId = gameState.manager.team_id;
 
   const currentDate = parseYmdAsLocalDate(
@@ -75,7 +75,7 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
 
     let fixture = null;
     if (league && teamId) {
-      fixture = league.fixtures.find((item) => {
+      fixture = playerLeague.fixtures.find((item) => {
         if (item.home_team_id !== teamId && item.away_team_id !== teamId) return false;
         return extractDateKey(item.date) === toDateKey(date);
       }) ?? null;
@@ -119,7 +119,7 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
                 </p>
                 {isMatchDay ? (
                   <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-1">
-                    {day.fixture?.competition === "League"
+                    {day.fixture?.match_type === "League"
                       ? t("home.leagueShort")
                       : t("home.otherShort")}
                   </p>

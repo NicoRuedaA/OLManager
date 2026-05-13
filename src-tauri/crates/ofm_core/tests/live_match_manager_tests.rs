@@ -1,5 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
 use domain::manager::Manager;
 use domain::player::{Player, PlayerAttributes};
 use domain::stats::LolRole;
@@ -130,7 +130,7 @@ fn make_game_with_fixture() -> Game {
         date: "2025-06-15".to_string(),
         home_team_id: "team1".to_string(),
         away_team_id: "team2".to_string(),
-        competition: FixtureCompetition::League,
+        match_type: MatchType::League,
         best_of: 1,
         status: FixtureStatus::Scheduled,
         result: None,
@@ -140,6 +140,7 @@ fn make_game_with_fixture() -> Game {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![fixture],
         standings: vec![
             StandingEntry::new("team1".to_string()),
@@ -148,7 +149,7 @@ fn make_game_with_fixture() -> Game {
     };
 
     let mut game = Game::new(clock, manager, vec![team1, team2], players, vec![], vec![]);
-    game.league = Some(league);
+    game.leagues = vec![league];
     game
 }
 
@@ -200,7 +201,7 @@ fn create_live_match_user_side_none_neutral() {
 #[test]
 fn create_live_match_no_league_errors() {
     let mut game = make_game_with_fixture();
-    game.league = None;
+    game.leagues.clear();
     let result = live_match_manager::create_live_match(&game, 0, MatchMode::Live, false);
     assert!(result.is_err());
 }

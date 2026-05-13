@@ -147,7 +147,7 @@ impl GameDatabase {
         if champ_count == 0 {
             info!("[game_db] champions table is empty, seeding...");
             // Seed from embedded JSON
-            let json_content = include_str!("../../../../data/lec/draft/champions.json");
+            let json_content = include_str!("../../../../data/draft/champions.json");
             match crate::repositories::champion_repo::seed_from_json(&self.conn, json_content) {
                 Ok(count) => {
                     info!("[game_db] champions table seeded with {} champions", count);

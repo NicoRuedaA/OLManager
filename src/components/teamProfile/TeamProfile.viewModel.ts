@@ -38,11 +38,11 @@ function calculateAverageOvr(roster: PlayerData[]): number {
 }
 
 function getSortedStandings(gameState: GameStateData): LeagueStanding[] {
-  if (!gameState.league?.standings) {
+  if (!gameState.leagues?.[0]?.standings) {
     return [];
   }
 
-  return [...gameState.league.standings].sort(compareStandingsByLolScore);
+  return [...gameState.leagues[0].standings].sort(compareStandingsByLolScore);
 }
 
 export function buildTeamProfileViewModel(
@@ -62,6 +62,6 @@ export function buildTeamProfileViewModel(
     manager: gameState.manager.team_id === team.id ? gameState.manager : null,
     leaguePos: allStandings.findIndex((entry) => entry.team_id === team.id) + 1,
     standings:
-      gameState.league?.standings.find((entry) => entry.team_id === team.id) ?? null,
+      gameState.leagues?.[0]?.standings.find((entry) => entry.team_id === team.id) ?? null,
   };
 }
