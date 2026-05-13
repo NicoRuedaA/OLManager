@@ -186,7 +186,7 @@ export function deriveTodayScrimContext(gameState: GameStateData, team: TeamData
   const weekdays = scrimSlotWeekdays(slots);
   const todayWeekday = weekdayMondayBased(gameState.clock.current_date);
   const slotIndex = weekdays.findIndex((weekday) => weekday === todayWeekday);
-  const hasOfficialMatch = Boolean(gameState.league?.fixtures.find((fixture) => {
+  const hasOfficialMatch = Boolean(gameState.leagues?.[0]?.fixtures.find((fixture) => {
     if (fixture.status !== "Scheduled") return false;
     if (dateKey(fixture.date) !== today) return false;
     return fixture.home_team_id === team.id || fixture.away_team_id === team.id;
@@ -326,7 +326,7 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
       counts[issue] = (counts[issue] ?? 0) + 1;
       return counts;
     }, {});
-  const nextOfficialFixture = (gameState.league?.fixtures ?? [])
+  const nextOfficialFixture = (gameState.leagues?.[0]?.fixtures ?? [])
     .filter((fixture) => {
       if (fixture.status !== "Scheduled") return false;
       if (fixture.home_team_id !== team.id && fixture.away_team_id !== team.id) return false;

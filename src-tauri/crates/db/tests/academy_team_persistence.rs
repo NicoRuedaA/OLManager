@@ -2,8 +2,7 @@ use db::game_database::GameDatabase;
 use db::migrations::MIGRATION_COUNT;
 use db::repositories::team_repo::{load_team, upsert_team};
 use domain::team::{
-    AcademyLifecycle, AcademyMetadata, DraftStrategy, ErlAssignment, ErlAssignmentRule, Team,
-    TeamKind,
+    AcademyLifecycle, AcademyMetadata, DraftStrategy, ErlAssignment, ErlAssignmentRule, Team, TeamKind,
 };
 
 fn test_db() -> GameDatabase {

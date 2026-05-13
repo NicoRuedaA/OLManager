@@ -1,7 +1,7 @@
 use chrono::{TimeZone, Utc};
 use domain::league::FixtureCompetition;
 use domain::manager::Manager;
-use domain::player::{LolRole, Player, PlayerAttributes};
+use domain::player::{Player, PlayerAttributes, LolRole};
 use domain::stats::{
     MatchOutcome, PlayerMatchStatsRecord, StatsState, TeamMatchStatsRecord, TeamSide,
 };

@@ -95,7 +95,7 @@ fn round_context_for_today(
     game: &Game,
     today: &str,
 ) -> Option<(u32, Vec<domain::league::StandingEntry>)> {
-    let league = game.league.as_ref()?;
+    let league = game.leagues.first()?;
     let matchday = league
         .fixtures
         .iter()
@@ -107,7 +107,7 @@ fn round_context_for_today(
 
 fn scheduled_user_fixture_index(game: &Game, today: &str) -> Option<usize> {
     let user_team_id = game.manager.team_id.as_ref()?;
-    let league = game.league.as_ref()?;
+    let league = game.leagues.first()?;
 
     league
         .fixtures

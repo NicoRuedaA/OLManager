@@ -1136,7 +1136,8 @@
       "AssistantManager": "Segundo Entrenador",
       "Coach": "Entrenador",
       "Scout": "Ojeador",
-      "Physio": "Fisioterapeuta"
+      "Physio": "Fisioterapeuta",
+      "Owner": "Propietario"
     },
     "attrs": {
       "coaching": "Entrenamiento",

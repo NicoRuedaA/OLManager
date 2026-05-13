@@ -234,7 +234,7 @@ impl SaveManager {
 
         if league_repo::needs_cleanup(
             db.conn(),
-            game.league.as_ref().map(|league| league.id.as_str()),
+            game.leagues.first().map(|league| league.id.as_str()),
         )? {
             info!(
                 "[save_manager] cleaning stale league rows for save {}",
@@ -324,7 +324,7 @@ impl SaveManager {
         }
 
         // Clear league (will be regenerated)
-        game.league = None;
+        game.leagues.clear();
 
         info!(
             "[save_manager] created new game template from save {}",
@@ -489,6 +489,7 @@ mod tests {
             social_accounts: vec![],
             social_templates: vec![],
             league: None,
+            leagues: vec![],
             academy_league: None,
             scouting_assignments: vec![],
             board_objectives: vec![],
@@ -559,7 +560,7 @@ mod tests {
             vec![],
             vec![],
         );
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 
@@ -851,8 +852,10 @@ mod tests {
 
         {
             let db = GameDatabase::open(&db_path).unwrap();
-            let swapped_json =
-                serde_json::to_string(&vec!["sup", "jng", "mid", "top", "adc"]).unwrap();
+            let swapped_json = serde_json::to_string(&vec![
+                "sup", "jng", "mid", "top", "adc",
+            ])
+            .unwrap();
             db.conn()
                 .execute(
                     "UPDATE teams SET starting_xi_ids = ?1 WHERE id = ?2",
@@ -1063,7 +1066,7 @@ mod tests {
         assert!(new_game.news.is_empty());
         assert!(new_game.scouting_assignments.is_empty());
         assert!(new_game.board_objectives.is_empty());
-        assert!(new_game.league.is_none());
+        assert!(new_game.leagues.is_empty());
 
         // Clock should be reset
         assert_eq!(new_game.clock.current_date, new_game.clock.start_date);
@@ -1130,7 +1133,7 @@ mod tests {
         }
 
         let loaded = sm.load_game(&save_id).unwrap();
-        let loaded_league = loaded.league.expect("league should load");
+        let loaded_league = loaded.leagues.first().expect("league should load");
 
         assert_eq!(loaded_league.id, "league-current");
         assert_eq!(loaded_league.season, 2027);

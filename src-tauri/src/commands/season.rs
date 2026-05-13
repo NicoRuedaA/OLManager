@@ -12,6 +12,30 @@ pub fn check_season_complete(state: State<'_, StateManager>) -> Result<bool, Str
     Ok(ofm_core::end_of_season::is_season_complete(&game))
 }
 
+/// Try to load the competition manifest from the game's league data.
+/// If available, return the ScheduleConfig for manifest-driven schedule generation.
+fn resolve_schedule_config(
+    game: &ofm_core::game::Game,
+) -> Option<ofm_core::generator::definitions::ScheduleConfig> {
+    // Check if we have leagues data with competition_id on teams
+    let competition_id = game.teams.first().and_then(|t| t.competition_id.as_deref())?;
+
+    // Try to load the manifest — this is best-effort
+    let data_dir = std::env::current_dir().ok()?;
+    let manifest_path = data_dir
+        .join("src-tauri")
+        .join("data")
+        .join("competitions")
+        .join(competition_id)
+        .join("manifest.json");
+
+    let manifest_json = std::fs::read_to_string(manifest_path).ok()?;
+    let manifest: ofm_core::generator::definitions::CompetitionManifest =
+        serde_json::from_str(&manifest_json).ok()?;
+
+    Some(manifest.schedule)
+}
+
 #[tauri::command]
 pub fn advance_to_next_season(state: State<'_, StateManager>) -> Result<serde_json::Value, String> {
     info!("[cmd] advance_to_next_season");
@@ -23,7 +47,24 @@ pub fn advance_to_next_season(state: State<'_, StateManager>) -> Result<serde_js
         return Err("Season is not yet complete".to_string());
     }
 
-    let summary = ofm_core::end_of_season::process_end_of_season(&mut game);
+    // Try to resolve schedule config for manifest-driven flow
+    let schedule_config = resolve_schedule_config(&game);
+
+    let summary = if let Some(ref config) = schedule_config {
+        info!(
+            "[cmd] advance_to_next_season: using manifest-driven schedule",
+        );
+        ofm_core::end_of_season::process_end_of_season_with_config(&mut game, Some(config))
+    } else {
+        info!("[cmd] advance_to_next_season: using legacy schedule");
+        ofm_core::end_of_season::process_end_of_season(&mut game)
+    };
+
+    // Process background league seasons
+    {
+        let configs = game.competition_configs.clone();
+        ofm_core::end_of_season::process_background_seasons(&mut game, &configs);
+    }
 
     // End-of-season objective evaluation may have dropped satisfaction — check firing
     ofm_core::firing::check_manager_firing(&mut game);

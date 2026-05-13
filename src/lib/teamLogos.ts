@@ -40,9 +40,23 @@ const EXAMPLE_TEAM_LOGO_MAP = new Map<string, string>([
   ...parseExampleTeamLogoMap(primeLeagueExampleRaw).entries(),
 ]);
 
+const MAIN_TEAM_LOGOS: Record<string, string> = {
+  [normalizeKey("G2 Esports")]: "/teams-icons/g2-esports.webp",
+  [normalizeKey("Movistar KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("MAD Lions KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("Fnatic")]: "/teams-icons/fnatic.webp",
+  [normalizeKey("GIANTX")]: "/teams-icons/giantx-lec.webp",
+  [normalizeKey("Karmine Corp")]: "/teams-icons/karmine-corp.webp",
+  [normalizeKey("Natus Vincere")]: "/teams-icons/natus-vincere.webp",
+  [normalizeKey("SK Gaming")]: "/teams-icons/sk-gaming.webp",
+  [normalizeKey("Team Heretics")]: "/teams-icons/team-heretics-lec.webp",
+  [normalizeKey("Team Vitality")]: "/teams-icons/team-vitality.webp",
+  [normalizeKey("Shifters")]: "/teams-icons/shifters.webp",
+};
+
 export function resolveTeamLogo(teamName?: string | null, logoUrl?: string | null): string | null {
   if (logoUrl) return logoUrl;
   const key = normalizeKey(teamName ?? "");
   if (!key) return null;
-  return EXAMPLE_TEAM_LOGO_MAP.get(key) ?? null;
+  return EXAMPLE_TEAM_LOGO_MAP.get(key) ?? MAIN_TEAM_LOGOS[key] ?? null;
 }

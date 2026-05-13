@@ -82,10 +82,11 @@ fn make_game() -> Game {
 fn make_game_with_league() -> Game {
     let mut game = make_game();
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![Fixture {
             id: "fix1".to_string(),
             matchday: 1,
@@ -149,7 +150,7 @@ fn check_random_events_empty_players_no_crash() {
 #[test]
 fn check_random_events_no_league_no_crash() {
     let mut game = make_game();
-    game.league = None;
+    game.leagues.clear();
     check_random_events(&mut game);
 }
 
@@ -213,7 +214,7 @@ fn check_random_events_sponsor_offer_has_correct_structure() {
 fn check_random_events_training_injury_applies_injury() {
     let mut game = make_game();
     // Remove the league so no match-day exclusion applies
-    game.league = None;
+    game.leagues.clear();
     // Run many days
     for _ in 0..2000 {
         check_random_events(&mut game);
@@ -262,10 +263,11 @@ fn check_random_events_board_confidence_triggers_on_losses() {
     let mut game = make_game();
     let _today = game.clock.current_date.format("%Y-%m-%d").to_string();
     // Set up 3 consecutive losses
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![
             Fixture {
                 id: "f1".to_string(),
@@ -347,10 +349,11 @@ fn check_random_events_board_confidence_triggers_on_losses() {
 fn check_random_events_board_confidence_no_trigger_without_losses() {
     let mut game = make_game();
     // Set up 3 wins
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![
             Fixture {
                 id: "f1".to_string(),
@@ -426,10 +429,11 @@ fn check_random_events_international_callup_with_upcoming_match() {
     let future_date = (game.clock.current_date + chrono::Duration::days(3))
         .format("%Y-%m-%d")
         .to_string();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![Fixture {
             id: "fix1".to_string(),
             matchday: 1,
@@ -449,7 +453,7 @@ fn check_random_events_international_callup_with_upcoming_match() {
         check_random_events(&mut game);
         game.clock.advance_days(1);
         // Reset league fixture to always be upcoming
-        if let Some(league) = &mut game.league {
+        if let Some(league) = game.leagues.first_mut() {
             let future = (game.clock.current_date + chrono::Duration::days(3))
                 .format("%Y-%m-%d")
                 .to_string();
@@ -1003,7 +1007,7 @@ fn training_injury_skipped_on_match_day() {
 #[test]
 fn already_injured_players_excluded_from_training_injury() {
     let mut game = make_game();
-    game.league = None;
+    game.leagues.clear();
     // Injure all players
     for p in &mut game.players {
         p.injury = Some(domain::player::Injury {
@@ -1080,7 +1084,7 @@ fn mood_report_low_morale() {
 fn check_random_events_all_message_types_generated() {
     // Run for a very long time to exercise all event types
     let mut game = make_game();
-    game.league = None; // No league to simplify
+    game.leagues.clear(); // No league to simplify
 
     for _ in 0..5000 {
         check_random_events(&mut game);

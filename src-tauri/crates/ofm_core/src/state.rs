@@ -158,14 +158,14 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
     use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, Position};
+    use domain::player::{Player, PlayerAttributes};
     use domain::team::Team;
 
     fn default_attrs(pos: Position) -> PlayerAttributes {
         let group = pos.to_group_position();
         let is_gk = matches!(group, Position::Goalkeeper);
         let is_def = matches!(group, Position::Defender);
-        let is_fwd = matches!(group, Position::Forward);
+        let is_fwd = matches!(group, LolRole::Mid);
 
         PlayerAttributes {
             mechanics: if is_gk { 30 } else { 65 },
@@ -243,7 +243,7 @@ mod tests {
                 &format!("{}_fwd{}", team_id, idx),
                 &format!("Fwd{}", idx),
                 team_id,
-                Position::Forward,
+                LolRole::Mid,
             ));
         }
 
@@ -283,6 +283,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![fixture],
             standings: vec![
                 StandingEntry::new("team1".to_string()),
@@ -291,7 +292,7 @@ mod tests {
         };
 
         let mut game = Game::new(clock, manager, vec![team1, team2], players, vec![], vec![]);
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 

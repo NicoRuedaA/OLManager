@@ -156,6 +156,8 @@ export interface TeamData {
   weekly_scrim_plan_team_ids?: string[][];
   scrim_weekly_objective?: ScrimFocus | null;
   logo_url?: string | null;
+  /** Competition/league this team belongs to (multi-league system). */
+  competition_id?: string | null;
   scrim_weekly_slots?: number;
   scrim_reputation?: number;
   scrim_weekly_cancellations?: number;
@@ -663,6 +665,34 @@ export function getStandingKillDiff(standing: StandingData): number {
   return getStandingMapsWon(standing) - getStandingMapsLost(standing);
 }
 
+// ---------------------------------------------------------------------------
+// League/Competition selection types (multi-league system)
+// ---------------------------------------------------------------------------
+
+export interface CompetitionSummary {
+  id: string;
+  name: string;
+  region: string;
+  logo: string | null;
+  team_count: number;
+  teams: TeamSummary[];
+}
+
+export interface TeamSummary {
+  id: string;
+  name: string;
+  short_name: string;
+  logo_url: string | null;
+  country: string;
+  ovr: number | null;
+}
+
+export interface LeagueSelectionData {
+  competitions: CompetitionSummary[];
+}
+
+// ---------------------------------------------------------------------------
+
 export function compareStandingsByLolScore(left: StandingData, right: StandingData): number {
   return (
     right.points - left.points ||
@@ -837,7 +867,8 @@ export interface GameStateData {
   social_posts?: SocialPostData[];
   social_accounts?: SocialAccountData[];
   social_templates?: SocialTemplateData[];
-  league: LeagueData | null;
+  /** Multi-league support. The first element is the player's active league. */
+  leagues: LeagueData[];
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];
   board_objectives: BoardObjective[];

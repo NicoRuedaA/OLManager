@@ -219,7 +219,7 @@ pub fn generate_match_social_posts(
 ) {
     ensure_social_registry_defaults(game);
 
-    let Some(league) = game.league.as_ref() else {
+    let Some(league) = game.leagues.first() else {
         return;
     };
     let Some(fixture) = league.fixtures.get(fixture_index).cloned() else {
@@ -672,7 +672,7 @@ pub fn ensure_social_registry_defaults(game: &mut Game) {
 
 pub fn relocalize_social_posts(game: &mut Game, locale: &str) {
     ensure_social_registry_defaults(game);
-    let Some(league) = game.league.as_ref() else {
+    let Some(league) = game.leagues.first() else {
         return;
     };
     let language = normalize_social_language(locale);

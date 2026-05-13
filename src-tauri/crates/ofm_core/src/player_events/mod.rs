@@ -136,7 +136,7 @@ pub fn check_player_events(game: &mut Game) {
     // --- 2. Benched player complaints ---
     // Players with zero appearances but decent OVR complain occasionally.
     // Uses appearances count (reliable) instead of unreliable scorer-only tracking.
-    if let Some(league) = &game.league {
+    if let Some(league) = game.leagues.first() {
         let user_matches_played = league
             .fixtures
             .iter()

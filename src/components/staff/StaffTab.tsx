@@ -37,12 +37,14 @@ const ROLE_ICONS: Record<string, React.ReactNode> = {
   Coach: <GraduationCap className="w-4 h-4" />,
   Scout: <Eye className="w-4 h-4" />,
   Physio: <Stethoscope className="w-4 h-4" />,
+  Owner: <Star className="w-4 h-4" />,
 };
 const ROLE_COLORS: Record<string, string> = {
   AssistantManager: "text-blue-500",
   Coach: "text-primary-500",
   Scout: "text-accent-500",
   Physio: "text-red-400",
+  Owner: "text-yellow-500",
 };
 
 const ATTR_LABEL_KEYS = {
@@ -196,7 +198,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
     return true;
   });
 
-  const roles = ["AssistantManager", "Coach", "Scout", "Physio"];
+  const roles = ["AssistantManager", "Coach", "Scout", "Physio", "Owner"];
   const teamEffects = getLolStaffEffectsForTeam(gameState, userTeamId);
   const attrLabel = (key: StaffAttrKey) => t(ATTR_LABEL_KEYS[key]);
 

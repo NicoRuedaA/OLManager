@@ -241,10 +241,8 @@ impl LiveMatchState {
                 player_off_id,
                 player_on_id,
             } => self.apply_substitution(side, &player_off_id, &player_on_id),
-            MatchCommand::ChangeDraftStrategy {
-                side,
-                draft_strategy,
-            } => {
+            MatchCommand::ChangeDraftStrategy { side, draft_strategy } => {
+>>>>>>> origin/pr/166-171
                 self.team_mut(side).draft_strategy = draft_strategy;
                 Ok(())
             }

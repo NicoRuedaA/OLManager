@@ -58,6 +58,10 @@ export default function DashboardOverlays({
             setShowExitConfirm(false);
             void handleExitToMenu();
           }}
+          onExitWithoutSave={() => {
+            setShowExitConfirm(false);
+            void handleCloseQuit(false);
+          }}
         />
       ) : null}
 

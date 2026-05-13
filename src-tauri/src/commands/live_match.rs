@@ -167,8 +167,8 @@ pub fn record_fixture_champion_picks(
         .ok_or("No active game session".to_string())?;
 
     let league = game
-        .league
-        .as_mut()
+        .leagues
+        .first_mut()
         .ok_or("No active league in game state".to_string())?;
     let fixture = league
         .fixtures
@@ -436,7 +436,8 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory};
+    use domain::player::{Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, LolRole};
+>>>>>>> origin/pr/166-171
     use domain::team::Team;
     use ofm_core::clock::GameClock;
     use ofm_core::game::Game;
@@ -548,6 +549,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![
                 Fixture {
                     id: "fix1".to_string(),
@@ -581,7 +583,7 @@ mod tests {
         };
 
         let mut game = Game::new(clock, manager, teams, players, vec![], vec![]);
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 

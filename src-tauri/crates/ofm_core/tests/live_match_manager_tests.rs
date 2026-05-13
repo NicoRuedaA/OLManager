@@ -140,6 +140,7 @@ fn make_game_with_fixture() -> Game {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![fixture],
         standings: vec![
             StandingEntry::new("team1".to_string()),
@@ -148,7 +149,7 @@ fn make_game_with_fixture() -> Game {
     };
 
     let mut game = Game::new(clock, manager, vec![team1, team2], players, vec![], vec![]);
-    game.league = Some(league);
+    game.leagues = vec![league];
     game
 }
 
@@ -200,7 +201,7 @@ fn create_live_match_user_side_none_neutral() {
 #[test]
 fn create_live_match_no_league_errors() {
     let mut game = make_game_with_fixture();
-    game.league = None;
+    game.leagues.clear();
     let result = live_match_manager::create_live_match(&game, 0, MatchMode::Live, false);
     assert!(result.is_err());
 }

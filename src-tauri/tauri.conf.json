@@ -28,7 +28,7 @@
     "targets": "all",
     "createUpdaterArtifacts": true,
     "resources": [
-      "databases/world.json"
+      "databases/world.json",
     ],
     "icon": [
       "icons/32x32.png",

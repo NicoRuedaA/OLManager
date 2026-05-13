@@ -255,7 +255,7 @@ function positionToRole(position: string): DraftRole | null {
 function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
   if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
+  return `/player-photos/${match[1]}.webp`;
 }
 
 function Section<T extends string>({

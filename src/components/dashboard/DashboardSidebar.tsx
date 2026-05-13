@@ -228,9 +228,6 @@ export default function DashboardSidebar({
             <p className="text-sm font-semibold text-white mt-0.5">
               {managerName}
             </p>
-            {teamName && (
-              <p className="text-xs text-primary-400 mt-0.5">{teamName}</p>
-            )}
           </div>
         </button>
       </div>
