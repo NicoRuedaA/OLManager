@@ -62,13 +62,13 @@ function getStandingPosition(
   gameState: GameStateData,
   teamId: string,
 ): number | null {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
-  if (!league) {
+  if (!playerLeague) {
     return null;
   }
 
-  const sortedStandings = [...league.standings].sort(compareStandingsByLolScore);
+  const sortedStandings = [...playerLeague.standings].sort(compareStandingsByLolScore);
   const standingIndex = sortedStandings.findIndex(
     (entry) => entry.team_id === teamId,
   );
@@ -83,14 +83,14 @@ function getStandingPosition(
 export function getNextOpponentWidgetData(
   gameState: GameStateData,
 ): NextOpponentWidgetData | null {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
 
   if (!league || !userTeamId) {
     return null;
   }
 
-  const nextFixture = findNextFixture(league.fixtures, userTeamId);
+  const nextFixture = findNextFixture(playerLeague.fixtures, userTeamId);
 
   if (!nextFixture) {
     return null;
@@ -107,7 +107,7 @@ export function getNextOpponentWidgetData(
   const canShowStandings =
     hasCompetitiveStandings(gameState) && nextFixture.competition === "League";
   const standingEntry = canShowStandings
-    ? league.standings.find((entry) => entry.team_id === opponentId)
+    ? playerLeague.standings.find((entry) => entry.team_id === opponentId)
     : null;
 
   return {
@@ -191,7 +191,7 @@ export function getRecentResultsForTeam(
   teamId: string | null,
   limit = 5,
 ): HomeRecentResult[] {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
   if (!league || !teamId) {
     return [];
@@ -199,7 +199,7 @@ export function getRecentResultsForTeam(
 
   const recentResults: HomeRecentResult[] = [];
 
-  for (const fixture of [...league.fixtures].reverse()) {
+  for (const fixture of [...playerLeague.fixtures].reverse()) {
     if (
       fixture.status !== "Completed" ||
       !fixture.result ||

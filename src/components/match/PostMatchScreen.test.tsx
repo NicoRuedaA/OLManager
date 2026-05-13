@@ -463,7 +463,7 @@ function makeReportedFixture(id: string) {
 describe("PostMatchScreen", function (): void {
   it("renders the round summary mini table and scorer list when summary data exists", function (): void {
     const gameState = makeGameState();
-    gameState.league = {
+    gameState.leagues[0] = {
       id: "league-1",
       name: "League",
       season: 1,
@@ -551,7 +551,7 @@ describe("PostMatchScreen", function (): void {
 
   it("opens a read-only detail modal for another completed fixture", function (): void {
     const gameState = makeGameState();
-    gameState.league = {
+    gameState.leagues[0] = {
       id: "league-1",
       name: "League",
       season: 1,

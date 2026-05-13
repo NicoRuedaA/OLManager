@@ -203,7 +203,7 @@ pub fn generate_objectives(game: &mut Game) {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     let existing_ids: std::collections::HashSet<String> =
         game.messages.iter().map(|m| m.id.clone()).collect();
-    let season = game.league.as_ref().map(|l| l.season).unwrap_or(1);
+    let season = game.leagues.first().map(|l| l.season).unwrap_or(1);
     let msg_id = board_message_id(season);
     if !existing_ids.contains(&msg_id) {
         let msg = build_objectives_message(&targets, season, today);
@@ -218,7 +218,7 @@ pub fn update_objective_progress(game: &mut Game) {
         None => return,
     };
 
-    let league = match &game.league {
+    let league = match game.leagues.first() {
         Some(l) => l,
         None => return,
     };
@@ -304,7 +304,7 @@ mod tests {
     };
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessageCategory, MessagePriority};
-    use domain::player::{Player, PlayerAttributes, Position};
+    use domain::player::{Player, PlayerAttributes};
     use domain::team::Team;
 
     fn make_team(id: &str, name: &str, reputation: u32) -> Team {
@@ -344,12 +344,13 @@ mod tests {
         let team_ids: Vec<String> = teams.iter().map(|team| team.id.clone()).collect();
 
         let mut game = Game::new(clock, manager, teams, vec![], vec![], vec![]);
-        game.league = Some(League::new(
+        game.leagues = vec![League::new(
             "league1".to_string(),
             "Test League".to_string(),
             season,
             &team_ids,
-        ));
+            None,
+        )];
         game
     }
 
@@ -371,7 +372,7 @@ mod tests {
             format!("Full {id}"),
             "2000-01-01".to_string(),
             "ES".to_string(),
-            Position::Forward,
+            LolRole::Mid,
             attrs,
         );
         player.team_id = Some(team_id.to_string());
@@ -405,12 +406,13 @@ mod tests {
             .collect();
         let team_ids: Vec<String> = teams.iter().map(|team| team.id.clone()).collect();
         let mut game = Game::new(clock, manager, teams, vec![], vec![], vec![]);
-        game.league = Some(League::new(
+        game.leagues = vec![League::new(
             "league1".to_string(),
             "Test League".to_string(),
             1,
             &team_ids,
-        ));
+            None,
+        )];
 
         let opponent_strengths = [88, 82, 76, 70, 64, 58, 52, 46, 40];
         for idx in 1..=10 {
@@ -618,7 +620,7 @@ mod tests {
             make_objective("obj_goals", ObjectiveType::GoalsScored, 6, false),
         ];
 
-        let mut league = game.league.clone().unwrap();
+        let mut league = game.leagues.first().cloned().unwrap();
         league.standings = vec![
             StandingEntry {
                 team_id: "team1".to_string(),
@@ -672,7 +674,7 @@ mod tests {
                 result: Some(make_result(0, 3)),
             },
         ];
-        game.league = Some(league);
+        game.leagues = vec![league];
 
         update_objective_progress(&mut game);
 
@@ -691,7 +693,7 @@ mod tests {
             false,
         )];
 
-        let mut league = game.league.clone().unwrap();
+        let mut league = game.leagues.first().cloned().unwrap();
         let fixture = |id: &str,
                        matchday: u32,
                        home_team_id: &str,
@@ -839,7 +841,7 @@ mod tests {
             ),
             fixture("f12", 12, "team3", "team2", FixtureStatus::Scheduled, None),
         ];
-        game.league = Some(league.clone());
+        game.leagues = vec![league.clone()];
 
         update_objective_progress(&mut game);
 
@@ -847,7 +849,7 @@ mod tests {
 
         league.fixtures[11].status = FixtureStatus::Completed;
         league.fixtures[11].result = Some(make_result(0, 1));
-        game.league = Some(league);
+        game.leagues = vec![league];
 
         update_objective_progress(&mut game);
 

@@ -11,9 +11,9 @@ import MatchScreenLayout from "./MatchScreenLayout";
 import { ChevronRight } from "lucide-react";
 import OpponentIntelCard from "./OpponentIntelCard";
 import { buildOpponentIntel } from "./opponentIntelService";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
+import teamsSeed from "../../../data/draft/teams.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }

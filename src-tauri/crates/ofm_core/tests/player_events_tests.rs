@@ -280,10 +280,11 @@ fn bench_complaint_after_5_missed_matches() {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![StandingEntry::new("team1".to_string())],
     };
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     // Make p_fwd0 have low morale (< 50), 0 appearances, decent OVR
     let player = game.players.iter_mut().find(|p| p.id == "p_fwd0").unwrap();
@@ -333,10 +334,11 @@ fn bench_complaint_not_for_gk() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![],
     });
@@ -378,10 +380,11 @@ fn bench_complaint_not_with_fewer_than_5_fixtures() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings: vec![],
     });

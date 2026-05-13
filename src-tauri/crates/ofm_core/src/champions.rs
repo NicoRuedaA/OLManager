@@ -106,24 +106,6 @@ impl Default for ChampionPatchState {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-struct SeedPlayer {
-    ign: String,
-    champions: Vec<(String, u8)>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct SeedRoot {
-    data: SeedData,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-struct SeedData {
-    rostered_seeds: Vec<SeedPlayer>,
-    #[serde(default)]
-    free_agent_seeds: Vec<SeedPlayer>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
 struct ChampionCatalogRoot {
     data: ChampionCatalogData,
 }
@@ -141,8 +123,6 @@ struct WorkingMeta {
 }
 
 static CHAMPION_CATALOG: OnceLock<Vec<(String, String)>> = OnceLock::new();
-static PLAYER_MASTERY_SEED: OnceLock<Vec<SeedPlayer>> = OnceLock::new();
-
 fn default_meta_tier() -> String {
     "C".to_string()
 }
@@ -357,7 +337,7 @@ fn tier_map_from_working(working: &[WorkingMeta]) -> HashMap<String, String> {
 
 fn champion_catalog() -> &'static Vec<(String, String)> {
     CHAMPION_CATALOG.get_or_init(|| {
-        let raw = include_str!("../../../../data/lec/draft/champions.json");
+        let raw = include_str!("../../../../data/draft/champions.json");
         let parsed: ChampionCatalogRoot =
             serde_json::from_str(raw).unwrap_or(ChampionCatalogRoot {
                 data: ChampionCatalogData {
@@ -384,19 +364,6 @@ fn champion_catalog() -> &'static Vec<(String, String)> {
         }
 
         entries
-    })
-}
-
-fn seed_players() -> &'static Vec<SeedPlayer> {
-    PLAYER_MASTERY_SEED.get_or_init(|| {
-        let raw = include_str!("../../../../data/lec/draft/players.json");
-        serde_json::from_str::<SeedRoot>(raw)
-            .map(|root| {
-                let mut all = root.data.rostered_seeds;
-                all.extend(root.data.free_agent_seeds);
-                all
-            })
-            .unwrap_or_default()
     })
 }
 
@@ -430,30 +397,10 @@ fn upsert_mastery(game: &mut Game, player_id: &str, champion_id: &str, value: u8
     });
 }
 
-pub fn bootstrap_seed_masteries(game: &mut Game) {
-    if !game.champion_masteries.is_empty() {
-        return;
-    }
-
-    let players = seed_players();
-    let game_players: Vec<(String, String)> = game
-        .players
-        .iter()
-        .map(|player| (player.id.clone(), player.match_name.clone()))
-        .collect();
-
-    for (player_id, match_name) in game_players {
-        let Some(seed) = players
-            .iter()
-            .find(|candidate| normalize_key(&candidate.ign) == normalize_key(&match_name))
-        else {
-            continue;
-        };
-
-        for (champion, mastery) in &seed.champions {
-            upsert_mastery(game, &player_id, champion, (*mastery).max(MIN_MASTERY));
-        }
-    }
+pub fn bootstrap_seed_masteries(_game: &mut Game) {
+    // Champion mastery seeding from legacy files is disabled.
+    // Mastery starts empty and accumulates during gameplay.
+    // Existing masteries from saves (Flow C) are preserved.
 }
 
 fn ensure_patch_seed(state: &mut ChampionPatchState) {

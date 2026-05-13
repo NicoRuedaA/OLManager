@@ -32,7 +32,7 @@ type DashboardAlertTranslator = (
 ) => string;
 
 export function getTodayMatchFixture(gameState: GameStateData): FixtureData | null {
-  const fixtures = gameState.league?.fixtures;
+  const fixtures = gameState.leagues?.[0]?.fixtures;
 
   if (!fixtures) {
     return null;

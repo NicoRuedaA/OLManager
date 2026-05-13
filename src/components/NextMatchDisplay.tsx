@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
-import playersSeed from "../../data/lec/draft/players.json";
+import playersSeed from "../../data/draft/players.json";
 
 import { GameStateData } from "../store/gameStore";
 import { Badge } from "./ui";
@@ -59,7 +59,7 @@ function seedRoleToDraftRole(role: string): DraftRole | null {
 function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
   if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
+  return `/player-photos/${match[1]}.webp`;
 }
 
 function daysUntil(dateIso: string): number {
@@ -106,9 +106,9 @@ export default function NextMatchDisplay({
 }) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
-  if (!userTeamId || !league) {
+  if (!userTeamId || !playerLeague) {
     return (
       <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
         {t("home.noLeagueSchedule")}
@@ -116,12 +116,12 @@ export default function NextMatchDisplay({
     );
   }
 
-  const nextFixture = findNextFixture(league.fixtures, userTeamId);
+  const nextFixture = findNextFixture(playerLeague.fixtures, userTeamId);
   if (!nextFixture) {
     return (
       <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
         {t(
-          isSeasonComplete(league)
+          isSeasonComplete(playerLeague)
             ? "home.seasonComplete"
             : "home.noUpcomingOpponent",
         )}

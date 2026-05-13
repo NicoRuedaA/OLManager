@@ -186,7 +186,7 @@ fn weekly_storyline_articles(
     date: &str,
 ) -> Vec<domain::news::NewsArticle> {
     let mut articles = Vec::new();
-    let league = match &game.league {
+    let league = match game.leagues.first() {
         Some(league) => league,
         None => return articles,
     };
@@ -245,7 +245,7 @@ pub(super) fn generate_weekly_digest_news(game: &mut Game, today: &str) {
         return;
     }
 
-    let league = match &game.league {
+    let league = match game.leagues.first() {
         Some(league) => league,
         None => return,
     };
@@ -290,7 +290,7 @@ pub(super) fn generate_match_news(
     away_team_id: &str,
     report: &engine::MatchReport,
 ) {
-    let fixture = &game.league.as_ref().unwrap().fixtures[fixture_index];
+    let fixture = &game.leagues.first().unwrap().fixtures[fixture_index];
     let article_id = format!("report_{}", fixture.id);
     if game.news.iter().any(|n| n.id == article_id) {
         return;
@@ -319,7 +319,7 @@ pub(super) fn generate_match_news(
 
 /// After all matches in a matchday are simulated, generate roundup + standings news.
 pub fn generate_matchday_news(game: &mut Game, today: &str) {
-    let league = match &game.league {
+    let league = match game.leagues.first() {
         Some(l) => l,
         None => return,
     };
@@ -361,7 +361,7 @@ pub(super) fn generate_pre_match_messages(game: &mut Game, today: &str) {
         None => return,
     };
 
-    if let Some(league) = &game.league {
+    if let Some(league) = game.leagues.first() {
         let upcoming = scheduled_user_fixtures_for_date(league, &user_team_id, &target_str);
 
         for fixture in upcoming {
@@ -404,7 +404,7 @@ mod tests {
     use domain::manager::Manager;
     use domain::message::{MessageCategory, MessagePriority};
     use domain::news::NewsCategory;
-    use domain::player::{Player, PlayerAttributes, Position};
+    use domain::player::{Player, PlayerAttributes};
     use domain::team::Team;
     use engine::{KillDetail, MatchReport, MatchReportEndReason, Side, TeamStats};
     use std::collections::HashMap;
@@ -482,7 +482,7 @@ mod tests {
             format!("Full {}", name),
             "1998-03-15".to_string(),
             "England".to_string(),
-            Position::Forward,
+            LolRole::Mid,
             default_attrs(),
         );
         player.team_id = Some(team_id.to_string());
@@ -522,10 +522,11 @@ mod tests {
         beta.record_result(1, 2);
         let gamma = StandingEntry::new("team3".to_string());
 
-        game.league = Some(League {
+        game.leagues = vec![League {
             id: "league1".to_string(),
             name: "Premier Division".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![
                 make_fixture(
                     "fx1",
@@ -547,7 +548,7 @@ mod tests {
                 ),
             ],
             standings: vec![alpha, beta, gamma],
-        });
+        }];
 
         game
     }
@@ -557,8 +558,7 @@ mod tests {
     }
 
     fn standing_mut<'a>(game: &'a mut Game, team_id: &str) -> &'a mut StandingEntry {
-        game.league
-            .as_mut()
+        game.leagues.first_mut()
             .unwrap()
             .standings
             .iter_mut()
@@ -574,7 +574,7 @@ mod tests {
     }
 
     fn reset_to_preseason(game: &mut Game) {
-        let league = game.league.as_mut().unwrap();
+        let league = game.leagues.first_mut().unwrap();
         for fixture in &mut league.fixtures {
             fixture.status = FixtureStatus::Scheduled;
         }
@@ -750,7 +750,7 @@ mod tests {
     #[test]
     fn generate_pre_match_messages_skips_fixtures_without_user_team() {
         let mut game = make_game("2025-08-15", FixtureStatus::Scheduled);
-        let fixture = &mut game.league.as_mut().unwrap().fixtures[0];
+        let fixture = &mut game.leagues.first_mut().unwrap().fixtures[0];
         fixture.home_team_id = "team2".to_string();
         fixture.away_team_id = "team3".to_string();
 
@@ -991,3 +991,4 @@ mod tests {
         );
     }
 }
+

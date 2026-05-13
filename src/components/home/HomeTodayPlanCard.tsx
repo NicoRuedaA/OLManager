@@ -151,7 +151,7 @@ export default function HomeTodayPlanCard({
     [gameState, team],
   );
   const scrimContext = remoteScrimContext?.today ?? fallbackScrimContext;
-  const todayFixture = gameState.league?.fixtures.find((fixture) => {
+  const todayFixture = gameState.leagues?.[0]?.fixtures.find((fixture) => {
     if (fixture.status !== "Scheduled") return false;
     if (dateKey(fixture.date) !== todayKey) return false;
     return fixture.home_team_id === team.id || fixture.away_team_id === team.id;

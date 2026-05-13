@@ -10,7 +10,7 @@ import { AlertTriangle, ChevronRight, Repeat, ShoppingCart, User } from "lucide-
 import { calcAge, formatVal } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
-import playersSeed from "../../../data/lec/draft/players.json";
+import playersSeed from "../../../data/draft/players.json";
 import {
   buildActiveLineupIds,
   buildActiveLineupSlots,
@@ -318,7 +318,7 @@ export default function SquadRosterView({
               ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.match_name))
               ?? (fallbackChampion ? [fallbackChampion] : []);
             const inXI = activeIds.has(player.id);
-            const currentPos = player.natural_position || player.position;
+            const currentPos = player.position;
             const wrongPos = inXI && isPlayerOutOfPosition(player, currentPos);
             const annualWage = player.wage;
 

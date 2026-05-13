@@ -175,7 +175,7 @@ export default function PostMatchScreen({
     ? (roundSummary?.completed_results || [])
         .filter((result) => result.fixture_id !== currentFixture?.id)
         .map((result) => {
-          const fixture = gameState.league?.fixtures.find(
+          const fixture = gameState.leagues?.[0]?.fixtures.find(
             (candidate) => candidate.id === result.fixture_id,
           );
 
@@ -198,7 +198,7 @@ export default function PostMatchScreen({
             awayTeamName: string;
           } => entry !== null,
         )
-    : (gameState.league?.fixtures || [])
+    : (gameState.leagues?.[0]?.fixtures || [])
         .filter(
           (fixture) =>
             fixture.id !== currentFixture?.id &&

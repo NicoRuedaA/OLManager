@@ -236,7 +236,7 @@ describe("TournamentsTab", () => {
 
   it("shows playoff bracket and series score when playoffs have started", () => {
     const gameState = createGameState(true);
-    gameState.league!.fixtures = [
+    gameState.leagues[0]!.fixtures = [
       createFixture({
         id: "playoff-1",
         competition: "Playoffs",
