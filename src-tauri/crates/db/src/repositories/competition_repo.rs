@@ -1,4 +1,4 @@
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, FixtureStatus, League, MatchResult, MatchType, StandingEntry};
 use rusqlite::{Connection, params};
 
 use super::league_repo;
@@ -253,7 +253,7 @@ mod tests {
                 date: "2026-08-15".to_string(),
                 home_team_id: "team-001".to_string(),
                 away_team_id: "team-002".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 status: FixtureStatus::Scheduled,
                 result: None,
                 best_of: 1,
@@ -264,7 +264,7 @@ mod tests {
                 date: "2026-08-22".to_string(),
                 home_team_id: "team-002".to_string(),
                 away_team_id: "team-001".to_string(),
-                competition: FixtureCompetition::Friendly,
+                match_type: MatchType::Friendly,
                 status: FixtureStatus::Completed,
                 best_of: 1,
                 result: Some(MatchResult {
@@ -315,7 +315,7 @@ mod tests {
             date: "2026-08-29".to_string(),
             home_team_id: "team-001".to_string(),
             away_team_id: "team-002".to_string(),
-            competition: FixtureCompetition::Playoffs,
+            match_type: MatchType::Playoffs,
             status: FixtureStatus::Scheduled,
             result: None,
             best_of: 3,
@@ -385,11 +385,108 @@ mod tests {
         assert!(loaded.fixtures[0].result.is_none());
         assert_eq!(loaded.fixtures[1].status, FixtureStatus::Completed);
         assert_eq!(
-            loaded.fixtures[1].competition,
-            FixtureCompetition::Friendly
+            loaded.fixtures[1].match_type,
+            MatchType::Friendly
         );
         let result = loaded.fixtures[1].result.as_ref().unwrap();
         assert_eq!(result.home_wins, 1);
         assert_eq!(result.away_wins, 0);
+    }
+
+    // ─── Fixture routing isolation tests (#165) ────────────────────────
+
+    /// Two competitions with fixtures on the same date must not collide
+    /// when stored and loaded through the competition repo.
+    #[test]
+    fn test_fixture_routing_cross_competition_isolation() {
+        let db = test_db();
+
+        // Competition LEC: fixture on 2025-02-15 matchday 5
+        let mut lec = sample_league("lec", "LEC");
+        lec.fixtures[0].date = "2025-02-15".to_string();
+        lec.fixtures[0].matchday = 5;
+        lec.fixtures[0].result = Some(MatchResult {
+            home_wins: 2,
+            away_wins: 0,
+            ended_by: MatchEndReason::NexusDestroyed,
+            game_duration_seconds: 1800,
+            report: None,
+        });
+        lec.fixtures[0].status = FixtureStatus::Completed;
+
+        // Competition LCS: fixture on the SAME date but different result
+        let mut lcs = sample_league("lcs", "LCS");
+        lcs.fixtures[0].date = "2025-02-15".to_string();
+        lcs.fixtures[0].matchday = 5;
+        lcs.fixtures[0].result = Some(MatchResult {
+            home_wins: 1,
+            away_wins: 2,
+            ended_by: MatchEndReason::TimeLimit,
+            game_duration_seconds: 2100,
+            report: None,
+        });
+        lcs.fixtures[0].status = FixtureStatus::Completed;
+
+        upsert_competition(db.conn(), &lec).unwrap();
+        upsert_competition(db.conn(), &lcs).unwrap();
+
+        let loaded_lec = load_competition(db.conn(), "lec")
+            .unwrap()
+            .expect("LEC should exist");
+        let loaded_lcs = load_competition(db.conn(), "lcs")
+            .unwrap()
+            .expect("LCS should exist");
+
+        // Same date, same matchday — but results must be independent
+        assert_eq!(loaded_lec.fixtures[0].date, "2025-02-15");
+        assert_eq!(loaded_lcs.fixtures[0].date, "2025-02-15");
+        assert_eq!(
+            loaded_lec.fixtures[0].result.as_ref().unwrap().home_wins,
+            2,
+            "LEC result must be preserved"
+        );
+        assert_eq!(
+            loaded_lcs.fixtures[0].result.as_ref().unwrap().home_wins,
+            1,
+            "LCS result must be independent"
+        );
+    }
+
+    /// Applying a result to one competition must not mutate another
+    /// competition's fixtures in the database.
+    #[test]
+    fn test_fixture_result_isolation_across_competitions() {
+        let db = test_db();
+        let lec = sample_league("lec", "LEC");
+        let lcs = sample_league("lcs", "LCS");
+
+        upsert_competition(db.conn(), &lec).unwrap();
+        upsert_competition(db.conn(), &lcs).unwrap();
+
+        // Update only LEC's first fixture
+        let mut updated_lec = lec.clone();
+        updated_lec.fixtures[0].status = FixtureStatus::Completed;
+        updated_lec.fixtures[0].result = Some(MatchResult {
+            home_wins: 3,
+            away_wins: 1,
+            ended_by: MatchEndReason::NexusDestroyed,
+            game_duration_seconds: 3600,
+            report: None,
+        });
+        upsert_competition(db.conn(), &updated_lec).unwrap();
+
+        // Verify LCS fixture is untouched (still Scheduled, no result)
+        let loaded_lcs = load_competition(db.conn(), "lcs")
+            .unwrap()
+            .expect("LCS should exist");
+        assert_eq!(
+            loaded_lcs.fixtures[0].status,
+            FixtureStatus::Scheduled,
+            "LCS fixture must NOT be affected by LEC update"
+        );
+        assert!(
+            loaded_lcs.fixtures[0].result.is_none(),
+            "LCS fixture result must NOT leak from LEC"
+        );
     }
 }
