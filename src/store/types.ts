@@ -701,6 +701,15 @@ export function compareStandingsByLolScore(left: StandingData, right: StandingDa
   );
 }
 
+/** Simplified competition info for browsing/selecting leagues */
+export interface CompetitionDTO {
+  id: string;
+  name: string;
+  region: string;
+  tier: number;
+  logo_url: string | null;
+}
+
 export interface LeagueData {
   id: string;
   name: string;

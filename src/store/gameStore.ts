@@ -85,6 +85,28 @@ export {
   getStandingKillsFor,
 } from './types';
 
+// ─── Competition selectors (multi-league) ──────────────────────────────
+
+/** Return the player's active league (leagues[0]) */
+export function useActiveLeague(state: GameStateData) {
+  return state.leagues[0];
+}
+
+/** Return all competitions (for browsing/switching) */
+export function useAllLeagues(state: GameStateData) {
+  return state.leagues;
+}
+
+/** Return background leagues (leagues[1..]) */
+export function useBackgroundLeagues(state: GameStateData) {
+  return state.leagues.slice(1);
+}
+
+/** Return a specific league by ID */
+export function useLeagueById(state: GameStateData, id: string) {
+  return state.leagues.find((l) => l.id === id) ?? null;
+}
+
 interface GameStore {
   hasActiveGame: boolean;
   managerName: string | null;
