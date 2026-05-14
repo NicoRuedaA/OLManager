@@ -3,7 +3,6 @@ use crate::game::Game;
 use crate::potential::calculate_lol_ovr;
 use domain::player::LolRole as DomainLolRole;
 use engine::{DraftStrategy, LolRole, PlayerData, TeamData};
-use std::collections::HashSet;
 
 // ---------------------------------------------------------------------------
 // Domain → Engine conversion (LoL: 5 titulares + banca)
