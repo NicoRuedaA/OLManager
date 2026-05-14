@@ -1,0 +1,832 @@
+{
+  "name": "TCL Players",
+  "description": "TCL - 2026 Season",
+  "players": [
+    {
+      "wage": 41.4,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Baam Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 62,
+        "mechanics": 61,
+        "discipline": 66,
+        "macro_play": 63,
+        "consistency": 64,
+        "shotcalling": 64,
+        "teamfighting": 61,
+        "champion_pool": 62,
+        "mental_resilience": 60
+      },
+      "loan_listed": false,
+      "market_value": 20.6,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 68,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "38c26301-cdf2-42ef-9e3b-d86c457ae642",
+      "match_name": "Eren Yücel",
+      "full_name": "Warner",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/38c26301-cdf2-42ef-9e3b-d86c457ae642.webp",
+      "overall": 63
+    },
+    {
+      "wage": 72000,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Valhalla Vikings",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "HWA Gaming",
+          "appearances": 18
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Istanbul Wildcats",
+          "appearances": 37
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Esports",
+          "appearances": 18
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 45
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Esports",
+          "appearances": 32
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Istanbul Wildcats",
+          "appearances": 75
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Z10",
+          "appearances": 113
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 22
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bushido Wildcats",
+          "appearances": 37
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Misa Esports",
+          "appearances": 11
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "S2G Esports",
+          "appearances": 29
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Misa Esports",
+          "appearances": 8
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 69,
+        "mechanics": 66,
+        "discipline": 70,
+        "macro_play": 72,
+        "consistency": 72,
+        "shotcalling": 68,
+        "teamfighting": 65,
+        "champion_pool": 68,
+        "mental_resilience": 68
+      },
+      "loan_listed": false,
+      "market_value": 34500,
+      "potential_base": 73,
+      "transfer_listed": false,
+      "id": "52665c56-ffb9-4052-8cd0-e462b0e7b915",
+      "match_name": "Emre Akça",
+      "full_name": "Kofte",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/52665c56-ffb9-4052-8cd0-e462b0e7b915.webp",
+      "overall": 69
+    },
+    {
+      "wage": 3300,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Ascendance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Comanchero Gaming\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 66,
+        "mechanics": 56,
+        "discipline": 68,
+        "macro_play": 62,
+        "consistency": 58,
+        "shotcalling": 60,
+        "teamfighting": 57,
+        "champion_pool": 63,
+        "mental_resilience": 62
+      },
+      "loan_listed": false,
+      "market_value": 20000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 71,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "564a1818-294f-417a-8529-e266b4fab951",
+      "match_name": "Resul Polat",
+      "full_name": "FireAscept",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/564a1818-294f-417a-8529-e266b4fab951.webp",
+      "overall": 61
+    },
+    {
+      "wage": 23400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "R5 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 57,
+        "mechanics": 58,
+        "discipline": 61,
+        "macro_play": 57,
+        "consistency": 56,
+        "shotcalling": 60,
+        "teamfighting": 66,
+        "champion_pool": 64,
+        "mental_resilience": 62
+      },
+      "loan_listed": false,
+      "market_value": 11700,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 65,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "5f7e7ef8-ad75-4026-aa70-2db7ac1107b0",
+      "match_name": "Yiğithan Yaşar",
+      "full_name": "SmallBugi",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/5f7e7ef8-ad75-4026-aa70-2db7ac1107b0.webp",
+      "overall": 60
+    },
+    {
+      "wage": 0,
+      "attributes": {
+        "laning": 64,
+        "mechanics": 60,
+        "discipline": 60,
+        "macro_play": 65,
+        "consistency": 65,
+        "shotcalling": 62,
+        "teamfighting": 62,
+        "champion_pool": 60,
+        "mental_resilience": 60
+      },
+      "loan_listed": false,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "a304bf1e-814e-4513-92d6-4adb061a9dea",
+      "match_name": "Bedirhan Çalışkan",
+      "full_name": "Cape",
+      "position": "Jungle",
+      "profile_image_url": "/player-photos/a304bf1e-814e-4513-92d6-4adb061a9dea.webp",
+      "overall": 62
+    },
+    {
+      "wage": 44400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "AURORA Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fenerbahçe Academy\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fourth Wall",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "GnG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠eSuba",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 68,
+        "mechanics": 67,
+        "discipline": 60,
+        "macro_play": 69,
+        "consistency": 69,
+        "shotcalling": 60,
+        "teamfighting": 56,
+        "champion_pool": 67,
+        "mental_resilience": 60
+      },
+      "loan_listed": false,
+      "market_value": 24000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 69,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "b2160bc5-4a96-4c78-840d-78b5662f1f80",
+      "match_name": "Fatih Kurşun",
+      "full_name": "Fade",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/b2160bc5-4a96-4c78-840d-78b5662f1f80.webp",
+      "overall": 64
+    },
+    {
+      "wage": 44400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Actions Per Minute",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Meavedron",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Zero Tenacity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "GMBLERS Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Orbit Anonymo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 60,
+        "mechanics": 72,
+        "discipline": 60,
+        "macro_play": 64,
+        "consistency": 65,
+        "shotcalling": 64,
+        "teamfighting": 72,
+        "champion_pool": 71,
+        "mental_resilience": 62
+      },
+      "loan_listed": false,
+      "market_value": 24000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 73,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "ba94a490-775b-4e76-906d-15833878f01d",
+      "match_name": "Tomasz Gas",
+      "full_name": "Iwanan",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/ba94a490-775b-4e76-906d-15833878f01d.webp",
+      "overall": 66
+    },
+    {
+      "wage": 55200,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠GTZ Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Forsaken",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 64,
+        "mechanics": 70,
+        "discipline": 64,
+        "macro_play": 69,
+        "consistency": 64,
+        "shotcalling": 60,
+        "teamfighting": 68,
+        "champion_pool": 58,
+        "mental_resilience": 62
+      },
+      "loan_listed": false,
+      "market_value": 28750,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 71,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "da2efcc9-2acb-424d-a01c-12bd7dafdb4c",
+      "match_name": "Maciej Charzyński",
+      "full_name": "Secrett",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/da2efcc9-2acb-424d-a01c-12bd7dafdb4c.webp",
+      "overall": 64
+    },
+    {
+      "wage": 2650,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team Cappadocia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SUP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 61,
+        "mechanics": 60,
+        "discipline": 64,
+        "macro_play": 63,
+        "consistency": 64,
+        "shotcalling": 66,
+        "teamfighting": 63,
+        "champion_pool": 70,
+        "mental_resilience": 66
+      },
+      "loan_listed": false,
+      "market_value": 15000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 66,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "e970485e-c7bb-4e6b-be91-0fe6f7c0ba8f",
+      "match_name": "Yunus Emre Şahin",
+      "full_name": "Ksaez",
+      "position": "Mid",
+      "profile_image_url": "/player-photos/e970485e-c7bb-4e6b-be91-0fe6f7c0ba8f.webp",
+      "overall": 64
+    },
+    {
+      "wage": 39000,
+      "attributes": {
+        "laning": 66,
+        "mechanics": 69,
+        "discipline": 64,
+        "macro_play": 66,
+        "consistency": 67,
+        "shotcalling": 70,
+        "teamfighting": 66,
+        "champion_pool": 58,
+        "mental_resilience": 68
+      },
+      "loan_listed": false,
+      "market_value": 18000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 70,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "f28272fb-92d0-4617-9133-18b2b1c463d3",
+      "match_name": "Mustafa Korkmaz",
+      "full_name": "Rames",
+      "position": "Jungle",
+      "profile_image_url": "/player-photos/f28272fb-92d0-4617-9133-18b2b1c463d3.webp",
+      "overall": 66
+    },
+    {
+      "wage": 76800,
+      "attributes": {
+        "laning": 68,
+        "mechanics": 76,
+        "discipline": 70,
+        "macro_play": 72,
+        "consistency": 72,
+        "shotcalling": 74,
+        "teamfighting": 68,
+        "champion_pool": 70,
+        "mental_resilience": 69
+      },
+      "loan_listed": false,
+      "market_value": 40000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 80,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "f419fc4a-23ae-48d2-a59b-805f8b6ed553",
+      "match_name": "Doğukan Balcı",
+      "full_name": "113",
+      "position": "Jungle",
+      "profile_image_url": "/player-photos/f419fc4a-23ae-48d2-a59b-805f8b6ed553.webp",
+      "overall": 71
+    }
+  ]
+}

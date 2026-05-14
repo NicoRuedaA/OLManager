@@ -24,11 +24,7 @@ export default function TournamentsTab({
   onSelectTeam,
 }: TournamentsTabProps) {
   const { t } = useTranslation();
-  const userTeam = gameState.teams.find(t => t.id === gameState.manager.team_id);
-  const userCompetitionId = (userTeam as any)?.competition_id;
-  const league = userCompetitionId
-    ? gameState.leagues.find((l: any) => l.competition_id === userCompetitionId) ?? gameState.leagues[0]
-    : gameState.leagues[0];
+  const league = gameState.leagues[0];
   const academyLeague = gameState.academy_league ?? null;
   const userTeamId = gameState.manager.team_id;
   const seasonContext = resolveSeasonContext(gameState);
@@ -115,7 +111,7 @@ export default function TournamentsTab({
         <div className="bg-gradient-to-r from-navy-700 to-navy-800 p-6 rounded-t-xl">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-navy-600 flex items-center justify-center p-2">
-              <img src={`/competitions-icons/${((league as any).competition_id ?? league.id).replace(/\s+/g, '_')}.webp`} alt={`${league.name} logo`} className="w-full h-full object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <img src="/lec-logo.png" alt="LEC logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex-1">
               <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">
