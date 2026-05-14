@@ -6,6 +6,7 @@ import {
   Search,
   Loader2,
   Building2,
+  Calendar,
 
   ListOrdered,
 } from "lucide-react";
@@ -284,7 +285,7 @@ function CompetitionCard({
           {teamsCount} {t("competitions.teams", "equipos")}
         </span>
         <span className="flex items-center gap-1">
-          <CalendarIcon className="w-3.5 h-3.5" />
+          <Calendar className="w-3.5 h-3.5" />
           {totalMatches} {t("competitions.matches", "partidos")}
         </span>
         <span className="flex items-center gap-1">
