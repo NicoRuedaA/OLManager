@@ -9,7 +9,9 @@ pub use crate::stats::LolRole;
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct Player {
     pub id: String,
+    #[serde(alias = "nickname")]
     pub match_name: String,
+    #[serde(alias = "name")]
     pub full_name: String,
     pub date_of_birth: String,
     pub nationality: String,
@@ -637,5 +639,38 @@ mod tests {
             player.alternate_positions,
             vec![LolRole::Jungle, LolRole::Mid]
         );
+    }
+
+    #[test]
+    fn player_identity_export_can_use_nickname_and_full_name() {
+        let player: Player = serde_json::from_value(serde_json::json!({
+            "id": "p-nickname",
+            "nickname": "Peter",
+            "full_name": "Jeong Yoon-su",
+            "date_of_birth": "2003-04-28",
+            "nationality": "KR",
+            "position": "Support",
+            "natural_position": "Support",
+            "alternate_positions": [],
+            "attributes": sample_attributes(),
+            "condition": 100,
+            "morale": 100,
+            "injury": null,
+            "team_id": null,
+            "traits": [],
+            "contract_end": null,
+            "wage": 0,
+            "market_value": 0,
+            "stats": {},
+            "career": [],
+            "transfer_listed": false,
+            "loan_listed": false,
+            "transfer_offers": [],
+            "morale_core": {}
+        }))
+        .expect("player json with nickname should deserialize");
+
+        assert_eq!(player.match_name, "Peter");
+        assert_eq!(player.full_name, "Jeong Yoon-su");
     }
 }

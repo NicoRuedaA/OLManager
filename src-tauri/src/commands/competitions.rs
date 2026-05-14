@@ -1,3 +1,4 @@
+use domain::player::Player;
 use domain::staff::Staff;
 use log::info;
 use ofm_core::generator::definitions::{
@@ -143,7 +144,6 @@ fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     None
 }
 
-use domain::player::Player;
 use domain::team::Team;
 
 /// Load team data for a competition from its manifest's `teams_file` path.
@@ -193,7 +193,30 @@ pub fn load_competition_players(
     })?;
     let data: PlayerDataFile = serde_json::from_str(&json)
         .map_err(|e| format!("Failed to parse players data: {}", e))?;
-    Ok(data.players)
+    Ok(data
+        .players
+        .into_iter()
+        .map(normalize_exported_player_identity)
+        .collect())
+}
+
+fn normalize_exported_player_identity(mut player: Player) -> Player {
+    let match_name = player.match_name.trim().to_string();
+    let full_name = player.full_name.trim().to_string();
+
+    // Some generated competition exports wrote the legal name to match_name and
+    // the handle to full_name. Internally match_name is the in-game nickname.
+    if !match_name.is_empty()
+        && !full_name.is_empty()
+        && match_name != full_name
+        && match_name.contains(char::is_whitespace)
+        && !full_name.contains(char::is_whitespace)
+    {
+        player.match_name = full_name;
+        player.full_name = match_name;
+    }
+
+    player
 }
 
 /// Load free agent staff from `data/staffs/free_agents.json`.
@@ -329,7 +352,62 @@ pub fn load_erls_from_manifest(
     all_teams
 }
 
+#[cfg(test)]
+mod tests {
+    use super::normalize_exported_player_identity;
+    use domain::player::{LolRole, Player, PlayerAttributes};
+
+    fn attrs() -> PlayerAttributes {
+        PlayerAttributes {
+            mechanics: 70,
+            laning: 70,
+            teamfighting: 70,
+            macro_play: 70,
+            consistency: 70,
+            shotcalling: 70,
+            champion_pool: 70,
+            discipline: 70,
+            mental_resilience: 70,
+        }
+    }
+
+    #[test]
+    fn normalize_exported_player_identity_swaps_legacy_name_nickname_export() {
+        let player = Player::new(
+            "player-peter".to_string(),
+            "Jeong Yoon-su".to_string(),
+            "Peter".to_string(),
+            "2003-04-28".to_string(),
+            "KR".to_string(),
+            LolRole::Support,
+            attrs(),
+        );
+
+        let normalized = normalize_exported_player_identity(player);
+
+        assert_eq!(normalized.match_name, "Peter");
+        assert_eq!(normalized.full_name, "Jeong Yoon-su");
+    }
+
+    #[test]
+    fn normalize_exported_player_identity_keeps_correct_identity_fields() {
+        let player = Player::new(
+            "player-peter".to_string(),
+            "Peter".to_string(),
+            "Jeong Yoon-su".to_string(),
+            "2003-04-28".to_string(),
+            "KR".to_string(),
+            LolRole::Support,
+            attrs(),
+        );
+
+        let normalized = normalize_exported_player_identity(player);
+
+        assert_eq!(normalized.match_name, "Peter");
+        assert_eq!(normalized.full_name, "Jeong Yoon-su");
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Runtime file loading helpers
 // ---------------------------------------------------------------------------
-
