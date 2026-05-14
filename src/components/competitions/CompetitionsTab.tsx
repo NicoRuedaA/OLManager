@@ -7,6 +7,7 @@ import {
   Loader2,
   Building2,
   Calendar,
+  TrendingUp,
 
   ListOrdered,
 } from "lucide-react";
@@ -114,7 +115,7 @@ export default function CompetitionsTab({ gameState }: CompetitionsTabProps) {
           {/* View switcher */}
           <div className="flex items-center gap-2 flex-wrap">
             <ViewButton
-              icon={<CalendarIcon />}
+              icon={<Calendar />}
               label={t("competitions.calendar", "Calendario")}
               active={detailView === "calendar"}
               onClick={() => setDetailView("calendar")}
