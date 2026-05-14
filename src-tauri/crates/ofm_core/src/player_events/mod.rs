@@ -62,7 +62,7 @@ pub fn generate_contract_concern_messages(game: &mut Game, apply_morale_pressure
             new_messages.push(contract_concern_message(
                 &msg_id,
                 &player.id,
-                &player.match_name,
+                &player.nickname,
                 days_remaining,
                 &today,
             ));
@@ -126,7 +126,7 @@ pub fn check_player_events(game: &mut Game) {
             new_messages.push(low_morale_message(
                 &msg_id,
                 &player.id,
-                &player.match_name,
+                &player.nickname,
                 player.morale,
                 &today,
             ));
@@ -195,7 +195,7 @@ pub fn check_player_events(game: &mut Game) {
                     new_messages.push(bench_complaint_message(
                         &msg_id,
                         &player.id,
-                        &player.match_name,
+                        &player.nickname,
                         &today,
                     ));
                 }
@@ -225,7 +225,7 @@ pub fn check_player_events(game: &mut Game) {
                 new_messages.push(happy_player_message(
                     &msg_id,
                     &player.id,
-                    &player.match_name,
+                    &player.nickname,
                     &today,
                 ));
             }

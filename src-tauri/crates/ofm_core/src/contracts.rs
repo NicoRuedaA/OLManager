@@ -465,7 +465,7 @@ pub fn process_contract_expiries(game: &mut Game) {
 
     for player_index in expired_player_indices {
         let player_id = game.players[player_index].id.clone();
-        let player_name = game.players[player_index].match_name.clone();
+        let player_name = game.players[player_index].nickname.clone();
         let team_id = game.players[player_index].team_id.clone();
 
         if let Some(team_id) = team_id.as_deref()

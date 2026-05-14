@@ -190,7 +190,7 @@ export default function SocialEditor({ gameState, onGameUpdate }: SocialEditorPr
   );
 
   const playersByName = useMemo(
-    () => [...gameState.players].sort((a, b) => a.match_name.localeCompare(b.match_name)),
+    () => [...gameState.players].sort((a, b) => a.nickname.localeCompare(b.nickname)),
     [gameState.players],
   );
 
@@ -721,7 +721,7 @@ function TemplateEditor({
             >
               <option value="">Cualquier jugador</option>
               {players.map((player) => (
-                <option key={player.id} value={player.id}>{player.match_name}</option>
+                <option key={player.id} value={player.id}>{player.nickname}</option>
               ))}
             </select>
           </Field>

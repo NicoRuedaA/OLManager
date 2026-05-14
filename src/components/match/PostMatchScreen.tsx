@@ -110,7 +110,7 @@ export default function PostMatchScreen({
     if (!playerId) return t("common.unknown");
 
     return (
-      gameState.players.find((player) => player.id === playerId)?.match_name ||
+      gameState.players.find((player) => player.id === playerId)?.nickname ||
       playerId
     );
   };

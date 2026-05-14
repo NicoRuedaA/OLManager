@@ -1867,7 +1867,7 @@ export default function ChampionDraft({
       const reportPlayerId = report.player_id;
       const matchedGamePlayer = gameState?.players.find((player) => player.id === reportPlayerId);
       if (matchedGamePlayer) {
-        scoutedPlayerKeys.add(normalizeKey(matchedGamePlayer.match_name));
+        scoutedPlayerKeys.add(normalizeKey(matchedGamePlayer.nickname));
       }
       if (report.player_name) {
         scoutedPlayerKeys.add(normalizeKey(report.player_name));

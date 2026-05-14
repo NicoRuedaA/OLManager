@@ -9,7 +9,9 @@ pub use crate::stats::LolRole;
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct Player {
     pub id: String,
-    pub match_name: String,
+    #[serde(alias = "match_name")]
+    pub nickname: String,
+    #[serde(alias = "name")]
     pub full_name: String,
     pub date_of_birth: String,
     pub nationality: String,
@@ -499,7 +501,7 @@ pub fn compute_traits(attrs: &PlayerAttributes, _role: &LolRole) -> Vec<PlayerTr
 impl Player {
     pub fn new<R: Into<LolRole>>(
         id: String,
-        match_name: String,
+        nickname: String,
         full_name: String,
         date_of_birth: String,
         nationality: String,
@@ -511,7 +513,7 @@ impl Player {
         let birth_country = crate::identity::derive_birth_country_code(&nationality);
         Self {
             id,
-            match_name,
+            nickname,
             full_name,
             date_of_birth,
             nationality,
@@ -570,7 +572,7 @@ mod tests {
         // "Midfielder" (legacy) -> LolRole::Jungle (as per spec)
         let player: Player = serde_json::from_value(serde_json::json!({
             "id": "p-legacy",
-            "match_name": "J. Legacy",
+            "nickname": "J. Legacy",
             "full_name": "John Legacy",
             "date_of_birth": "2000-01-15",
             "nationality": "GB",
@@ -606,7 +608,7 @@ mod tests {
         // Test that new LolRole strings deserialize correctly
         let player: Player = serde_json::from_value(serde_json::json!({
             "id": "p-new",
-            "match_name": "J. New",
+            "nickname": "J. New",
             "full_name": "John New",
             "date_of_birth": "2000-01-15",
             "nationality": "GB",
@@ -637,5 +639,71 @@ mod tests {
             player.alternate_positions,
             vec![LolRole::Jungle, LolRole::Mid]
         );
+    }
+
+    #[test]
+    fn player_identity_export_can_use_nickname_and_full_name() {
+        let player: Player = serde_json::from_value(serde_json::json!({
+            "id": "p-nickname",
+            "nickname": "Peter",
+            "full_name": "Jeong Yoon-su",
+            "date_of_birth": "2003-04-28",
+            "nationality": "KR",
+            "position": "Support",
+            "natural_position": "Support",
+            "alternate_positions": [],
+            "attributes": sample_attributes(),
+            "condition": 100,
+            "morale": 100,
+            "injury": null,
+            "team_id": null,
+            "traits": [],
+            "contract_end": null,
+            "wage": 0,
+            "market_value": 0,
+            "stats": {},
+            "career": [],
+            "transfer_listed": false,
+            "loan_listed": false,
+            "transfer_offers": [],
+            "morale_core": {}
+        }))
+        .expect("player json with nickname should deserialize");
+
+        assert_eq!(player.nickname, "Peter");
+        assert_eq!(player.full_name, "Jeong Yoon-su");
+    }
+
+    #[test]
+    fn legacy_player_identity_can_still_read_match_name() {
+        let player: Player = serde_json::from_value(serde_json::json!({
+            "id": "p-legacy-identity",
+            "match_name": "Peter",
+            "full_name": "Jeong Yoon-su",
+            "date_of_birth": "2003-04-28",
+            "nationality": "KR",
+            "position": "Support",
+            "natural_position": "Support",
+            "alternate_positions": [],
+            "attributes": sample_attributes(),
+            "condition": 100,
+            "morale": 100,
+            "injury": null,
+            "team_id": null,
+            "traits": [],
+            "contract_end": null,
+            "wage": 0,
+            "market_value": 0,
+            "stats": {},
+            "career": [],
+            "transfer_listed": false,
+            "loan_listed": false,
+            "transfer_offers": [],
+            "morale_core": {}
+        }))
+        .expect("legacy player json with match_name should deserialize");
+
+        assert_eq!(player.nickname, "Peter");
+        assert_eq!(player.full_name, "Jeong Yoon-su");
     }
 }

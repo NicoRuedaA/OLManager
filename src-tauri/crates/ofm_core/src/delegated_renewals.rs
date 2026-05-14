@@ -90,7 +90,7 @@ pub fn delegate_renewals(
 
         let mut case = DelegatedRenewalCase {
             player_id: player.id.clone(),
-            player_name: player.match_name.clone(),
+            player_name: player.nickname.clone(),
             status: DelegatedRenewalResultStatus::Failed,
             agreed_wage: None,
             agreed_years: None,

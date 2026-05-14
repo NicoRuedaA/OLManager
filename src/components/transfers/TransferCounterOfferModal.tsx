@@ -72,7 +72,7 @@ export default function TransferCounterOfferModal({
           </Badge>
           <div>
             <p className="font-semibold text-sm text-gray-800 dark:text-gray-200">
-              {counterTarget.player.match_name || counterTarget.player.full_name}
+              {counterTarget.player.nickname || counterTarget.player.full_name}
             </p>
             <p className="text-xs text-gray-400">
               {getTeamName(teams, counterTarget.fromTeamId)} •

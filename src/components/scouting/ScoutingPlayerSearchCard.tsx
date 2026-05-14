@@ -95,7 +95,7 @@ export default function ScoutingPlayerSearchCard({
     return [...players].sort((a, b) => {
       switch (sortKey) {
         case "name":
-          return a.match_name.localeCompare(b.match_name) * factor;
+          return a.nickname.localeCompare(b.nickname) * factor;
         case "position": {
           const roleA = getLolRoleForPlayer(a);
           const roleB = getLolRoleForPlayer(b);
@@ -182,7 +182,7 @@ export default function ScoutingPlayerSearchCard({
                   ? getTeamName(teams, player.team_id)
                   : t("common.freeAgent");
                 const lolRole = getLolRoleForPlayer(player);
-                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                const photoUrl = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
 
                 return (
                   <tr
@@ -193,12 +193,12 @@ export default function ScoutingPlayerSearchCard({
                       {photoUrl ? (
                         <img
                           src={photoUrl}
-                          alt={player.match_name}
+                          alt={player.nickname}
                           className="w-8 h-8 rounded-full object-cover"
                         />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
-                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                          {player.nickname?.charAt(0)?.toUpperCase() ?? "?"}
                         </div>
                       )}
                     </td>
@@ -207,7 +207,7 @@ export default function ScoutingPlayerSearchCard({
                         onClick={() => onSelectPlayer?.(player.id)}
                         className="font-heading font-bold text-gray-800 dark:text-gray-100 hover:text-primary-500 transition-colors text-left"
                       >
-                        {player.match_name}
+                        {player.nickname}
                       </button>
                       <div className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5 truncate">
                         {player.full_name}

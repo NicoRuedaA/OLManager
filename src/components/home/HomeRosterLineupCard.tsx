@@ -136,13 +136,13 @@ export default function HomeRosterLineupCard({
       <CardBody>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
           {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) : null;
+            const photo = player ? resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url) : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
             const morale = player?.morale ?? null;
             const topChampion = player
               ? topMasteryChampionByPlayerId.get(player.id)
-                ?? TOP_CHAMPION_BY_IGN.get(normalizeKey(player.match_name))
+                ?? TOP_CHAMPION_BY_IGN.get(normalizeKey(player.nickname))
                 ?? fallbackChampionForRole(player.id, role)
                 ?? ""
               : "";
@@ -172,7 +172,7 @@ export default function HomeRosterLineupCard({
                   {photo ? (
                     <img
                       src={photo}
-                      alt={player?.match_name ?? role}
+                      alt={player?.nickname ?? role}
                       className="w-8 h-8 rounded-full object-cover border border-white/15"
                       loading="lazy"
                     />
@@ -181,7 +181,7 @@ export default function HomeRosterLineupCard({
                   )}
                   <div className="min-w-0">
                     <p className="text-xs font-heading font-bold truncate text-gray-800 dark:text-gray-100">
-                      {player?.match_name ?? "—"}
+                      {player?.nickname ?? "—"}
                     </p>
                     <p className="text-[10px] text-gray-500 dark:text-gray-400">
                       {t("common.ovr")} {ovr ?? "—"}

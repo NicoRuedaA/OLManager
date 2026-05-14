@@ -256,7 +256,7 @@ fn build_top_scorer_delta(game: &Game, fixtures: &[&Fixture]) -> Vec<TopScorerDe
 
             Some(ScorerSnapshot {
                 player_id: player.id.clone(),
-                player_name: player.match_name.clone(),
+                player_name: player.nickname.clone(),
                 team_id: player.team_id.clone().unwrap_or_default(),
                 previous_goals,
                 current_goals,

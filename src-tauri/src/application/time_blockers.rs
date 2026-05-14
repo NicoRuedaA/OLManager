@@ -146,7 +146,7 @@ fn injured_lineup_blocker(
                 .iter()
                 .find(|player| player.id == *id && player.injury.is_some())
         })
-        .map(|player| player.match_name.clone())
+        .map(|player| player.nickname.clone())
         .collect();
 
     // For LoL, check only 5 required roles instead of legacy 11-player lineups.
@@ -289,7 +289,7 @@ fn key_contract_risk_blocker(
         .filter(|player| {
             should_notify_contract_risk_30d(player.contract_end.as_deref(), current_date)
         })
-        .map(|player| player.match_name.as_str())
+        .map(|player| player.nickname.as_str())
         .collect();
 
     (!risky_key_players.is_empty()).then(|| {

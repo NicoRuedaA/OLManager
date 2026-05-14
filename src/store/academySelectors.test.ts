@@ -39,7 +39,7 @@ function team(overrides: Partial<TeamData>): TeamData {
 function player(overrides: Partial<PlayerData>): PlayerData {
   return {
     id: "player-1",
-    match_name: "Rookie",
+    nickname: "Rookie",
     full_name: "Rookie One",
     date_of_birth: "2008-01-01",
     nationality: "GB",

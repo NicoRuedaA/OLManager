@@ -183,7 +183,7 @@ export function matchesTacticsPlayerFilters(
   if (normalizedSearch) {
     const searchableText = [
       player.full_name,
-      player.match_name,
+      player.nickname,
       currentPosition,
       ...preferredPositions,
       ...preferredPositions.map(positionCode),

@@ -154,7 +154,7 @@ function toEnginePlayerFromState(
 ): MatchSnapshot["home_team"]["players"][number] {
   return {
     id: player.id,
-    name: player.match_name,
+    name: player.nickname,
     role: player.position,
     condition: player.condition,
     fitness: player.condition,
@@ -217,7 +217,7 @@ function resolvePlayersFromSeed(
     const match = stateTeamPlayers.find(
       (player) =>
         !usedIds.has(player.id) &&
-        normalizeKey(player.match_name) === normalizeKey(roleSeed.match_name),
+        normalizeKey(player.nickname) === normalizeKey(roleSeed.nickname),
     );
     if (!match) return;
 

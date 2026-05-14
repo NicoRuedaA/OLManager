@@ -47,6 +47,6 @@ export function sortTrainingRoster(roster: PlayerData[]): PlayerData[] {
     const rightOrder =
       positionOrder[right.natural_position || right.position] || 99;
 
-    return leftOrder - rightOrder || left.match_name.localeCompare(right.match_name);
+    return leftOrder - rightOrder || left.nickname.localeCompare(right.nickname);
   });
 }

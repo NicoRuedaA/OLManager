@@ -1,3 +1,4 @@
+use domain::player::Player;
 use domain::staff::Staff;
 use log::info;
 use ofm_core::generator::definitions::{
@@ -143,7 +144,6 @@ fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     None
 }
 
-use domain::player::Player;
 use domain::team::Team;
 
 /// Load team data for a competition from its manifest's `teams_file` path.
@@ -332,4 +332,3 @@ pub fn load_erls_from_manifest(
 // ---------------------------------------------------------------------------
 // Runtime file loading helpers
 // ---------------------------------------------------------------------------
-

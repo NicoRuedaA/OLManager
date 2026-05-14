@@ -180,7 +180,7 @@ fn build_engine_team_from(
         .filter(|p| p.team_id.as_deref() == Some(team_id))
         .map(|p| engine::PlayerData {
             id: p.id.clone(),
-            name: p.match_name.clone(),
+            name: p.nickname.clone(),
             profile_image_url: p.profile_image_url.clone(),
             role: to_engine_role(p.natural_position),
             condition: p.condition,
@@ -384,7 +384,7 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
     let top_labels = academy_players
         .iter()
         .take(2)
-        .map(|player| format!("{} ({})", player.match_name, academy_player_ovr(player)))
+        .map(|player| format!("{} ({})", player.nickname, academy_player_ovr(player)))
         .collect::<Vec<_>>()
         .join(", ");
 
@@ -408,7 +408,7 @@ fn maybe_push_weekly_academy_report(game: &mut Game, today: &str) {
             let role = to_engine_role(player.natural_position);
             let main_ref = main_best_by_role.get(&role).copied().unwrap_or(75);
             let academy_ovr = academy_player_ovr(player);
-            (academy_ovr >= main_ref.saturating_sub(2)).then(|| player.match_name.clone())
+            (academy_ovr >= main_ref.saturating_sub(2)).then(|| player.nickname.clone())
         })
         .take(2)
         .collect();

@@ -29,7 +29,7 @@ const makePlayer = (
   overrides: Partial<PlayerData> = {},
 ): PlayerData => ({
   id,
-  match_name: id.toUpperCase(),
+  nickname: id.toUpperCase(),
   full_name: `Player ${id}`,
   date_of_birth: "1998-01-01",
   nationality: "GB",
@@ -113,7 +113,7 @@ const makeTeam = (overrides: Partial<TeamData> = {}): TeamData => ({
 const makeGameState = (): GameStateData => {
   const players = [
     makePlayer("top1", "TOP", {
-      match_name: "Top Starter",
+      nickname: "Top Starter",
       attributes: {
         pace: 30,
         mental_resilience: 80,
@@ -136,9 +136,9 @@ const makeGameState = (): GameStateData => {
         aerial: 15,
       },
     }),
-    makePlayer("jng1", "JUNGLE", { match_name: "Jungle Starter" }),
+    makePlayer("jng1", "JUNGLE", { nickname: "Jungle Starter" }),
     makePlayer("mid1", "MID", {
-      match_name: "Mid Starter",
+      nickname: "Mid Starter",
       attributes: {
         pace: 70,
         mental_resilience: 74,
@@ -161,9 +161,9 @@ const makeGameState = (): GameStateData => {
         aerial: 10,
       },
     }),
-    makePlayer("adc1", "ADC", { match_name: "ADC Starter" }),
-    makePlayer("sup1", "SUPPORT", { match_name: "Support Starter" }),
-    makePlayer("bench1", "TOP", { match_name: "Bench Top" }),
+    makePlayer("adc1", "ADC", { nickname: "ADC Starter" }),
+    makePlayer("sup1", "SUPPORT", { nickname: "Support Starter" }),
+    makePlayer("bench1", "TOP", { nickname: "Bench Top" }),
   ];
 
   return {

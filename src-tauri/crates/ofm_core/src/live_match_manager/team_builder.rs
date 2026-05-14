@@ -187,7 +187,7 @@ fn best_available_player_for_role<'a>(
 fn to_engine_player(p: &domain::player::Player) -> PlayerData {
     PlayerData {
         id: p.id.clone(),
-        name: p.match_name.clone(),
+        name: p.nickname.clone(),
         profile_image_url: p.profile_image_url.clone(),
         role: to_engine_role(p.natural_position),
         condition: p.condition,

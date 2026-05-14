@@ -25,7 +25,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Hazel",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Romania",
@@ -41,7 +40,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Hazel"
     },
     {
       "id": "player-1239a9d4",
@@ -66,7 +66,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Soldier",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -82,7 +81,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Soldier"
     },
     {
       "id": "player-b3ed08a3",
@@ -107,7 +107,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Dajor",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Germany",
@@ -123,7 +122,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Dajor"
     },
     {
       "id": "player-c1aeab8c",
@@ -148,7 +148,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Manaty",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -164,7 +163,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Manaty"
     },
     {
       "id": "player-c3e1f0ed",
@@ -189,7 +189,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Nisqy",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Belgium",
@@ -205,7 +204,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Nisqy"
     },
     {
       "id": "player-51d38a65",
@@ -230,7 +230,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Nafkelah",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Montenegro",
@@ -246,7 +245,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Nafkelah"
     },
     {
       "id": "player-34370c14",
@@ -271,7 +271,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Jool",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -287,7 +286,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Jool"
     },
     {
       "id": "player-84bc0f06",
@@ -312,7 +312,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Czajek",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -328,7 +327,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Czajek"
     },
     {
       "id": "player-41469f7f",
@@ -353,7 +353,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Wao",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -369,7 +368,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Wao"
     },
     {
       "id": "player-21f20aaa",
@@ -394,7 +394,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Zoelys",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -410,7 +409,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Zoelys"
     },
     {
       "id": "player-41c05b1e",
@@ -435,7 +435,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "NattyNatt",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Sweden",
@@ -451,7 +450,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "NattyNatt"
     },
     {
       "id": "player-921486a9",
@@ -476,7 +476,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Yeti",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -492,7 +491,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Yeti"
     },
     {
       "id": "player-eec70e60",
@@ -517,7 +517,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Czekolad",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -533,7 +532,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Czekolad"
     },
     {
       "id": "player-a0f2c2a3",
@@ -558,7 +558,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Whiteinn",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Romania",
@@ -574,7 +573,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Whiteinn"
     },
     {
       "id": "player-55f73cae",
@@ -599,7 +599,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Steeelback",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -615,7 +614,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Steeelback"
     },
     {
       "id": "player-cf9d39e8",
@@ -640,7 +640,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Vertigo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Austria",
@@ -656,7 +655,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Vertigo"
     },
     {
       "id": "player-46016bc5",
@@ -681,7 +681,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Comp",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Greece",
@@ -697,7 +696,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Comp"
     },
     {
       "id": "player-e58e15b0",
@@ -722,7 +722,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Jezu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -738,7 +737,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Jezu"
     },
     {
       "id": "player-3caf8e7f",
@@ -763,7 +763,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Thayger",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -779,7 +778,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Thayger"
     },
     {
       "id": "player-b518f01f",
@@ -804,7 +804,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Prime",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -820,7 +819,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Prime"
     },
     {
       "id": "player-a6650037",
@@ -845,7 +845,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Mersa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Greece",
@@ -861,7 +860,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Mersa"
     },
     {
       "id": "player-5832d129",
@@ -886,7 +886,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Thomas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Croatia",
@@ -902,7 +901,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Thomas"
     },
     {
       "id": "player-b6ba9cef",
@@ -927,7 +927,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Piero",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -943,7 +942,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Piero"
     },
     {
       "id": "player-3cbf1cc7",
@@ -968,7 +968,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Yukino",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -984,7 +983,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Yukino"
     },
     {
       "id": "player-a13f38f9",
@@ -1009,7 +1009,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Riippp",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1025,7 +1024,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Riippp"
     },
     {
       "id": "player-ac8226c5",
@@ -1050,7 +1050,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Potent",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "July 14, 2002",
@@ -1066,7 +1065,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Potent"
     },
     {
       "id": "player-80f3388d",
@@ -1091,7 +1091,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Axelent",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "North Macedonia",
@@ -1107,7 +1106,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Axelent"
     },
     {
       "id": "player-0fd06788",
@@ -1132,7 +1132,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "3XA",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1148,7 +1147,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "3XA"
     },
     {
       "id": "player-a66e7a33",
@@ -1173,7 +1173,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Yakkey",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Romania",
@@ -1189,7 +1188,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Yakkey"
     },
     {
       "id": "player-84d390b0",
@@ -1214,7 +1214,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Adam",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1230,7 +1229,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Adam"
     },
     {
       "id": "player-d10a8c0b",
@@ -1255,7 +1255,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Kaboom",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Turkey",
@@ -1271,7 +1270,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Kaboom"
     },
     {
       "id": "player-1878f1ea",
@@ -1296,7 +1296,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Stefan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Serbia",
@@ -1312,7 +1311,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Stefan"
     },
     {
       "id": "player-0b3afc8c",
@@ -1337,7 +1337,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Targamas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Belgium",
@@ -1353,7 +1352,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Targamas"
     },
     {
       "id": "player-9ff9e905",
@@ -1378,7 +1378,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Shift",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -1394,7 +1393,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Shift"
     },
     {
       "id": "player-756b6429",
@@ -1419,7 +1419,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Spooky",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Bulgaria",
@@ -1435,7 +1434,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Spooky"
     },
     {
       "id": "player-51df346f",
@@ -1460,7 +1460,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Kamiloo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1476,7 +1475,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Kamiloo"
     },
     {
       "id": "player-f7c9d948",
@@ -1501,7 +1501,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Carlsen",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Denmark",
@@ -1517,7 +1516,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Carlsen"
     },
     {
       "id": "player-a6317295",
@@ -1542,7 +1542,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Omon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Czech Republic",
@@ -1558,7 +1557,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Omon"
     },
     {
       "id": "player-f5fa5a71",
@@ -1583,7 +1583,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Aetinoth",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Turkey",
@@ -1599,7 +1598,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Aetinoth"
     },
     {
       "id": "player-b5cee998",
@@ -1624,7 +1624,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Dawciu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -1640,7 +1639,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Dawciu"
     },
     {
       "id": "player-b45177e7",
@@ -1665,7 +1665,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "SAKEN",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1681,7 +1680,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "SAKEN"
     },
     {
       "id": "player-649fea90",
@@ -1706,7 +1706,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Kryze",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Sweden",
@@ -1722,7 +1721,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Kryze"
     },
     {
       "id": "player-b4eeb986",
@@ -1747,7 +1747,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "HARPOON",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -1763,7 +1762,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "HARPOON"
     },
     {
       "id": "player-215c6224",
@@ -1788,7 +1788,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Zicssi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1804,7 +1803,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Zicssi"
     },
     {
       "id": "player-ac3d6ef5",
@@ -1829,7 +1829,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Dekap",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Jordan",
@@ -1845,7 +1844,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Dekap"
     },
     {
       "id": "player-87c2dd42",
@@ -1870,7 +1870,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Toffer",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Lithuania",
@@ -1886,7 +1885,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Toffer"
     },
     {
       "id": "player-66c732be",
@@ -1911,7 +1911,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Badlulu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1927,7 +1926,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Badlulu"
     },
     {
       "id": "player-944ccd91",
@@ -1952,7 +1952,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Spooder",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Sweden",
@@ -1968,7 +1967,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Spooder"
     },
     {
       "id": "player-be7cd48a",
@@ -1993,7 +1993,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Tao",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Italy",
@@ -2009,7 +2008,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Tao"
     },
     {
       "id": "player-1df87a66",
@@ -2034,7 +2034,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Deadly",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United Kingdom",
@@ -2050,7 +2049,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Deadly"
     }
   ]
 }

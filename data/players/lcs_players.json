@@ -52,7 +52,7 @@
       "team_id": "team-75904cb7",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Callme",
+      "full_name": "Oh Ji-hoon",
       "attributes": {
         "laning": 71,
         "mechanics": 72,
@@ -64,7 +64,6 @@
         "champion_pool": 71,
         "mental_resilience": 71
       },
-      "match_name": "Oh Ji-hoon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -85,7 +84,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Callme"
     },
     {
       "id": "player-36297362",
@@ -173,7 +173,7 @@
       "team_id": "team-tl2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Morgan",
+      "full_name": "Park Ru-han",
       "attributes": {
         "laning": 74,
         "mechanics": 76,
@@ -185,7 +185,6 @@
         "champion_pool": 77,
         "mental_resilience": 83
       },
-      "match_name": "Park Ru-han",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -206,7 +205,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Morgan"
     },
     {
       "id": "player-9b2e2e37",
@@ -220,7 +220,7 @@
       "team_id": "team-cb9503c1",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Saint",
+      "full_name": "Kang Sung-in",
       "attributes": {
         "laning": 80,
         "mechanics": 76,
@@ -232,7 +232,6 @@
         "champion_pool": 76,
         "mental_resilience": 73
       },
-      "match_name": "Kang Sung-in",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -253,7 +252,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Saint"
     },
     {
       "id": "player-34b5063a",
@@ -267,7 +267,7 @@
       "team_id": "team-d740ef00",
       "position": "Support",
       "condition": 100,
-      "full_name": "Ceos",
+      "full_name": "Denilson Oliveira Gonçalves",
       "attributes": {
         "laning": 70,
         "mechanics": 72,
@@ -279,7 +279,6 @@
         "champion_pool": 66,
         "mental_resilience": 77
       },
-      "match_name": "Denilson Oliveira Gonçalves",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Brazil",
@@ -300,7 +299,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Ceos"
     },
     {
       "id": "player-54dcc443",
@@ -314,7 +314,7 @@
       "team_id": "team-cb9503c1",
       "position": "Top",
       "condition": 100,
-      "full_name": "Castle",
+      "full_name": "Cho Hyeon-seong",
       "attributes": {
         "laning": 72,
         "mechanics": 73,
@@ -326,7 +326,6 @@
         "champion_pool": 73,
         "mental_resilience": 81
       },
-      "match_name": "Cho Hyeon-seong",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -347,7 +346,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Castle"
     },
     {
       "id": "player-a006c3b2",
@@ -361,7 +361,7 @@
       "team_id": "team-sen2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "DARKWINGS",
+      "full_name": "Isaac Chou",
       "attributes": {
         "laning": 80,
         "mechanics": 82,
@@ -373,7 +373,6 @@
         "champion_pool": 81,
         "mental_resilience": 73
       },
-      "match_name": "Isaac Chou",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "",
@@ -394,7 +393,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "DARKWINGS"
     },
     {
       "id": "player-3d524fd1",
@@ -420,7 +420,6 @@
         "champion_pool": 68,
         "mental_resilience": 63
       },
-      "match_name": "Contractz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -441,7 +440,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 64
+      "overall": 64,
+      "nickname": "Contractz"
     },
     {
       "id": "player-26acd30f",
@@ -520,7 +520,7 @@
       "team_id": "team-d740ef00",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Bvoy",
+      "full_name": "Ju Yeong-hoon",
       "attributes": {
         "laning": 81,
         "mechanics": 82,
@@ -532,7 +532,6 @@
         "champion_pool": 81,
         "mental_resilience": 80
       },
-      "match_name": "Ju Yeong-hoon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -553,7 +552,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Bvoy"
     },
     {
       "id": "player-4a42547a",
@@ -635,7 +635,6 @@
         "champion_pool": 74,
         "mental_resilience": 76
       },
-      "match_name": "APA (Eain Stearns)",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -656,7 +655,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "APA (Eain Stearns)"
     },
     {
       "id": "player-97e7c18c",
@@ -753,7 +753,7 @@
       "team_id": "team-c92025",
       "position": "Support",
       "condition": 100,
-      "full_name": "Vulcan",
+      "full_name": "Philippe Laflamme",
       "attributes": {
         "laning": 41,
         "mechanics": 45,
@@ -765,7 +765,6 @@
         "champion_pool": 45,
         "mental_resilience": 55
       },
-      "match_name": "Philippe Laflamme",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Canada",
@@ -786,7 +785,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 52
+      "overall": 52,
+      "nickname": "Vulcan"
     },
     {
       "id": "player-54b9913b",
@@ -800,7 +800,7 @@
       "team_id": "team-tl2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "CoreJJ",
+      "full_name": "Jo Yong-in",
       "attributes": {
         "laning": 81,
         "mechanics": 86,
@@ -812,7 +812,6 @@
         "champion_pool": 77,
         "mental_resilience": 83
       },
-      "match_name": "Jo Yong-in",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -833,7 +832,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 86
+      "overall": 86,
+      "nickname": "CoreJJ"
     },
     {
       "id": "player-9e2ec14c",
@@ -847,7 +847,7 @@
       "team_id": "team-d740ef00",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Zinie",
+      "full_name": "Yoo Baek-jin",
       "attributes": {
         "laning": 82,
         "mechanics": 80,
@@ -859,7 +859,6 @@
         "champion_pool": 78,
         "mental_resilience": 77
       },
-      "match_name": "Yoo Baek-jin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -880,7 +879,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Zinie"
     },
     {
       "id": "player-171d85a6",
@@ -894,7 +894,7 @@
       "team_id": "team-tl2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Quid",
+      "full_name": "Lim Hyeon-seung",
       "attributes": {
         "laning": 77,
         "mechanics": 80,
@@ -906,7 +906,6 @@
         "champion_pool": 81,
         "mental_resilience": 78
       },
-      "match_name": "Lim Hyeon-seung",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -927,7 +926,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Quid"
     },
     {
       "id": "player-511a8047",
@@ -941,7 +941,7 @@
       "team_id": "team-fly2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Gryffinn",
+      "full_name": "Johnson Le",
       "attributes": {
         "laning": 71,
         "mechanics": 73,
@@ -953,7 +953,6 @@
         "champion_pool": 73,
         "mental_resilience": 68
       },
-      "match_name": "Johnson Le",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -974,7 +973,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Gryffinn"
     },
     {
       "id": "player-a9f1f79e",
@@ -1035,7 +1035,7 @@
       "team_id": "team-75904cb7",
       "position": "Support",
       "condition": 100,
-      "full_name": "Lyonz",
+      "full_name": "Pedro Luis Peralta",
       "attributes": {
         "laning": 48,
         "mechanics": 45,
@@ -1047,7 +1047,6 @@
         "champion_pool": 47,
         "mental_resilience": 57
       },
-      "match_name": "Pedro Luis Peralta",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Argentina",
@@ -1068,7 +1067,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 51
+      "overall": 51,
+      "nickname": "Lyonz"
     },
     {
       "id": "player-02674044",
@@ -1111,7 +1111,7 @@
       "team_id": "team-75904cb7",
       "position": "Top",
       "condition": 100,
-      "full_name": "Srtty",
+      "full_name": "Jett Michael Joye",
       "attributes": {
         "laning": 47,
         "mechanics": 49,
@@ -1123,7 +1123,6 @@
         "champion_pool": 49,
         "mental_resilience": 54
       },
-      "match_name": "Jett Michael Joye",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -1144,7 +1143,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 50
+      "overall": 50,
+      "nickname": "Srtty"
     },
     {
       "id": "player-33722de9",
@@ -1169,7 +1169,7 @@
       "team_id": "team-75904cb7",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Sajed ",
+      "full_name": "Sajed Ziade",
       "attributes": {
         "laning": 78,
         "mechanics": 75,
@@ -1181,7 +1181,6 @@
         "champion_pool": 72,
         "mental_resilience": 72
       },
-      "match_name": "Sajed Ziade",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -1202,7 +1201,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "Sajed "
     },
     {
       "id": "player-09ec2ac8",
@@ -1216,7 +1216,7 @@
       "team_id": "team-fly2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "Cryogen",
+      "full_name": "Michael Luu",
       "attributes": {
         "laning": 66,
         "mechanics": 74,
@@ -1228,7 +1228,6 @@
         "champion_pool": 71,
         "mental_resilience": 75
       },
-      "match_name": "Michael Luu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1249,7 +1248,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Cryogen"
     },
     {
       "id": "player-93b62275",
@@ -1263,7 +1263,7 @@
       "team_id": "team-cb9503c1",
       "position": "Support",
       "condition": 100,
-      "full_name": "Isles",
+      "full_name": "Jonah Rosario",
       "attributes": {
         "laning": 46,
         "mechanics": 50,
@@ -1275,7 +1275,6 @@
         "champion_pool": 46,
         "mental_resilience": 49
       },
-      "match_name": "Jonah Rosario",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Australia",
@@ -1296,7 +1295,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 51
+      "overall": 51,
+      "nickname": "Isles"
     },
     {
       "id": "player-75fff426",
@@ -1357,7 +1357,7 @@
       "team_id": "team-dig2025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Exyu",
+      "full_name": "Lawrence Lin Xu",
       "attributes": {
         "laning": 75,
         "mechanics": 66,
@@ -1369,7 +1369,6 @@
         "champion_pool": 72,
         "mental_resilience": 69
       },
-      "match_name": "Lawrence Lin Xu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -1390,7 +1389,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 69
+      "overall": 69,
+      "nickname": "Exyu"
     },
     {
       "id": "player-4bff4aa7",
@@ -1469,7 +1469,7 @@
       "team_id": "team-dig2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Photon",
+      "full_name": "Kyeong Gyu-tae",
       "attributes": {
         "laning": 64,
         "mechanics": 73,
@@ -1481,7 +1481,6 @@
         "champion_pool": 72,
         "mental_resilience": 77
       },
-      "match_name": "Kyeong Gyu-tae",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1502,7 +1501,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "Photon"
     },
     {
       "id": "player-ff4ffd20",
@@ -1563,7 +1563,7 @@
       "team_id": "team-sen2025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "HamBak",
+      "full_name": "Ham Yoo-jin",
       "attributes": {
         "laning": 81,
         "mechanics": 76,
@@ -1575,7 +1575,6 @@
         "champion_pool": 81,
         "mental_resilience": 81
       },
-      "match_name": "Ham Yoo-jin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1596,7 +1595,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "HamBak"
     },
     {
       "id": "player-b72a93a3",
@@ -1729,7 +1729,7 @@
       "team_id": "team-dig2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "Ignar",
+      "full_name": "Lee Dong-geun",
       "attributes": {
         "laning": 71,
         "mechanics": 78,
@@ -1741,7 +1741,6 @@
         "champion_pool": 74,
         "mental_resilience": 77
       },
-      "match_name": "Lee Dong-geun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1762,7 +1761,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Ignar"
     },
     {
       "id": "player-2e5c47cc",
@@ -1832,7 +1832,7 @@
       "team_id": "team-fly2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Quad",
+      "full_name": "Song Su-hyeong",
       "attributes": {
         "laning": 77,
         "mechanics": 78,
@@ -1844,7 +1844,6 @@
         "champion_pool": 80,
         "mental_resilience": 74
       },
-      "match_name": "Song Su-hyeong",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1865,7 +1864,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Quad"
     },
     {
       "id": "player-6e446ce3",
@@ -1879,7 +1879,7 @@
       "team_id": "team-sen2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "Huhi",
+      "full_name": "Choi Jae-hyun",
       "attributes": {
         "laning": 67,
         "mechanics": 70,
@@ -1891,7 +1891,6 @@
         "champion_pool": 69,
         "mental_resilience": 72
       },
-      "match_name": "Choi Jae-hyun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France<!-- He was born in France, not South Korea! -->",
@@ -1912,7 +1911,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Huhi"
     },
     {
       "id": "player-c2b8ba97",
@@ -1937,7 +1937,7 @@
       "team_id": "team-75904cb7",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "KryRa",
+      "full_name": "Christian Rahaian",
       "attributes": {
         "laning": 79,
         "mechanics": 75,
@@ -1949,7 +1949,6 @@
         "champion_pool": 75,
         "mental_resilience": 73
       },
-      "match_name": "Christian Rahaian",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Canada",
@@ -1970,7 +1969,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "KryRa"
     },
     {
       "id": "player-a4cf967c",
@@ -1984,7 +1984,7 @@
       "team_id": "team-cb9503c1",
       "position": "Top",
       "condition": 100,
-      "full_name": "Dhokla",
+      "full_name": "Niship Doshi",
       "attributes": {
         "laning": 69,
         "mechanics": 78,
@@ -1996,7 +1996,6 @@
         "champion_pool": 75,
         "mental_resilience": 77
       },
-      "match_name": "Niship Doshi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "India",
@@ -2017,7 +2016,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Dhokla"
     },
     {
       "id": "player-7a96645c",
@@ -2051,7 +2051,7 @@
       "team_id": "team-fly2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Gakgos",
+      "full_name": "İbrahim Samet Bulut",
       "attributes": {
         "laning": 70,
         "mechanics": 79,
@@ -2063,7 +2063,6 @@
         "champion_pool": 79,
         "mental_resilience": 80
       },
-      "match_name": "İbrahim Samet Bulut",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Turkey",
@@ -2084,7 +2083,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Gakgos"
     },
     {
       "id": "player-e621aa69",
@@ -2098,7 +2098,7 @@
       "team_id": "team-tl2025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Yeon",
+      "full_name": "Sean Sung",
       "attributes": {
         "laning": 53,
         "mechanics": 52,
@@ -2110,7 +2110,6 @@
         "champion_pool": 54,
         "mental_resilience": 47
       },
-      "match_name": "Sean Sung",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -2131,7 +2130,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 50
+      "overall": 50,
+      "nickname": "Yeon"
     },
     {
       "id": "player-39cd1317",
@@ -2145,7 +2145,7 @@
       "team_id": "team-cb9503c1",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Inspired ",
+      "full_name": "Kacper Słoma",
       "attributes": {
         "laning": 90,
         "mechanics": 88,
@@ -2157,7 +2157,6 @@
         "champion_pool": 87,
         "mental_resilience": 84
       },
-      "match_name": "Kacper Słoma",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -2178,7 +2177,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 87
+      "overall": 87,
+      "nickname": "Inspired "
     },
     {
       "id": "player-f4fa4d3d",
@@ -2266,7 +2266,7 @@
       "team_id": "team-dig2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Palafox",
+      "full_name": "Cristian Palafox",
       "attributes": {
         "laning": 52,
         "mechanics": 56,
@@ -2278,7 +2278,6 @@
         "champion_pool": 49,
         "mental_resilience": 49
       },
-      "match_name": "Cristian Palafox",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -2299,7 +2298,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 52
+      "overall": 52,
+      "nickname": "Palafox"
     },
     {
       "id": "player-bed27000",
@@ -2396,7 +2396,7 @@
       "team_id": "team-dig2025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "FBI",
+      "full_name": "Ian Victor Huang",
       "attributes": {
         "laning": 91,
         "mechanics": 96,
@@ -2408,7 +2408,6 @@
         "champion_pool": 94,
         "mental_resilience": 92
       },
-      "match_name": "Ian Victor Huang",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Australia",
@@ -2429,7 +2428,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 91
+      "overall": 91,
+      "nickname": "FBI"
     },
     {
       "id": "player-8f4fdbd8",
@@ -2443,7 +2443,7 @@
       "team_id": "team-d740ef00",
       "position": "Top",
       "condition": 100,
-      "full_name": "Fudge",
+      "full_name": "Ibrahim Allami",
       "attributes": {
         "laning": 45,
         "mechanics": 46,
@@ -2455,7 +2455,6 @@
         "champion_pool": 45,
         "mental_resilience": 55
       },
-      "match_name": "Ibrahim Allami",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Australia",
@@ -2476,7 +2475,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 48
+      "overall": 48,
+      "nickname": "Fudge"
     },
     {
       "id": "player-e73b8134",
@@ -2618,7 +2618,7 @@
       "team_id": "team-c92025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Zven",
+      "full_name": "Jesper Svenningsen",
       "attributes": {
         "laning": 99,
         "mechanics": 93,
@@ -2630,7 +2630,6 @@
         "champion_pool": 96,
         "mental_resilience": 89
       },
-      "match_name": "Jesper Svenningsen",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Denmark",
@@ -2651,7 +2650,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 90
+      "overall": 90,
+      "nickname": "Zven"
     },
     {
       "id": "player-d5d1ce5f",
@@ -2730,7 +2730,7 @@
       "team_id": "team-c92025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Thanatos",
+      "full_name": "Park Seung-gyu",
       "attributes": {
         "laning": 64,
         "mechanics": 69,
@@ -2742,7 +2742,6 @@
         "champion_pool": 67,
         "mental_resilience": 77
       },
-      "match_name": "Park Seung-gyu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -2763,7 +2762,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Thanatos"
     },
     {
       "id": "player-fd18c1b2",
@@ -2777,7 +2777,7 @@
       "team_id": "team-fly2025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Massu",
+      "full_name": "Fahad Abdulmalek",
       "attributes": {
         "laning": 76,
         "mechanics": 77,
@@ -2789,7 +2789,6 @@
         "champion_pool": 77,
         "mental_resilience": 71
       },
-      "match_name": "Fahad Abdulmalek",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Iraq",
@@ -2810,7 +2809,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "Massu"
     },
     {
       "id": "player-3431f750",
@@ -2880,7 +2880,7 @@
       "team_id": "team-cb9503c1",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Berserker",
+      "full_name": "Kim Min-cheol",
       "attributes": {
         "laning": 77,
         "mechanics": 83,
@@ -2892,7 +2892,6 @@
         "champion_pool": 83,
         "mental_resilience": 77
       },
-      "match_name": "Kim Min-cheol",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -2913,7 +2912,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Berserker"
     },
     {
       "id": "player-e39d4d27",
@@ -2927,7 +2927,7 @@
       "team_id": "team-tl2025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Josedeodo",
+      "full_name": "\tBrandon Joel Villegas",
       "attributes": {
         "laning": 75,
         "mechanics": 61,
@@ -2939,7 +2939,6 @@
         "champion_pool": 76,
         "mental_resilience": 79
       },
-      "match_name": "\tBrandon Joel Villegas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Argentina",
@@ -2960,7 +2959,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "Josedeodo"
     },
     {
       "id": "player-68d06c08",
@@ -2974,7 +2974,7 @@
       "team_id": "team-sen2025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Rahel",
+      "full_name": "Cho Min-seong",
       "attributes": {
         "laning": 54,
         "mechanics": 57,
@@ -2986,7 +2986,6 @@
         "champion_pool": 53,
         "mental_resilience": 55
       },
-      "match_name": "Cho Min-seong",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -3007,7 +3006,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 53
+      "overall": 53,
+      "nickname": "Rahel"
     },
     {
       "id": "player-b3694190",
@@ -3104,7 +3104,7 @@
       "team_id": "team-c92025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Blaber",
+      "full_name": "Robert Huang",
       "attributes": {
         "laning": 85,
         "mechanics": 76,
@@ -3116,7 +3116,6 @@
         "champion_pool": 82,
         "mental_resilience": 78
       },
-      "match_name": "Robert Huang",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -3137,7 +3136,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Blaber"
     },
     {
       "id": "player-97ece04e",
@@ -3151,7 +3151,7 @@
       "team_id": "team-sen2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Impact",
+      "full_name": "Jeong Eon-young",
       "attributes": {
         "laning": 86,
         "mechanics": 90,
@@ -3163,7 +3163,6 @@
         "champion_pool": 83,
         "mental_resilience": 91
       },
-      "match_name": "Jeong Eon-young",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -3184,7 +3183,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 90
+      "overall": 90,
+      "nickname": "Impact"
     }
   ]
 }

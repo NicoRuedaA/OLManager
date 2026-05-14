@@ -8,7 +8,7 @@ const t = ((_: string, fallback?: string) => fallback ?? "") as any;
 function player(id: string, teamId: string, ovr: number): PlayerData {
   return {
     id,
-    match_name: id,
+    nickname: id,
     full_name: id,
     date_of_birth: "2000-01-01",
     nationality: "ES",

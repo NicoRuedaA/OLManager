@@ -77,7 +77,7 @@ fn build_player_award_contexts(game: &Game) -> Vec<PlayerAwardContext<'_>> {
 fn award_entry<'a>(context: &PlayerAwardContext<'a>, value: f64) -> AwardEntry {
     AwardEntry {
         player_id: context.player.id.clone(),
-        player_name: context.player.match_name.clone(),
+        player_name: context.player.nickname.clone(),
         team_id: context.team_id.clone(),
         team_name: context.team_name.clone(),
         value,

@@ -45,7 +45,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2000-01-01",
     nationality: "BR",
@@ -226,7 +226,7 @@ describe("dashboardHelpers", function (): void {
         createPlayer({
           id: "player-2",
           full_name: "Bruno Silva",
-          match_name: "B. Silva",
+          nickname: "B. Silva",
         }),
       ],
     });

@@ -279,7 +279,7 @@ function makeGameState() {
     players: [
       {
         id: "p1",
-        match_name: "Alice",
+        nickname: "Alice",
         full_name: "Alice Forward",
         date_of_birth: "2000-01-01",
         nationality: "GB",
@@ -339,7 +339,7 @@ function makeGameState() {
       },
       {
         id: "p2",
-        match_name: "Bob",
+        nickname: "Bob",
         full_name: "Bob Forward",
         date_of_birth: "2000-01-01",
         nationality: "GB",

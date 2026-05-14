@@ -343,7 +343,7 @@ pub fn apply_team_talk(
 
         results.push(serde_json::json!({
             "player_id": player.id,
-            "player_name": player.match_name,
+            "player_name": player.nickname,
             "old_morale": base_morale,
             "new_morale": new_morale,
             "delta": actual_delta

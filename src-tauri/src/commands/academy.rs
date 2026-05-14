@@ -102,7 +102,7 @@ pub fn promote_academy_player(
         }
 
         player.team_id = Some(parent_team_id.clone());
-        (player.id.clone(), player.match_name.clone())
+        (player.id.clone(), player.nickname.clone())
     };
 
     push_academy_player_moved_message(
@@ -152,7 +152,7 @@ pub fn demote_main_player_to_academy(
         }
 
         player.team_id = Some(academy_team_id.clone());
-        (player.id.clone(), player.match_name.clone())
+        (player.id.clone(), player.nickname.clone())
     };
 
     push_academy_player_moved_message(

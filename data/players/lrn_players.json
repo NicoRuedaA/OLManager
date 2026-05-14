@@ -57,10 +57,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "184dab76-6fe8-460f-9af0-c7beb9c92795",
-      "match_name": "Fidel Ortiz",
-      "full_name": "Shadon",
+      "full_name": "Fidel Ortiz",
       "position": "ADC",
-      "profile_image_url": "/player-photos/184dab76-6fe8-460f-9af0-c7beb9c92795.webp"
+      "profile_image_url": "/player-photos/184dab76-6fe8-460f-9af0-c7beb9c92795.webp",
+      "nickname": "Shadon"
     },
     {
       "career": [
@@ -156,11 +156,11 @@
       "potential_base": 75,
       "transfer_listed": false,
       "id": "1947b668-b672-4455-bc4f-d70f1ecb9859",
-      "match_name": "Juan Fernando Bernal Garzón",
-      "full_name": "Keis",
+      "full_name": "Juan Fernando Bernal Garzón",
       "position": "Jungle",
       "profile_image_url": null,
-      "overall": 66
+      "overall": 66,
+      "nickname": "Keis"
     },
     {
       "career": [
@@ -301,11 +301,11 @@
       "potential_base": 73,
       "transfer_listed": false,
       "id": "1c3e6b84-8c5c-428b-adee-e099cf2069c2",
-      "match_name": "Francisco Antonio Taba Hueramo",
-      "full_name": "Steellar",
+      "full_name": "Francisco Antonio Taba Hueramo",
       "position": "Top",
       "profile_image_url": "/player-photos/1c3e6b84-8c5c-428b-adee-e099cf2069c2.webp",
-      "overall": 66
+      "overall": 66,
+      "nickname": "Steellar"
     },
     {
       "id": "player-809934cf",
@@ -411,7 +411,7 @@
       "team_id": "team-11658846",
       "position": "Support",
       "condition": 100,
-      "full_name": "Relax",
+      "full_name": "Sebastián Farid Huapaya Espinoza",
       "attributes": {
         "laning": 70,
         "mechanics": 69,
@@ -423,7 +423,6 @@
         "champion_pool": 74,
         "mental_resilience": 74
       },
-      "match_name": "Sebastián Farid Huapaya Espinoza",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Peru",
@@ -444,7 +443,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Relax"
     },
     {
       "id": "player-a29758b7",
@@ -643,7 +643,6 @@
         "champion_pool": 70,
         "mental_resilience": 69
       },
-      "match_name": "Berik",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -664,7 +663,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 68
+      "overall": 68,
+      "nickname": "Berik"
     },
     {
       "id": "player-06e1af72",
@@ -779,7 +779,7 @@
       "team_id": "team-f0cf6322",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Saens",
+      "full_name": "Ángel Santiago Saens Aguilar",
       "attributes": {
         "laning": 67,
         "mechanics": 72,
@@ -791,7 +791,6 @@
         "champion_pool": 68,
         "mental_resilience": 65
       },
-      "match_name": "Ángel Santiago Saens Aguilar",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -812,7 +811,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 69
+      "overall": 69,
+      "nickname": "Saens"
     },
     {
       "id": "player-5b9e7047",
@@ -963,7 +963,7 @@
       "team_id": "team-ba49b955",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Zelt",
+      "full_name": "Jairo Camilo Urbina Orozco",
       "attributes": {
         "laning": 82,
         "mechanics": 75,
@@ -975,7 +975,6 @@
         "champion_pool": 75,
         "mental_resilience": 77
       },
-      "match_name": "Jairo Camilo Urbina Orozco",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -996,7 +995,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Zelt"
     },
     {
       "career": [
@@ -1108,10 +1108,10 @@
       "contract_end": "2026-11-16",
       "transfer_listed": false,
       "id": "37cecd91-30b9-4f80-95ef-9ac0e8cc299d",
-      "match_name": "Carlo Andre Carrion Zapata",
-      "full_name": "Shiku",
+      "full_name": "Carlo Andre Carrion Zapata",
       "position": "Support",
-      "profile_image_url": "/player-photos/37cecd91-30b9-4f80-95ef-9ac0e8cc299d.webp"
+      "profile_image_url": "/player-photos/37cecd91-30b9-4f80-95ef-9ac0e8cc299d.webp",
+      "nickname": "Shiku"
     },
     {
       "id": "player-87f2a811",
@@ -1199,7 +1199,7 @@
       "team_id": "team-4a9a5df5",
       "position": "Top",
       "condition": 100,
-      "full_name": "Zhayend",
+      "full_name": "Julio César Roldán Andrade",
       "attributes": {
         "laning": 58,
         "mechanics": 60,
@@ -1211,7 +1211,6 @@
         "champion_pool": 66,
         "mental_resilience": 64
       },
-      "match_name": "Julio César Roldán Andrade",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -1232,7 +1231,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 63
+      "overall": 63,
+      "nickname": "Zhayend"
     },
     {
       "id": "player-f8e923cc",
@@ -1383,7 +1383,7 @@
       "team_id": "team-d7d265ec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Icy",
+      "full_name": "Andrés Marcelo Barba Rodriguez",
       "attributes": {
         "laning": 51,
         "mechanics": 56,
@@ -1395,7 +1395,6 @@
         "champion_pool": 48,
         "mental_resilience": 53
       },
-      "match_name": "Andrés Marcelo Barba Rodriguez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -1416,7 +1415,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 53
+      "overall": 53,
+      "nickname": "Icy"
     },
     {
       "career": [
@@ -1584,11 +1584,11 @@
       "potential_base": 79,
       "transfer_listed": false,
       "id": "3ec4c1ec-2c21-4b99-9182-186e7454e226",
-      "match_name": "Julián Cárdenas Sanchez",
-      "full_name": "Mataz",
+      "full_name": "Julián Cárdenas Sanchez",
       "position": "Jungle",
       "profile_image_url": "/player-photos/3ec4c1ec-2c21-4b99-9182-186e7454e226.webp",
-      "overall": 73
+      "overall": 73,
+      "nickname": "Mataz"
     },
     {
       "id": "player-4086f636",
@@ -1670,7 +1670,6 @@
         "champion_pool": 69,
         "mental_resilience": 73
       },
-      "match_name": "Sweeho",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Venezuela",
@@ -1691,7 +1690,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Sweeho"
     },
     {
       "career": [
@@ -1757,10 +1757,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "4158d2ef-760c-4903-adc2-3446fad9256c",
-      "match_name": "Alberto Luis Pérez Ramos",
-      "full_name": "BetoEZ",
+      "full_name": "Alberto Luis Pérez Ramos",
       "position": "Support",
-      "profile_image_url": "/player-photos/4158d2ef-760c-4903-adc2-3446fad9256c.webp"
+      "profile_image_url": "/player-photos/4158d2ef-760c-4903-adc2-3446fad9256c.webp",
+      "nickname": "BetoEZ"
     },
     {
       "career": [
@@ -1781,10 +1781,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "452d85f6-a77d-43c1-8ba0-75c97720bcd7",
-      "match_name": "Besler Ayala",
-      "full_name": "Ratth",
+      "full_name": "Besler Ayala",
       "position": "ADC",
-      "profile_image_url": null
+      "profile_image_url": null,
+      "nickname": "Ratth"
     },
     {
       "id": "player-cd1f25da",
@@ -1917,7 +1917,7 @@
       "team_id": "team-6613965b",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Intio",
+      "full_name": "Andres Felipe Rodriguez Silva",
       "attributes": {
         "laning": 82,
         "mechanics": 79,
@@ -1929,7 +1929,6 @@
         "champion_pool": 80,
         "mental_resilience": 71
       },
-      "match_name": "Andres Felipe Rodriguez Silva",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -1950,7 +1949,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Intio"
     },
     {
       "id": "player-803ece2b",
@@ -2068,7 +2068,6 @@
         "champion_pool": 77,
         "mental_resilience": 76
       },
-      "match_name": "Catan (Dylan Bravo)",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -2089,7 +2088,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Catan (Dylan Bravo)"
     },
     {
       "career": [
@@ -2173,10 +2173,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "54e3ec42-e92b-47e9-94ce-646611131a74",
-      "match_name": "Ángel Cota",
-      "full_name": "Keptt",
+      "full_name": "Ángel Cota",
       "position": "Mid",
-      "profile_image_url": null
+      "profile_image_url": null,
+      "nickname": "Keptt"
     },
     {
       "career": [
@@ -2270,10 +2270,10 @@
       "contract_end": "2026-11-16",
       "transfer_listed": false,
       "id": "558e85b3-1873-4ea9-a20e-e23bc7e80a15",
-      "match_name": "Jeong Ye-chan",
-      "full_name": "Ivory",
+      "full_name": "Jeong Ye-chan",
       "position": "Mid",
-      "profile_image_url": "/player-photos/558e85b3-1873-4ea9-a20e-e23bc7e80a15.webp"
+      "profile_image_url": "/player-photos/558e85b3-1873-4ea9-a20e-e23bc7e80a15.webp",
+      "nickname": "Ivory"
     },
     {
       "career": [
@@ -2396,11 +2396,11 @@
       "potential_base": 70,
       "transfer_listed": false,
       "id": "56b2e81c-2667-49c1-a34b-ef54ba3077e3",
-      "match_name": "Luis Alfredo Avendaño Tobal",
       "full_name": "Blind Walker",
       "position": "Jungle",
       "profile_image_url": "/player-photos/56b2e81c-2667-49c1-a34b-ef54ba3077e3.webp",
-      "overall": 66
+      "overall": 66,
+      "nickname": "Luis Alfredo Avendaño Tobal"
     },
     {
       "career": [
@@ -2493,10 +2493,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "65882963-6cbd-463c-831c-f787e1b47864",
-      "match_name": "Luca Henriques Andrade",
-      "full_name": "Kita",
+      "full_name": "Luca Henriques Andrade",
       "position": "Support",
-      "profile_image_url": "/player-photos/65882963-6cbd-463c-831c-f787e1b47864.webp"
+      "profile_image_url": "/player-photos/65882963-6cbd-463c-831c-f787e1b47864.webp",
+      "nickname": "Kita"
     },
     {
       "id": "player-b10e73cf",
@@ -2575,7 +2575,7 @@
       "team_id": "team-1aec474f",
       "position": "Top",
       "condition": 100,
-      "full_name": "Zothve",
+      "full_name": "Cristóbal Arróspide",
       "attributes": {
         "laning": 73,
         "mechanics": 75,
@@ -2587,7 +2587,6 @@
         "champion_pool": 70,
         "mental_resilience": 71
       },
-      "match_name": "Cristóbal Arróspide",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Chile",
@@ -2608,7 +2607,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Zothve"
     },
     {
       "career": [
@@ -2656,10 +2656,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "75112581-6b9c-4867-b2b4-ebb009705f4f",
-      "match_name": "Miguel Angel Cucho Rivera",
-      "full_name": "Deadly",
+      "full_name": "Miguel Angel Cucho Rivera",
       "position": "Mid",
-      "profile_image_url": "/player-photos/75112581-6b9c-4867-b2b4-ebb009705f4f.webp"
+      "profile_image_url": "/player-photos/75112581-6b9c-4867-b2b4-ebb009705f4f.webp",
+      "nickname": "Deadly"
     },
     {
       "career": [
@@ -2701,11 +2701,11 @@
       "potential_base": 70,
       "transfer_listed": false,
       "id": "7626fa65-c00e-474e-bb17-b849ba136e2b",
-      "match_name": "Andrid Gomez",
-      "full_name": "Challenq",
+      "full_name": "Andrid Gomez",
       "position": "Top",
       "profile_image_url": "/player-photos/7626fa65-c00e-474e-bb17-b849ba136e2b.webp",
-      "overall": 61
+      "overall": 61,
+      "nickname": "Challenq"
     },
     {
       "id": "player-e30bad71",
@@ -2856,7 +2856,7 @@
       "team_id": "team-5ea4aa54",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Mitir",
+      "full_name": "Juan Diego Orozco Orozco",
       "attributes": {
         "laning": 65,
         "mechanics": 65,
@@ -2868,7 +2868,6 @@
         "champion_pool": 63,
         "mental_resilience": 65
       },
-      "match_name": "Juan Diego Orozco Orozco",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -2889,7 +2888,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 65
+      "overall": 65,
+      "nickname": "Mitir"
     },
     {
       "id": "player-64ba6568",
@@ -3016,7 +3016,6 @@
         "champion_pool": 65,
         "mental_resilience": 62
       },
-      "match_name": "Gjones",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "United States",
@@ -3037,7 +3036,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 62
+      "overall": 62,
+      "nickname": "Gjones"
     },
     {
       "career": [
@@ -3115,11 +3115,11 @@
       "potential_base": 70,
       "transfer_listed": false,
       "id": "7abd6f2f-6976-461f-8f09-34329fcdeba5",
-      "match_name": "Marcos Daniel Martínez",
-      "full_name": "Maiquiyo",
+      "full_name": "Marcos Daniel Martínez",
       "position": "Top",
       "profile_image_url": "/player-photos/7abd6f2f-6976-461f-8f09-34329fcdeba5.webp",
-      "overall": 61
+      "overall": 61,
+      "nickname": "Maiquiyo"
     },
     {
       "id": "player-b9857454",
@@ -3261,7 +3261,7 @@
       "team_id": "team-e1b4bf6f",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Vares",
+      "full_name": "Adrián Olivares",
       "attributes": {
         "laning": 59,
         "mechanics": 49,
@@ -3273,7 +3273,6 @@
         "champion_pool": 52,
         "mental_resilience": 54
       },
-      "match_name": "Adrián Olivares",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -3294,7 +3293,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 53
+      "overall": 53,
+      "nickname": "Vares"
     },
     {
       "career": [
@@ -3390,11 +3390,11 @@
       "potential_base": 70,
       "transfer_listed": false,
       "id": "7c8ec728-d50f-40b2-9c8f-ade5ddb22de7",
-      "match_name": "Khenmelt Omar Izaguirre Castillo",
-      "full_name": "Tuercas",
+      "full_name": "Khenmelt Omar Izaguirre Castillo",
       "position": "Top",
       "profile_image_url": "/player-photos/7c8ec728-d50f-40b2-9c8f-ade5ddb22de7.webp",
-      "overall": 67
+      "overall": 67,
+      "nickname": "Tuercas"
     },
     {
       "id": "player-6f1ee624",
@@ -3545,7 +3545,7 @@
       "team_id": "team-dcg2025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Feng",
+      "full_name": "Jose Sergio Ricalday Ramirez",
       "attributes": {
         "laning": 59,
         "mechanics": 63,
@@ -3557,7 +3557,6 @@
         "champion_pool": 65,
         "mental_resilience": 68
       },
-      "match_name": "Jose Sergio Ricalday Ramirez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -3578,7 +3577,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 65
+      "overall": 65,
+      "nickname": "Feng"
     },
     {
       "id": "player-e3e730c2",
@@ -3792,7 +3792,7 @@
       "team_id": "team-716a8afe",
       "position": "ADC",
       "condition": 100,
-      "full_name": "VirusFx",
+      "full_name": "Guillermo Alfonso Navarrete Uxul",
       "attributes": {
         "laning": 63,
         "mechanics": 56,
@@ -3804,7 +3804,6 @@
         "champion_pool": 63,
         "mental_resilience": 54
       },
-      "match_name": "Guillermo Alfonso Navarrete Uxul",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -3825,7 +3824,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 58
+      "overall": 58,
+      "nickname": "VirusFx"
     },
     {
       "career": [
@@ -3994,11 +3994,11 @@
       "potential_base": 85,
       "transfer_listed": false,
       "id": "8cdb4eb9-322b-4657-a634-caee984dfb8a",
-      "match_name": "Sebastián Alonso Niño Zavaleta",
-      "full_name": "Oddie",
+      "full_name": "Sebastián Alonso Niño Zavaleta",
       "position": "Jungle",
       "profile_image_url": "/player-photos/8cdb4eb9-322b-4657-a634-caee984dfb8a.webp",
-      "overall": 77
+      "overall": 77,
+      "nickname": "Oddie"
     },
     {
       "id": "player-0d2dfc9c",
@@ -4140,7 +4140,7 @@
       "team_id": "team-bbdab255",
       "position": "Top",
       "condition": 100,
-      "full_name": "Kantoshi",
+      "full_name": "Ángel  Blair",
       "attributes": {
         "laning": 62,
         "mechanics": 66,
@@ -4152,7 +4152,6 @@
         "champion_pool": 66,
         "mental_resilience": 68
       },
-      "match_name": "Ángel  Blair",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -4173,7 +4172,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 65
+      "overall": 65,
+      "nickname": "Kantoshi"
     },
     {
       "career": [
@@ -4251,11 +4251,11 @@
       "potential_base": 71,
       "transfer_listed": false,
       "id": "9f258439-d0d6-4e0a-b8b0-d119e02e57f1",
-      "match_name": "German Loyo Ordaz",
-      "full_name": "Shavo",
+      "full_name": "German Loyo Ordaz",
       "position": "Top",
       "profile_image_url": "/player-photos/9f258439-d0d6-4e0a-b8b0-d119e02e57f1.webp",
-      "overall": 64
+      "overall": 64,
+      "nickname": "Shavo"
     },
     {
       "career": [
@@ -4321,10 +4321,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "a9bc132e-fb1e-4c94-91e0-558fd1b840da",
-      "match_name": "Asaf Reyes Contreras",
-      "full_name": "Rokecs",
+      "full_name": "Asaf Reyes Contreras",
       "position": "ADC",
-      "profile_image_url": "/player-photos/a9bc132e-fb1e-4c94-91e0-558fd1b840da.webp"
+      "profile_image_url": "/player-photos/a9bc132e-fb1e-4c94-91e0-558fd1b840da.webp",
+      "nickname": "Rokecs"
     },
     {
       "career": [
@@ -4435,10 +4435,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "b1b0f26d-3423-4b82-98f9-354a16655a80",
-      "match_name": "Alex Felipe Yanquen Jaime",
-      "full_name": "Felkros",
+      "full_name": "Alex Felipe Yanquen Jaime",
       "position": "Support",
-      "profile_image_url": "/player-photos/b1b0f26d-3423-4b82-98f9-354a16655a80.webp"
+      "profile_image_url": "/player-photos/b1b0f26d-3423-4b82-98f9-354a16655a80.webp",
+      "nickname": "Felkros"
     },
     {
       "id": "player-aec8b123",
@@ -4544,7 +4544,7 @@
       "team_id": "team-5de1662a",
       "position": "Top",
       "condition": 100,
-      "full_name": "Jauny",
+      "full_name": "Jauny Vargas Altamirano",
       "attributes": {
         "laning": 66,
         "mechanics": 75,
@@ -4556,7 +4556,6 @@
         "champion_pool": 69,
         "mental_resilience": 71
       },
-      "match_name": "Jauny Vargas Altamirano",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Costa Rica",
@@ -4577,7 +4576,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 70
+      "overall": 70,
+      "nickname": "Jauny"
     },
     {
       "career": [
@@ -4652,10 +4652,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "ba167646-9d0c-4960-b40c-04401df1ae0e",
-      "match_name": "Gael Dabdoub",
-      "full_name": "Cor",
+      "full_name": "Gael Dabdoub",
       "position": "Mid",
-      "profile_image_url": "/player-photos/ba167646-9d0c-4960-b40c-04401df1ae0e.webp"
+      "profile_image_url": "/player-photos/ba167646-9d0c-4960-b40c-04401df1ae0e.webp",
+      "nickname": "Cor"
     },
     {
       "career": [
@@ -4724,11 +4724,11 @@
       "potential_base": 75,
       "transfer_listed": false,
       "id": "bd115949-d87b-4b31-bcf5-9ba61116bbb5",
-      "match_name": "Alan Francisco Barajas Ontiveros",
-      "full_name": "Alitan",
+      "full_name": "Alan Francisco Barajas Ontiveros",
       "position": "Jungle",
       "profile_image_url": "/player-photos/bd115949-d87b-4b31-bcf5-9ba61116bbb5.webp",
-      "overall": 64
+      "overall": 64,
+      "nickname": "Alitan"
     },
     {
       "id": "player-e0aa9034",
@@ -4852,7 +4852,7 @@
       "team_id": "team-fd3d6748",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Foxy",
+      "full_name": "Ricardo Manuel Ríos Freitas",
       "attributes": {
         "laning": 86,
         "mechanics": 82,
@@ -4864,7 +4864,6 @@
         "champion_pool": 82,
         "mental_resilience": 80
       },
-      "match_name": "Ricardo Manuel Ríos Freitas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Venezuela",
@@ -4885,7 +4884,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Foxy"
     },
     {
       "id": "player-7ee99fb8",
@@ -4973,7 +4973,7 @@
       "team_id": "team-2bc0fb2a",
       "position": "Top",
       "condition": 100,
-      "full_name": "Lie",
+      "full_name": "Diego Ivan Garduño Ochoa",
       "attributes": {
         "laning": 59,
         "mechanics": 58,
@@ -4985,7 +4985,6 @@
         "champion_pool": 60,
         "mental_resilience": 57
       },
-      "match_name": "Diego Ivan Garduño Ochoa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -5006,7 +5005,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 59
+      "overall": 59,
+      "nickname": "Lie"
     },
     {
       "id": "player-917ea40e",
@@ -5103,7 +5103,7 @@
       "team_id": "team-7586f00c",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "MrLemon",
+      "full_name": "Martin Eduardo Limon Hernandez",
       "attributes": {
         "laning": 63,
         "mechanics": 64,
@@ -5115,7 +5115,6 @@
         "champion_pool": 65,
         "mental_resilience": 67
       },
-      "match_name": "Martin Eduardo Limon Hernandez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -5136,7 +5135,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 65
+      "overall": 65,
+      "nickname": "MrLemon"
     },
     {
       "id": "player-efebd062",
@@ -5296,7 +5296,7 @@
       "team_id": "team-1ebc0a85",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Piqueos",
+      "full_name": "Antony Gabriel Siapo Perez",
       "attributes": {
         "laning": 53,
         "mechanics": 56,
@@ -5308,7 +5308,6 @@
         "champion_pool": 53,
         "mental_resilience": 50
       },
-      "match_name": "Antony Gabriel Siapo Perez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Peru",
@@ -5329,7 +5328,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 53
+      "overall": 53,
+      "nickname": "Piqueos"
     },
     {
       "id": "player-a86ba05a",
@@ -5381,7 +5381,7 @@
       "team_id": "team-cd696eff",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Raysito",
+      "full_name": "Ramses López",
       "attributes": {
         "laning": 66,
         "mechanics": 65,
@@ -5393,7 +5393,6 @@
         "champion_pool": 66,
         "mental_resilience": 60
       },
-      "match_name": "Ramses López",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Mexico",
@@ -5414,7 +5413,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 63
+      "overall": 63,
+      "nickname": "Raysito"
     },
     {
       "career": [
@@ -5480,10 +5480,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "d45937f6-01b6-4727-a771-0ea5f2afba4a",
-      "match_name": "Erick Hidalgo",
-      "full_name": "Erk",
+      "full_name": "Erick Hidalgo",
       "position": "Support",
-      "profile_image_url": null
+      "profile_image_url": null,
+      "nickname": "Erk"
     },
     {
       "career": [
@@ -5594,10 +5594,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "e7bd3d92-71d7-477b-8744-197f30dcf956",
-      "match_name": "Ivan Garcia Rivera",
-      "full_name": "Skyy",
+      "full_name": "Ivan Garcia Rivera",
       "position": "Mid",
-      "profile_image_url": "/player-photos/e7bd3d92-71d7-477b-8744-197f30dcf956.webp"
+      "profile_image_url": "/player-photos/e7bd3d92-71d7-477b-8744-197f30dcf956.webp",
+      "nickname": "Skyy"
     },
     {
       "career": [
@@ -5753,10 +5753,10 @@
       "loan_listed": false,
       "transfer_listed": false,
       "id": "e9bffe4a-70da-4def-bc48-7a514c47d597",
-      "match_name": "Steven Josue Araya Méndez",
-      "full_name": "Madblade",
+      "full_name": "Steven Josue Araya Méndez",
       "position": "Support",
-      "profile_image_url": "/player-photos/e9bffe4a-70da-4def-bc48-7a514c47d597.webp"
+      "profile_image_url": "/player-photos/e9bffe4a-70da-4def-bc48-7a514c47d597.webp",
+      "nickname": "Madblade"
     },
     {
       "id": "player-82eedf0a",
@@ -5925,7 +5925,7 @@
       "team_id": "team-e448eb65",
       "position": "Top",
       "condition": 100,
-      "full_name": "Brayaron",
+      "full_name": "Brayan Erick Pereda Córdova",
       "attributes": {
         "laning": 70,
         "mechanics": 60,
@@ -5937,7 +5937,6 @@
         "champion_pool": 70,
         "mental_resilience": 70
       },
-      "match_name": "Brayan Erick Pereda Córdova",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Peru",
@@ -5958,7 +5957,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 66
+      "overall": 66,
+      "nickname": "Brayaron"
     },
     {
       "career": [
@@ -6070,10 +6070,10 @@
       "contract_end": "2026-11-16",
       "transfer_listed": false,
       "id": "ed3493c0-00ab-4fb7-bb81-fa5fd56585a2",
-      "match_name": "Omar André Gavotto",
-      "full_name": "Gavotto",
+      "full_name": "Omar André Gavotto",
       "position": "ADC",
-      "profile_image_url": "/player-photos/ed3493c0-00ab-4fb7-bb81-fa5fd56585a2.webp"
+      "profile_image_url": "/player-photos/ed3493c0-00ab-4fb7-bb81-fa5fd56585a2.webp",
+      "nickname": "Gavotto"
     },
     {
       "career": [
@@ -6133,11 +6133,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "f0bf71b6-26ca-41b4-af27-8ba5f24a38e8",
-      "match_name": "Luchiano Henostroza Flores",
-      "full_name": "Luchiano",
+      "full_name": "Luchiano Henostroza Flores",
       "position": "Top",
       "profile_image_url": "/player-photos/f0bf71b6-26ca-41b4-af27-8ba5f24a38e8.webp",
-      "overall": 60
+      "overall": 60,
+      "nickname": "Luchiano"
     },
     {
       "id": "player-e0fa973a",
@@ -6279,7 +6279,7 @@
       "team_id": "team-e448eb65",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Scenario",
+      "full_name": "Edwin Tapia Vilca",
       "attributes": {
         "laning": 69,
         "mechanics": 68,
@@ -6291,7 +6291,6 @@
         "champion_pool": 71,
         "mental_resilience": 69
       },
-      "match_name": "Edwin Tapia Vilca",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Peru",
@@ -6312,7 +6311,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 66
+      "overall": 66,
+      "nickname": "Scenario"
     },
     {
       "id": "player-0e4ae1fb",
@@ -6445,7 +6445,7 @@
       "team_id": "team-6613965b",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Gato",
+      "full_name": "Sergio Steven Bautista Grajales",
       "attributes": {
         "laning": 63,
         "mechanics": 64,
@@ -6457,7 +6457,6 @@
         "champion_pool": 70,
         "mental_resilience": 67
       },
-      "match_name": "Sergio Steven Bautista Grajales",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
@@ -6478,7 +6477,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 66
+      "overall": 66,
+      "nickname": "Gato"
     },
     {
       "career": [
@@ -6632,10 +6632,10 @@
       "fitness": 100,
       "condition": 100,
       "id": "fd18d533-f094-415d-8c16-f4c9a3aa861f",
-      "match_name": "Gabriel Grimaldi Moreau",
-      "full_name": "Crecre",
+      "full_name": "Gabriel Grimaldi Moreau",
       "position": "Support",
-      "profile_image_url": "/player-photos/fd18d533-f094-415d-8c16-f4c9a3aa861f.webp"
+      "profile_image_url": "/player-photos/fd18d533-f094-415d-8c16-f4c9a3aa861f.webp",
+      "nickname": "Crecre"
     },
     {
       "career": [
@@ -6677,11 +6677,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "ffb5ef9c-cb3c-4c13-9676-60b6b903441d",
-      "match_name": "Daniel Elías",
-      "full_name": "ZellDun",
+      "full_name": "Daniel Elías",
       "position": "Jungle",
       "profile_image_url": "/player-photos/ffb5ef9c-cb3c-4c13-9676-60b6b903441d.webp",
-      "overall": 62
+      "overall": 62,
+      "nickname": "ZellDun"
     }
   ]
 }

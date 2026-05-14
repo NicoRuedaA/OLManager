@@ -272,7 +272,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
       .sort((a, b) => {
         const roleDiff = ROLE_ORDER[roleOf(a)] - ROLE_ORDER[roleOf(b)];
         if (roleDiff !== 0) return roleDiff;
-        return a.match_name.localeCompare(b.match_name);
+        return a.nickname.localeCompare(b.nickname);
       });
   }, [gameState.players, managerTeam, managerTeamId]);
 
@@ -605,10 +605,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="h-10 w-10 overflow-hidden rounded-lg bg-navy-800">
-                      {resolvePlayerPhoto(player.id, player.match_name, (player as any).profile_image_url) ? (
+                      {resolvePlayerPhoto(player.id, player.nickname, (player as any).profile_image_url) ? (
                         <img
-                          src={resolvePlayerPhoto(player.id, player.match_name, (player as any).profile_image_url) ?? ""}
-                          alt={player.match_name}
+                          src={resolvePlayerPhoto(player.id, player.nickname, (player as any).profile_image_url) ?? ""}
+                          alt={player.nickname}
                           className="h-full w-full object-cover"
                         />
                       ) : (
@@ -616,7 +616,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                       )}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-100">{player.match_name}</p>
+                      <p className="text-sm font-semibold text-gray-100">{player.nickname}</p>
                       <div className="mt-1 flex h-6 w-6 items-center justify-center rounded-md border border-navy-600 bg-navy-900/70">
                         <img src={ROLE_ICON_URLS[role]} alt={role} className="h-3.5 w-3.5 object-contain" />
                       </div>

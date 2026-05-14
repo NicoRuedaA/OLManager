@@ -59,7 +59,7 @@ export default function ScoutingAssignmentsList({
                     onClick={() => onSelectPlayer?.(player.id)}
                     className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100 hover:text-primary-500 transition-colors truncate block"
                   >
-                    {player.match_name}
+                    {player.nickname}
                   </button>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
                     {getLolRoleForPlayer(player)} · {team}

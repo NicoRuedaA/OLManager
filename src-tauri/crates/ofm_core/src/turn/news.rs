@@ -28,11 +28,11 @@ fn team_name(game: &Game, team_id: &str) -> String {
     team_name_or(game, team_id, "")
 }
 
-fn player_match_name_or_id(game: &Game, player_id: &str) -> String {
+fn player_nickname_or_id(game: &Game, player_id: &str) -> String {
     game.players
         .iter()
         .find(|player| player.id == player_id)
-        .map(|player| player.match_name.clone())
+        .map(|player| player.nickname.clone())
         .unwrap_or_else(|| player_id.to_string())
 }
 
@@ -47,7 +47,7 @@ fn scorers_for_side(
         .filter(|kill| kill.side == side)
         .map(|kill| {
             (
-                player_match_name_or_id(game, &kill.killer_id),
+                player_nickname_or_id(game, &kill.killer_id),
                 kill.minute as u32,
             )
         })
@@ -175,9 +175,9 @@ fn top_scorer_summary(game: &Game) -> Option<(String, u32)> {
             a.stats
                 .kills
                 .cmp(&b.stats.kills)
-                .then_with(|| a.match_name.cmp(&b.match_name))
+                .then_with(|| a.nickname.cmp(&b.nickname))
         })
-        .map(|player| (player.match_name.clone(), player.stats.kills))
+        .map(|player| (player.nickname.clone(), player.stats.kills))
 }
 
 fn weekly_storyline_articles(
@@ -991,4 +991,3 @@ mod tests {
         );
     }
 }
-

@@ -72,7 +72,7 @@ export default function PlayerProfileHeroCard({
   teamLogoUrl,
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
-  const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+  const playerPhoto = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
   const [insigniaBackground, setInsigniaBackground] = useState<string | null>(null);
   const [editingRole, setEditingRole] = useState(false);
   const potentialRevealed = player.potential_revealed ?? null;
@@ -187,7 +187,7 @@ export default function PlayerProfileHeroCard({
               {playerPhoto ? (
                 <img
                   src={playerPhoto}
-                  alt={player.match_name}
+                  alt={player.nickname}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
@@ -205,7 +205,7 @@ export default function PlayerProfileHeroCard({
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
-                {player.match_name}
+                {player.nickname}
               </h2>
               {player.nationality && (
                 <CountryFlag

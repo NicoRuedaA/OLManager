@@ -73,7 +73,7 @@ export default function PlayersListTab({
     const byNick = new Map<string, (typeof gameState.players)[number]>();
 
     gameState.players.forEach((player) => {
-      const nick = normalizeNick(player.match_name || "");
+      const nick = normalizeNick(player.nickname || "");
       if (!nick) return;
 
       const existing = byNick.get(nick);
@@ -100,7 +100,7 @@ export default function PlayersListTab({
         [...getAllCountryNames(p.nationality)].some((name) => name.includes(q));
       if (
         !p.full_name.toLowerCase().includes(q) &&
-        !p.match_name.toLowerCase().includes(q) &&
+        !p.nickname.toLowerCase().includes(q) &&
         !matchesNationality
       )
         return false;
@@ -124,7 +124,7 @@ export default function PlayersListTab({
     let cmp = 0;
     switch (sortKey) {
       case "name":
-        cmp = a.match_name.localeCompare(b.match_name);
+        cmp = a.nickname.localeCompare(b.nickname);
         break;
       case "position":
         cmp = posOrder[getLolRoleForPlayer(a)] - posOrder[getLolRoleForPlayer(b)];
@@ -318,7 +318,7 @@ export default function PlayersListTab({
                   .map((player) => {
                     const ovr = calculateLolOvr(player);
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
@@ -328,7 +328,7 @@ export default function PlayersListTab({
                         <td className="py-2.5 px-4">
                           <img
                             src={photoSrc ?? "/player-photos/107455908655055017.webp"}
-                            alt={player.match_name}
+                            alt={player.nickname}
                             className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.webp";
@@ -341,7 +341,7 @@ export default function PlayersListTab({
                         <td className="py-2.5 px-4">
                           <div className="min-w-0">
                             <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
-                              {player.match_name}
+                              {player.nickname}
                             </p>
                             <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
                               {player.full_name}

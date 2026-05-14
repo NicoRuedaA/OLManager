@@ -46,7 +46,7 @@ fn make_player() -> Player {
 fn make_player_with(id: &str, wage: u32, contract_end: &str) -> Player {
     let mut player = make_player();
     player.id = id.to_string();
-    player.match_name = id.to_string();
+    player.nickname = id.to_string();
     player.full_name = format!("Player {}", id);
     player.wage = wage;
     player.contract_end = Some(contract_end.to_string());

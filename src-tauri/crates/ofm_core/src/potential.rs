@@ -132,7 +132,7 @@ pub fn process_potential_research(game: &mut Game) {
             "Potential report completed".to_string(),
             format!(
                 "Scouting finished evaluating {}. New potential estimate: {}.",
-                player.match_name, revealed
+                player.nickname, revealed
             ),
             "Performance Staff".to_string(),
             date,
@@ -144,7 +144,7 @@ pub fn process_potential_research(game: &mut Game) {
             "be.msg.potentialReport.subject",
             "be.msg.potentialReport.body",
             params(&[
-                ("player", &player.match_name),
+                ("player", &player.nickname),
                 ("potential", &revealed.to_string()),
             ]),
         )

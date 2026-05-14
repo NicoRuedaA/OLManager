@@ -690,7 +690,7 @@ export default function TransfersTab({
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
                     const offersForThisPlayer = player.transfer_offers;
                     const lolRole = getLolRoleForPlayer(player);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
@@ -700,7 +700,7 @@ export default function TransfersTab({
                         <td className="py-2.5 px-4">
                           <img
                             src={photoSrc ?? "/player-photos/107455908655055017.webp"}
-                            alt={player.match_name}
+                            alt={player.nickname}
                             className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.webp";
@@ -712,7 +712,7 @@ export default function TransfersTab({
                         </td>
                         <td className="py-2.5 px-4">
                           <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                            {player.match_name || player.full_name}
+                            {player.nickname || player.full_name}
                           </span>
                           <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
                             <CountryFlag

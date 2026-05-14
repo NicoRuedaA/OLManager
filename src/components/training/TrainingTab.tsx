@@ -376,7 +376,7 @@ export default function TrainingTab({
             <div className="space-y-2">
               {roster
                 .slice()
-                .sort((a, b) => a.match_name.localeCompare(b.match_name))
+                .sort((a, b) => a.nickname.localeCompare(b.nickname))
                 .map((player) => {
                   const playerFocus = normalizeTrainingFocus(player.training_focus ?? currentFocus);
                   const soloQ = computeSoloQ(
@@ -394,8 +394,8 @@ export default function TrainingTab({
                       <div className="flex min-w-0 items-center gap-2">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
                           <img
-                            src={resolvePlayerPhoto(player.id, player.match_name, (player as any).profile_image_url) ?? undefined}
-                            alt={player.match_name}
+                            src={resolvePlayerPhoto(player.id, player.nickname, (player as any).profile_image_url) ?? undefined}
+                            alt={player.nickname}
                             className="h-full w-full object-cover"
                             loading="lazy"
                             onError={(event) => {
@@ -410,7 +410,7 @@ export default function TrainingTab({
                           />
                         </div>
                         <p className="truncate text-sm font-heading font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
-                          {player.match_name}
+                          {player.nickname}
                         </p>
                         <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
                           {soloQTierLabel} · {soloQ.lp} LP

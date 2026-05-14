@@ -6,7 +6,7 @@ import { resolvePlayerCurrentLolRole } from "./lolIdentity";
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "Player One",
+    nickname: "Player One",
     full_name: "Player One",
     date_of_birth: "2000-01-01",
     nationality: "ES",

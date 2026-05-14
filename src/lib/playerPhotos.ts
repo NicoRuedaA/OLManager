@@ -48,7 +48,7 @@ function normalizeProfileImageUrl(url?: string | null): string | null {
   return value;
 }
 
-export function resolvePlayerPhoto(playerId: string, matchName?: string, profileImageUrl?: string | null): string | null {
+export function resolvePlayerPhoto(playerId: string, nickname?: string, profileImageUrl?: string | null): string | null {
   // 1. Explicit profile_image_url from data (highest priority)
   const explicit = normalizeProfileImageUrl(profileImageUrl);
   if (explicit) return explicit;
@@ -62,7 +62,7 @@ export function resolvePlayerPhoto(playerId: string, matchName?: string, profile
   if (playerId.startsWith("player-") || playerId.startsWith("team-")) return byId;
 
   // 4. Match name lookup in example data
-  const key = normalizeKey(matchName ?? "");
+  const key = normalizeKey(nickname ?? "");
   if (key && EXAMPLE_PHOTO_MAP.has(key)) return EXAMPLE_PHOTO_MAP.get(key)!;
 
   // 5. Fallback

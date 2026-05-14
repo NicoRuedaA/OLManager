@@ -105,7 +105,7 @@ function createGameState(): GameStateData {
     id: "academy-player-1",
     team_id: "academy-1",
     full_name: "Academy Player",
-    match_name: "Prospect",
+    nickname: "Prospect",
     date_of_birth: "2004-01-01",
     natural_position: "MID",
     position: "MID",
