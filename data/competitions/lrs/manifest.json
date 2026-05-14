@@ -5,7 +5,7 @@
   "region": "LRS",
   "country": "LATAM",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/lrs.webp",
   "teams_file": "teams/lrs_teams.json",
   "players_file": "players/lrs_players.json",
   "schedule": {

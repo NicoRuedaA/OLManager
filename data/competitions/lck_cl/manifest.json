@@ -5,7 +5,7 @@
   "region": "LCK CL",
   "country": "South Korea",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/lck_cl.webp",
   "teams_file": "teams/lck_cl_teams.json",
   "players_file": "players/lck_cl_players.json",
   "schedule": {

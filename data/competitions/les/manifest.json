@@ -5,7 +5,7 @@
   "region": "LES",
   "country": "ES",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/les.webp",
   "teams_file": "teams/les_teams.json",
   "players_file": "players/les_players.json",
   "schedule": {

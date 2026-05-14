@@ -5,7 +5,7 @@
   "region": "LRN",
   "country": "LATAM",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/lrn.webp",
   "teams_file": "teams/lrn_teams.json",
   "players_file": "players/lrn_players.json",
   "schedule": {

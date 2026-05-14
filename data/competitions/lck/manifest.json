@@ -5,7 +5,7 @@
   "region": "LCK",
   "country": "KR",
   "tier": 1,
-  "logo": null,
+  "logo": "/competitions-icons/lck.webp",
   "teams_file": "teams/lck_teams.json",
   "players_file": "players/lck_players.json",
   "schedule": {

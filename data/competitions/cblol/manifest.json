@@ -5,7 +5,7 @@
   "region": "CBLOL",
   "country": "BR",
   "tier": 1,
-  "logo": null,
+  "logo": "/competitions-icons/cblol.webp",
   "teams_file": "teams/cblol_teams.json",
   "players_file": "players/cblol_players.json",
   "schedule": {

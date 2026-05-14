@@ -5,7 +5,7 @@
   "region": "Prime League",
   "country": "DE",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/prime_league.webp",
   "teams_file": "teams/prime_league_teams.json",
   "players_file": "players/prime_league_players.json",
   "schedule": {

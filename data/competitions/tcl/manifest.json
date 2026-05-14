@@ -5,7 +5,7 @@
   "region": "TCL",
   "country": "TR",
   "tier": 2,
-  "logo": null,
+  "logo": "/competitions-icons/tcl.webp",
   "teams_file": "teams/tcl_teams.json",
   "players_file": "players/tcl_players.json",
   "schedule": {

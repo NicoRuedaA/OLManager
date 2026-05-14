@@ -5,7 +5,7 @@
   "region": "LPL",
   "country": "CN",
   "tier": 1,
-  "logo": null,
+  "logo": "/competitions-icons/lpl.webp",
   "teams_file": "teams/lpl_teams.json",
   "players_file": "players/lpl_players.json",
   "schedule": {

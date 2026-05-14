@@ -690,7 +690,7 @@ export default function TransfersTab({
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
                     const offersForThisPlayer = player.transfer_offers;
                     const lolRole = getLolRoleForPlayer(player);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
