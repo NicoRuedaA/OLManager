@@ -1,11 +1,11 @@
 {
-  "id": "lck_cl",
+  "id": "lck-cl",
   "name": "LCK CL",
   "full_name": "LCK Challenger League Series",
   "region": "LCK CL",
   "country": "South Korea",
   "tier": 2,
-  "logo": "/competitions-icons/lck_cl.webp",
+  "logo": "/competitions-icons/lck-cl.webp",
   "teams_file": "teams/lck_cl_teams.json",
   "players_file": "players/lck_cl_players.json",
   "schedule": {
