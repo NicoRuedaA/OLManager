@@ -53,7 +53,7 @@ const makeTeam = (overrides: Partial<TeamData> = {}): TeamData => ({
 
 const makePlayer = (overrides: Partial<PlayerData> = {}): PlayerData => ({
   id: "player_1",
-  match_name: "Test Player",
+  nickname: "Test Player",
   full_name: "Test Player Full",
   date_of_birth: "1996-01-15",
   nationality: "England",

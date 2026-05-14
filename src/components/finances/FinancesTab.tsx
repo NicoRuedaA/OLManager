@@ -590,12 +590,12 @@ export default function FinancesTab({
                           type="checkbox"
                           checked={selectedRiskPlayerIds.includes(player.id)}
                           onChange={() => handleToggleRiskPlayer(player.id)}
-                          aria-label={`Select ${player.match_name}`}
+                          aria-label={`Select ${player.nickname}`}
                           className="mt-1 h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500/30"
                         />
                         <div className="space-y-1">
                           <p className="font-semibold text-sm text-gray-900 dark:text-gray-100">
-                            {player.match_name}
+                            {player.nickname}
                           </p>
                           <p className="text-xs text-gray-600 dark:text-gray-400">
                             {t("finances.contractExpiresOn", {
@@ -946,7 +946,7 @@ export default function FinancesTab({
                     const dir = sortDir === "asc" ? 1 : -1;
                     switch (sortKey) {
                       case "name":
-                        return dir * a.match_name.localeCompare(b.match_name);
+                        return dir * a.nickname.localeCompare(b.nickname);
                       case "position":
                         return dir * (getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b)));
                       case "wage":
@@ -961,7 +961,7 @@ export default function FinancesTab({
                   })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
-                    const photo = resolvePlayerPhoto(p.id, p.match_name, p.profile_image_url);
+                    const photo = resolvePlayerPhoto(p.id, p.nickname, p.profile_image_url);
                     const contextItems = onSelectPlayer
                       ? [
                           {
@@ -982,7 +982,7 @@ export default function FinancesTab({
                           {photo ? (
                             <img
                               src={photo}
-                              alt={p.match_name}
+                              alt={p.nickname}
                               className="w-8 h-8 rounded-full object-cover"
                               loading="lazy"
                             />
@@ -994,7 +994,7 @@ export default function FinancesTab({
                         </td>
                         <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
                           <span className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                            {p.match_name}
+                            {p.nickname}
                           </span>
                         </td>
                         <td className="py-3 px-5">

@@ -90,7 +90,7 @@ function createGameState(): GameStateData {
     players: [
       {
         id: "player-1",
-        match_name: "J. Smith",
+        nickname: "J. Smith",
         full_name: "John Smith",
         date_of_birth: "2000-01-01",
         nationality: "GB",

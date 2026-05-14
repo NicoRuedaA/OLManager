@@ -84,7 +84,7 @@ export default function TransferBidModal({
           </Badge>
           <div>
             <p className="font-semibold text-sm text-gray-800 dark:text-gray-200">
-              {bidTarget.match_name || bidTarget.full_name}
+              {bidTarget.nickname || bidTarget.full_name}
             </p>
             <p className="text-xs text-gray-400">
               {getTeamName(teams, bidTarget.team_id)} •{" "}

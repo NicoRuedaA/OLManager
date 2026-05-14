@@ -155,13 +155,13 @@ function buildChampionPerformanceMap(
 
 function buildTopChampionMasteries(
   playerId: string,
-  matchName: string,
+  nickname: string,
   role: "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT",
   championPerformance: Map<string, { wr: number; games: number }>,
   persistedMasteries: ChampionMasteryEntryData[],
   visibleChampionCount = 4,
 ) {
-  const seed = PLAYER_SEEDS.find((entry) => normalizeKey(entry.ign) === normalizeKey(matchName));
+  const seed = PLAYER_SEEDS.find((entry) => normalizeKey(entry.ign) === normalizeKey(nickname));
   const championByKey = new Map<string, { championId: string; championName: string; mastery: number; persisted: boolean }>();
 
   for (const entry of seed?.champions ?? []) {
@@ -418,7 +418,7 @@ export default function PlayerProfile({
   const visibleChampionMasteryCount = actualIsOwnClub ? 4 : latestScoutReport ? 2 : 1;
   const topChampions = buildTopChampionMasteries(
     player.id,
-    player.match_name,
+    player.nickname,
     primaryRole,
     championPerformance,
     gameState.champion_masteries ?? [],

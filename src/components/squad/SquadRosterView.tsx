@@ -235,7 +235,7 @@ export default function SquadRosterView({
             const player = slot.player;
             const roleLabel = LOL_ROLE_LABELS[slot.role];
             const ovr = player ? calculateLolOvr(player) : null;
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) : null;
+            const photo = player ? resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url) : null;
 
             return (
               <button
@@ -255,12 +255,12 @@ export default function SquadRosterView({
                 {player ? (
                   <div className="mt-3 flex items-center gap-3">
                     {photo ? (
-                      <img src={photo} alt={player.match_name} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
+                      <img src={photo} alt={player.nickname} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-[#0f213f] border border-white/10 shrink-0" />
                     )}
                     <div className="min-w-0">
-                      <p className="text-lg leading-none font-heading font-bold text-white truncate">{player.match_name}</p>
+                      <p className="text-lg leading-none font-heading font-bold text-white truncate">{player.nickname}</p>
                       <p className="mt-1 text-[11px] text-blue-200/70">{t("common.ovr", { defaultValue: "OVR" })} {ovr}</p>
                     </div>
                   </div>
@@ -312,10 +312,10 @@ export default function SquadRosterView({
           {sortedRoster.map((player) => {
             const role = resolveRole(player);
             const ovr = calculateLolOvr(player);
-            const photo = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+            const photo = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
             const fallbackChampion = fallbackChampionForRole(player.id, role);
             const championNames = masteryTopChampionsByPlayer.get(player.id)
-              ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.match_name))
+              ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.nickname))
               ?? (fallbackChampion ? [fallbackChampion] : []);
             const inXI = activeIds.has(player.id);
             const currentPos = player.position;
@@ -376,7 +376,7 @@ export default function SquadRosterView({
                     </div>
 
                     {photo ? (
-                      <img src={photo} alt={player.match_name} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
+                      <img src={photo} alt={player.nickname} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-[#0f213f] border border-white/10 shrink-0" />
                     )}
@@ -384,7 +384,7 @@ export default function SquadRosterView({
                     <div className="min-w-0 flex items-center gap-2">
                       <div className="min-w-0">
                         <p className="text-[28px] leading-none font-heading font-black text-amber-300 xl:hidden">{ovr}</p>
-                        <p className="text-xl leading-none font-heading font-bold text-white truncate">{player.match_name}</p>
+                        <p className="text-xl leading-none font-heading font-bold text-white truncate">{player.nickname}</p>
                         <p className="text-[12px] text-blue-200/70 truncate">{player.full_name}</p>
                         <p className="text-[11px] uppercase tracking-wide text-blue-200/70 xl:hidden">{ROLE_LABEL[role]}</p>
                       </div>

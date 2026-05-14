@@ -11,7 +11,7 @@ import {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2002-01-01",
     nationality: "GB",
@@ -103,10 +103,10 @@ describe("trainingGroupsModel", () => {
 
   it("sorts the roster by position order and then by name", () => {
     const roster = [
-      createPlayer({ id: "fwd", match_name: "Zane", position: "Forward", natural_position: "Forward" }),
-      createPlayer({ id: "def", match_name: "Adam", position: "Defender", natural_position: "Defender" }),
-      createPlayer({ id: "mid", match_name: "Ben", position: "Midfielder", natural_position: "Midfielder" }),
-      createPlayer({ id: "gk", match_name: "Chris", position: "Goalkeeper", natural_position: "Goalkeeper" }),
+      createPlayer({ id: "fwd", nickname: "Zane", position: "Forward", natural_position: "Forward" }),
+      createPlayer({ id: "def", nickname: "Adam", position: "Defender", natural_position: "Defender" }),
+      createPlayer({ id: "mid", nickname: "Ben", position: "Midfielder", natural_position: "Midfielder" }),
+      createPlayer({ id: "gk", nickname: "Chris", position: "Goalkeeper", natural_position: "Goalkeeper" }),
     ];
 
     expect(sortTrainingRoster(roster).map((player) => player.id)).toEqual([

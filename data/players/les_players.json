@@ -14,7 +14,7 @@
       "team_id": "team-d0d82673",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Kaii",
+      "full_name": "Jorge Saiz Hoyos",
       "attributes": {
         "laning": 85,
         "mechanics": 81,
@@ -26,7 +26,6 @@
         "champion_pool": 82,
         "mental_resilience": 78
       },
-      "match_name": "Jorge Saiz Hoyos",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -47,7 +46,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Kaii"
     },
     {
       "id": "player-4bfd5d16",
@@ -60,7 +60,7 @@
       "team_id": "team-5d7b3ec4",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Clicker",
+      "full_name": "Alejandro Botella Santos",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -72,7 +72,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Alejandro Botella Santos",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -88,7 +87,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Clicker"
     },
     {
       "id": "player-8c0ce7d4",
@@ -101,7 +101,7 @@
       "team_id": "team-5d7b3ec4",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Marcv1",
+      "full_name": "Marc Villalba de la Alba",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -113,7 +113,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Marc Villalba de la Alba",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -129,7 +128,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Marcv1"
     },
     {
       "id": "player-6affcf6b",
@@ -142,7 +142,7 @@
       "team_id": "team-5d7b3ec4",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Midnight",
+      "full_name": "Victor Caro Rodríguez",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -154,7 +154,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Victor Caro Rodríguez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -170,7 +169,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Midnight"
     },
     {
       "id": "player-5c7ade2b",
@@ -184,7 +184,7 @@
       "team_id": "team-f10b156f",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Lure",
+      "full_name": "Shin Jae-yoon",
       "attributes": {
         "laning": 76,
         "mechanics": 74,
@@ -196,7 +196,6 @@
         "champion_pool": 75,
         "mental_resilience": 71
       },
-      "match_name": "Shin Jae-yoon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -217,7 +216,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Lure"
     },
     {
       "id": "player-43651d82",
@@ -230,7 +230,7 @@
       "team_id": "team-854f6893",
       "position": "Top",
       "condition": 100,
-      "full_name": "ManoloGap",
+      "full_name": "Manuel García Azcunaga",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -242,7 +242,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Manuel García Azcunaga",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -258,7 +257,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "ManoloGap"
     },
     {
       "id": "player-6b8ce24c",
@@ -272,7 +272,7 @@
       "team_id": "team-d0d82673",
       "position": "Support",
       "condition": 100,
-      "full_name": "TIMR",
+      "full_name": "Tomáš Buštík",
       "attributes": {
         "laning": 77,
         "mechanics": 74,
@@ -284,7 +284,6 @@
         "champion_pool": 77,
         "mental_resilience": 86
       },
-      "match_name": "Tomáš Buštík",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Czech Republic",
@@ -305,7 +304,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "TIMR"
     },
     {
       "id": "player-18d54021",
@@ -319,7 +319,7 @@
       "team_id": "team-8baee3fd",
       "position": "Support",
       "condition": 100,
-      "full_name": "Myrtus",
+      "full_name": "Mohamed Rahli",
       "attributes": {
         "laning": 74,
         "mechanics": 76,
@@ -331,7 +331,6 @@
         "champion_pool": 79,
         "mental_resilience": 80
       },
-      "match_name": "Mohamed Rahli",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Italy",
@@ -352,7 +351,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Myrtus"
     },
     {
       "id": "player-f26843ad",
@@ -366,7 +366,7 @@
       "team_id": "team-854f6893",
       "position": "Support",
       "condition": 100,
-      "full_name": "Attila",
+      "full_name": "Amadeu Dias de Carvalho",
       "attributes": {
         "laning": 96,
         "mechanics": 80,
@@ -378,7 +378,6 @@
         "champion_pool": 68,
         "mental_resilience": 61
       },
-      "match_name": "Amadeu Dias de Carvalho",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Portugal",
@@ -399,7 +398,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 82
+      "overall": 82,
+      "nickname": "Attila"
     },
     {
       "id": "player-adaf1775",
@@ -413,7 +413,7 @@
       "team_id": "team-ac846213",
       "position": "Support",
       "condition": 100,
-      "full_name": "Xixauxas",
+      "full_name": "Xavier Fluxà i Millan",
       "attributes": {
         "laning": 86,
         "mechanics": 86,
@@ -425,7 +425,6 @@
         "champion_pool": 83,
         "mental_resilience": 83
       },
-      "match_name": "Xavier Fluxà i Millan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -446,7 +445,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 85
+      "overall": 85,
+      "nickname": "Xixauxas"
     },
     {
       "id": "player-8130e9c4",
@@ -459,7 +459,7 @@
       "team_id": "team-06974122",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Macaquinho",
+      "full_name": "Sergio Bouzende Rodrigues",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -471,7 +471,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Sergio Bouzende Rodrigues",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Portugal",
@@ -487,7 +486,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Macaquinho"
     },
     {
       "id": "player-59111853",
@@ -500,7 +500,7 @@
       "team_id": "team-d0d82673",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Pegaso",
+      "full_name": "Edison Rivera Menéndez",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -512,7 +512,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Edison Rivera Menéndez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -528,7 +527,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Pegaso"
     },
     {
       "id": "player-734588e5",
@@ -542,7 +542,7 @@
       "team_id": "team-854f6893",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Th3Antonio",
+      "full_name": "Antonio Espinosa Bejarano",
       "attributes": {
         "laning": 90,
         "mechanics": 88,
@@ -554,7 +554,6 @@
         "champion_pool": 91,
         "mental_resilience": 90
       },
-      "match_name": "Antonio Espinosa Bejarano",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -575,7 +574,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 90
+      "overall": 90,
+      "nickname": "Th3Antonio"
     },
     {
       "id": "player-00cb271e",
@@ -589,7 +589,7 @@
       "team_id": "team-ac846213",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Ivama",
+      "full_name": "Ivan Torn Cubero",
       "attributes": {
         "laning": 88,
         "mechanics": 81,
@@ -601,7 +601,6 @@
         "champion_pool": 79,
         "mental_resilience": 80
       },
-      "match_name": "Ivan Torn Cubero",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -622,7 +621,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Ivama"
     },
     {
       "id": "player-68cd49d7",
@@ -636,7 +636,7 @@
       "team_id": "team-f10b156f",
       "position": "Top",
       "condition": 100,
-      "full_name": "Papiteero",
+      "full_name": "Antero Trindade Baldaia",
       "attributes": {
         "laning": 73,
         "mechanics": 74,
@@ -648,7 +648,6 @@
         "champion_pool": 79,
         "mental_resilience": 85
       },
-      "match_name": "Antero Trindade Baldaia",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Portugal",
@@ -669,7 +668,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Papiteero"
     },
     {
       "id": "player-05fab1ea",
@@ -682,7 +682,7 @@
       "team_id": "team-ac846213",
       "position": "ADC",
       "condition": 100,
-      "full_name": "adrianlaneitor",
+      "full_name": "Adrian Tejero",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -694,7 +694,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Adrian Tejero",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -710,7 +709,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "adrianlaneitor"
     },
     {
       "id": "player-7af53d80",
@@ -724,7 +724,7 @@
       "team_id": "team-129835c5",
       "position": "Mid",
       "condition": 100,
-      "full_name": "ESCIK",
+      "full_name": "Tomasz Maciej Skwarczyński",
       "attributes": {
         "laning": 88,
         "mechanics": 86,
@@ -736,7 +736,6 @@
         "champion_pool": 84,
         "mental_resilience": 83
       },
-      "match_name": "Tomasz Maciej Skwarczyński",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -757,7 +756,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "ESCIK"
     },
     {
       "id": "player-048518c0",
@@ -771,7 +771,7 @@
       "team_id": "team-f10b156f",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Lurox",
+      "full_name": "Lukas Thoma",
       "attributes": {
         "laning": 75,
         "mechanics": 67,
@@ -783,7 +783,6 @@
         "champion_pool": 70,
         "mental_resilience": 73
       },
-      "match_name": "Lukas Thoma",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Germany",
@@ -804,7 +803,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Lurox"
     },
     {
       "id": "player-24d7afd1",
@@ -818,7 +818,7 @@
       "team_id": "team-8baee3fd",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Time",
+      "full_name": "Tiago Almeida",
       "attributes": {
         "laning": 90,
         "mechanics": 89,
@@ -830,7 +830,6 @@
         "champion_pool": 82,
         "mental_resilience": 87
       },
-      "match_name": "Tiago Almeida",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Portugal",
@@ -851,7 +850,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 85
+      "overall": 85,
+      "nickname": "Time"
     },
     {
       "id": "player-58930970",
@@ -865,7 +865,7 @@
       "team_id": "team-129835c5",
       "position": "ADC",
       "condition": 100,
-      "full_name": "ANDARIEL",
+      "full_name": "Mert Kılıç",
       "attributes": {
         "laning": 87,
         "mechanics": 84,
@@ -877,7 +877,6 @@
         "champion_pool": 83,
         "mental_resilience": 82
       },
-      "match_name": "Mert Kılıç",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "turkey",
@@ -898,7 +897,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "ANDARIEL"
     },
     {
       "id": "player-7f89d2c9",
@@ -911,7 +911,7 @@
       "team_id": "team-06974122",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Legolas",
+      "full_name": "Sergio Vicente Gisbert",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -923,7 +923,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Sergio Vicente Gisbert",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -939,7 +938,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Legolas"
     },
     {
       "id": "player-351f0779",
@@ -953,7 +953,7 @@
       "team_id": "team-8baee3fd",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Fresskowy",
+      "full_name": "Bartłomiej Przewoźnik",
       "attributes": {
         "laning": 90,
         "mechanics": 90,
@@ -965,7 +965,6 @@
         "champion_pool": 85,
         "mental_resilience": 84
       },
-      "match_name": "Bartłomiej Przewoźnik",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -986,7 +985,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 87
+      "overall": 87,
+      "nickname": "Fresskowy"
     },
     {
       "id": "player-04bfa395",
@@ -999,7 +999,7 @@
       "team_id": "team-06974122",
       "position": "Top",
       "condition": 100,
-      "full_name": "selenex",
+      "full_name": "Eric Lozano Gutiérrez",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -1011,7 +1011,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Eric Lozano Gutiérrez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1027,7 +1026,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "selenex"
     },
     {
       "id": "player-35e757a5",
@@ -1052,7 +1052,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Pauporter",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1068,7 +1067,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Pauporter"
     },
     {
       "id": "player-a6582959",
@@ -1082,7 +1082,7 @@
       "team_id": "team-f10b156f",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Mercy9",
+      "full_name": "Cengizhan Teker",
       "attributes": {
         "laning": 84,
         "mechanics": 78,
@@ -1094,7 +1094,6 @@
         "champion_pool": 81,
         "mental_resilience": 79
       },
-      "match_name": "Cengizhan Teker",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Turkey",
@@ -1115,7 +1114,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Mercy9"
     },
     {
       "id": "player-0c16936f",
@@ -1129,7 +1129,7 @@
       "team_id": "team-8baee3fd",
       "position": "ADC",
       "condition": 100,
-      "full_name": "13",
+      "full_name": "Zayan Taeau",
       "attributes": {
         "laning": 84,
         "mechanics": 84,
@@ -1141,7 +1141,6 @@
         "champion_pool": 79,
         "mental_resilience": 83
       },
-      "match_name": "Zayan Taeau",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "France",
@@ -1162,7 +1161,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "13"
     },
     {
       "id": "player-cb58f4bf",
@@ -1176,7 +1176,7 @@
       "team_id": "team-ac846213",
       "position": "Top",
       "condition": 100,
-      "full_name": "Pasameelcelo",
+      "full_name": "Jordi Franco Carreras",
       "attributes": {
         "laning": 63,
         "mechanics": 60,
@@ -1188,7 +1188,6 @@
         "champion_pool": 58,
         "mental_resilience": 68
       },
-      "match_name": "Jordi Franco Carreras",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Andorra",
@@ -1209,7 +1208,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 64
+      "overall": 64,
+      "nickname": "Pasameelcelo"
     },
     {
       "id": "player-9586038a",
@@ -1223,7 +1223,7 @@
       "team_id": "team-129835c5",
       "position": "Top",
       "condition": 100,
-      "full_name": "Kozi",
+      "full_name": "Jarosław Marchewka",
       "attributes": {
         "laning": 72,
         "mechanics": 77,
@@ -1235,7 +1235,6 @@
         "champion_pool": 75,
         "mental_resilience": 86
       },
-      "match_name": "Jarosław Marchewka",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -1256,7 +1255,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Kozi"
     },
     {
       "id": "player-4dbc096b",
@@ -1270,7 +1270,7 @@
       "team_id": "team-f10b156f",
       "position": "Support",
       "condition": 100,
-      "full_name": "Batuuu",
+      "full_name": "Batu Kaygusuz",
       "attributes": {
         "laning": 74,
         "mechanics": 74,
@@ -1282,7 +1282,6 @@
         "champion_pool": 74,
         "mental_resilience": 79
       },
-      "match_name": "Batu Kaygusuz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Turkey",
@@ -1303,7 +1302,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Batuuu"
     },
     {
       "id": "player-0d83ab9d",
@@ -1316,7 +1316,7 @@
       "team_id": "team-5d7b3ec4",
       "position": "Top",
       "condition": 100,
-      "full_name": "Ethe",
+      "full_name": "Raul Campos Vico",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -1328,7 +1328,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Raul Campos Vico",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1344,7 +1343,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Ethe"
     },
     {
       "id": "player-68aa6eaa",
@@ -1358,7 +1358,7 @@
       "team_id": "team-854f6893",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Flakked",
+      "full_name": "Víctor Lirola Tortosa",
       "attributes": {
         "laning": 88,
         "mechanics": 81,
@@ -1370,7 +1370,6 @@
         "champion_pool": 90,
         "mental_resilience": 83
       },
-      "match_name": "Víctor Lirola Tortosa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1391,7 +1390,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Flakked"
     },
     {
       "id": "player-130f6999",
@@ -1416,7 +1416,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Dani",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1432,7 +1431,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Dani"
     },
     {
       "id": "player-f0ce65b1",
@@ -1446,7 +1446,7 @@
       "team_id": "team-129835c5",
       "position": "Support",
       "condition": 100,
-      "full_name": "iLEVI",
+      "full_name": "Besmir Jakupi",
       "attributes": {
         "laning": 60,
         "mechanics": 66,
@@ -1458,7 +1458,6 @@
         "champion_pool": 62,
         "mental_resilience": 71
       },
-      "match_name": "Besmir Jakupi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Albania",
@@ -1479,7 +1478,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 67
+      "overall": 67,
+      "nickname": "iLEVI"
     },
     {
       "id": "player-ad071174",
@@ -1493,7 +1493,7 @@
       "team_id": "team-d0d82673",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Hydra",
+      "full_name": "Raúl Moreno Valero",
       "attributes": {
         "laning": 85,
         "mechanics": 82,
@@ -1505,7 +1505,6 @@
         "champion_pool": 81,
         "mental_resilience": 83
       },
-      "match_name": "Raúl Moreno Valero",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1526,7 +1525,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Hydra"
     },
     {
       "id": "player-a99b9d4e",
@@ -1539,7 +1539,7 @@
       "team_id": "team-5d7b3ec4",
       "position": "Support",
       "condition": 100,
-      "full_name": "Deleted",
+      "full_name": "Una San Juan Fajardo",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -1551,7 +1551,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Una San Juan Fajardo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1567,7 +1566,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Deleted"
     },
     {
       "id": "player-b1e72cd5",
@@ -1581,7 +1581,7 @@
       "team_id": "team-129835c5",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "bluerzor",
+      "full_name": "Dániel Subicz",
       "attributes": {
         "laning": 64,
         "mechanics": 66,
@@ -1593,7 +1593,6 @@
         "champion_pool": 66,
         "mental_resilience": 61
       },
-      "match_name": "Dániel Subicz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Hungary",
@@ -1614,7 +1613,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 64
+      "overall": 64,
+      "nickname": "bluerzor"
     },
     {
       "id": "player-ea84a5b5",
@@ -1628,7 +1628,7 @@
       "team_id": "team-854f6893",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Miniduke",
+      "full_name": "Ismael Martínez Cortés",
       "attributes": {
         "laning": 92,
         "mechanics": 92,
@@ -1640,7 +1640,6 @@
         "champion_pool": 86,
         "mental_resilience": 85
       },
-      "match_name": "Ismael Martínez Cortés",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1661,7 +1660,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 88
+      "overall": 88,
+      "nickname": "Miniduke"
     },
     {
       "id": "player-b7bba21b",
@@ -1674,7 +1674,7 @@
       "team_id": "team-06974122",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Koldo",
+      "full_name": "Luis Pérez García",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -1686,7 +1686,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Luis Pérez García",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1702,7 +1701,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Koldo"
     },
     {
       "id": "player-2970f50f",
@@ -1715,7 +1715,7 @@
       "team_id": "team-06974122",
       "position": "Support",
       "condition": 100,
-      "full_name": "Oscure",
+      "full_name": "Victor Guzmán Fernández",
       "attributes": {
         "laning": 0,
         "mechanics": 0,
@@ -1727,7 +1727,6 @@
         "champion_pool": 0,
         "mental_resilience": 0
       },
-      "match_name": "Victor Guzmán Fernández",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Spain",
@@ -1743,7 +1742,8 @@
       "potential_revealed": null,
       "alternate_positions": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null
+      "potential_research_started_on": null,
+      "nickname": "Oscure"
     },
     {
       "id": "player-c03062e2",
@@ -1757,7 +1757,7 @@
       "team_id": "team-8baee3fd",
       "position": "Top",
       "condition": 100,
-      "full_name": "NightSlayer",
+      "full_name": "Ivan Bilous",
       "attributes": {
         "laning": 75,
         "mechanics": 78,
@@ -1769,7 +1769,6 @@
         "champion_pool": 72,
         "mental_resilience": 77
       },
-      "match_name": "Ivan Bilous",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Ukraine",
@@ -1790,7 +1789,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "NightSlayer"
     }
   ]
 }

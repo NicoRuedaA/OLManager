@@ -683,7 +683,7 @@ pub fn generate_incoming_transfer_offers(game: &mut Game) {
             date: today.clone(),
         });
 
-        let player_name = player.match_name.clone();
+        let player_name = player.nickname.clone();
         let buyer_name = buyer_team.name.clone();
         let message = crate::messages::incoming_transfer_offer_message(
             &offer_id,
@@ -1136,7 +1136,7 @@ pub fn make_transfer_bid(
             .players
             .iter()
             .find(|p| p.id == player_id)
-            .map(|p| p.match_name.clone())
+            .map(|p| p.nickname.clone())
             .unwrap_or_default();
 
         let msg = crate::messages::transfer_complete_message(&player_name, fee, &date);
@@ -1261,7 +1261,7 @@ pub fn make_transfer_bid(
             .players
             .iter()
             .find(|p| p.id == player_id)
-            .map(|p| p.match_name.clone())
+            .map(|p| p.nickname.clone())
             .unwrap_or_default();
 
         let msg = crate::messages::transfer_complete_message(&player_name, fee, &date);
@@ -1845,7 +1845,7 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
 
         (
             owning_team_id,
-            player.match_name.clone(),
+            player.nickname.clone(),
             release_penalty_amount(player, current_date),
         )
     };
@@ -1965,11 +1965,11 @@ fn spawn_academy_replacement(
     role: &str,
 ) {
     let replacement_id = format!("academy-replacement-{}-{}", academy_team_id, Uuid::new_v4());
-    let match_name = format!("{} Prospect", role);
+    let nickname = format!("{} Prospect", role);
     let mut replacement = domain::player::Player::new(
         replacement_id,
-        match_name.clone(),
-        match_name,
+        nickname.clone(),
+        nickname,
         "2006-01-01".to_string(),
         template.nationality.clone(),
         string_to_lol_role(role),
@@ -2158,7 +2158,7 @@ fn execute_transfer_with_payer(
             game.news.push(crate::news::major_transfer_article(
                 &article_id,
                 player_id,
-                &player_snapshot.match_name,
+                &player_snapshot.nickname,
                 from_team_id,
                 &from_team_name,
                 to_team_id,

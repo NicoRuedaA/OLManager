@@ -171,7 +171,7 @@ function applyRatingToAttrs(attrs, rating) {
 
 function makePlayer({
   id,
-  matchName,
+  nickname,
   fullName,
   teamId,
   position,
@@ -185,7 +185,7 @@ function makePlayer({
 
   return {
     id,
-    match_name: matchName,
+    nickname: nickname,
     full_name: fullName,
     date_of_birth: dateOfBirth || "2000-01-01",
     nationality,
@@ -271,7 +271,10 @@ try {
 }
 
 const existingIdsByName = new Map(
-  (existingWorld.players ?? []).map((player) => [sanitizeText(player.match_name).toLowerCase(), player.id]),
+  (existingWorld.players ?? []).map((player) => [
+    sanitizeText(player.nickname ?? player.match_name).toLowerCase(),
+    player.id,
+  ]),
 );
 
 function resolvePlayerId(ign) {
@@ -362,7 +365,7 @@ for (const teamSeed of teamSeeds) {
 
       return {
         id: resolvePlayerId(ign),
-        matchName: ign,
+        nickname: ign,
         fullName,
         teamId,
         position: roleToPosition(p.role),

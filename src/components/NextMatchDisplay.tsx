@@ -75,7 +75,7 @@ function getLineupByRole(gameState: GameStateData, teamId: string) {
   const lineup = ROLE_ORDER.map((role) => {
     const candidates = teamPlayers
       .filter((player) => {
-        const roleFromSeed = seedRoleToDraftRole(ROLE_BY_IGN.get(normalizeKey(player.match_name)) ?? "");
+        const roleFromSeed = seedRoleToDraftRole(ROLE_BY_IGN.get(normalizeKey(player.nickname)) ?? "");
         const fallbackRole = positionToDraftRole(player.natural_position || player.position);
         return (roleFromSeed ?? fallbackRole) === role;
       })
@@ -192,13 +192,13 @@ export default function NextMatchDisplay({
                 {leftPhoto ? (
                   <img
                     src={leftPhoto}
-                    alt={homePlayer?.match_name ?? role}
+                    alt={homePlayer?.nickname ?? role}
                     className="w-5 h-5 rounded-full object-cover border border-white/15"
                     loading="lazy"
                   />
                 ) : null}
                 <span className="truncate text-gray-700 dark:text-gray-200 font-heading font-bold">
-                  {homePlayer?.match_name ?? "—"}
+                  {homePlayer?.nickname ?? "—"}
                 </span>
                 {homePlayerOvr !== null && (
                   <span className="text-primary-500 font-heading font-bold">{homePlayerOvr}</span>
@@ -214,12 +214,12 @@ export default function NextMatchDisplay({
                   <span className="text-red-400 font-heading font-bold">{awayPlayerOvr}</span>
                 )}
                 <span className="truncate text-right text-gray-700 dark:text-gray-200 font-heading font-bold">
-                  {awayPlayer?.match_name ?? "—"}
+                  {awayPlayer?.nickname ?? "—"}
                 </span>
                 {rightPhoto ? (
                   <img
                     src={rightPhoto}
-                    alt={awayPlayer?.match_name ?? role}
+                    alt={awayPlayer?.nickname ?? role}
                     className="w-5 h-5 rounded-full object-cover border border-white/15"
                     loading="lazy"
                   />

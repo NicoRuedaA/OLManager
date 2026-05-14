@@ -52,7 +52,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2000-01-01",
     nationality: "England",
@@ -170,7 +170,7 @@ describe("TransfersTab.model", () => {
     const releasedFreeAgent = createPlayer({
       id: "released-free-agent",
       full_name: "Released Agent",
-      match_name: "R. Agent",
+      nickname: "R. Agent",
       date_of_birth: "1999-02-10",
       team_id: null,
       transfer_listed: false,
@@ -248,7 +248,7 @@ describe("TransfersTab.model", () => {
       createPlayer({
         id: "goalkeeper",
         full_name: "Alan Keeper",
-        match_name: "Keeper",
+        nickname: "Keeper",
         nationality: "Spain",
         natural_position: "Goalkeeper",
         position: "Goalkeeper",
@@ -256,7 +256,7 @@ describe("TransfersTab.model", () => {
       createPlayer({
         id: "forward",
         full_name: "Carlos Striker",
-        match_name: "Carx",
+        nickname: "Carx",
         nationality: "Brazil",
         natural_position: "Forward",
         position: "Forward",
@@ -278,7 +278,7 @@ describe("TransfersTab.model", () => {
       team_id: "team-2",
       transfer_listed: true,
       full_name: "Karmine Fenix",
-      match_name: "Fenix",
+      nickname: "Fenix",
       date_of_birth: "2005-03-11",
       nationality: "France",
     });
@@ -287,7 +287,7 @@ describe("TransfersTab.model", () => {
       team_id: "academy-1",
       transfer_listed: true,
       full_name: "Karmine Fénix",
-      match_name: "Fénix",
+      nickname: "Fénix",
       date_of_birth: "2005-03-11",
       nationality: "France",
     });
@@ -315,7 +315,7 @@ describe("TransfersTab.model", () => {
       team_id: "team-2",
       transfer_listed: true,
       full_name: "Prospect One",
-      match_name: "P1",
+      nickname: "P1",
       date_of_birth: "2006-06-20",
       nationality: "Spain",
     });
@@ -324,7 +324,7 @@ describe("TransfersTab.model", () => {
       team_id: "academy-1",
       transfer_listed: false,
       full_name: "Prospect One",
-      match_name: "P1",
+      nickname: "P1",
       date_of_birth: "2006-06-20",
       nationality: "Spain",
     });
@@ -333,7 +333,7 @@ describe("TransfersTab.model", () => {
       team_id: "team-2",
       transfer_listed: true,
       full_name: "Unrelated",
-      match_name: "Unrelated",
+      nickname: "Unrelated",
       date_of_birth: "2001-01-01",
       nationality: "France",
     });

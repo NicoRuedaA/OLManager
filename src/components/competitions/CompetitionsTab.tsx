@@ -555,7 +555,7 @@ function PlayersTable({ players, gameState }: PlayersTableProps) {
                             player.profile_image_url ??
                             "/player-photos/default.webp"
                           }
-                          alt={player.match_name}
+                          alt={player.nickname}
                           className="w-7 h-7 rounded-full object-cover bg-gray-100 dark:bg-navy-700"
                           onError={(e) => {
                             (e.target as HTMLImageElement).style.display =
@@ -564,7 +564,7 @@ function PlayersTable({ players, gameState }: PlayersTableProps) {
                         />
                         <div>
                           <span className="font-semibold text-gray-700 dark:text-gray-200 text-sm">
-                            {player.match_name}
+                            {player.nickname}
                           </span>
                           <span className="text-[11px] text-gray-400 block">
                             {player.full_name}

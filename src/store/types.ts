@@ -311,7 +311,7 @@ export type PlayerAttributes = Record<string, number>;
 
 export interface PlayerData {
   id: string;
-  match_name: string;
+  nickname: string;
   full_name: string;
   date_of_birth: string;
   nationality: string;

@@ -68,7 +68,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2000-01-01",
     nationality: "GB",
@@ -156,7 +156,7 @@ function createGameState(): GameStateData {
       createPlayer(),
       createPlayer({
         id: "player-2",
-        match_name: "A. Support",
+        nickname: "A. Support",
         full_name: "Alex Support",
         position: "SUPPORT",
         natural_position: "SUPPORT",
@@ -164,7 +164,7 @@ function createGameState(): GameStateData {
       }),
       createPlayer({
         id: "player-3",
-        match_name: "D. Loan",
+        nickname: "D. Loan",
         full_name: "David Loan",
         position: "Defender",
         natural_position: "Defender",

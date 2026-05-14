@@ -6,7 +6,7 @@ import type { PlayerData } from "../../store/gameStore";
 function makePlayer(overrides?: Partial<PlayerData>): PlayerData {
   return {
     id: "lec-player-test",
-    match_name: "Test",
+    nickname: "Test",
     full_name: "Test Player",
     date_of_birth: "2000-01-01",
     nationality: "ES",

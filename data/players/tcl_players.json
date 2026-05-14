@@ -71,11 +71,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "38c26301-cdf2-42ef-9e3b-d86c457ae642",
-      "match_name": "Eren Yücel",
-      "full_name": "Warner",
+      "full_name": "Eren Yücel",
       "position": "Mid",
       "profile_image_url": "/player-photos/38c26301-cdf2-42ef-9e3b-d86c457ae642.webp",
-      "overall": 63
+      "overall": 63,
+      "nickname": "Warner"
     },
     {
       "wage": 72000,
@@ -218,11 +218,11 @@
       "potential_base": 73,
       "transfer_listed": false,
       "id": "52665c56-ffb9-4052-8cd0-e462b0e7b915",
-      "match_name": "Emre Akça",
-      "full_name": "Kofte",
+      "full_name": "Emre Akça",
       "position": "Mid",
       "profile_image_url": "/player-photos/52665c56-ffb9-4052-8cd0-e462b0e7b915.webp",
-      "overall": 69
+      "overall": 69,
+      "nickname": "Kofte"
     },
     {
       "wage": 3300,
@@ -284,11 +284,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "564a1818-294f-417a-8529-e266b4fab951",
-      "match_name": "Resul Polat",
-      "full_name": "FireAscept",
+      "full_name": "Resul Polat",
       "position": "Mid",
       "profile_image_url": "/player-photos/564a1818-294f-417a-8529-e266b4fab951.webp",
-      "overall": 61
+      "overall": 61,
+      "nickname": "FireAscept"
     },
     {
       "wage": 23400,
@@ -332,11 +332,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "5f7e7ef8-ad75-4026-aa70-2db7ac1107b0",
-      "match_name": "Yiğithan Yaşar",
-      "full_name": "SmallBugi",
+      "full_name": "Yiğithan Yaşar",
       "position": "Mid",
       "profile_image_url": "/player-photos/5f7e7ef8-ad75-4026-aa70-2db7ac1107b0.webp",
-      "overall": 60
+      "overall": 60,
+      "nickname": "SmallBugi"
     },
     {
       "wage": 0,
@@ -358,11 +358,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "a304bf1e-814e-4513-92d6-4adb061a9dea",
-      "match_name": "Bedirhan Çalışkan",
-      "full_name": "Cape",
+      "full_name": "Bedirhan Çalışkan",
       "position": "Jungle",
       "profile_image_url": "/player-photos/a304bf1e-814e-4513-92d6-4adb061a9dea.webp",
-      "overall": 62
+      "overall": 62,
+      "nickname": "Cape"
     },
     {
       "wage": 44400,
@@ -478,11 +478,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "b2160bc5-4a96-4c78-840d-78b5662f1f80",
-      "match_name": "Fatih Kurşun",
-      "full_name": "Fade",
+      "full_name": "Fatih Kurşun",
       "position": "Mid",
       "profile_image_url": "/player-photos/b2160bc5-4a96-4c78-840d-78b5662f1f80.webp",
-      "overall": 64
+      "overall": 64,
+      "nickname": "Fade"
     },
     {
       "wage": 44400,
@@ -562,11 +562,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "ba94a490-775b-4e76-906d-15833878f01d",
-      "match_name": "Tomasz Gas",
-      "full_name": "Iwanan",
+      "full_name": "Tomasz Gas",
       "position": "Mid",
       "profile_image_url": "/player-photos/ba94a490-775b-4e76-906d-15833878f01d.webp",
-      "overall": 66
+      "overall": 66,
+      "nickname": "Iwanan"
     },
     {
       "wage": 55200,
@@ -637,11 +637,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "da2efcc9-2acb-424d-a01c-12bd7dafdb4c",
-      "match_name": "Maciej Charzyński",
-      "full_name": "Secrett",
+      "full_name": "Maciej Charzyński",
       "position": "Mid",
       "profile_image_url": "/player-photos/da2efcc9-2acb-424d-a01c-12bd7dafdb4c.webp",
-      "overall": 64
+      "overall": 64,
+      "nickname": "Secrett"
     },
     {
       "wage": 2650,
@@ -766,11 +766,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "e970485e-c7bb-4e6b-be91-0fe6f7c0ba8f",
-      "match_name": "Yunus Emre Şahin",
-      "full_name": "Ksaez",
+      "full_name": "Yunus Emre Şahin",
       "position": "Mid",
       "profile_image_url": "/player-photos/e970485e-c7bb-4e6b-be91-0fe6f7c0ba8f.webp",
-      "overall": 64
+      "overall": 64,
+      "nickname": "Ksaez"
     },
     {
       "wage": 39000,
@@ -794,11 +794,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "f28272fb-92d0-4617-9133-18b2b1c463d3",
-      "match_name": "Mustafa Korkmaz",
-      "full_name": "Rames",
+      "full_name": "Mustafa Korkmaz",
       "position": "Jungle",
       "profile_image_url": "/player-photos/f28272fb-92d0-4617-9133-18b2b1c463d3.webp",
-      "overall": 66
+      "overall": 66,
+      "nickname": "Rames"
     },
     {
       "wage": 76800,
@@ -822,11 +822,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "f419fc4a-23ae-48d2-a59b-805f8b6ed553",
-      "match_name": "Doğukan Balcı",
-      "full_name": "113",
+      "full_name": "Doğukan Balcı",
       "position": "Jungle",
       "profile_image_url": "/player-photos/f419fc4a-23ae-48d2-a59b-805f8b6ed553.webp",
-      "overall": 71
+      "overall": 71,
+      "nickname": "113"
     }
   ]
 }

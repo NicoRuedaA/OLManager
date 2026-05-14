@@ -76,7 +76,7 @@ export default function TeamProfileRosterCard({
                 const ovr = calculateLolOvr(player);
                 const age = calcAge(player.date_of_birth, currentDate);
                 const lolRole = getLolRoleForPlayer(player);
-                const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                const photoUrl = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
 
                 return (
                   <tr
@@ -88,12 +88,12 @@ export default function TeamProfileRosterCard({
                       {photoUrl ? (
                         <img
                           src={photoUrl}
-                          alt={player.match_name}
+                          alt={player.nickname}
                           className="w-8 h-8 rounded-full object-cover"
                         />
                       ) : (
                         <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
-                          {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                          {player.nickname?.charAt(0)?.toUpperCase() ?? "?"}
                         </div>
                       )}
                     </td>
@@ -107,7 +107,7 @@ export default function TeamProfileRosterCard({
                     </td>
                     <td className="py-3 px-5">
                       <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                        {player.match_name || player.full_name}
+                        {player.nickname || player.full_name}
                       </span>
                     </td>
                     <td className="py-3 px-5 text-sm text-gray-600 dark:text-gray-400 tabular-nums">

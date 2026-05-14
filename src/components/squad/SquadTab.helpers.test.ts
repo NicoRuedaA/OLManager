@@ -20,7 +20,7 @@ const makePlayer = (
   overrides: Partial<PlayerData> = {},
 ): PlayerData => ({
   id,
-  match_name: id,
+  nickname: id,
   full_name: `Player ${id}`,
   date_of_birth: "1998-01-01",
   nationality: "GB",

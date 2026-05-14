@@ -37,7 +37,7 @@ pub fn upsert_player(conn: &Connection, p: &Player) -> Result<(), String> {
            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32)",
         params![
             p.id,
-            p.match_name,
+            p.nickname,
             p.full_name,
             p.date_of_birth,
             p.nationality,
@@ -234,7 +234,7 @@ fn row_to_player(row: &rusqlite::Row) -> rusqlite::Result<Player> {
 
     Ok(Player {
         id: row.get(0)?,
-        match_name: row.get(1)?,
+        nickname: row.get(1)?,
         full_name: row.get(2)?,
         date_of_birth: row.get(3)?,
         nationality: row.get(4)?,

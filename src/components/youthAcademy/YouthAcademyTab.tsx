@@ -119,7 +119,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
           if (byRole !== 0) return byRole;
           const byOvr = b.ovr - a.ovr;
           if (byOvr !== 0) return byOvr;
-          return (a.match_name || a.full_name).localeCompare(b.match_name || b.full_name);
+          return (a.nickname || a.full_name).localeCompare(b.nickname || b.full_name);
         }),
     [gameState.clock.current_date, gameState.players, gameState.teams, myTeam],
   );
@@ -153,7 +153,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
       const dir = sortDir === "asc" ? 1 : -1;
       switch (sortKey) {
         case "name":
-          return dir * (a.match_name || a.full_name).localeCompare(b.match_name || b.full_name);
+          return dir * (a.nickname || a.full_name).localeCompare(b.nickname || b.full_name);
         case "pos":
           return dir * ((ROLE_ORDER[a.role] ?? 99) - (ROLE_ORDER[b.role] ?? 99));
         case "age":
@@ -179,7 +179,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
       if (!searchQuery.trim()) return true;
       const q = searchQuery.toLowerCase();
       return (
-        (p.match_name || "").toLowerCase().includes(q) ||
+        (p.nickname || "").toLowerCase().includes(q) ||
         (p.full_name || "").toLowerCase().includes(q) ||
         (p.position || "").toLowerCase().includes(q)
       );
@@ -515,7 +515,7 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                 {filteredPlayers.map((player) => {
-                  const photoUrl = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                  const photoUrl = resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url);
                   return (
                     <tr
                       key={player.id}
@@ -526,18 +526,18 @@ export default function YouthAcademyTab({ gameState, onSelectPlayer, onGameUpdat
                         {photoUrl ? (
                           <img
                             src={photoUrl}
-                            alt={player.match_name}
+                            alt={player.nickname}
                             className="w-8 h-8 rounded-full object-cover"
                           />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-navy-600 flex items-center justify-center text-xs font-heading font-bold text-gray-500 dark:text-gray-400">
-                            {player.match_name?.charAt(0)?.toUpperCase() ?? "?"}
+                            {player.nickname?.charAt(0)?.toUpperCase() ?? "?"}
                           </div>
                         )}
                       </td>
                       <td className="py-2.5 px-4">
                         <div>
-                          <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{player.match_name || player.id}</p>
+                          <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{player.nickname || player.id}</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">{player.full_name}</p>
                         </div>
                       </td>

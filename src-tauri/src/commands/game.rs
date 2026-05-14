@@ -965,8 +965,8 @@ fn draft_potential_map() -> &'static HashMap<String, u8> {
     })
 }
 
-pub(crate) fn potential_seed_for_player(match_name: &str) -> Option<u8> {
-    let key = normalize_seed_name(match_name);
+pub(crate) fn potential_seed_for_player(nickname: &str) -> Option<u8> {
+    let key = normalize_seed_name(nickname);
     draft_potential_map().get(&key).copied().or_else(
         || {
             if key == "kyeahoo" { Some(89) } else { None }
@@ -976,7 +976,7 @@ pub(crate) fn potential_seed_for_player(match_name: &str) -> Option<u8> {
 
 pub(crate) fn apply_seed_potential_defaults(players: &mut [Player]) {
     for player in players.iter_mut() {
-        let Some(seed_potential) = potential_seed_for_player(&player.match_name) else {
+        let Some(seed_potential) = potential_seed_for_player(&player.nickname) else {
             continue;
         };
         let current_ovr = ofm_core::potential::calculate_lol_ovr(player);
@@ -1011,8 +1011,8 @@ fn draft_photo_map() -> &'static HashMap<String, String> {
 }
 
 #[allow(dead_code)]
-fn photo_seed_for_player(match_name: &str) -> Option<String> {
-    let key = normalize_seed_name(match_name);
+fn photo_seed_for_player(nickname: &str) -> Option<String> {
+    let key = normalize_seed_name(nickname);
     draft_photo_map().get(&key).cloned()
 }
 
@@ -1026,8 +1026,8 @@ fn normalize_seed_name(value: &str) -> String {
 }
 
 #[allow(dead_code)]
-fn lol_ratings_seed_for_player(match_name: &str) -> Option<LolSeedRatings> {
-    let key = normalize_seed_name(match_name);
+fn lol_ratings_seed_for_player(nickname: &str) -> Option<LolSeedRatings> {
+    let key = normalize_seed_name(nickname);
     let ratings = match key.as_str() {
         "myrwn" => LolSeedRatings {
             mechanics: 86,
@@ -1588,7 +1588,7 @@ fn lol_ratings_seed_for_player(match_name: &str) -> Option<LolSeedRatings> {
 #[allow(dead_code)]
 pub(crate) fn apply_lol_seed_ratings(players: &mut [Player]) {
     for player in players.iter_mut() {
-        let Some(seed) = lol_ratings_seed_for_player(&player.match_name) else {
+        let Some(seed) = lol_ratings_seed_for_player(&player.nickname) else {
             continue;
         };
 
@@ -1604,11 +1604,11 @@ pub(crate) fn apply_lol_seed_ratings(players: &mut [Player]) {
         player.attributes.discipline = seed.discipline;
         player.attributes.mental_resilience = seed.mental_resilience;
 
-        if let Some(potential_base) = potential_seed_for_player(&player.match_name) {
+        if let Some(potential_base) = potential_seed_for_player(&player.nickname) {
             player.potential_base = potential_base.min(99);
         }
         if player.profile_image_url.is_none() {
-            player.profile_image_url = photo_seed_for_player(&player.match_name);
+            player.profile_image_url = photo_seed_for_player(&player.nickname);
         }
         player.potential_revealed = None;
         player.potential_research_started_on = None;
@@ -1834,7 +1834,7 @@ fn build_free_agent_player(seed: &DraftPlayerSeed, index: usize) -> Option<Playe
 pub(crate) fn inject_seed_free_agents(players: &mut Vec<Player>) {
     let existing_ids: HashSet<String> = players
         .iter()
-        .map(|player| normalize_seed_name(&player.match_name))
+        .map(|player| normalize_seed_name(&player.nickname))
         .collect();
     let mut existing_ids = existing_ids;
 
@@ -1875,7 +1875,7 @@ pub(crate) fn remove_free_agents_shadowed_by_academy(players: &mut Vec<Player>, 
                 .map(|team_id| academy_team_ids.contains(team_id))
                 .unwrap_or(false)
         })
-        .map(|player| normalize_seed_name(&player.match_name))
+        .map(|player| normalize_seed_name(&player.nickname))
         .filter(|key| !key.is_empty())
         .collect();
 
@@ -1885,7 +1885,7 @@ pub(crate) fn remove_free_agents_shadowed_by_academy(players: &mut Vec<Player>, 
 
     players.retain(|player| {
         player.team_id.is_some()
-            || !academy_names.contains(&normalize_seed_name(&player.match_name))
+            || !academy_names.contains(&normalize_seed_name(&player.nickname))
     });
 }
 

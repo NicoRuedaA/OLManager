@@ -52,7 +52,7 @@
       "team_id": "lec-movistar-koi",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Supa",
+      "full_name": "David Martínez García",
       "photo_url": "/player-photos/103536968833612789.webp",
       "attributes": {
         "laning": 84,
@@ -65,7 +65,6 @@
         "champion_pool": 80,
         "mental_resilience": 81
       },
-      "match_name": "David Martínez García",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
@@ -80,7 +79,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103536968833612789.webp",
       "potential_revealed": null,
-      "overall": 82
+      "overall": 82,
+      "nickname": "Supa"
     },
     {
       "id": "lec-player-103877629120745120",
@@ -159,7 +159,7 @@
       "team_id": "lec-movistar-koi",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Elyoya",
+      "full_name": "Javier Prades Batalla",
       "photo_url": "/player-photos/103877629120745120.webp",
       "attributes": {
         "laning": 90,
@@ -172,7 +172,6 @@
         "champion_pool": 84,
         "mental_resilience": 87
       },
-      "match_name": "Javier Prades Batalla",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
@@ -187,7 +186,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103877629120745120.webp",
       "potential_revealed": null,
-      "overall": 87
+      "overall": 87,
+      "nickname": "Elyoya"
     },
     {
       "id": "lec-player-105830645287286396",
@@ -257,7 +257,7 @@
       "team_id": "lec-shifters",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Sheo",
+      "full_name": "Théo Borile",
       "photo_url": "/player-photos/105830645287286396.webp",
       "attributes": {
         "laning": 75,
@@ -270,7 +270,6 @@
         "champion_pool": 75,
         "mental_resilience": 71
       },
-      "match_name": "Théo Borile",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -285,7 +284,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105830645287286396.webp",
       "potential_revealed": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Sheo"
     },
     {
       "id": "lec-player-107605583684952312",
@@ -310,7 +310,7 @@
       "team_id": "lec-team-vitality",
       "position": "Support",
       "condition": 100,
-      "full_name": "Fleshy",
+      "full_name": "Kadir Kemiksiz",
       "photo_url": "/player-photos/107605583684952312.webp",
       "attributes": {
         "laning": 82,
@@ -323,7 +323,6 @@
         "champion_pool": 80,
         "mental_resilience": 79
       },
-      "match_name": "Kadir Kemiksiz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -338,7 +337,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107605583684952312.webp",
       "potential_revealed": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Fleshy"
     },
     {
       "id": "lec-player-105501717406803640",
@@ -408,7 +408,7 @@
       "team_id": "lec-giantx-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Noah",
+      "full_name": "Hyeon-taek Oh",
       "photo_url": "/player-photos/105501717406803640.webp",
       "attributes": {
         "laning": 85,
@@ -421,7 +421,6 @@
         "champion_pool": 80,
         "mental_resilience": 79
       },
-      "match_name": "Hyeon-taek Oh",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -436,7 +435,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501717406803640.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Noah"
     },
     {
       "id": "lec-player-105647947016264573",
@@ -479,7 +479,7 @@
       "team_id": "lec-giantx-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Jackies",
+      "full_name": "Adam Jeřábek",
       "photo_url": "/player-photos/105647947016264573.webp",
       "attributes": {
         "laning": 81,
@@ -492,7 +492,6 @@
         "champion_pool": 77,
         "mental_resilience": 76
       },
-      "match_name": "Adam Jeřábek",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
@@ -507,7 +506,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105647947016264573.webp",
       "potential_revealed": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Jackies"
     },
     {
       "id": "lec-player-109705412728201213",
@@ -541,7 +541,7 @@
       "team_id": "lec-fnatic",
       "position": "Top",
       "condition": 100,
-      "full_name": "Empyros",
+      "full_name": "Panagiotis Tantis",
       "photo_url": "/player-photos/109705412728201213.webp",
       "attributes": {
         "laning": 73,
@@ -554,7 +554,6 @@
         "champion_pool": 74,
         "mental_resilience": 76
       },
-      "match_name": "Panagiotis Tantis",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
@@ -569,7 +568,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/109705412728201213.webp",
       "potential_revealed": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Empyros"
     },
     {
       "id": "lec-player-107564404490889053",
@@ -621,7 +621,7 @@
       "team_id": "lec-movistar-koi",
       "position": "Support",
       "condition": 100,
-      "full_name": "Alvaro",
+      "full_name": "Álvaro Fernández del Amo",
       "photo_url": "/player-photos/107564404490889053.webp",
       "attributes": {
         "laning": 84,
@@ -634,7 +634,6 @@
         "champion_pool": 80,
         "mental_resilience": 83
       },
-      "match_name": "Álvaro Fernández del Amo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
@@ -649,7 +648,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107564404490889053.webp",
       "potential_revealed": null,
-      "overall": 84
+      "overall": 84,
+      "nickname": "Alvaro"
     },
     {
       "id": "lec-player-102787200059605684",
@@ -728,7 +728,7 @@
       "team_id": "lec-g2-esports",
       "position": "Support",
       "condition": 100,
-      "full_name": "Labrov",
+      "full_name": "Labros Papoutsakis",
       "photo_url": "/player-photos/102787200059605684.webp",
       "attributes": {
         "laning": 84,
@@ -741,7 +741,6 @@
         "champion_pool": 80,
         "mental_resilience": 80
       },
-      "match_name": "Labros Papoutsakis",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
@@ -756,7 +755,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102787200059605684.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Labrov"
     },
     {
       "id": "lec-player-106625308523122120",
@@ -808,7 +808,7 @@
       "team_id": "lec-karmine-corp",
       "position": "Support",
       "condition": 100,
-      "full_name": "Busio",
+      "full_name": "Alan Cwalina",
       "photo_url": "/player-photos/106625308523122120.webp",
       "attributes": {
         "laning": 89,
@@ -821,7 +821,6 @@
         "champion_pool": 84,
         "mental_resilience": 84
       },
-      "match_name": "Alan Cwalina",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "US",
@@ -836,7 +835,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/106625308523122120.webp",
       "potential_revealed": null,
-      "overall": 85
+      "overall": 85,
+      "nickname": "Busio"
     },
     {
       "id": "lec-player-110350224593953686",
@@ -888,7 +888,7 @@
       "team_id": "lec-movistar-koi",
       "position": "Top",
       "condition": 100,
-      "full_name": "Myrwn",
+      "full_name": "Alex Pastor Villarejo",
       "photo_url": "/player-photos/110350224593953686.webp",
       "attributes": {
         "laning": 85,
@@ -901,7 +901,6 @@
         "champion_pool": 90,
         "mental_resilience": 85
       },
-      "match_name": "Alex Pastor Villarejo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
@@ -916,7 +915,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/110350224593953686.webp",
       "potential_revealed": null,
-      "overall": 82
+      "overall": 82,
+      "nickname": "Myrwn"
     },
     {
       "id": "lec-player-105537190986692036",
@@ -977,7 +977,7 @@
       "team_id": "lec-karmine-corp",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Yike",
+      "full_name": "Martin Sundelin",
       "photo_url": "/player-photos/105537190986692036.webp",
       "attributes": {
         "laning": 86,
@@ -990,7 +990,6 @@
         "champion_pool": 85,
         "mental_resilience": 84
       },
-      "match_name": "Martin Sundelin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "SE",
@@ -1005,7 +1004,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105537190986692036.webp",
       "potential_revealed": null,
-      "overall": 85
+      "overall": 85,
+      "nickname": "Yike"
     },
     {
       "id": "lec-player-107128052280762804",
@@ -1039,7 +1039,7 @@
       "team_id": "lec-g2-esports",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "SkewMond",
+      "full_name": "Rudy Semaan",
       "photo_url": "/player-photos/107128052280762804.webp",
       "attributes": {
         "laning": 88,
@@ -1052,7 +1052,6 @@
         "champion_pool": 83,
         "mental_resilience": 88
       },
-      "match_name": "Rudy Semaan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -1067,7 +1066,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107128052280762804.webp",
       "potential_revealed": null,
-      "overall": 86
+      "overall": 86,
+      "nickname": "SkewMond"
     },
     {
       "id": "lec-player-107840393299826151",
@@ -1101,7 +1101,7 @@
       "team_id": "lec-natus-vincere",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Poby",
+      "full_name": "Sung-won Yun",
       "photo_url": "/player-photos/107840393299826151.webp",
       "attributes": {
         "laning": 81,
@@ -1114,7 +1114,6 @@
         "champion_pool": 80,
         "mental_resilience": 81
       },
-      "match_name": "Sung-won Yun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -1129,7 +1128,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107840393299826151.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Poby"
     },
     {
       "id": "lec-player-107045034481599547",
@@ -1172,7 +1172,7 @@
       "team_id": "lec-fnatic",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Vladi",
+      "full_name": "Vladimiros Kourtidis",
       "photo_url": "/player-photos/107045034481599547.webp",
       "attributes": {
         "laning": 77,
@@ -1185,7 +1185,6 @@
         "champion_pool": 77,
         "mental_resilience": 77
       },
-      "match_name": "Vladimiros Kourtidis",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
@@ -1200,7 +1199,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107045034481599547.webp",
       "potential_revealed": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Vladi"
     },
     {
       "id": "player-cb07c2cc",
@@ -1261,7 +1261,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Hype",
+      "full_name": "Byeon Jeong-hyeon",
       "attributes": {
         "laning": 75,
         "mechanics": 75,
@@ -1273,7 +1273,6 @@
         "champion_pool": 74,
         "mental_resilience": 73
       },
-      "match_name": "Byeon Jeong-hyeon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1294,7 +1293,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Hype"
     },
     {
       "id": "lec-player-98767975968177297",
@@ -1409,7 +1409,7 @@
       "team_id": "lec-g2-esports",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Caps",
+      "full_name": "Rasmus Winther",
       "photo_url": "/player-photos/98767975968177297.webp",
       "attributes": {
         "laning": 85,
@@ -1422,7 +1422,6 @@
         "champion_pool": 86,
         "mental_resilience": 92
       },
-      "match_name": "Rasmus Winther",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DK",
@@ -1437,7 +1436,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/98767975968177297.webp",
       "potential_revealed": null,
-      "overall": 89
+      "overall": 89,
+      "nickname": "Caps"
     },
     {
       "id": "lec-player-107464179845128878",
@@ -1471,7 +1471,7 @@
       "team_id": "lec-giantx-lec",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "ISMA",
+      "full_name": "Ismaïl Boualem",
       "photo_url": "/player-photos/107464179845128878.webp",
       "attributes": {
         "laning": 77,
@@ -1484,7 +1484,6 @@
         "champion_pool": 76,
         "mental_resilience": 79
       },
-      "match_name": "Ismaïl Boualem",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "BE",
@@ -1499,7 +1498,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107464179845128878.webp",
       "potential_revealed": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "ISMA"
     },
     {
       "id": "lec-player-103495716771322725",
@@ -1578,7 +1578,7 @@
       "team_id": "lec-karmine-corp",
       "position": "Top",
       "condition": 100,
-      "full_name": "Canna",
+      "full_name": "Chang-dong Kim",
       "photo_url": "/player-photos/103495716771322725.webp",
       "attributes": {
         "laning": 88,
@@ -1591,7 +1591,6 @@
         "champion_pool": 85,
         "mental_resilience": 86
       },
-      "match_name": "Chang-dong Kim",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -1606,7 +1605,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103495716771322725.webp",
       "potential_revealed": null,
-      "overall": 86
+      "overall": 86,
+      "nickname": "Canna"
     },
     {
       "id": "lec-player-108205130709313212",
@@ -1649,7 +1649,7 @@
       "team_id": "lec-karmine-corp",
       "position": "Mid",
       "condition": 100,
-      "full_name": "kyeahoo",
+      "full_name": "Yea-hoo Kang",
       "photo_url": "/player-photos/108205130709313212.webp",
       "attributes": {
         "laning": 82,
@@ -1662,7 +1662,6 @@
         "champion_pool": 83,
         "mental_resilience": 79
       },
-      "match_name": "Yea-hoo Kang",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -1677,7 +1676,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/108205130709313212.webp",
       "potential_revealed": null,
-      "overall": 82
+      "overall": 82,
+      "nickname": "kyeahoo"
     },
     {
       "id": "lec-player-99322214618656216",
@@ -1792,7 +1792,7 @@
       "team_id": "lec-sk-gaming",
       "position": "Top",
       "condition": 100,
-      "full_name": "Wunder",
+      "full_name": "Martin Nordahl Hansen",
       "photo_url": "/player-photos/99322214618656216.webp",
       "attributes": {
         "laning": 76,
@@ -1805,7 +1805,6 @@
         "champion_pool": 82,
         "mental_resilience": 77
       },
-      "match_name": "Martin Nordahl Hansen",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DK",
@@ -1820,7 +1819,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214618656216.webp",
       "potential_revealed": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Wunder"
     },
     {
       "id": "lec-player-103889902476986558",
@@ -1845,7 +1845,7 @@
       "team_id": "lec-sk-gaming",
       "position": "Mid",
       "condition": 100,
-      "full_name": "LIDER",
+      "full_name": "Adam Ilyasov",
       "photo_url": "/player-photos/103889902476986558.webp",
       "attributes": {
         "laning": 75,
@@ -1858,7 +1858,6 @@
         "champion_pool": 68,
         "mental_resilience": 72
       },
-      "match_name": "Adam Ilyasov",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "NO",
@@ -1873,7 +1872,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103889902476986558.webp",
       "potential_revealed": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "LIDER"
     },
     {
       "id": "lec-player-105515296576479523",
@@ -1907,7 +1907,7 @@
       "team_id": "lec-shifters",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Boukada",
+      "full_name": "Mehdi Lahlou",
       "photo_url": "/player-photos/105515296576479523.webp",
       "attributes": {
         "laning": 69,
@@ -1920,7 +1920,6 @@
         "champion_pool": 68,
         "mental_resilience": 69
       },
-      "match_name": "Mehdi Lahlou",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -1935,7 +1934,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105515296576479523.webp",
       "potential_revealed": null,
-      "overall": 70
+      "overall": 70,
+      "nickname": "Boukada"
     },
     {
       "id": "lec-player-105503548109547493",
@@ -1978,7 +1978,7 @@
       "team_id": "lec-team-vitality",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Lyncas",
+      "full_name": "Linas Nauncikas",
       "photo_url": "/player-photos/105503548109547493.webp",
       "attributes": {
         "laning": 82,
@@ -1991,7 +1991,6 @@
         "champion_pool": 78,
         "mental_resilience": 81
       },
-      "match_name": "Linas Nauncikas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "LT",
@@ -2006,7 +2005,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105503548109547493.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Lyncas"
     },
     {
       "id": "lec-player-98767975961872793",
@@ -2107,7 +2107,6 @@
         "champion_pool": 79,
         "mental_resilience": 84
       },
-      "match_name": "Steven Liv",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -2122,7 +2121,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/98767975961872793.webp",
       "potential_revealed": null,
-      "overall": 84
+      "overall": 84,
+      "nickname": "Steven Liv"
     },
     {
       "id": "lec-player-107492067202132417",
@@ -2147,7 +2147,7 @@
       "team_id": "lec-fnatic",
       "position": "Support",
       "condition": 100,
-      "full_name": "Lospa",
+      "full_name": "Joon-hyeong Park",
       "photo_url": "/player-photos/107492067202132417.webp",
       "attributes": {
         "laning": 82,
@@ -2160,7 +2160,6 @@
         "champion_pool": 77,
         "mental_resilience": 78
       },
-      "match_name": "Joon-hyeong Park",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -2175,7 +2174,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492067202132417.webp",
       "potential_revealed": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Lospa"
     },
     {
       "id": "lec-player-105501834624360050",
@@ -2218,7 +2218,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Ice",
+      "full_name": "Yoon Sang-hoon",
       "photo_url": "/player-photos/105501834624360050.webp",
       "attributes": {
         "laning": 81,
@@ -2231,7 +2231,6 @@
         "champion_pool": 78,
         "mental_resilience": 80
       },
-      "match_name": "Yoon Sang-hoon",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -2246,7 +2245,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501834624360050.webp",
       "potential_revealed": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Ice"
     },
     {
       "id": "lec-player-101389808348806587",
@@ -2289,7 +2289,7 @@
       "team_id": "lec-sk-gaming",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Skeanz",
+      "full_name": "Duncan Marquet",
       "photo_url": "/player-photos/101389808348806587.webp",
       "attributes": {
         "laning": 72,
@@ -2302,7 +2302,6 @@
         "champion_pool": 76,
         "mental_resilience": 75
       },
-      "match_name": "Duncan Marquet",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -2317,7 +2316,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/101389808348806587.webp",
       "potential_revealed": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Skeanz"
     },
     {
       "id": "lec-player-105548731617719496",
@@ -2342,7 +2342,7 @@
       "team_id": "lec-natus-vincere",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Rhilech",
+      "full_name": "Enes Uçan",
       "photo_url": "/player-photos/105548731617719496.webp",
       "attributes": {
         "laning": 81,
@@ -2355,7 +2355,6 @@
         "champion_pool": 79,
         "mental_resilience": 84
       },
-      "match_name": "Enes Uçan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -2370,7 +2369,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105548731617719496.webp",
       "potential_revealed": null,
-      "overall": 82
+      "overall": 82,
+      "nickname": "Rhilech"
     },
     {
       "id": "lec-player-102174699705191142",
@@ -2395,7 +2395,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Serin",
+      "full_name": "Tolga Ölmez",
       "photo_url": "/player-photos/102174699705191142.webp",
       "attributes": {
         "laning": 80,
@@ -2408,7 +2408,6 @@
         "champion_pool": 75,
         "mental_resilience": 76
       },
-      "match_name": "Tolga Ölmez",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -2423,7 +2422,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102174699705191142.webp",
       "potential_revealed": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Serin"
     },
     {
       "id": "lec-player-107492114500277895",
@@ -2448,7 +2448,7 @@
       "team_id": "lec-shifters",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Paduck",
+      "full_name": "Seok-hyeon Park",
       "photo_url": "/player-photos/107492114500277895.webp",
       "attributes": {
         "laning": 78,
@@ -2461,7 +2461,6 @@
         "champion_pool": 77,
         "mental_resilience": 75
       },
-      "match_name": "Seok-hyeon Park",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -2476,7 +2475,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492114500277895.webp",
       "potential_revealed": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Paduck"
     },
     {
       "id": "lec-player-99566406047571736",
@@ -2573,7 +2573,7 @@
       "team_id": "lec-g2-esports",
       "position": "Top",
       "condition": 100,
-      "full_name": "BrokenBlade",
+      "full_name": "Sergen Çelik",
       "photo_url": "/player-photos/99566406047571736.webp",
       "attributes": {
         "laning": 86,
@@ -2586,7 +2586,6 @@
         "champion_pool": 88,
         "mental_resilience": 83
       },
-      "match_name": "Sergen Çelik",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DE",
@@ -2601,7 +2600,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99566406047571736.webp",
       "potential_revealed": null,
-      "overall": 84
+      "overall": 84,
+      "nickname": "BrokenBlade"
     },
     {
       "id": "lec-player-109461265532592848",
@@ -2635,7 +2635,7 @@
       "team_id": "lec-karmine-corp",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Caliste",
+      "full_name": "Caliste Henry-Hennebert",
       "photo_url": "/player-photos/109461265532592848.webp",
       "attributes": {
         "laning": 87,
@@ -2648,7 +2648,6 @@
         "champion_pool": 80,
         "mental_resilience": 87
       },
-      "match_name": "Caliste Henry-Hennebert",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -2663,7 +2662,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/109461265532592848.webp",
       "potential_revealed": null,
-      "overall": 85
+      "overall": 85,
+      "nickname": "Caliste"
     },
     {
       "id": "lec-player-99322214629661297",
@@ -2778,7 +2778,7 @@
       "team_id": "lec-sk-gaming",
       "position": "Support",
       "condition": 100,
-      "full_name": "Mikyx",
+      "full_name": "Mihael Mehle",
       "photo_url": "/player-photos/99322214629661297.webp",
       "attributes": {
         "laning": 79,
@@ -2791,7 +2791,6 @@
         "champion_pool": 82,
         "mental_resilience": 78
       },
-      "match_name": "Mihael Mehle",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "SI",
@@ -2806,7 +2805,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214629661297.webp",
       "potential_revealed": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Mikyx"
     },
     {
       "id": "lec-player-105700869624784693",
@@ -2831,7 +2831,7 @@
       "team_id": "lec-natus-vincere",
       "position": "Top",
       "condition": 100,
-      "full_name": "Maynter",
+      "full_name": "Volodymyr Sorokin",
       "photo_url": "/player-photos/105700869624784693.webp",
       "attributes": {
         "laning": 81,
@@ -2844,7 +2844,6 @@
         "champion_pool": 75,
         "mental_resilience": 78
       },
-      "match_name": "Volodymyr Sorokin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "UA",
@@ -2859,7 +2858,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105700869624784693.webp",
       "potential_revealed": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Maynter"
     },
     {
       "id": "lec-player-107767810249714879",
@@ -2893,7 +2893,7 @@
       "team_id": "lec-shifters",
       "position": "Top",
       "condition": 100,
-      "full_name": "Rooster",
+      "full_name": "Yun-hwan Shin",
       "photo_url": "/player-photos/107767810249714879.webp",
       "attributes": {
         "laning": 82,
@@ -2906,7 +2906,6 @@
         "champion_pool": 72,
         "mental_resilience": 77
       },
-      "match_name": "Yun-hwan Shin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -2921,7 +2920,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107767810249714879.webp",
       "potential_revealed": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Rooster"
     },
     {
       "id": "lec-player-107492119089043087",
@@ -2946,7 +2946,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "Support",
       "condition": 100,
-      "full_name": "Way",
+      "full_name": "Han GIl",
       "photo_url": "/player-photos/107492119089043087.webp",
       "attributes": {
         "laning": 74,
@@ -2959,7 +2959,6 @@
         "champion_pool": 78,
         "mental_resilience": 75
       },
-      "match_name": "Han GIl",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -2974,7 +2973,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492119089043087.webp",
       "potential_revealed": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Way"
     },
     {
       "id": "lec-player-102787200044335760",
@@ -3062,7 +3062,7 @@
       "team_id": "lec-team-vitality",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Carzzy",
+      "full_name": "Matyáš Orság",
       "photo_url": "/player-photos/102787200044335760.webp",
       "attributes": {
         "laning": 84,
@@ -3075,7 +3075,6 @@
         "champion_pool": 81,
         "mental_resilience": 79
       },
-      "match_name": "Matyáš Orság",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
@@ -3090,7 +3089,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102787200044335760.webp",
       "potential_revealed": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Carzzy"
     },
     {
       "id": "lec-player-105501802535116331",
@@ -3169,7 +3169,7 @@
       "team_id": "lec-giantx-lec",
       "position": "Support",
       "condition": 100,
-      "full_name": "Jun",
+      "full_name": "Yoon Se-jun",
       "photo_url": "/player-photos/105501802535116331.webp",
       "attributes": {
         "laning": 86,
@@ -3182,7 +3182,6 @@
         "champion_pool": 80,
         "mental_resilience": 82
       },
-      "match_name": "Yoon Se-jun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -3197,7 +3196,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501802535116331.webp",
       "potential_revealed": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Jun"
     },
     {
       "id": "lec-player-107605411481021064",
@@ -3244,7 +3244,6 @@
         "champion_pool": 86,
         "mental_resilience": 85
       },
-      "match_name": "Kaan Okan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -3259,7 +3258,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107605411481021064.webp",
       "potential_revealed": null,
-      "overall": 86
+      "overall": 86,
+      "nickname": "Kaan Okan"
     },
     {
       "id": "lec-player-103805069759346933",
@@ -3293,7 +3293,7 @@
       "team_id": "lec-natus-vincere",
       "position": "Support",
       "condition": 100,
-      "full_name": "Parus",
+      "full_name": "Polat Çiçek",
       "photo_url": "/player-photos/103805069759346933.webp",
       "attributes": {
         "laning": 84,
@@ -3306,7 +3306,6 @@
         "champion_pool": 82,
         "mental_resilience": 83
       },
-      "match_name": "Polat Çiçek",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -3321,7 +3320,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103805069759346933.webp",
       "potential_revealed": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Parus"
     },
     {
       "id": "lec-player-103495716738607011",
@@ -3346,7 +3346,7 @@
       "team_id": "lec-giantx-lec",
       "position": "Top",
       "condition": 100,
-      "full_name": "Lot",
+      "full_name": "Eren Yıldız",
       "photo_url": "/player-photos/103495716738607011.webp",
       "attributes": {
         "laning": 80,
@@ -3359,7 +3359,6 @@
         "champion_pool": 76,
         "mental_resilience": 76
       },
-      "match_name": "Eren Yıldız",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
@@ -3374,7 +3373,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103495716738607011.webp",
       "potential_revealed": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Lot"
     },
     {
       "id": "lec-player-105504920899018806",
@@ -3426,7 +3426,7 @@
       "team_id": "lec-movistar-koi",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Jojopyun",
+      "full_name": "Joseph Joon Pyun",
       "photo_url": "/player-photos/105504920899018806.webp",
       "attributes": {
         "laning": 93,
@@ -3439,7 +3439,6 @@
         "champion_pool": 82,
         "mental_resilience": 85
       },
-      "match_name": "Joseph Joon Pyun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CA",
@@ -3454,7 +3453,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105504920899018806.webp",
       "potential_revealed": null,
-      "overall": 86
+      "overall": 86,
+      "nickname": "Jojopyun"
     },
     {
       "id": "lec-player-100238780551262852",
@@ -3542,7 +3542,7 @@
       "team_id": "lec-fnatic",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Razork",
+      "full_name": "Iván Martín Díaz",
       "photo_url": "/player-photos/100238780551262852.webp",
       "attributes": {
         "laning": 81,
@@ -3555,7 +3555,6 @@
         "champion_pool": 82,
         "mental_resilience": 79
       },
-      "match_name": "Iván Martín Díaz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
@@ -3570,7 +3569,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/100238780551262852.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Razork"
     },
     {
       "id": "lec-player-102181528883745160",
@@ -3649,7 +3649,7 @@
       "team_id": "lec-shifters",
       "position": "Support",
       "condition": 100,
-      "full_name": "Trymbi",
+      "full_name": "Adrian Trybus",
       "photo_url": "/player-photos/102181528883745160.webp",
       "attributes": {
         "laning": 72,
@@ -3662,7 +3662,6 @@
         "champion_pool": 78,
         "mental_resilience": 75
       },
-      "match_name": "Adrian Trybus",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "PL",
@@ -3677,7 +3676,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102181528883745160.webp",
       "potential_revealed": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Trymbi"
     },
     {
       "id": "lec-player-104287359934240404",
@@ -3729,7 +3729,7 @@
       "team_id": "lec-natus-vincere",
       "position": "ADC",
       "condition": 100,
-      "full_name": "SamD",
+      "full_name": "Jae-hoon Lee",
       "photo_url": "/player-photos/104287359934240404.webp",
       "attributes": {
         "laning": 78,
@@ -3742,7 +3742,6 @@
         "champion_pool": 80,
         "mental_resilience": 78
       },
-      "match_name": "Jae-hoon Lee",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -3757,7 +3756,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/104287359934240404.webp",
       "potential_revealed": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "SamD"
     },
     {
       "id": "lec-player-105554437688383476",
@@ -3827,7 +3827,7 @@
       "team_id": "lec-shifters",
       "position": "Mid",
       "condition": 100,
-      "full_name": "nuc",
+      "full_name": "Ilias Bizriken",
       "photo_url": "/player-photos/105554437688383476.webp",
       "attributes": {
         "laning": 80,
@@ -3840,7 +3840,6 @@
         "champion_pool": 80,
         "mental_resilience": 80
       },
-      "match_name": "Ilias Bizriken",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
@@ -3855,7 +3854,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105554437688383476.webp",
       "potential_revealed": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "nuc"
     },
     {
       "id": "lec-player-107156544177574787",
@@ -3889,7 +3889,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "Top",
       "condition": 100,
-      "full_name": "Tracyn",
+      "full_name": "Sebastian Wojtoń",
       "photo_url": "/player-photos/107156544177574787.webp",
       "attributes": {
         "laning": 76,
@@ -3902,7 +3902,6 @@
         "champion_pool": 72,
         "mental_resilience": 80
       },
-      "match_name": "Sebastian Wojtoń",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "PL",
@@ -3917,7 +3916,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107156544177574787.webp",
       "potential_revealed": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Tracyn"
     },
     {
       "id": "lec-player-100356590519370319",
@@ -4005,7 +4005,7 @@
       "team_id": "lec-team-vitality",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Humanoid",
+      "full_name": "Marek Brázda",
       "photo_url": "/player-photos/100356590519370319.webp",
       "attributes": {
         "laning": 86,
@@ -4018,7 +4018,6 @@
         "champion_pool": 85,
         "mental_resilience": 80
       },
-      "match_name": "Marek Brázda",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
@@ -4033,7 +4032,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/100356590519370319.webp",
       "potential_revealed": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Humanoid"
     },
     {
       "id": "player-e8115334",
@@ -4076,7 +4076,7 @@
       "team_id": "lec-team-heretics-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Daglas",
+      "full_name": "Kacper Dagiel",
       "attributes": {
         "laning": 78,
         "mechanics": 79,
@@ -4088,7 +4088,6 @@
         "champion_pool": 74,
         "mental_resilience": 71
       },
-      "match_name": "Kacper Dagiel",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -4109,7 +4108,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Daglas"
     },
     {
       "id": "lec-player-99322214653265200",
@@ -4224,7 +4224,7 @@
       "team_id": "lec-fnatic",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Upset",
+      "full_name": "Elias Lipp",
       "photo_url": "/player-photos/99322214653265200.webp",
       "attributes": {
         "laning": 84,
@@ -4237,7 +4237,6 @@
         "champion_pool": 76,
         "mental_resilience": 81
       },
-      "match_name": "Elias Lipp",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DE",
@@ -4252,7 +4251,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214653265200.webp",
       "potential_revealed": null,
-      "overall": 81
+      "overall": 81,
+      "nickname": "Upset"
     },
     {
       "id": "lec-player-105553696718837337",
@@ -4277,7 +4277,7 @@
       "team_id": "lec-sk-gaming",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Jopa",
+      "full_name": "Josip Čančar",
       "photo_url": "/player-photos/105553696718837337.webp",
       "attributes": {
         "laning": 80,
@@ -4290,7 +4290,6 @@
         "champion_pool": 79,
         "mental_resilience": 80
       },
-      "match_name": "Josip Čančar",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "HR",
@@ -4305,7 +4304,8 @@
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105553696718837337.webp",
       "potential_revealed": null,
-      "overall": 80
+      "overall": 80,
+      "nickname": "Jopa"
     }
   ]
 }

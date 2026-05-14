@@ -160,7 +160,7 @@ pub(super) fn generate_random_player_from_def(
 ) -> Player {
     let (first_name, last_name) = pick_name_from_def(nationality, names_def, rng);
     let full_name = format!("{} {}", first_name, last_name);
-    let match_name = last_name.clone();
+    let nickname = last_name.clone();
 
     // Distribute roles: 1 per LoL role (5 roles for 5 players)
     let role = match index {
@@ -250,7 +250,7 @@ pub(super) fn generate_random_player_from_def(
 
     let mut player = Player::new(
         p_id,
-        match_name,
+        nickname,
         full_name,
         dob,
         nationality,

@@ -97,7 +97,7 @@ export function getDashboardSearchResults(
       .filter((player) => {
         return (
           player.full_name.toLowerCase().includes(normalizedQuery) ||
-          player.match_name.toLowerCase().includes(normalizedQuery)
+          player.nickname.toLowerCase().includes(normalizedQuery)
         );
       })
       .slice(0, 5),

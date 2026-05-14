@@ -260,7 +260,7 @@ function playerPhotoUrl(playerId: string): string | null {
 }
 
 function ImageWithFallback({ playerId, playerName, gameState }: { playerId: string; playerName: string; gameState: GameStateData }) {
-  const player = gameState.players.find(p => p.id === playerId || p.match_name === playerName);
+  const player = gameState.players.find(p => p.id === playerId || p.nickname === playerName);
   const photo = player?.profile_image_url ?? resolvePlayerPhoto(playerId, playerName);
   return (
     <img
@@ -405,7 +405,7 @@ export default function TacticsTab({
       return {
         role,
         playerId: player?.id ?? null,
-        playerName: player?.match_name ?? t("tactics.lol.noStarter"),
+        playerName: player?.nickname ?? t("tactics.lol.noStarter"),
         base,
         modifier,
         variance,

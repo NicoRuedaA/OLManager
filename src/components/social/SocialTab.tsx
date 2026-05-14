@@ -173,7 +173,7 @@ function Avatar({
     (team
       ? teamLogoSrc(team)
       : player
-        ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url)
+        ? resolvePlayerPhoto(player.id, player.nickname, player.profile_image_url)
         : null);
 
   return (

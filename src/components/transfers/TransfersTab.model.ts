@@ -11,9 +11,9 @@ function normalizePlayerKey(player: PlayerData): string {
       .toLowerCase()
       .replace(/[^a-z0-9]/g, "");
 
-  const matchName = normalizeToken(player.match_name || "");
+  const nickname = normalizeToken(player.nickname || "");
   const fullName = normalizeToken(player.full_name || "");
-  const identity = matchName || fullName || player.id;
+  const identity = nickname || fullName || player.id;
   const dob = player.date_of_birth || "unknown-dob";
   const nationality = normalizeToken(player.nationality || "unknown-nat");
   return `${identity}|${dob}|${nationality}`;
@@ -91,7 +91,7 @@ export function deriveTransferCollections(
   const contractedNickSet = new Set(
     gameState.players
       .filter((player) => player.team_id !== null)
-      .map((player) => normalizeNameToken(player.match_name || ""))
+      .map((player) => normalizeNameToken(player.nickname || ""))
       .filter((token) => token.length > 0),
   );
 
@@ -103,7 +103,7 @@ export function deriveTransferCollections(
         !academyIdentityKeys.has(normalizePlayerKey(player)) &&
         !(
           player.team_id === null &&
-          contractedNickSet.has(normalizeNameToken(player.match_name || ""))
+          contractedNickSet.has(normalizeNameToken(player.nickname || ""))
         ),
     ),
     academyTeamIds,
@@ -181,7 +181,7 @@ export function filterTransferPlayers(
       const query = search.toLowerCase();
 
       if (
-        !player.match_name.toLowerCase().includes(query) &&
+        !player.nickname.toLowerCase().includes(query) &&
         !player.full_name.toLowerCase().includes(query) &&
         !player.nationality.toLowerCase().includes(query)
       ) {
@@ -218,7 +218,7 @@ export function sortTransferPlayers(
       case "ovr":
         return (calculateLolOvr(a) - calculateLolOvr(b)) * factor;
       case "name":
-        return a.match_name.localeCompare(b.match_name) * factor;
+        return a.nickname.localeCompare(b.nickname) * factor;
       case "position": {
         const roleA = getLolRoleForPlayer(a);
         const roleB = getLolRoleForPlayer(b);

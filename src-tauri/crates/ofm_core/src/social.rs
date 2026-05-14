@@ -255,7 +255,7 @@ pub fn generate_match_social_posts(
         report.away_stats.objectives
     };
     let featured_player = top_player_for_team(game, report, &winner.id)
-        .map(|(player, _stats)| (player.id.clone(), player.match_name.clone()));
+        .map(|(player, _stats)| (player.id.clone(), player.nickname.clone()));
     let context = MatchTemplateContext {
         winner: &winner,
         loser: &loser,

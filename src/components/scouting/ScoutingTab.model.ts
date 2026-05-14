@@ -38,7 +38,7 @@ export function filterScoutablePlayers({
       const query = searchQuery.toLowerCase();
 
       return (
-        player.match_name.toLowerCase().includes(query) ||
+        player.nickname.toLowerCase().includes(query) ||
         player.full_name.toLowerCase().includes(query) ||
         player.nationality.toLowerCase().includes(query) ||
         [...getAllCountryNames(player.nationality)].some((name) =>

@@ -166,7 +166,7 @@ pub fn process_scouting(game: &mut Game) {
                 &assignment.id,
                 &scout_name,
                 &player.id,
-                &player.match_name,
+                &player.nickname,
                 &player.nationality,
                 &player.date_of_birth,
                 lol_role_to_string(&player.natural_position),

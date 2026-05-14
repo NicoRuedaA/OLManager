@@ -28,7 +28,7 @@ const makePlayer = (
   overrides: Partial<PlayerData> = {},
 ): PlayerData => ({
   id,
-  match_name: id.toUpperCase(),
+  nickname: id.toUpperCase(),
   full_name: `Player ${id}`,
   date_of_birth: "1998-01-01",
   nationality: "GB",
@@ -122,7 +122,7 @@ const makeGameState = (): GameStateData => {
     makePlayer("mid1", "MID"),
     makePlayer("adc1", "ADC"),
     makePlayer("sup1", "SUPPORT"),
-    makePlayer("adc2", "ADC", { match_name: "Bench ADC" }),
+    makePlayer("adc2", "ADC", { nickname: "Bench ADC" }),
   ];
 
   return {

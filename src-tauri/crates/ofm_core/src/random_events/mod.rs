@@ -126,7 +126,7 @@ pub fn check_random_events(game: &mut Game) {
                         new_messages.push(message_builders::training_injury_message(
                             &msg_id,
                             &player.id,
-                            &player.match_name,
+                            &player.nickname,
                             injury_name,
                             days,
                             &today,
@@ -171,7 +171,7 @@ pub fn check_random_events(game: &mut Game) {
                     &msg_id,
                     team_name,
                     &player.id,
-                    &player.match_name,
+                    &player.nickname,
                     is_positive,
                     &today,
                 ));
@@ -220,7 +220,7 @@ pub fn check_random_events(game: &mut Game) {
                 if !existing_ids.contains(&msg_id) {
                     new_messages.push(message_builders::international_callup_message(
                         &msg_id,
-                        &player.match_name,
+                        &player.nickname,
                         &player.nationality,
                         &today,
                     ));
@@ -366,7 +366,7 @@ pub fn check_random_events(game: &mut Game) {
                 new_messages.push(builders_reports::rival_interest_message(
                     &msg_id,
                     &player.id,
-                    &player.match_name,
+                    &player.nickname,
                     rival,
                     &today,
                 ));
@@ -391,7 +391,7 @@ pub fn check_random_events(game: &mut Game) {
                 .collect();
             let (player_id, player_name) = if !team_players.is_empty() {
                 let p = team_players[rng.random_range(0..team_players.len())];
-                (Some(p.id.as_str()), Some(p.match_name.as_str()))
+                (Some(p.id.as_str()), Some(p.nickname.as_str()))
             } else {
                 (None, None)
             };

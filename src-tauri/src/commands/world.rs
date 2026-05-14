@@ -405,7 +405,7 @@ mod tests {
           "players": [
             {
               "id": "player-1",
-              "match_name": "J. Doe",
+              "nickname": "J. Doe",
               "full_name": "John Doe",
               "date_of_birth": "2000-01-01",
               "nationality": "GB",

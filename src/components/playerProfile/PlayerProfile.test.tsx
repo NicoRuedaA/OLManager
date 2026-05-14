@@ -157,7 +157,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2000-01-01",
     nationality: "GB",
@@ -315,7 +315,7 @@ describe("PlayerProfile contract surfaces", () => {
   });
 
   it("uses persisted champion masteries in the champion pool card", () => {
-    const player = createPlayer({ match_name: "Unseeded Player" });
+    const player = createPlayer({ nickname: "Unseeded Player" });
     const gameState = {
       ...createGameState(player),
       champion_masteries: [
@@ -373,7 +373,7 @@ describe("PlayerProfile contract surfaces", () => {
             match_result: null,
             scout_report: {
               player_id: player.id,
-              player_name: player.match_name,
+              player_name: player.nickname,
               position: "ADC",
               nationality: player.nationality,
               dob: player.date_of_birth,

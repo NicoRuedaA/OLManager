@@ -79,7 +79,7 @@
       "team_id": "team-83d3342f",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Doggo",
+      "full_name": "Chiu Tzu-Chuan",
       "attributes": {
         "laning": 85,
         "mechanics": 89,
@@ -91,7 +91,6 @@
         "champion_pool": 84,
         "mental_resilience": 84
       },
-      "match_name": "Chiu Tzu-Chuan",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -112,7 +111,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 83
+      "overall": 83,
+      "nickname": "Doggo"
     },
     {
       "id": "player-6b59c7da",
@@ -126,7 +126,7 @@
       "team_id": "team-cbc2ec83",
       "position": "Top",
       "condition": 100,
-      "full_name": "RayFarky",
+      "full_name": "Minato Shinohara",
       "attributes": {
         "laning": 70,
         "mechanics": 79,
@@ -138,7 +138,6 @@
         "champion_pool": 76,
         "mental_resilience": 78
       },
-      "match_name": "Minato Shinohara",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Japan",
@@ -159,7 +158,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "RayFarky"
     },
     {
       "id": "player-16e7dc35",
@@ -173,7 +173,7 @@
       "team_id": "team-494fc51a",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Aress",
+      "full_name": "Hồ Văn Vĩ Đại",
       "attributes": {
         "laning": 78,
         "mechanics": 79,
@@ -185,7 +185,6 @@
         "champion_pool": 83,
         "mental_resilience": 77
       },
-      "match_name": "Hồ Văn Vĩ Đại",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -206,7 +205,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Aress"
     },
     {
       "id": "player-4706a581",
@@ -240,7 +240,7 @@
       "team_id": "team-gzg2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "1Jiang",
+      "full_name": "Chen Yi-Chin",
       "attributes": {
         "laning": 72,
         "mechanics": 71,
@@ -252,7 +252,6 @@
         "champion_pool": 76,
         "mental_resilience": 76
       },
-      "match_name": "Chen Yi-Chin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -273,7 +272,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "1Jiang"
     },
     {
       "id": "player-66ceee15",
@@ -287,7 +287,7 @@
       "team_id": "team-gzg2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Husha",
+      "full_name": "Huang Tzu-Wei",
       "attributes": {
         "laning": 84,
         "mechanics": 79,
@@ -299,7 +299,6 @@
         "champion_pool": 83,
         "mental_resilience": 75
       },
-      "match_name": "Huang Tzu-Wei",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -320,7 +319,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Husha"
     },
     {
       "id": "player-966732df",
@@ -334,7 +334,7 @@
       "team_id": "team-709031e2",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Chika",
+      "full_name": "Võ Lê Nhân",
       "attributes": {
         "laning": 78,
         "mechanics": 71,
@@ -346,7 +346,6 @@
         "champion_pool": 73,
         "mental_resilience": 75
       },
-      "match_name": "Võ Lê Nhân",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -367,7 +366,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Chika"
     },
     {
       "id": "player-9f2c5192",
@@ -381,7 +381,7 @@
       "team_id": "team-83d3342f",
       "position": "Top",
       "condition": 100,
-      "full_name": "Rest",
+      "full_name": "Hsu Shih-Chieh",
       "attributes": {
         "laning": 67,
         "mechanics": 74,
@@ -393,7 +393,6 @@
         "champion_pool": 75,
         "mental_resilience": 81
       },
-      "match_name": "Hsu Shih-Chieh",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -414,7 +413,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Rest"
     },
     {
       "id": "player-671a546e",
@@ -484,7 +484,7 @@
       "team_id": "team-dcg2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "ShiauC",
+      "full_name": "Liu Chia-Hao",
       "attributes": {
         "laning": 70,
         "mechanics": 72,
@@ -496,7 +496,6 @@
         "champion_pool": 75,
         "mental_resilience": 77
       },
-      "match_name": "Liu Chia-Hao",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -517,7 +516,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "ShiauC"
     },
     {
       "id": "player-7bc016be",
@@ -531,7 +531,7 @@
       "team_id": "team-709031e2",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Gury",
+      "full_name": "Lương Hải Long",
       "attributes": {
         "laning": 69,
         "mechanics": 68,
@@ -543,7 +543,6 @@
         "champion_pool": 70,
         "mental_resilience": 67
       },
-      "match_name": "Lương Hải Long",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -564,7 +563,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 69
+      "overall": 69,
+      "nickname": "Gury"
     },
     {
       "id": "player-1d7fe43c",
@@ -590,7 +590,6 @@
         "champion_pool": 45,
         "mental_resilience": 53
       },
-      "match_name": "Bie",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -611,7 +610,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 50
+      "overall": 50,
+      "nickname": "Bie"
     },
     {
       "id": "player-78b37806",
@@ -625,7 +625,7 @@
       "team_id": "team-dcg2025",
       "position": "Top",
       "condition": 100,
-      "full_name": "Flauren",
+      "full_name": "Lo Chak Kin",
       "attributes": {
         "laning": 67,
         "mechanics": 76,
@@ -637,7 +637,6 @@
         "champion_pool": 78,
         "mental_resilience": 81
       },
-      "match_name": "Lo Chak Kin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Hong Kong",
@@ -658,7 +657,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Flauren"
     },
     {
       "id": "player-2c8e9770",
@@ -672,7 +672,7 @@
       "team_id": "team-494fc51a",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Artemis",
+      "full_name": "Trần Quốc Hưng",
       "attributes": {
         "laning": 56,
         "mechanics": 57,
@@ -684,7 +684,6 @@
         "champion_pool": 57,
         "mental_resilience": 49
       },
-      "match_name": "Trần Quốc Hưng",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -705,7 +704,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 52
+      "overall": 52,
+      "nickname": "Artemis"
     },
     {
       "id": "player-99947b72",
@@ -719,7 +719,7 @@
       "team_id": "team-494fc51a",
       "position": "Support",
       "condition": 100,
-      "full_name": "Taki",
+      "full_name": "Đinh Anh Tài",
       "attributes": {
         "laning": 71,
         "mechanics": 69,
@@ -731,7 +731,6 @@
         "champion_pool": 71,
         "mental_resilience": 75
       },
-      "match_name": "Đinh Anh Tài",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -752,7 +751,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Taki"
     },
     {
       "id": "player-8027166e",
@@ -849,7 +849,7 @@
       "team_id": "team-f4306bce",
       "position": "Support",
       "condition": 100,
-      "full_name": "Vsta",
+      "full_name": "Oh Hyo-seong",
       "attributes": {
         "laning": 56,
         "mechanics": 55,
@@ -861,7 +861,6 @@
         "champion_pool": 57,
         "mental_resilience": 64
       },
-      "match_name": "Oh Hyo-seong",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -882,7 +881,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 63
+      "overall": 63,
+      "nickname": "Vsta"
     },
     {
       "id": "player-2093a5b8",
@@ -896,7 +896,7 @@
       "team_id": "team-709031e2",
       "position": "Top",
       "condition": 100,
-      "full_name": "Kratos",
+      "full_name": "Ngô Đức Khánh",
       "attributes": {
         "laning": 64,
         "mechanics": 68,
@@ -908,7 +908,6 @@
         "champion_pool": 69,
         "mental_resilience": 74
       },
-      "match_name": "Ngô Đức Khánh",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -929,7 +928,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 70
+      "overall": 70,
+      "nickname": "Kratos"
     },
     {
       "id": "player-4e88369d",
@@ -943,7 +943,7 @@
       "team_id": "team-gzg2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "JimieN",
+      "full_name": "Tseng Hao-Chun",
       "attributes": {
         "laning": 56,
         "mechanics": 52,
@@ -955,7 +955,6 @@
         "champion_pool": 50,
         "mental_resilience": 49
       },
-      "match_name": "Tseng Hao-Chun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -976,7 +975,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 52
+      "overall": 52,
+      "nickname": "JimieN"
     },
     {
       "id": "player-e760cc5f",
@@ -990,7 +990,7 @@
       "team_id": "team-cbc2ec83",
       "position": "Support",
       "condition": 100,
-      "full_name": "Woody",
+      "full_name": "Lin Yu-En",
       "attributes": {
         "laning": 74,
         "mechanics": 77,
@@ -1002,7 +1002,6 @@
         "champion_pool": 74,
         "mental_resilience": 83
       },
-      "match_name": "Lin Yu-En",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1023,7 +1022,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 77
+      "overall": 77,
+      "nickname": "Woody"
     },
     {
       "id": "player-f540cfa6",
@@ -1037,7 +1037,7 @@
       "team_id": "team-f4306bce",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Aria",
+      "full_name": "Lee Ga-eul",
       "attributes": {
         "laning": 77,
         "mechanics": 76,
@@ -1049,7 +1049,6 @@
         "champion_pool": 72,
         "mental_resilience": 76
       },
-      "match_name": "Lee Ga-eul",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1070,7 +1069,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 76
+      "overall": 76,
+      "nickname": "Aria"
     },
     {
       "id": "player-b9203539",
@@ -1084,7 +1084,7 @@
       "team_id": "team-d13da18a",
       "position": "Top",
       "condition": 100,
-      "full_name": "Pun",
+      "full_name": "Nguyễn Đăng Khoa",
       "attributes": {
         "laning": 69,
         "mechanics": 72,
@@ -1096,7 +1096,6 @@
         "champion_pool": 77,
         "mental_resilience": 81
       },
-      "match_name": "Nguyễn Đăng Khoa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1117,7 +1116,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Pun"
     },
     {
       "id": "player-f20b8874",
@@ -1131,7 +1131,7 @@
       "team_id": "team-dcg2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "XiaoXiang",
+      "full_name": "Liao Yi-Xiang",
       "attributes": {
         "laning": 72,
         "mechanics": 71,
@@ -1143,7 +1143,6 @@
         "champion_pool": 72,
         "mental_resilience": 70
       },
-      "match_name": "Liao Yi-Xiang",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1164,7 +1163,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "XiaoXiang"
     },
     {
       "id": "player-de921ef9",
@@ -1178,7 +1178,7 @@
       "team_id": "team-dcg2025",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Feng",
+      "full_name": "Chen Chun-Feng",
       "attributes": {
         "laning": 80,
         "mechanics": 72,
@@ -1190,7 +1190,6 @@
         "champion_pool": 73,
         "mental_resilience": 73
       },
-      "match_name": "Chen Chun-Feng",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1211,7 +1210,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Feng"
     },
     {
       "id": "player-f5400e51",
@@ -1225,7 +1225,7 @@
       "team_id": "team-709031e2",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Harky",
+      "full_name": "Nguyễn Văn Hữu",
       "attributes": {
         "laning": 79,
         "mechanics": 72,
@@ -1237,7 +1237,6 @@
         "champion_pool": 80,
         "mental_resilience": 70
       },
-      "match_name": "Nguyễn Văn Hữu",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1258,7 +1257,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Harky"
     },
     {
       "id": "player-f5492218",
@@ -1272,7 +1272,7 @@
       "team_id": "team-f4306bce",
       "position": "Top",
       "condition": 100,
-      "full_name": "Evi",
+      "full_name": "Shunsuke Murase",
       "attributes": {
         "laning": 49,
         "mechanics": 50,
@@ -1284,7 +1284,6 @@
         "champion_pool": 42,
         "mental_resilience": 49
       },
-      "match_name": "Shunsuke Murase",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Japan",
@@ -1305,7 +1304,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 50
+      "overall": 50,
+      "nickname": "Evi"
     },
     {
       "id": "player-73d3e5b3",
@@ -1319,7 +1319,7 @@
       "team_id": "team-f4306bce",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Marble",
+      "full_name": "Rei Shimaya",
       "attributes": {
         "laning": 79,
         "mechanics": 69,
@@ -1331,7 +1331,6 @@
         "champion_pool": 76,
         "mental_resilience": 69
       },
-      "match_name": "Rei Shimaya",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Japan",
@@ -1352,7 +1351,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Marble"
     },
     {
       "id": "player-d2f1f8cd",
@@ -1378,7 +1378,6 @@
         "champion_pool": 84,
         "mental_resilience": 80
       },
-      "match_name": "Shunn",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1399,7 +1398,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Shunn"
     },
     {
       "id": "player-832b9ace",
@@ -1413,7 +1413,7 @@
       "team_id": "team-709031e2",
       "position": "Top",
       "condition": 100,
-      "full_name": "Steller",
+      "full_name": "Lê Quang Bình",
       "attributes": {
         "laning": 53,
         "mechanics": 51,
@@ -1425,7 +1425,6 @@
         "champion_pool": 58,
         "mental_resilience": 60
       },
-      "match_name": "Lê Quang Bình",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1446,7 +1445,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 57
+      "overall": 57,
+      "nickname": "Steller"
     },
     {
       "id": "player-8f0930d4",
@@ -1460,7 +1460,7 @@
       "team_id": "team-494fc51a",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Draktharr",
+      "full_name": "Lê Ngọc Toàn",
       "attributes": {
         "laning": 83,
         "mechanics": 83,
@@ -1472,7 +1472,6 @@
         "champion_pool": 83,
         "mental_resilience": 73
       },
-      "match_name": "Lê Ngọc Toàn",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1493,7 +1492,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 79
+      "overall": 79,
+      "nickname": "Draktharr"
     },
     {
       "id": "player-52cf9c8e",
@@ -1507,7 +1507,7 @@
       "team_id": "team-dcg2025",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Pop9",
+      "full_name": "Wu Yi-Han",
       "attributes": {
         "laning": 82,
         "mechanics": 77,
@@ -1519,7 +1519,6 @@
         "champion_pool": 73,
         "mental_resilience": 70
       },
-      "match_name": "Wu Yi-Han",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1540,7 +1539,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 74
+      "overall": 74,
+      "nickname": "Pop9"
     },
     {
       "id": "player-2fe8f8ba",
@@ -1566,7 +1566,6 @@
         "champion_pool": 85,
         "mental_resilience": 82
       },
-      "match_name": "Citrus",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1587,7 +1586,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 88
+      "overall": 88,
+      "nickname": "Citrus"
     },
     {
       "attributes": {
@@ -1608,12 +1608,12 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "ae03e491-edad-4028-bdf7-7d177cc2f489",
-      "match_name": "\tTrần Lê Trung Hậu",
-      "full_name": "Hiro02",
+      "full_name": "\tTrần Lê Trung Hậu",
       "position": "Top",
       "team_id": "team-d13da18a",
       "profile_image_url": "/player-photos/ae03e491-edad-4028-bdf7-7d177cc2f489.webp",
-      "overall": 70
+      "overall": 70,
+      "nickname": "Hiro02"
     },
     {
       "id": "player-3ee49faf",
@@ -1627,7 +1627,7 @@
       "team_id": "team-83d3342f",
       "position": "Support",
       "condition": 100,
-      "full_name": "Kino",
+      "full_name": "Chu&nbsp;Wu Hsin-Jung",
       "attributes": {
         "laning": 70,
         "mechanics": 76,
@@ -1639,7 +1639,6 @@
         "champion_pool": 76,
         "mental_resilience": 82
       },
-      "match_name": "Chu&nbsp;Wu Hsin-Jung",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1660,7 +1659,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Kino"
     },
     {
       "id": "player-f9de1228",
@@ -1686,7 +1686,6 @@
         "champion_pool": 57,
         "mental_resilience": 57
       },
-      "match_name": "2274",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1707,7 +1706,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 58
+      "overall": 58,
+      "nickname": "2274"
     },
     {
       "id": "player-12934b37",
@@ -1721,7 +1721,7 @@
       "team_id": "team-dcg2025",
       "position": "Mid",
       "condition": 100,
-      "full_name": "HongSuo",
+      "full_name": "Guo Bei-Yi",
       "attributes": {
         "laning": 78,
         "mechanics": 74,
@@ -1733,7 +1733,6 @@
         "champion_pool": 72,
         "mental_resilience": 68
       },
-      "match_name": "Guo Bei-Yi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1754,7 +1753,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 72
+      "overall": 72,
+      "nickname": "HongSuo"
     },
     {
       "id": "player-8585e6f0",
@@ -1768,7 +1768,7 @@
       "team_id": "team-cbc2ec83",
       "position": "Top",
       "condition": 100,
-      "full_name": "Momo",
+      "full_name": "Sora Tobita",
       "attributes": {
         "laning": 66,
         "mechanics": 74,
@@ -1780,7 +1780,6 @@
         "champion_pool": 70,
         "mental_resilience": 75
       },
-      "match_name": "Sora Tobita",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Japan",
@@ -1801,7 +1800,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Momo"
     },
     {
       "id": "player-83e9a1e4",
@@ -1815,7 +1815,7 @@
       "team_id": "team-gzg2025",
       "position": "Support",
       "condition": 100,
-      "full_name": "Orca",
+      "full_name": "Kuo Cheng-Han",
       "attributes": {
         "laning": 60,
         "mechanics": 71,
@@ -1827,7 +1827,6 @@
         "champion_pool": 67,
         "mental_resilience": 74
       },
-      "match_name": "Kuo Cheng-Han",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Taiwan",
@@ -1848,7 +1847,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Orca"
     },
     {
       "id": "player-f721c92a",
@@ -1862,7 +1862,7 @@
       "team_id": "team-d13da18a",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Hizto",
+      "full_name": "Lê Văn Hoàng Hải",
       "attributes": {
         "laning": 68,
         "mechanics": 72,
@@ -1874,7 +1874,6 @@
         "champion_pool": 72,
         "mental_resilience": 68
       },
-      "match_name": "Lê Văn Hoàng Hải",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -1895,7 +1894,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 69
+      "overall": 69,
+      "nickname": "Hizto"
     },
     {
       "id": "player-8654bdab",
@@ -1929,7 +1929,7 @@
       "team_id": "team-83d3342f",
       "position": "Mid",
       "condition": 100,
-      "full_name": "POUT",
+      "full_name": "Han In-woong",
       "attributes": {
         "laning": 66,
         "mechanics": 56,
@@ -1941,7 +1941,6 @@
         "champion_pool": 64,
         "mental_resilience": 54
       },
-      "match_name": "Han In-woong",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1962,7 +1961,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 59
+      "overall": 59,
+      "nickname": "POUT"
     },
     {
       "loan_listed": false,
@@ -1972,11 +1972,11 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "dd346317-e71c-479a-99d9-037037697c72",
-      "match_name": "Lê Quang Duy",
-      "full_name": "SofM",
+      "full_name": "Lê Quang Duy",
       "position": "Jungle",
       "team_id": "team-709031e2",
-      "profile_image_url": "/player-photos/dd346317-e71c-479a-99d9-037037697c72.webp"
+      "profile_image_url": "/player-photos/dd346317-e71c-479a-99d9-037037697c72.webp",
+      "nickname": "SofM"
     },
     {
       "id": "player-7f518cfa",
@@ -1990,7 +1990,7 @@
       "team_id": "team-709031e2",
       "position": "Support",
       "condition": 100,
-      "full_name": "SiuLoong",
+      "full_name": "Nguyễn Hoàng Lam",
       "attributes": {
         "laning": 63,
         "mechanics": 68,
@@ -2002,7 +2002,6 @@
         "champion_pool": 70,
         "mental_resilience": 74
       },
-      "match_name": "Nguyễn Hoàng Lam",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -2023,7 +2022,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "SiuLoong"
     },
     {
       "attributes": {
@@ -2045,12 +2045,12 @@
       "stats.condition": "100",
       "transfer_listed": false,
       "id": "e18cfd88-1c3e-4e6d-95b2-65c69c5532c5",
-      "match_name": "Lê Ngọc Vinh",
-      "full_name": "Gloryy",
+      "full_name": "Lê Ngọc Vinh",
       "position": "Mid",
       "team_id": "team-494fc51a",
       "profile_image_url": "/player-photos/e18cfd88-1c3e-4e6d-95b2-65c69c5532c5.webp",
-      "overall": 69
+      "overall": 69,
+      "nickname": "Gloryy"
     },
     {
       "id": "player-4fd10ffa",
@@ -2064,7 +2064,7 @@
       "team_id": "team-cbc2ec83",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Kakkun",
+      "full_name": "Kamon Nomoto",
       "attributes": {
         "laning": 78,
         "mechanics": 74,
@@ -2076,7 +2076,6 @@
         "champion_pool": 80,
         "mental_resilience": 75
       },
-      "match_name": "Kamon Nomoto",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Japan",
@@ -2097,7 +2096,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 75
+      "overall": 75,
+      "nickname": "Kakkun"
     },
     {
       "id": "player-a3908d16",
@@ -2111,7 +2111,7 @@
       "team_id": "team-d13da18a",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Eddie",
+      "full_name": "Hoàng Công Nghĩa",
       "attributes": {
         "laning": 71,
         "mechanics": 76,
@@ -2123,7 +2123,6 @@
         "champion_pool": 72,
         "mental_resilience": 72
       },
-      "match_name": "Hoàng Công Nghĩa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -2144,7 +2143,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 71
+      "overall": 71,
+      "nickname": "Eddie"
     },
     {
       "id": "player-821d7543",
@@ -2158,7 +2158,7 @@
       "team_id": "team-494fc51a",
       "position": "Top",
       "condition": 100,
-      "full_name": "Kiaya",
+      "full_name": "Trần Duy Sang",
       "attributes": {
         "laning": 69,
         "mechanics": 73,
@@ -2170,7 +2170,6 @@
         "champion_pool": 71,
         "mental_resilience": 76
       },
-      "match_name": "Trần Duy Sang",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -2191,7 +2190,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 73
+      "overall": 73,
+      "nickname": "Kiaya"
     },
     {
       "id": "player-e55a1c84",
@@ -2252,7 +2252,7 @@
       "team_id": "team-cbc2ec83",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Fisher",
+      "full_name": "Lee Jeong-tae",
       "attributes": {
         "laning": 81,
         "mechanics": 82,
@@ -2264,7 +2264,6 @@
         "champion_pool": 81,
         "mental_resilience": 76
       },
-      "match_name": "Lee Jeong-tae",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -2285,7 +2284,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 78
+      "overall": 78,
+      "nickname": "Fisher"
     },
     {
       "id": "player-0c6fa860",
@@ -2299,7 +2299,7 @@
       "team_id": "team-d13da18a",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Dire",
+      "full_name": "Trần Duy Đức",
       "attributes": {
         "laning": 61,
         "mechanics": 58,
@@ -2311,7 +2311,6 @@
         "champion_pool": 60,
         "mental_resilience": 58
       },
-      "match_name": "Trần Duy Đức",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Vietnam",
@@ -2332,7 +2331,8 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
-      "overall": 59
+      "overall": 59,
+      "nickname": "Dire"
     }
   ]
 }

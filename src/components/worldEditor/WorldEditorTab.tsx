@@ -185,7 +185,7 @@ function defaultPlayerAttributes(value: number): PlayerData["attributes"] {
 function createNewPlayer(index: number): PlayerData {
   const player = {
     id: uniqueId("world-player"),
-    match_name: `NuevoJugador${index}`,
+    nickname: `NuevoJugador${index}`,
     full_name: "Nuevo Jugador",
     date_of_birth: "2005-01-01",
     nationality: "KR",
@@ -313,7 +313,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
         if (playerScope === "academy" && !isAcademyPlayer(world, player)) return false;
         if (playerScope === "main" && (!player.team_id || isAcademyPlayer(world, player))) return false;
         if (!normalized) return true;
-        return `${player.match_name} ${player.full_name} ${teamName(world, player.team_id)}`.toLowerCase().includes(normalized);
+        return `${player.nickname} ${player.full_name} ${teamName(world, player.team_id)}`.toLowerCase().includes(normalized);
       })
       .slice(0, 160);
   }, [playerScope, query, world]);
@@ -382,7 +382,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
 
   function deleteSelectedPlayer(): void {
     if (!selectedPlayer) return;
-    const confirmed = window.confirm(`Borrar jugador ${selectedPlayer.match_name}? Esta accion solo se confirma al guardar el JSON.`);
+    const confirmed = window.confirm(`Borrar jugador ${selectedPlayer.nickname}? Esta accion solo se confirma al guardar el JSON.`);
     if (!confirmed) return;
 
     setWorld((current) => {
@@ -392,7 +392,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
       setImageCheckStatus(null);
       return { ...current, players };
     });
-    setStatus(`Jugador borrado: ${selectedPlayer.match_name}. Guardá el JSON para persistirlo.`);
+    setStatus(`Jugador borrado: ${selectedPlayer.nickname}. Guardá el JSON para persistirlo.`);
   }
 
   function deleteSelectedStaff(): void {
@@ -440,7 +440,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
       if (!current) return current;
 
       const playerByName = new Map(
-        current.players.map((player) => [normalizeLookupName(player.match_name), player.id]),
+        current.players.map((player) => [normalizeLookupName(player.nickname), player.id]),
       );
       let updated = 0;
       const missing: string[] = [];
@@ -526,7 +526,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
     image.src = url;
   }
 
-  const playerPhoto = selectedPlayer ? resolvePlayerPhoto(selectedPlayer.id, selectedPlayer.match_name, selectedPlayer.profile_image_url) : null;
+  const playerPhoto = selectedPlayer ? resolvePlayerPhoto(selectedPlayer.id, selectedPlayer.nickname, selectedPlayer.profile_image_url) : null;
   const staffPhoto = selectedStaff ? resolveStaffPhoto(selectedStaff.profile_image_url) : null;
   const selectedPlayerIsAcademy = world && selectedPlayer ? isAcademyPlayer(world, selectedPlayer) : false;
 
@@ -626,7 +626,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
                   {mode === "players" ? filteredPlayers.map((player) => (
                     <button key={player.id} type="button" onClick={() => setSelectedPlayerId(player.id)} className={`w-full rounded-lg px-3 py-2 text-left transition-colors ${selectedPlayerId === player.id ? "bg-primary-500/15 text-primary-700 dark:text-primary-200" : "hover:bg-gray-100 dark:hover:bg-navy-700"}`}>
                       <div className="flex items-center justify-between gap-3">
-                        <span className="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{player.match_name}</span>
+                        <span className="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{player.nickname}</span>
                         <span className="text-xs font-heading font-bold text-accent-500">{calculateLolOvr(player)} OVR</span>
                       </div>
                       <p className="truncate text-xs text-gray-500 dark:text-gray-400">{teamName(world, player.team_id)}</p>
@@ -648,13 +648,13 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
               <CardBody>
                 {mode === "players" && selectedPlayer ? (
                   <div className="grid grid-cols-1 gap-5 lg:grid-cols-[180px_1fr]">
-                    <ProfilePreview photo={playerPhoto} fallbackIcon={<User className="h-12 w-12" />} title={selectedPlayer.match_name} subtitle="Jugador" />
+                    <ProfilePreview photo={playerPhoto} fallbackIcon={<User className="h-12 w-12" />} title={selectedPlayer.nickname} subtitle="Jugador" />
                     <div className="space-y-4">
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <EditorHeader title="Jugador" description="Estos cambios quedan en el JSON de mundo, no en una partida." />
                         <DeleteButton onClick={deleteSelectedPlayer}>Borrar jugador</DeleteButton>
                       </div>
-                      <TextField label="Nombre in-game" value={selectedPlayer.match_name} onChange={(value) => updatePlayer(selectedPlayer.id, (player) => ({ ...player, match_name: value }))} />
+                      <TextField label="Nombre in-game" value={selectedPlayer.nickname} onChange={(value) => updatePlayer(selectedPlayer.id, (player) => ({ ...player, nickname: value }))} />
                       <TextField label="Nombre completo" value={selectedPlayer.full_name} onChange={(value) => updatePlayer(selectedPlayer.id, (player) => ({ ...player, full_name: value }))} />
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                         <TextField label="Fecha de nacimiento" type="date" value={selectedPlayer.date_of_birth} onChange={(value) => updatePlayer(selectedPlayer.id, (player) => ({ ...player, date_of_birth: value }))} />

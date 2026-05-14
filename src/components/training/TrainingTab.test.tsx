@@ -79,7 +79,7 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
 function createPlayer(overrides: Partial<PlayerData> = {}): PlayerData {
   return {
     id: "player-1",
-    match_name: "J. Smith",
+    nickname: "J. Smith",
     full_name: "John Smith",
     date_of_birth: "2002-01-01",
     nationality: "GB",
@@ -218,9 +218,9 @@ describe("TrainingTab", () => {
   it("renders SoloQ role icons from each player's LoL role", () => {
     const gameState = createGameState(true);
     gameState.players = [
-      createPlayer({ id: "top", match_name: "Top", natural_position: "TOP", position: "TOP" }),
-      createPlayer({ id: "adc", match_name: "Adc", natural_position: "ADC", position: "ADC" }),
-      createPlayer({ id: "support", match_name: "Support", natural_position: "SUPPORT", position: "SUPPORT" }),
+      createPlayer({ id: "top", nickname: "Top", natural_position: "TOP", position: "TOP" }),
+      createPlayer({ id: "adc", nickname: "Adc", natural_position: "ADC", position: "ADC" }),
+      createPlayer({ id: "support", nickname: "Support", natural_position: "SUPPORT", position: "SUPPORT" }),
     ];
 
     render(<TrainingTab gameState={gameState} />);
@@ -240,7 +240,7 @@ describe("TrainingTab", () => {
     gameState.players = [
       createPlayer({
         id: "swapped-support",
-        match_name: "Swapped Support",
+        nickname: "Swapped Support",
         natural_position: "SUPPORT",
         position: "SUPPORT",
       }),

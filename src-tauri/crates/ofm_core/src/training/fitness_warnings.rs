@@ -89,7 +89,7 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
             .iter()
             .filter(|p| p.condition < 25)
             .take(5)
-            .map(|p| format!("{} ({}%)", p.match_name, p.condition))
+            .map(|p| format!("{} ({}%)", p.nickname, p.condition))
             .collect();
 
         let schedule_advice = match schedule {
