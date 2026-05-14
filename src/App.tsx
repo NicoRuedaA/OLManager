@@ -67,6 +67,57 @@ function App() {
   }, [loaded, settings.language]);
 
   useEffect(() => {
+    const isAndroid = /Android/i.test(window.navigator.userAgent);
+    if (!isAndroid) return;
+
+    let cancelled = false;
+
+    const applyAndroidImmersive = async () => {
+      if (cancelled) return;
+
+      try {
+        const { getCurrentWindow } = await import("@tauri-apps/api/window");
+        await getCurrentWindow().setFullscreen(true);
+      } catch {
+        // Ignore when not running inside Tauri window context
+      }
+
+      try {
+        if (document.fullscreenElement == null && document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch {
+        // Fullscreen API may require user gesture depending on WebView version
+      }
+
+      try {
+        if (screen.orientation?.lock) {
+          await screen.orientation.lock("landscape");
+        }
+      } catch {
+        // Some Android versions/devices block orientation lock silently
+      }
+    };
+
+    void applyAndroidImmersive();
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        void applyAndroidImmersive();
+      }
+    };
+
+    window.addEventListener("focus", onVisible);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("focus", onVisible);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, []);
+
+  useEffect(() => {
     const blockHistoryNavigation = () => {
       window.history.go(1);
     };
