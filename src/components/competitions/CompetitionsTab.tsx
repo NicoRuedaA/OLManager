@@ -255,16 +255,20 @@ function CompetitionCard({
           <div
             className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass} border`}
           >
-            {logoError ? (
-              <Trophy className="w-5 h-5" />
-            ) : (
-              <img
-                src={`/competitions-icons/${league.id}.webp`}
-                alt={league.name}
-                className="w-10 h-10 object-contain"
-                onError={() => setLogoError(true)}
-              />
-            )}
+            {(() => {
+              const iconId = league.competition_id ?? league.id;
+              const iconFile = iconId.replace(/\s+/g, '_');
+              return logoError ? (
+                <Trophy className="w-5 h-5" />
+              ) : (
+                <img
+                  src={`/competitions-icons/${iconFile}.webp`}
+                  alt={league.name}
+                  className="w-10 h-10 object-contain"
+                  onError={() => setLogoError(true)}
+                />
+              );
+            })()}
           </div>
           <div>
             <h4 className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100">
