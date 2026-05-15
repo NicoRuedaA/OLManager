@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+use domain::team::TeamColors;
 use super::data::{NATIONALITY_POOLS, TEAM_TEMPLATES};
 
 // ---------------------------------------------------------------------------
@@ -291,6 +292,14 @@ pub struct TeamSummary {
     #[serde(default)]
     pub logo_url: Option<String>,
     pub country: String,
+    #[serde(default)]
+    pub city: Option<String>,
+    #[serde(default)]
+    pub finance: Option<i64>,
+    #[serde(default)]
+    pub reputation: Option<u32>,
+    #[serde(default)]
+    pub colors: Option<TeamColors>,
     #[serde(default)]
     pub ovr: Option<u8>,
 }

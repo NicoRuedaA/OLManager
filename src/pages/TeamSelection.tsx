@@ -497,7 +497,10 @@ export default function TeamSelection() {
           name: t.name,
           short_name: t.short_name,
           country: t.country,
-          city: t.country,
+          city: t.city ?? t.country,
+          finance: t.finance ?? undefined,
+          reputation: t.reputation ?? undefined,
+          colors: t.colors ?? undefined,
           logo_url: t.logo_url,
           competition_id: selectedCompetitionId,
         }))

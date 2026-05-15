@@ -252,6 +252,10 @@ pub fn get_league_selection_data(
                 short_name: entry.short_name.clone(),
                 logo_url: entry.logo_url.clone(),
                 country: entry.country.clone(),
+                city: Some(entry.city.clone()),
+                finance: Some(entry.finance),
+                reputation: Some(entry.reputation),
+                colors: Some(entry.colors.clone()),
                 ovr: None, // OVR not computed at selection time
             });
         }
