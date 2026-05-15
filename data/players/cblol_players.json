@@ -752,6 +752,12 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Brazil",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
       "overall": 74
     },
     {
@@ -1687,13 +1693,13 @@
       "position": "Jungle",
       "team_id": "team-0e114265",
       "profile_image_url": "/player-photos/a98bf259-ed31-41e0-9858-6c4e48f60aab.webp",
-      "overall": 74,
       "nationality": "Brazil",
       "date_of_birth": "2000-01-01",
       "stats": {
         "appearances": 0
       },
-      "career": []
+      "career": [],
+      "overall": 74
     },
     {
       "id": "player-3805a810",
@@ -1834,6 +1840,12 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Brazil",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
       "overall": 74
     },
     {
@@ -2070,13 +2082,13 @@
       "position": "Jungle",
       "team_id": "team-b3da089b",
       "profile_image_url": "/player-photos/da3e51c1-b649-4f9c-b90e-62adb7cb681c.webp",
-      "overall": 69,
       "nationality": "Brazil",
       "date_of_birth": "2000-01-01",
       "stats": {
         "appearances": 0
       },
-      "career": []
+      "career": [],
+      "overall": 69
     },
     {
       "id": "player-220199ce",
@@ -2524,6 +2536,12 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Brazil",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "career": [],
       "overall": 69
     },
     {

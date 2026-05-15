@@ -564,6 +564,14 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Vietnam",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "wage": 50000,
+      "market_value": 750000,
+      "career": [],
       "overall": 69
     },
     {
@@ -929,6 +937,14 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Vietnam",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "wage": 50000,
+      "market_value": 750000,
+      "career": [],
       "overall": 70
     },
     {
@@ -1602,6 +1618,10 @@
         "mental_resilience": 62
       },
       "loan_listed": false,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "stats.condition": "100",
       "transfer_listed": false,
       "id": "ae03e491-edad-4028-bdf7-7d177cc2f489",
       "match_name": "\tTrần Lê Trung Hậu",
@@ -1609,18 +1629,15 @@
       "position": "Top",
       "team_id": "team-d13da18a",
       "profile_image_url": "/player-photos/ae03e491-edad-4028-bdf7-7d177cc2f489.webp",
-      "overall": 70,
       "nationality": "Vietnam",
       "date_of_birth": "2000-01-01",
       "stats": {
         "appearances": 0
       },
-      "career": [],
       "wage": 50000,
       "market_value": 750000,
-      "morale": 70,
-      "condition": 100,
-      "fitness": 75
+      "career": [],
+      "overall": 70
     },
     {
       "id": "player-3ee49faf",
@@ -1902,6 +1919,14 @@
       "champion_training_targets": [],
       "potential_research_eta_days": null,
       "potential_research_started_on": null,
+      "nationality": "Vietnam",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "wage": 50000,
+      "market_value": 750000,
+      "career": [],
       "overall": 69
     },
     {
@@ -1973,9 +1998,13 @@
     },
     {
       "loan_listed": false,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "stats.condition": "100",
       "transfer_listed": false,
       "id": "dd346317-e71c-479a-99d9-037037697c72",
-      "match_name": "Lê Quang Duy",
+      "match_name": "Le Quang Duy",
       "full_name": "SofM",
       "position": "Jungle",
       "team_id": "team-709031e2",
@@ -1985,9 +2014,9 @@
       "stats": {
         "appearances": 0
       },
-      "career": [],
       "wage": 50000,
       "market_value": 750000,
+      "career": [],
       "morale": 70,
       "condition": 100,
       "fitness": 75
@@ -2052,7 +2081,11 @@
         "mental_resilience": 65
       },
       "loan_listed": false,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
       "potential_base": 82,
+      "stats.condition": "100",
       "transfer_listed": false,
       "id": "e18cfd88-1c3e-4e6d-95b2-65c69c5532c5",
       "match_name": "Lê Ngọc Vinh",
@@ -2060,18 +2093,15 @@
       "position": "Mid",
       "team_id": "team-494fc51a",
       "profile_image_url": "/player-photos/e18cfd88-1c3e-4e6d-95b2-65c69c5532c5.webp",
-      "overall": 69,
       "nationality": "Vietnam",
       "date_of_birth": "2000-01-01",
       "stats": {
         "appearances": 0
       },
-      "career": [],
       "wage": 50000,
       "market_value": 750000,
-      "morale": 70,
-      "condition": 100,
-      "fitness": 75
+      "career": [],
+      "overall": 69
     },
     {
       "id": "player-4fd10ffa",
