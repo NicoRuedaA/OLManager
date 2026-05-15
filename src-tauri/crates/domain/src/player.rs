@@ -11,6 +11,7 @@ pub struct Player {
     pub id: String,
     pub match_name: String,
     pub full_name: String,
+    #[serde(default)]
     pub date_of_birth: String,
     pub nationality: String,
     #[serde(default)]
