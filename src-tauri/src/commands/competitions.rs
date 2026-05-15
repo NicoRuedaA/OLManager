@@ -238,18 +238,31 @@ pub fn get_league_selection_data(
         };
 
         // Build team summaries with player counts
-        let players = load_competition_players(&app_handle, &manifest).ok();
-        let player_count_by_team: std::collections::HashMap<String, usize> = players
-            .map(|p| {
+        let players_result = load_competition_players(&app_handle, &manifest);
+        let player_count_by_team: std::collections::HashMap<String, usize> = match &players_result {
+            Ok(p) => {
+                info!(
+                    "[competitions] '{}' loaded {} players (raw team_ids: {:?})",
+                    manifest.id,
+                    p.len(),
+                    p.iter().filter_map(|pl| pl.team_id.as_deref()).collect::<std::collections::HashSet<_>>()
+                );
                 let mut counts = std::collections::HashMap::new();
-                for player in &p {
+                for player in p {
                     if let Some(ref tid) = player.team_id {
                         *counts.entry(tid.clone()).or_default() += 1;
                     }
                 }
                 counts
-            })
-            .unwrap_or_default();
+            }
+            Err(e) => {
+                info!(
+                    "[competitions] '{}' players NOT loaded: {}",
+                    manifest.id, e
+                );
+                std::collections::HashMap::new()
+            }
+        };
 
         let mut team_summaries = Vec::new();
         let prefix = format!("{}-", manifest.id);
@@ -261,6 +274,11 @@ pub fn get_league_selection_data(
                 format!("{}-{}", manifest.id, entry.id)
             };
             let raw_id = &entry.id;
+            let pc = player_count_by_team.get(raw_id).copied();
+            info!(
+                "[competitions] '{}' team '{}' (raw: '{}'): player_count={:?}",
+                manifest.id, display_id, raw_id, pc
+            );
             team_summaries.push(TeamSummary {
                 id: display_id,
                 name: entry.name.clone(),
@@ -272,7 +290,7 @@ pub fn get_league_selection_data(
                 reputation: Some(entry.reputation),
                 colors: Some(entry.colors.clone()),
                 ovr: None, // OVR not computed at selection time
-                player_count: player_count_by_team.get(raw_id).copied(),
+                player_count: pc,
             });
         }
 
