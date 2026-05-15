@@ -35,7 +35,9 @@ pub struct Player {
     pub attributes: PlayerAttributes,
 
     // Dynamic match/season values
+    #[serde(default = "default_condition")]
     pub condition: u8, // 0-100 (short-term energy; depletes during matches, recovers daily)
+    #[serde(default = "default_morale")]
     pub morale: u8,    // 0-100
     /// Long-term physical shape (0–100). Determines how fast condition depletes and
     /// recovers, and modulates injury risk. Changes slowly over weeks.
@@ -51,10 +53,13 @@ pub struct Player {
 
     // Contract & value
     pub contract_end: Option<String>,
+    #[serde(default)]
     pub wage: u32, // weekly wage
+    #[serde(default)]
     pub market_value: u64,
 
     // Season stats
+    #[serde(default)]
     pub stats: PlayerSeasonStats,
 
     // Career history
@@ -148,6 +153,14 @@ fn default_attr() -> u8 {
 
 fn default_fitness() -> u8 {
     75
+}
+
+fn default_condition() -> u8 {
+    100
+}
+
+fn default_morale() -> u8 {
+    70
 }
 
 fn default_potential_base() -> u8 {
