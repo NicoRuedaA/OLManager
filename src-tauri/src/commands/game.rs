@@ -2026,7 +2026,7 @@ pub async fn select_team(
 
         let schedule_config = &manifest.schedule;
         let mut league = ofm_core::schedule::generate_schedule_from_config(
-            &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
+            cid, &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
         );
 
         // Generate preseason friendlies for ALL competitions
