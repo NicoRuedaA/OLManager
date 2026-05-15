@@ -302,6 +302,8 @@ pub struct TeamSummary {
     pub colors: Option<TeamColors>,
     #[serde(default)]
     pub ovr: Option<u8>,
+    #[serde(default)]
+    pub player_count: Option<usize>,
 }
 
 // ---------------------------------------------------------------------------

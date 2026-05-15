@@ -689,6 +689,7 @@ export interface TeamSummary {
   reputation?: number | null;
   colors?: TeamColors | null;
   ovr: number | null;
+  player_count?: number | null;
 }
 
 export interface LeagueSelectionData {

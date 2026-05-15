@@ -237,6 +237,20 @@ pub fn get_league_selection_data(
             }
         };
 
+        // Build team summaries with player counts
+        let players = load_competition_players(&app_handle, &manifest).ok();
+        let player_count_by_team: std::collections::HashMap<String, usize> = players
+            .map(|p| {
+                let mut counts = std::collections::HashMap::new();
+                for player in &p {
+                    if let Some(ref tid) = player.team_id {
+                        *counts.entry(tid.clone()).or_default() += 1;
+                    }
+                }
+                counts
+            })
+            .unwrap_or_default();
+
         let mut team_summaries = Vec::new();
         let prefix = format!("{}-", manifest.id);
         for entry in &teams {
@@ -246,6 +260,7 @@ pub fn get_league_selection_data(
             } else {
                 format!("{}-{}", manifest.id, entry.id)
             };
+            let raw_id = &entry.id;
             team_summaries.push(TeamSummary {
                 id: display_id,
                 name: entry.name.clone(),
@@ -257,6 +272,7 @@ pub fn get_league_selection_data(
                 reputation: Some(entry.reputation),
                 colors: Some(entry.colors.clone()),
                 ovr: None, // OVR not computed at selection time
+                player_count: player_count_by_team.get(raw_id).copied(),
             });
         }
 
