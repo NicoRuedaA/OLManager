@@ -1687,7 +1687,13 @@
       "position": "Jungle",
       "team_id": "team-0e114265",
       "profile_image_url": "/player-photos/a98bf259-ed31-41e0-9858-6c4e48f60aab.webp",
-      "overall": 74
+      "overall": 74,
+      "nationality": "Brazil",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "career": []
     },
     {
       "id": "player-3805a810",
@@ -2064,7 +2070,13 @@
       "position": "Jungle",
       "team_id": "team-b3da089b",
       "profile_image_url": "/player-photos/da3e51c1-b649-4f9c-b90e-62adb7cb681c.webp",
-      "overall": 69
+      "overall": 69,
+      "nationality": "Brazil",
+      "date_of_birth": "2000-01-01",
+      "stats": {
+        "appearances": 0
+      },
+      "career": []
     },
     {
       "id": "player-220199ce",

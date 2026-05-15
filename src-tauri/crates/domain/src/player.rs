@@ -53,13 +53,12 @@ pub struct Player {
 
     // Contract & value
     pub contract_end: Option<String>,
-    #[serde(default)]
+    #[serde(default = "default_wage")]
     pub wage: u32, // weekly wage
-    #[serde(default)]
+    #[serde(default = "default_market_value")]
     pub market_value: u64,
 
-    // Season stats
-    #[serde(default)]
+    // Season stats (required — all players need stats)
     pub stats: PlayerSeasonStats,
 
     // Career history
@@ -161,6 +160,14 @@ fn default_condition() -> u8 {
 
 fn default_morale() -> u8 {
     70
+}
+
+fn default_wage() -> u32 {
+    50_000
+}
+
+fn default_market_value() -> u64 {
+    750_000
 }
 
 fn default_potential_base() -> u8 {
