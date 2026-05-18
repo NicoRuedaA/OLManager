@@ -2,9 +2,16 @@ use serde::{Deserialize, Serialize};
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
+pub enum LeagueKind {
+    #[default]
+    Main,
+    Academy,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct League {
     pub id: String,
     pub name: String,
@@ -13,6 +20,8 @@ pub struct League {
     pub standings: Vec<StandingEntry>,
     #[serde(default)]
     pub competition_id: Option<String>,
+    #[serde(default)]
+    pub league_kind: LeagueKind,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
@@ -187,6 +196,7 @@ impl League {
             fixtures: Vec::new(),
             standings,
             competition_id,
+            league_kind: LeagueKind::Main,
         }
     }
 

@@ -563,7 +563,7 @@ fn register_parallel_result(
 /// the borrow checker permits simultaneous mutable access.
 fn simulate_background_league(
     teams: &mut [Team],
-    players: &[Player],
+    players: &mut [Player],
     league: &mut League,
     today: &str,
     season: u32,
@@ -593,6 +593,7 @@ fn simulate_background_league(
 
     // Simulate each fixture
     let mut simulated_results: Vec<(usize, String, String, u8, u8)> = Vec::new();
+    let mut match_reports: Vec<engine::MatchReport> = Vec::new();
     for (fixture_index, home_team_id, away_team_id) in fixtures_to_play {
         let home_data = build_engine_team_from(teams, players, &home_team_id);
         let away_data = build_engine_team_from(teams, players, &away_team_id);
@@ -610,10 +611,13 @@ fn simulate_background_league(
             report.home_wins,
             report.away_wins,
         ));
+        match_reports.push(report);
     }
 
     // Store results and update standings
-    for (fixture_index, home_team_id, away_team_id, home_wins, away_wins) in &simulated_results {
+    for ((fixture_index, home_team_id, away_team_id, home_wins, away_wins), report) in
+        simulated_results.iter().zip(match_reports.iter())
+    {
         if let Some(fixture) = league.fixtures.get_mut(*fixture_index) {
             fixture.result = Some(MatchResult {
                 home_wins: *home_wins,
@@ -628,6 +632,16 @@ fn simulate_background_league(
             *home_wins,
             *away_wins,
         ));
+
+        // Apply basic player stats without news/messages (light mode)
+        for player in players.iter_mut() {
+            if let Some(ps) = report.player_stats.get(&player.id) {
+                player.stats.appearances += 1;
+                player.stats.kills += u32::from(ps.kills);
+                player.stats.assists += u32::from(ps.assists);
+                player.stats.minutes_played += ps.duration_seconds / 60;
+            }
+        }
     }
 
     for (home_team_id, away_team_id, home_wins, away_wins) in &completed_fixtures {
@@ -671,7 +685,7 @@ fn process_background_leagues(game: &mut Game, today: &str) {
     let season = game.clock.current_date.year() as u32;
     for i in 1..game.leagues.len() {
         let league = &mut game.leagues[i];
-        simulate_background_league(&mut game.teams, &game.players, league, today, season);
+        simulate_background_league(&mut game.teams, &mut game.players, league, today, season);
     }
 }
 
@@ -726,79 +740,90 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
         return;
     }
 
-    let league_name = format!("{} Academy", academy_team.name);
-    let should_rebuild = match game.academy_league.as_ref() {
-        None => true,
-        Some(league) => {
-            league.id != erl_league_id
-                || league.season != season
-                || league.standings.len() != ordered_team_ids.len()
+    // Find existing academy league in game.leagues, or create one
+    let league_pos = game
+        .leagues
+        .iter()
+        .position(|l| l.league_kind == domain::league::LeagueKind::Academy && l.id == erl_league_id);
+
+    let (league_idx, should_rebuild) = match league_pos {
+        Some(idx) => {
+            let league = &game.leagues[idx];
+            let rebuild = league.season != season || league.standings.len() != ordered_team_ids.len();
+            (idx, rebuild)
+        }
+        None => {
+            // Add new academy league
+            let idx = game.leagues.len();
+            game.leagues.push(League::new(
+                erl_league_id.clone(),
+                format!("{} Academy", academy_team.name),
+                season,
+                &ordered_team_ids,
+                None,
+            ));
+            game.leagues[idx].league_kind = domain::league::LeagueKind::Academy;
+            (idx, true)
         }
     };
 
     if should_rebuild {
-        game.academy_league = Some(League::new(
-            erl_league_id.clone(),
-            league_name,
-            season,
-            &ordered_team_ids,
-            None,
-        ));
-        if let Some(league) = game.academy_league.as_mut() {
-            let mut start_date = game.clock.current_date;
-            while start_date.weekday().num_days_from_monday() != 0 {
-                start_date += chrono::Duration::days(1);
-            }
-            let total_rounds = ordered_team_ids.len().saturating_sub(1);
-            for round in 0..total_rounds {
-                let pairings = round_robin_pairings(&ordered_team_ids, round);
-                let date = (start_date + chrono::Duration::days((round as i64) * 7))
-                    .format("%Y-%m-%d")
-                    .to_string();
-                for (idx, (home_team_id, away_team_id)) in pairings.into_iter().enumerate() {
-                    league.fixtures.push(Fixture {
-                        id: format!("academy-{}-md{}-{}", league.id, round + 1, idx + 1),
-                        matchday: (round + 1) as u32,
-                        date: date.clone(),
-                        home_team_id,
-                        away_team_id,
-                        match_type: MatchType::League,
-                        best_of: 3,
-                        status: FixtureStatus::Scheduled,
-                        result: None,
-                    });
-                }
+        let league = &mut game.leagues[league_idx];
+        league.season = season;
+        league.standings = ordered_team_ids
+            .iter()
+            .map(|tid| domain::league::StandingEntry::new(tid.clone()))
+            .collect();
+        league.fixtures.clear();
+        league.league_kind = domain::league::LeagueKind::Academy;
+
+        let mut start_date = game.clock.current_date;
+        while start_date.weekday().num_days_from_monday() != 0 {
+            start_date += chrono::Duration::days(1);
+        }
+        let total_rounds = ordered_team_ids.len().saturating_sub(1);
+        for round in 0..total_rounds {
+            let pairings = round_robin_pairings(&ordered_team_ids, round);
+            let date = (start_date + chrono::Duration::days((round as i64) * 7))
+                .format("%Y-%m-%d")
+                .to_string();
+            for (idx, (home_team_id, away_team_id)) in pairings.into_iter().enumerate() {
+                league.fixtures.push(Fixture {
+                    id: format!("academy-{}-md{}-{}", league.id, round + 1, idx + 1),
+                    matchday: (round + 1) as u32,
+                    date: date.clone(),
+                    home_team_id,
+                    away_team_id,
+                    match_type: MatchType::League,
+                    best_of: 3,
+                    status: FixtureStatus::Scheduled,
+                    result: None,
+                });
             }
         }
     }
 
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-    if let Some(ref mut league) = game.academy_league {
-        simulate_background_league(&mut game.teams, &game.players, league, &today, season);
+    let league = &mut game.leagues[league_idx];
+    simulate_background_league(&mut game.teams, &mut game.players, league, &today, season);
 
-        // Academy-specific: generate playoffs when regular season completes
-        let regular_fixtures_total = league
-            .fixtures
-            .iter()
-            .filter(|fixture| fixture.match_type == MatchType::League)
-            .count();
-        let regular_completed = league
-            .fixtures
-            .iter()
-            .filter(|fixture| {
-                fixture.match_type == MatchType::League
-                    && fixture.status == FixtureStatus::Completed
-            })
-            .count();
+    // Academy-specific: generate playoffs when regular season completes
+    let regular_fixtures_total = league
+        .fixtures
+        .iter()
+        .filter(|fixture| fixture.match_type == MatchType::League)
+        .count();
+    let regular_completed = league
+        .fixtures
+        .iter()
+        .filter(|fixture| fixture.status == FixtureStatus::Completed)
+        .count();
+    if regular_completed >= regular_fixtures_total && regular_fixtures_total > 0 {
         let has_playoffs = league
             .fixtures
             .iter()
             .any(|fixture| fixture.match_type == MatchType::Playoffs);
-
-        if regular_fixtures_total > 0
-            && regular_completed == regular_fixtures_total
-            && !has_playoffs
-        {
+        if !has_playoffs {
             let mut sorted = league.standings.clone();
             sorted.sort_by(|a, b| {
                 b.points
@@ -853,7 +878,6 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
         }
     }
 }
-
 fn maybe_schedule_playoffs(game: &mut Game) {
     let Some(league) = game.leagues.first_mut() else {
         return;

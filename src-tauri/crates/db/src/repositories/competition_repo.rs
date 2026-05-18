@@ -128,6 +128,7 @@ pub fn load_competition(
             fixtures,
             standings,
             competition_id: Some(cid),
+            league_kind: domain::league::LeagueKind::Main,
         },
         schedule_config_raw,
     )))
@@ -170,6 +171,7 @@ pub fn load_competitions(
             fixtures,
             standings,
             competition_id: Some(cid),
+            league_kind: domain::league::LeagueKind::Main,
         });
         if let Some(json) = schedule_config_raw {
             configs.insert(id, json);

@@ -117,8 +117,6 @@ pub struct Game {
     #[serde(default)]
     pub user_competition_id: Option<String>,
     #[serde(default)]
-    pub academy_league: Option<League>,
-    #[serde(default)]
     pub scouting_assignments: Vec<ScoutingAssignment>,
     #[serde(default)]
     pub board_objectives: Vec<BoardObjective>,
@@ -164,8 +162,6 @@ impl<'de> Deserialize<'de> for Game {
             #[serde(default)]
             pub league: Option<League>,
             #[serde(default)]
-            pub academy_league: Option<League>,
-            #[serde(default)]
             pub scouting_assignments: Vec<ScoutingAssignment>,
             #[serde(default)]
             pub board_objectives: Vec<BoardObjective>,
@@ -203,7 +199,6 @@ impl<'de> Deserialize<'de> for Game {
             social_templates: legacy.social_templates,
             leagues,
             user_competition_id: None,
-            academy_league: legacy.academy_league,
             scouting_assignments: legacy.scouting_assignments,
             board_objectives: legacy.board_objectives,
             season_context: legacy.season_context,
@@ -238,7 +233,6 @@ impl Game {
             social_templates: vec![],
             leagues: vec![],
             user_competition_id: None,
-            academy_league: None,
             scouting_assignments: vec![],
             board_objectives: vec![],
             season_context: SeasonContext::default(),

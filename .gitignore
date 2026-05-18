@@ -68,13 +68,9 @@ pnpm-debug.log*
 Thumbs.db
 
 # =========================
-# Tauri mobile generated files (optional, Tauri v2)
-# =========================
-src-tauri/gen/
-
-# =========================
 # SDD artifacts (openspec)
 # =========================
 openspec/
 
+# Generated player photos
 public/player-photos/*.webp

@@ -2033,21 +2033,38 @@ pub async fn select_team(
             &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
         );
 
-        // Only generate friendlies for the user's competition
-        if user_cid == Some(cid.as_str()) {
-            let opponents: Vec<String> = team_ids.iter()
-                .filter(|tid| tid.as_str() != team_id).cloned().collect();
-            if !opponents.is_empty() {
-                let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-                let split = &schedule_config.splits[0];
-                let season_start = chrono::Utc
-                    .with_ymd_and_hms(season_year, split.season_start.month, split.season_start.day, 0, 0, 0)
-                    .unwrap();
-                let mut friendlies = ofm_core::schedule::generate_preseason_friendlies(
-                    &team_id, &opponents, season_start, schedule_config.preseason_friendlies as usize,
-                );
-                friendlies.retain(|fixture| fixture.date >= today);
-                ofm_core::schedule::append_fixtures(&mut league, friendlies);
+        // Generate preseason friendlies for ALL competitions
+        let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+        let split = &schedule_config.splits[0];
+        let season_start = chrono::Utc
+            .with_ymd_and_hms(season_year, split.season_start.month, split.season_start.day, 0, 0, 0)
+            .unwrap();
+        let num_friendlies = schedule_config.preseason_friendlies as usize;
+        if num_friendlies > 0 {
+            if user_cid == Some(cid.as_str()) {
+                // User's competition: only generate friendlies for the user's team
+                let opponents: Vec<String> = team_ids.iter()
+                    .filter(|tid| tid.as_str() != team_id).cloned().collect();
+                if !opponents.is_empty() {
+                    let mut friendlies = ofm_core::schedule::generate_preseason_friendlies(
+                        &team_id, &opponents, season_start, num_friendlies,
+                    );
+                    friendlies.retain(|fixture| fixture.date >= today);
+                    ofm_core::schedule::append_fixtures(&mut league, friendlies);
+                }
+            } else {
+                // Background competitions: generate friendlies for all teams
+                for tid in &team_ids {
+                    let opponents: Vec<String> = team_ids.iter()
+                        .filter(|t| t.as_str() != tid.as_str()).cloned().collect();
+                    if !opponents.is_empty() {
+                        let mut friendlies = ofm_core::schedule::generate_preseason_friendlies(
+                            tid, &opponents, season_start, num_friendlies,
+                        );
+                        friendlies.retain(|fixture| fixture.date >= today);
+                        ofm_core::schedule::append_fixtures(&mut league, friendlies);
+                    }
+                }
             }
         }
 
