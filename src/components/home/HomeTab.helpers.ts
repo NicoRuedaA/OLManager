@@ -86,7 +86,7 @@ export function getNextOpponentWidgetData(
   const playerLeague = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
 
-  if (!league || !userTeamId) {
+  if (!playerLeague || !userTeamId) {
     return null;
   }
 
@@ -193,7 +193,7 @@ export function getRecentResultsForTeam(
 ): HomeRecentResult[] {
   const playerLeague = gameState.leagues[0];
 
-  if (!league || !teamId) {
+  if (!playerLeague || !teamId) {
     return [];
   }
 

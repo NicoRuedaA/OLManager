@@ -1,4 +1,4 @@
-use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, FixtureStatus, League, MatchType, StandingEntry};
 use rusqlite::{Connection, params};
 
 use super::competition_repo;
@@ -18,7 +18,6 @@ pub fn upsert_league(conn: &Connection, league: &League) -> Result<(), String> {
         "INSERT OR REPLACE INTO league (id, name, season) VALUES (?1, ?2, ?3)",
         params![league.id, league.name, league.season],
     )
-<<<<<<< HEAD
     .map_err(|e| format!("Failed to upsert league: {}", e))?;
 
     for f in &league.fixtures {
@@ -63,11 +62,6 @@ pub fn upsert_league(conn: &Connection, league: &League) -> Result<(), String> {
             ],
         )
         .map_err(|e| format!("Failed to insert standing: {}", e))?;
-    }
-=======
-    .map_err(|e| format!("Failed to upsert league marker: {}", e))?;
->>>>>>> origin/feat/route-by-fixture-id
-
     Ok(())
 }
 
@@ -102,7 +96,6 @@ pub fn load_league(conn: &Connection) -> Result<Option<League>, String> {
     if let Some(ref mut league) = league {
         league.season = season;
     }
-<<<<<<< HEAD
 
     // Load standings
     let mut stand_stmt = conn
@@ -139,9 +132,6 @@ pub fn load_league(conn: &Connection) -> Result<Option<League>, String> {
         standings,
         competition_id: None,
     }))
-=======
-    Ok(league)
->>>>>>> origin/feat/route-by-fixture-id
 }
 
 /// Check if stale/unlinked competition data exists.
@@ -193,12 +183,12 @@ pub(crate) fn parse_fixture_status(s: &str) -> FixtureStatus {
 }
 
 /// Parse fixture competition enum string. Used by competition_repo.
-pub(crate) fn parse_fixture_competition(s: &str) -> FixtureCompetition {
+pub(crate) fn parse_fixture_competition(s: &str) -> MatchType {
     match s {
-        "Friendly" => FixtureCompetition::Friendly,
-        "PreseasonTournament" => FixtureCompetition::PreseasonTournament,
-        "Playoffs" => FixtureCompetition::Playoffs,
-        _ => FixtureCompetition::League,
+        "Friendly" => MatchType::Friendly,
+        "PreseasonTournament" => MatchType::PreseasonTournament,
+        "Playoffs" => MatchType::Playoffs,
+        _ => MatchType::League,
     }
 }
 
@@ -316,9 +306,9 @@ mod tests {
             matchday: 3,
             date: "2026-08-29".to_string(),
             home_team_id: "team-001".to_string(),
-                away_team_id: "team-002".to_string(),
-                match_type: MatchType::League,
-                status: FixtureStatus::Scheduled,
+            away_team_id: "team-002".to_string(),
+            match_type: MatchType::League,
+            status: FixtureStatus::Scheduled,
             result: None,
             best_of: 1,
         }];
@@ -388,7 +378,7 @@ mod tests {
                 date: "2026-08-15".to_string(),
                 home_team_id: "team-001".to_string(),
                 away_team_id: "team-002".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 status: FixtureStatus::Completed,
                 result: None,
                 best_of: 1,
@@ -407,7 +397,7 @@ mod tests {
                 date: "2027-08-15".to_string(),
                 home_team_id: "team-001".to_string(),
                 away_team_id: "team-002".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 status: FixtureStatus::Scheduled,
                 result: None,
                 best_of: 1,

@@ -32,7 +32,7 @@ interface EndOfSeasonScreenProps {
 }
 
 function resolvePlayoffChampionTeamId(gameState: GameStateData): string | null {
-  const playoffFixtures = (gameState.league?.fixtures ?? [])
+  const playoffFixtures = (gameState.leagues[0]?.fixtures ?? [])
     .filter((fixture) => fixture.match_type === "Playoffs" && fixture.status === "Completed" && fixture.result)
     .sort((left, right) => right.matchday - left.matchday);
 
@@ -51,7 +51,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const [summary, setSummary] = useState<EndOfSeasonSummary | null>(null);
   const [step, setStep] = useState<"review" | "done">("review");
 
-  const playerLeague = gameState.leagues[0];
+  const league = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
   const userTeam = gameState.teams.find(t => t.id === userTeamId);
 

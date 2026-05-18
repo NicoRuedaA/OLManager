@@ -57,15 +57,7 @@ export default function ScheduleTab({
     }
   }, [isDesktop, view]);
   const [fixtureResultView, setFixtureResultView] = useState<StoredFixtureDraftResult | null>(null);
-  // Determine user's competition from their team ID (e.g. "lec-fnatic" → "lec")
-  const userCompId = gameState.manager.team_id?.split("-")[0] ?? null;
-  const userLeague = userCompId
-    ? (gameState.leagues ?? []).find((l) =>
-        l.fixtures.some((f) => f.home_team_id.startsWith(userCompId + "-")),
-      ) ?? null
-    : gameState.leagues[0] ?? null;
-
-  const playerLeague = userLeague;
+  const league = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
 
   // All fixtures from all leagues for the calendar view

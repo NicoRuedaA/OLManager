@@ -74,7 +74,7 @@ export default function HomeThisWeekCard({ gameState }: HomeThisWeekCardProps) {
     date.setDate(weekStart.getDate() + index);
 
     let fixture = null;
-    if (league && teamId) {
+    if (playerLeague && teamId) {
       fixture = playerLeague.fixtures.find((item) => {
         if (item.home_team_id !== teamId && item.away_team_id !== teamId) return false;
         return extractDateKey(item.date) === toDateKey(date);

@@ -1,6 +1,7 @@
 import type { GameStateData } from "../../store/gameStore";
 import type { ChampionDraftResultPayload } from "./ChampionDraft";
 import type { MatchSnapshot } from "./types";
+import type { LolTacticsData } from "../../store/types";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import {
   DEFAULT_LOL_TACTICS,
@@ -340,7 +341,7 @@ function tacticsPowerBonus(params: {
     Bot: (ownLanes.ADC + ownLanes.SUPPORT) / 2 - (enemyLanes.ADC + enemyLanes.SUPPORT) / 2,
   };
 
-  score += laneDelta[own.strong_side] * 0.22;
+  score += laneDelta[own.strong_side as keyof typeof laneDelta] * 0.22;
 
   const ownCondition = average(ownPlayers.map((player) => Number(player.condition ?? 70)));
   const ownComposure = average(ownPlayers.map((player) => Number(player.discipline ?? 70)));

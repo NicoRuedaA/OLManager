@@ -119,7 +119,7 @@ export default function HomeTab({
           })
           : t("season.windowClosed");
 
-  const sortedStandings = league
+  const sortedStandings = playerLeague
     ? [...playerLeague.standings]
         .sort(compareStandingsByLolScore)
         .map((standing) => ({

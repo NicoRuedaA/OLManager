@@ -945,7 +945,7 @@ export default function MatchSimulation() {
   }, [currentFixture?.id]);
 
   const playoffFixtures =
-    gameState?.league?.fixtures.filter(
+    gameState?.leagues?.[0]?.fixtures.filter(
       (fixture) => fixture.match_type === "Playoffs",
     ) ?? [];
 
@@ -955,7 +955,7 @@ export default function MatchSimulation() {
       : null;
 
   const preseasonFriendlyFixtures =
-    gameState?.league?.fixtures
+    gameState?.leagues?.[0]?.fixtures
       .filter((fixture) => fixture.match_type === "Friendly" && fixture.matchday === 0)
       .sort((left, right) =>
         left.date.localeCompare(right.date) ||

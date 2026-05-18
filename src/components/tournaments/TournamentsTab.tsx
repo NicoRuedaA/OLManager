@@ -22,18 +22,19 @@ interface TournamentsTabProps {
   onSelectTeam: (id: string) => void;
 }
 
-export default function TournamentsTab({ gameState, onSelectTeam }: TournamentsTabProps) {
-  const { t, i18n } = useTranslation();
-  const [allComps, setAllComps] = useState<CompetitionSummary[] | null>(null);
-  const [selectedCompId, setSelectedCompId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    invoke<LeagueSelectionData>("get_league_selection_data")
-      .then((d) => setAllComps(d.competitions))
-      .catch(() => setAllComps([]))
-      .finally(() => setLoading(false));
-  }, []);
+export default function TournamentsTab({
+  gameState,
+  onSelectTeam,
+}: TournamentsTabProps) {
+  const { t } = useTranslation();
+  const league = gameState.leagues[0];
+  const academyLeague = gameState.academy_league ?? null;
+  const userTeamId = gameState.manager.team_id;
+  const seasonContext = resolveSeasonContext(gameState);
+  const isPreseason = seasonContext.phase === "Preseason";
+  const [view, setView] = useState<"overview" | "fixtures" | "standings">(
+    "overview",
+  );
 
   // Find league data from gameState.leagues[] by matching competition ID
   const userTeamPrefix = gameState.manager.team_id?.split("-")[0] ?? null;

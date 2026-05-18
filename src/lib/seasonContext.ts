@@ -54,8 +54,8 @@ function normaliseSeasonContext(context: SeasonContextData): SeasonContextData {
 }
 
 function deriveSeasonContext(gameState: GameStateData): SeasonContextData {
-  const playerLeague = gameState.leagues[0];
-  if (!playerLeague) {
+  const league = gameState.leagues[0];
+  if (!league) {
     return DEFAULT_SEASON_CONTEXT;
   }
 

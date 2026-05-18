@@ -1,5 +1,5 @@
-use chrono::{DateTime, Duration, Utc};
-use domain::league::{Fixture, MatchType, FixtureStatus, League};
+use chrono::{DateTime, Duration, TimeZone, Utc};
+use domain::league::{Fixture, FixtureStatus, League, MatchType};
 use uuid::Uuid;
 
 fn build_fixture(

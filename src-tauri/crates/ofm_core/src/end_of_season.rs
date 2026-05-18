@@ -799,7 +799,7 @@ mod tests {
             date: date.to_string(),
             home_team_id: home.to_string(),
             away_team_id: away.to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(domain::league::MatchResult {
