@@ -6,8 +6,8 @@ use crate::schedule::{
     parse_lec_split, regular_best_of,
 };
 use crate::season_awards::compute_season_awards;
-use chrono::{Datelike, Months, TimeZone, Utc};
-use domain::league::{MatchType,FixtureCompetition, FixtureStatus, League};
+use chrono::{Datelike, TimeZone, Utc};
+use domain::league::{MatchType, FixtureStatus, League};
 use domain::message::*;
 use domain::player::PlayerSeasonStats;
 use domain::team::{FinancialTransaction, FinancialTransactionKind, TeamSeasonRecord};

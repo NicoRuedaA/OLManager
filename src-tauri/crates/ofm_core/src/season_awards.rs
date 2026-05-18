@@ -166,7 +166,7 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
     use domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
-    use domain::stats::LolRole;
+
     use domain::team::Team;
 
     use crate::clock::GameClock;

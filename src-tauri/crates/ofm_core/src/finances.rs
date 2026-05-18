@@ -340,7 +340,7 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
         .as_ref()
         .map(|s| calc_sponsorship_income(current_position, &team.form, s) * 52)
         .unwrap_or(0);
-    let projected_annual_net = annual_sponsorship_income - annual_wages;
+    let _projected_annual_net = annual_sponsorship_income - annual_wages;
     let weeks_left = {
         let weekly_sponsor = annual_sponsorship_income / 52;
         let weekly_wages = annual_wages / 52;

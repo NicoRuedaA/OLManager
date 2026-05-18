@@ -1,13 +1,13 @@
 use crate::finances::calc_annual_wages;
 use crate::game::Game;
-use chrono::{Datelike, NaiveDate, Utc};
+use chrono::{Datelike, NaiveDate};
 use domain::negotiation::{NegotiationFeedback, NegotiationMood};
 use domain::player::{PlayerOfferItem, TransferOfferStatus, WageNegotiationStatus};
 use domain::season::TransferWindowStatus;
 use domain::stats::LolRole;
 use domain::team::TeamKind;
 use domain::transfer_history::{IncludedPlayerEntry, TransferHistoryEntry};
-use rand_08::{Rng, SeedableRng};
+use rand_08::Rng;
 use serde::{Deserialize, Serialize};
 use std::collections::hash_map::DefaultHasher;
 use std::collections::HashSet;
@@ -21,7 +21,7 @@ fn ai_random_contract_years() -> u8 {
 
 fn next_split_end_date(game: &Game) -> String {
     let current_date = game.clock.current_date.date_naive();
-    let league_name = game.league.as_ref().and_then(|l| {
+    let league_name = game.leagues.first().and_then(|l| {
         if l.name.contains("Winter") {
             Some("Winter")
         } else if l.name.contains("Spring") {
@@ -2273,8 +2273,8 @@ fn complete_transfer_with_wage(
 
     if let Some(from_id) = from_team_id {
         if let Some(t) = game.teams.iter_mut().find(|t| t.id == from_id) {
-            if let Some(pos) = t.starting_xi_ids.iter().position(|id| id == player_id) {
-                t.starting_xi_ids.remove(pos);
+            if let Some(pos) = t.active_lineup_ids.iter().position(|id| id == player_id) {
+                t.active_lineup_ids.remove(pos);
             }
             t.finance += fee as i64;
             t.transfer_budget +=
@@ -2283,8 +2283,8 @@ fn complete_transfer_with_wage(
     }
 
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == to_team_id) {
-        if let Some(pos) = t.starting_xi_ids.iter().position(|id| id == player_id) {
-            t.starting_xi_ids.remove(pos);
+        if let Some(pos) = t.active_lineup_ids.iter().position(|id| id == player_id) {
+            t.active_lineup_ids.remove(pos);
         }
     }
 
@@ -2387,36 +2387,14 @@ pub fn record_transfer(
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
 
     let a = &player.attributes;
-    let ovr = (a.pace as u32
-        + a.stamina as u32
-        + a.strength as u32
-        + a.passing as u32
-        + a.shooting as u32
-        + a.tackling as u32
-        + a.dribbling as u32
-        + a.defending as u32
-        + a.positioning as u32
-        + a.vision as u32
-        + a.decisions as u32)
-        / 11;
+    let ovr = a.overall() as u32;
 
     let included_players: Vec<IncludedPlayerEntry> = included_player_ids
         .iter()
         .filter_map(|pid| {
             let p = game.players.iter().find(|p| p.id == pid.as_str())?;
             let a = &p.attributes;
-            let ovr = (a.pace as u32
-                + a.stamina as u32
-                + a.strength as u32
-                + a.passing as u32
-                + a.shooting as u32
-                + a.tackling as u32
-                + a.dribbling as u32
-                + a.defending as u32
-                + a.positioning as u32
-                + a.vision as u32
-                + a.decisions as u32)
-                / 11;
+            let ovr = a.overall() as u32;
             Some(IncludedPlayerEntry {
                 player_id: p.id.clone(),
                 player_name: p.match_name.clone(),
@@ -2452,8 +2430,6 @@ pub fn record_transfer(
     };
 
     game.transfer_history.entries.insert(0, entry);
-
-    // Keep only last 200 entries
     if game.transfer_history.entries.len() > 200 {
         game.transfer_history.entries.truncate(200);
     }
