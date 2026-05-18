@@ -151,15 +151,15 @@ pub struct PlayerAttributes {
 
 impl PlayerAttributes {
     pub fn overall(&self) -> u8 {
-        ((u32::from(self.dribbling)
-            + u32::from(self.shooting)
-            + u32::from(self.teamwork)
-            + u32::from(self.vision)
-            + u32::from(self.decisions)
-            + u32::from(self.leadership)
-            + u32::from(self.agility)
-            + u32::from(self.composure)
-            + u32::from(self.stamina))
+        ((u32::from(self.mechanics)
+            + u32::from(self.laning)
+            + u32::from(self.teamfighting)
+            + u32::from(self.macro_play)
+            + u32::from(self.consistency)
+            + u32::from(self.shotcalling)
+            + u32::from(self.champion_pool)
+            + u32::from(self.discipline)
+            + u32::from(self.mental_resilience))
             / 9) as u8
     }
 }

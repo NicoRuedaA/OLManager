@@ -190,6 +190,7 @@ describe("TransferBidModal", () => {
       <TransferBidModal
         bidTarget={createPlayer()}
         teams={[createTeam(), createTeam({ id: "team-2", name: "Seller FC" })]}
+        currentDate="2025-01-15"
         bidAmount="1500000"
         onBidAmountChange={vi.fn()}
         destination="main"
@@ -233,6 +234,7 @@ describe("TransferBidModal", () => {
       <TransferBidModal
         bidTarget={createPlayer()}
         teams={[createTeam(), createTeam({ id: "team-2", name: "Seller FC" })]}
+        currentDate="2025-01-15"
         bidAmount="1000000"
         onBidAmountChange={onBidAmountChange}
         destination="main"

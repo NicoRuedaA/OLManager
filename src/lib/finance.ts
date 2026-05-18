@@ -6,6 +6,7 @@ export interface TeamFinanceSnapshot {
   annualWageBill: number;
   annualWageBudget: number;
   annualSponsorIncome: number;
+  weeklyWageBudget: number;
   projectedAnnualNet: number;
   cashRunwayWeeks: number | null;
   wageBudgetUsagePercent: number;
@@ -29,7 +30,9 @@ export function getAnnualWageBill(
     return sum + Math.max(0, person.wage);
   }, 0);
 }
-
+export function annualAmountToWeeklyCommitment(amount: number): number {
+  return Math.floor(Math.max(0, amount) / 52);
+}
 export function getCashRunwayWeeks(
   balance: number,
   projectedAnnualNet: number,
