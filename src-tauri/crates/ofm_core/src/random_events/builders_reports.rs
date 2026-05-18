@@ -302,6 +302,62 @@ pub(super) fn rival_interest_message(
             ¿Cuál es tu postura?",
             player_name, rival_name
         ),
+        format!(
+            "Eros ha dejado caer en Al Lío que {} está midiendo el mercado por {}: \"No es una oferta encima de la mesa, \
+            pero cuando un club pregunta dos veces por el mismo jugador ya no es casualidad.\"\n\n\
+            Conviene decidir una postura antes de que el rumor crezca.",
+            rival_name, player_name
+        ),
+        format!(
+            "Al Lío Podcast ha señalado a {} como nombre caliente para el próximo mercado.\n\n\
+            Según Eros, {} encaja en varios escenarios de {} si deciden mover piezas tras el split. \
+            No hay contacto formal confirmado, pero el interés existe.\n\n\
+            ¿Bloqueas cualquier conversación o escuchas?",
+            player_name, player_name, rival_name
+        ),
+        format!(
+            "Eros ha sido prudente, pero claro: \"{} gusta mucho en {}. \
+            No diría que está cerca, pero sí que hay gente mirando números, VODs y situación contractual.\"\n\n\
+            El entorno del jugador puede empezar a escuchar ruido.",
+            player_name, rival_name
+        ),
+        format!(
+            "El tramo de mercato de Al Lío ha terminado con {} en titulares: \
+            \"Si {} quiere dar un golpe de efecto, este es el perfil que tiene sentido. \
+            Caro, complicado, pero tiene sentido.\"\n\n\
+            La pregunta es cuánto quieres resistir.",
+            player_name, rival_name
+        ),
+        format!(
+            "Eros ha contado que varios agentes esperan movimiento alrededor de {}, y {} aparece entre los equipos atentos.\n\n\
+            \"A veces estas cosas no empiezan con una oferta, empiezan con una llamada para saber si hay puerta.\"\n\n\
+            Tu respuesta marcará el tono.",
+            player_name, rival_name
+        ),
+        format!(
+            "Al Lío Podcast ha conectado a {} con {} después de sus últimas actuaciones en stage.\n\n\
+            Eros lo resumió así: \"Cuando un jugador gana valor tan rápido, el teléfono se mueve aunque el club diga que no vende.\"\n\n\
+            El mercado está probando límites.",
+            player_name, rival_name
+        ),
+        format!(
+            "Eros ha incluido a {} en su lista de nombres que pueden agitar la liga: \
+            \"No digo que salga. Digo que si {} llama, la conversación será incómoda para todos.\"\n\n\
+            Puede ser el momento de reforzar públicamente tu postura.",
+            player_name, rival_name
+        ),
+        format!(
+            "La última exclusiva de Al Lío apunta a una vigilancia discreta de {} sobre {}.\n\n\
+            Según Eros, el club rival no quiere precipitarse, pero valora al jugador como una pieza de alto impacto si se abre una ventana.\n\n\
+            ¿Cuál es el plan?",
+            rival_name, player_name
+        ),
+        format!(
+            "Eros ha cerrado el episodio con un aviso: \"Si pensáis que {} va a pasar desapercibido para {}, \
+            no estáis mirando el mismo split que yo. Otra cosa es que puedan sacarlo.\"\n\n\
+            La narrativa ya está fuera.",
+            player_name, rival_name
+        ),
     ];
     let idx = rng.random_range(0..variations.len());
 
