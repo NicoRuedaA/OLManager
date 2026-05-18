@@ -1936,17 +1936,13 @@ fn assemble_world_from_modular_data(
     // 2. Load staff free agents
     let mut staff = crate::commands::competitions::load_staff_free_agents(app_handle)?;
 
-    // 3. Bootstrap academy seeds from ERL JSON data
+    // 3. Bootstrap academy seeds from ERL catalog (JSON or legacy .txt fallback)
     let academy_bootstrap_date = "2025-01-01".to_string();
-    let academy_count = crate::commands::competitions::bootstrap_academy_pool_from_erl_json(
-        app_handle,
-        &mut all_teams,
-        &mut all_players,
-        &academy_bootstrap_date,
-    );
-    if academy_count == 0 {
-        // Fallback: compile-time .txt catalog (legacy worlds)
-        bootstrap_example_academy_pool_from_example(&mut all_teams, &mut all_players, &academy_bootstrap_date);
+    let pre_count = all_teams.len();
+    bootstrap_example_academy_pool_from_example(&mut all_teams, &mut all_players, &academy_bootstrap_date);
+    let academy_count = all_teams.len() - pre_count;
+    if academy_count > 0 {
+        info!("[game] bootstrapped {} academy teams from ERL catalog", academy_count);
     }
     remove_free_agents_shadowed_by_academy(&mut all_players, &all_teams);
 
@@ -2030,7 +2026,7 @@ pub async fn select_team(
 
         let schedule_config = &manifest.schedule;
         let mut league = ofm_core::schedule::generate_schedule_from_config(
-            &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
+            cid, &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
         );
 
         // Generate preseason friendlies for ALL competitions

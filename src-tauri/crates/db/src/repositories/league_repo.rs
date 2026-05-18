@@ -124,7 +124,7 @@ pub(crate) fn parse_fixture_competition(s: &str) -> MatchType {
 mod tests {
     use super::*;
     use crate::game_database::GameDatabase;
-    use domain::league::{Fixture, MatchResult, StandingEntry};
+    use domain::league::{Fixture, LeagueKind, MatchResult, StandingEntry};
 
     fn test_db() -> GameDatabase {
         GameDatabase::open_in_memory().unwrap()
@@ -177,7 +177,7 @@ mod tests {
         let db = test_db();
         let league = sample_league();
 
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
         let loaded = load_league(db.conn()).unwrap().unwrap();
 
         assert_eq!(loaded.id, "league-1");
@@ -190,7 +190,7 @@ mod tests {
         let db = test_db();
         let league = sample_league();
 
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
         let loaded = load_league(db.conn()).unwrap().unwrap();
 
         assert_eq!(loaded.fixtures.len(), 2);
@@ -209,7 +209,7 @@ mod tests {
         let db = test_db();
         let league = sample_league();
 
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
         let loaded = load_league(db.conn()).unwrap().unwrap();
 
         assert_eq!(loaded.standings.len(), 2);
@@ -226,7 +226,7 @@ mod tests {
     fn test_upsert_league_replaces_fixtures() {
         let db = test_db();
         let mut league = sample_league();
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
 
         // Modify and re-upsert — old fixtures for this competition should be replaced
         league.fixtures = vec![Fixture {
@@ -240,7 +240,7 @@ mod tests {
             result: None,
             best_of: 1,
         }];
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
 
         let loaded = load_league(db.conn()).unwrap().unwrap();
         assert_eq!(loaded.fixtures.len(), 1, "should have exactly 1 fixture for this competition");
@@ -251,7 +251,7 @@ mod tests {
     fn test_upsert_league_replaces_same_competition_data() {
         let db = test_db();
         let league = sample_league();
-        upsert_league(db.conn(), &league).unwrap();
+        upsert_league(db.conn(), &league, None).unwrap();
 
         // Re-upsert same league with different fixtures — old data for this competition is replaced
         let replacement = League {
@@ -259,6 +259,7 @@ mod tests {
             name: "Premier Division".to_string(),
             season: 2027,
             competition_id: None,
+            league_kind: LeagueKind::Main,
             fixtures: vec![Fixture {
                 id: "fix-101".to_string(),
                 matchday: 1,
@@ -276,7 +277,7 @@ mod tests {
             ],
         };
 
-        upsert_league(db.conn(), &replacement).unwrap();
+        upsert_league(db.conn(), &replacement, None).unwrap();
 
         let league_count: i64 = db
             .conn()
@@ -303,6 +304,7 @@ mod tests {
             name: "Premier Division".to_string(),
             season: 2026,
             competition_id: None,
+            league_kind: LeagueKind::Main,
             fixtures: vec![Fixture {
                 id: "fix-old".to_string(),
                 matchday: 1,
@@ -316,13 +318,14 @@ mod tests {
             }],
             standings: vec![StandingEntry::new("team-001".to_string())],
         };
-        upsert_league(db.conn(), &old_league).unwrap();
+        upsert_league(db.conn(), &old_league, None).unwrap();
 
         let new_league = League {
             id: "league-new".to_string(),
             name: "Premier Division".to_string(),
             season: 2027,
             competition_id: None,
+            league_kind: LeagueKind::Main,
             fixtures: vec![Fixture {
                 id: "fix-new".to_string(),
                 matchday: 1,
@@ -336,7 +339,7 @@ mod tests {
             }],
             standings: vec![StandingEntry::new("team-001".to_string())],
         };
-        upsert_league(db.conn(), &new_league).unwrap();
+        upsert_league(db.conn(), &new_league, None).unwrap();
 
         let loaded = load_league(db.conn()).unwrap().unwrap();
 

@@ -121,8 +121,8 @@ function createGameState(withLeague: boolean): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: withLeague
-      ? {
+    leagues: withLeague
+      ? [{
           id: "league-1",
           name: "Premier League",
           season: 1,
@@ -147,8 +147,8 @@ function createGameState(withLeague: boolean): GameStateData {
               points: 0,
             },
           ],
-        }
-      : null,
+        }]
+      : [],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -190,10 +190,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).leagues[0]s[0]!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -231,10 +231,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).leagues[0]s[0]!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -264,10 +264,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).leagues[0]s[0]!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffRoundOne, playoffRoundTwo],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -299,10 +299,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).leagues[0]s[0]!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [friendlyOne, friendlyTwo],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -339,10 +339,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).leagues[0]s[0]!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,

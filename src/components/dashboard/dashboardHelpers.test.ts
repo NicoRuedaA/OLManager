@@ -152,13 +152,13 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,
@@ -185,13 +185,13 @@ describe("dashboardHelpers", function (): void {
       result: null,
     };
     const gameState = createGameState({
-      league: {
+      leagues: [{
         id: "league-1",
         name: "League",
         season: 1,
         fixtures: [fixture],
         standings: [],
-      },
+      }],
     });
 
     expect(getTodayMatchFixture(gameState)).toEqual(fixture);

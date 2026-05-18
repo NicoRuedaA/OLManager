@@ -169,7 +169,7 @@ function makeGameState(): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: { id: "default", name: "LEC", season: 1, fixtures: [], standings: [] },
+    leagues: [{ id: "default", name: "LEC", season: 1, fixtures: [], standings: [] }],
     scouting_assignments: [],
     board_objectives: [],
   };

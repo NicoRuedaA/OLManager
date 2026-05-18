@@ -108,7 +108,7 @@ describe("getPlayerName", () => {
 
 describe("resolveMatchFixture", () => {
   const gameState = {
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
@@ -125,7 +125,7 @@ describe("resolveMatchFixture", () => {
         },
       ],
       standings: [],
-    },
+    }],
   } as unknown as GameStateData;
 
   it("resolves the fixture by index when available", () => {
@@ -137,7 +137,7 @@ describe("resolveMatchFixture", () => {
   });
 
   it("returns null when no league fixtures are available", () => {
-    expect(resolveMatchFixture({ league: null } as unknown as GameStateData, makeSnapshot())).toBeNull();
+    expect(resolveMatchFixture({ leagues: [] } as unknown as GameStateData, makeSnapshot())).toBeNull();
   });
 });
 

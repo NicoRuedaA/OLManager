@@ -183,8 +183,8 @@ function createGameState(withLeague = true): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: withLeague
-      ? {
+    leagues: withLeague
+      ? [{
           id: "league-1",
           name: "Premier League",
           season: 1,
@@ -209,8 +209,8 @@ function createGameState(withLeague = true): GameStateData {
               points: 0,
             },
           ],
-        }
-      : null,
+        }]
+      : [],
     scouting_assignments: [],
     board_objectives: [],
   };

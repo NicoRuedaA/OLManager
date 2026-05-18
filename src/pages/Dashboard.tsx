@@ -429,7 +429,6 @@ export default function Dashboard(): JSX.Element {
     if (myTeam?.logo_url) return myTeam.logo_url;
     return resolveTeamLogo(myTeamName);
   }, [gameState, myTeamName]);
->>>>>>> origin/pr/166-171
 
   const searchResults = gameState
     ? getDashboardSearchResults(gameState, searchQuery)

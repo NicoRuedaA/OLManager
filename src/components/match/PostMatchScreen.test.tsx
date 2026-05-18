@@ -401,7 +401,7 @@ function makeGameState() {
     staff: [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   } as unknown as GameStateData;

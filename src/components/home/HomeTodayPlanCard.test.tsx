@@ -78,7 +78,7 @@ function gameState(teams: TeamData[], overrides: Partial<GameStateData> = {}): G
     staff: [],
     messages: [],
     news: [],
-    league: { id: "league", name: "League", season: 1, fixtures: [], standings: [] },
+    leagues: [{ id: "league", name: "League", season: 1, fixtures: [], standings: [] }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,

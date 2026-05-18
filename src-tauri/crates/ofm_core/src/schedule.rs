@@ -195,6 +195,25 @@ pub fn generate_single_round_league_with_offsets_and_bo(
     round_day_offsets: Option<&[i64]>,
     best_of: u8,
 ) -> League {
+    let league_id = Uuid::new_v4().to_string();
+    generate_single_round_league_with_offsets_and_bo_with_id(
+        &league_id, name, season, team_ids, start_date, round_day_offsets, best_of,
+    )
+}
+
+/// Same as `generate_single_round_league_with_offsets_and_bo` but accepts
+/// an explicit `league_id` instead of generating a UUID. Used when the
+/// `competition_id` should be used as the league id for consistent frontend
+/// mapping (e.g. team.competition_id === league.id).
+pub fn generate_single_round_league_with_offsets_and_bo_with_id(
+    league_id: &str,
+    name: &str,
+    season: u32,
+    team_ids: &[String],
+    start_date: DateTime<Utc>,
+    round_day_offsets: Option<&[i64]>,
+    best_of: u8,
+) -> League {
     let n = team_ids.len();
     assert!(n >= 2, "Need at least 2 teams for a league");
     assert!(
@@ -202,8 +221,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
         "Single round-robin currently requires even team count"
     );
 
-    let league_id = Uuid::new_v4().to_string();
-    let mut league = League::new(league_id, name.to_string(), season, team_ids, None);
+    let mut league = League::new(league_id.to_string(), name.to_string(), season, team_ids, None);
 
     let rounds = n - 1;
     let half = n / 2;
@@ -256,6 +274,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
 /// Uses the first split's configuration (season_start, superweek_offsets, best_of).
 /// Supports "single_round_robin" format (others may be added later).
 pub fn generate_schedule_from_config(
+    competition_id: &str,
     competition_name: &str,
     year: u32,
     team_ids: &[String],
@@ -278,7 +297,8 @@ pub fn generate_schedule_from_config(
 
     match config.format.as_str() {
         "single_round_robin" => {
-            generate_single_round_league_with_offsets_and_bo(
+            generate_single_round_league_with_offsets_and_bo_with_id(
+                competition_id,
                 &split_name,
                 year,
                 team_ids,
@@ -293,7 +313,8 @@ pub fn generate_schedule_from_config(
         }
         "double_round_robin" => {
             // For double round-robin, we use the offsets but double it
-            let mut league = generate_single_round_league_with_offsets_and_bo(
+            let mut league = generate_single_round_league_with_offsets_and_bo_with_id(
+                competition_id,
                 &split_name,
                 year,
                 team_ids,

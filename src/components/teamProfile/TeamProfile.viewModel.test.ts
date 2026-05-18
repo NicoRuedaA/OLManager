@@ -124,7 +124,7 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
@@ -149,7 +149,7 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
           points: 0,
         },
       ],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,

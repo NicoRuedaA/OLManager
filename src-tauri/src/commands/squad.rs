@@ -111,7 +111,7 @@ pub struct WeeklyScrimContextResponse {
     pub top_focus: Option<domain::team::ScrimFocus>,
     pub top_issue: Option<domain::team::ScrimIssue>,
     pub next_official_rival_team_id: Option<String>,
-    pub next_official_rival_competition: Option<domain::league::FixtureCompetition>,
+    pub next_official_rival_competition: Option<domain::league::MatchType>,
     pub setup_locked: bool,
     pub setup_locked_reason: Option<String>,
     pub can_finalize_setup: bool,
@@ -512,14 +512,10 @@ fn apply_active_lineup(game: &mut Game, team_id: &str, player_ids: Vec<String>) 
 }
 
 #[tauri::command]
-<<<<<<< HEAD
 pub fn set_draft_strategy(
     state: State<'_, StateManager>,
     draft_strategy: String,
 ) -> Result<Game, String> {
-=======
-pub fn set_draft_strategy(state: State<'_, StateManager>, draft_strategy: String) -> Result<Game, String> {
->>>>>>> origin/pr/166-171
     info!("[cmd] set_draft_strategy: {}", draft_strategy);
     let mut game = state
         .get_game(|g| g.clone())
@@ -1668,7 +1664,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
             }
         }),
         next_official_rival_competition: next_official_fixture
-            .map(|fixture| fixture.competition.clone()),
+            .map(|fixture| fixture.match_type.clone()),
         setup_locked,
         setup_locked_reason,
         can_finalize_setup: !setup_locked,
@@ -1853,7 +1849,6 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
     use domain::player::{Player, PlayerAttributes, LolRole};
->>>>>>> origin/pr/166-171
     use domain::staff::{Staff, StaffAttributes, StaffRole};
     use domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
     use ofm_core::clock::GameClock;

@@ -257,6 +257,41 @@ fn connection_add_column_if_missing(
 }
 
 pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
+    // Ensure competitions table exists (V52 was a no-op before the real migration was registered)
+    conn.execute_batch(
+        "CREATE TABLE IF NOT EXISTS competitions (
+            id              TEXT PRIMARY KEY,
+            name            TEXT NOT NULL,
+            full_name       TEXT,
+            region          TEXT NOT NULL DEFAULT '',
+            country         TEXT,
+            tier            INTEGER NOT NULL DEFAULT 1,
+            logo            TEXT,
+            teams_file      TEXT NOT NULL DEFAULT '',
+            players_file    TEXT NOT NULL DEFAULT '',
+            schedule_config TEXT,
+            created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        CREATE TABLE IF NOT EXISTS seasons (
+            id              TEXT PRIMARY KEY,
+            competition_id  TEXT NOT NULL DEFAULT '',
+            season_number   INTEGER NOT NULL,
+            phase           TEXT NOT NULL DEFAULT 'Regular',
+            created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+        );"
+    )?;
+    // Add competition_id column if missing, then create indexes
+    connection_add_column_if_missing(conn, "fixtures", "competition_id", "TEXT NOT NULL DEFAULT ''")?;
+    connection_add_column_if_missing(conn, "standings", "competition_id", "TEXT NOT NULL DEFAULT ''")?;
+    if connection_column_exists(conn, "fixtures", "competition_id")? {
+        conn.execute_batch(
+            "CREATE INDEX IF NOT EXISTS idx_fixtures_competition_id ON fixtures(competition_id);
+             CREATE INDEX IF NOT EXISTS idx_standings_competition_id ON standings(competition_id);"
+        )?;
+    }
+    if connection_column_exists(conn, "seasons", "competition_id")? {
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_seasons_competition_id ON seasons(competition_id)", [])?;
+    }
     connection_add_column_if_missing(conn, "managers", "avatar_path", "TEXT")?;
     connection_add_column_if_missing(conn, "players", "profile_image_url", "TEXT")?;
     connection_add_column_if_missing(conn, "staff", "profile_image_url", "TEXT")?;
@@ -409,8 +444,8 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v036_social_registry.sql")),
         // V51: Add missing scrim columns to teams table (weekly_scrim_plan_team_ids, scrim_weekly_slots, scrim_reputation, scrim_weekly_cancellations)
         M::up_with_hook("SELECT 1;", migrate_missing_scrim_columns),
-        // V52: Reserved — no-op (originally planned for season_context)
-        M::up("SELECT 1;"),
+        // V52: Multi-competition schema — competitions, seasons tables + competition_id on fixtures/standings
+        M::up(include_str!("sql/v052_multi_competitions.sql")),
         // V53: Drop formation column from teams table (formation no longer used)
         M::up(include_str!("sql/v053_remove_formation.sql")),
         // V54: Rename play_style column to draft_strategy

@@ -285,7 +285,6 @@ export default function MainMenu() {
 
       await invoke<string>("start_new_game_lightweight", {
         nickname: formData.nickname || null,
->>>>>>> origin/pr/166-171
         firstName: formData.firstName,
         lastName: formData.lastName,
         dob: formData.dob,

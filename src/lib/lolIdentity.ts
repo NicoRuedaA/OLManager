@@ -1,7 +1,5 @@
 import championsSeed from "../../data/draft/champions.json";
 import type { PlayerData, TeamData } from "../store/gameStore";
-import type { PlayerData } from "../store/gameStore";
->>>>>>> origin/pr/166-171
 
 export type LolRoleTag = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 

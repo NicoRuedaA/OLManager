@@ -128,16 +128,6 @@ function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function mapSeedRoleToDraftRole(role: string): Role | null {
-  const key = normalizeKey(role);
-  if (key === "top") return "TOP";
-  if (key === "jungle") return "JUNGLE";
-  if (key === "mid" || key === "middle") return "MID";
-  if (key === "bot" || key === "bottom" || key === "adc") return "ADC";
-  if (key === "support" || key === "sup") return "SUPPORT";
-  return null;
-}
-
 function gameStatePositionToDraftRole(position: string): Role | null {
   // position is already a LolRole ("TOP", "JUNGLE", "MID", "ADC", "SUPPORT")
   const normalized = normalizeKey(position);

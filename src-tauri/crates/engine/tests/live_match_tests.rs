@@ -1015,7 +1015,6 @@ fn make_team_with_traits(id: &str, name: &str, skill: u8, traits: Vec<&str>) -> 
         make_player_with_traits(
             &format!("{}_fwd1", id),
             "FWD1",
->>>>>>> origin/pr/166-171
             "Forward",
             skill,
             vec![],

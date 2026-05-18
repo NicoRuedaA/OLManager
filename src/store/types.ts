@@ -584,7 +584,7 @@ export interface FixtureData {
   date: string;
   home_team_id: string;
   away_team_id: string;
-  competition: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
+  match_type: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
   best_of?: number;
   status: "Scheduled" | "InProgress" | "Completed";
   result: MatchResult | null;
@@ -707,6 +707,8 @@ export interface LeagueData {
   season: number;
   fixtures: FixtureData[];
   standings: StandingData[];
+  competition_id?: string | null;
+  league_kind?: "Main" | "Academy";
 }
 
 export type SeasonPhase = "Preseason" | "InSeason" | "PostSeason";

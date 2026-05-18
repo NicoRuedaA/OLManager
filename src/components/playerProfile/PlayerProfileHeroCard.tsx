@@ -280,7 +280,6 @@ export default function PlayerProfileHeroCard({
             <p className="text-gray-400 text-sm mt-2 flex items-center gap-1.5">
               {(() => {
                 const logoUrl = teamLogoUrl || resolveTeamLogo(teamName);
->>>>>>> origin/pr/166-171
                 return logoUrl ? (
                   <img src={logoUrl} alt={teamName} className="w-4 h-4 object-contain" />
                 ) : (

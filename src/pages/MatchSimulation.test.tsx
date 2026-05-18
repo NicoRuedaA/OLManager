@@ -400,7 +400,7 @@ function makeGameState(): Record<string, unknown> {
     staff: [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -409,8 +409,8 @@ function makeGameState(): Record<string, unknown> {
 function makeGameStateWithSeriesFixture(
   fixture: Partial<Record<string, unknown>> = {},
 ): Record<string, unknown> {
-  const gameState = makeGameState();
-  gameState.leagues[0] = {
+  const gameState = makeGameState() as Record<string, unknown>;
+  (gameState.leagues as Record<string, unknown>[])[0] = {
     id: "league-1",
     name: "Test League",
     season: 1,
@@ -714,8 +714,8 @@ describe("MatchSimulation", function (): void {
       snapshot: makeSnapshot(),
     };
 
-    const gameStateWithPlayoff = makeGameState();
-    gameStateWithPlayoff.leagues[0] = {
+    const gameStateWithPlayoff = makeGameState() as Record<string, unknown>;
+    (gameStateWithPlayoff.leagues as Record<string, unknown>[])[0] = {
       id: "league-1",
       name: "Test League",
       season: 1,
@@ -804,7 +804,7 @@ describe("MatchSimulation", function (): void {
       best_of: 3,
     });
     const finishedGameStateWithBo3 = JSON.parse(JSON.stringify(gameStateWithBo3)) as Record<string, unknown>;
-    const finishedLeague = finishedGameStateWithBo3.leagues[0] as { fixtures: Array<Record<string, unknown>> };
+    const finishedLeague = (finishedGameStateWithBo3.leagues as Record<string, unknown>[])[0] as { fixtures: Array<Record<string, unknown>> };
     finishedLeague.fixtures[0] = {
       ...finishedLeague.fixtures[0],
       status: "Finished",
@@ -921,8 +921,8 @@ describe("MatchSimulation", function (): void {
       snapshot: makeSnapshot(),
     };
 
-    const gameStateWithPlayoff = makeGameState();
-    gameStateWithPlayoff.leagues[0] = {
+    const gameStateWithPlayoff = makeGameState() as Record<string, unknown>;
+    (gameStateWithPlayoff.leagues as Record<string, unknown>[])[0] = {
       id: "league-1",
       name: "Test League",
       season: 1,
@@ -980,8 +980,8 @@ describe("MatchSimulation", function (): void {
       snapshot: makeSnapshot(),
     };
 
-    const gameStateWithPlayoff = makeGameState();
-    gameStateWithPlayoff.leagues[0] = {
+    const gameStateWithPlayoff = makeGameState() as Record<string, unknown>;
+    (gameStateWithPlayoff.leagues as Record<string, unknown>[])[0] = {
       id: "league-1",
       name: "Test League",
       season: 1,
@@ -1146,8 +1146,8 @@ describe("MatchSimulation", function (): void {
       snapshot: makeSnapshot(),
     };
 
-    const gameStateWithBo1 = makeGameState();
-    gameStateWithBo1.leagues[0] = {
+    const gameStateWithBo1 = makeGameState() as Record<string, unknown>;
+    (gameStateWithBo1.leagues as Record<string, unknown>[])[0] = {
       id: "league-1",
       name: "Test League",
       season: 1,

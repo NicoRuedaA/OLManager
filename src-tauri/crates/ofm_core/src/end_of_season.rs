@@ -2,7 +2,7 @@ use crate::game::Game;
 use crate::generator::definitions::ScheduleConfig;
 use crate::schedule::{
     LecSplit, append_fixtures, generate_preseason_friendlies,
-    generate_schedule_from_config, generate_single_round_league_with_offsets_and_bo,
+    generate_schedule_from_config, generate_single_round_league_with_offsets_and_bo_with_id,
     parse_lec_split, regular_best_of,
 };
 use crate::season_awards::compute_season_awards;
@@ -205,6 +205,7 @@ pub fn process_background_seasons(
             if let Some(config) = configs.get(cid) {
                 let next_season = season + 1;
                 let new_league = generate_schedule_from_config(
+                    cid,
                     &league_name,
                     next_season,
                     &team_ids,
@@ -228,6 +229,7 @@ fn process_end_of_season_inner(
         None => return EndOfSeasonSummary::default(),
     };
 
+    let league_id = league.competition_id.as_deref().unwrap_or(&league.id).to_string();
     let season = league.season;
     let league_name = league.name.clone();
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
@@ -486,6 +488,7 @@ fn process_end_of_season_inner(
         next_season_num = ns;
 
         let mut league = crate::schedule::generate_schedule_from_config(
+            &league_id,
             &config.splits[split_idx].name,
             next_season_num,
             &team_ids,
@@ -529,7 +532,8 @@ fn process_end_of_season_inner(
         } else {
             None
         };
-        let mut league = generate_single_round_league_with_offsets_and_bo(
+        let mut league = generate_single_round_league_with_offsets_and_bo_with_id(
+            &league_id,
             &next_league_name,
             next_season_num,
             &team_ids,

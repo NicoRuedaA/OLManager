@@ -173,7 +173,7 @@ function createGameState(messages: MessageData[]): GameStateData {
     staff: [],
     messages,
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   };

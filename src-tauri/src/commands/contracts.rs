@@ -165,7 +165,6 @@ mod tests {
     use db::save_manager::SaveManager;
     use domain::manager::Manager;
     use domain::player::{Player, PlayerAttributes, LolRole};
->>>>>>> origin/pr/166-171
     use domain::staff::{Staff, StaffAttributes, StaffRole};
     use domain::team::Team;
     use ofm_core::clock::GameClock;

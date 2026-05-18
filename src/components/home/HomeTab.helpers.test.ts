@@ -194,13 +194,13 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,
@@ -219,7 +219,7 @@ describe("HomeTab.helpers", function (): void {
           form: ["W", "D", "W"],
         }),
       ],
-      league: {
+      leagues: [{
         id: "league-1",
         name: "League",
         season: 1,
@@ -263,7 +263,7 @@ describe("HomeTab.helpers", function (): void {
             points: 0,
           },
         ],
-      },
+      }],
     });
 
     const result = getNextOpponentWidgetData(gameState);
@@ -353,7 +353,7 @@ describe("HomeTab.helpers", function (): void {
         createTeam({ id: "team-2", name: "Beta FC" }),
         createTeam({ id: "team-3", name: "Gamma FC" }),
       ],
-      league: {
+      leagues: [{
         id: "league-1",
         name: "League",
         season: 1,
@@ -389,7 +389,7 @@ describe("HomeTab.helpers", function (): void {
             status: "Scheduled",
           }),
         ],
-      },
+      }],
     });
 
     const result = getRecentResultsForTeam(gameState, "team-1");

@@ -115,7 +115,7 @@ function createGameState(withHistory: boolean): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   };

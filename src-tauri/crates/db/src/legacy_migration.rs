@@ -881,10 +881,10 @@ mod tests {
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
         // Input was ["sup","jng","mid","top","adc"];
-        // canonicalization now sorts + deduplicates
+        // canonicalization uses in-game role order: top, jungle, mid, adc, support
         assert_eq!(
             starting_xi_ids,
-            vec!["adc", "jng", "mid", "sup", "top"]
+            vec!["top", "jng", "mid", "adc", "sup"]
                 .into_iter()
                 .map(str::to_string)
                 .collect::<Vec<_>>()

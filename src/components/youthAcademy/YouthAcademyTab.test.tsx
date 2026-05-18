@@ -151,7 +151,7 @@ function createGameState(): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   } as GameStateData;

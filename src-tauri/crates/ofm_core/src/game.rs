@@ -175,6 +175,8 @@ impl<'de> Deserialize<'de> for Game {
             pub champion_patch: ChampionPatchState,
             #[serde(default)]
             pub competition_configs: HashMap<String, ScheduleConfig>,
+            #[serde(default)]
+            pub user_competition_id: Option<String>,
         }
 
         let legacy = GameLegacy::deserialize(deserializer)?;
@@ -198,7 +200,7 @@ impl<'de> Deserialize<'de> for Game {
             social_accounts: legacy.social_accounts,
             social_templates: legacy.social_templates,
             leagues,
-            user_competition_id: None,
+            user_competition_id: legacy.user_competition_id,
             scouting_assignments: legacy.scouting_assignments,
             board_objectives: legacy.board_objectives,
             season_context: legacy.season_context,
