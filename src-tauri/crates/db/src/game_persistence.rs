@@ -201,7 +201,7 @@ impl GamePersistenceReader {
             social_posts,
             social_accounts,
             social_templates,
-            leagues: vec![],
+            leagues: league.map(|l| vec![l]).unwrap_or_default(),
             academy_league: None,
             scouting_assignments,
             board_objectives,

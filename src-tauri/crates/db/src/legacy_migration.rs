@@ -201,7 +201,8 @@ mod tests {
     /// Generate a minimal valid Game JSON.
     fn minimal_game_json() -> String {
         use chrono::{TimeZone, Utc};
-        use domain::player::{PlayerAttributes, Position};
+        use domain::player::PlayerAttributes;
+        use domain::stats::LolRole;
         use domain::staff::{StaffAttributes, StaffRole};
         use ofm_core::clock::GameClock;
         use ofm_core::game::Game;
@@ -230,7 +231,7 @@ mod tests {
             "John Test".to_string(),
             "2000-01-01".to_string(),
             "GB".to_string(),
-            Position::Midfielder,
+            LolRole::Mid,
             PlayerAttributes {
                 mechanics: 50,
                 laning: 50,
@@ -879,11 +880,19 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
+<<<<<<< HEAD
         // Input was swapped order ["sup","jng","mid","top","adc"];
         // canonicalization reorders to match position_slots fit
         assert_eq!(
             starting_xi_ids,
             vec!["top", "jng", "mid", "adc", "sup"]
+=======
+        // Input was ["sup","jng","mid","top","adc"];
+        // canonicalization now sorts + deduplicates
+        assert_eq!(
+            starting_xi_ids,
+            vec!["adc", "jng", "mid", "sup", "top"]
+>>>>>>> origin/feat/frontend-dto-store
                 .into_iter()
                 .map(str::to_string)
                 .collect::<Vec<_>>()

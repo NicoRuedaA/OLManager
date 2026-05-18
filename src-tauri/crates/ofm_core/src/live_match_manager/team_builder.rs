@@ -59,42 +59,6 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
             .then_with(|| right.condition.cmp(&left.condition))
     });
 
-<<<<<<< HEAD
-=======
-    let mut starters = ordered_players;
-    let bench_domain = if starters.len() > 5 {
-        starters.split_off(5)
-    } else {
-        Vec::new()
-    };
-
-    // Ensure unique roles: if the top 5 by OVR don't cover all 5 roles,
-    // replace duplicates with the best available player of the missing role.
-    let mut seen_roles = std::collections::HashSet::new();
-    let mut uniq = Vec::with_capacity(5);
-    let mut dup = Vec::new();
-    let old_starters = std::mem::take(&mut starters);
-    for player in old_starters {
-        if seen_roles.insert(player.natural_position) {
-            uniq.push(player);
-        } else {
-            dup.push(player);
-        }
-    }
-    if uniq.len() < 5 {
-        for player in bench_domain.iter().cloned() {
-            if seen_roles.insert(player.natural_position) {
-                uniq.push(player);
-            }
-            if uniq.len() == 5 {
-                break;
-            }
-        }
-    }
-    uniq.extend(dup);
-    starters = uniq.into_iter().take(5).collect();
-
->>>>>>> origin/feat/calendar-overrides
     // Keep LoL lane order stable for draft/pre-match UIs.
     // Selection follows the reconciled role slots; this only normalizes display order.
     let mut starters = starters;

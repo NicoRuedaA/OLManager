@@ -22,6 +22,7 @@ import {
   PanelLeftClose,
   User,
   Gamepad2,
+  Globe,
   Swords,
 } from "lucide-react";
 
@@ -132,6 +133,11 @@ export default function DashboardSidebar({
       icon: <Trophy />,
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
+    },
+    {
+      icon: <Globe />,
+      label: t("dashboard.competitions", "Competiciones"),
+      tab: "Competitions",
     },
     { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
   ];

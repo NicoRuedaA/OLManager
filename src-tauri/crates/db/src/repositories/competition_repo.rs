@@ -240,7 +240,7 @@ fn load_standings(conn: &Connection, competition_id: &str) -> Result<Vec<Standin
 mod tests {
     use super::*;
     use crate::game_database::GameDatabase;
-    use domain::league::{FixtureStatus, MatchResult, MatchType};
+    use domain::league::{FixtureStatus, MatchEndReason, MatchResult, MatchType};
 
     fn test_db() -> GameDatabase {
         GameDatabase::open_in_memory().unwrap()
@@ -248,7 +248,7 @@ mod tests {
 
     fn sample_league(id: &str, name: &str) -> League {
         let team_ids = vec!["team-001".to_string(), "team-002".to_string()];
-        let mut league = League::new(id.to_string(), name.to_string(), 2026, &team_ids);
+        let mut league = League::new(id.to_string(), name.to_string(), 2026, &team_ids, None);
         league.fixtures = vec![
             Fixture {
                 id: format!("{}-fix-001", id),
@@ -441,15 +441,17 @@ mod tests {
             .expect("LCS should exist");
 
         // Same date, same matchday — but results must be independent
-        assert_eq!(loaded_lec.fixtures[0].date, "2025-02-15");
-        assert_eq!(loaded_lcs.fixtures[0].date, "2025-02-15");
+        let lec_fix = loaded_lec.fixtures.iter().find(|f| f.id == "lec-fix-001").unwrap();
+        let lcs_fix = loaded_lcs.fixtures.iter().find(|f| f.id == "lcs-fix-001").unwrap();
+        assert_eq!(lec_fix.date, "2025-02-15");
+        assert_eq!(lcs_fix.date, "2025-02-15");
         assert_eq!(
-            loaded_lec.fixtures[0].result.as_ref().unwrap().home_wins,
+            lec_fix.result.as_ref().unwrap().home_wins,
             2,
             "LEC result must be preserved"
         );
         assert_eq!(
-            loaded_lcs.fixtures[0].result.as_ref().unwrap().home_wins,
+            lcs_fix.result.as_ref().unwrap().home_wins,
             1,
             "LCS result must be independent"
         );

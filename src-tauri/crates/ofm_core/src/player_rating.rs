@@ -86,7 +86,6 @@ fn footedness_penalty(_player: &Player, _slot_role: &LolRole) -> f64 {
     0.0
 }
 
-<<<<<<< HEAD
 fn weighted_score(player: &Player, _role: &LolRole) -> f64 {
     natural_ovr(player)
 }
@@ -118,8 +117,6 @@ fn critical_penalty(player: &Player, _role: &LolRole) -> f64 {
     0.0
 }
 
-=======
->>>>>>> origin/feat/calendar-overrides
 #[cfg(test)]
 mod tests {
     use super::*;
