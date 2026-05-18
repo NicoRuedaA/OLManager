@@ -255,6 +255,7 @@
     "delegateWarning": "Your assistant will manage the match. You won't be able to intervene."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Champion Meta",
     "patchNumber": "Patch {{n}}",
     "patchLastDate": "Last patch: {{date}}",
@@ -281,8 +282,7 @@
     "worldTitle": "World Champions",
     "allChampions": "All Champions",
     "worldDescription": "Explore all League of Legends champions",
-    "totalChampions": "Total",
-    "170": "170+"
+    "totalChampions": "Total"
   },
   "exitConfirm": {
     "title": "Exit to Main Menu?",
@@ -2809,16 +2809,48 @@
       },
       "esportmaniacos": {
         "positive": {
-          "subject0": "Esportmaníacos praises {{player}} — the desk is unanimous",
-          "body0": "The Esportmaníacos panel spent a good chunk of today's stream on {{player}} at {{team}}.\n\n\"Nothing to criticize this week. The guy is absolutely dominating.\" The positive coverage should give confidence a boost in the locker room.",
-          "subject1": "Esportmaníacos: {{player}} is carrying {{team}} this split",
-          "body1": "The Esportmaníacos tertulianos rarely agree on anything, but {{player}} got a full pass today: \"Consistent, solid, no dips in form. One of the best players in the league right now. {{team}} should do everything to keep him.\"\n\nGood for morale — and for the market value."
+          "subject0": "Esportmaníacos praises {{player}}'s Rift control — the desk is unanimous",
+          "body0": "The Esportmaníacos panel spent a good chunk of today's stream on {{player}} at {{team}}.\n\n\"Nothing to criticize this week. The guy is absolutely dominating the Rift: objective setups, draft execution, solo queue discipline, everything.\" The positive coverage should give confidence a boost in the team room.",
+          "subject1": "Esportmaníacos: {{player}} is carrying {{team}} through every Draft",
+          "body1": "The Esportmaníacos tertulianos rarely agree on anything, but {{player}} got a full pass today: \"Consistent, solid, no dips in form. From draft reads to objective setups, one of the best players in the league right now. {{team}} should do everything to keep him.\"\n\nGood for morale — and for the market value.",
+          "subject2": "Esportmaníacos highlights {{player}}'s objective calls",
+          "body2": "The desk circled back to {{player}} after reviewing {{team}}'s latest map setups: \"This is the kind of player who makes the whole team look more ordered. Herald timer, dragon setup, reset timing; everything has intent.\"\n\nQuiet praise, but the sort that staff rooms notice.",
+          "subject3": "Esportmaníacos buys into the {{team}} project",
+          "body3": "Today's show had an unusual moment of agreement around {{team}}: \"You can see the work. The drafts make sense, the players know their jobs, and {{player}} is setting the tone in-game. This is not random form.\"\n\nThe clip is already moving through fan chats.",
+          "subject4": "Esportmaníacos: {{player}} looks stage-ready",
+          "body4": "Esportmaníacos praised {{player}} for turning pressure moments into clean decisions: \"Some players farm stats; this one wins the ugly minutes. If {{team}} need someone calm when the map gets weird, that's him.\"\n\nThat kind of narrative can settle a player before big matches.",
+          "subject5": "Esportmaníacos gives {{player}} credit for the turnaround",
+          "body5": "The panel framed {{player}} as one of the reasons {{team}}'s week looked cleaner: \"Less panic, better first moves, better discipline after losing tempo. You can tell someone is calling with confidence.\"\n\nStaff will enjoy hearing this one.",
+          "subject6": "Esportmaníacos praises {{player}}'s champion pool",
+          "body6": "A draft segment on Esportmaníacos turned into praise for {{player}}: \"The value is not one pick; it's the threat of five. {{team}} can enter draft with actual options because this player bends bans.\"\n\nGood timing if renewal talks are near.",
+          "subject7": "Esportmaníacos says {{player}} is raising the floor",
+          "body7": "The tertulia was impressed by how stable {{player}} has become for {{team}}: \"He may not be the loudest name every week, but the floor is high. Coaches love that. Teams win splits with players who don't donate games.\"\n\nSensible coverage, for once.",
+          "subject8": "Esportmaníacos calls {{player}} a playoff-level piece",
+          "body8": "Esportmaníacos spent a full block on playoff ceilings and landed on {{player}}: \"If {{team}} reaches playoffs, this is one of the players I trust in a best-of. He understands when to slow the map and when to flip tempo.\"\n\nUseful fuel for the room.",
+          "subject9": "Esportmaníacos: {{player}} finally gets his flowers",
+          "body9": "The panel admitted {{player}} had been underrated in the wider conversation: \"We spend too much time on the flashy names. This guy has been doing the boring winning stuff for {{team}} all split. Give him credit.\"\n\nA small media bump, but a deserved one."
         },
         "negative": {
-          "subject0": "Esportmaníacos goes after {{player}} — panel shows no mercy",
-          "body0": "The Esportmaníacos panel did not hold back today on {{player}}: \"The guy has completely disappeared. What happened to him this split? {{team}} can't keep relying on a player performing like this.\"\n\nThis kind of coverage tends to hit morale hard. Worth having a word with the player.",
-          "subject1": "Esportmaníacos questions {{player}}'s consistency at {{team}}",
-          "body1": "Today's Esportmaníacos tertulianos session turned into a full breakdown of {{player}}'s recent form. The verdict: \"Inconsistent. No regularity. Some days at top level, others completely invisible. {{team}} deserves better output from a player in that role.\"\n\nKeep an eye on the player's morale."
+          "subject0": "Draft Pressure on {{player}} — panel shows no mercy",
+          "body0": "The Esportmaníacos panel did not hold back today on {{player}}: \"The guy has completely disappeared under lane pressure. What happened to him this split? {{team}} can't keep relying on a player performing like this.\"\n\nThis kind of Rift coverage tends to hit morale hard. Worth having a word with the player after scrim review.",
+          "subject1": "Pressure Watch: Esportmaníacos questions {{player}}'s consistency at {{team}}",
+          "body1": "Today's Esportmaníacos tertulianos session turned into a full breakdown of {{player}}'s recent form. The verdict: \"Inconsistent in lane and shaky in scrim patterns. No regularity. Some days at top level, others completely invisible on the Rift. {{team}} deserves better output from a player in that role.\"\n\nKeep an eye on the player's morale.",
+          "subject2": "Esportmaníacos worries about {{player}}'s early game",
+          "body2": "The desk clipped several early-game moments from {{player}} and the conclusion was blunt: \"You cannot start every map ten seconds late. If {{team}} want to play for objectives, this has to be cleaner.\"\n\nThe criticism is specific enough to stick.",
+          "subject3": "Esportmaníacos puts {{player}} under review",
+          "body3": "A VOD segment on Esportmaníacos turned uncomfortable for {{player}}: \"The mechanics are there, but the decision tree is messy. Some deaths look like communication problems, some look like impatience. Either way, {{team}} need answers.\"\n\nThe player may feel the heat this week.",
+          "subject4": "Esportmaníacos questions {{player}}'s draft value",
+          "body4": "Esportmaníacos focused on draft flexibility and {{player}} did not escape criticism: \"If you need two bans and a comfort pick just to get an even lane, the draft becomes expensive. {{team}} have to solve that.\"\n\nA tough angle before the next prep block.",
+          "subject5": "Esportmaníacos: {{player}} is losing key minutes",
+          "body5": "The panel argued that {{player}}'s problem is not the scoreboard but the timing: \"Minute eight, minute fourteen, third dragon setup; that's where the game is slipping. {{team}} need him present in those windows.\"\n\nMedia pressure is now attached to very concrete moments.",
+          "subject6": "Esportmaníacos calls out {{player}}'s map reads",
+          "body6": "A map-control debate ended with {{player}} taking the blame: \"This is not about one missed skillshot. The reads are late. When the play starts, {{team}} are already reacting instead of setting the terms.\"\n\nExpect fans to repeat that line all week.",
+          "subject7": "Esportmaníacos asks if {{team}} need a backup plan",
+          "body7": "The tertulia floated an awkward question around {{player}}: \"If this form continues, does {{team}} need to prepare another look? Nobody is saying bench him tomorrow, but you cannot ignore the trend.\"\n\nThat sort of speculation can unsettle a room fast.",
+          "subject8": "Esportmaníacos: {{player}} is forcing bad map states",
+          "body8": "Esportmaníacos reviewed {{player}}'s recent deaths and found a pattern: \"These are not heroic plays gone wrong. These are low-percentage moves that make {{team}} play the next two minutes with no map.\"\n\nWorth addressing before it becomes the week's storyline.",
+          "subject9": "Esportmaníacos cools the hype around {{player}}",
+          "body9": "The panel pushed back on the idea that {{player}} is still untouchable: \"Reputation is not current form. Right now {{team}} need more from him, especially when the draft gives resources to his side.\"\n\nA direct hit to the player's public stock."
         }
       },
       "allio": {
@@ -2830,10 +2862,30 @@
         "body2": "Today's Al Lío episode went off-script when Eros revealed a potential leak: \"I've been told the league is planning changes to the split format. Not confirmed, but my sources are usually reliable. This could shake up how teams build their rosters.\"\n\nIf true, this could affect your long-term planning.",
         "subject3": "Al Lío Podcast — Big move incoming, league shaken up",
         "body3": "Eros went live on Al Lío with what he called a \"bombazo\": \"There's a significant player movement about to happen in the league that nobody is talking about yet. I'll just say this — some teams are going to have to rethink their rosters completely.\"\n\nStay alert — the market is moving.",
+        "subject4": "Al Lío Podcast — Eros puts {{team}} on watch",
+        "body4": "Eros used the opening block of Al Lío to flag {{team}} as a team to watch: \"I am not saying something is signed, but I know there are people around the league asking what happens next with this roster. The mercato never sleeps.\"\n\nA little smoke, no confirmed fire yet.",
+        "subject5": "Al Lío Podcast — {{player}} extension talks get mentioned",
+        "body5": "Eros slipped a small note into the Al Lío rumour section: \"Keep an eye on {{player}}. When a player is performing and the contract calendar starts moving, calls happen. It does not mean he leaves, but it means the room gets noisy.\"\n\nWorth checking the player's situation before the story grows.",
+        "subject6": "Al Lío Podcast — scrim whispers around the league",
+        "body6": "Al Lío devoted a segment to scrim rumours, with Eros careful not to overclaim: \"The only thing I will say is that {{team}} are being talked about more than last week. Sometimes that means progress, sometimes it means chaos. We will see on stage.\"\n\nExternal noise is starting to build.",
+        "subject7": "Al Lío Podcast — buyout talk starts around {{player}}",
+        "body7": "Eros framed {{player}} as one of the names that could shape the next market: \"If the split keeps going like this, teams will ask. Maybe the answer is no, maybe the price is crazy, but the interest will exist.\"\n\nThe rumour mill has found a new angle.",
+        "subject8": "Al Lío Podcast — Eros teases a staff-side move",
+        "body8": "The latest Al Lío episode briefly moved away from players and into staff rumours: \"There are teams looking at analysts, assistants, people behind the scenes. Do not be surprised if {{team}} has to protect more than just its starting five.\"\n\nNot actionable yet, but relevant for long-term planning.",
+        "subject9": "Al Lío Podcast — Eros says {{team}}'s offseason could be loud",
+        "body9": "Eros closed Al Lío with a broader mercato warning: \"Some teams think they will have a quiet offseason and then the first call arrives. With {{team}}, I would prepare for movement, even if the official line is calm.\"\n\nThe smart play is to know your priorities early.",
         "rivalInterest": {
           "subject": "Al Lío Podcast — {{player}} linked with {{rival}}",
           "body0": "Eros opened the latest Al Lío episode with a bombshell: \"I have information that {{rival}} have started making moves for {{player}}. Their analysts have been reviewing recent series and solo queue data for weeks. No formal offer yet, but things are heating up fast.\"\n\nWhat's your stance if they make contact?",
-          "body1": "Al Lío Podcast has exclusively reported that {{player}} is now a concrete target for {{rival}}.\n\nAccording to Eros, the player attracted attention after recent stage performances. No formal bid yet, but pressure is building fast.\n\nWhat's your stance?"
+          "body1": "Al Lío Podcast has exclusively reported that {{player}} is now a concrete target for {{rival}}.\n\nAccording to Eros, the player attracted attention after recent stage performances. No formal bid yet, but pressure is building fast.\n\nWhat's your stance?",
+          "body2": "Eros suggested on Al Lío that {{rival}} are testing the market for {{player}}: \"It is not an offer on the table, but when a club asks twice about the same player, it is no longer random.\"\n\nIt is worth deciding your stance before the rumour grows.",
+          "body3": "Al Lío Podcast has named {{player}} as a hot name for the next market.\n\nAccording to Eros, {{player}} fits several {{rival}} scenarios if they move pieces after the split. No formal contact is confirmed, but the interest exists.\n\nDo you block every conversation or listen?",
+          "body4": "Eros was careful, but clear: \"{{player}} is very liked at {{rival}}. I would not say it is close, but people are looking at numbers, VODs and contract situation.\"\n\nThe player's circle may start hearing noise.",
+          "body5": "The mercato section of Al Lío ended with {{player}} in the headlines: \"If {{rival}} want to make a statement, this is the profile that makes sense. Expensive, complicated, but it makes sense.\"\n\nThe question is how hard you want to resist.",
+          "body6": "Eros said several agents expect movement around {{player}}, and {{rival}} appear among the attentive teams.\n\n\"Sometimes these things do not start with an offer, they start with a call to know whether there is a door.\"\n\nYour answer will set the tone.",
+          "body7": "Al Lío Podcast linked {{player}} with {{rival}} after his latest stage performances.\n\nEros summed it up like this: \"When a player gains value this quickly, the phone moves even if the club says it is not selling.\"\n\nThe market is testing limits.",
+          "body8": "Eros included {{player}} on his list of names that could shake the league: \"I am not saying he leaves. I am saying that if {{rival}} call, the conversation will be uncomfortable for everyone.\"\n\nIt may be time to reinforce your public stance.",
+          "body9": "Al Lío's latest exclusive points to discreet monitoring from {{rival}} around {{player}}.\n\nAccording to Eros, the rival club does not want to rush, but sees the player as a high-impact piece if a window opens.\n\nWhat is the plan?"
         }
       },
       "yuste": {
@@ -2841,13 +2893,45 @@
           "subject0": "el_yuste — even Yuste admits: viewership is up this week",
           "body0": "Yuste surprised his stream with a rare positive take: \"I'll be honest — the numbers are up this week and I'm not going to pretend otherwise. When the matches are good, the audience comes. Simple.\"\n\nA positive moment for the whole scene.",
           "subject1": "el_yuste — this week's matches actually got Yuste excited",
-          "body1": "Not something you hear every day: Yuste was enthusiastic on his morning stream. \"This week delivered. Real matches, proper stakes, viewers who stayed till the end. This is what the league can be when it tries.\"\n\nGood week to be in esports."
+          "body1": "Not something you hear every day: Yuste was enthusiastic on his morning stream. \"This week delivered. Real matches, proper stakes, viewers who stayed till the end. This is what the league can be when it tries.\"\n\nGood week to be in esports.",
+          "subject2": "el_yuste — finally a matchday with intent",
+          "body2": "Yuste opened the stream surprisingly constructively: \"Today, yes. Today I saw teams playing with an idea, not five guys waiting for the opponent to happen. If this is the baseline, the league has a product.\"\n\nA good signal for public perception.",
+          "subject3": "el_yuste — Yuste admits the league has gained pace",
+          "body3": "The comment of the day came with less irony than usual: \"Do not sell me smoke, but the pace is up. Fewer dead pauses, better map closes, more reasons to stay watching.\"\n\nWhen even Yuste grants that, the scene notices.",
+          "subject4": "el_yuste — good audiences and fewer excuses",
+          "body4": "Yuste read the weekend numbers and went direct: \"When you do things halfway well, people show up. Maybe the problem was never that there was no audience; maybe you were not giving them reasons.\"\n\nPositive, with his usual edge.",
+          "subject5": "el_yuste — the competitive week saves the debate",
+          "body5": "In his morning review, Yuste highlighted that the competitive level helped the show: \"I do not need fireworks if the matches have real tension. Give me sensible draft and teams punishing mistakes. That keeps me there.\"\n\nThe clip is circulating well.",
+          "subject6": "el_yuste — even chat buys the narrative",
+          "body6": "Yuste laughed at seeing chat more optimistic than usual: \"Look, if even you are saying the matchday was good, they must have done something right. Write it down, because it does not always happen.\"\n\nGood atmosphere around the league.",
+          "subject7": "el_yuste — a matchday that needs no apology",
+          "body7": "Yuste summed up the matchday with a rare line from him: \"This did not need excuses. Good games, good endings, stories that matter. That is how you can sell a league.\"\n\nThis approval matters because he does not hand it out often.",
+          "subject8": "el_yuste — the product starts looking like a product",
+          "body8": "Yuste's assessment was dry, but positive: \"For once, broadcast, calendar and matches went in the same direction. It is not that hard when everyone rows together.\"\n\nA useful message for the league and the clubs.",
+          "subject9": "el_yuste — the league gives people something to discuss again",
+          "body9": "Yuste closed his block with a clear admission: \"This week people talked about the league because of the matches, not the drama around them. That is already a win. Small, but a win.\"\n\nGeneral perception improves."
         },
         "down": {
           "subject0": "el_yuste — league viewers are tanking and nobody cares",
           "body0": "Antonio Yuste opened his morning stream with a full rant: \"The numbers don't lie. Viewership is going down week after week and the league keeps doing the same things expecting different results. C'est fini if nothing changes.\"\n\nJust background noise — but when Yuste talks, the community listens.",
           "subject1": "el_yuste — the league product is broken, according to Yuste",
-          "body1": "Yuste spent a solid thirty minutes analysing the league's declining engagement on his morning stream: \"I've been saying this for months. The product isn't good enough. The format bores people, the scheduling kills momentum. The data is clear.\"\n\nHarsh, but Yuste's audience takes it seriously."
+          "body1": "Yuste spent a solid thirty minutes analysing the league's declining engagement on his morning stream: \"I've been saying this for months. The product isn't good enough. The format bores people, the scheduling kills momentum. The data is clear.\"\n\nHarsh, but Yuste's audience takes it seriously.",
+          "subject2": "el_yuste — Yuste does not buy the league calendar",
+          "body2": "Yuste returned to the calendar with little interest in softening it: \"You cannot kill momentum and then ask why people do not come back. The audience owes you nothing.\"\n\nAnother criticism that may catch on.",
+          "subject3": "el_yuste — the league is losing story, according to Yuste",
+          "body3": "The morning stream was harsh on competitive narrative: \"There are interesting teams, there are good players, but nobody is packaging this so it matters. If there is no story, there is background noise.\"\n\nIt may sound unfair, but the community is discussing it.",
+          "subject4": "el_yuste — too many pauses, too little urgency",
+          "body4": "Yuste pointed at the viewer experience: \"The match can be good, but if you take me out of the stream between maps, I leave. It is not hate, it is basic human behaviour.\"\n\nThe criticism goes straight at the product.",
+          "subject5": "el_yuste — the format is under fire again",
+          "body5": "Yuste devoted a full block to the format: \"Not everything is fixed by renaming phases. The question is whether every match matters. If the answer is no, people notice.\"\n\nAnother hit to the league's public debate.",
+          "subject6": "el_yuste — Yuste asks for less makeup and more level",
+          "body6": "The line from the stream was blunt: \"You can put whatever overlay you want on it. If the level drops and the stories do not hook, the viewer goes somewhere else. Period.\"\n\nNegative noise for every club.",
+          "subject7": "el_yuste — the matchday runs out of clips",
+          "body7": "Yuste was especially acidic about the lack of memorable moments: \"The matchday ends and tell me what clip someone sends on WhatsApp. If you have to think that long, that is the problem.\"\n\nPublic conversation cools off.",
+          "subject8": "el_yuste — the scene needs self-criticism",
+          "body8": "Yuste asked for less automatic defence of the league: \"Loving the scene is not clapping everything. Sometimes loving it is saying this is not working before it is too late.\"\n\nAn uncomfortable but influential message.",
+          "subject9": "el_yuste — the data cools the optimism again",
+          "body9": "Yuste opened charts on stream and left a hard reading: \"Do not talk to me about feelings if the data is going down. You can have one good match, but the trend rules.\"\n\nThe audience debate is active again."
         }
       }
     },
