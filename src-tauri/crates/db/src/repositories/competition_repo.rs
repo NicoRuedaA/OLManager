@@ -1,6 +1,8 @@
 use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
 use rusqlite::{Connection, params};
 
+use super::league_repo;
+
 /// Upsert a competition and its fixtures + standings.
 /// Unlike the legacy `upsert_league`, this operation is SCOPED to the
 /// competition_id — it does NOT delete data from other competitions.
@@ -79,23 +81,6 @@ pub fn upsert_competition(conn: &Connection, league: &League) -> Result<(), Stri
     }
 
     Ok(())
-}
-
-fn parse_fixture_status(s: &str) -> FixtureStatus {
-    match s {
-        "InProgress" => FixtureStatus::InProgress,
-        "Completed" => FixtureStatus::Completed,
-        _ => FixtureStatus::Scheduled,
-    }
-}
-
-fn parse_fixture_competition(s: &str) -> FixtureCompetition {
-    match s {
-        "Friendly" => FixtureCompetition::Friendly,
-        "PreseasonTournament" => FixtureCompetition::PreseasonTournament,
-        "Playoffs" => FixtureCompetition::Playoffs,
-        _ => FixtureCompetition::League,
-    }
 }
 
 /// Load a single competition by ID.
@@ -201,9 +186,9 @@ fn load_fixtures(conn: &Connection, competition_id: &str) -> Result<Vec<Fixture>
                 date: row.get(2)?,
                 home_team_id: row.get(3)?,
                 away_team_id: row.get(4)?,
-                competition: parse_fixture_competition(&competition_str),
+                competition: league_repo::parse_fixture_competition(&competition_str),
                 best_of: row.get(6)?,
-                status: parse_fixture_status(&status_str),
+                status: league_repo::parse_fixture_status(&status_str),
                 result: result_json.and_then(|j| serde_json::from_str(&j).ok()),
             })
         })
