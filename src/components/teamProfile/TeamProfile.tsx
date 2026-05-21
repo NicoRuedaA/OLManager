@@ -20,7 +20,6 @@ export default function TeamProfile({
   onSelectPlayer,
 }: TeamProfileProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
   const viewModel = buildTeamProfileViewModel(team, gameState);
   const { recentMatches } = useTeamProfileStats(team.id);
 
@@ -53,7 +52,6 @@ export default function TeamProfile({
           team={team}
           isOwnTeam={isOwnTeam}
           viewModel={viewModel}
-          weeklySuffix={weeklySuffix}
           t={t}
         />
         <TeamProfileLeagueStandingCard standings={viewModel.standings} t={t} />

@@ -140,8 +140,8 @@ describe("PlayerProfile.helpers", function (): void {
         expect(formatPlayerMarketValue(2500000)).toBe("€2.5M");
     });
 
-    it("formats annual wages as weekly display values", function (): void {
-        expect(formatPlayerWage(52000, "/wk")).toMatch(/^€1[.,]000\/wk$/);
+    it("formats annual wages with annual suffix", function (): void {
+        expect(formatPlayerWage(52000, "/año")).toMatch(/^€52[.,]000\/año$/);
     });
 
     it("maps attribute values to the expected color classes", function (): void {

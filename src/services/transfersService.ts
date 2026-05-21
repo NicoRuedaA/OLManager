@@ -22,6 +22,15 @@ export interface TransferNegotiationResponseData {
   game: GameStateData;
 }
 
+export interface WageNegotiationResponseData {
+  decision: "accepted" | "rejected" | "counter_offer";
+  suggested_wage: number | null;
+  suggested_years: number | null;
+  is_terminal: boolean;
+  feedback: TransferNegotiationFeedbackData;
+  game: GameStateData;
+}
+
 export interface TransferBidProjectionData {
   projection: {
     transfer_budget_before: number;
@@ -41,11 +50,13 @@ export async function makeTransferBid(
   playerId: string,
   fee: number,
   destination: TransferDestinationData = "main",
+  includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
   return invoke<TransferNegotiationResponseData>("make_transfer_bid", {
     playerId,
     fee,
     destination,
+    includedPlayerIds,
   });
 }
 
@@ -65,11 +76,13 @@ export async function counterOffer(
   playerId: string,
   offerId: string,
   requestedFee: number,
+  includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
   return invoke<TransferNegotiationResponseData>("counter_offer", {
     playerId,
     offerId,
     requestedFee,
+    includedPlayerIds,
   });
 }
 
@@ -94,4 +107,43 @@ export async function releasePlayerContract(
   return invoke<GameStateData>("release_player_contract", {
     playerId,
   });
+}
+
+export async function negotiatePlayerWage(
+  playerId: string,
+  offerId: string,
+  annualWage: number,
+  contractYears: number,
+): Promise<WageNegotiationResponseData> {
+  return invoke<WageNegotiationResponseData>("negotiate_player_wage", {
+    playerId,
+    offerId,
+    annualWage,
+    contractYears,
+  });
+}
+
+export interface TransferHistoryEntryData {
+  id: string;
+  player_id: string;
+  player_name: string;
+  player_ovr: number;
+  player_position: string;
+  from_team_id: string;
+  from_team_name: string;
+  to_team_id: string;
+  to_team_name: string;
+  fee: number;
+  annual_wage: number;
+  contract_years: number;
+  date: string;
+  is_user_involved: boolean;
+  is_user_buying: boolean;
+  was_negotiated: boolean;
+  initial_offer_fee: number | null;
+  negotiation_rounds: number;
+}
+
+export async function getTransferHistory(): Promise<TransferHistoryEntryData[]> {
+  return invoke<TransferHistoryEntryData[]>("get_transfer_history_cmd");
 }

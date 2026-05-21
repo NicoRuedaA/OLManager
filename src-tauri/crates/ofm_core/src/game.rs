@@ -9,6 +9,7 @@ use domain::season::SeasonContext;
 use domain::social::{SocialAccount, SocialPost, SocialTemplate};
 use domain::staff::Staff;
 use domain::team::Team;
+use domain::transfer_history::TransferHistory;
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
@@ -130,6 +131,8 @@ pub struct Game {
     pub champion_patch: ChampionPatchState,
     #[serde(default)]
     pub competition_configs: HashMap<String, ScheduleConfig>,
+    #[serde(default)]
+    pub transfer_history: TransferHistory,
 }
 
 // Custom Deserialize for backward compatibility with old saves that have `league` field.
@@ -177,6 +180,8 @@ impl<'de> Deserialize<'de> for Game {
             pub competition_configs: HashMap<String, ScheduleConfig>,
             #[serde(default)]
             pub user_competition_id: Option<String>,
+            #[serde(default)]
+            pub transfer_history: TransferHistory,
         }
 
         let legacy = GameLegacy::deserialize(deserializer)?;
@@ -208,6 +213,7 @@ impl<'de> Deserialize<'de> for Game {
             champion_masteries: legacy.champion_masteries,
             champion_patch: legacy.champion_patch,
             competition_configs: legacy.competition_configs,
+            transfer_history: legacy.transfer_history,
         })
     }
 }
@@ -242,6 +248,7 @@ impl Game {
             champion_masteries: vec![],
             champion_patch: ChampionPatchState::default(),
             competition_configs: HashMap::new(),
+            transfer_history: TransferHistory::default(),
         };
         crate::identity_upgrade::upgrade_game_football_identities(&mut game);
         crate::season_context::refresh_game_context(&mut game);

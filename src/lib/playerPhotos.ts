@@ -1,6 +1,6 @@
 import lesPlayersData from "../../data/erls/players/les_players.json";
 import lflPlayersData from "../../data/erls/players/lfl_players.json";
-import primeLeaguePlayersData from "../../data/erls/players/prime-league_players.json";
+import primeLeaguePlayersData from "../../data/erls/players/prm_players.json";
 
 const FALLBACK_PLAYER_PHOTO = "/player-photos/107455908655055017.webp";
 

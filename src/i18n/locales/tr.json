@@ -210,6 +210,7 @@
     "teams": "Takımlar",
     "tournaments": "Turnuvalar",
     "champions_world": "Şampiyonlar",
+    "market": "Pazar",
     "schedule": "Fikstür",
     "news": "Haberler",
     "settings": "Ayarlar",
@@ -253,6 +254,7 @@
     "delegateWarning": "Maçı asistanınız yönetecek. Maça müdahale edemeyeceksiniz."
   },
   "champions": {
+    "170": "170+",
     "metaTitle": "Şampiyon Metası",
     "patchNumber": "Yama {{n}}",
     "patchLastDate": "Son yama: {{date}}",
@@ -268,8 +270,18 @@
     "moderate": "Orta",
     "low": "Düşük",
     "discoveryProgress": "Keşif ilerlemesi",
-    "delegating": "Devrediliyor...",
-    "delegateToCoach": "Asistan Koça Devret"
+    "delegating": "Delegeleniyor...",
+    "delegateToCoach": "Asistan Koça Devret",
+    "loading": "Loading champions...",
+    "error": "Error loading",
+    "empty": "No champions available",
+    "counterpicks": "Counterpicks",
+    "synergies": "Synergies",
+    "noData": "No counterpick or synergy information available.",
+    "worldTitle": "World Champions",
+    "allChampions": "All Champions",
+    "worldDescription": "Explore all League of Legends champions",
+    "totalChampions": "Total"
   },
   "exitConfirm": {
     "title": "Ana Menüye Çıkılsın mı?",
@@ -1090,7 +1102,8 @@
   "finances": {
     "overview": "Finansal Özet",
     "wageBill": "Maaş Gideri",
-    "weeklyTotal": "Haftalık Toplam",
+    "weeklyTotal": "Yıllık Toplam",
+    "annualTotal": "Yıllık Toplam",
     "budget": "Bütçe",
     "underBudget": "Bütçe altında",
     "overBudget": "Bütçe aşıldı!",
@@ -1133,9 +1146,10 @@
     "pendingSponsorOffers": "Bekleyen Teklifler",
     "noPendingSponsorOffers": "Bekleyen sponsor teklifi yok",
     "cashFlow": "Nakit Akışı",
-    "weeklyWageSpend": "Haftalık Maaş Gideri",
-    "weeklySponsorIncome": "Haftalık Sponsor Geliri",
-    "projectedWeeklyNet": "Öngörülen Haftalık Net",
+    "perYearSuffix": "/yıl",
+    "annualWageSpend": "Yıllık Maaş Gideri",
+    "annualSponsorIncome": "Yıllık Sponsor Geliri",
+    "projectedAnnualNet": "Öngörülen Yıllık Net",
     "cashRunway": "Nakit Gidişatı",
     "runwayWeeks": "Mevcut hızda {{count}} hafta",
     "runwayStable": "Mevcut hızda stabil",
@@ -1150,7 +1164,7 @@
     "contractRiskWarning": "Uyarı",
     "contractRiskStable": "Stabil",
     "contractExpiresOn": "{{date}} tarihinde bitiyor",
-    "atRiskWages": "€{{amount}}/hf risk altında",
+    "atRiskWages": "€{{amount}}/yıl risk altında",
     "noContractRisks": "Yakın zamanda sözleşme riski yok"
   },
   "inbox": {
@@ -1277,6 +1291,9 @@
     "counterAccepted": "Karşı teklif kabul edildi.",
     "counterRejected": "Karşı teklif reddedildi.",
     "counterCountered": "Daha düşük bir rakamla geri döndüler.",
+    "includePlayers": "Anlaşmaya oyuncu dahil et",
+    "playersSelected": "seçili",
+    "noPlayersAvailable": "Uygun oyuncu bulunamadı",
     "acceptOffer": "Kabul Et",
     "rejectOffer": "Reddet",
     "negotiationPulse": "Müzakere nabzı",
@@ -1301,8 +1318,33 @@
     "transferFeedbackCounterHeadline": "El sıkışmadan önce daha fazlasını istiyorlar.",
     "transferFeedbackCounterDetail": "Teklif konuşmaya devam edecek kadar yakındı ama karşı taraf {{fee}} civarında bir fiyat istiyor.",
     "transferFeedbackRejectedHeadline": "Bu turu kapattılar.",
-    "transferFeedbackRejectedDetail": "Teklif onları yeterince tatmin etmedi. Ciddi görüşmeleri yeniden açmak için {{fee}} civarına yakın, daha güçlü bir teklife ihtiyacınız olacak.",
-    "transferFeedbackPlayerRejectedDetail": "Kulüp kabul etti, ancak oyuncu rolünü, maaşını ve sportif projeyi inceledikten sonra transferi reddetti."
+    "transferFeedbackRejectedDetail": "Teklif onları yeterince tatmin etmedi. Ciddi görüşmeleri yeniden açmak için {{fee}} civarına yakın, daha güçlü bir ücrete ihtiyacınız olacak.",
+    "transferFeedbackPlayerRejectedDetail": "Kulüp kabul etti, ancak oyuncu rolünü, maaşını ve sportif projeyi inceledikten sonra transferi reddetti.",
+    "wageNegotiation": "Maaş Görüşmesi",
+    "annualWage": "Yıllık Maaş",
+    "annualWageCost": "Yıllık maliyet: {{annual}}",
+    "wageBudgetUsage": "Maaş bütçesi kullanımı",
+    "contractLength": "Sözleşme Süresi",
+    "contractYears_one": "1 yıl",
+    "contractYears_other": "{{count}} yıl",
+    "submitWageOffer": "Maaş Teklifini Gönder",
+    "wageAccepted": "Maaş teklifi kabul edildi! Transfer tamamlandı.",
+    "wageCountered": "Maaş koşullarını ayarlamak istiyorlar.",
+    "wageRejected": "Maaş teklifi reddedildi.",
+    "transferFee": "Ücret: {{fee}}",
+    "wageFeedbackAcceptedHeadline": "Oyuncu teklifinizden memnun.",
+    "wageFeedbackAcceptedDetail": "Maaş ve sözleşme süresi beklentilerini karşılıyor, imzalamaya hazır.",
+    "wageFeedbackAcceptedOverBudgetHeadline": "Oyuncu kabul ediyor ancak bu maaş bütçenizi zorlayacak.",
+    "wageFeedbackAcceptedOverBudgetDetail": "İmzalamaya hazır, fakat bu şartlar kulübü maaş tavanının üzerine taşıyacak.",
+    "wageFeedbackCounterHeadline": "Rakamları ayarlamak istiyorlar.",
+    "wageFeedbackCounterDetail": "Oyuncu ilgili ama {{wage}} ile {{years}} yılın daha adil olacağını belirtiyor.",
+    "wageFeedbackLowHeadline": "Teklif beklentilerinin oldukça altında.",
+    "wageFeedbackLowDetail": "Bu teklifi ciddiye almak için yıllık {{wage}} civarına yakın bir şey arıyorlar.",
+    "wageFeedbackBudgetHeadline": "Kulübünüz bu maaş şartlarını karşılayamaz.",
+    "wageFeedbackBudgetDetail": "Yıllık {{wage}} işaret ediyorlar, ancak bu maaş bütçesini çok zorluyor.",
+    "wageFeedbackRejectedHeadline": "Görüşmeler bozuldu.",
+    "wageFeedbackRejectedDetail": "Birkaç tur boyunca ortak zemin bulunamadı, her iki taraf da geri çekiliyor.",
+    "transferFeedbackWageNegotiationDetail": "Kulüp ücretinizi kabul etti. Şimdi oyuncuyla şartları kararlaştırma zamanı."
   },
   "schedule": {
     "noSchedule": "Lig fikstürü bulunmuyor.",
@@ -1404,7 +1446,7 @@
     "contractInfo": "Sözleşme ve Bilgi",
     "dateOfBirth": "Doğum Tarihi",
     "noContract": "Sözleşme yok",
-    "weeklyWage": "Haftalık Maaş",
+    "annualWage": "Yıllık Maaş",
     "yearsRemaining": "Kalan Yıl",
     "contractRisk": "Sözleşme Riski",
     "renewalTitle": "Sözleşme Yenile",
@@ -1423,11 +1465,11 @@
     "renewalWage": "Önerilen Maaş",
     "renewalLength": "Sözleşme Süresi",
     "renewalSubmit": "Teklifi Gönder",
-    "renewalInvalidWage": "Geçerli bir haftalık maaş girin",
+    "renewalInvalidWage": "Geçerli bir yıllık maaş girin",
     "renewalBudgetWarning": "Maaş bütçesini aşıyor",
     "renewalAccepted": "Teklif kabul edildi",
     "renewalRejected": "Teklif reddedildi",
-    "renewalCounter": "Daha fazlasını istiyor: {{years}} yıl için haftalık €{{wage}}",
+    "renewalCounter": "Daha fazlasını istiyor: {{years}} yıl için yıllık €{{wage}}",
     "renewalBlocked": "Önceki kararınızdan sonra görüşmeler tıkandı",
     "renewalCooledOff": "Önceki görüşmeler soğudu, bu yüzden yepyeni bir görüşme başlıyor.",
     "delegateRenewal": "Asistan Koça Devret",
@@ -2238,7 +2280,12 @@
       "academyCoordinator": "Akademi Koordinatörü",
       "esportmaniacos": "Panel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Top",
+      "jungle": "Jungle",
+      "mid": "Mid",
+      "adc": "ADC",
+      "support": "Support"
     },
     "source": {
       "sportsGazette": "Dot Esports",
@@ -2313,7 +2360,7 @@
       },
       "financeWarning": {
         "subject": "Finansal Uyarı — Düşük Rezervler",
-        "body": "Finansal rezervlerimiz tükeniyor. Mevcut harcama hızıyla (haftalık €{{weeklyWages}} maaş), yaklaşık {{weeksLeft}} haftalık fonumuz kaldı.\n\nMaaş bordrosunu gözden geçirmenizi ve gelirimizi arttırmanın yollarını aramanızı tavsiye ederim."
+        "body": "Finansal rezervlerimiz tükeniyor. Mevcut harcama hızıyla (yıllık €{{annualWages}} maaş), yaklaşık {{weeksLeft}} haftalık fonumuz kaldı.\n\nMaaş bordrosunu gözden geçirmenizi ve geliri artırmanın yollarını aramanızı tavsiye ederim."
       },
       "wageOverBudget": {
         "subject": "Maaş Gideri Bütçeyi Aşıyor",
@@ -2767,6 +2814,10 @@
       "transferRumour": {
         "headline": "{{player}}, {{to}} Transferini Tamamladı",
         "body": "{{to}}, {{player}} transferini {{fee}} karşılığında {{from}} takımından tamamladı."
+      },
+      "freeAgentSigned": {
+        "subject": "{{player}}, {{team}} ile anlaştı",
+        "body": "Boşta oyuncu {{player}}, {{team}} ile {{years}} yıllık sözleşme imzaladı. Maaş: €{{wage}}/yıl."
       }
     }
   },
@@ -2922,6 +2973,30 @@
       "issuePlus": "Issue +",
       "mechanicsPlus": "Mechanics +"
     },
-    "weeklySetup": "Weekly setup"
+    "weeklySetup": "Weekly setup"},
+  "updater": {
+    "title": "Update Available",
+    "description": "A new version ({{version}}) is available. Your save games will be preserved.",
+    "downloading": "Downloading...",
+    "preparing": "Preparing update...",
+    "installing": "Installing...",
+    "installAndRestart": "Install & Restart",
+    "playWithoutUpdating": "Play Without Updating"
+  },
+  "market": {
+    "title": "Transfer Pazarı",
+    "filterAll": "Tümü",
+    "filterMyTransfers": "Kulübüm",
+    "filterAiTransfers": "Global",
+    "empty": "Henüz transfer gerçekleşmedi. Sezon ilerledikçe transfer hoạtimleri burada görünecektir.",
+    "freeAgent": "Boşta Oyuncu",
+    "wage": "Maaş",
+    "contract": "Sözleşme",
+    "years": "yıl",
+    "negotiated": "Pazarlık",
+    "rounds": "tur",
+    "youBought": "Satın aldınız",
+    "youSold": "Sattınız",
+    "includedPlayers": "Teklife dahil"
   }
 }

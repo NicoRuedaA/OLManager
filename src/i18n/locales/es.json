@@ -211,6 +211,7 @@
     "teams": "Equipos",
     "tournaments": "Torneos",
     "champions_world": "Campeones",
+    "market": "Mercado",
     "schedule": "Calendario",
     "news": "Noticias",
     "social": "Social",
@@ -1176,7 +1177,8 @@
   "finances": {
     "overview": "Resumen Financiero",
     "wageBill": "Masa Salarial",
-    "weeklyTotal": "Total Semanal",
+    "weeklyTotal": "Total Anual",
+    "annualTotal": "Total Anual",
     "budget": "Presupuesto",
     "underBudget": "Dentro del presupuesto",
     "overBudget": "¡Por encima del presupuesto!",
@@ -1187,6 +1189,7 @@
     "transferBudget": "Presupuesto de Fichajes",
     "seasonIncome": "Ingresos de Temporada",
     "seasonExpenses": "Gastos de Temporada",
+    "perYearSuffix": "/año",
     "perWeekSuffix": "/sem",
     "wagePerWeek": "Salario/sem",
     "marketValue": "Valor de Mercado",
@@ -1204,12 +1207,6 @@
     "facilityRecoverySuiteEffect": "Mejora la recuperación de jugadores y el apoyo de tratamiento.",
     "facilityContentStudioEffect": "Mejora la activación de patrocinadores y las operaciones de contenido.",
     "facilityScoutingLabEffect": "Mejora la calidad del ojeo y la profundidad de la información.",
-    "facilityTraining": "Instalación de Entrenamiento",
-    "facilityMedical": "Instalación Médica",
-    "facilityScouting": "Instalación de Ojeo",
-    "facilityTrainingEffect": "Mejora la eficacia del entrenamiento con el tiempo.",
-    "facilityMedicalEffect": "Mejora la recuperación y la atención médica de los jugadores.",
-    "facilityScoutingEffect": "Mejora la calidad del ojeo y la profundidad de la información.",
     "facilityLevel": "Nivel {{level}}",
     "monthlyUpkeep": "Mantenimiento mensual: €{{amount}}",
     "nextUpgradeCost": "Siguiente mejora: €{{amount}}",
@@ -1225,9 +1222,9 @@
     "pendingSponsorOffers": "Ofertas pendientes",
     "noPendingSponsorOffers": "No hay ofertas de patrocinio pendientes",
     "cashFlow": "Flujo de caja",
-    "weeklyWageSpend": "Gasto salarial semanal",
-    "weeklySponsorIncome": "Ingresos semanales por patrocinio",
-    "projectedWeeklyNet": "Neto semanal proyectado",
+    "annualWageSpend": "Gasto salarial anual",
+    "annualSponsorIncome": "Ingresos anuales por patrocinio",
+    "projectedAnnualNet": "Neto anual proyectado",
     "cashRunway": "Margen de caja",
     "runwayWeeks": "{{count}} semanas al ritmo actual",
     "runwayStable": "Estable al ritmo actual",
@@ -1242,7 +1239,7 @@
     "contractRiskWarning": "Advertencia",
     "contractRiskStable": "Estable",
     "contractExpiresOn": "Vence {{date}}",
-    "atRiskWages": "€{{amount}}/semana en riesgo",
+    "atRiskWages": "€{{amount}}/año en riesgo",
     "noContractRisks": "No hay riesgos contractuales inmediatos"
   },
   "inbox": {
@@ -1369,6 +1366,9 @@
     "counterAccepted": "Contraoferta aceptada.",
     "counterRejected": "Contraoferta rechazada.",
     "counterCountered": "Han devuelto una cifra más baja.",
+    "includePlayers": "Incluir jugadores en el trato",
+    "playersSelected": "seleccionados",
+    "noPlayersAvailable": "No hay jugadores elegibles disponibles",
     "acceptOffer": "Aceptar",
     "rejectOffer": "Rechazar",
     "negotiationPulse": "Pulso de la negociación",
@@ -1394,7 +1394,32 @@
     "transferFeedbackCounterDetail": "La oferta fue suficiente para seguir hablando, pero su lado está marcando un precio más cercano a {{fee}}.",
     "transferFeedbackRejectedHeadline": "Han cerrado esta ronda.",
     "transferFeedbackRejectedDetail": "La propuesta no les movió lo suficiente. Necesitarías una cifra mejor, más cerca de {{fee}}, para reabrir conversaciones serias.",
-    "transferFeedbackPlayerRejectedDetail": "El club aceptó, pero el jugador rechazó el movimiento tras evaluar rol, salario y proyecto deportivo."
+    "transferFeedbackPlayerRejectedDetail": "El club aceptó, pero el jugador rechazó el movimiento tras evaluar rol, salario y proyecto deportivo.",
+    "wageNegotiation": "Negociación Salarial",
+    "annualWage": "Salario Anual",
+    "annualWageCost": "Coste anual: {{annual}}",
+    "wageBudgetUsage": "Uso del presupuesto salarial",
+    "contractLength": "Duración del Contrato",
+    "contractYears_one": "1 año",
+    "contractYears_other": "{{count}} años",
+    "submitWageOffer": "Enviar Oferta Salarial",
+    "wageAccepted": "¡Oferta salarial aceptada! Traspaso completado.",
+    "wageCountered": "Quieren ajustar los términos salariales.",
+    "wageRejected": "Oferta salarial rechazada.",
+    "transferFee": "Tarifa: {{fee}}",
+    "wageFeedbackAcceptedHeadline": "El jugador está contento con tu oferta.",
+    "wageFeedbackAcceptedDetail": "El salario y la duración del contrato cumplen sus expectativas, así que está listo para firmar.",
+    "wageFeedbackAcceptedOverBudgetHeadline": "El jugador acepta, pero estira tu presupuesto salarial.",
+    "wageFeedbackAcceptedOverBudgetDetail": "Está listo para firmar, aunque estos términos llevarán al club por encima de su techo salarial.",
+    "wageFeedbackCounterHeadline": "Quieren ajustar los números.",
+    "wageFeedbackCounterDetail": "El jugador está interesado pero señalan que {{wage}} durante {{years}} años sería justo.",
+    "wageFeedbackLowHeadline": "La oferta está muy por debajo de sus expectativas.",
+    "wageFeedbackLowDetail": "Buscan algo más cercano a {{wage}} por año para tomárselo en serio.",
+    "wageFeedbackBudgetHeadline": "Tu club no puede permitirse esos términos salariales.",
+    "wageFeedbackBudgetDetail": "Están señalando {{wage}} por año, pero eso estira demasiado el presupuesto salarial.",
+    "wageFeedbackRejectedHeadline": "Las conversaciones se han roto.",
+    "wageFeedbackRejectedDetail": "Tras varias rondas sin encontrar un punto en común, ambas partes se retiran.",
+    "transferFeedbackWageNegotiationDetail": "El club aceptó tu tarifa. Ahora es momento de acordar los términos con el jugador."
   },
   "schedule": {
     "noSchedule": "No hay calendario de liga disponible.",
@@ -1505,7 +1530,7 @@
     "contractInfo": "Contrato e Info",
     "dateOfBirth": "Fecha de Nacimiento",
     "noContract": "Sin contrato",
-    "weeklyWage": "Salario Semanal",
+    "annualWage": "Salario Anual",
     "yearsRemaining": "Años restantes",
     "contractRisk": "Riesgo contractual",
     "renewalTitle": "Renovar contrato",
@@ -1524,11 +1549,11 @@
     "renewalWage": "Salario ofrecido",
     "renewalLength": "Duración del contrato",
     "renewalSubmit": "Enviar oferta",
-    "renewalInvalidWage": "Introduce un salario semanal válido",
+    "renewalInvalidWage": "Introduce un salario anual válido",
     "renewalBudgetWarning": "Supera el presupuesto salarial",
     "renewalAccepted": "Oferta aceptada",
     "renewalRejected": "Oferta rechazada",
-    "renewalCounter": "Quiere más: €{{wage}}/semana por {{years}} años",
+    "renewalCounter": "Quiere más: €{{wage}}/año por {{years}} años",
     "renewalBlocked": "Las conversaciones están bloqueadas tras tu decisión anterior",
     "renewalCooledOff": "Las conversaciones anteriores se enfriaron, así que esto vuelve a empezar como una negociación nueva.",
     "delegateRenewal": "Delegar al asistente",
@@ -2437,7 +2462,7 @@
       },
       "financeWarning": {
         "subject": "Aviso financiero — Reservas bajas",
-        "body": "Nuestras reservas financieras se están agotando. Al ritmo actual de gasto (€{{weeklyWages}}/semana en salarios), nos quedan aproximadamente {{weeksLeft}} semanas de fondos.\n\nTe recomendaría revisar la masa salarial y buscar formas de aumentar los ingresos."
+        "body": "Nuestras reservas financieras se están agotando. Al ritmo actual de gasto (€{{annualWages}}/año en salarios), nos quedan aproximadamente {{weeksLeft}} semanas de fondos.\n\nTe recomendaría revisar la masa salarial y buscar formas de aumentar los ingresos."
       },
       "wageOverBudget": {
         "subject": "La masa salarial supera el presupuesto",
@@ -2715,16 +2740,16 @@
         "subject": "Informe del asistente — Renovaciones",
         "body": "Míster, revisé nuestra lista de renovaciones en {{team}}. {{successes}} cerradas, {{stalled}} aún pendientes y {{failures}} fallidas.",
         "case": {
-          "successful": "Cerrada: {{player}} aceptó {{years}} año(s) por €{{wage}}/semana.",
+          "successful": "Cerrada: {{player}} aceptó {{years}} año(s) por €{{wage}}/año.",
           "stalled": "Sigue complicado: {{player}} — {{detail}}",
           "failed": "Fallida: {{player}} — {{detail}}"
         },
         "notes": {
           "managerBlocked": "Me dijiste que todavía no reabriera las conversaciones contractuales.",
           "completed": "Pude cerrar esta sin que tuvieras que intervenir.",
-          "beyondLimits": "Su entorno pide alrededor de €{{wage}}/semana por {{years}} años, fuera de los límites de delegación.",
+          "beyondLimits": "Su entorno pide alrededor de €{{wage}}/año por {{years}} años, fuera de los límites de delegación.",
           "boardWagePolicy": "La política salarial de la directiva bloquea esta renovación. Mantén los salarios anuales cerca de €{{budget}} mientras nos recuperamos.",
-          "prefersManager": "Escucharían, pero siguen pidiendo unos €{{wage}}/semana por {{years}} años y prefieren hablar contigo directamente.",
+          "prefersManager": "Escucharían, pero siguen pidiendo unos €{{wage}}/año por {{years}} años y prefieren hablar contigo directamente.",
           "relationshipBlocked": "No están dispuestos a comprometerse a través de mí con la relación y situación contractual actuales."
         }
       },
@@ -2999,6 +3024,10 @@
       "transferRumour": {
         "headline": "{{player}} completa su pase a {{to}}",
         "body": "{{to}} cerró el fichaje de {{player}} desde {{from}} por {{fee}}."
+      },
+      "freeAgentSigned": {
+        "subject": "{{player}} ficha por {{team}}",
+        "body": "El agente libre {{player}} ha firmado un contrato de {{years}} año(s) con {{team}} por €{{wage}}/año."
       }
     }
   },
@@ -3126,5 +3155,21 @@
     "installing": "Instalando...",
     "installAndRestart": "Instalar y Reiniciar",
     "playWithoutUpdating": "Jugar Sin Actualizar"
+  },
+  "market": {
+    "title": "Mercado de Fichajes",
+    "filterAll": "Todos",
+    "filterMyTransfers": "Mi Club",
+    "filterAiTransfers": "Global",
+    "empty": "Aún no se han producido fichajes. La actividad de transferencias aparecerá aquí conforme avance la temporada.",
+    "freeAgent": "Agente Libre",
+    "wage": "Salario",
+    "contract": "Contrato",
+    "years": "año(s)",
+    "negotiated": "Negociado",
+    "rounds": "ronda(s)",
+    "youBought": "Compraste",
+    "youSold": "Vendiste",
+    "includedPlayers": "Incluido en la oferta"
   }
 }

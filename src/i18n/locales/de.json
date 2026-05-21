@@ -212,6 +212,7 @@
     "teams": "Teams",
     "tournaments": "Turniere",
     "champions_world": "Champions",
+    "market": "Markt",
     "schedule": "Spielplan",
     "news": "Nachrichten",
     "social": "Social",
@@ -1139,7 +1140,8 @@
   "finances": {
     "overview": "Finanzübersicht",
     "wageBill": "Gehaltsliste",
-    "weeklyTotal": "Wöchentlich Gesamt",
+    "annualTotal": "Jährliche Gesamt",
+    "weeklyTotal": "Wöchentliche Gesamt",
     "budget": "Budget",
     "underBudget": "Im Budget",
     "overBudget": "Über dem Budget!",
@@ -1150,6 +1152,7 @@
     "transferBudget": "Transferbudget",
     "seasonIncome": "Saisoneinnahmen",
     "seasonExpenses": "Saisonausgaben",
+    "perYearSuffix": "/Jahr",
     "perWeekSuffix": "/Wo",
     "wagePerWeek": "Gehalt/Wo",
     "marketValue": "Marktwert",
@@ -1182,9 +1185,9 @@
     "pendingSponsorOffers": "Offene Angebote",
     "noPendingSponsorOffers": "Keine offenen Sponsorangebote",
     "cashFlow": "Cashflow",
-    "weeklyWageSpend": "Wöchentliche Gehaltskosten",
-    "weeklySponsorIncome": "Wöchentliche Sponsoreneinnahmen",
-    "projectedWeeklyNet": "Prognose pro Woche",
+    "annualWageSpend": "Jährliche Gehaltskosten",
+    "annualSponsorIncome": "Jährliche Sponsoreneinnahmen",
+    "projectedAnnualNet": "Prognose pro Jahr",
     "cashRunway": "Finanzielle Reichweite",
     "runwayWeeks": "{{count}} Wochen bei aktuellem Verlauf",
     "runwayStable": "Bei aktuellem Verlauf stabil",
@@ -1199,7 +1202,7 @@
     "contractRiskWarning": "Warnung",
     "contractRiskStable": "Stabil",
     "contractExpiresOn": "Läuft aus: {{date}}",
-    "atRiskWages": "€{{amount}}/Woche gefährdet",
+    "atRiskWages": "€{{amount}}/Jahr gefährdet",
     "noContractRisks": "Keine kurzfristigen Vertragsrisiken"
   },
   "inbox": {
@@ -1326,6 +1329,9 @@
     "counterAccepted": "Gegenangebot angenommen.",
     "counterRejected": "Gegenangebot abgelehnt.",
     "counterCountered": "Sie drücken den Preis wieder nach unten.",
+    "includePlayers": "Spieler in den Deal einbeziehen",
+    "playersSelected": "ausgewählt",
+    "noPlayersAvailable": "Keine verfügbaren berechtigten Spieler",
     "acceptOffer": "Annehmen",
     "rejectOffer": "Ablehnen",
     "negotiationPulse": "Verhandlungslage",
@@ -1351,7 +1357,32 @@
     "transferFeedbackCounterDetail": "Das Angebot war nah genug, um weiterzureden, aber ihre Seite signalisiert eher einen Preis um {{fee}}.",
     "transferFeedbackRejectedHeadline": "Diese Runde haben sie beendet.",
     "transferFeedbackRejectedDetail": "Der Vorschlag hat sie nicht genug bewegt. Du brauchst eine stärkere Summe, eher in Richtung {{fee}}, um ernste Gespräche wieder zu öffnen.",
-    "transferFeedbackPlayerRejectedDetail": "The club accepted, but the player rejected the move after reviewing role, wages, and sporting project."
+    "transferFeedbackPlayerRejectedDetail": "Der Verein hat akzeptiert, aber der Spieler hat den Wechsel abgelehnt, nachdem er Rolle, Gehalt und sportliches Projekt geprüft hat.",
+    "wageNegotiation": "Gehaltsverhandlung",
+    "annualWage": "Jahresgehalt",
+    "annualWageCost": "Jährliche Kosten: {{annual}}",
+    "wageBudgetUsage": "Gehaltsbudget-Auslastung",
+    "contractLength": "Vertragslaufzeit",
+    "contractYears_one": "1 Jahr",
+    "contractYears_other": "{{count}} Jahre",
+    "submitWageOffer": "Gehaltsangebot Einreichen",
+    "wageAccepted": "Gehaltsangebot angenommen! Transfer abgeschlossen.",
+    "wageCountered": "Sie möchten die Gehaltsbedingungen anpassen.",
+    "wageRejected": "Gehaltsangebot abgelehnt.",
+    "transferFee": "Ablöse: {{fee}}",
+    "wageFeedbackAcceptedHeadline": "Der Spieler ist mit Ihrem Angebot zufrieden.",
+    "wageFeedbackAcceptedDetail": "Gehalt und Vertragslaufzeit entsprechen seinen Erwartungen, er ist bereit zu unterschreiben.",
+    "wageFeedbackAcceptedOverBudgetHeadline": "Der Spieler akzeptiert, aber es belastet Ihr Gehaltsbudget.",
+    "wageFeedbackAcceptedOverBudgetDetail": "Er ist bereit zu unterschreiben, obwohl diese Bedingungen den Klub über sein Gehaltsbudget bringen.",
+    "wageFeedbackCounterHeadline": "Sie möchten die Zahlen anpassen.",
+    "wageFeedbackCounterDetail": "Der Spieler ist interessiert, signalisiert aber, dass {{wage}} über {{years}} Jahre fairer wäre.",
+    "wageFeedbackLowHeadline": "Das Angebot liegt weit unter seinen Erwartungen.",
+    "wageFeedbackLowDetail": "Er sucht etwas näher an {{wage}} pro Jahr, um das Angebot ernst zu nehmen.",
+    "wageFeedbackBudgetHeadline": "Ihr Verein kann sich diese Gehaltsbedingungen nicht leisten.",
+    "wageFeedbackBudgetDetail": "Sie signalisieren {{wage}} pro Jahr, aber das belastet das Gehaltsbudget zu stark.",
+    "wageFeedbackRejectedHeadline": "Die Gespräche sind gescheitert.",
+    "wageFeedbackRejectedDetail": "Nach mehreren Runden ohne Einigung ziehen sich beide Seiten zurück.",
+    "transferFeedbackWageNegotiationDetail": "Der Verein hat Ihre Ablöse akzeptiert. Jetzt gilt es, die Bedingungen mit dem Spieler zu vereinbaren."
   },
   "schedule": {
     "noSchedule": "Kein Ligaspielplan verfügbar.",
@@ -1453,7 +1484,7 @@
     "contractInfo": "Vertrag & Info",
     "dateOfBirth": "Geburtsdatum",
     "noContract": "Kein Vertrag",
-    "weeklyWage": "Wochengehalt",
+    "annualWage": "Jahresgehalt",
     "yearsRemaining": "Verbleibende Jahre",
     "contractRisk": "Vertragsrisiko",
     "renewalTitle": "Vertrag verlängern",
@@ -1472,11 +1503,11 @@
     "renewalWage": "Angebotenes Gehalt",
     "renewalLength": "Vertragslaufzeit",
     "renewalSubmit": "Angebot abgeben",
-    "renewalInvalidWage": "Gib ein gültiges Wochengehalt ein",
+    "renewalInvalidWage": "Gib ein gültiges Jahresgehalt ein",
     "renewalBudgetWarning": "Überschreitet das Gehaltsbudget",
     "renewalAccepted": "Angebot angenommen",
     "renewalRejected": "Angebot abgelehnt",
-    "renewalCounter": "Will mehr: €{{wage}}/Woche für {{years}} Jahre",
+    "renewalCounter": "Will mehr: €{{wage}}/Jahr für {{years}} Jahre",
     "renewalBlocked": "Gespräche sind nach deiner früheren Entscheidung blockiert",
     "renewalCooledOff": "Die früheren Gespräche sind abgekühlt, deshalb beginnt das jetzt wieder als neues Gespräch.",
     "delegateRenewal": "An Assistenten delegieren",
@@ -2305,7 +2336,12 @@
       "academyCoordinator": "Academy Coordinator",
       "esportmaniacos": "Panel",
       "allioPodcast": "Eros",
-      "elYuste": "el_yuste"
+      "elYuste": "el_yuste",
+      "top": "Top",
+      "jungle": "Dschungel",
+      "mid": "Mitte",
+      "adc": "ADC",
+      "support": "Support"
     },
     "source": {
       "sportsGazette": "Esports Gazette",
@@ -2380,7 +2416,7 @@
       },
       "financeWarning": {
         "subject": "Finanzwarnung — Niedrige Rücklagen",
-        "body": "Unsere finanziellen Rücklagen werden knapp. Beim aktuellen Ausgabentempo (€{{weeklyWages}}/Woche an Gehältern) bleiben uns noch ungefähr {{weeksLeft}} Wochen an Reserven.\n\nIch würde empfehlen, die Gehaltsstruktur zu überprüfen und Wege zur Einnahmesteigerung zu suchen."
+        "body": "Unsere finanziellen Rücklagen werden knapp. Beim aktuellen Ausgabentempo (€{{annualWages}}/Jahr an Gehältern) bleiben uns noch ungefähr {{weeksLeft}} Wochen an Reserven.\n\nIch würde empfehlen, die Gehaltsstruktur zu überprüfen und Wege zur Einnahmesteigerung zu suchen."
       },
       "wageOverBudget": {
         "subject": "Gehaltsbudget überschritten",
@@ -2942,6 +2978,10 @@
       "transferRumour": {
         "headline": "{{player}} Complete Move to {{to}}",
         "body": "{{to}} have completed the signing of {{player}} from {{from}} for {{fee}}."
+      },
+      "freeAgentSigned": {
+        "subject": "{{player}} unterschreibt bei {{team}}",
+        "body": "Der vereinslose Spieler {{player}} hat einen {{years}}-Jahres-Vertrag bei {{team}} für €{{wage}}/Jahr unterschrieben."
       }
     }
   },
@@ -3107,5 +3147,21 @@
       "mechanicsPlus": "Mechanics +"
     },
     "weeklySetup": "Weekly setup"
+  },
+  "market": {
+    "title": "Transfermarkt",
+    "filterAll": "Alle",
+    "filterMyTransfers": "Mein Verein",
+    "filterAiTransfers": "Global",
+    "empty": "Noch keine Transfers erfolgt. Transferaktivität wird hier im Laufe der Saison angezeigt.",
+    "freeAgent": "Vereinslos",
+    "wage": "Gehalt",
+    "contract": "Vertrag",
+    "years": "Jahr(e)",
+    "negotiated": "Verhandelt",
+    "rounds": "Runde(n)",
+    "youBought": "Sie gekauft",
+    "youSold": "Sie verkauft",
+    "includedPlayers": "Im Angebot enthalten"
   }
 }

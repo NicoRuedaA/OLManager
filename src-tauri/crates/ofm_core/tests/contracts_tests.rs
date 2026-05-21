@@ -65,7 +65,7 @@ fn make_team() -> Team {
     );
     team.manager_id = Some("manager-1".to_string());
     team.reputation = 50;
-    team.wage_budget = 50_000;
+    team.wage_budget = 500_000;
     team
 }
 
@@ -116,7 +116,7 @@ fn accepted_offer_updates_wage_and_term_correctly() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 15_000,
+            annual_wage: 15_000,
             contract_years: 3,
         },
     )
@@ -139,7 +139,7 @@ fn rejected_offer_leaves_state_unchanged() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 7_000,
+            annual_wage: 7_000,
             contract_years: 1,
         },
     )
@@ -158,7 +158,7 @@ fn counter_offer_returns_understandable_feedback() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 13_000,
+            annual_wage: 13_000,
             contract_years: 2,
         },
     )
@@ -193,7 +193,7 @@ fn high_value_star_expects_more_than_fringe_player() {
     fringe.attributes.laning = 48;
 
     let offer = RenewalOffer {
-        weekly_wage: 14_000,
+        annual_wage: 14_000,
         contract_years: 3,
     };
 
@@ -225,7 +225,7 @@ fn low_morale_player_becomes_harder_to_renew_than_content_player() {
     unhappy_player.morale = 35;
 
     let offer = RenewalOffer {
-        weekly_wage: 13_000,
+        annual_wage: 13_000,
         contract_years: 3,
     };
 
@@ -257,7 +257,7 @@ fn shorter_remaining_term_increases_renewal_demands() {
     expiring_player.contract_end = Some("2026-10-01".to_string());
 
     let offer = RenewalOffer {
-        weekly_wage: 13_000,
+        annual_wage: 13_000,
         contract_years: 3,
     };
 
@@ -280,7 +280,7 @@ fn low_manager_trust_player_can_refuse_manual_renewal_even_at_fair_terms() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 15_000,
+            annual_wage: 15_000,
             contract_years: 3,
         },
     )
@@ -305,7 +305,7 @@ fn manager_block_prevents_manual_renewal_until_it_expires() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 16_000,
+            annual_wage: 16_000,
             contract_years: 3,
         },
     )
@@ -333,7 +333,7 @@ fn stale_manual_renewal_talks_cool_off_and_restart_from_round_one() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 13_000,
+            annual_wage: 13_000,
             contract_years: 2,
         },
     )
@@ -426,7 +426,7 @@ fn renewal_is_blocked_when_offer_pushes_healthy_club_far_over_soft_cap() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 250_000,
+            annual_wage: 250_000,
             contract_years: 3,
         },
     )
@@ -447,7 +447,7 @@ fn renewal_allows_small_increase_for_legacy_over_budget_saves() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 70_000,
+            annual_wage: 70_000,
             contract_years: 2,
         },
     );
@@ -470,7 +470,7 @@ fn renewal_blocks_large_worsening_for_legacy_over_budget_saves() {
         &mut game,
         "player-1",
         RenewalOffer {
-            weekly_wage: 120_000,
+            annual_wage: 120_000,
             contract_years: 3,
         },
     )

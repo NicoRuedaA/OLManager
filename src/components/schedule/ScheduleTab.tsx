@@ -129,8 +129,6 @@ export default function ScheduleTab({
   const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.match_type === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
 
-  // All fixtures from ALL competitions (calendar view)
-  const allFixtures = gameState.leagues.flatMap((l) => l.fixtures);
   // Map fixture_id -> competition name for display
   const competitionLabelMap = new Map<string, string>();
   gameState.leagues.forEach((l) => {

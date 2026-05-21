@@ -26,24 +26,6 @@ fn action(id: &str, label: &str, label_key: &str, action_type: ActionType) -> Me
     }
 }
 
-pub fn calc_wages(game: &Game, team_id: &str) -> i64 {
-    let player_wages: i64 = game
-        .players
-        .iter()
-        .filter(|player| player.team_id.as_deref() == Some(team_id))
-        .map(|player| player.wage as i64 / 52)
-        .sum();
-
-    let staff_wages: i64 = game
-        .staff
-        .iter()
-        .filter(|staff_member| staff_member.team_id.as_deref() == Some(team_id))
-        .map(|staff_member| staff_member.wage as i64 / 52)
-        .sum();
-
-    player_wages + staff_wages
-}
-
 pub fn calc_annual_wages(game: &Game, team_id: &str) -> i64 {
     let player_wages: i64 = game
         .players
@@ -243,7 +225,7 @@ pub fn process_weekly_finances(game: &mut Game) {
         .teams
         .iter()
         .map(|team| {
-            let wages = calc_wages(game, &team.id);
+            let wages = calc_annual_wages(game, &team.id) / 52;
             let upkeep = if should_apply_monthly_upkeep(game) {
                 calc_upkeep(team)
             } else {
@@ -351,16 +333,20 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
 
     let mut new_messages: Vec<InboxMessage> = Vec::new();
 
-    let weekly_wages = calc_wages(game, &user_team_id);
     let annual_wages = calc_annual_wages(game, &user_team_id);
     let current_position = current_league_position(game, &user_team_id);
-    let weekly_sponsorship_income = team
+    let annual_sponsorship_income = team
         .sponsorship
         .as_ref()
-        .map(|s| calc_sponsorship_income(current_position, &team.form, s))
+        .map(|s| calc_sponsorship_income(current_position, &team.form, s) * 52)
         .unwrap_or(0);
-    let projected_weekly_net = weekly_sponsorship_income - weekly_wages;
-    let weeks_left = calc_cash_runway_weeks(team.finance, projected_weekly_net).unwrap_or(999);
+    let _projected_annual_net = annual_sponsorship_income - annual_wages;
+    let weeks_left = {
+        let weekly_sponsor = annual_sponsorship_income / 52;
+        let weekly_wages = annual_wages / 52;
+        let weekly_net = weekly_sponsor - weekly_wages;
+        calc_cash_runway_weeks(team.finance, weekly_net).unwrap_or(999)
+    };
 
     // Critical: finances negative
     if team.finance < 0 {
@@ -407,10 +393,10 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
                     msg_id,
                     "Financial Warning — Low Reserves".to_string(),
                     format!(
-                        "Our financial reserves are running low. At the current burn rate (€{}/week in wages), \
+                        "Our financial reserves are running low. At the current burn rate (€{}/year in wages), \
                         we have approximately {} weeks of funding remaining.\n\n\
                         I'd recommend reviewing the wage bill and exploring ways to boost income.",
-                        format_money(weekly_wages as u64), weeks_left
+                        format_money(annual_wages as u64), weeks_left
                     ),
                     "Financial Director".to_string(),
                     today.to_string(),
@@ -423,7 +409,7 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
                     "be.msg.financeWarning.body",
                     {
                         let mut p = std::collections::HashMap::new();
-                        p.insert("weeklyWages".to_string(), format_money(weekly_wages as u64));
+                        p.insert("annualWages".to_string(), format_money(annual_wages as u64));
                         p.insert("weeksLeft".to_string(), weeks_left.to_string());
                         p
                     },

@@ -450,6 +450,8 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v053_remove_formation.sql")),
         // V54: Rename play_style column to draft_strategy
         M::up(include_str!("sql/v054_rename_play_style_to_draft_strategy.sql")),
+        // V44: Persist transfer history entries
+        M::up(include_str!("sql/v044_transfer_history.sql")),
     ])
 }
 

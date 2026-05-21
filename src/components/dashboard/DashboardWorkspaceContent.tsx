@@ -118,6 +118,7 @@ export default function DashboardWorkspaceContent({
               "Teams",
               "Tournaments",
               "ChampionsWorld",
+              "Market",
               "Staff",
               "Scouting",
               "Youth",

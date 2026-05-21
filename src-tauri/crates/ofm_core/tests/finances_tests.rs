@@ -110,12 +110,12 @@ fn make_monday_game() -> Game {
 // ---------------------------------------------------------------------------
 
 #[test]
-fn calc_wages_sums_player_and_staff_wages_for_a_team() {
+fn calc_annual_wages_sums_player_and_staff_wages_for_a_team() {
     let game = make_monday_game();
 
-    let weekly_wages = finances::calc_wages(&game, "team1");
+    let annual_wages = finances::calc_annual_wages(&game, "team1");
 
-    assert_eq!(weekly_wages, 1_700);
+    assert_eq!(annual_wages, 88_400);
 }
 
 #[test]

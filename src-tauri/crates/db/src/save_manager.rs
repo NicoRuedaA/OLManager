@@ -497,6 +497,7 @@ mod tests {
             champion_masteries: vec![],
             champion_patch: Default::default(),
             competition_configs: std::collections::HashMap::new(),
+            transfer_history: Default::default(),
         }
     }
 

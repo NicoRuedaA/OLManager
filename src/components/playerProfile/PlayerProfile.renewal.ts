@@ -5,8 +5,6 @@ export interface RenewalProjection {
   projected_annual_wage_bill: number;
   annual_wage_budget: number;
   annual_soft_cap: number;
-  current_weekly_wage_spend: number;
-  projected_weekly_wage_spend: number;
   current_cash_runway_weeks: number | null;
   projected_cash_runway_weeks: number | null;
   currently_over_budget: boolean;

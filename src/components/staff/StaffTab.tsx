@@ -15,8 +15,6 @@ import {
 import {
   getTeamName,
   calcAge,
-  formatVal,
-  formatWeeklyAmount,
 } from "../../lib/helpers";
 import { countryName } from "../../lib/countries";
 import { useTranslation } from "react-i18next";
@@ -152,7 +150,6 @@ function getStaffImpactRows(s: StaffData): ImpactRow[] {
 
 export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix");
   const userTeamId = gameState.manager.team_id;
   const [view, setView] = useState<"mystaff" | "available">("mystaff");
   const [search, setSearch] = useState("");
@@ -390,11 +387,8 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
                           </span>
                         )}
                         {staff.wage > 0 && (
-                          <span className="text-2xs bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
-                            {formatWeeklyAmount(
-                              formatVal(staff.wage),
-                              weeklySuffix,
-                            )}
+                          <span className="text-[10px] bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
+                            €{staff.wage.toLocaleString()}/año
                           </span>
                         )}
                       </div>

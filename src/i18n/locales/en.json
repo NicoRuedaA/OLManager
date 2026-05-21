@@ -211,6 +211,7 @@
     "teams": "Teams",
     "tournaments": "Tournaments",
     "champions_world": "Champions",
+    "market": "Market",
     "schedule": "Schedule",
     "news": "News",
     "social": "Social",
@@ -1178,7 +1179,8 @@
   "finances": {
     "overview": "Financial Overview",
     "wageBill": "Wage Bill",
-    "weeklyTotal": "Weekly Total",
+    "weeklyTotal": "Annual Total",
+    "annualTotal": "Annual Total",
     "budget": "Budget",
     "underBudget": "Under budget",
     "overBudget": "Over budget!",
@@ -1221,9 +1223,10 @@
     "pendingSponsorOffers": "Pending Offers",
     "noPendingSponsorOffers": "No pending sponsor offers",
     "cashFlow": "Cash Flow",
-    "weeklyWageSpend": "Weekly Wage Spend",
-    "weeklySponsorIncome": "Weekly Sponsor Income",
-    "projectedWeeklyNet": "Projected Weekly Net",
+    "perYearSuffix": "/yr",
+    "annualWageSpend": "Annual Wage Bill",
+    "annualSponsorIncome": "Annual Sponsor Income",
+    "projectedAnnualNet": "Projected Annual Net",
     "cashRunway": "Cash Runway",
     "runwayWeeks": "{{count}} weeks at current pace",
     "runwayStable": "Stable at current pace",
@@ -1238,7 +1241,7 @@
     "contractRiskWarning": "Warning",
     "contractRiskStable": "Stable",
     "contractExpiresOn": "Expires {{date}}",
-    "atRiskWages": "€{{amount}}/wk at risk",
+    "atRiskWages": "€{{amount}}/yr at risk",
     "noContractRisks": "No imminent contract risks"
   },
   "inbox": {
@@ -1365,6 +1368,9 @@
     "counterAccepted": "Counter accepted.",
     "counterRejected": "Counter rejected.",
     "counterCountered": "They pushed back with a lower number.",
+    "includePlayers": "Include players in deal",
+    "playersSelected": "selected",
+    "noPlayersAvailable": "No eligible players available",
     "acceptOffer": "Accept",
     "rejectOffer": "Reject",
     "negotiationPulse": "Negotiation pulse",
@@ -1390,7 +1396,32 @@
     "transferFeedbackCounterDetail": "The bid was close enough to keep talking, but their side are signalling a price nearer {{fee}}.",
     "transferFeedbackRejectedHeadline": "They shut this round down.",
     "transferFeedbackRejectedDetail": "The proposal did not move them enough. You would need a stronger fee, closer to {{fee}}, to reopen serious talks.",
-    "transferFeedbackPlayerRejectedDetail": "The club accepted, but the player rejected the move after reviewing role, wages, and sporting project."
+    "transferFeedbackPlayerRejectedDetail": "The club accepted, but the player rejected the move after reviewing role, wages, and sporting project.",
+    "wageNegotiation": "Wage Negotiation",
+    "annualWage": "Annual Wage",
+    "annualWageCost": "Annual cost: {{annual}}",
+    "wageBudgetUsage": "Wage budget usage",
+    "contractLength": "Contract Length",
+    "contractYears_one": "1 year",
+    "contractYears_other": "{{count}} years",
+    "submitWageOffer": "Submit Wage Offer",
+    "wageAccepted": "Wage offer accepted! Transfer complete.",
+    "wageCountered": "They want different wage terms.",
+    "wageRejected": "Wage offer rejected.",
+    "transferFee": "Fee: {{fee}}",
+    "wageFeedbackAcceptedHeadline": "The player is happy with your offer.",
+    "wageFeedbackAcceptedDetail": "The wage and contract length meet their expectations, so they are ready to sign.",
+    "wageFeedbackAcceptedOverBudgetHeadline": "The player accepts, but it stretches your wage budget.",
+    "wageFeedbackAcceptedOverBudgetDetail": "They are ready to sign, though these terms will push the club over its wage ceiling.",
+    "wageFeedbackCounterHeadline": "They want to tweak the numbers.",
+    "wageFeedbackCounterDetail": "The player is interested but are signalling {{wage}} over {{years}} years would feel fair.",
+    "wageFeedbackLowHeadline": "The offer falls well short of their expectations.",
+    "wageFeedbackLowDetail": "They are looking for something nearer {{wage}} per year to take this seriously.",
+    "wageFeedbackBudgetHeadline": "Your club cannot afford those wage terms.",
+    "wageFeedbackBudgetDetail": "They are signalling {{wage}} per year, but that stretches the wage budget too thin.",
+    "wageFeedbackRejectedHeadline": "Talks have broken down.",
+    "wageFeedbackRejectedDetail": "After several rounds without common ground, both sides are walking away.",
+    "transferFeedbackWageNegotiationDetail": "The club agreed to your fee. Now it is time to agree terms with the player."
   },
   "schedule": {
     "noSchedule": "No league schedule available.",
@@ -1501,7 +1532,7 @@
     "contractInfo": "Contract & Info",
     "dateOfBirth": "Date of Birth",
     "noContract": "No contract",
-    "weeklyWage": "Weekly Wage",
+    "annualWage": "Annual Wage",
     "yearsRemaining": "Years Remaining",
     "contractRisk": "Contract Risk",
     "renewalTitle": "Renew Contract",
@@ -1520,11 +1551,11 @@
     "renewalWage": "Offered Wage",
     "renewalLength": "Contract Length",
     "renewalSubmit": "Submit Offer",
-    "renewalInvalidWage": "Enter a valid weekly wage",
+    "renewalInvalidWage": "Enter a valid annual wage",
     "renewalBudgetWarning": "Exceeds wage budget",
     "renewalAccepted": "Offer accepted",
     "renewalRejected": "Offer rejected",
-    "renewalCounter": "Wants more: €{{wage}}/wk for {{years}} years",
+    "renewalCounter": "Wants more: €{{wage}}/yr for {{years}} years",
     "renewalBlocked": "Talks are blocked after your earlier decision",
     "renewalCooledOff": "Previous talks cooled off, so this starts as a fresh conversation.",
     "delegateRenewal": "Delegate to Assistant",
@@ -2434,7 +2465,7 @@
       },
       "financeWarning": {
         "subject": "Financial Warning — Low Reserves",
-        "body": "Our financial reserves are running low. At the current burn rate (€{{weeklyWages}}/week in wages), we have approximately {{weeksLeft}} weeks of funding remaining.\n\nI'd recommend reviewing the wage bill and exploring ways to boost income."
+        "body": "Our financial reserves are running low. At the current burn rate (€{{annualWages}}/year in wages), we have approximately {{weeksLeft}} weeks of funding remaining.\n\nI'd recommend reviewing the wage bill and exploring ways to boost income."
       },
       "wageOverBudget": {
         "subject": "Wage Bill Exceeds Budget",
@@ -2996,6 +3027,10 @@
       "transferRumour": {
         "headline": "{{player}} Complete Move to {{to}}",
         "body": "{{to}} have completed the signing of {{player}} from {{from}} for {{fee}}."
+      },
+      "freeAgentSigned": {
+        "subject": "{{player}} signs with {{team}}",
+        "body": "Free agent {{player}} has signed a {{years}}-year contract with {{team}} at €{{wage}}/year."
       }
     }
   },
@@ -3123,5 +3158,21 @@
     "installing": "Installing...",
     "installAndRestart": "Install & Restart",
     "playWithoutUpdating": "Play Without Updating"
+  },
+  "market": {
+    "title": "Transfer Market",
+    "filterAll": "All",
+    "filterMyTransfers": "My Club",
+    "filterAiTransfers": "Global",
+    "empty": "No transfers have occurred yet. Transfer activity will appear here as the season progresses.",
+    "freeAgent": "Free Agent",
+    "wage": "Wage",
+    "contract": "Contract",
+    "years": "yr",
+    "negotiated": "Negotiated",
+    "rounds": "rnds",
+    "youBought": "You bought",
+    "youSold": "You sold",
+    "includedPlayers": "Included in deal"
   }
 }

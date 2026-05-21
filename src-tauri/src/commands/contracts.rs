@@ -38,10 +38,10 @@ pub struct RenewalFinancialProjectionCommandResponse {
 pub async fn propose_renewal(
     state: State<'_, StateManager>,
     player_id: String,
-    weekly_wage: u32,
+    annual_wage: u32,
     contract_years: u32,
 ) -> Result<RenewalCommandResponse, String> {
-    propose_renewal_internal(&state, &player_id, weekly_wage, contract_years)
+    propose_renewal_internal(&state, &player_id, annual_wage, contract_years)
 }
 
 #[tauri::command]
@@ -63,20 +63,20 @@ pub async fn delegate_renewals(
 pub async fn preview_renewal_financial_impact(
     state: State<'_, StateManager>,
     player_id: String,
-    weekly_wage: u32,
+    annual_wage: u32,
 ) -> Result<RenewalFinancialProjectionCommandResponse, String> {
-    preview_renewal_financial_impact_internal(&state, &player_id, weekly_wage)
+    preview_renewal_financial_impact_internal(&state, &player_id, annual_wage)
 }
 
 fn propose_renewal_internal(
     state: &StateManager,
     player_id: &str,
-    weekly_wage: u32,
+    annual_wage: u32,
     contract_years: u32,
 ) -> Result<RenewalCommandResponse, String> {
     info!(
-        "[cmd] propose_renewal: player_id={}, weekly_wage={}, contract_years={}",
-        player_id, weekly_wage, contract_years
+        "[cmd] propose_renewal: player_id={}, annual_wage={}, contract_years={}",
+        player_id, annual_wage, contract_years
     );
 
     let mut game = state
@@ -87,7 +87,7 @@ fn propose_renewal_internal(
         &mut game,
         player_id,
         RenewalOffer {
-            weekly_wage,
+            annual_wage,
             contract_years,
         },
     )?;
@@ -138,11 +138,11 @@ fn delegate_renewals_internal(
 fn preview_renewal_financial_impact_internal(
     state: &StateManager,
     player_id: &str,
-    weekly_wage: u32,
+    annual_wage: u32,
 ) -> Result<RenewalFinancialProjectionCommandResponse, String> {
     info!(
-        "[cmd] preview_renewal_financial_impact: player_id={}, weekly_wage={}",
-        player_id, weekly_wage
+        "[cmd] preview_renewal_financial_impact: player_id={}, annual_wage={}",
+        player_id, annual_wage
     );
 
     let game = state
@@ -150,7 +150,7 @@ fn preview_renewal_financial_impact_internal(
         .ok_or("No active game session".to_string())?;
 
     let projection =
-        ofm_core::contracts::project_renewal_financial_impact(&game, player_id, weekly_wage)?;
+        ofm_core::contracts::project_renewal_financial_impact(&game, player_id, annual_wage)?;
 
     Ok(RenewalFinancialProjectionCommandResponse { projection })
 }

@@ -55,7 +55,7 @@ pub struct Player {
     // Contract & value
     pub contract_end: Option<String>,
     #[serde(default = "default_wage")]
-    pub wage: u32, // weekly wage
+    pub wage: u32, // annual wage
     #[serde(default = "default_market_value")]
     pub market_value: u64,
 
@@ -89,6 +89,8 @@ pub struct Player {
     pub potential_research_eta_days: Option<u8>,
     #[serde(default)]
     pub champion_training_targets: Vec<String>,
+    #[serde(default)]
+    pub can_be_transferred_until: Option<String>,
 }
 
 /// Footedness is deprecated - LoL roles are lane-agnostic
@@ -145,6 +147,21 @@ pub struct PlayerAttributes {
     /// Mental resilience / stamina — replaces durability
     #[serde(alias = "stamina", alias = "durability")]
     pub mental_resilience: u8,
+}
+
+impl PlayerAttributes {
+    pub fn overall(&self) -> u8 {
+        ((u32::from(self.mechanics)
+            + u32::from(self.laning)
+            + u32::from(self.teamfighting)
+            + u32::from(self.macro_play)
+            + u32::from(self.consistency)
+            + u32::from(self.shotcalling)
+            + u32::from(self.champion_pool)
+            + u32::from(self.discipline)
+            + u32::from(self.mental_resilience))
+            / 9) as u8
+    }
 }
 
 fn default_attr() -> u8 {
@@ -416,10 +433,52 @@ pub struct TransferOffer {
     pub negotiation_round: u8,
     #[serde(default)]
     pub suggested_counter_fee: Option<u64>,
+    #[serde(default)]
+    pub players_included: Vec<PlayerOfferItem>,
     #[serde(default = "default_transfer_offer_status")]
     pub status: TransferOfferStatus,
     #[serde(default = "default_transfer_offer_date")]
     pub date: String,
+    #[serde(default = "default_wage_neg_status")]
+    pub wage_negotiation_status: WageNegotiationStatus,
+    #[serde(default)]
+    pub contract_years_offered: u8,
+    #[serde(default)]
+    pub suggested_counter_wage: Option<u32>,
+    #[serde(default)]
+    pub suggested_counter_years: Option<u8>,
+    #[serde(default = "default_wage_neg_round")]
+    pub wage_negotiation_round: u8,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct PlayerOfferItem {
+    pub player_id: String,
+    pub player_name: String,
+    pub valuation: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[serde(rename_all = "PascalCase")]
+pub enum WageNegotiationStatus {
+    NotStarted,
+    Pending,
+    Agreed,
+    Rejected,
+}
+
+fn default_wage_neg_status() -> WageNegotiationStatus {
+    WageNegotiationStatus::NotStarted
+}
+fn default_wage_years() -> u8 {
+    0
+}
+fn default_wage_neg_round() -> u8 {
+    0
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -591,6 +650,7 @@ impl Player {
             potential_research_started_on: None,
             potential_research_eta_days: None,
             champion_training_targets: Vec::new(),
+            can_be_transferred_until: None,
         }
     }
 }

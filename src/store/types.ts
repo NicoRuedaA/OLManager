@@ -438,6 +438,12 @@ export interface TransferOfferData {
   last_manager_fee: number | null;
   negotiation_round: number;
   suggested_counter_fee: number | null;
+  suggested_counter_wage?: number | null;
+  suggested_counter_years?: number | null;
+  wage_negotiation_status?: "NotStarted" | "Pending" | "Agreed" | "Rejected";
+  contract_years_offered?: number;
+  wage_negotiation_round?: number;
+  players_included?: { player_id: string }[];
   status: "Pending" | "Accepted" | "Rejected" | "Withdrawn";
   date: string;
 }

@@ -4,6 +4,7 @@ use domain::message::MessageCategory;
 use domain::news::{NewsArticle, NewsCategory};
 use domain::player::{
     Player, PlayerAttributes, PlayerIssueCategory, TransferOffer, TransferOfferStatus,
+    WageNegotiationStatus,
 };
 use domain::season::TransferWindowStatus;
 use domain::stats::LolRole;
@@ -84,8 +85,14 @@ fn make_pending_incoming_offer(id: &str, fee: u64) -> TransferOffer {
         last_manager_fee: None,
         negotiation_round: 1,
         suggested_counter_fee: None,
+        players_included: vec![],
         status: TransferOfferStatus::Pending,
         date: "2026-08-01".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     }
 }
 
@@ -184,6 +191,7 @@ fn transfer_bid_is_rejected_when_window_is_closed() {
         "player-bid-closed",
         1_000_000,
         TransferDestination::Main,
+        &[],
     )
     .expect_err("closed transfer window should reject bids");
 
@@ -202,6 +210,7 @@ fn expiring_contract_lowers_resistance_to_sale() {
         "player-expiring",
         1_000_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("bid should be evaluated");
 
@@ -251,6 +260,7 @@ fn accepted_transfer_bid_can_assign_player_to_academy_and_charge_parent_club() {
         "player-academy-destination",
         1_000_000,
         TransferDestination::Academy,
+        &[],
     )
     .expect("academy destination bid should be evaluated");
 
@@ -289,6 +299,7 @@ fn key_player_is_harder_to_buy_than_fringe_player() {
         "player-star",
         1_250_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("star bid");
 
@@ -299,6 +310,7 @@ fn key_player_is_harder_to_buy_than_fringe_player() {
         "player-fringe",
         1_250_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("fringe bid");
 
@@ -327,6 +339,7 @@ fn repeated_bid_advances_transfer_negotiation_round() {
         "player-repeat-bid",
         900_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("first bid");
 
@@ -342,6 +355,7 @@ fn repeated_bid_advances_transfer_negotiation_round() {
         "player-repeat-bid",
         950_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("second bid");
 
@@ -365,16 +379,22 @@ fn stale_outgoing_transfer_negotiation_is_withdrawn_before_new_bid() {
     player.morale = 35;
     player.stats.appearances = 1;
     player.transfer_offers.push(TransferOffer {
-        id: "offer-stale".to_string(),
-        from_team_id: "team-1".to_string(),
-        destination_team_id: Some("team-1".to_string()),
-        fee: 900_000,
+        id: "offer-counter-accept".to_string(),
+        from_team_id: "team-2".to_string(),
+        destination_team_id: None,
+        fee: 1_000_000,
         wage_offered: 0,
-        last_manager_fee: Some(900_000),
-        negotiation_round: 2,
-        suggested_counter_fee: Some(1_150_000),
+        last_manager_fee: None,
+        negotiation_round: 1,
+        suggested_counter_fee: None,
+        players_included: vec![],
         status: TransferOfferStatus::Pending,
-        date: "2026-07-15".to_string(),
+        date: "2026-08-01".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     });
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
@@ -386,6 +406,7 @@ fn stale_outgoing_transfer_negotiation_is_withdrawn_before_new_bid() {
         "player-stale-bid",
         900_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("new bid");
 
@@ -420,6 +441,7 @@ fn low_transfer_budget_cannot_behave_unrealistically() {
         "player-budget",
         900_000,
         TransferDestination::Main,
+        &[],
     )
     .expect_err("bid should be blocked by transfer budget");
 
@@ -462,16 +484,22 @@ fn does_not_duplicate_pending_incoming_offer_from_same_club() {
     let mut player = make_user_player("player-duplicate");
     player.contract_end = Some("2026-09-01".to_string());
     player.transfer_offers.push(TransferOffer {
-        id: "offer-existing".to_string(),
-        from_team_id: "team-2".to_string(),
+        id: "offer-stale".to_string(),
+        from_team_id: "team-1".to_string(),
         destination_team_id: None,
         fee: 900_000,
         wage_offered: 0,
         last_manager_fee: None,
         negotiation_round: 1,
         suggested_counter_fee: None,
+        players_included: vec![],
         status: TransferOfferStatus::Pending,
-        date: "2026-08-01".to_string(),
+        date: "2026-07-15".to_string(),
+        wage_negotiation_status: WageNegotiationStatus::NotStarted,
+        contract_years_offered: 0,
+        suggested_counter_wage: None,
+        suggested_counter_years: None,
+        wage_negotiation_round: 0,
     });
 
     let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
@@ -641,6 +669,7 @@ fn reasonable_counter_offer_is_accepted_and_executes_transfer() {
         "player-counter-accept",
         "offer-counter-accept",
         1_050_000,
+        &[],
     )
     .expect("counter offer should be evaluated");
 
@@ -690,6 +719,7 @@ fn excessive_counter_offer_is_rejected_and_closes_the_negotiation() {
         "player-counter-reject",
         "offer-counter-reject",
         1_400_000,
+        &[],
     )
     .expect("counter offer should be evaluated");
 
@@ -737,6 +767,7 @@ fn unhappy_player_with_bigger_ambition_gap_is_easier_to_buy() {
         "player-open",
         1_050_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("open-player bid");
 
@@ -753,6 +784,7 @@ fn unhappy_player_with_bigger_ambition_gap_is_easier_to_buy() {
         "player-content",
         1_050_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("content-player bid");
 
@@ -879,6 +911,7 @@ fn accepted_major_transfer_generates_news_article() {
         "player-news-major",
         1_700_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("major transfer bid should succeed");
 
@@ -909,6 +942,7 @@ fn smaller_completed_transfer_does_not_generate_news_article() {
         "player-news-small",
         300_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("small transfer bid should succeed");
 
@@ -940,6 +974,7 @@ fn completed_transfer_news_is_not_duplicated_when_article_already_exists() {
         "player-news-dup",
         1_700_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("major transfer bid should succeed");
 
@@ -964,6 +999,7 @@ fn academy_sale_replenishes_roster_and_role_coverage() {
         "player-academy-sale",
         1_500_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("academy transfer bid should succeed");
 
@@ -1042,6 +1078,7 @@ fn academy_sale_routes_fee_to_parent_club_owner() {
         "player-academy-owner",
         1_200_000,
         TransferDestination::Main,
+        &[],
     )
     .expect("academy transfer should succeed");
 

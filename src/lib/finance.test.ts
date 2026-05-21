@@ -2,11 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import type { PlayerData, StaffData, TeamData } from "../store/gameStore";
 import {
-  annualAmountToWeeklyCommitment,
   getAnnualWageBill,
   getCashRunwayWeeks,
   getTeamFinanceSnapshot,
-  getWeeklyWageSpend,
 } from "./finance";
 
 function createTeam(overrides: Partial<TeamData> = {}): TeamData {
@@ -122,21 +120,19 @@ function createStaff(overrides: Partial<StaffData> = {}): StaffData {
 }
 
 describe("finance helpers", () => {
-  it("converts annual contracts to weekly commitments using per-person flooring", () => {
+  it("computes annual wage bill from players and staff", () => {
     const players = [
       createPlayer({ wage: 51 }),
       createPlayer({ id: "player-2", wage: 51 }),
     ];
     const staff = [createStaff({ wage: 103 })];
 
-    expect(annualAmountToWeeklyCommitment(103)).toBe(1);
     expect(getAnnualWageBill(players, staff)).toBe(205);
-    expect(getWeeklyWageSpend(players, staff)).toBe(1);
   });
 
-  it("computes runway from projected weekly net rather than wages alone", () => {
-    expect(getCashRunwayWeeks(200000, -30000)).toBe(6);
-    expect(getCashRunwayWeeks(200000, 5000)).toBeNull();
+  it("computes runway from projected annual net", () => {
+    expect(getCashRunwayWeeks(200000, -30000 * 52)).toBe(6);
+    expect(getCashRunwayWeeks(200000, 5000 * 52)).toBeNull();
   });
 
   it("builds a finance snapshot with the worst status carried forward", () => {
@@ -152,9 +148,9 @@ describe("finance helpers", () => {
     const snapshot = getTeamFinanceSnapshot(team, players);
 
     expect(snapshot.annualWageBill).toBe(600000);
-    expect(snapshot.weeklyWageSpend).toBe(11538);
-    expect(snapshot.weeklyWageBudget).toBe(9615);
-    expect(snapshot.projectedWeeklyNet).toBe(-11538);
+    expect(snapshot.annualWageBudget).toBe(500000);
+    expect(snapshot.annualSponsorIncome).toBe(0);
+    expect(snapshot.projectedAnnualNet).toBe(-600000);
     expect(snapshot.cashRunwayWeeks).toBe(2);
     expect(snapshot.wageBudgetUsagePercent).toBe(120);
     expect(snapshot.wageBudgetStatus).toBe("critical");

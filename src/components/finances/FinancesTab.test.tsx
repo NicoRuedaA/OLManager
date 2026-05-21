@@ -33,10 +33,10 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.noPendingSponsorOffers")
         return "No pending sponsor offers";
       if (key === "finances.cashFlow") return "Cash Flow";
-      if (key === "finances.weeklyWageSpend") return "Weekly Wage Spend";
-      if (key === "finances.weeklySponsorIncome")
-        return "Weekly Sponsor Income";
-      if (key === "finances.projectedWeeklyNet") return "Projected Weekly Net";
+      if (key === "finances.annualWageSpend") return "Annual Wage Bill";
+      if (key === "finances.annualSponsorIncome")
+        return "Annual Sponsor Income";
+      if (key === "finances.projectedAnnualNet") return "Projected Annual Net";
       if (key === "finances.cashRunway") return "Cash Runway";
       if (key === "finances.runwayWeeks")
         return `${params?.count} weeks at current pace`;
@@ -58,7 +58,7 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.contractExpiresOn")
         return `Expires ${params?.date}`;
       if (key === "finances.atRiskWages")
-        return `€${params?.amount}/wk at risk`;
+        return `€${params?.amount}/yr at risk`;
       if (key === "finances.noContractRisks")
         return "No imminent contract risks";
       if (key === "common.renewContract") return "Renew Contract";
@@ -92,7 +92,7 @@ vi.mock("react-i18next", () => ({
         return "Improves scouting reports";
       if (key === "finances.overview") return "Overview";
       if (key === "finances.wageBill") return "Wage Bill";
-      if (key === "finances.weeklyTotal") return "Weekly Total";
+      if (key === "finances.weeklyTotal") return "Annual Total";
       if (key === "finances.budget") return "Budget";
       if (key === "finances.underBudget") return "Under budget";
       if (key === "finances.overBudget") return "Over budget";
@@ -104,6 +104,8 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.seasonIncome") return "Season Income";
       if (key === "finances.seasonExpenses") return "Season Expenses";
       if (key === "finances.perWeekSuffix") return "/wk";
+      if (key === "finances.perYearSuffix") return "/yr";
+      if (key === "finances.annualTotal") return "Annual Total";
       if (key === "finances.wagePerWeek") return "Wage/wk";
       if (key === "finances.marketValue") return "Market Value";
       if (key === "finances.until") return `Until ${params?.year}`;
@@ -456,12 +458,10 @@ describe("FinancesTab facilities", () => {
     render(<FinancesTab gameState={gameState} />);
 
     expect(screen.getByText("Cash Flow")).toBeInTheDocument();
-    expect(screen.getByText("Weekly Wage Spend")).toBeInTheDocument();
-    expect(screen.getByText("Weekly Sponsor Income")).toBeInTheDocument();
-    expect(screen.getByText("Projected Weekly Net")).toBeInTheDocument();
+    expect(screen.getByText("Annual Wage Bill")).toBeInTheDocument();
+    expect(screen.getByText("Annual Sponsor Income")).toBeInTheDocument();
+    expect(screen.getByText("Projected Annual Net")).toBeInTheDocument();
     expect(screen.getByText("Cash Runway")).toBeInTheDocument();
-    expect(screen.getByText("€10K/wk")).toBeInTheDocument();
-    expect(screen.getByText("-€30K/wk")).toBeInTheDocument();
     expect(screen.getByText("9 weeks at current pace")).toBeInTheDocument();
   });
 
@@ -526,7 +526,7 @@ describe("FinancesTab facilities", () => {
     expect(screen.getByText("Warning")).toBeInTheDocument();
     expect(screen.getByText("Expires 2025-04-30")).toBeInTheDocument();
     expect(screen.getByText("Expires 2025-10-15")).toBeInTheDocument();
-    expect(screen.getByText("€1153/wk at risk")).toBeInTheDocument();
+    expect(screen.getByText("€60000/yr at risk")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: "Renew Contract" }),
     ).toHaveLength(2);

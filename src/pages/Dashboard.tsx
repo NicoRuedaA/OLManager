@@ -70,6 +70,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Social: "dashboard.social",
   Scouting: "dashboard.scouting",
   Youth: "dashboard.youthAcademy",
+  Market: "dashboard.market",
 };
 
 export default function Dashboard(): JSX.Element {
