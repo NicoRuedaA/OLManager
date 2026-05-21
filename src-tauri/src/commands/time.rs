@@ -179,7 +179,7 @@ mod tests {
     use domain::league::{Fixture, FixtureStatus, MatchType};
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessagePriority};
-    use domain::player::{Injury, Player, PlayerAttributes, LolRole};
+    use domain::player::{Injury, LolRole, Player, PlayerAttributes};
     use domain::stats::StatsState;
     use domain::team::Team;
     use ofm_core::clock::GameClock;
@@ -370,7 +370,7 @@ mod tests {
     }
 
     #[test]
-    fn injured_starters_trigger_injury_and_incomplete_lineup_blockers() {
+    fn legacy_injury_fields_do_not_trigger_lineup_blockers() {
         let mut game = make_game(11);
         for player_id in ["p2", "p5"] {
             let player = game
@@ -386,27 +386,8 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        let injured = blocker_by_id(&blockers, "injured_lineup").unwrap();
-        assert_eq!(
-            injured.get("severity").and_then(Value::as_str),
-            Some("warn")
-        );
-        assert_eq!(injured.get("tab").and_then(Value::as_str), Some("Squad"));
-        let injured_text = injured.get("text").and_then(Value::as_str).unwrap();
-        assert!(injured_text.contains("2 injured player(s)"));
-        assert!(injured_text.contains("Player 2"));
-        assert!(injured_text.contains("Player 5"));
-
-        let incomplete = blocker_by_id(&blockers, "incomplete_lineup").unwrap();
-        assert_eq!(
-            incomplete.get("severity").and_then(Value::as_str),
-            Some("warn")
-        );
-        assert_eq!(incomplete.get("tab").and_then(Value::as_str), Some("Squad"));
-        assert_eq!(
-            incomplete.get("text").and_then(Value::as_str),
-            Some("Active lineup has only 9 healthy players — set your lineup")
-        );
+        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
+        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
     #[test]
@@ -424,7 +405,7 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_some());
+        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
         assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
@@ -473,7 +454,6 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
         assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 

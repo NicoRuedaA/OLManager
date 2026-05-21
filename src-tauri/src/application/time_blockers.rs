@@ -1,7 +1,7 @@
 use log::info;
 
 use ofm_core::game::Game;
-use ofm_core::player_rating::{effective_rating_for_assignment, position_slots, natural_ovr};
+use ofm_core::player_rating::{effective_rating_for_assignment, natural_ovr, position_slots};
 
 fn user_team_context<'a>(
     game: &'a Game,
@@ -42,18 +42,14 @@ fn should_notify_contract_risk_30d(
     contract_days_remaining(contract_end, current_date) == Some(30)
 }
 
-fn build_effective_healthy_lineup_ids(
+fn build_effective_lineup_ids(
     saved_lineup_ids: &[String],
     roster: &[&domain::player::Player],
 ) -> Vec<String> {
-    let healthy_roster: Vec<&domain::player::Player> = roster
+    let by_id: std::collections::HashMap<&str, &domain::player::Player> = roster
         .iter()
         .copied()
-        .filter(|player| player.injury.is_none())
-        .collect();
-    let by_id: std::collections::HashMap<&str, &domain::player::Player> = healthy_roster
-        .iter()
-        .map(|player| (player.id.as_str(), *player))
+        .map(|player| (player.id.as_str(), player))
         .collect();
     let mut used = std::collections::HashSet::new();
     let mut valid_saved_ids = Vec::new();
@@ -64,7 +60,7 @@ fn build_effective_healthy_lineup_ids(
         }
     }
 
-    let mut remaining_players: Vec<&domain::player::Player> = healthy_roster
+    let mut remaining_players: Vec<&domain::player::Player> = roster
         .iter()
         .copied()
         .filter(|player| !used.contains(&player.id))
@@ -113,7 +109,7 @@ fn build_effective_healthy_lineup_ids(
     let mut xi_ids = Vec::new();
 
     for slot in slots.iter().take(11) {
-        let best_player = healthy_roster
+        let best_player = roster
             .iter()
             .copied()
             .filter(|player| !used.contains(&player.id))
@@ -135,48 +131,11 @@ fn build_effective_healthy_lineup_ids(
     xi_ids
 }
 
-fn injured_lineup_blocker(
-    xi_ids: &[String],
-    roster: &[&domain::player::Player],
-) -> Option<serde_json::Value> {
-    let injured_in_xi: Vec<_> = xi_ids
-        .iter()
-        .filter_map(|id| {
-            roster
-                .iter()
-                .find(|player| player.id == *id && player.injury.is_some())
-        })
-        .map(|player| player.match_name.clone())
-        .collect();
-
-    // For LoL, check only 5 required roles instead of legacy 11-player lineups.
-    let required_count = if is_lol_mode(roster) { 5 } else { 11 };
-
-    (!injured_in_xi.is_empty() && xi_ids.len() >= required_count).then(|| {
-        let (count_text, tab) = if is_lol_mode(roster) {
-            ("5 Starter Roles", "Squad")
-        } else {
-            ("active lineup", "Squad")
-        };
-        build_blocker(
-            "injured_lineup",
-            "warn",
-            format!(
-                "{} injured player(s) in {}: {}",
-                injured_in_xi.len(),
-                count_text,
-                injured_in_xi.join(", ")
-            ),
-            tab,
-        )
-    })
-}
-
 fn incomplete_lineup_blocker(
-    effective_healthy_xi_ids: &[String],
+    effective_lineup_ids: &[String],
     roster: &[&domain::player::Player],
 ) -> Option<serde_json::Value> {
-    let healthy_xi = effective_healthy_xi_ids.len();
+    let selected_count = effective_lineup_ids.len();
 
     // For LoL, require only 5 roles instead of legacy 11-player lineups.
     let required_count = if is_lol_mode(roster) { 5 } else { 11 };
@@ -187,25 +146,23 @@ fn incomplete_lineup_blocker(
     };
 
     // Check minimum quantity first
-    if healthy_xi < required_count && roster.len() >= required_count {
+    if selected_count < required_count && roster.len() >= required_count {
         return Some(build_blocker(
             "incomplete_lineup",
             "warn",
             format!(
-                "{} has only {} healthy players — set your lineup",
-                count_text, healthy_xi
+                "{} has only {} players — set your lineup",
+                count_text, selected_count
             ),
             "Squad",
         ));
     }
 
     // For LoL mode, also validate role coverage in the active lineup.
-    if is_lol_mode(roster) && healthy_xi >= 5 {
+    if is_lol_mode(roster) && selected_count >= 5 {
         // Get players in the active lineup.
-        let xi_id_set: std::collections::HashSet<&str> = effective_healthy_xi_ids
-            .iter()
-            .map(String::as_str)
-            .collect();
+        let xi_id_set: std::collections::HashSet<&str> =
+            effective_lineup_ids.iter().map(String::as_str).collect();
 
         let xi_roles: std::collections::HashSet<&'static str> = roster
             .iter()
@@ -264,13 +221,11 @@ fn urgent_unread_messages_blocker(game: &Game) -> Option<serde_json::Value> {
 
 fn key_contract_risk_blocker(
     roster: &[&domain::player::Player],
-    effective_healthy_xi_ids: &[String],
+    effective_lineup_ids: &[String],
     current_date: chrono::NaiveDate,
 ) -> Option<serde_json::Value> {
-    let effective_xi_id_set: std::collections::HashSet<&str> = effective_healthy_xi_ids
-        .iter()
-        .map(String::as_str)
-        .collect();
+    let effective_xi_id_set: std::collections::HashSet<&str> =
+        effective_lineup_ids.iter().map(String::as_str).collect();
 
     let mut effective_xi_players: Vec<&domain::player::Player> = roster
         .iter()
@@ -443,13 +398,9 @@ pub fn compute_blocking_actions(game: &Game) -> Vec<serde_json::Value> {
     };
     let saved_xi_ids = &team.active_lineup_ids;
     let current_date = game.clock.current_date.date_naive();
-    let effective_healthy_xi_ids = build_effective_healthy_lineup_ids(saved_xi_ids, &roster);
+    let effective_lineup_ids = build_effective_lineup_ids(saved_xi_ids, &roster);
 
-    if let Some(blocker) = injured_lineup_blocker(saved_xi_ids, &roster) {
-        blockers.push(blocker);
-    }
-
-    if let Some(blocker) = incomplete_lineup_blocker(&effective_healthy_xi_ids, &roster) {
+    if let Some(blocker) = incomplete_lineup_blocker(&effective_lineup_ids, &roster) {
         blockers.push(blocker);
     }
 
@@ -461,9 +412,7 @@ pub fn compute_blocking_actions(game: &Game) -> Vec<serde_json::Value> {
         blockers.push(blocker);
     }
 
-    if let Some(blocker) =
-        key_contract_risk_blocker(&roster, &effective_healthy_xi_ids, current_date)
-    {
+    if let Some(blocker) = key_contract_risk_blocker(&roster, &effective_lineup_ids, current_date) {
         blockers.push(blocker);
     }
 
@@ -490,7 +439,7 @@ pub fn compute_blocking_actions(game: &Game) -> Vec<serde_json::Value> {
         game.clock.current_date.format("%Y-%m-%d"),
         team.id,
         roster.len(),
-        effective_healthy_xi_ids.len(),
+        effective_lineup_ids.len(),
         blocker_ids
     );
 

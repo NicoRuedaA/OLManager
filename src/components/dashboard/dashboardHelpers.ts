@@ -143,20 +143,13 @@ export function getDashboardAlerts(
     return !message.read && message.priority === "Urgent";
   }).length;
   const savedLineupIds = myTeam?.active_lineup_ids ?? myTeam?.starting_xi_ids ?? [];
-  const availableRoster = roster.filter((player) => !player.injury);
   const effectiveLineupIds = myTeam
-    ? buildActiveLineupIds(availableRoster, savedLineupIds)
+    ? buildActiveLineupIds(roster, savedLineupIds)
     : [];
   const activeLineupRoleCount = effectiveLineupIds.filter(Boolean).length;
-  const healthyRosterRoleCount = new Set(
-    buildActiveLineupIds(availableRoster, []).filter(Boolean),
+  const rosterRoleCount = new Set(
+    buildActiveLineupIds(roster, []).filter(Boolean),
   ).size;
-  const savedLineupPlayersOnRoster = savedLineupIds.filter((playerId) => {
-    return roster.some((player) => player.id === playerId);
-  });
-  const injuredInLineupCount = savedLineupPlayersOnRoster.filter((playerId) => {
-    return roster.find((player) => player.id === playerId)?.injury;
-  }).length;
 
   if (exhaustedCount >= 3) {
     alerts.push({
@@ -168,21 +161,9 @@ export function getDashboardAlerts(
   }
 
   if (savedLineupIds.length > 0) {
-    if (injuredInLineupCount > 0) {
-      alerts.push({
-        id: "injured_lineup",
-        text: t("dashboard.alerts.injuredStartingXi", {
-          count: injuredInLineupCount,
-        }),
-        tab: "Squad",
-        severity: "warn",
-      });
-    }
-
     if (
       activeLineupRoleCount < LOL_ACTIVE_ROLES.length &&
-      injuredInLineupCount === 0 &&
-      healthyRosterRoleCount >= LOL_ACTIVE_ROLES.length
+      rosterRoleCount >= LOL_ACTIVE_ROLES.length
     ) {
       alerts.push({
         id: "incomplete_lineup",

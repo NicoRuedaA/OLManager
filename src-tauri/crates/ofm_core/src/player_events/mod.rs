@@ -110,9 +110,6 @@ pub fn check_player_events(game: &mut Game) {
         if player.team_id.as_deref() != Some(&user_team_id) {
             continue;
         }
-        if player.injury.is_some() {
-            continue;
-        }
         if talk_cooldown_active(player, &today) {
             continue;
         }
@@ -153,9 +150,6 @@ pub fn check_player_events(game: &mut Game) {
                     break;
                 }
                 if player.team_id.as_deref() != Some(&user_team_id) {
-                    continue;
-                }
-                if player.injury.is_some() {
                     continue;
                 }
                 // In LoL, all roles including Support can be benched (no legacy goalkeeper exclusion)

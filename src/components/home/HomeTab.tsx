@@ -24,7 +24,6 @@ import HomeRecentResultsCard from "./HomeRecentResultsCard";
 import HomeRecentMessagesCard from "./HomeRecentMessagesCard";
 import HomeSquadOverviewCard from "./HomeSquadOverviewCard";
 import HomeSeasonStatusCard from "./HomeSeasonStatusCard";
-import HomeUnavailablePlayersCard from "./HomeUnavailablePlayersCard";
 import {
   Dumbbell,
   Mail,
@@ -80,15 +79,7 @@ export default function HomeTab({
     avgCondition,
     avgOvr,
     exhaustedCount,
-    unavailablePlayers,
   } = getHomeRosterOverview(roster);
-  const resolveInjuryName = (injuryName: string): string => {
-    if (injuryName.includes(".")) {
-      return t(injuryName, { defaultValue: injuryName });
-    }
-
-    return t(`common.injuries.${injuryName}`, { defaultValue: injuryName });
-  };
 
   // Current date / season context
   const lang = i18n.language;
@@ -298,12 +289,6 @@ export default function HomeTab({
               onNavigate={onNavigate}
             />
           </div>
-
-          <HomeUnavailablePlayersCard
-            players={unavailablePlayers}
-            resolveInjuryName={resolveInjuryName}
-            onNavigate={onNavigate}
-          />
 
           <HomeRosterLineupCard
             roster={roster}

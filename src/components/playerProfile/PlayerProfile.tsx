@@ -17,7 +17,6 @@ import { buildPlayerAttributeGroups } from "./PlayerProfile.attributes";
 import PlayerProfileAttributesCard from "./PlayerProfileAttributesCard";
 import PlayerProfileContractCard from "./PlayerProfileContractCard";
 import PlayerProfileHeroCard from "./PlayerProfileHeroCard";
-import PlayerProfileInjuryBanner from "./PlayerProfileInjuryBanner";
 import PlayerProfileRenewalModal from "./PlayerProfileRenewalModal";
 import {
   type DelegatedRenewalCaseData,
@@ -1022,11 +1021,6 @@ export default function PlayerProfile({
         isPotentialResearchBlockedByOther={isPotentialResearchBlockedByOther}
         t={t}
       />
-
-      {/* Injury banner */}
-      {player.injury ? (
-        <PlayerProfileInjuryBanner injury={player.injury} t={t} />
-      ) : null}
 
       {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

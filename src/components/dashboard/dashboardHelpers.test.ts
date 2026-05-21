@@ -291,7 +291,7 @@ describe("dashboardHelpers", function (): void {
     const alertIds = alerts.map((alert) => alert.id);
 
     expect(alertIds).toContain("exhausted");
-    expect(alertIds).toContain("injured_lineup");
+    expect(alertIds).not.toContain("injured_lineup");
     expect(alertIds).toContain("urgent");
     expect(alertIds).toContain("match_lineup");
   });

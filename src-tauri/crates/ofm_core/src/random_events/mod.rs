@@ -20,22 +20,6 @@ fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
         .collect()
 }
 
-/// Injury probability multiplier based on fitness. Less fit players are more
-/// prone to training ground injuries.
-fn injury_probability_from_fitness(fitness: u8) -> f64 {
-    if fitness < 30 {
-        3.0
-    } else if fitness < 50 {
-        2.0
-    } else if fitness < 70 {
-        1.5
-    } else if fitness >= 90 {
-        0.7
-    } else {
-        1.0
-    }
-}
-
 fn action(id: &str, label: &str, label_key: &str, action_type: ActionType) -> MessageAction {
     MessageAction {
         id: id.to_string(),
@@ -90,63 +74,7 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 2. Training ground injury (fitness-weighted probability, non-match days) ---
-    {
-        let has_match = game.active_league().is_some_and(|l| {
-            l.fixtures
-                .iter()
-                .any(|f| f.date == today && f.status == domain::league::FixtureStatus::Scheduled)
-        });
-        if !has_match {
-            // Pick a random non-injured player, biased toward less fit players.
-            let eligible: Vec<&domain::player::Player> = game
-                .players
-                .iter()
-                .filter(|p| p.team_id.as_deref() == Some(&user_team_id) && p.injury.is_none())
-                .collect();
-            if !eligible.is_empty() {
-                let player = eligible[rng.random_range(0..eligible.len())];
-                // Base 2% chance, scaled by fitness: less fit → higher probability
-                let fitness_mult = injury_probability_from_fitness(player.fitness);
-                let base_prob = 1.0_f64 / 50.0;
-                let injury_prob = (base_prob * fitness_mult).min(1.0);
-                if rng.random_bool(injury_prob) {
-                    let msg_id = format!("training_injury_{}_{}", player.id, today);
-                    if !existing_ids.contains(&msg_id) {
-                        let days = rng.random_range(3..=14);
-                        let injury_names = [
-                            "common.injuries.minorMuscleStrain",
-                            "common.injuries.twistedAnkle",
-                            "common.injuries.kneeBruise",
-                            "common.injuries.hamstringTightness",
-                            "common.injuries.calfStrain",
-                        ];
-                        let injury_name = injury_names[rng.random_range(0..injury_names.len())];
-
-                        new_messages.push(message_builders::training_injury_message(
-                            &msg_id,
-                            &player.id,
-                            &player.match_name,
-                            injury_name,
-                            days,
-                            &today,
-                        ));
-
-                        // Apply the injury
-                        let pid = player.id.clone();
-                        if let Some(p) = game.players.iter_mut().find(|p| p.id == pid) {
-                            p.injury = Some(domain::player::Injury {
-                                name: injury_name.to_string(),
-                                days_remaining: days,
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // --- 3. Media story (5% chance per day) ---
+    // --- 2. Media story (5% chance per day) ---
     {
         let msg_id = format!("media_{}", today);
         if !existing_ids.contains(&msg_id) && rng.random_range(0..20) == 0 {
@@ -190,7 +118,7 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 4. International call-up (5% chance per day, only if match in next 7 days) ---
+    // --- 3. International call-up (5% chance per day, only if match in next 7 days) ---
     {
         let upcoming_match = game.active_league().and_then(|l| {
             let current = game.clock.current_date;
@@ -212,7 +140,7 @@ pub fn check_random_events(game: &mut Game) {
             let eligible: Vec<&domain::player::Player> = game
                 .players
                 .iter()
-                .filter(|p| p.team_id.as_deref() == Some(&user_team_id) && p.injury.is_none())
+                .filter(|p| p.team_id.as_deref() == Some(&user_team_id))
                 .collect();
             if !eligible.is_empty() {
                 let player = eligible[rng.random_range(0..eligible.len())];
@@ -234,7 +162,7 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 5. Community event / club milestone (1% chance per day) ---
+    // --- 4. Community event / club milestone (1% chance per day) ---
     {
         let msg_id = format!("community_{}", today);
         if !existing_ids.contains(&msg_id) && rng.random_range(0..100) == 0 {
@@ -250,7 +178,7 @@ pub fn check_random_events(game: &mut Game) {
         }
     }
 
-    // --- 6. Dressing room mood report (once per week, deterministic on Monday) ---
+    // --- 5. Dressing room mood report (once per week, deterministic on Monday) ---
     {
         let is_monday = game.clock.current_date.weekday() == chrono::Weekday::Mon;
         let msg_id = format!("mood_report_{}", today);
@@ -347,7 +275,7 @@ pub fn check_random_events(game: &mut Game) {
             let eligible: Vec<&domain::player::Player> = game
                 .players
                 .iter()
-                .filter(|p| p.team_id.as_deref() == Some(&user_team_id) && p.injury.is_none())
+                .filter(|p| p.team_id.as_deref() == Some(&user_team_id))
                 .collect();
             if !eligible.is_empty() {
                 let player = choose_rival_interest_target(&eligible, current_date, &mut rng)

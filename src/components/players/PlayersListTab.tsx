@@ -164,7 +164,6 @@ export default function PlayersListTab({
         const statusVal = (p: typeof a) => {
           if (p.loan_listed) return 3;
           if (p.transfer_listed) return 2;
-          if (p.injury) return 1;
           return 0;
         };
         cmp = statusVal(b) - statusVal(a);
@@ -431,11 +430,6 @@ export default function PlayersListTab({
                           {player.loan_listed && (
                             <Badge variant="primary" size="sm">
                               {t("transfers.loan")}
-                            </Badge>
-                          )}
-                          {player.injury && (
-                            <Badge variant="danger" size="sm">
-                              {t("common.injured")}
                             </Badge>
                           )}
                         </td>

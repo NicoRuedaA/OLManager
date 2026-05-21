@@ -17,7 +17,7 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
     let team_players: Vec<_> = game
         .players
         .iter()
-        .filter(|p| p.team_id.as_deref() == Some(&user_team_id) && p.injury.is_none())
+        .filter(|p| p.team_id.as_deref() == Some(&user_team_id))
         .collect();
 
     if team_players.is_empty() {
@@ -116,10 +116,10 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
         };
 
         let body = format!(
-            "Boss, we have a serious fitness crisis. {} players are in critical condition and at risk of injury:\n\n\
+            "Boss, we have a serious fitness crisis. {} players are in critical condition:\n\n\
             {}\n\n\
             Average squad fitness is at {:.0}%. {}{}\n\n\
-            If we push them further without rest, injuries are inevitable.",
+            If we push them further without rest, performance and morale will suffer.",
             critical_count,
             exhausted_names.join("\n"),
             avg_condition,

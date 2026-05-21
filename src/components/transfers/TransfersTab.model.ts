@@ -240,7 +240,6 @@ export function sortTransferPlayers(
         const statusVal = (p: typeof a) => {
           if (p.loan_listed) return 3;
           if (p.transfer_listed) return 2;
-          if (p.injury) return 1;
           return 0;
         };
         return (statusVal(b) - statusVal(a)) * factor;

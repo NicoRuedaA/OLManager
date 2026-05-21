@@ -44,7 +44,6 @@ export interface HomeRosterOverview {
   coldPlayers: PlayerData[];
   exhaustedCount: number;
   hotPlayers: PlayerData[];
-  unavailablePlayers: PlayerData[];
 }
 
 export interface HomeRecentResult {
@@ -158,17 +157,8 @@ export function getHomeRosterOverview(
         )
       : 0;
   const exhaustedCount = roster.filter((player) => player.condition < 40).length;
-  const unavailablePlayers = roster
-    .filter((player) => player.injury != null)
-    .sort((leftPlayer, rightPlayer) => {
-      return (
-        (rightPlayer.injury?.days_remaining ?? 0) -
-          (leftPlayer.injury?.days_remaining ?? 0) ||
-        leftPlayer.full_name.localeCompare(rightPlayer.full_name)
-      );
-    });
   const hotPlayers = roster
-    .filter((player) => player.morale >= 80 && !player.injury)
+    .filter((player) => player.morale >= 80)
     .sort((leftPlayer, rightPlayer) => rightPlayer.morale - leftPlayer.morale)
     .slice(0, 3);
   const coldPlayers = roster
@@ -182,7 +172,6 @@ export function getHomeRosterOverview(
     coldPlayers,
     exhaustedCount,
     hotPlayers,
-    unavailablePlayers,
   };
 }
 

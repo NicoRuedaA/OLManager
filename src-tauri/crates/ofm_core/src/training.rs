@@ -980,15 +980,6 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             let condition_rec = recovery_factor_from_condition(player.condition);
             let fitness_rec = recovery_factor_from_fitness(player.fitness);
 
-            // Injured players: half base recovery, scaled by age and morale.
-            // Fitness decays slowly during injury (inactive = losing sharpness).
-            if player.injury.is_some() {
-                let recovery = (recovery_base * 0.5 * age_rec * morale_rec * fitness_rec) as u8;
-                player.condition = (player.condition + recovery).min(100);
-                player.fitness = clamp_fitness(player.fitness as i16 - 1);
-                continue;
-            }
-
             // On rest days: only recovery, no attribute gains
             if !is_training_day {
                 let stamina_factor = player.attributes.mental_resilience as f64 / 100.0;
@@ -1419,9 +1410,4 @@ fn recovery_factor_from_fitness(fitness: u8) -> f64 {
     } else {
         1.20
     }
-}
-
-/// Clamp a fitness value to 0–100.
-fn clamp_fitness(val: i16) -> u8 {
-    val.clamp(0, 100) as u8
 }

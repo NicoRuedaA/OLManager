@@ -306,7 +306,7 @@ describe("HomeTab.helpers", function (): void {
     ]);
   });
 
-  it("builds roster overview metrics, unavailable players, and momentum groups", function (): void {
+  it("builds roster overview metrics and momentum groups", function (): void {
     const roster = [
       createPlayer({
         id: "player-hot",
@@ -337,9 +337,6 @@ describe("HomeTab.helpers", function (): void {
     expect(result.avgCondition).toBe(61);
     expect(result.avgOvr).toBeGreaterThan(0);
     expect(result.exhaustedCount).toBe(1);
-    expect(result.unavailablePlayers.map((player) => player.id)).toEqual([
-      "player-injured",
-    ]);
     expect(result.hotPlayers.map((player) => player.id)).toEqual(["player-hot"]);
     expect(result.coldPlayers.map((player) => player.id)).toEqual([
       "player-cold",

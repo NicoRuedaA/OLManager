@@ -58,65 +58,6 @@ pub(super) fn sponsor_offer_message(
     .with_sender_i18n("be.sender.commercialDirector", "be.role.commercialDirector")
 }
 
-pub(super) fn training_injury_message(
-    msg_id: &str,
-    player_id: &str,
-    player_name: &str,
-    injury_name: &str,
-    days: u32,
-    date: &str,
-) -> InboxMessage {
-    let mut rng = rand::rng();
-    let variations = [
-        format!(
-            "Bad news from the training ground. {} has picked up a {} during today's session.\n\n\
-            The medical team estimates {} days on the sidelines. We'll monitor the recovery closely.",
-            player_name,
-            injury_name.to_lowercase(),
-            days
-        ),
-        format!(
-            "Unfortunately, {} went down in training today with a {}.\n\n\
-            Initial assessment: out for approximately {} days. We'll keep you updated on their progress.",
-            player_name,
-            injury_name.to_lowercase(),
-            days
-        ),
-    ];
-    let idx = rng.random_range(0..variations.len());
-
-    InboxMessage::new(
-        msg_id.to_string(),
-        format!("Injury — {} ({})", player_name, injury_name),
-        variations[idx].clone(),
-        "Head Physio".to_string(),
-        date.to_string(),
-    )
-    .with_category(MessageCategory::Injury)
-    .with_priority(MessagePriority::High)
-    .with_sender_role("Head Physio")
-    .with_action(action(
-        "ack",
-        "Understood",
-        "be.msg.event.ack",
-        ActionType::Acknowledge,
-    ))
-    .with_context(MessageContext {
-        player_id: Some(player_id.to_string()),
-        ..Default::default()
-    })
-    .with_i18n(
-        "be.msg.trainingInjury.subject",
-        &format!("be.msg.trainingInjury.body{}", idx),
-        params(&[
-            ("player", player_name),
-            ("injury", injury_name),
-            ("days", &days.to_string()),
-        ]),
-    )
-    .with_sender_i18n("be.sender.headPhysio", "be.role.headPhysio")
-}
-
 const ESPORTMANIACOS_VARIANT_COUNT: usize = 10;
 
 fn esportmaniacos_story_copy(

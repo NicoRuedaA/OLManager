@@ -316,11 +316,11 @@ fn light_schedule_trains_two_days() {
 }
 
 // ---------------------------------------------------------------------------
-// process_training — injured players
+// process_training — legacy injury fields
 // ---------------------------------------------------------------------------
 
 #[test]
-fn injured_player_gets_reduced_recovery() {
+fn legacy_injury_field_does_not_reduce_recovery() {
     let mut game = make_game();
     let p1 = game.players.iter_mut().find(|p| p.id == "p1").unwrap();
     p1.condition = 40;
@@ -332,7 +332,7 @@ fn injured_player_gets_reduced_recovery() {
     let p2 = game.players.iter_mut().find(|p| p.id == "p2").unwrap();
     p2.condition = 40;
 
-    // Rest day so both recover, but injured player gets reduced (0.5x) recovery
+    // Rest day so both recover; legacy injury fields no longer affect training.
     training::process_training(&mut game, 2);
 
     let p1_after = game
@@ -348,13 +348,7 @@ fn injured_player_gets_reduced_recovery() {
         .unwrap()
         .condition;
 
-    assert!(p1_after > 40, "Injured player should still recover");
-    assert!(
-        p1_after <= p2_after,
-        "Injured player ({}) should recover less than healthy ({})",
-        p1_after,
-        p2_after
-    );
+    assert_eq!(p1_after, p2_after);
 }
 
 #[test]
@@ -1070,7 +1064,7 @@ fn scrims_can_increase_fitness() {
 }
 
 #[test]
-fn injured_player_loses_fitness_over_time() {
+fn legacy_injury_field_does_not_decay_fitness_over_time() {
     let mut game = make_game();
     let p1 = game.players.iter_mut().find(|p| p.id == "p1").unwrap();
     p1.fitness = 80;
@@ -1081,19 +1075,14 @@ fn injured_player_loses_fitness_over_time() {
 
     let initial_fitness = game.players.iter().find(|p| p.id == "p1").unwrap().fitness;
 
-    // Simulate 20 rest days with the injury
+    // Simulate 20 rest days with a legacy injury field.
     for _ in 0..20 {
         training::process_training(&mut game, 2); // rest day
     }
 
     let final_fitness = game.players.iter().find(|p| p.id == "p1").unwrap().fitness;
 
-    assert!(
-        final_fitness < initial_fitness,
-        "Injured player's fitness ({}) should decay below initial ({})",
-        final_fitness,
-        initial_fitness
-    );
+    assert_eq!(final_fitness, initial_fitness);
 }
 
 #[test]

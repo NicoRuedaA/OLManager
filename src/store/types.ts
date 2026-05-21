@@ -326,7 +326,8 @@ export interface PlayerData {
   attributes: PlayerAttributes;
   condition: number;
   morale: number;
-  injury: null | { name: string; days_remaining: number };
+  /** Legacy save compatibility only; no runtime availability behavior uses this field. */
+  injury?: null | { name: string; days_remaining: number };
   team_id: string | null;
   contract_end: string | null;
   wage: number;

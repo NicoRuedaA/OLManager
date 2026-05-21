@@ -1,7 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{
-    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
-};
+use domain::league::{Fixture, FixtureStatus, League, MatchResult, MatchType, StandingEntry};
 use domain::manager::Manager;
 use domain::message::{
     ActionOption, ActionType, InboxMessage, MessageAction, MessageCategory, MessageContext,
@@ -99,7 +97,7 @@ fn make_game_with_league() -> Game {
             result: None,
         }],
         standings: vec![StandingEntry::new("team1".to_string())],
-    });
+    }];
     game
 }
 
@@ -211,31 +209,6 @@ fn check_random_events_sponsor_offer_has_correct_structure() {
 }
 
 #[test]
-fn check_random_events_training_injury_applies_injury() {
-    let mut game = make_game();
-    // Remove the league so no match-day exclusion applies
-    game.leagues.clear();
-    // Run many days
-    for _ in 0..2000 {
-        check_random_events(&mut game);
-        game.clock.advance_days(1);
-    }
-    let injury_msgs: Vec<&InboxMessage> = game
-        .messages
-        .iter()
-        .filter(|m| m.id.starts_with("training_injury_"))
-        .collect();
-    if !injury_msgs.is_empty() {
-        // At least one player should have an injury
-        let injured = game.players.iter().any(|p| p.injury.is_some());
-        assert!(
-            injured,
-            "A training injury event should apply the injury to the player"
-        );
-    }
-}
-
-#[test]
 fn check_random_events_media_story_affects_morale() {
     let mut game = make_game();
     // Set all players to morale 70
@@ -322,7 +295,7 @@ fn check_random_events_board_confidence_triggers_on_losses() {
             },
         ],
         standings: vec![],
-    });
+    }];
 
     check_random_events(&mut game);
 
@@ -408,7 +381,7 @@ fn check_random_events_board_confidence_no_trigger_without_losses() {
             },
         ],
         standings: vec![],
-    });
+    }];
 
     check_random_events(&mut game);
     let board_msgs = game
@@ -446,7 +419,7 @@ fn check_random_events_international_callup_with_upcoming_match() {
             result: None,
         }],
         standings: vec![],
-    });
+    }];
 
     // Run many times to trigger the 5% chance
     for _ in 0..2000 {
@@ -986,51 +959,6 @@ fn apply_unknown_message_type_returns_none() {
 // ---------------------------------------------------------------------------
 
 #[test]
-fn training_injury_skipped_on_match_day() {
-    let mut game = make_game_with_league();
-    // Today has a scheduled match, so training injuries should not occur
-    let initial_injuries = game.players.iter().filter(|p| p.injury.is_some()).count();
-    // Run 100 times on the same match day
-    for _ in 0..100 {
-        // Reset messages to allow re-check
-        game.messages
-            .retain(|m| !m.id.starts_with("training_injury_"));
-        check_random_events(&mut game);
-    }
-    let final_injuries = game.players.iter().filter(|p| p.injury.is_some()).count();
-    assert_eq!(
-        initial_injuries, final_injuries,
-        "No training injuries on match day"
-    );
-}
-
-#[test]
-fn already_injured_players_excluded_from_training_injury() {
-    let mut game = make_game();
-    game.leagues.clear();
-    // Injure all players
-    for p in &mut game.players {
-        p.injury = Some(domain::player::Injury {
-            name: "Existing injury".to_string(),
-            days_remaining: 5,
-        });
-    }
-    for _ in 0..500 {
-        check_random_events(&mut game);
-        game.clock.advance_days(1);
-    }
-    let injury_msgs = game
-        .messages
-        .iter()
-        .filter(|m| m.id.starts_with("training_injury_"))
-        .count();
-    assert_eq!(
-        injury_msgs, 0,
-        "Already injured players should not get training injuries"
-    );
-}
-
-#[test]
 fn mood_report_categorizes_morale_levels() {
     // Test with different average morale levels to exercise all branches
     let mut game = make_game();
@@ -1106,10 +1034,6 @@ fn check_random_events_all_message_types_generated() {
         .messages
         .iter()
         .any(|m| m.id.starts_with("rival_interest_"));
-    let has_injury = game
-        .messages
-        .iter()
-        .any(|m| m.id.starts_with("training_injury_"));
 
     assert!(
         has_sponsor,
@@ -1131,91 +1055,5 @@ fn check_random_events_all_message_types_generated() {
     assert!(
         has_rival,
         "Should generate rival interest messages over 5000 days"
-    );
-    assert!(
-        has_injury,
-        "Should generate training injury messages over 5000 days"
-    );
-}
-
-// ---------------------------------------------------------------------------
-// Fitness affects injury probability
-// ---------------------------------------------------------------------------
-
-#[test]
-fn unfit_players_get_more_training_injuries() {
-    // Players with very low fitness should be injured more often than peak-fitness players.
-    // We run many simulated days and compare injury message counts.
-
-    fn run_days_and_count_injury_msgs(fitness: u8) -> usize {
-        let clock = GameClock::new(Utc.with_ymd_and_hms(2025, 1, 1, 12, 0, 0).unwrap());
-        let mut manager = Manager::new(
-            "mgr1".to_string(),
-            "Test".to_string(),
-            "Manager".to_string(),
-            "1980-01-01".to_string(),
-            "England".to_string(),
-        );
-        manager.hire("team1".to_string());
-        let team = Team::new(
-            "team1".to_string(),
-            "Test FC".to_string(),
-            "TFC".to_string(),
-            "England".to_string(),
-            "London".to_string(),
-            "Stadium".to_string(),
-            40_000,
-        );
-        // Single player so all picks go to them
-        let mut player = Player::new(
-            "p1".to_string(),
-            "TestPlayer".to_string(),
-            "TestPlayer".to_string(),
-            "1995-01-01".to_string(),
-            "England".to_string(),
-            LolRole::Jungle,
-            PlayerAttributes {
-                mental_resilience: 60,
-                champion_pool: 60,
-                laning: 60,
-                mechanics: 60,
-                macro_play: 60,
-                consistency: 60,
-                discipline: 60,
-                teamfighting: 60,
-                shotcalling: 60,
-            },
-        );
-        player.team_id = Some("team1".to_string());
-        player.fitness = fitness;
-
-        let mut game = Game::new(clock, manager, vec![team], vec![player], vec![], vec![]);
-
-        let mut injury_count = 0;
-        for _ in 0..3000 {
-            let before = game.players[0].injury.is_some();
-            check_random_events(&mut game);
-            let after = game.players[0].injury.is_some();
-            if !before && after {
-                injury_count += 1;
-                // Clear injury so player is eligible again
-                game.players[0].injury = None;
-            }
-            // Clear injury messages so the ID dedup doesn't block future events
-            game.messages
-                .retain(|m| !m.id.starts_with("training_injury_"));
-            game.clock.advance_days(1);
-        }
-        injury_count
-    }
-
-    let unfit_injuries = run_days_and_count_injury_msgs(20);
-    let peak_injuries = run_days_and_count_injury_msgs(95);
-
-    assert!(
-        unfit_injuries > peak_injuries,
-        "Unfit players ({} injuries) should be injured more than peak-fitness players ({} injuries)",
-        unfit_injuries,
-        peak_injuries
     );
 }
