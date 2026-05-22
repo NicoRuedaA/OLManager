@@ -256,7 +256,7 @@ La Fase 1 de hardening y foundation está completa. Ver `docs/proposals/analisis
 
 ### Flujo Issue-First
 
-Siguiendo [`GOVERNANCE.md`](docs/GOVERNANCE.md), el desarrollo sigue este flujo:
+Siguiendo [`GOVERNANCE.md`](../GOVERNANCE.md), el desarrollo sigue este flujo:
 
 ```
 1. Abrir issue con template → 2. Review de maintainer → 3. Apply label status:approved
