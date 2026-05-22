@@ -236,7 +236,6 @@
     "expandSidebar": "Expand sidebar",
     "alerts": {
       "exhausted": "{{count}} player(s) in critical condition (<25%)",
-      "injuredStartingXi": "{{count}} injured player(s) in Starting Five — replace them",
       "incompleteStartingXi": "Starting Five incomplete — set your lineup",
       "urgentUnread": "{{count}} urgent message(s) unread",
       "matchTodayStartingXi": "Match today! Set your starting five"

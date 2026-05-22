@@ -315,41 +315,7 @@ fn light_schedule_trains_two_days() {
     assert!(!TrainingSchedule::Light.is_training_day(6));
 }
 
-// ---------------------------------------------------------------------------
-// process_training — legacy injury fields
-// ---------------------------------------------------------------------------
 
-#[test]
-fn legacy_injury_field_does_not_reduce_recovery() {
-    let mut game = make_game();
-    let p1 = game.players.iter_mut().find(|p| p.id == "p1").unwrap();
-    p1.condition = 40;
-    p1.injury = Some(domain::player::Injury {
-        name: "Hamstring".to_string(),
-        days_remaining: 10,
-    });
-
-    let p2 = game.players.iter_mut().find(|p| p.id == "p2").unwrap();
-    p2.condition = 40;
-
-    // Rest day so both recover; legacy injury fields no longer affect training.
-    training::process_training(&mut game, 2);
-
-    let p1_after = game
-        .players
-        .iter()
-        .find(|p| p.id == "p1")
-        .unwrap()
-        .condition;
-    let p2_after = game
-        .players
-        .iter()
-        .find(|p| p.id == "p2")
-        .unwrap()
-        .condition;
-
-    assert_eq!(p1_after, p2_after);
-}
 
 #[test]
 fn higher_medical_facility_level_improves_recovery_on_rest_days() {

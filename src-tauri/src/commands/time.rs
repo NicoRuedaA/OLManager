@@ -179,7 +179,7 @@ mod tests {
     use domain::league::{Fixture, FixtureStatus, MatchType};
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessagePriority};
-    use domain::player::{Injury, LolRole, Player, PlayerAttributes};
+    use domain::player::{LolRole, Player, PlayerAttributes};
     use domain::stats::StatsState;
     use domain::team::Team;
     use ofm_core::clock::GameClock;
@@ -367,46 +367,6 @@ mod tests {
         let blockers = compute_blocking_actions(&game);
 
         assert!(blockers.is_empty());
-    }
-
-    #[test]
-    fn legacy_injury_fields_do_not_trigger_lineup_blockers() {
-        let mut game = make_game(11);
-        for player_id in ["p2", "p5"] {
-            let player = game
-                .players
-                .iter_mut()
-                .find(|player| player.id == player_id)
-                .unwrap();
-            player.injury = Some(Injury {
-                name: "Hamstring".to_string(),
-                days_remaining: 7,
-            });
-        }
-
-        let blockers = compute_blocking_actions(&game);
-
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
-        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
-    }
-
-    #[test]
-    fn incomplete_lineup_is_not_reported_when_roster_has_fewer_than_eleven_players() {
-        let mut game = make_game(10);
-        let player = game
-            .players
-            .iter_mut()
-            .find(|player| player.id == "p3")
-            .unwrap();
-        player.injury = Some(Injury {
-            name: "Knee".to_string(),
-            days_remaining: 14,
-        });
-
-        let blockers = compute_blocking_actions(&game);
-
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
-        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
     #[test]

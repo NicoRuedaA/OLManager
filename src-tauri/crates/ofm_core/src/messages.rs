@@ -152,7 +152,7 @@ pub fn staff_advice_message(team_name: &str, team_id: &str, date: &str) -> Inbox
         format!(
             "Boss, I've had a look at the staff situation at {} and wanted to flag a few things:\n\n\
             • A good **Coach** will significantly improve training effectiveness — your players will develop faster.\n\
-            • A qualified **Physio** helps with injury prevention and speeds up recovery between matches.\n\
+            • A qualified **Physio** helps speed up recovery between matches and keep players match-fit.\n\
             • Our **Scouts** can help identify transfer targets and assess opponents.\n\n\
             I'd strongly recommend filling any vacancies before the season starts. \
             You can find available staff in the Staff section.\n\n\

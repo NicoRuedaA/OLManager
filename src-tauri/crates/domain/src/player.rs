@@ -40,12 +40,10 @@ pub struct Player {
     #[serde(default = "default_morale")]
     pub morale: u8,    // 0-100
     /// Long-term physical shape (0–100). Determines how fast condition depletes and
-    /// recovers, and modulates injury risk. Changes slowly over weeks.
+    /// recovers. Changes slowly over weeks.
     #[serde(default = "default_fitness")]
     pub fitness: u8,
 
-    #[serde(default, deserialize_with = "deserialize_optional_injury")]
-    pub injury: Option<Injury>,
     pub team_id: Option<String>,
 
     // Traits / flairs derived from attributes
@@ -190,39 +188,6 @@ fn default_market_value() -> u64 {
 
 fn default_potential_base() -> u8 {
     99
-}
-
-/// Custom deserializer for `Option<Injury>` that treats `""` and `null` as `None`.
-fn deserialize_optional_injury<'de, D>(deserializer: D) -> Result<Option<Injury>, D::Error>
-where
-    D: serde::Deserializer<'de>,
-{
-    use serde::de::Visitor;
-    struct InjuryOptVisitor;
-    impl<'de> Visitor<'de> for InjuryOptVisitor {
-        type Value = Option<Injury>;
-        fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-            f.write_str("an Injury object, null, or empty string")
-        }
-        fn visit_none<E: serde::de::Error>(self) -> Result<Option<Injury>, E> {
-            Ok(None)
-        }
-        fn visit_unit<E: serde::de::Error>(self) -> Result<Option<Injury>, E> {
-            Ok(None)
-        }
-        fn visit_str<E: serde::de::Error>(self, v: &str) -> Result<Option<Injury>, E> {
-            if v.is_empty() { Ok(None) } else { Err(E::custom("expected injury object or null")) }
-        }
-    }
-    deserializer.deserialize_any(InjuryOptVisitor)
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
-pub struct Injury {
-    pub name: String,
-    pub days_remaining: u32,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -632,7 +597,6 @@ impl Player {
             condition: 100,
             morale: 100,
             fitness: 75,
-            injury: None,
             team_id: None,
             traits,
             contract_end: None,
@@ -689,7 +653,6 @@ mod tests {
             "attributes": sample_attributes(),
             "condition": 100,
             "morale": 100,
-            "injury": null,
             "team_id": null,
             "traits": [],
             "contract_end": null,
@@ -725,7 +688,6 @@ mod tests {
             "attributes": sample_attributes(),
             "condition": 100,
             "morale": 100,
-            "injury": null,
             "team_id": null,
             "traits": [],
             "contract_end": null,

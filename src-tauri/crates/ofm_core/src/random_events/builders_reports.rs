@@ -133,7 +133,7 @@ pub(super) fn board_confidence_message(msg_id: &str, date: &str) -> InboxMessage
                 },
                 ActionOption {
                     id: "blame_circumstances".to_string(),
-                    label: "Point to injuries and bad luck".to_string(),
+                    label: "Blame external factors and poor conditions".to_string(),
                     description: "Deflect blame to external factors. May or may not convince them."
                         .to_string(),
                     label_key: Some(

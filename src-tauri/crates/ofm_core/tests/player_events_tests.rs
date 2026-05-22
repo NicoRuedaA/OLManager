@@ -181,35 +181,6 @@ fn normal_morale_no_message() {
 }
 
 #[test]
-fn legacy_injury_field_does_not_suppress_morale_message() {
-    let mut game = make_game();
-    let player = game.players.iter_mut().find(|p| p.id == "p_fwd0").unwrap();
-    player.morale = 20;
-    player.injury = Some(domain::player::Injury {
-        name: "Muscle".to_string(),
-        days_remaining: 5,
-    });
-
-    for _ in 0..100 {
-        player_events::check_player_events(&mut game);
-        if game.messages.iter().any(|m| m.id == "morale_talk_p_fwd0") {
-            break;
-        }
-    }
-
-    let morale_msgs: Vec<_> = game
-        .messages
-        .iter()
-        .filter(|m| m.id == "morale_talk_p_fwd0")
-        .collect();
-    assert_eq!(
-        morale_msgs.len(),
-        1,
-        "Legacy injury fields should not suppress morale talks"
-    );
-}
-
-#[test]
 fn morale_message_not_duplicated() {
     let mut game = make_game();
     game.players

@@ -424,7 +424,6 @@ mod tests {
               "condition": 100,
               "morale": 100,
               "fitness": 75,
-              "injury": null,
               "team_id": "team-1",
               "traits": [],
               "contract_end": null,
