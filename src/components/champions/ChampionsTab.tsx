@@ -11,7 +11,7 @@ import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import { t } from "i18next";
 import { resolvePlayerCurrentLolRole } from "../../lib/lolIdentity";
 import { normalizeChampionKey } from "../../lib/championIds";
-import { resolveChampionTile, ddragonTileUrl } from "../../lib/championImages";
+import { resolveChampionTile } from "../../lib/championImages";
 
 interface ChampionsTabProps {
   gameState: GameStateData;
@@ -492,16 +492,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                         >
                           <div className="h-14 w-24 rounded-md border border-navy-500/80 bg-navy-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-yellow-300 overflow-hidden">
                             <img
-                              src={resolveChampionTile(entry.champion_id) ?? ddragonTileUrl(entry.champion_id) ?? ""}
+                              src={resolveChampionTile(entry.champion_id) ?? ""}
                               alt={championDisplayName(entry.champion_id)}
                               className="h-full w-full object-cover"
                               loading="lazy"
-                              onError={(event) => {
-                                const element = event.currentTarget;
-                                element.onerror = null;
-                                const fallback = ddragonTileUrl(entry.champion_id);
-                                if (fallback) element.src = fallback;
-                              }}
                               title={`${championDisplayName(entry.champion_id)} · ${entry.role}`}
                             />
                           </div>

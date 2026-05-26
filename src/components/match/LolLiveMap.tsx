@@ -47,10 +47,7 @@ function structureAlive(snapshot: MatchSnapshot, id: string): boolean {
 
 function championIconUrl(championId: string | undefined): string | null {
   if (!championId) return null;
-  if (championId.toLowerCase().replace(/[^a-z0-9]/g, "") === "yunara") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/804.png";
-  }
-  return `https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/${championId}.png`;
+  return `/champion-tiles/${championId}.webp`;
 }
 
 function initials(name: string): string {

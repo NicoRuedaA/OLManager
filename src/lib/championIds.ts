@@ -28,6 +28,7 @@ const NORMALIZED_KEYS: Record<string, string> = {
   twistedfate: "TwistedFate",
   velkoz: "Velkoz",
   wukong: "MonkeyKing",
+  yunara: "Yunara",
 };
 
 /**

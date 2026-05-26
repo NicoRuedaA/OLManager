@@ -24,13 +24,28 @@ const TileEndpoint = "/cdn/img/champion/tiles";
 const SplashEndpoint = "/cdn/img/champion/splash";
 const TILE_DIR = resolve(ROOT, "public/champion-tiles");
 const SPLASH_DIR = resolve(ROOT, "public/champion-splash");
+const DATA_DIR = resolve(ROOT, "data/draft");
 const CONCURRENCY = 10;
 
 /**
- * Fetch champion list from DDragon champion.json.
- * Returns an array of champion key strings (e.g., "Aatrox", "Ahri").
+ * Custom champion entries not in DDragon.
+ * Maps a normalized lookup key to champion data.
  */
-async function fetchChampionKeys() {
+const CUSTOM_CHAMPIONS = {
+  yunara: {
+    id: "Yunara",
+    key: "804",
+    name: "Yunara",
+    tags: ["Mage", "Assassin"],
+    image: { full: "Yunara.png" },
+  },
+};
+
+/**
+ * Fetch champion list from DDragon champion.json.
+ * Returns both keys array and full champion data object.
+ */
+async function fetchChampionData() {
   const versionResp = await fetch(`${DDragonCDN}/api/versions.json`);
   const versions = await versionResp.json();
   const latest = versions[0];
@@ -39,7 +54,17 @@ async function fetchChampionKeys() {
     `${DDragonCDN}/cdn/${latest}/data/en_US/champion.json`,
   );
   const champData = await champResp.json();
-  return Object.keys(champData.data);
+
+  // Merge custom champions into the data (override if already exists)
+  for (const [lookup, custom] of Object.entries(CUSTOM_CHAMPIONS)) {
+    champData.data[custom.id] = custom;
+  }
+
+  return {
+    keys: Object.keys(champData.data),
+    data: champData.data,
+    version: latest,
+  };
 }
 
 /**
@@ -88,18 +113,18 @@ async function batchDownload(items) {
 
 async function main() {
   console.log("Fetching champion list from DDragon…");
-  const keys = await fetchChampionKeys();
-  console.log(`Found ${keys.length} champions`);
+  const { keys, data, version } = await fetchChampionData();
+  console.log(`Found ${keys.length} champions (including custom)`);
 
   // Build tile items
   const tileItems = keys.map((key) => ({
-    url: `${DDragonCDN}/${TileEndpoint}/${key}_0.jpg`,
+    url: `${DDragonCDN}${TileEndpoint}/${key}_0.jpg`,
     dest: resolve(TILE_DIR, `${key}.webp`),
   }));
 
   // Build splash items
   const splashItems = keys.map((key) => ({
-    url: `${DDragonCDN}/${SplashEndpoint}/${key}_0.jpg`,
+    url: `${DDragonCDN}${SplashEndpoint}/${key}_0.jpg`,
     dest: resolve(SPLASH_DIR, `${key}.webp`),
   }));
 
@@ -112,6 +137,23 @@ async function main() {
   const savedSplashes = await batchDownload(splashItems);
   const splashOk = savedSplashes.filter(Boolean).length;
   console.log(`Splashes: ${splashOk}/${splashItems.length} saved`);
+
+  // Export champion list JSON
+  const championList = Object.entries(data).map(([id, champ]) => ({
+    id,
+    key: Number(champ.key),
+    name: champ.name,
+    tags: champ.tags ?? [],
+    image: champ.image?.full ?? `${id}.png`,
+  }));
+
+  await mkdir(DATA_DIR, { recursive: true });
+  const championListPath = resolve(DATA_DIR, "champion-list.json");
+  await writeFile(
+    championListPath,
+    JSON.stringify({ version, champions: championList }, null, 2),
+  );
+  console.log(`Champion list saved to ${championListPath}`);
 
   console.log("Done.");
 }

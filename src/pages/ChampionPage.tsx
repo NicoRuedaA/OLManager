@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useGameStore } from "../store/gameStore";
 import { ROLE_ICON_PATHS } from "../lib/roleIcons";
 import { Card, CardBody, CardHeader } from "../components/ui";
-import { resolveChampionTile, resolveChampionSplash, ddragonTileUrl, ddragonSplashUrl } from "../lib/championImages";
+import { resolveChampionTile, resolveChampionSplash } from "../lib/championImages";
 
 export interface ChampionPageProps {
   championKey: string;
@@ -199,16 +199,14 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
     [],
   );
 
-  // Determine image URLs — local webp first, then DDragon fallback
+  // Determine image URLs — local webp only
   const splashUrl =
     champion.image_splash_url
     || resolveChampionSplash(champion.champion_key)
-    || ddragonSplashUrl(champion.champion_key)
     || "";
   const tileUrl =
     champion.image_tile_url
     || resolveChampionTile(champion.champion_key)
-    || ddragonTileUrl(champion.champion_key)
     || "";
 
   return (
@@ -344,7 +342,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                   {counterpicks.map((item, idx) => {
                     const champKey = extractOpponentKey(item, champion.champion_key);
                     const imgUrl = champKey
-                      ? (resolveChampionTile(champKey) ?? ddragonTileUrl(champKey) ?? "")
+                      ? (resolveChampionTile(champKey) ?? "")
                       : "";
                     return (
                       <div
@@ -356,12 +354,6 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                             src={imgUrl}
                             alt={champKey}
                             className="h-10 w-10 rounded object-cover"
-                            onError={(e) => {
-                              const img = e.currentTarget;
-                              img.onerror = null;
-                              const fallback = champKey ? ddragonTileUrl(champKey) : null;
-                              if (fallback) img.src = fallback;
-                            }}
                           />
                         ) : (
                           <div className="h-10 w-10 rounded bg-navy-700" />
@@ -403,7 +395,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                     {synergies.map((item, idx) => {
                       const champKey = extractOpponentKey(item, champion.champion_key);
                       const imgUrl = champKey
-                        ? (resolveChampionTile(champKey) ?? ddragonTileUrl(champKey) ?? "")
+                        ? (resolveChampionTile(champKey) ?? "")
                         : "";
                       return (
                         <div
@@ -415,12 +407,6 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                               src={imgUrl}
                               alt={champKey}
                               className="h-10 w-10 rounded object-cover"
-                              onError={(e) => {
-                                const img = e.currentTarget;
-                                img.onerror = null;
-                                const fallback = champKey ? ddragonTileUrl(champKey) : null;
-                                if (fallback) img.src = fallback;
-                              }}
                             />
                           ) : (
                             <div className="h-10 w-10 rounded bg-navy-700" />
@@ -519,15 +505,9 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                       {stats.best_against.map((m, idx) => (
                         <div key={`bm-${idx}`} className="flex items-center gap-2 rounded-lg border border-green-400/20 bg-navy-800/50 p-2">
                           <img
-                            src={resolveChampionTile(m.vs_champion_key) ?? ddragonTileUrl(m.vs_champion_key) ?? ""}
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
                             alt={m.vs_champion_name}
                             className="h-10 w-10 rounded object-cover"
-                            onError={(e) => {
-                              const img = e.currentTarget;
-                              img.onerror = null;
-                              const fallback = ddragonTileUrl(m.vs_champion_key);
-                              if (fallback) img.src = fallback;
-                            }}
                           />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-heading font-semibold text-gray-100 truncate">{m.vs_champion_name}</p>
@@ -552,15 +532,9 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                       {stats.worst_against.map((m, idx) => (
                         <div key={`wm-${idx}`} className="flex items-center gap-2 rounded-lg border border-red-400/20 bg-navy-800/50 p-2">
                           <img
-                            src={resolveChampionTile(m.vs_champion_key) ?? ddragonTileUrl(m.vs_champion_key) ?? ""}
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
                             alt={m.vs_champion_name}
                             className="h-10 w-10 rounded object-cover"
-                            onError={(e) => {
-                              const img = e.currentTarget;
-                              img.onerror = null;
-                              const fallback = ddragonTileUrl(m.vs_champion_key);
-                              if (fallback) img.src = fallback;
-                            }}
                           />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-heading font-semibold text-gray-100 truncate">{m.vs_champion_name}</p>

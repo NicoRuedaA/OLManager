@@ -22,7 +22,7 @@ import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
 import { normalizeChampionKey } from "../../lib/championIds";
-import { resolveChampionTile, ddragonTileUrl } from "../../lib/championImages";
+import { resolveChampionTile } from "../../lib/championImages";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 type SortKey = "pos" | "ovr" | "condition" | "morale" | "age";
@@ -372,7 +372,7 @@ export default function SquadRosterView({
                       {championNames.map((name) => {
                         const canonicalKey = normalizeChampionKey(name);
                         const portrait = canonicalKey
-                          ? (resolveChampionTile(canonicalKey) ?? ddragonTileUrl(canonicalKey))
+                          ? resolveChampionTile(canonicalKey)
                           : null;
                         return (
                           <div key={name} className="w-6 h-6 rounded-sm bg-[#0d1d39] overflow-hidden border border-white/10" title={name}>

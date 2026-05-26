@@ -10,6 +10,7 @@ import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 import teamsSeed from "../../../data/draft/teams.json";
 import playersSeed from "../../../data/draft/players.json";
 import championsSeed from "../../../data/draft/champions.json";
+import championListSeed from "../../../data/draft/champion-list.json";
 import aiConfigSeed from "../../../data/draft/ai-config.json";
 import {
   computeBanRecommendationScore as computeUnifiedBanRecommendationScore,
@@ -393,11 +394,11 @@ function inferRoleHints(tags: string[]): Role[] {
 }
 
 function splashUrl(championId: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_0.jpg`;
+  return `/champion-splash/${championId}.webp`;
 }
 
 function loadingUrl(championId: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
+  return `/champion-splash/${championId}.webp`;
 }
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
@@ -791,51 +792,25 @@ export default function ChampionDraft({
   }, [userStaffEffects.metaDiscovery, userTeamId]);
 
   useEffect(() => {
-    let cancelled = false;
+    try {
+      const data = championListSeed as { champions: Array<{ id: string; key: number; name: string; tags: string[]; image: string }> };
+      const list = (data.champions ?? [])
+        .map((champion) => ({
+          id: champion.id,
+          key: champion.key,
+          name: champion.name,
+          image: `/champion-tiles/${champion.id}.webp`,
+          tags: champion.tags,
+          roleHints: inferRoleHintsFromSeed(champion.id, champion.name, champion.tags),
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
-    const loadChampions = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const versionsResponse = await fetch(
-          "https://ddragon.leagueoflegends.com/api/versions.json",
-        );
-        const versions = (await versionsResponse.json()) as string[];
-        const version = versions[0];
-
-        const championsResponse = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`,
-        );
-        const payload = (await championsResponse.json()) as {
-          data: Record<
-            string,
-            { key: string; id: string; name: string; tags: string[]; image: { full: string } }
-          >;
-        };
-
-        const list = Object.values(payload.data)
-          .map((champion) => ({
-            id: champion.id,
-            key: Number(champion.key),
-            name: champion.name,
-            image: `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.image.full}`,
-            tags: champion.tags,
-            roleHints: inferRoleHintsFromSeed(champion.id, champion.name, champion.tags),
-          }))
-          .sort((a, b) => a.name.localeCompare(b.name));
-
-        if (!cancelled) setChampions(list);
-      } catch (err) {
-        if (!cancelled) setError(String(err));
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    void loadChampions();
-    return () => {
-      cancelled = true;
-    };
+      setChampions(list);
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const currentStep = DRAFT_SEQUENCE[stepIndex] ?? null;
