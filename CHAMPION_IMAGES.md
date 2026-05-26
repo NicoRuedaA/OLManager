@@ -38,9 +38,41 @@ Se eliminó la dependencia externa de **Data Dragon (Riot CDN)** y **CommunityDr
 | `render.ts` (prototype) | Usa imágenes locales en canvas |
 | `panels.tsx` (prototype) | Usa imágenes locales |
 
-## Lo que queda fuera de scope
-- Position icons, ranked crests, role icons — siguen usando URLs externas
-- Fetch de `champion.json` en `LolMatchLive` — necesario para stats de simulación (HP, attack range, ultimates), no es de imágenes
+## URLs externas que siguen activas (fuera de scope)
+
+Estas URLs NO son imágenes de campeones — son recursos distintos que quedan para otro cambio:
+
+### DDragon — Items, spells y datos de simulación
+
+| Archivo | URL | Propósito |
+|---------|-----|-----------|
+| `LolMatchLive.tsx` | `ddragon.../data/en_US/champion.json` | Stats de simulación (HP, rango, ultimates) |
+| `LolMatchLive.tsx` | `ddragon.../data/en_US/champion/{id}.json` | Detalle de champion para simulación |
+| `LolMatchLive.tsx` | `ddragon.../img/spell/{image}.png` | Iconos de spells (summoners, ultimates) |
+| `panels.tsx` | `ddragon.../img/item/3340.png` | Icono de wards (item) |
+| `panels.tsx` | `ddragon.../img/spell/{icon}.png` | Iconos de summoner spells |
+| `render.ts` | `ddragon.../img/spell/YorickR.png` | Icono de pet (maiden) |
+| `render.ts` | `ddragon.../img/spell/IvernR.png` | Icono de pet (daisy) |
+| `render.ts` | `ddragon.../img/spell/HallucinateFull.png` | Icono de pet (shaco clone) |
+| `render.ts` | `ddragon.../img/spell/AnnieR.png` | Icono de pet (tibbers) |
+
+### CommunityDragon — Position icons y ranked crests
+
+| Archivo | URL | Propósito |
+|---------|-----|-----------|
+| `ChampionDraft.tsx` | `icon-position-*.webp` | Íconos de rol (top/jungle/mid/adc/support) |
+| `ChampionsGrid.tsx` | `icon-position-*.png` | Íconos de rol |
+| `ChampionsTab.tsx` | `ranked-mini-crests/*.png` | Crests de ranked (challenger/grandmaster/master) |
+| `SquadRosterView.tsx` | `icon-position-*.png` | Íconos de rol |
+| `YouthAcademyTab.tsx` | `icon-position-*.png` | Íconos de rol |
+| `TeamProfileRosterCard.tsx` | `icon-position-*.png` | Íconos de rol |
+| `TacticsTab.tsx` | `icon-position-*.png` | Íconos de rol |
+| `ScoutingPlayerSearchCard.tsx` | `icon-position-*.png` | Íconos de rol |
+| `PreMatchLineup.tsx` | `icon-position-*.png` | Íconos de rol |
+| `TrainingTab.tsx` | `ranked-mini-crests/*.png` | Crests de ranked |
+| `LolMatchLive.tsx` | `communitydragon.../currency.webp` | Icono de oro |
+
+## Tareas pendientes
 - Verificación visual manual de tiles/splashes en todos los componentes afectados
 
 ## Cómo regenerar los assets
