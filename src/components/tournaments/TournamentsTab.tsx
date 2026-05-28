@@ -106,6 +106,7 @@ export default function TournamentsTab({
     fixtures.every((f) => f.status === "Completed"),
   ).length;
   const totalMatchdays = sortedMatchdays.length;
+  const standings = league?.standings ?? [];
   const userStanding = standings.find((entry) => entry.team_id === userTeamId);
   const userWins = userStanding?.won ?? 0;
   const completedMatches = tournamentFixtures.filter(
@@ -119,6 +120,52 @@ export default function TournamentsTab({
     ? academyLeague.fixtures.filter((fixture) => fixture.match_type === "Playoffs")
     : [];
   const hasAcademyPlayoffsStarted = academyPlayoffFixtures.length > 0;
+
+  const standingsContent = isPreseason ? (
+    <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
+      <Trophy className="w-8 h-8 text-gray-300 dark:text-navy-600" />
+      <p className="text-sm font-heading font-bold text-gray-800 dark:text-gray-100">
+        {t("season.standingsLocked")}
+      </p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 max-w-md">
+        {t("season.tournamentsPreseasonHint")}
+      </p>
+    </div>
+  ) : (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-8">#</th>
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{t("common.team")}</th>
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t("common.played")}</th>
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t("common.won")}</th>
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t("common.lost")}</th>
+            <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t("tournaments.mapScore")}</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
+          {standings.map((entry, idx) => {
+            const isUser = entry.team_id === userTeamId;
+            return (
+              <tr
+                key={entry.team_id}
+                onClick={() => onSelectTeam(entry.team_id)}
+                className={`cursor-pointer transition-colors ${isUser ? "bg-primary-50 dark:bg-primary-500/10" : "hover:bg-gray-50 dark:hover:bg-navy-700/50"}`}
+              >
+                <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{idx + 1}</td>
+                <td className="py-2 px-3 text-sm text-gray-900 dark:text-gray-100 font-medium">{getTeamName(gameState.teams, entry.team_id)}</td>
+                <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.played}</td>
+                <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.won}</td>
+                <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.lost}</td>
+                <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 
   return (
     <div className="w-[92%] max-w-[2000px] mx-auto">
@@ -226,75 +273,7 @@ export default function TournamentsTab({
           <Card className="lg:col-span-2">
             <CardHeader>{t("tournaments.leagueTable")}</CardHeader>
             <CardBody className="p-0">
-              {isPreseason ? (
-                <div className="flex flex-col items-center gap-2 px-6 py-8 text-center">
-                  <Trophy className="w-8 h-8 text-gray-300 dark:text-navy-600" />
-                  <p className="text-sm font-heading font-bold text-gray-800 dark:text-gray-100">
-                    {t("season.standingsLocked")}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 max-w-md">
-                    {t("season.tournamentsPreseasonHint")}
-                  </p>
-                </div>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-8">
-                          #
-                        </th>
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                          {t("common.team")}
-                        </th>
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                          {t("common.played")}
-                        </th>
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                          {t("common.won")}
-                        </th>
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                          {t("common.lost")}
-                        </th>
-                        <th className="py-2 px-3 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                          {t("tournaments.mapScore")}
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
-                      {standings.map((entry, idx) => {
-                        const isUser = entry.team_id === userTeamId;
-                        return (
-                          <tr
-                            key={entry.team_id}
-                            onClick={() => onSelectTeam(entry.team_id)}
-                            className={`cursor-pointer transition-colors ${isUser ? "bg-primary-50 dark:bg-primary-500/10" : "hover:bg-gray-50 dark:hover:bg-navy-700/50"}`}
-                          >
-                            <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                              {idx + 1}
-                            </td>
-                            <td className="py-2 px-3 text-sm text-gray-900 dark:text-gray-100 font-medium">
-                              {getTeamName(gameState.teams, entry.team_id)}
-                            </td>
-                            <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                              {entry.played}
-                          </td>
-                          <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                            {entry.won}
-                          </td>
-                          <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                            {entry.lost}
-                          </td>
-                          <td className="py-2 px-3 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                            {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-              )}
+              {standingsContent}
             </CardBody>
           </Card>
 
