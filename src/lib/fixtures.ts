@@ -5,15 +5,15 @@ export function getFixtureDisplayLabel(
     t: TFunction,
     fixture: FixtureData,
 ): string {
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
         return t("schedule.playoffs");
     }
 
-    if (fixture.competition === "PreseasonTournament") {
+    if (fixture.match_type === "PreseasonTournament") {
         return t("season.preseasonTournament");
     }
 
-    if (fixture.competition === "Friendly") {
+    if (fixture.match_type === "Friendly") {
         return t("season.friendly");
     }
 
@@ -21,7 +21,7 @@ export function getFixtureDisplayLabel(
 }
 
 export function isCompetitiveFixture(fixture: FixtureData): boolean {
-    return !fixture.competition || fixture.competition === "League";
+    return !fixture.match_type || fixture.match_type === "League";
 }
 
 export function getCompetitiveFixtures(fixtures: FixtureData[]): FixtureData[] {
@@ -75,7 +75,7 @@ export function isSeasonComplete(league: LeagueData | null | undefined): boolean
         && regularFixtures.every((fixture) => fixture.status === "Completed");
 
     const playoffFixtures = league.fixtures.filter(
-        (fixture) => fixture.competition === "Playoffs",
+        (fixture) => fixture.match_type === "Playoffs",
     );
     const playoffsComplete =
         playoffFixtures.length === 0

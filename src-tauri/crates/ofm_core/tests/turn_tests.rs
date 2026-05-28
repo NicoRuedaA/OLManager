@@ -1,5 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+use domain::league::{Fixture, MatchType, FixtureStatus, League, StandingEntry};
 use domain::manager::Manager;
 use domain::player::{
     Injury, Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, PlayerPromise,
@@ -141,13 +141,14 @@ fn make_game_with_match() -> Game {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![Fixture {
             id: "fix1".to_string(),
             matchday: 1,
             date: today,
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Scheduled,
             result: None,
@@ -159,7 +160,7 @@ fn make_game_with_match() -> Game {
     };
 
     let mut game = Game::new(clock, manager, vec![team1, team2], players, vec![], vec![]);
-    game.league = Some(league);
+    game.leagues = vec![league];
     game
 }
 
@@ -312,7 +313,7 @@ fn process_day_simulates_match() {
     let mut game = make_game_with_match();
     turn::process_day(&mut game);
 
-    let fixture = &game.league.as_ref().unwrap().fixtures[0];
+    let fixture = &game.leagues.first().unwrap().fixtures[0];
     assert_eq!(fixture.status, FixtureStatus::Completed);
     assert!(fixture.result.is_some());
 }
@@ -322,7 +323,7 @@ fn process_day_updates_standings() {
     let mut game = make_game_with_match();
     turn::process_day(&mut game);
 
-    let standings = &game.league.as_ref().unwrap().standings;
+    let standings = &game.leagues.first().unwrap().standings;
     let total_played: u32 = standings.iter().map(|s| s.played).sum();
     assert_eq!(
         total_played, 2,
@@ -334,7 +335,7 @@ fn process_day_updates_standings() {
 fn process_day_no_match_runs_training() {
     let mut game = make_game_with_match();
     // Set fixture to a different date so there's no match today
-    game.league.as_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
+    game.leagues.first_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
 
     turn::process_day(&mut game);
 
@@ -348,7 +349,7 @@ fn process_day_no_match_runs_training() {
 #[test]
 fn process_day_no_league_no_crash() {
     let mut game = make_game_with_match();
-    game.league = None;
+    game.leagues.clear();
     turn::process_day(&mut game);
     assert_eq!(
         game.clock.current_date.format("%Y-%m-%d").to_string(),
@@ -387,7 +388,7 @@ fn process_day_generates_news() {
 #[test]
 fn process_day_releases_players_with_expired_contracts() {
     let mut game = make_game_with_match();
-    game.league.as_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
+    game.leagues.first_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
 
     let player = game.players.iter_mut().find(|p| p.id == "t1_fwd0").unwrap();
     player.contract_end = Some("2025-06-15".to_string());
@@ -430,7 +431,7 @@ fn simulate_other_matches_processes_all() {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     turn::simulate_other_matches(&mut game, &today, None);
 
-    let fixture = &game.league.as_ref().unwrap().fixtures[0];
+    let fixture = &game.leagues.first().unwrap().fixtures[0];
     assert_eq!(fixture.status, FixtureStatus::Completed);
 }
 
@@ -441,7 +442,7 @@ fn simulate_other_matches_skips_fixture() {
     // Skip the only fixture
     turn::simulate_other_matches(&mut game, &today, Some(0));
 
-    let fixture = &game.league.as_ref().unwrap().fixtures[0];
+    let fixture = &game.leagues.first().unwrap().fixtures[0];
     assert_eq!(
         fixture.status,
         FixtureStatus::Scheduled,
@@ -452,7 +453,7 @@ fn simulate_other_matches_skips_fixture() {
 #[test]
 fn simulate_other_matches_no_league_no_crash() {
     let mut game = make_game_with_match();
-    game.league = None;
+    game.leagues.clear();
     turn::simulate_other_matches(&mut game, "2025-06-15", None);
 }
 
@@ -504,7 +505,7 @@ fn apply_match_report_updates_fixture_status() {
     let report = empty_report(2, 1);
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
 
-    let fixture = &game.league.as_ref().unwrap().fixtures[0];
+    let fixture = &game.leagues.first().unwrap().fixtures[0];
     assert_eq!(fixture.status, FixtureStatus::Completed);
     let result = fixture.result.as_ref().unwrap();
     assert_eq!(result.home_wins, 2);
@@ -524,7 +525,7 @@ fn apply_match_report_updates_standings() {
     let report = empty_report(2, 1);
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
 
-    let standings = &game.league.as_ref().unwrap().standings;
+    let standings = &game.leagues.first().unwrap().standings;
     let home = standings.iter().find(|s| s.team_id == "team1").unwrap();
     let away = standings.iter().find(|s| s.team_id == "team2").unwrap();
 
@@ -545,7 +546,7 @@ fn apply_match_report_draw_standings() {
     let report = empty_report(1, 1);
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
 
-    let standings = &game.league.as_ref().unwrap().standings;
+    let standings = &game.leagues.first().unwrap().standings;
     let home = standings.iter().find(|s| s.team_id == "team1").unwrap();
     let away = standings.iter().find(|s| s.team_id == "team2").unwrap();
 
@@ -794,8 +795,8 @@ fn apply_match_report_running_avg_rating() {
     assert!((player.stats.avg_rating - 8.0).abs() < 0.01);
 
     // Reset fixture for second match
-    game.league.as_mut().unwrap().fixtures[0].status = FixtureStatus::Scheduled;
-    game.league.as_mut().unwrap().fixtures[0].result = None;
+    game.leagues.first_mut().unwrap().fixtures[0].status = FixtureStatus::Scheduled;
+    game.leagues.first_mut().unwrap().fixtures[0].result = None;
 
     // Second match: player gets 6.0 rating
     let mut ps2 = HashMap::new();
@@ -1044,7 +1045,7 @@ fn generate_matchday_news_no_duplicates() {
 #[test]
 fn generate_matchday_news_no_league_no_crash() {
     let mut game = make_game_with_match();
-    game.league = None;
+    game.leagues.clear();
     turn::generate_matchday_news(&mut game, "2025-06-15");
     assert!(game.news.is_empty());
 }
@@ -1097,7 +1098,7 @@ fn stamina_depletion_varies_by_attribute() {
 fn process_day_progresses_injury_recovery() {
     let mut game = make_game_with_match();
     // Ensure non-match path by moving fixture date away from today
-    game.league.as_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
+    game.leagues.first_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
     // Detach manager to skip user-specific random/player events
     game.manager.team_id = None;
 
@@ -1156,7 +1157,7 @@ fn finish_live_match_day_progresses_injury_recovery() {
 #[test]
 fn injury_with_zero_days_is_cleared() {
     let mut game = make_game_with_match();
-    game.league.as_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
+    game.leagues.first_mut().unwrap().fixtures[0].date = "2025-06-20".to_string();
     game.manager.team_id = None;
 
     // Defensive: even if someone somehow creates an injury with 0 days, it should clear
@@ -1186,7 +1187,7 @@ fn pre_match_message_generated_3_days_before() {
     let future = (game.clock.current_date + chrono::Duration::days(3))
         .format("%Y-%m-%d")
         .to_string();
-    game.league.as_mut().unwrap().fixtures[0].date = future;
+    game.leagues.first_mut().unwrap().fixtures[0].date = future;
 
     turn::process_day(&mut game);
 
@@ -1200,7 +1201,7 @@ fn pre_match_message_not_duplicated() {
     let future = (game.clock.current_date + chrono::Duration::days(3))
         .format("%Y-%m-%d")
         .to_string();
-    game.league.as_mut().unwrap().fixtures[0].date = future.clone();
+    game.leagues.first_mut().unwrap().fixtures[0].date = future.clone();
 
     turn::process_day(&mut game);
     let count = game
@@ -1214,7 +1215,7 @@ fn pre_match_message_not_duplicated() {
     let future2 = (game.clock.current_date + chrono::Duration::days(3))
         .format("%Y-%m-%d")
         .to_string();
-    game.league.as_mut().unwrap().fixtures[0].date = future2;
+    game.leagues.first_mut().unwrap().fixtures[0].date = future2;
     turn::process_day(&mut game);
 
     let count2 = game
@@ -1238,8 +1239,8 @@ fn apply_match_report_satisfaction_clamps() {
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
     assert!(game.manager.satisfaction <= 2); // clamped to 0 min
 
-    game.league.as_mut().unwrap().fixtures[0].status = FixtureStatus::Scheduled;
-    game.league.as_mut().unwrap().fixtures[0].result = None;
+    game.leagues.first_mut().unwrap().fixtures[0].status = FixtureStatus::Scheduled;
+    game.leagues.first_mut().unwrap().fixtures[0].result = None;
     game.manager.satisfaction = 99;
     let report = empty_report(5, 0); // Win = +2
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
@@ -1291,13 +1292,13 @@ fn process_day_full_integration() {
     turn::process_day(&mut game);
 
     // Fixture completed
-    let fixture = &game.league.as_ref().unwrap().fixtures[0];
+    let fixture = &game.leagues.first().unwrap().fixtures[0];
     assert_eq!(fixture.status, FixtureStatus::Completed);
 
     // Standings updated
     let total_played: u32 = game
-        .league
-        .as_ref()
+        .leagues
+        .first()
         .unwrap()
         .standings
         .iter()
@@ -1359,6 +1360,7 @@ fn make_round_summary_game() -> Game {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures: vec![
             Fixture {
                 id: "fix1".to_string(),
@@ -1366,7 +1368,7 @@ fn make_round_summary_game() -> Game {
                 date: today.clone(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(domain::league::MatchResult {
@@ -1383,7 +1385,7 @@ fn make_round_summary_game() -> Game {
                 date: today,
                 home_team_id: "team3".to_string(),
                 away_team_id: "team4".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(domain::league::MatchResult {
@@ -1411,7 +1413,7 @@ fn make_round_summary_game() -> Game {
         vec![],
         vec![],
     );
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     set_team_overall(&mut game, "team1", 90);
     set_team_overall(&mut game, "team2", 50);
@@ -1527,7 +1529,7 @@ fn build_round_summary_picks_biggest_overall_gap_upset() {
 #[test]
 fn build_round_summary_handles_incomplete_rounds() {
     let mut game = make_round_summary_game();
-    let league = game.league.as_mut().unwrap();
+    let league = game.leagues.first_mut().unwrap();
     league.fixtures[1].status = FixtureStatus::Scheduled;
     league.fixtures[1].result = None;
 
@@ -1542,7 +1544,7 @@ fn build_round_summary_handles_incomplete_rounds() {
 #[test]
 fn build_round_summary_returns_none_when_round_has_no_completed_matches() {
     let mut game = make_round_summary_game();
-    let league = game.league.as_mut().unwrap();
+    let league = game.leagues.first_mut().unwrap();
     league.fixtures.iter_mut().for_each(|fixture| {
         fixture.status = FixtureStatus::Scheduled;
         fixture.result = None;
@@ -1556,11 +1558,11 @@ fn build_round_summary_returns_none_when_round_has_no_completed_matches() {
 #[test]
 fn build_round_summary_ignores_non_competitive_matchday_zero_fixtures() {
     let mut game = make_round_summary_game();
-    let league = game.league.as_mut().unwrap();
+    let league = game.leagues.first_mut().unwrap();
 
     league.fixtures.iter_mut().for_each(|fixture| {
         fixture.matchday = 0;
-        fixture.competition = FixtureCompetition::Friendly;
+        fixture.match_type = MatchType::Friendly;
     });
 
     let summary = turn::build_round_summary(&game, 0, &previous_round_standings());

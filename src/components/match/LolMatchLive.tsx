@@ -20,7 +20,7 @@ import { renderSimulation } from "./lol-prototype/ui/render";
 import { LecLowerThirdPanel } from "./lol-prototype/ui/panels";
 import { useSettingsStore } from "../../store/settingsStore";
 import type { GameStateData } from "../../store/gameStore";
-import teamsSeed from "../../../data/lec/draft/teams.json";
+import teamsSeed from "../../../data/draft/teams.json";
 
 export interface ChampionSelectionByPlayer {
   home: Record<string, string>;
@@ -353,7 +353,7 @@ function resolveChampionPortrait(
 
   return iconByLookup[normalizeChampionLookupKey(match.name)]
     ?? iconByLookup[normalizeChampionLookupKey(match.id)]
-    ?? `/player-photos/${match.id}.png`;
+    ?? `/player-photos/${match.id}.webp`;
 }
 
 function objectiveIconForEvent(event: LolSimV1RuntimeState["events"][number]): string {
@@ -835,7 +835,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
       const championId = runtimeChampionId || mappedChampionId;
       const iconUrl = championId
         ? championIconUrl(championId)
-        : `/player-photos/${champion.id}.png`;
+        : `/player-photos/${champion.id}.webp`;
       const byName = normalizeChampionLookupKey(champion.name);
       if (byName) result[byName] = iconUrl;
       const byId = normalizeChampionLookupKey(champion.id);

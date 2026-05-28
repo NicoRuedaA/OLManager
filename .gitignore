@@ -58,6 +58,9 @@ pnpm-debug.log*
 # Agent Teams Lite local registry
 .atl/
 
+# Engram persistent memory (local only)
+.engram/
+
 # =========================
 # OS files
 # =========================
@@ -73,3 +76,7 @@ src-tauri/gen/
 # SDD artifacts (openspec)
 # =========================
 openspec/
+<<<<<<< HEAD
+=======
+.engram/
+>>>>>>> origin/feat/frontend-dto-store

@@ -1,5 +1,5 @@
-use chrono::{DateTime, Duration, Utc};
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League};
+use chrono::{DateTime, Duration, TimeZone, Utc};
+use domain::league::{Fixture, FixtureStatus, League, MatchType};
 use uuid::Uuid;
 
 fn build_fixture(
@@ -7,7 +7,7 @@ fn build_fixture(
     date: String,
     home_team_id: String,
     away_team_id: String,
-    competition: FixtureCompetition,
+    match_type: MatchType,
     best_of: u8,
 ) -> Fixture {
     Fixture {
@@ -16,7 +16,7 @@ fn build_fixture(
         date,
         home_team_id,
         away_team_id,
-        competition,
+        match_type,
         best_of,
         status: FixtureStatus::Scheduled,
         result: None,
@@ -76,7 +76,7 @@ pub fn generate_league(
     assert!(n >= 2, "Need at least 2 teams for a league");
 
     let league_id = Uuid::new_v4().to_string();
-    let mut league = League::new(league_id, name.to_string(), season, team_ids);
+    let mut league = League::new(league_id, name.to_string(), season, team_ids, None);
 
     // For round-robin with n teams (n must be even; if odd, add a "bye" — we assume even here)
     // Number of rounds in a single round-robin = n - 1
@@ -104,7 +104,7 @@ pub fn generate_league(
                 date: date_str.clone(),
                 home_team_id: team_ids[home_idx].clone(),
                 away_team_id: team_ids[away_idx].clone(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -136,7 +136,7 @@ pub fn generate_league(
                 date: date_str.clone(),
                 home_team_id: team_ids[home_idx].clone(),
                 away_team_id: team_ids[away_idx].clone(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -203,7 +203,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
     );
 
     let league_id = Uuid::new_v4().to_string();
-    let mut league = League::new(league_id, name.to_string(), season, team_ids);
+    let mut league = League::new(league_id, name.to_string(), season, team_ids, None);
 
     let rounds = n - 1;
     let half = n / 2;
@@ -239,7 +239,7 @@ pub fn generate_single_round_league_with_offsets_and_bo(
                 date_str.clone(),
                 home_team_id,
                 away_team_id,
-                FixtureCompetition::League,
+                MatchType::League,
                 best_of,
             ));
         }
@@ -250,6 +250,109 @@ pub fn generate_single_round_league_with_offsets_and_bo(
     }
 
     league
+}
+
+/// Generate a league schedule from a competition manifest's `ScheduleConfig`.
+/// Uses the first split's configuration (season_start, superweek_offsets, best_of).
+/// Supports "single_round_robin" format (others may be added later).
+pub fn generate_schedule_from_config(
+    competition_name: &str,
+    year: u32,
+    team_ids: &[String],
+    config: &crate::generator::definitions::ScheduleConfig,
+    split_index: usize,
+) -> League {
+    let split = &config.splits[split_index];
+    let season_start = Utc
+        .with_ymd_and_hms(
+            year as i32,
+            split.season_start.month,
+            split.season_start.day,
+            0,
+            0,
+            0,
+        )
+        .unwrap();
+
+    let split_name = format!("{} {}", competition_name, split.name);
+
+    match config.format.as_str() {
+        "single_round_robin" => {
+            generate_single_round_league_with_offsets_and_bo(
+                &split_name,
+                year,
+                team_ids,
+                season_start,
+                if split.superweek_offsets.is_empty() {
+                    None
+                } else {
+                    Some(&split.superweek_offsets)
+                },
+                split.best_of as u8,
+            )
+        }
+        "double_round_robin" => {
+            // For double round-robin, we use the offsets but double it
+            let mut league = generate_single_round_league_with_offsets_and_bo(
+                &split_name,
+                year,
+                team_ids,
+                season_start,
+                if split.superweek_offsets.is_empty() {
+                    None
+                } else {
+                    Some(&split.superweek_offsets)
+                },
+                split.best_of as u8,
+            );
+            // Add return leg: same offsets but shifted by the last offset + 7 days
+            let last_offset = split.superweek_offsets.last().copied().unwrap_or(7 * (team_ids.len() as i64 - 1));
+            let return_start = season_start + Duration::days(last_offset + 7);
+            let return_league = generate_single_round_league_with_offsets_and_bo(
+                &format!("{} (Return)", split_name),
+                year,
+                team_ids,
+                return_start,
+                if split.superweek_offsets.is_empty() {
+                    None
+                } else {
+                    Some(&split.superweek_offsets)
+                },
+                split.best_of as u8,
+            );
+            for fixture in return_league.fixtures {
+                // Reverse home/away for return leg
+                let reversed = Fixture {
+                    home_team_id: fixture.away_team_id,
+                    away_team_id: fixture.home_team_id,
+                    ..fixture
+                };
+                league.fixtures.push(reversed);
+            }
+            league.fixtures.sort_by(|a, b| {
+                a.date.cmp(&b.date).then(a.matchday.cmp(&b.matchday))
+            });
+            league
+        }
+        _ => {
+            log::warn!(
+                "[schedule] unknown format '{}', falling back to single_round_robin",
+                config.format
+            );
+            generate_single_round_league_with_offsets_and_bo(
+                &split_name,
+                year,
+                team_ids,
+                season_start,
+                if split.superweek_offsets.is_empty() {
+                    None
+                } else {
+                    Some(&split.superweek_offsets)
+                },
+                split.best_of as u8,
+            )
+        }
+    }
 }
 
 /// Generate a Winter playoffs bracket (Top 8, double elimination structure).
@@ -299,7 +402,7 @@ pub fn generate_winter_playoffs(
                 date_str.clone(),
                 home_team_id.clone(),
                 away_team_id.clone(),
-                FixtureCompetition::Playoffs,
+                MatchType::Playoffs,
                 playoff_best_of(LecSplit::Winter, round_index == rounds.len() - 1),
             ));
         }
@@ -351,7 +454,7 @@ pub fn generate_spring_summer_playoffs(
                 date_str.clone(),
                 home_team_id.clone(),
                 away_team_id.clone(),
-                FixtureCompetition::Playoffs,
+                MatchType::Playoffs,
                 playoff_best_of(split, is_grand_final),
             ));
         }
@@ -388,7 +491,7 @@ pub fn generate_preseason_friendlies(
                 date,
                 home_team_id,
                 away_team_id,
-                competition: FixtureCompetition::Friendly,
+                match_type: MatchType::Friendly,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -489,7 +592,7 @@ mod tests {
         assert!(
             friendlies
                 .iter()
-                .all(|fixture| fixture.competition == FixtureCompetition::Friendly)
+                .all(|fixture| fixture.match_type == MatchType::Friendly)
         );
         assert!(friendlies.iter().all(|fixture| fixture.matchday == 0));
         assert!(friendlies.iter().all(|fixture| fixture.best_of == 1));

@@ -1,7 +1,6 @@
 use crate::game::Game;
 use chrono::{Datelike, NaiveDate};
 use domain::player::Player;
-use domain::stats::LolRole;
 use serde::{Deserialize, Serialize};
 
 /// A single award entry (player + stat value).
@@ -20,6 +19,7 @@ pub struct SeasonAwards {
     pub golden_boot: Vec<AwardEntry>,    // Top scorers
     pub assist_king: Vec<AwardEntry>,    // Top assists
     pub player_of_year: Vec<AwardEntry>, // Best avg rating (min 5 apps)
+
     pub most_appearances: Vec<AwardEntry>,
     pub young_player: Vec<AwardEntry>, // Best avg rating, age <= 21
 }

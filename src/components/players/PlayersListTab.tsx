@@ -318,7 +318,7 @@ export default function PlayersListTab({
                   .map((player) => {
                     const ovr = calculateLolOvr(player);
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
@@ -327,11 +327,11 @@ export default function PlayersListTab({
                       >
                         <td className="py-2.5 px-4">
                           <img
-                            src={photoSrc ?? "/player-photos/107455908655055017.png"}
+                            src={photoSrc ?? "/player-photos/107455908655055017.webp"}
                             alt={player.match_name}
                             className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.png";
+                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.webp";
                             }}
                           />
                         </td>

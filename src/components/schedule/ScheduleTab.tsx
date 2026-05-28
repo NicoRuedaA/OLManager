@@ -57,31 +57,31 @@ export default function ScheduleTab({
     }
   }, [isDesktop, view]);
   const [fixtureResultView, setFixtureResultView] = useState<StoredFixtureDraftResult | null>(null);
-  const league = gameState.league;
+  const league = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
   const seasonContext = resolveSeasonContext(gameState);
   const isPreseason = seasonContext.phase === "Preseason";
 
   const getFixtureGroupKey = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `league-${fixture.matchday}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       return `playoffs-${fixture.matchday}`;
     }
 
-    return `${fixture.competition}-${fixture.date}`;
+    return `${fixture.match_type}-${fixture.date}`;
   };
 
   const getFixtureGroupLabel = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `${t("schedule.matchday", { number: fixture.matchday })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       const playoffStart = league?.fixtures
-        ?.filter((candidate) => candidate.competition === "Playoffs")
+        ?.filter((candidate) => candidate.match_type === "Playoffs")
         .map((candidate) => candidate.matchday)
         .reduce((min, value) => Math.min(min, value), Number.POSITIVE_INFINITY);
       const round = Number.isFinite(playoffStart)
@@ -90,7 +90,7 @@ export default function ScheduleTab({
       return `${t("schedule.playoffs")} · ${t("schedule.round", { number: round })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "PreseasonTournament") {
+    if (fixture.match_type === "PreseasonTournament") {
       return `${t("season.preseasonTournament")} — ${formatMatchDate(fixture.date)}`;
     }
 
@@ -121,9 +121,18 @@ export default function ScheduleTab({
     );
   }
 
+  // Fixtures for the player's league (list view + standings)
   const fixturesForDisplay = league.fixtures;
-  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.competition === "Playoffs");
+  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.match_type === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
+
+  // All fixtures from ALL competitions (calendar view)
+  const allFixtures = gameState.leagues.flatMap((l) => l.fixtures);
+  // Map fixture_id -> competition name for display
+  const competitionLabelMap = new Map<string, string>();
+  gameState.leagues.forEach((l) => {
+    l.fixtures.forEach((f) => competitionLabelMap.set(f.id, l.name));
+  });
 
   // Group fixtures by matchday
   const matchdays = new Map<string, FixtureData[]>();
@@ -211,7 +220,8 @@ export default function ScheduleTab({
       {view === "calendar" && (
         <ScheduleCalendarView
           gameState={gameState}
-          fixtures={fixturesForDisplay}
+          fixtures={allFixtures}
+          competitionLabelMap={competitionLabelMap}
           onOpenFixtureResult={(stored) => setFixtureResultView(stored)}
         />
       )}

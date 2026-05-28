@@ -1,5 +1,4 @@
 import { GameStateData, FixtureData } from "../../store/gameStore";
-import teamsSeed from "../../../data/lec/draft/teams.json";
 import type { MatchSnapshot } from "../match/types";
 import type { DraftMatchResult } from "../match/draftResultSimulator";
 
@@ -22,28 +21,19 @@ export interface StoredFixtureDraftResult {
   awaySeriesWins?: number;
 }
 
-interface TeamSeed {
-  id: string;
-  name: string;
-  shortName: string;
-  logo?: string;
-}
-
-const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
-
 const TEAM_LOGO_BY_NORMALIZED_NAME: Record<string, string> = {
-  [normalizeKey("G2 Esports")]: "/team-logos/g2-esports.png",
-  [normalizeKey("Movistar KOI")]: "/team-logos/mad-lions.png",
-  [normalizeKey("MAD Lions KOI")]: "/team-logos/mad-lions.png",
-  [normalizeKey("Fnatic")]: "/team-logos/fnatic.png",
-  [normalizeKey("GIANTX")]: "/team-logos/giantx-lec.png",
-  [normalizeKey("Karmine Corp")]: "/team-logos/karmine-corp.png",
-  [normalizeKey("Natus Vincere")]: "/team-logos/natus-vincere.png",
-  [normalizeKey("SK Gaming")]: "/team-logos/sk-gaming.png",
-  [normalizeKey("Team Heretics")]: "/team-logos/team-heretics-lec.png",
-  [normalizeKey("Team Vitality")]: "/team-logos/team-vitality.png",
-  [normalizeKey("Team BDS")]: "/team-logos/team-bds.png",
-  [normalizeKey("Shifters")]: "/team-logos/team-bds.png",
+  [normalizeKey("G2 Esports")]: "/teams-icons/g2-esports.webp",
+  [normalizeKey("Movistar KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("MAD Lions KOI")]: "/teams-icons/movistar-koi.webp",
+  [normalizeKey("Fnatic")]: "/teams-icons/fnatic.webp",
+  [normalizeKey("GIANTX")]: "/teams-icons/giantx-lec.webp",
+  [normalizeKey("Karmine Corp")]: "/teams-icons/karmine-corp.webp",
+  [normalizeKey("Natus Vincere")]: "/teams-icons/natus-vincere.webp",
+  [normalizeKey("SK Gaming")]: "/teams-icons/sk-gaming.webp",
+  [normalizeKey("Team Heretics")]: "/teams-icons/team-heretics-lec.webp",
+  [normalizeKey("Team Vitality")]: "/teams-icons/team-vitality.webp",
+  [normalizeKey("Team BDS")]: "/teams-icons/team-bds.webp",
+  [normalizeKey("Shifters")]: "/teams-icons/shifters.webp",
 };
 
 export function normalizeKey(value: string): string {
@@ -66,11 +56,11 @@ export function inferBestOf(fixture: FixtureData, ctx: BestOfContext): 1 | 3 | 5
     return explicitBestOf;
   }
 
-  if (fixture.competition === "Friendly") {
+  if (fixture.match_type === "Friendly") {
     return ctx.friendlySeriesLengthById[fixture.id] ?? 1;
   }
 
-  if (fixture.competition !== "Playoffs") return 1;
+  if (fixture.match_type !== "Playoffs") return 1;
 
   const { start, end } = ctx.playoffBounds;
   if (start === null) return 3;
@@ -144,14 +134,11 @@ export function getTeamLogoPath(teams: GameStateData["teams"], teamId: string): 
   const team = teams.find((candidate) => candidate.id === teamId);
   if (!team) return null;
 
-  const normalizedName = normalizeKey(team.name);
-  if (TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName]) {
-    return TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName];
-  }
+  // Use logo_url from backend if available (already mapped to /teams-icons/)
+  if (team.logo_url) return team.logo_url;
 
-  const seed = TEAM_SEEDS.find((candidate) => normalizeKey(candidate.name) === normalizedName);
-  if (!seed) return null;
-  return TEAM_LOGO_BY_NORMALIZED_NAME[normalizeKey(seed.name)] ?? null;
+  const normalizedName = normalizeKey(team.name);
+  return TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName] ?? null;
 }
 
 export function readStoredFixtureDraftResult(fixtureId: string): StoredFixtureDraftResult | null {
@@ -165,13 +152,13 @@ export function readStoredFixtureDraftResult(fixtureId: string): StoredFixtureDr
 }
 
 export function buildBestOfContext(fixtures: FixtureData[]): BestOfContext {
-  const playoffFixtures = fixtures.filter((f) => f.competition === "Playoffs");
+  const playoffFixtures = fixtures.filter((f) => f.match_type === "Playoffs");
   const playoffBounds = {
     start: playoffFixtures.length > 0 ? Math.min(...playoffFixtures.map((f) => f.matchday)) : null,
     end: playoffFixtures.length > 0 ? Math.max(...playoffFixtures.map((f) => f.matchday)) : null,
   };
   const preseasonFriendlyFixtures = fixtures
-    .filter((f) => f.competition === "Friendly" && f.matchday === 0)
+    .filter((f) => f.match_type === "Friendly" && f.matchday === 0)
     .sort(
       (l, r) =>
         l.date.localeCompare(r.date) ||

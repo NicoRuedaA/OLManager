@@ -35,8 +35,8 @@ import {
   type PlayerProfileScoutStatus,
 } from "./PlayerProfile.scouting";
 import PlayerProfileChampionsCard from "./PlayerProfileChampionsCard";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
 import { startPotentialResearch } from "../../services/playerService";
 import { demoteMainPlayerToAcademy, promoteAcademyPlayer } from "../../services/academyService";
 import { findAcademyTeamForParent } from "../../store/academySelectors";
@@ -311,6 +311,8 @@ export default function PlayerProfile({
     useState(false);
   const ovr = calculateLolOvr(player);
   const age = getPlayerAge(player.date_of_birth, gameState.clock.current_date);
+  const playerTeam = gameState.teams.find((t) => t.id === player.team_id);
+  const teamLogoUrl = playerTeam?.logo_url ?? null;
   const teamName = getPlayerTeamName(
     gameState.teams,
     player.team_id,
@@ -808,6 +810,7 @@ export default function PlayerProfile({
         primaryRole={primaryRole}
         age={age}
         teamName={teamName}
+        teamLogoUrl={teamLogoUrl}
         weeklySuffix={weeklySuffix}
         language={i18n.language}
         isOwnClub={actualIsOwnClub || !onGameUpdate}

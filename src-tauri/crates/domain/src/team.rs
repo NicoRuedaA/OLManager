@@ -11,12 +11,16 @@ pub struct Team {
     pub short_name: String,
     pub country: String,
     pub city: String,
+    #[serde(default, alias = "arena_name")]
     pub stadium_name: String,
+    #[serde(default, alias = "arena_capacity")]
     pub stadium_capacity: u32,
 
     // Current state
+    #[serde(default)]
     pub finance: i64,
     pub manager_id: Option<String>,
+    #[serde(default)]
     pub reputation: u32,
 
     // Academy affiliation metadata. Defaults keep legacy saves and existing teams as main clubs.
@@ -30,11 +34,17 @@ pub struct Team {
     pub academy: Option<AcademyMetadata>,
     #[serde(default)]
     pub logo_url: Option<String>,
+    #[serde(default)]
+    pub competition_id: Option<String>,
 
     // Financial breakdown
+    #[serde(default)]
     pub wage_budget: i64,
+    #[serde(default)]
     pub transfer_budget: i64,
+    #[serde(default)]
     pub season_income: i64,
+    #[serde(default)]
     pub season_expenses: i64,
     #[serde(default)]
     pub financial_ledger: Vec<FinancialTransaction>,
@@ -44,7 +54,7 @@ pub struct Team {
     pub facilities: Facilities,
 
     // Tactical
-    #[serde(alias = "play_style")]
+    #[serde(default, alias = "play_style")]
     pub draft_strategy: DraftStrategy,
     #[serde(default)]
     pub lol_tactics: LolTactics,
@@ -58,7 +68,9 @@ pub struct Team {
     pub training_schedule: TrainingSchedule,
 
     // Club info
+    #[serde(default)]
     pub founded_year: u32,
+    #[serde(default)]
     pub colors: TeamColors,
 
     // Training groups: allow per-group focus overrides for subsets of players
@@ -228,6 +240,7 @@ pub enum JungleStyle {
     Ganker,
     Invader,
     Farmer,
+    Carry,
     #[default]
     Enabler,
 }
@@ -250,6 +263,7 @@ pub enum FightPlan {
     Pick,
     Dive,
     Siege,
+    Flank,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
@@ -258,6 +272,7 @@ pub enum FightPlan {
 pub enum SupportRoaming {
     #[default]
     Lane,
+    #[serde(alias = "Roam")]
     RoamMid,
     RoamTop,
 }
@@ -652,11 +667,13 @@ pub struct ScrimReport {
     pub created_on: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct TeamColors {
+    #[serde(default)]
     pub primary: String,
+    #[serde(default)]
     pub secondary: String,
 }
 
@@ -1230,6 +1247,7 @@ impl Team {
             academy_team_id: None,
             academy: None,
             logo_url: None,
+            competition_id: None,
             wage_budget: 200_000,
             transfer_budget: 500_000,
             season_income: 0,

@@ -394,7 +394,7 @@ export default function TrainingTab({
                       <div className="flex min-w-0 items-center gap-2">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
                           <img
-                            src={resolvePlayerPhoto(player.id) ?? undefined}
+                            src={resolvePlayerPhoto(player.id, player.match_name, (player as any).profile_image_url) ?? undefined}
                             alt={player.match_name}
                             className="h-full w-full object-cover"
                             loading="lazy"

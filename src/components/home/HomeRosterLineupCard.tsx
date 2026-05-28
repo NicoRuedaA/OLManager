@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import playersSeed from "../../../data/lec/draft/players.json";
+import playersSeed from "../../../data/draft/players.json";
 
 import type { ChampionMasteryEntryData, PlayerData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader } from "../ui";
@@ -136,7 +136,7 @@ export default function HomeRosterLineupCard({
       <CardBody>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
           {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name) : null;
+            const photo = player ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url) : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
             const morale = player?.morale ?? null;

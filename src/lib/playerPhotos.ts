@@ -1,40 +1,12 @@
-import playersSeed from "../../data/lec/draft/players.json";
 import lesExampleRaw from "../../data/erls/les.txt?raw";
 import lflExampleRaw from "../../data/erls/lfl.txt?raw";
 import primeLeagueExampleRaw from "../../data/erls/Prime League.txt?raw";
 
-interface PlayerSeedEntry {
-  ign?: string;
-  photo?: string;
-}
-
-const FALLBACK_PLAYER_PHOTO = "/player-photos/107455908655055017.png";
+const FALLBACK_PLAYER_PHOTO = "/player-photos/107455908655055017.webp";
 
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
-
-function seedPhotoToSrc(photo?: string): string | null {
-  if (!photo) return null;
-  if (photo.startsWith("/images/")) return `/data/lec${photo}`;
-  return photo;
-}
-
-const ALL_SEED_PLAYERS: PlayerSeedEntry[] = [
-  ...(((playersSeed as { data?: { rostered_seeds?: PlayerSeedEntry[] } }).data?.rostered_seeds ??
-    []) as PlayerSeedEntry[]),
-  ...(((playersSeed as { data?: { free_agent_seeds?: PlayerSeedEntry[] } }).data?.free_agent_seeds ??
-    []) as PlayerSeedEntry[]),
-];
-
-const PHOTO_BY_IGN = new Map<string, string>();
-ALL_SEED_PLAYERS.forEach((seed) => {
-  const ign = String(seed.ign ?? "").trim();
-  if (!ign) return;
-  const src = seedPhotoToSrc(seed.photo);
-  if (!src) return;
-  PHOTO_BY_IGN.set(normalizeKey(ign), src);
-});
 
 function parseExamplePhotoMap(content: string): Map<string, string> {
   const map = new Map<string, string>();
@@ -77,15 +49,24 @@ function normalizeProfileImageUrl(url?: string | null): string | null {
 }
 
 export function resolvePlayerPhoto(playerId: string, matchName?: string, profileImageUrl?: string | null): string | null {
+  // 1. Explicit profile_image_url from data (highest priority)
   const explicit = normalizeProfileImageUrl(profileImageUrl);
   if (explicit) return explicit;
 
+  // 2. Legacy lec-player-XXXX pattern
   const legacy = playerId.match(/^lec-player-(.+)$/);
-  if (legacy) return `/player-photos/${legacy[1]}.png`;
+  if (legacy) return `/player-photos/${legacy[1]}.webp`;
 
+  // 3. Try playerId as direct photo filename (player-XXXX.webp)
+  const byId = `/player-photos/${playerId}.webp`;
+  if (playerId.startsWith("player-") || playerId.startsWith("team-")) return byId;
+
+  // 4. Match name lookup in example data
   const key = normalizeKey(matchName ?? "");
-  if (!key) return FALLBACK_PLAYER_PHOTO;
-  return PHOTO_BY_IGN.get(key) ?? EXAMPLE_PHOTO_MAP.get(key) ?? FALLBACK_PLAYER_PHOTO;
+  if (key && EXAMPLE_PHOTO_MAP.has(key)) return EXAMPLE_PHOTO_MAP.get(key)!;
+
+  // 5. Fallback
+  return FALLBACK_PLAYER_PHOTO;
 }
 
 export function resolveStaffPhoto(profileImageUrl?: string | null): string | null {

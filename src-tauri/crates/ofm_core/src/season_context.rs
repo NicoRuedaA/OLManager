@@ -9,7 +9,7 @@ pub fn refresh_game_context(game: &mut Game) {
 }
 
 pub fn derive_season_context(game: &Game) -> SeasonContext {
-    let Some(league) = &game.league else {
+    let Some(league) = game.leagues.first() else {
         return SeasonContext::default();
     };
 
@@ -108,7 +108,7 @@ mod tests {
     use crate::game::Game;
     use chrono::{TimeZone, Utc};
     use domain::league::{
-        Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+        Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
     };
     use domain::manager::Manager;
     use domain::season::{SeasonPhase, TransferWindowStatus};
@@ -141,7 +141,7 @@ mod tests {
             date: date.to_string(),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: status.clone(),
             result: (status == FixtureStatus::Completed).then_some(make_result(1, 0)),
@@ -171,7 +171,9 @@ mod tests {
             vec![],
             vec![],
         );
-        game.league = league;
+        if let Some(l) = league {
+            game.leagues = vec![l];
+        }
         game
     }
 
@@ -181,6 +183,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Premier Division".to_string(),
             season: 2026,
+            competition_id: None,
             fixtures: vec![make_fixture(
                 "fx1",
                 "2026-08-01",
@@ -209,6 +212,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Premier Division".to_string(),
             season: 2026,
+            competition_id: None,
             fixtures: vec![make_fixture(
                 "fx1",
                 "2026-08-01",
@@ -239,6 +243,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Premier Division".to_string(),
             season: 2026,
+            competition_id: None,
             fixtures: vec![make_fixture(
                 "fx1",
                 "2026-08-01",
@@ -266,6 +271,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Premier Division".to_string(),
             season: 2026,
+            competition_id: None,
             fixtures: vec![
                 make_fixture("fx1", "2026-08-01", FixtureStatus::Completed, 1),
                 make_fixture("fx2", "2026-08-08", FixtureStatus::Completed, 2),

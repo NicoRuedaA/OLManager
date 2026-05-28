@@ -81,8 +81,8 @@ export default function PostMatchScreen({
 
   const resultType = userScore > oppScore ? "win" : "loss";
   const isLeagueFixture =
-    currentFixture?.competition !== "Friendly" &&
-    currentFixture?.competition !== "PreseasonTournament";
+    currentFixture?.match_type !== "Friendly" &&
+    currentFixture?.match_type !== "PreseasonTournament";
   const summaryTitle = isLeagueFixture
     ? t("match.roundSummary")
     : t("match.otherMatches");
@@ -175,7 +175,7 @@ export default function PostMatchScreen({
     ? (roundSummary?.completed_results || [])
         .filter((result) => result.fixture_id !== currentFixture?.id)
         .map((result) => {
-          const fixture = gameState.league?.fixtures.find(
+          const fixture = gameState.leagues?.[0]?.fixtures.find(
             (candidate) => candidate.id === result.fixture_id,
           );
 
@@ -198,14 +198,14 @@ export default function PostMatchScreen({
             awayTeamName: string;
           } => entry !== null,
         )
-    : (gameState.league?.fixtures || [])
+    : (gameState.leagues?.[0]?.fixtures || [])
         .filter(
           (fixture) =>
             fixture.id !== currentFixture?.id &&
             fixture.status === "Completed" &&
             fixture.result &&
             fixture.date === currentFixture?.date &&
-            fixture.competition === currentFixture?.competition,
+            fixture.match_type === currentFixture?.match_type,
         )
         .map((fixture) => ({
           fixture,

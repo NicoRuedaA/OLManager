@@ -1,0 +1,150 @@
+{
+  "name": "LEC Players",
+  "description": "Exported players from OLMDBManager",
+  "players": [
+    {
+      "id": "lec-player-98767975968177297",
+      "wage": 356000,
+      "stats": {
+        "appearances": 0
+      },
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "lec-g2-esports",
+          "team_name": "G2 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "lec-fnatic",
+          "team_name": "Fnatic",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": "lec-fnatic",
+          "team_name": "Fnatic",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": "lec-fnatic",
+          "team_name": "Fnatic",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "lec-g2-esports",
+      "position": "Mid",
+      "condition": 100,
+      "full_name": "Caps",
+      "photo_url": "/player-photos/98767975968177297.webp",
+      "attributes": {
+        "laning": 85,
+        "mechanics": 85,
+        "discipline": 90,
+        "macro_play": 93,
+        "consistency": 90,
+        "shotcalling": 93,
+        "teamfighting": 88,
+        "champion_pool": 86,
+        "mental_resilience": 92
+      },
+      "match_name": "Rasmus Winther",
+      "loan_listed": false,
+      "morale_core": {},
+      "nationality": "DK",
+      "contract_end": null,
+      "market_value": 230000,
+      "birth_country": null,
+      "date_of_birth": "1999-11-17",
+      "potential_base": 80,
+      "training_focus": null,
+      "transfer_listed": false,
+      "transfer_offers": [],
+      "champion_mastery": [],
+      "profile_image_url": "/player-photos/98767975968177297.webp",
+      "potential_revealed": null,
+      "region": "LEC",
+      "overall": 89
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "lrs",
+  "name": "LRS",
+  "full_name": "Liga Regional Sur",
+  "region": "LRS",
+  "country": "LATAM",
+  "tier": 2,
+  "logo": "/competitions-icons/lrs.webp",
+  "teams_file": "teams/lrs_teams.json",
+  "players_file": "players/lrs_players.json",
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Spring",
+        "best_of": 1,
+        "playoffs": null,
+        "season_start": {
+          "month": 1,
+          "day": 1
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

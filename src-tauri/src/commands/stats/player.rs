@@ -277,7 +277,7 @@ fn to_dto(state: &StateManager, record: &PlayerMatchStatsRecord) -> PlayerMatchH
     PlayerMatchHistoryEntryDto {
         fixture_id: record.fixture_id.clone(),
         date: record.date.clone(),
-        competition: competition_label(&record.competition),
+        competition: competition_label(&record.match_type),
         matchday: record.matchday,
         opponent_team_id: record.opponent_team_id.clone(),
         opponent_name: opponent_name(state, &record.opponent_team_id),

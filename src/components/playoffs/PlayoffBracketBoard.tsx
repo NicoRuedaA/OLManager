@@ -95,7 +95,7 @@ export default function PlayoffBracketBoard({
   title,
 }: PlayoffBracketBoardProps) {
   const { t } = useTranslation();
-  const playoffFixtures = league.fixtures.filter((fixture) => fixture.competition === "Playoffs");
+  const playoffFixtures = league.fixtures.filter((fixture) => fixture.match_type === "Playoffs");
   if (playoffFixtures.length === 0) {
     return null;
   }

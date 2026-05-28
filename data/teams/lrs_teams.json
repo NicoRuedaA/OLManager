@@ -1,0 +1,172 @@
+{
+  "name": "LRS Teams",
+  "description": "LRS - 2026 Season",
+  "teams": [
+    {
+      "colors": {
+        "primary": "#ffffff",
+        "secondary": "#000000"
+      },
+      "country": "AR",
+      "logo_url": "/teams-icons/9z-globant.webp",
+      "data.country": "AR",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "7b599b6b-d655-4055-a688-7e0648b6e1c5",
+      "name": "9z Globant",
+      "short_name": "9ZG"
+    },
+    {
+      "colors": {
+        "primary": "#101211",
+        "secondary": "#20982d"
+      },
+      "country": "CL",
+      "logo_url": "/teams-icons/maze-gaming.webp",
+      "data.country": "CL",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "5fc288b9-9b90-48f6-9ca6-7e0b8ab4f03d",
+      "name": "Maze Gaming",
+      "short_name": "MAZ"
+    },
+    {
+      "colors": {
+        "primary": "#000036",
+        "secondary": "#0001dd"
+      },
+      "country": "CL",
+      "logo_url": "/teams-icons/seven-dark.webp",
+      "data.country": "CL",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "e4959e10-30e9-4ad2-973d-404637226111",
+      "name": "Seven Dark",
+      "short_name": "7D"
+    },
+    {
+      "country": "AR",
+      "logo_url": "/teams-icons/the-new-kings.webp",
+      "data.country": "AR",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "ceff8dc6-58ad-48cc-b6d2-d276c00f988a",
+      "name": "The New Kings",
+      "short_name": "TNK"
+    },
+    {
+      "colors": {
+        "secondary": "#fc7605"
+      },
+      "country": "PE",
+      "logo_url": "/teams-icons/tu-pap-esports.webp",
+      "data.country": "PE",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "7f293ba9-ba2a-4aa2-8c9d-fbc9d4661bae",
+      "name": "Tu Papá Esports",
+      "short_name": "TPA"
+    },
+    {
+      "colors": {
+        "primary": "#7f4fb3",
+        "secondary": "#4b3593"
+      },
+      "country": "UY",
+      "logo_url": "/teams-icons/volticons.webp",
+      "data.country": "UY",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "39d8269b-05fb-4cdd-9eb6-c29100d8ed5d",
+      "name": "Volticons",
+      "short_name": "VTC"
+    },
+    {
+      "country": "Peru",
+      "logo_url": "/teams-icons/golden-lions.webp",
+      "data.country": "Peru",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "arena_name": "",
+      "id": "8def7d58-3005-4285-852f-96fad832a6fe",
+      "name": "Golden Lions",
+      "short_name": "GLE"
+    },
+    {
+      "colors": {
+        "secondary": "#129ebf"
+      },
+      "logo_url": "/teams-icons/malvinas-gaming.webp",
+      "data.country": "Argentina",
+      "form": [],
+      "history": [],
+      "scrim_results": [],
+      "training_groups": [],
+      "financial_ledger": [],
+      "season_income": 0,
+      "season_expenses": 0,
+      "arena_capacity": 0,
+      "city": "",
+      "country": "",
+      "arena_name": "",
+      "id": "d73619bb-ad77-41be-b95f-405289c7056d",
+      "name": "Malvinas Gaming",
+      "short_name": "MVG"
+    }
+  ]
+}

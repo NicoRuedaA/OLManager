@@ -1,0 +1,28 @@
+{
+  "id": "prime_league",
+  "name": "Prime League",
+  "full_name": "Prime League (German ERL)",
+  "region": "Prime League",
+  "country": "DE",
+  "tier": 2,
+  "logo": "/competitions-icons/prime_league.webp",
+  "teams_file": "teams/prime_league_teams.json",
+  "players_file": "players/prime_league_players.json",
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Spring",
+        "best_of": 1,
+        "playoffs": null,
+        "season_start": {
+          "month": 1,
+          "day": 1
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

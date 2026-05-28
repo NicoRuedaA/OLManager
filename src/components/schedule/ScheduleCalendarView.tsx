@@ -21,6 +21,7 @@ import { useScrimContextWithFallback } from "../../hooks/useScrimContextWithFall
 interface Props {
   gameState: GameStateData;
   fixtures: FixtureData[];
+  competitionLabelMap: Map<string, string>;
   onOpenFixtureResult: (stored: StoredFixtureDraftResult) => void;
 }
 
@@ -124,6 +125,7 @@ interface FixtureChipProps {
   gameState: GameStateData;
   bestOfContext: BestOfContext;
   userTeamId: string;
+  competitionLabel?: string;
   onOpenFixtureResult: (stored: StoredFixtureDraftResult) => void;
   size?: "compact" | "full";
 }
@@ -133,6 +135,7 @@ function FixtureChip({
   gameState,
   bestOfContext,
   userTeamId,
+  competitionLabel,
   onOpenFixtureResult,
   size = "compact",
 }: FixtureChipProps) {
@@ -225,6 +228,15 @@ function FixtureChip({
       >
         BO{bo}
       </Badge>
+      {competitionLabel && (
+        <Badge
+          variant="accent"
+          size="sm"
+          className={isFull ? "" : "!text-[7px] !px-1 !py-0"}
+        >
+          {competitionLabel}
+        </Badge>
+      )}
     </button>
   );
 }
@@ -268,6 +280,7 @@ function ScrimChip({ scrim, gameState, size = "compact" }: ScrimChipProps) {
 export default function ScheduleCalendarView({
   gameState,
   fixtures,
+  competitionLabelMap,
   onOpenFixtureResult,
 }: Props) {
   const { t, i18n } = useTranslation();
@@ -309,7 +322,7 @@ export default function ScheduleCalendarView({
 
   const seasonStartKey = useMemo(() => {
     const firstLeagueDate = fixtures
-      .filter((f) => f.competition === "League")
+      .filter((f) => f.match_type === "League")
       .map((f) => parseFixtureDate(f.date))
       .filter((d): d is Date => d !== null)
       .sort((a, b) => a.getTime() - b.getTime())[0];
@@ -318,10 +331,10 @@ export default function ScheduleCalendarView({
   }, [fixtures]);
 
   const estimatedPlayoffsStartKey = useMemo(() => {
-    const hasPlayoffs = fixtures.some((f) => f.competition === "Playoffs");
+    const hasPlayoffs = fixtures.some((f) => f.match_type === "Playoffs");
     if (hasPlayoffs) return null;
     const lastLeagueDate = fixtures
-      .filter((f) => f.competition === "League")
+      .filter((f) => f.match_type === "League")
       .map((f) => parseFixtureDate(f.date))
       .filter((d): d is Date => d !== null)
       .sort((a, b) => b.getTime() - a.getTime())[0];
@@ -486,6 +499,7 @@ export default function ScheduleCalendarView({
                         gameState={gameState}
                         bestOfContext={bestOfContext}
                         userTeamId={userTeamId}
+                        competitionLabel={competitionLabelMap.get(event.fixture.id)}
                         onOpenFixtureResult={onOpenFixtureResult}
                       />
                     ) : (
@@ -548,6 +562,7 @@ export default function ScheduleCalendarView({
                     gameState={gameState}
                     bestOfContext={bestOfContext}
                     userTeamId={userTeamId}
+                    competitionLabel={competitionLabelMap.get(event.fixture.id)}
                     onOpenFixtureResult={(stored) => {
                       setOpenDayKey(null);
                       onOpenFixtureResult(stored);

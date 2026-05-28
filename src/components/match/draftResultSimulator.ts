@@ -1,8 +1,8 @@
 import type { GameStateData } from "../../store/gameStore";
 import type { ChampionDraftResultPayload } from "./ChampionDraft";
 import type { MatchSnapshot } from "./types";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
+import type { LolTacticsData } from "../../store/types";
+import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import {
   DEFAULT_LOL_TACTICS,
   ROLE_ORDER,
@@ -14,26 +14,6 @@ import { computeTeamTimingFit, getChampionTiming } from "../../lib/championTimin
 
 type Side = "blue" | "red";
 type Role = DraftRole;
-
-type LolTacticsData = NonNullable<GameStateData["teams"][number]["lol_tactics"]>;
-
-interface TeamSeed {
-  id: string;
-  name: string;
-}
-
-interface PlayerSeed {
-  ign: string;
-  teamId: string;
-  role: string;
-  rating?: number;
-}
-
-const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
-const PLAYER_SEEDS: PlayerSeed[] = [
-  ...(((playersSeed as { data?: { rostered_seeds?: PlayerSeed[] } }).data?.rostered_seeds ?? []) as PlayerSeed[]),
-  ...(((playersSeed as { data?: { free_agent_seeds?: PlayerSeed[] } }).data?.free_agent_seeds ?? []) as PlayerSeed[]),
-];
 
 const ATTRIBUTE_KEYS = [
   "pace",
@@ -215,33 +195,29 @@ function resolvePlayersFromSeed(
   const team = side === "blue" ? snapshot.home_team : snapshot.away_team;
   const starters = side === "blue" ? snapshot.home_team.players : snapshot.away_team.players;
 
-  const seedTeam = TEAM_SEEDS.find((item) => normalizeKey(item.name) === normalizeKey(team.name));
-  if (!seedTeam) return starters.slice(0, 5);
-
-  const teamSeedPlayers = PLAYER_SEEDS.filter((player) => player.teamId === seedTeam.id);
-  if (teamSeedPlayers.length === 0) return starters.slice(0, 5);
-
   const stateTeam = gameState.teams.find(
     (item) => normalizeKey(item.name) === normalizeKey(team.name),
   );
+  if (!stateTeam) return starters.slice(0, 5);
 
-  const stateTeamPlayers = stateTeam
-    ? gameState.players.filter((player) => player.team_id === stateTeam.id)
-    : [];
+  const stateTeamPlayers = gameState.players.filter(
+    (player) => player.team_id === stateTeam.id,
+  );
+  if (stateTeamPlayers.length === 0) return starters.slice(0, 5);
 
   const selected: MatchSnapshot["home_team"]["players"] = [];
   const usedIds = new Set<string>();
 
   ROLE_ORDER.forEach((role) => {
-    const roleSeed = teamSeedPlayers
-      .filter((player) => mapSeedRoleToDraftRole(player.role) === role)
-      .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))[0];
+    const roleSeed = stateTeamPlayers
+      .filter((player) => gameStatePositionToDraftRole(player.position) === role)
+      .sort((a, b) => (calculateLolOvr(b) - calculateLolOvr(a)))[0];
     if (!roleSeed) return;
 
     const match = stateTeamPlayers.find(
       (player) =>
         !usedIds.has(player.id) &&
-        normalizeKey(player.match_name) === normalizeKey(roleSeed.ign),
+        normalizeKey(player.match_name) === normalizeKey(roleSeed.match_name),
     );
     if (!match) return;
 
@@ -365,7 +341,7 @@ function tacticsPowerBonus(params: {
     Bot: (ownLanes.ADC + ownLanes.SUPPORT) / 2 - (enemyLanes.ADC + enemyLanes.SUPPORT) / 2,
   };
 
-  score += laneDelta[own.strong_side] * 0.22;
+  score += laneDelta[own.strong_side as keyof typeof laneDelta] * 0.22;
 
   const ownCondition = average(ownPlayers.map((player) => Number(player.condition ?? 70)));
   const ownComposure = average(ownPlayers.map((player) => Number(player.discipline ?? 70)));

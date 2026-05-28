@@ -46,7 +46,7 @@ impl GamePersistenceWriter {
         social_repo::upsert_social_accounts(conn, &game.social_accounts)?;
         social_repo::upsert_social_templates(conn, &game.social_templates)?;
 
-        if let Some(ref league) = game.league {
+        if let Some(ref league) = game.leagues.first() {
             league_repo::upsert_league(conn, league)?;
         }
 
@@ -201,7 +201,7 @@ impl GamePersistenceReader {
             social_posts,
             social_accounts,
             social_templates,
-            league,
+            leagues: league.map(|l| vec![l]).unwrap_or_default(),
             academy_league: None,
             scouting_assignments,
             board_objectives,
@@ -209,6 +209,7 @@ impl GamePersistenceReader {
             days_since_last_job_offer: None,
             champion_masteries,
             champion_patch,
+            competition_configs: std::collections::HashMap::new(),
         };
         ofm_core::season_context::refresh_game_context(&mut game);
 

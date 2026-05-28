@@ -409,14 +409,12 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v036_social_registry.sql")),
         // V51: Add missing scrim columns to teams table (weekly_scrim_plan_team_ids, scrim_weekly_slots, scrim_reputation, scrim_weekly_cancellations)
         M::up_with_hook("SELECT 1;", migrate_missing_scrim_columns),
-        // V52: Reserved — no-op (originally planned for season_context)
-        M::up("SELECT 1;"),
+        // V52: Multi-competition schema support
+        M::up(include_str!("sql/v052_multi_competitions.sql")),
         // V53: Drop formation column from teams table (formation no longer used)
         M::up(include_str!("sql/v053_remove_formation.sql")),
         // V54: Rename play_style column to draft_strategy
-        M::up(include_str!(
-            "sql/v054_rename_play_style_to_draft_strategy.sql"
-        )),
+        M::up(include_str!("sql/v054_rename_play_style_to_draft_strategy.sql")),
     ])
 }
 

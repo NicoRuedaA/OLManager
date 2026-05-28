@@ -25,19 +25,21 @@ interface HomeLeaguePositionCardProps {
   onNavigate?: (tab: string) => void;
 }
 
+const LOGO_SLUG_OVERRIDES: Record<string, string> = {}
+
 function teamLogoUrl(team: TeamData | undefined): string | null {
   if (!team) return null;
-  const slug = team.id.replace(/^lec-/, "");
+  // Use logo_url from backend if available (already mapped to /teams-icons/)
+  if (team.logo_url) return team.logo_url;
 
-  const aliases: Record<string, string> = {
-  };
+  const slug = team.id.replace(/^lec-/, "");
 
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
 
-  const file = aliases[slug] ?? slug;
-  return `/team-logos/${file}.png`;
+  const file = LOGO_SLUG_OVERRIDES[slug] ?? slug;
+  return `/teams-icons/${file}.webp`;
 }
 
 function getTeamLabel(teams: TeamData[], teamId: string): string {
@@ -57,10 +59,10 @@ export default function HomeLeaguePositionCard({
 }: HomeLeaguePositionCardProps) {
   const { t } = useTranslation();
   const hasPlayoffsStarted = Boolean(
-    league?.fixtures.some((fixture) => fixture.competition === "Playoffs"),
+    league?.fixtures.some((fixture) => fixture.match_type === "Playoffs"),
   );
   const playoffFixtures = league?.fixtures.filter(
-    (fixture) => fixture.competition === "Playoffs",
+    (fixture) => fixture.match_type === "Playoffs",
   ) ?? [];
   const myPlayoffFixtures = myTeamId
     ? playoffFixtures.filter(

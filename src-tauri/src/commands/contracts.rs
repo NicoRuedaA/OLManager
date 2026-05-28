@@ -164,7 +164,7 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use db::save_manager::SaveManager;
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes};
+    use domain::player::{Player, PlayerAttributes, LolRole};
     use domain::staff::{Staff, StaffAttributes, StaffRole};
     use domain::team::Team;
     use ofm_core::clock::GameClock;

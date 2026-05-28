@@ -1,0 +1,44 @@
+{
+  "id": "tcl",
+  "name": "TCL",
+  "full_name": "GAMEON Turkish Championship League",
+  "region": "TCL",
+  "country": "TR",
+  "tier": 2,
+  "logo": "/competitions-icons/tcl.webp",
+  "teams_file": "teams/tcl_teams.json",
+  "players_file": "players/tcl_players.json",
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 2,
+    "splits": [
+      {
+        "name": "Spring",
+        "best_of": 3,
+        "playoffs": {
+          "teams": 6,
+          "format": "DoubleElimination"
+        },
+        "season_start": {
+          "day": 9,
+          "month": 4
+        },
+        "superweek_offsets": []
+      },
+      {
+        "name": "Summer",
+        "best_of": 3,
+        "playoffs": {
+          "teams": 6,
+          "format": "DoubleElimination"
+        },
+        "season_start": {
+          "day": 17,
+          "month": 7
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

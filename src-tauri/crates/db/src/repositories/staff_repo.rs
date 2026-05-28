@@ -158,26 +158,16 @@ mod tests {
     }
 
     #[test]
-    fn test_staff_specialization_roundtrip() {
+    fn test_staff_roundtrip_different_roles() {
         let db = test_db();
-        let mut staff = sample_staff("s-001", StaffRole::Coach);
-        staff.specialization = Some(CoachingSpecialization::Attacking);
+        let coach = sample_staff("s-001", StaffRole::Coach);
+        let physio = sample_staff("s-002", StaffRole::Physio);
 
-        upsert_staff(db.conn(), &staff).unwrap();
+        upsert_staff(db.conn(), &coach).unwrap();
+        upsert_staff(db.conn(), &physio).unwrap();
         let all = load_all_staff(db.conn()).unwrap();
-        assert_eq!(
-            all[0].specialization,
-            Some(CoachingSpecialization::Attacking)
-        );
-    }
-
-    #[test]
-    fn test_staff_no_specialization() {
-        let db = test_db();
-        let staff = sample_staff("s-001", StaffRole::Physio);
-
-        upsert_staff(db.conn(), &staff).unwrap();
-        let all = load_all_staff(db.conn()).unwrap();
-        assert!(all[0].specialization.is_none());
+        assert_eq!(all.len(), 2);
+        assert_eq!(all[0].role, StaffRole::Coach);
+        assert_eq!(all[1].role, StaffRole::Physio);
     }
 }

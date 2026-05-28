@@ -1,4 +1,4 @@
-use crate::league::FixtureCompetition;
+use crate::league::MatchType;
 use serde::de::Visitor;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::fmt;
@@ -142,7 +142,8 @@ pub struct PlayerMatchStatsRecord {
     pub season: u32,
     pub matchday: u32,
     pub date: String,
-    pub competition: FixtureCompetition,
+    #[serde(alias = "competition")]
+    pub match_type: MatchType,
     pub player_id: String,
     pub team_id: String,
     pub opponent_team_id: String,
@@ -173,7 +174,8 @@ pub struct TeamMatchStatsRecord {
     pub season: u32,
     pub matchday: u32,
     pub date: String,
-    pub competition: FixtureCompetition,
+    #[serde(alias = "competition")]
+    pub match_type: MatchType,
     pub team_id: String,
     pub opponent_team_id: String,
     pub side: TeamSide,

@@ -1,0 +1,44 @@
+{
+  "id": "lrn",
+  "name": "LRN",
+  "full_name": "Liga Regional Norte",
+  "region": "LRN",
+  "country": "LATAM",
+  "tier": 2,
+  "logo": "/competitions-icons/lrn.webp",
+  "teams_file": "teams/lrn_teams.json",
+  "players_file": "players/lrn_players.json",
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Split 1",
+        "best_of": 3,
+        "playoffs": {
+          "teams": 6,
+          "format": "DoubleElimination"
+        },
+        "season_start": {
+          "day": 2,
+          "month": 3
+        },
+        "superweek_offsets": []
+      },
+      {
+        "name": "Split 2",
+        "best_of": 3,
+        "playoffs": {
+          "teams": 6,
+          "format": "DoubleElimination"
+        },
+        "season_start": {
+          "day": 1,
+          "month": 7
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

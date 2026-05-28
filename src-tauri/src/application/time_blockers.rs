@@ -1,7 +1,7 @@
 use log::info;
 
 use ofm_core::game::Game;
-use ofm_core::player_rating::{effective_rating_for_assignment, natural_ovr, position_slots};
+use ofm_core::player_rating::{effective_rating_for_assignment, position_slots, natural_ovr};
 
 fn user_team_context<'a>(
     game: &'a Game,
@@ -443,7 +443,8 @@ pub fn compute_blocking_actions(game: &Game) -> Vec<serde_json::Value> {
     };
     let saved_xi_ids = &team.active_lineup_ids;
     let current_date = game.clock.current_date.date_naive();
-    let effective_healthy_xi_ids = build_effective_healthy_lineup_ids(saved_xi_ids, &roster);
+    let effective_healthy_xi_ids =
+        build_effective_healthy_lineup_ids(saved_xi_ids, &roster);
 
     if let Some(blocker) = injured_lineup_blocker(saved_xi_ids, &roster) {
         blockers.push(blocker);

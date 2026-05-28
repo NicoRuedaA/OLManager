@@ -1,0 +1,64 @@
+{
+  "name": "Teams Export",
+  "description": "Exported team from OLMDBManager",
+  "teams": [
+    {
+      "id": "lec-g2-esports",
+      "city": "Berlin",
+      "form": [],
+      "name": "G2 Esports",
+      "tier": 1,
+      "colors": {
+        "primary": "#1e3a5f",
+        "secondary": "#60a5fa"
+      },
+      "academy": null,
+      "country": "DE",
+      "finance": 4500000,
+      "history": [],
+      "logo_url": "/teams-icons/g2-esports.webp",
+      "team_kind": "Main",
+      "arena_name": "",
+      "facilities": {
+        "medical": 1,
+        "scouting": 1,
+        "training": 1,
+        "main_hub_level": 1,
+        "scrims_room_level": 0,
+        "scouting_lab_level": 0,
+        "analysis_room_level": 0,
+        "bootcamp_area_level": 0,
+        "content_studio_level": 0,
+        "recovery_suite_level": 0
+      },
+      "manager_id": null,
+      "reputation": 650,
+      "short_name": "G2",
+      "lol_tactics": {
+        "fight_plan": "FrontToBack",
+        "strong_side": "Top",
+        "jungle_style": "Enabler",
+        "draft_strategy": "Balanced",
+        "support_roaming": "Lane"
+      },
+      "sponsorship": null,
+      "wage_budget": 2250000,
+      "scrim_results": [],
+      "season_income": 0,
+      "arena_capacity": 2500,
+      "parent_team_id": null,
+      "training_focus": "Scrims",
+      "academy_team_id": null,
+      "season_expenses": 0,
+      "training_groups": [],
+      "transfer_budget": 900000,
+      "financial_ledger": [],
+      "scrim_reputation": 50,
+      "academy_lifecycle": null,
+      "training_schedule": "Balanced",
+      "scrim_weekly_slots": 5,
+      "training_intensity": "Medium",
+      "region": "LEC"
+    }
+  ]
+}

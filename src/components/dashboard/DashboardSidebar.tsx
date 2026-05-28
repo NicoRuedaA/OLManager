@@ -22,6 +22,7 @@ import {
   PanelLeftClose,
   User,
   Gamepad2,
+  Globe,
   Swords,
 } from "lucide-react";
 
@@ -133,6 +134,11 @@ export default function DashboardSidebar({
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
     },
+    {
+      icon: <Globe />,
+      label: t("dashboard.competitions", "Competiciones"),
+      tab: "Competitions",
+    },
     { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
   ];
   const toggleSidebarLabel = collapsed
@@ -228,9 +234,6 @@ export default function DashboardSidebar({
             <p className="text-sm font-semibold text-white mt-0.5">
               {managerName}
             </p>
-            {teamName && (
-              <p className="text-xs text-primary-400 mt-0.5">{teamName}</p>
-            )}
           </div>
         </button>
       </div>

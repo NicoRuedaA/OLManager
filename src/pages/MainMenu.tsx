@@ -283,23 +283,19 @@ export default function MainMenu() {
         );
       }
 
-      const worldSource = "default";
-
-      await invoke<string>("start_new_game", {
-        nickname: formData.nickname,
+      await invoke<string>("start_new_game_lightweight", {
+        nickname: formData.nickname || null,
         firstName: formData.firstName,
         lastName: formData.lastName,
         dob: formData.dob,
         nationality: formData.nationality,
-        worldSource,
-        avatarPath: null,
       });
 
       const displayName =
         formData.nickname?.trim() || `${formData.firstName} ${formData.lastName}`;
       setGameActive(true, displayName.trim());
       console.debug(
-        "[MainMenu] start_new_game completed, navigating to /select-team",
+        "[MainMenu] start_new_game_lightweight completed, navigating to /select-team",
       );
       navigate("/select-team");
     } catch (error) {

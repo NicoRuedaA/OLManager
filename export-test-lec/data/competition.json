@@ -1,0 +1,48 @@
+{
+  "name": "LEC",
+  "full_name": "League of Legends EMEA Championship",
+  "id": "f10bb6f8-215e-4a03-8e91-c096718d569c",
+  "country": "EU",
+  "tier": 1,
+  "region": "LEC",
+  "logo": "/competitions-icons/lec.webp",
+  "teams_file": "teams/lec_teams.json",
+  "players_file": "players/lec_players.json",
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 10,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Winter",
+        "best_of": 1,
+        "playoffs": null,
+        "season_start": {
+          "day": 18,
+          "month": 1
+        },
+        "superweek_offsets": []
+      },
+      {
+        "name": "Spring",
+        "best_of": 3,
+        "playoffs": null,
+        "season_start": {
+          "day": 29,
+          "month": 3
+        },
+        "superweek_offsets": []
+      },
+      {
+        "name": "Summer",
+        "best_of": 3,
+        "playoffs": null,
+        "season_start": {
+          "day": 2,
+          "month": 8
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

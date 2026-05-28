@@ -1,0 +1,44 @@
+{
+  "id": "cblol",
+  "name": "CBLOL",
+  "full_name": "Campeonato Brasileiro de League of Legends",
+  "region": "CBLOL",
+  "country": "BR",
+  "tier": 1,
+  "logo": "/competitions-icons/cblol.webp",
+  "teams_file": "teams/cblol_teams.json",
+  "players_file": "players/cblol_players.json",
+  "schedule": {
+    "format": "double_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 3,
+    "splits": [
+      {
+        "name": "Split 1",
+        "best_of": 1,
+        "playoffs": {
+          "teams": 6,
+          "format": "SingleElimination"
+        },
+        "season_start": {
+          "day": 18,
+          "month": 1
+        },
+        "superweek_offsets": []
+      },
+      {
+        "name": "Split 2",
+        "best_of": 1,
+        "playoffs": {
+          "teams": 6,
+          "format": "SingleElimination"
+        },
+        "season_start": {
+          "day": 1,
+          "month": 6
+        },
+        "superweek_offsets": []
+      }
+    ]
+  }
+}

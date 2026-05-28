@@ -59,6 +59,7 @@ const LOCAL_TEAMS_ICONS: Record<string, string> = {
   movistarkoi: "movistar-koi",
   mkoi: "movistar-koi",
   koi: "movistar-koi",
+  madlionskoi: "movistar-koi",
   // Natus Vincere
   natusvincere: "natus-vincere",
   navi: "natus-vincere",

@@ -30,6 +30,7 @@ import {
 } from "../../lib/lolTactics";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { Card, CardBody, CardHeader } from "../ui";
+import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 
 interface TacticsTabProps {
   gameState: GameStateData;
@@ -254,8 +255,22 @@ function positionToRole(position: string): DraftRole | null {
 
 function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
-  if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
+  if (match) return `/player-photos/${match[1]}.webp`;
+  return null;
+}
+
+function ImageWithFallback({ playerId, playerName, gameState }: { playerId: string; playerName: string; gameState: GameStateData }) {
+  const player = gameState.players.find(p => p.id === playerId || p.match_name === playerName);
+  const photo = player?.profile_image_url ?? resolvePlayerPhoto(playerId, playerName);
+  return (
+    <img
+      src={playerPhotoUrl(playerId) ?? photo ?? ""}
+      alt={playerName}
+      className="h-10 w-10 shrink-0 rounded object-cover"
+      onError={(e) => { (e.target as HTMLImageElement).src = photo ?? ""; }}
+      loading="lazy"
+    />
+  );
 }
 
 function Section<T extends string>({
@@ -648,11 +663,10 @@ export default function TacticsTab({
                       </div>
 
                       {row.playerId ? (
-                        <img
-                          src={playerPhotoUrl(row.playerId) ?? ""}
-                          alt={row.playerName}
-                          className="h-10 w-10 shrink-0 rounded object-cover"
-                          loading="lazy"
+                        <ImageWithFallback
+                          playerId={row.playerId}
+                          playerName={row.playerName}
+                          gameState={gameState}
                         />
                       ) : (
                         <div className="h-10 w-10 shrink-0 rounded bg-gray-100 dark:bg-navy-700/40" />

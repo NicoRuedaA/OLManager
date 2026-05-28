@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::game::Game;
 use crate::potential::calculate_lol_ovr;
 use domain::player::LolRole as DomainLolRole;
@@ -49,18 +50,12 @@ pub(super) fn build_team_with_bench(game: &Game, team_id: &str) -> (TeamData, Ve
         .iter()
         .map(|player| player.id.as_str())
         .collect::<HashSet<_>>();
-    let mut bench_domain = available_players
+    let bench_domain = available_players
         .into_iter()
         .filter(|player| !starter_ids.contains(player.id.as_str()))
         .collect::<Vec<_>>();
-    bench_domain.sort_by(|left, right| {
-        calculate_lol_ovr(right)
-            .cmp(&calculate_lol_ovr(left))
-            .then_with(|| right.condition.cmp(&left.condition))
-    });
 
     // Keep LoL lane order stable for draft/pre-match UIs.
-    // Selection follows the reconciled role slots; this only normalizes display order.
     let mut starters = starters;
     starters.sort_by(|left, right| {
         lol_role_rank(&left.natural_position)

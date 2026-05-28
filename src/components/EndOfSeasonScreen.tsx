@@ -32,8 +32,8 @@ interface EndOfSeasonScreenProps {
 }
 
 function resolvePlayoffChampionTeamId(gameState: GameStateData): string | null {
-  const playoffFixtures = (gameState.league?.fixtures ?? [])
-    .filter((fixture) => fixture.competition === "Playoffs" && fixture.status === "Completed" && fixture.result)
+  const playoffFixtures = (gameState.leagues[0]?.fixtures ?? [])
+    .filter((fixture) => fixture.match_type === "Playoffs" && fixture.status === "Completed" && fixture.result)
     .sort((left, right) => right.matchday - left.matchday);
 
   const final = playoffFixtures[0];
@@ -51,7 +51,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const [summary, setSummary] = useState<EndOfSeasonSummary | null>(null);
   const [step, setStep] = useState<"review" | "done">("review");
 
-  const league = gameState.league;
+  const league = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
   const userTeam = gameState.teams.find(t => t.id === userTeamId);
 
@@ -66,7 +66,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const standingsChampionId = standings[0]?.team_id ?? null;
   const playoffChampionId = resolvePlayoffChampionTeamId(gameState);
   const championTeamId = playoffChampionId ?? standingsChampionId;
-  const hasPlayoffs = (league?.fixtures ?? []).some((fixture) => fixture.competition === "Playoffs");
+  const hasPlayoffs = (league?.fixtures ?? []).some((fixture) => fixture.match_type === "Playoffs");
   const championName = gameState.teams.find(t => t.id === championTeamId)?.name || "";
   const isChampion = championTeamId === userTeamId;
 

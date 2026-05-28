@@ -92,7 +92,7 @@ pub fn check_random_events(game: &mut Game) {
 
     // --- 2. Training ground injury (fitness-weighted probability, non-match days) ---
     {
-        let has_match = game.league.as_ref().is_some_and(|l| {
+        let has_match = game.leagues.first().is_some_and(|l| {
             l.fixtures
                 .iter()
                 .any(|f| f.date == today && f.status == domain::league::FixtureStatus::Scheduled)
@@ -192,7 +192,7 @@ pub fn check_random_events(game: &mut Game) {
 
     // --- 4. International call-up (5% chance per day, only if match in next 7 days) ---
     {
-        let upcoming_match = game.league.as_ref().and_then(|l| {
+        let upcoming_match = game.leagues.first().and_then(|l| {
             let current = game.clock.current_date;
             l.fixtures.iter().find(|f| {
                 f.status == domain::league::FixtureStatus::Scheduled
@@ -280,7 +280,7 @@ pub fn check_random_events(game: &mut Game) {
 
     // --- 7. Board confidence check (after 3+ consecutive losses, 100% trigger once) ---
     {
-        if let Some(league) = &game.league {
+        if let Some(league) = game.leagues.first() {
             let completed: Vec<_> = league
                 .fixtures
                 .iter()
