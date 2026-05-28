@@ -40,7 +40,7 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
   const { t } = useTranslation();
   const [view, setView] = useState<ViewMode>("fixtures");
 
-  const league = gameState.league;
+  const league = gameState.leagues?.[0];
   const userTeamId = gameState.manager.team_id;
   const seasonContext = resolveSeasonContext(gameState);
   const isPreseason = seasonContext.phase === "Preseason";
@@ -51,11 +51,11 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
     const map = new Map<string, FixtureData[]>();
     fixtures.forEach((f) => {
       const key =
-        f.competition === "League"
+        f.match_type === "League"
           ? `league-${f.matchday}`
-          : f.competition === "Playoffs"
+          : f.match_type === "Playoffs"
             ? `playoffs-${f.matchday}`
-            : `${f.competition}-${f.date}`;
+            : `${f.match_type}-${f.date}`;
       const list = map.get(key) ?? [];
       list.push(f);
       map.set(key, list);
@@ -86,18 +86,18 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
   const activeLeague = league;
 
   function groupLabel(f: FixtureData): string {
-    if (f.competition === "League") {
+    if (f.match_type === "League") {
       return `${t("schedule.matchday", { number: f.matchday, defaultValue: `Jornada ${f.matchday}` })} · ${formatMatchDate(f.date)}`;
     }
-    if (f.competition === "Playoffs") {
+    if (f.match_type === "Playoffs") {
       const playoffStart = activeLeague.fixtures
-        .filter((c) => c.competition === "Playoffs")
+        .filter((c) => c.match_type === "Playoffs")
         .map((c) => c.matchday)
         .reduce((min, v) => Math.min(min, v), Number.POSITIVE_INFINITY);
       const round = Number.isFinite(playoffStart) ? f.matchday - (playoffStart ?? 0) + 1 : f.matchday;
       return `${t("schedule.playoffs", { defaultValue: "Playoffs" })} · ${t("schedule.round", { number: round, defaultValue: `Ronda ${round}` })} · ${formatMatchDate(f.date)}`;
     }
-    if (f.competition === "PreseasonTournament") {
+    if (f.match_type === "PreseasonTournament") {
       return `${t("season.preseasonTournament", { defaultValue: "Pretemporada" })} · ${formatMatchDate(f.date)}`;
     }
     return `${t("season.friendly", { defaultValue: "Amistoso" })} · ${formatMatchDate(f.date)}`;
@@ -337,11 +337,7 @@ function StandingsTable({
   userTeamId,
   onSelectTeam,
 }: {
-  standings: GameStateData["league"] extends infer L
-    ? L extends { standings: infer S }
-      ? S
-      : never
-    : never;
+  standings: GameStateData["leagues"][number]["standings"];
   teams: GameStateData["teams"];
   userTeamId: string | null;
   onSelectTeam: (id: string) => void;

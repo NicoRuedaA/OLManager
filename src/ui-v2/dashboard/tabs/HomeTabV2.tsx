@@ -73,9 +73,9 @@ export function HomeTabV2({ gameState, onNavigate }: Props) {
   );
 
   const sortedStandings = useMemo(() => {
-    if (!gameState.league) return [];
-    return [...gameState.league.standings].sort(compareStandingsByLolScore);
-  }, [gameState.league]);
+    if (!gameState.leagues?.[0]) return [];
+    return [...gameState.leagues?.[0].standings].sort(compareStandingsByLolScore);
+  }, [gameState.leagues?.[0]]);
 
   const recentMessages = useMemo(() => {
     return [...(gameState.messages ?? [])]
@@ -106,7 +106,7 @@ export function HomeTabV2({ gameState, onNavigate }: Props) {
       </div>
       <div className="lg:col-span-1 lg:row-span-2">
         <FullStandingsCard
-          league={gameState.league}
+          league={gameState.leagues?.[0]}
           standings={sortedStandings}
           teams={gameState.teams}
           myTeamId={myTeamId}
@@ -179,7 +179,7 @@ function NextOpponentCard({
 }) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
-  const league = gameState.league;
+  const league = gameState.leagues?.[0];
 
   const nextFixture = userTeamId && league
     ? findNextFixture(league.fixtures, userTeamId)
@@ -216,9 +216,9 @@ function NextOpponentCard({
   const countdown = daysUntil(nextFixture.date);
 
   const fixtureLabel =
-    nextFixture.competition === "League"
+    nextFixture.match_type === "League"
       ? t("home.matchdayN", { n: nextFixture.matchday, defaultValue: `Jornada ${nextFixture.matchday}` })
-      : nextFixture.competition === "PreseasonTournament"
+      : nextFixture.match_type === "PreseasonTournament"
         ? t("season.preseasonTournament", { defaultValue: "Pretemporada" })
         : t("season.friendly", { defaultValue: "Amistoso" });
 
@@ -248,7 +248,7 @@ function NextOpponentCard({
             <div className="min-w-0">
               <div className="truncate font-heading text-xl font-bold">{homeShort}</div>
               <div className="text-xs text-muted-foreground">
-                {data.isHome ? "Tu equipo" : data.fixture.competition}
+                {data.isHome ? "Tu equipo" : data.fixture.match_type}
               </div>
             </div>
           </div>
@@ -470,7 +470,7 @@ function Kpi({
 
 // ──────────────────────────────────────────────────────────────────────
 
-function resolveCompetitionLogo(league: GameStateData["league"]): string | null {
+function resolveCompetitionLogo(league: GameStateData["leagues"][number] | undefined): string | null {
   if (!league) return null;
   const id = league.id.toLowerCase();
   const name = league.name.toLowerCase();
@@ -495,7 +495,7 @@ function FullStandingsCard({
   myTeamId,
   onNavigate,
 }: {
-  league: GameStateData["league"];
+  league: GameStateData["leagues"][number] | undefined;
   standings: FullStanding[];
   teams: GameStateData["teams"];
   myTeamId: string | null;
@@ -626,7 +626,7 @@ function RecentResultsCard({
                         {opp?.name ?? r.opponentId}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {r.isHome ? "Casa" : "Fuera"} · {r.fixture.competition}
+                        {r.isHome ? "Casa" : "Fuera"} · {r.fixture.match_type}
                       </div>
                     </div>
                   </div>
@@ -812,7 +812,7 @@ function WeekScheduleCard({
   onNavigate?: (tab: string) => void;
 }) {
   const { i18n } = useTranslation();
-  const league = gameState.league;
+  const league = gameState.leagues?.[0];
   const teamId = gameState.manager.team_id;
 
   const todayKey = String(gameState.clock.current_date).slice(0, 10);
@@ -1079,7 +1079,7 @@ function TodayPhaseCard({
   onNavigate?: (tab: string) => void;
 }) {
   const teamId = gameState.manager.team_id;
-  const league = gameState.league;
+  const league = gameState.leagues?.[0];
   const todayKey = String(gameState.clock.current_date).slice(0, 10);
 
   const todayFixture =
@@ -1106,7 +1106,7 @@ function TodayPhaseCard({
             </div>
             <div className="font-heading text-lg font-bold">Día de partido</div>
             <div className="truncate text-sm text-muted-foreground">
-              {todayFixture.competition}
+              {todayFixture.match_type}
             </div>
           </div>
           <Button onClick={() => onNavigate?.("Schedule")} className="gap-1.5">

@@ -117,7 +117,7 @@ export default function DashboardV2() {
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
   const hasMatchToday = todayMatchFixture !== null;
-  const seasonComplete = isLeagueSeasonComplete(gameState?.league);
+  const seasonComplete = isLeagueSeasonComplete(gameState?.leagues?.[0]);
 
   const {
     isAdvancing,
