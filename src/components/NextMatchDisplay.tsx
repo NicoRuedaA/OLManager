@@ -15,7 +15,7 @@ import { calculateLolOvr } from "../lib/lolPlayerStats";
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
-const ROLE_ORDER: DraftRole[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
+export const ROLE_ORDER: DraftRole[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
 interface PlayerSeed {
   ign: string;
@@ -56,20 +56,20 @@ function seedRoleToDraftRole(role: string): DraftRole | null {
   return null;
 }
 
-function playerPhotoUrl(playerId: string): string | null {
+export function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
   if (!match) return null;
   return `/player-photos/${match[1]}.png`;
 }
 
-function daysUntil(dateIso: string): number {
+export function daysUntil(dateIso: string): number {
   const now = new Date();
   const target = new Date(dateIso);
   const diffMs = target.getTime() - now.getTime();
   return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 }
 
-function getLineupByRole(gameState: GameStateData, teamId: string) {
+export function getLineupByRole(gameState: GameStateData, teamId: string) {
   const teamPlayers = gameState.players.filter((player) => player.team_id === teamId);
 
   const lineup = ROLE_ORDER.map((role) => {
@@ -87,7 +87,7 @@ function getLineupByRole(gameState: GameStateData, teamId: string) {
   return lineup;
 }
 
-function teamLineupOvr(lineup: Array<GameStateData["players"][number] | null>): number {
+export function teamLineupOvr(lineup: Array<GameStateData["players"][number] | null>): number {
   const values = lineup
     .map((player) => {
       if (!player) return null;

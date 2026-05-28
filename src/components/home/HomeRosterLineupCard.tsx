@@ -29,7 +29,7 @@ const PLAYER_SEEDS: PlayerSeed[] = [
   ...(((playersSeed as { data?: { free_agent_seeds?: PlayerSeed[] } }).data?.free_agent_seeds ?? []) as PlayerSeed[]),
 ];
 
-const TOP_CHAMPION_BY_IGN = new Map(
+export const TOP_CHAMPION_BY_IGN = new Map(
   PLAYER_SEEDS.map((player) => {
     const best = [...(player.champions ?? [])]
       .map((entry) => ({ name: String(entry[0] ?? ""), mastery: Number(entry[1] ?? 0) }))
@@ -40,11 +40,11 @@ const TOP_CHAMPION_BY_IGN = new Map(
   }),
 );
 
-function normalizeKey(value: string): string {
+export function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function championIdFromName(name: string): string | null {
+export function championIdFromName(name: string): string | null {
   const normalized = normalizeKey(name);
   if (!normalized) return null;
 
@@ -72,7 +72,7 @@ function championIdFromName(name: string): string | null {
   return special;
 }
 
-function championSplashUrl(championId: string | null): string | null {
+export function championSplashUrl(championId: string | null): string | null {
   if (!championId) return null;
   return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_0.jpg`;
 }

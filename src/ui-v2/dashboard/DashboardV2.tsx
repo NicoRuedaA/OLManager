@@ -36,6 +36,9 @@ import type { DashboardMatchModeMeta } from "@/components/dashboard/DashboardHea
 
 import { DashboardSidebarV2 } from "./DashboardSidebarV2";
 import { DashboardHeaderV2 } from "./DashboardHeaderV2";
+import { HomeTabV2 } from "./tabs/HomeTabV2";
+import { InboxTabV2 } from "./tabs/InboxTabV2";
+import { ScheduleTabV2 } from "./tabs/ScheduleTabV2";
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
@@ -293,7 +296,7 @@ export default function DashboardV2() {
         teamName={myTeamName}
         teamLogo={teamLogo}
         isUnemployed={isUnemployed ?? false}
-        onNavigateSettings={() => navigate("/settings", { state: { from: "/v2/dashboard" } })}
+        onNavigateSettings={() => navigate("/settings", { state: { from: "/dashboard" } })}
         onExitClick={() => !isExitingToMenu && setShowExitConfirm(true)}
       />
 
@@ -332,21 +335,50 @@ export default function DashboardV2() {
           onContinue={handleContinue}
         />
 
-        <DashboardWorkspaceContent
-          dashboardAlerts={dashboardAlerts}
-          gameState={gameState}
-          profileNavigation={profileNavigation}
-          dashboardTabContentModel={dashboardTabContentModel}
-          onBack={handleBack}
-          onNavigate={handleNavigate}
-          onSelectPlayer={selectPlayer}
-          onSelectTeam={selectTeam}
-          onGameUpdate={setGameState}
-          isUnemployed={isUnemployed ?? false}
-          viewingChampionKey={viewingChampionKey}
-          onCloseChampion={() => setViewingChampionKey(null)}
-          onViewChampion={(k) => setViewingChampionKey(k)}
-        />
+        {profileNavigation.activeTab === "Home" &&
+        !viewingChampionKey &&
+        !profileNavigation.selectedPlayerId &&
+        !profileNavigation.selectedTeamId &&
+        !seasonComplete ? (
+          <div className="flex-1 overflow-y-auto">
+            <HomeTabV2 gameState={gameState} onNavigate={handleNavigate} />
+          </div>
+        ) : profileNavigation.activeTab === "Inbox" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-hidden">
+            <InboxTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+              initialMessageId={profileNavigation.initialMessageId ?? null}
+              onNavigate={handleNavigate}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Schedule" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto">
+            <ScheduleTabV2 gameState={gameState} onSelectTeam={selectTeam} />
+          </div>
+        ) : (
+          <DashboardWorkspaceContent
+            dashboardAlerts={dashboardAlerts}
+            gameState={gameState}
+            profileNavigation={profileNavigation}
+            dashboardTabContentModel={dashboardTabContentModel}
+            onBack={handleBack}
+            onNavigate={handleNavigate}
+            onSelectPlayer={selectPlayer}
+            onSelectTeam={selectTeam}
+            onGameUpdate={setGameState}
+            isUnemployed={isUnemployed ?? false}
+            viewingChampionKey={viewingChampionKey}
+            onCloseChampion={() => setViewingChampionKey(null)}
+            onViewChampion={(k) => setViewingChampionKey(k)}
+          />
+        )}
       </main>
     </div>
   );

@@ -6,6 +6,7 @@ import { useSettingsStore, AppSettings } from "../store/settingsStore";
 import { useTheme } from "../context/ThemeContext";
 import { ThemeToggle, Select } from "../components/ui";
 import { SUPPORTED_LANGUAGES } from "../i18n";
+import { setUIVersion, useUIVersion, type UIVersion } from "../ui-v2/uiVersion";
 import {
   ArrowLeft,
   Monitor,
@@ -43,6 +44,7 @@ export default function Settings() {
   const { t, i18n } = useTranslation();
   const { settings, loaded, loadSettings, updateSettings } = useSettingsStore();
   const { theme, toggleTheme } = useTheme();
+  const uiVersion = useUIVersion();
   const {
     updateAvailable,
     updateInfo,
@@ -197,6 +199,22 @@ export default function Settings() {
                 handleUpdate({ theme: v as AppSettings["theme"] })
               }
             />
+          </SettingRow>
+
+          <SettingRow
+            label={t("settings.uiVersion", { defaultValue: "Versión de la interfaz" })}
+            description={t("settings.uiVersionDesc", {
+              defaultValue: "Cambia entre la UI clásica (v1) y la nueva (v2). La aplicación se recarga automáticamente.",
+            })}
+          >
+            <Select
+              value={uiVersion}
+              onChange={(e) => setUIVersion(e.target.value as UIVersion)}
+              className="min-w-40"
+            >
+              <option value="v1">Clásica (v1)</option>
+              <option value="v2">Nueva (v2)</option>
+            </Select>
           </SettingRow>
 
           <SettingRow
