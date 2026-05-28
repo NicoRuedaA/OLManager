@@ -68,9 +68,11 @@ export default function DashboardV2() {
     managerName,
     gameState,
     setGameState,
+    setGameActive,
     clearGame,
     markClean,
   } = useGameStore();
+  const [probedNoGame, setProbedNoGame] = useState(false);
   const { settings, loaded: settingsLoaded, loadSettings } = useSettingsStore();
 
   const [isSaving, setIsSaving] = useState(false);
@@ -88,11 +90,26 @@ export default function DashboardV2() {
   }, [settingsLoaded, loadSettings]);
 
   useEffect(() => {
-    if (!hasActiveGame) return;
-    invoke<GameStateData>("get_active_game")
-      .then(setGameState)
-      .catch((err) => console.error("Failed to fetch game state:", err));
-  }, [hasActiveGame, setGameState]);
+    if (hasActiveGame) {
+      invoke<GameStateData>("get_active_game")
+        .then(setGameState)
+        .catch((err) => console.error("Failed to fetch game state:", err));
+      return;
+    }
+    invoke<GameStateData | null>("get_active_game")
+      .then((state) => {
+        if (state) {
+          const name =
+            state.manager.nickname?.trim() ||
+            `${state.manager.first_name} ${state.manager.last_name}`;
+          setGameActive(true, name);
+          setGameState(state);
+        } else {
+          setProbedNoGame(true);
+        }
+      })
+      .catch(() => setProbedNoGame(true));
+  }, [hasActiveGame, setGameState, setGameActive]);
 
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
@@ -247,7 +264,7 @@ export default function DashboardV2() {
       })
     : null;
 
-  if (!hasActiveGame) {
+  if (!hasActiveGame && probedNoGame) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-4 bg-background text-foreground">
         <div className="text-lg font-medium">No active game</div>
