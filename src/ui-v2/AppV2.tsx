@@ -1,35 +1,51 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
-import { Button } from "@/ui-v2/components/ui/button";
-import { Badge } from "@/ui-v2/components/ui/badge";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { Shell } from "./layout/Shell";
+import { Placeholder } from "./pages/Placeholder";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate to="/v2/players" replace />,
+  },
+  {
+    path: "/v2",
+    element: <Shell />,
+    handle: { crumb: "OLManager" },
+    children: [
+      { index: true, element: <Navigate to="players" replace /> },
+      {
+        path: "live",
+        handle: { crumb: "Live Matches" },
+        element: <Placeholder title="Live Matches" />,
+      },
+      {
+        path: "history",
+        handle: { crumb: "Matches History" },
+        element: <Placeholder title="Matches History" />,
+      },
+      {
+        path: "insider",
+        handle: { crumb: "Leagues Insider" },
+        element: <Placeholder title="Leagues Insider" />,
+      },
+      {
+        path: "players",
+        handle: { crumb: "Players Database" },
+        element: <Placeholder title="Players Database" />,
+      },
+      {
+        path: "betting",
+        handle: { crumb: "Betting" },
+        element: <Placeholder title="Betting" />,
+      },
+    ],
+  },
+]);
 
 export default function AppV2() {
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
-      <div className="mx-auto max-w-5xl p-8 space-y-6">
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold tracking-tight">OLManager</h1>
-            <p className="text-muted-foreground text-sm">UI v2 — base lista</p>
-          </div>
-          <Badge>v2</Badge>
-        </header>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Andamiaje funcionando</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-muted-foreground text-sm">
-              Tokens del tema activos (zinc + acento naranja). A partir de aquí construimos las pantallas.
-            </p>
-            <div className="flex gap-2">
-              <Button>Primario</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="ghost">Ghost</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="dark">
+      <RouterProvider router={router} />
     </div>
   );
 }
