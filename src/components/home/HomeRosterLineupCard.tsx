@@ -7,6 +7,8 @@ import { Card, CardBody, CardHeader } from "../ui";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
+import { normalizeChampionKey } from "../../lib/championIds";
+import { resolveChampionSplash } from "../../lib/championImages";
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -42,39 +44,6 @@ const TOP_CHAMPION_BY_IGN = new Map(
 
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-function championIdFromName(name: string): string | null {
-  const normalized = normalizeKey(name);
-  if (!normalized) return null;
-
-  const overrides: Record<string, string> = {
-    aurelionsol: "AurelionSol",
-    belveth: "Belveth",
-    chogath: "Chogath",
-    drmundo: "DrMundo",
-    jarvaniv: "JarvanIV",
-    kaisa: "Kaisa",
-    ksante: "KSante",
-    khazix: "Khazix",
-    kogmaw: "KogMaw",
-    leesin: "LeeSin",
-    monkeyking: "MonkeyKing",
-    nunuandwillump: "Nunu",
-    reksai: "RekSai",
-    tahmkench: "TahmKench",
-    velkoz: "Velkoz",
-  };
-
-  if (overrides[normalized]) return overrides[normalized];
-
-  const special = normalized.charAt(0).toUpperCase() + normalized.slice(1);
-  return special;
-}
-
-function championSplashUrl(championId: string | null): string | null {
-  if (!championId) return null;
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_0.jpg`;
 }
 
 export default function HomeRosterLineupCard({
@@ -146,7 +115,10 @@ export default function HomeRosterLineupCard({
                 ?? fallbackChampionForRole(player.id, role)
                 ?? ""
               : "";
-            const championSplash = championSplashUrl(championIdFromName(topChampion));
+            const canonicalKey = topChampion ? normalizeChampionKey(topChampion) : "";
+            const championSplash = canonicalKey
+              ? resolveChampionSplash(canonicalKey)
+              : null;
 
             return (
               <div

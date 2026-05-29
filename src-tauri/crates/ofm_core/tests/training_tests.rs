@@ -1063,7 +1063,6 @@ fn rival_players_get_auto_targets_and_gain_mastery_on_training() {
 
     let mut rival = make_player("p-rival", "Rival Carry", "team2", "2001-04-11");
     rival.champion_training_targets = Vec::new();
-    rival.champion_training_target = None;
     game.players.push(rival);
 
     game.champion_masteries.push(ChampionMasteryEntry {
@@ -1119,7 +1118,6 @@ fn rival_auto_targets_prioritize_meta_tier_over_raw_mastery() {
     let mut rival = make_player("p-meta", "Meta Mid", "team2", "2001-04-11");
     rival.natural_position = domain::player::LolRole::Mid;
     rival.champion_training_targets = Vec::new();
-    rival.champion_training_target = None;
     game.players.push(rival);
 
     game.champion_masteries.push(ChampionMasteryEntry {

@@ -90,76 +90,14 @@ export default function PlayerProfileHeroCard({
     potentialRevealed !== null ? String(potentialRevealed) : "??";
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function resolveRandomSkin(): Promise<void> {
-      if (!insigniaChampionId) {
-        setInsigniaBackground(null);
-        return;
-      }
-
-      const fallbackBase = getChampionSplashPath(insigniaChampionId, 0);
-      if (fallbackBase) {
-        setInsigniaBackground(fallbackBase);
-      }
-
-      const cacheKey = buildSkinCacheKey(player.id, insigniaChampionId);
-      const cachedUrl = readCachedSkinUrl(cacheKey);
-      if (cachedUrl) {
-        if (await canLoadImage(cachedUrl)) {
-          setInsigniaBackground(cachedUrl);
-          return;
-        }
-        clearCachedSkinUrl(cacheKey);
-      }
-
-      try {
-        const versionsResponse = await fetch("https://ddragon.leagueoflegends.com/api/versions.json");
-        const versions = (await versionsResponse.json()) as string[];
-        const version = versions[0];
-        if (!version) {
-          if (!cancelled && fallbackBase) setInsigniaBackground(fallbackBase);
-          return;
-        }
-
-        const detailResponse = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${insigniaChampionId}.json`,
-        );
-        const detailPayload = (await detailResponse.json()) as {
-          data?: Record<string, { skins?: Array<{ num: number }> }>;
-        };
-
-        const championEntry = detailPayload.data?.[insigniaChampionId];
-        const skinNums = (championEntry?.skins ?? [])
-          .map((skin) => Number(skin.num))
-          .filter((num) => Number.isFinite(num));
-
-        const shuffled = shuffleNumbers(skinNums.length > 0 ? skinNums : [0]);
-        const chosenSkinNum = shuffled[0] ?? 0;
-        const chosenUrl = getChampionSplashPath(insigniaChampionId, chosenSkinNum);
-
-        if (chosenUrl && !cancelled && (await canLoadImage(chosenUrl))) {
-          setInsigniaBackground(chosenUrl);
-          writeCachedSkinUrl(cacheKey, chosenUrl);
-          return;
-        }
-
-        if (!cancelled && fallbackBase) {
-          setInsigniaBackground(fallbackBase);
-        }
-      } catch {
-        if (!cancelled && fallbackBase) {
-          setInsigniaBackground(fallbackBase);
-        }
-      }
+    if (!insigniaChampionId) {
+      setInsigniaBackground(null);
+      return;
     }
 
-    void resolveRandomSkin();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [insigniaChampionId, player.id]);
+    // Always use skin 0 from local splash path
+    setInsigniaBackground(`/champion-splash/${insigniaChampionId}.webp`);
+  }, [insigniaChampionId]);
 
   return (
     <Card accent="primary" className="mb-5">
@@ -410,58 +348,8 @@ export default function PlayerProfileHeroCard({
   );
 }
 
-function getChampionSplashPath(championId: string | null | undefined, skinNum: number): string | null {
-  if (!championId) return null;
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_${skinNum}.jpg`;
-}
-
-function buildSkinCacheKey(playerId: string, championId: string): string {
-  return `profile-hero-skin:${playerId}:${championId}`;
-}
-
-function readCachedSkinUrl(cacheKey: string): string | null {
-  try {
-    const raw = localStorage.getItem(cacheKey);
-    if (!raw) return null;
-    return raw;
-  } catch {
-    return null;
-  }
-}
-
-function writeCachedSkinUrl(cacheKey: string, url: string): void {
-  try {
-    localStorage.setItem(cacheKey, url);
-  } catch {
-    // ignore storage failures
-  }
-}
-
-function clearCachedSkinUrl(cacheKey: string): void {
-  try {
-    localStorage.removeItem(cacheKey);
-  } catch {
-    // ignore storage failures
-  }
-}
-
-function shuffleNumbers(values: number[]): number[] {
-  const copy = [...values];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function canLoadImage(url: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const image = new Image();
-    image.onload = () => resolve(true);
-    image.onerror = () => resolve(false);
-    image.src = url;
-  });
-}
+// NOTE: getChampionSplashPath was replaced by direct `/champion-splash/{id}.webp` path.
+// All skin randomization logic removed per design decision (skin 0 always).
 
 function QuickStat({
   label,

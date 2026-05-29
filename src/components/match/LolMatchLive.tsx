@@ -81,10 +81,7 @@ const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> =
 };
 
 function championIconUrl(championId: string): string {
-  if (normalizeChampionLookupKey(championId) === "yunara") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/804.webp";
-  }
-  return `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/champion/${championId}.webp`;
+  return `/champion-tiles/${championId}.webp`;
 }
 
 function attackTypeFromStats(attackRange: number, tags: string[]) {

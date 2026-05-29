@@ -3,7 +3,10 @@ use crate::staff_effects::LolStaffEffects;
 use chrono::{Datelike, NaiveDate};
 use domain::message::{InboxMessage, MessageCategory, MessagePriority};
 use domain::staff::StaffRole;
+use rand::Rng;
 use rand::RngExt;
+use rand::SeedableRng;
+use rand::rngs::StdRng;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
@@ -403,7 +406,7 @@ pub fn bootstrap_seed_masteries(_game: &mut Game) {
     // Existing masteries from saves (Flow C) are preserved.
 }
 
-fn ensure_patch_seed(state: &mut ChampionPatchState) {
+pub(crate) fn ensure_patch_seed(state: &mut ChampionPatchState) {
     if state.rng_seed == 0 {
         state.rng_seed = rand::rng().random();
     }
@@ -482,7 +485,7 @@ fn ensure_initial_patch_state(game: &mut Game) {
     }
 
     ensure_patch_seed(&mut game.champion_patch);
-    let mut rng = rand::rng();
+    let mut rng = StdRng::seed_from_u64(game.champion_patch.rng_seed);
 
     let initial_working: Vec<WorkingMeta> = champion_catalog()
         .iter()
@@ -901,6 +904,7 @@ pub fn apply_training_mastery_progress(
     player_id: &str,
     champion_id: &str,
     gain_factor: f64,
+    rng: &mut impl Rng,
 ) {
     let current = mastery_for_player_champion(game, player_id, champion_id);
     let Some(player) = game
@@ -917,7 +921,6 @@ pub fn apply_training_mastery_progress(
 
     let headroom = f64::from(MASTERY_CAP.saturating_sub(current)) / 75.0;
     let chance = (0.16 + gain_factor * 0.26 + headroom * 0.2 + stat_push * 0.18).clamp(0.14, 0.88);
-    let mut rng = rand::rng();
     let roll: f64 = rng.random_range(0.0..1.0);
     if roll > chance {
         return;
@@ -1061,8 +1064,7 @@ fn should_roll_patch(game: &Game, state: &ChampionPatchState) -> bool {
     (today - last_patch).num_days() >= PATCH_INTERVAL_DAYS
 }
 
-fn pick_unique_indices(candidates: &[usize], count: usize) -> Vec<usize> {
-    let mut rng = rand::rng();
+fn pick_unique_indices(rng: &mut impl Rng, candidates: &[usize], count: usize) -> Vec<usize> {
     let mut pool = candidates.to_vec();
     let mut picked = Vec::new();
     let target = count.min(pool.len());
@@ -1077,7 +1079,7 @@ fn pick_unique_indices(candidates: &[usize], count: usize) -> Vec<usize> {
 
 fn apply_patch(game: &mut Game) {
     ensure_patch_seed(&mut game.champion_patch);
-    let mut rng = rand::rng();
+    let mut rng = StdRng::seed_from_u64(game.champion_patch.rng_seed);
     let catalog = champion_catalog();
     if catalog.is_empty() {
         return;
@@ -1128,8 +1130,8 @@ fn apply_patch(game: &mut Game) {
         .copied()
         .collect();
 
-    let nerf_indices = pick_unique_indices(&nerf_pool, 4);
-    let buff_indices = pick_unique_indices(&buff_pool, 4);
+    let nerf_indices = pick_unique_indices(&mut rng, &nerf_pool, 4);
+    let buff_indices = pick_unique_indices(&mut rng, &buff_pool, 4);
 
     let mut notes: Vec<ChampionPatchNote> = Vec::new();
 
@@ -1294,7 +1296,7 @@ fn process_meta_discovery(game: &mut Game) {
     reveals += (avg_potential / 50.0).floor() as usize;
     reveals = ((reveals as f64) * staff_effects.meta_discovery).round() as usize;
 
-    let mut rng = rand::rng();
+    let mut rng = StdRng::seed_from_u64(game.champion_patch.rng_seed);
     reveals += rng.random_range(0..=4);
 
     let discovered_set: HashSet<String> = game

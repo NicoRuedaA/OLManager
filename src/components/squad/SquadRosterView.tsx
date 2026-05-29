@@ -21,6 +21,8 @@ import {
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
+import { normalizeChampionKey } from "../../lib/championIds";
+import { resolveChampionTile } from "../../lib/championImages";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 type SortKey = "pos" | "ovr" | "condition" | "morale" | "age";
@@ -80,40 +82,6 @@ const TOP_3_CHAMPIONS_BY_IGN = new Map(
 
 function resolveRole(player: PlayerData): LolRole {
   return resolvePlayerLolRole(player);
-}
-
-function championIdFromName(name: string): string | null {
-  const normalized = normalizeKey(name);
-  if (!normalized) return null;
-
-  const overrides: Record<string, string> = {
-    aurelionsol: "AurelionSol",
-    belveth: "Belveth",
-    chogath: "Chogath",
-    drmundo: "DrMundo",
-    jarvaniv: "JarvanIV",
-    ksante: "KSante",
-    kaisa: "Kaisa",
-    khazix: "Khazix",
-    kogmaw: "KogMaw",
-    leblanc: "Leblanc",
-    leesin: "LeeSin",
-    monkeyking: "MonkeyKing",
-    nunuandwillump: "Nunu",
-    reksai: "RekSai",
-    tahmkench: "TahmKench",
-    twistedfate: "TwistedFate",
-    velkoz: "Velkoz",
-  };
-
-  if (overrides[normalized]) return overrides[normalized];
-  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-}
-
-function championPortraitUrl(championId: string | null): string | null {
-  if (!championId) return null;
-  // Tile art se parece más al "rostro" que el splash completo.
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championId}_0.jpg`;
 }
 
 function clampBar(value: number): number {
@@ -401,7 +369,10 @@ export default function SquadRosterView({
 
                     <div className="hidden xl:flex items-center gap-1.5 justify-start">
                       {championNames.map((name) => {
-                        const portrait = championPortraitUrl(championIdFromName(name));
+                        const canonicalKey = normalizeChampionKey(name);
+                        const portrait = canonicalKey
+                          ? resolveChampionTile(canonicalKey)
+                          : null;
                         return (
                           <div key={name} className="w-6 h-6 rounded-sm bg-[#0d1d39] overflow-hidden border border-white/10" title={name}>
                             {portrait ? (

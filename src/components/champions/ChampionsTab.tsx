@@ -10,6 +10,8 @@ import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import { t } from "i18next";
 import { resolvePlayerCurrentLolRole } from "../../lib/lolIdentity";
+import { normalizeChampionKey } from "../../lib/championIds";
+import { resolveChampionTile } from "../../lib/championImages";
 
 interface ChampionsTabProps {
   gameState: GameStateData;
@@ -77,27 +79,8 @@ function toUiRole(role: ReturnType<typeof resolvePlayerCurrentLolRole>): UiRole 
   return "Support";
 }
 
-function championTileUrl(championId: string): string {
-  const normalized = normalizeKey(championId);
-  const overrides: Record<string, string> = {
-    fiddlestick: "Fiddlesticks",
-    fiddlesticks: "Fiddlesticks",
-    ksante: "KSante",
-    kaisa: "Kaisa",
-    khazix: "Khazix",
-    kogmaw: "KogMaw",
-    leesin: "LeeSin",
-    reksai: "RekSai",
-    velkoz: "Velkoz",
-    wukong: "MonkeyKing",
-  };
-  const canonical = overrides[normalized] ?? championId;
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${canonical}_0.jpg`;
-}
-
 function championDisplayName(championId: string): string {
-  const normalized = normalizeKey(championId);
-  if (normalized === "monkeyking") return "Wukong";
+  if (normalizeChampionKey(championId) === "MonkeyKing") return "Wukong";
   return championId;
 }
 
@@ -509,15 +492,10 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                         >
                           <div className="h-14 w-24 rounded-md border border-navy-500/80 bg-navy-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-yellow-300 overflow-hidden">
                             <img
-                              src={championTileUrl(entry.champion_id)}
+                              src={resolveChampionTile(entry.champion_id) ?? ""}
                               alt={championDisplayName(entry.champion_id)}
                               className="h-full w-full object-cover"
                               loading="lazy"
-                              onError={(event) => {
-                                const element = event.currentTarget;
-                                element.onerror = null;
-                                element.src = `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${entry.champion_id}.png`;
-                              }}
                               title={`${championDisplayName(entry.champion_id)} · ${entry.role}`}
                             />
                           </div>

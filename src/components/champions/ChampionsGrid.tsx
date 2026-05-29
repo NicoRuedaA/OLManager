@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Search, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter } from "lucide-react";
 import type { ChampionData } from "../../store/types";
 import { Card, CardBody } from "../ui";
+import { resolveChampionTile } from "../../lib/championImages";
 
 interface ChampionsGridProps {
   champions?: ChampionData[];
@@ -37,10 +38,6 @@ function parseRoles(rolesJson: string): string[] {
   } catch {
     return [];
   }
-}
-
-function championTileUrl(championKey: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championKey}_0.jpg`;
 }
 
 export default function ChampionsGrid({ champions, onChampionClick }: ChampionsGridProps) {
@@ -152,7 +149,7 @@ export default function ChampionsGrid({ champions, onChampionClick }: ChampionsG
                     >
                       <td className="py-2.5 px-4">
                         <img
-                          src={championTileUrl(champion.champion_key)}
+                          src={resolveChampionTile(champion.champion_key) ?? ""}
                           alt={champion.name}
                           className="w-8 h-8 rounded-lg object-cover bg-gray-200 dark:bg-navy-600"
                           loading="lazy"

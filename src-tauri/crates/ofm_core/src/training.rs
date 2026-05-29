@@ -11,6 +11,7 @@ use domain::team::{
     MainFacilityModuleKind, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus,
     TrainingFocus, TrainingIntensity, TrainingSchedule,
 };
+use rand::SeedableRng;
 use std::collections::HashMap;
 
 fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
@@ -1090,6 +1091,9 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
     apply_scrim_outcomes(game, &scrim_outcome_by_team, &week_seed);
     apply_scrim_morale(game, &scrim_outcome_by_team);
 
+    crate::champions::ensure_patch_seed(&mut game.champion_patch);
+    let mut mastery_rng =
+        rand::rngs::StdRng::seed_from_u64(game.champion_patch.rng_seed);
     for (player_id, champion_id, gain, attempts) in mastery_training_ticks {
         let soloq_mult = crate::champions::mastery_gain_multiplier_for_player(game, &player_id);
         let effective_gain = gain * soloq_mult;
@@ -1099,6 +1103,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
                 &player_id,
                 &champion_id,
                 effective_gain,
+                &mut mastery_rng,
             );
         }
     }
