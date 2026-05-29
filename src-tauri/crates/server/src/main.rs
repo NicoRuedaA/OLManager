@@ -29,6 +29,8 @@ use domain::manager::Manager;
 use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 
+mod data;
+
 /// In-memory game store. Phase 1 replaces this with Postgres-backed,
 /// per-user persistence. The shape (id → Game) stays the same.
 #[derive(Clone, Default)]
@@ -62,6 +64,8 @@ async fn main() {
         .route("/health", get(health))
         .route("/api/games", post(create_game))
         .route("/api/games/{id}", get(get_game))
+        .route("/api/games/{id}/select-team", post(select_team))
+        .route("/api/games/{id}/advance", post(advance))
         .layer(CorsLayer::permissive())
         .with_state(state);
 
@@ -128,4 +132,55 @@ async fn get_game(
         )
             .into_response(),
     }
+}
+
+#[derive(Deserialize)]
+struct SelectTeamRequest {
+    team_id: String,
+}
+
+/// POST /api/games/:id/select-team — assemble the world and pick the manager's
+/// team. Mirrors the Tauri `select_team` command.
+async fn select_team(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+    Json(req): Json<SelectTeamRequest>,
+) -> impl IntoResponse {
+    let mut games = state.games.lock().unwrap();
+    let Some(game) = games.get_mut(&id) else {
+        return (
+            StatusCode::NOT_FOUND,
+            Json(json!({ "error": "game not found" })),
+        )
+            .into_response();
+    };
+    match data::select_team(game, &req.team_id) {
+        Ok(()) => {
+            tracing::info!(
+                "game {id}: selected {} — {} teams, {} players, {} leagues",
+                req.team_id,
+                game.teams.len(),
+                game.players.len(),
+                game.leagues.len()
+            );
+            (StatusCode::OK, Json(json!({ "id": id, "game": game }))).into_response()
+        }
+        Err(e) => (StatusCode::BAD_REQUEST, Json(json!({ "error": e }))).into_response(),
+    }
+}
+
+/// POST /api/games/:id/advance — advance the simulation by one day.
+/// Wraps the pure `ofm_core::turn::process_day`.
+async fn advance(State(state): State<AppState>, Path(id): Path<String>) -> impl IntoResponse {
+    let mut games = state.games.lock().unwrap();
+    let Some(game) = games.get_mut(&id) else {
+        return (
+            StatusCode::NOT_FOUND,
+            Json(json!({ "error": "game not found" })),
+        )
+            .into_response();
+    };
+    ofm_core::turn::process_day(game);
+    tracing::info!("game {id}: advanced to {}", game.clock.current_date);
+    (StatusCode::OK, Json(json!({ "id": id, "game": game }))).into_response()
 }
