@@ -214,14 +214,17 @@ pub fn generate_single_round_league_with_offsets_and_bo_with_id(
     round_day_offsets: Option<&[i64]>,
     best_of: u8,
 ) -> League {
-    let n = team_ids.len();
-    assert!(n >= 2, "Need at least 2 teams for a league");
-    assert!(
-        n % 2 == 0,
-        "Single round-robin currently requires even team count"
-    );
+    let real_n = team_ids.len();
+    assert!(real_n >= 2, "Need at least 2 teams for a league");
 
     let mut league = League::new(league_id.to_string(), name.to_string(), season, team_ids, None);
+
+    // Circle method requires an even number of slots. For an odd team count we
+    // add a sentinel "bye" slot: whichever real team is paired with it sits out
+    // that round (no fixture is emitted).
+    let has_bye = real_n % 2 != 0;
+    let n = if has_bye { real_n + 1 } else { real_n };
+    let bye_idx = n - 1; // sentinel index, only present when has_bye
 
     let rounds = n - 1;
     let half = n / 2;
@@ -246,6 +249,10 @@ pub fn generate_single_round_league_with_offsets_and_bo_with_id(
         for i in 0..half {
             let home_idx = indices[i];
             let away_idx = indices[n - 1 - i];
+            // Skip the pairing that involves the bye slot — that team rests.
+            if has_bye && (home_idx == bye_idx || away_idx == bye_idx) {
+                continue;
+            }
             let (home_team_id, away_team_id) = if (matchday + i as u32) % 2 == 0 {
                 (team_ids[home_idx].clone(), team_ids[away_idx].clone())
             } else {
