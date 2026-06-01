@@ -66,7 +66,7 @@ fn objective_targets(
     expected_rank: u32,
     num_teams: u32,
     total_series: u32,
-    total_possible_maps: u32,
+    total_winnable_maps: u32,
 ) -> ObjectiveTargets {
     let profile = objective_profile_for_rank(expected_rank, num_teams);
     let expected_pos = match profile {
@@ -85,10 +85,10 @@ fn objective_targets(
     };
 
     let goals_target = match profile {
-        ObjectiveProfile::TitleContender => total_possible_maps,
-        ObjectiveProfile::PlayoffContender => total_possible_maps * 75 / 100,
-        ObjectiveProfile::MidTable => total_possible_maps * 625 / 1000,
-        ObjectiveProfile::Survival => total_possible_maps * 50 / 100,
+        ObjectiveProfile::TitleContender => total_winnable_maps,
+        ObjectiveProfile::PlayoffContender => total_winnable_maps * 75 / 100,
+        ObjectiveProfile::MidTable => total_winnable_maps * 625 / 1000,
+        ObjectiveProfile::Survival => total_winnable_maps * 50 / 100,
     };
 
     ObjectiveTargets {
@@ -135,14 +135,14 @@ fn scheduled_totals(game: &Game, user_team_id: &str, num_teams: u32) -> (u32, u3
     });
 
     let mut total_series = 0;
-    let mut total_possible_maps = 0;
+    let mut total_winnable_maps = 0;
     for fixture in user_fixtures {
         total_series += 1;
-        total_possible_maps += u32::from(fixture.best_of.max(1));
+        total_winnable_maps += u32::from(fixture.best_of.max(1) / 2 + 1);
     }
 
     if total_series > 0 {
-        (total_series, total_possible_maps.max(total_series))
+        (total_series, total_winnable_maps.max(total_series))
     } else {
         let fallback_series = fallback_series_count(num_teams);
         (fallback_series, fallback_series * 2)
@@ -224,8 +224,8 @@ pub fn generate_objectives(game: &mut Game) {
 
     let num_teams = active_teams.len() as u32;
     let expected_rank = expected_league_rank(&team.id, &active_teams, &game.players);
-    let (total_series, total_possible_maps) = scheduled_totals(game, &team.id, num_teams);
-    let targets = objective_targets(expected_rank, num_teams, total_series, total_possible_maps);
+    let (total_series, total_winnable_maps) = scheduled_totals(game, &team.id, num_teams);
+    let targets = objective_targets(expected_rank, num_teams, total_series, total_winnable_maps);
 
     game.board_objectives = vec![
         BoardObjective {
@@ -345,8 +345,8 @@ pub fn evaluate_objective_result(game: &Game) -> ObjectiveEvaluation {
 #[cfg(test)]
 mod tests {
     use super::{
-        ObjectiveProfile, evaluate_objectives, expected_league_rank, generate_objectives,
-        objective_profile_for_rank, update_objective_progress,
+        evaluate_objectives, expected_league_rank, generate_objectives, objective_profile_for_rank,
+        update_objective_progress, ObjectiveProfile,
     };
     use crate::clock::GameClock;
     use crate::game::{BoardObjective, Game, ObjectiveType};
@@ -672,8 +672,8 @@ mod tests {
         assert!(objective_by_id(&game, "obj_position").target <= active_team_ids.len() as u32);
         assert_eq!(objective_by_id(&game, "obj_wins").target, 1);
         assert!(objective_by_id(&game, "obj_wins").target <= 3);
-        assert_eq!(objective_by_id(&game, "obj_goals").target, 9);
-        assert!(objective_by_id(&game, "obj_goals").target <= 9);
+        assert_eq!(objective_by_id(&game, "obj_goals").target, 6);
+        assert!(objective_by_id(&game, "obj_goals").target <= 6);
     }
 
     #[test]
