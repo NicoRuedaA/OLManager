@@ -24,7 +24,10 @@ import {
   Minimize,
   RefreshCw,
   CheckCircle2,
+  Database,
+  Upload,
 } from "lucide-react";
+import { importExportZip, type ImportSummary } from "../web/importData";
 import { useUpdater } from "../hooks/useUpdater";
 import { APP_VERSION } from "../lib/appInfo";
 import { APP_NAME } from "../lib/appInfo";
@@ -532,6 +535,15 @@ export default function Settings() {
         </Section>
 
         {/* ─── About ─── */}
+        {import.meta.env.MODE === "web" && (
+          <Section
+            title={t("settings.data", { defaultValue: "Datos" })}
+            icon={<Database className="w-5 h-5" />}
+          >
+            <ImportDataSection />
+          </Section>
+        )}
+
         <Section title={t("settings.about")} icon={<Zap className="w-5 h-5" />}>
           <div className="flex justify-between items-center">
             <div>
@@ -548,6 +560,73 @@ export default function Settings() {
           </div>
         </Section>
       </div>
+    </div>
+  );
+}
+
+// ── Import data (web only) ──
+
+function ImportDataSection() {
+  const [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<ImportSummary | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleImport() {
+    if (!file) return;
+    setBusy(true);
+    setError(null);
+    setResult(null);
+    try {
+      const summary = await importExportZip(file);
+      setResult(summary);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <SettingRow
+        label="Importar export (.zip)"
+        description="Sube el .zip de OLMDBManager para reemplazar equipos, jugadores y fotos. Afecta a las partidas nuevas."
+      >
+        <div className="flex items-center gap-2">
+          <label className="cursor-pointer rounded-lg border border-gray-200 dark:border-navy-600 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-700 transition-colors">
+            {file ? file.name : "Elegir .zip"}
+            <input
+              type="file"
+              accept=".zip,application/zip"
+              className="hidden"
+              onChange={(e) => {
+                setFile(e.target.files?.[0] ?? null);
+                setResult(null);
+                setError(null);
+              }}
+            />
+          </label>
+          <button
+            type="button"
+            disabled={!file || busy}
+            onClick={handleImport}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50 hover:bg-primary-600 transition-colors"
+          >
+            <Upload className="w-4 h-4" />
+            {busy ? "Importando…" : "Importar"}
+          </button>
+        </div>
+      </SettingRow>
+
+      {error && <p className="text-xs text-red-500">{error}</p>}
+      {result && (
+        <p className="text-xs text-green-600 dark:text-green-400">
+          Importado: {result.data_files} ficheros de datos, {result.photo_files} fotos
+          {result.skipped > 0 ? ` (${result.skipped} ignorados)` : ""}. Crea una partida
+          nueva para ver los cambios.
+        </p>
+      )}
     </div>
   );
 }

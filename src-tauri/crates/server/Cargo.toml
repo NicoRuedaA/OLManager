@@ -13,7 +13,7 @@ ofm_core = { path = "../ofm_core" }
 engine = { path = "../engine" }
 db = { path = "../db" }
 
-axum = "0.8"
+axum = { version = "0.8", features = ["multipart"] }
 tokio = { version = "1", features = ["full"] }
 tower-http = { version = "0.6", features = ["cors", "trace"] }
 serde = { version = "1", features = ["derive"] }
@@ -36,3 +36,6 @@ sqlx = { version = "0.8", default-features = false, features = [
 jsonwebtoken = "9"
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 dotenvy = "0.15"
+
+# Import: unzip OLMDBManager export bundles
+zip = { version = "2", default-features = false, features = ["deflate"] }

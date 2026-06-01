@@ -11,10 +11,11 @@
 //!   GET    /api/saves/{id}             load a save                  [auth]
 //!   POST   /api/saves/{id}/select-team assemble world, pick team    [auth]
 //!   POST   /api/saves/{id}/advance     advance one day              [auth]
+//!   POST   /api/saves/{id}/cmd/{cmd}    dispatch a Tauri command     [auth]
 //!   DELETE /api/saves/{id}             delete a save                [auth]
 
 use axum::{
-    extract::{Path, State},
+    extract::{DefaultBodyLimit, Multipart, Path, State},
     http::StatusCode,
     response::IntoResponse,
     routing::{get, post},
@@ -31,7 +32,9 @@ use ofm_core::clock::GameClock;
 use ofm_core::game::Game;
 
 mod auth;
+mod commands;
 mod data;
+mod import;
 mod store;
 
 use auth::{AuthUser, HasVerifier, JwtVerifier};
@@ -101,6 +104,11 @@ async fn main() {
         .route("/api/saves/{id}", get(load_save).delete(delete_save))
         .route("/api/saves/{id}/select-team", post(select_team))
         .route("/api/saves/{id}/advance", post(advance))
+        .route("/api/saves/{id}/cmd/{command}", post(dispatch_command))
+        .route(
+            "/api/admin/import-export",
+            post(import_export).layer(DefaultBodyLimit::max(512 * 1024 * 1024)),
+        )
         .layer(CorsLayer::permissive())
         .with_state(state);
 
@@ -118,6 +126,48 @@ async fn health() -> impl IntoResponse {
 /// useful to verify the JWT pipeline independently of the database.
 async fn me(user: AuthUser) -> impl IntoResponse {
     Json(json!({ "user_id": user.user_id }))
+}
+
+/// POST /api/admin/import-export — upload an OLMDBManager export zip and
+/// extract it into the server data dir + public photo dirs. Auth-required and
+/// additionally gated by OLM_ALLOW_IMPORT (the extraction checks the flag).
+async fn import_export(_user: AuthUser, mut multipart: Multipart) -> impl IntoResponse {
+    let mut bytes: Option<Vec<u8>> = None;
+    while let Ok(Some(field)) = multipart.next_field().await {
+        if field.name() == Some("file") {
+            match field.bytes().await {
+                Ok(b) => bytes = Some(b.to_vec()),
+                Err(e) => {
+                    return (
+                        StatusCode::BAD_REQUEST,
+                        Json(json!({ "error": format!("read upload: {e}") })),
+                    )
+                        .into_response()
+                }
+            }
+        }
+    }
+
+    let Some(bytes) = bytes else {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(json!({ "error": "missing 'file' field with the export zip" })),
+        )
+            .into_response();
+    };
+
+    match import::import_zip(&bytes) {
+        Ok(summary) => {
+            tracing::info!(
+                "import: {} data files, {} photos, {} skipped",
+                summary.data_files,
+                summary.photo_files,
+                summary.skipped
+            );
+            (StatusCode::OK, Json(json!({ "summary": summary }))).into_response()
+        }
+        Err(e) => (StatusCode::BAD_REQUEST, Json(json!({ "error": e }))).into_response(),
+    }
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────
@@ -163,8 +213,11 @@ async fn create_save(
     let first_name = req.first_name.trim().to_string();
     let last_name = req.last_name.trim().to_string();
     if first_name.is_empty() || last_name.is_empty() {
-        return err(StatusCode::BAD_REQUEST, "first_name and last_name are required")
-            .into_response();
+        return err(
+            StatusCode::BAD_REQUEST,
+            "first_name and last_name are required",
+        )
+        .into_response();
     }
 
     let start_date = chrono::Utc.with_ymd_and_hms(2025, 1, 1, 0, 0, 0).unwrap();
@@ -178,7 +231,14 @@ async fn create_save(
     if let Some(nick) = req.nickname {
         manager.nickname = nick.trim().to_string();
     }
-    let game = Game::new(GameClock::new(start_date), manager, vec![], vec![], vec![], vec![]);
+    let game = Game::new(
+        GameClock::new(start_date),
+        manager,
+        vec![],
+        vec![],
+        vec![],
+        vec![],
+    );
     let name = req.name.unwrap_or_else(|| "Career".to_string());
 
     match store.create(&user.user_id, &name, &game).await {
@@ -285,6 +345,44 @@ async fn advance(
         Ok(false) => err(StatusCode::NOT_FOUND, "save not found").into_response(),
         Err(e) => err(StatusCode::INTERNAL_SERVER_ERROR, e).into_response(),
     }
+}
+
+/// POST /api/saves/:id/cmd/:command — generic web invoke bridge.
+async fn dispatch_command(
+    State(state): State<AppState>,
+    user: AuthUser,
+    Path((id, command)): Path<(String, String)>,
+    Json(args): Json<serde_json::Value>,
+) -> impl IntoResponse {
+    let store = match state.store() {
+        Ok(s) => s,
+        Err(e) => return e.into_response(),
+    };
+    let save_id = match parse_save_id(&id) {
+        Ok(u) => u,
+        Err(e) => return e.into_response(),
+    };
+
+    let mut game = match store.load(&user.user_id, save_id).await {
+        Ok(Some(g)) => g,
+        Ok(None) => return err(StatusCode::NOT_FOUND, "save not found").into_response(),
+        Err(e) => return err(StatusCode::INTERNAL_SERVER_ERROR, e).into_response(),
+    };
+
+    let result = match commands::dispatch(&command, args, &mut game) {
+        Ok(result) => result,
+        Err(e) => return err(e.status, e.message).into_response(),
+    };
+
+    if result.persist {
+        match store.save(&user.user_id, save_id, &game).await {
+            Ok(true) => {}
+            Ok(false) => return err(StatusCode::NOT_FOUND, "save not found").into_response(),
+            Err(e) => return err(StatusCode::INTERNAL_SERVER_ERROR, e).into_response(),
+        }
+    }
+
+    (StatusCode::OK, Json(result.value)).into_response()
 }
 
 /// DELETE /api/saves/:id — delete a save.
