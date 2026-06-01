@@ -30,6 +30,7 @@ coverage/
 # =========================
 target/
 src-tauri/target/
+src-tauri/data/
 **/*.rs.bk
 
 # =========================

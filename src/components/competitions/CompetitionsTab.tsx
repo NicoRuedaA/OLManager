@@ -252,9 +252,13 @@ function CompetitionCard({
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div
-            className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass} border`}
+            className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClass} border overflow-hidden`}
           >
-            <Trophy className="w-5 h-5" />
+            {league.logo ? (
+              <img src={league.logo} alt="" className="w-full h-full object-contain" />
+            ) : (
+              <Trophy className="w-5 h-5" />
+            )}
           </div>
           <div>
             <h4 className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100">

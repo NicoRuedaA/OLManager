@@ -6,7 +6,7 @@
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "npm run build",
+    "beforeBuildCommand": "npm run build && powershell -Command \"$null = Remove-Item -Recurse -Force 'src-tauri/data' -ErrorAction SilentlyContinue; Copy-Item -Recurse -Force 'data' 'src-tauri/data' \"",
     "frontendDist": "../dist"
   },
   "app": {
@@ -28,7 +28,15 @@
     "targets": "all",
     "createUpdaterArtifacts": true,
     "resources": [
-      "databases/world.json"
+      "databases/world.json",
+      "data/competitions/*/manifest.json",
+      "data/teams/*.json",
+      "data/players/*.json",
+      "data/staffs/*.json",
+      "data/erls/competitions/*/manifest.json",
+      "data/erls/teams/*.json",
+      "data/erls/players/*.json",
+      "data/draft/*.json"
     ],
     "icon": [
       "icons/32x32.png",

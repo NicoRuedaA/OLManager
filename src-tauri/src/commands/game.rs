@@ -117,8 +117,7 @@ fn seed_role_to_canonical(role: &str) -> String {
 pub(crate) fn example_academy_seed_catalog() -> &'static Vec<ExampleAcademyTeamSeed> {
     static CATALOG: OnceLock<Vec<ExampleAcademyTeamSeed>> = OnceLock::new();
     CATALOG.get_or_init(|| {
-        // Read ERL teams from JSON data files at runtime to power the academy candidate catalog.
-        // The runtime academy bootstrapping uses bootstrap_academy_pool_from_erl_json() instead.
+        // Read ERL teams and players from JSON data files at runtime.
         let data_base = resolve_data_dir_for_seed_catalog();
         let Some(data_base) = data_base else { return vec![] };
 
@@ -157,24 +156,49 @@ pub(crate) fn example_academy_seed_catalog() -> &'static Vec<ExampleAcademyTeamS
                 Ok(s) => s,
                 Err(_) => continue,
             };
-            if let Ok(data) = serde_json::from_str::<serde_json::Value>(&json_str) {
-                if let Some(entries) = data["teams"].as_array() {
-                    let academy_league_id = if file_name == "les" { "liga-espanola" } else { &file_name };
-                    for entry in entries {
-                        let team_name = entry["name"].as_str().unwrap_or("Unknown").to_string();
-                        let short_name = entry["short_name"].as_str().unwrap_or("ACD").to_string();
-                        let logo_url = entry["logo_url"].as_str().map(|s| s.to_string());
-                        teams.push(ExampleAcademyTeamSeed {
-                            league_id: academy_league_id.to_string(),
-                            league_name: league_name.clone(),
-                            country_code: country_code.clone(),
-                            team_name,
-                            short_name,
-                            logo_url,
-                            players: Vec::new(),
-                        });
+            let Some(teams_data) = serde_json::from_str::<serde_json::Value>(&json_str).ok() else { continue; };
+            let Some(team_entries) = teams_data["teams"].as_array() else { continue; };
+
+            // Load players and group by team_id
+            let players_path = data_base.join("erls").join("players").join(format!("{}_players.json", file_name));
+            let mut players_by_team_id: HashMap<String, Vec<ExampleAcademyPlayerSeed>> = HashMap::new();
+            if let Ok(players_json) = std::fs::read_to_string(&players_path) {
+                if let Ok(players_data) = serde_json::from_str::<serde_json::Value>(&players_json) {
+                    if let Some(all_players) = players_data["players"].as_array() {
+                        for player in all_players {
+                            if let Some(tid) = player["team_id"].as_str() {
+                                let seed = ExampleAcademyPlayerSeed {
+                                    role: player["position"].as_str().unwrap_or("Mid").to_string(),
+                                    nickname: player["match_name"].as_str().unwrap_or("Unknown").to_string(),
+                                    full_name: player["full_name"].as_str().unwrap_or("Unknown").to_string(),
+                                    nationality: player["nationality"].as_str().unwrap_or("Unknown").to_string(),
+                                    dob: player["date_of_birth"].as_str().map(|s| s.to_string()),
+                                    image_url: player["profile_image_url"].as_str().unwrap_or("").to_string(),
+                                };
+                                players_by_team_id.entry(tid.to_string()).or_default().push(seed);
+                            }
+                        }
                     }
                 }
+            }
+
+            let academy_league_id = if file_name == "les" { "liga-espanola" } else { &file_name };
+            for entry in team_entries {
+                let team_id = entry["id"].as_str().unwrap_or("").to_string();
+                let team_name = entry["name"].as_str().unwrap_or("Unknown").to_string();
+                let short_name = entry["short_name"].as_str().unwrap_or("ACD").to_string();
+                let logo_url = entry["logo_url"].as_str().map(|s| s.to_string());
+
+                let seed_players = players_by_team_id.remove(&team_id).unwrap_or_default();
+                teams.push(ExampleAcademyTeamSeed {
+                    league_id: academy_league_id.to_string(),
+                    league_name: league_name.clone(),
+                    country_code: country_code.clone(),
+                    team_name,
+                    short_name,
+                    logo_url,
+                    players: seed_players,
+                });
             }
         }
         teams
@@ -2070,6 +2094,7 @@ pub async fn select_team(
         }
 
         league.competition_id = Some(cid.clone());
+        league.logo = manifest.logo.clone();
         all_leagues.push(league);
     }
 

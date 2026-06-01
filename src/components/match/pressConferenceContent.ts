@@ -316,7 +316,10 @@ export function buildPressConferenceQuestions({
   random = Math.random,
   recentQuestionIds = [],
 }: BuildPressConferenceQuestionsParams): PressQuestion[] {
-  const leagueId = gameState.leagues?.[0]?.id ?? DEFAULT_LEAGUE_ID;
+  const userLeague = gameState.user_competition_id
+    ? gameState.leagues?.find((l) => l.competition_id === gameState.user_competition_id)
+    : undefined;
+  const leagueId = userLeague?.id ?? gameState.leagues?.[0]?.id ?? DEFAULT_LEAGUE_ID;
   const context = extractMatchContext({
     match: snapshotToSummary(snapshot, userSide),
     userSide: registrySide(userSide),

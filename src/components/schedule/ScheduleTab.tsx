@@ -57,7 +57,9 @@ export default function ScheduleTab({
     }
   }, [isDesktop, view]);
   const [fixtureResultView, setFixtureResultView] = useState<StoredFixtureDraftResult | null>(null);
-  const league = gameState.leagues[0];
+  const league = gameState.user_competition_id
+    ? gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id)
+    : gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
 
   const seasonContext = resolveSeasonContext(gameState);

@@ -713,6 +713,7 @@ export interface LeagueData {
   fixtures: FixtureData[];
   standings: StandingData[];
   competition_id?: string | null;
+  logo?: string | null;
   league_kind?: "Main" | "Academy";
 }
 
@@ -876,6 +877,7 @@ export interface GameStateData {
   social_templates?: SocialTemplateData[];
   /** Multi-league support. The first element is the player's active league. */
   leagues: LeagueData[];
+  user_competition_id?: string | null;
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];
   board_objectives: BoardObjective[];

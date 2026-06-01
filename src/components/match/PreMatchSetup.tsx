@@ -14,30 +14,6 @@ import { buildOpponentIntel } from "./opponentIntelService";
 import teamsSeed from "../../../data/draft/teams.json";
 import playersSeed from "../../../data/draft/players.json";
 import championsSeed from "../../../data/draft/champions.json";
-function normalizeKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-const TEAM_LOGO_BY_NAME: Record<string, string> = {
-  g2esports: "/teams-icons/g2-esports.webp",
-  fnatic: "/teams-icons/fnatic.webp",
-  giantx: "/teams-icons/giantx-lec.webp",
-  karminecorp: "/teams-icons/karmine-corp.webp",
-  movistarkoi: "/teams-icons/mad-lions.webp",
-  mkoi: "/teams-icons/mad-lions.webp",
-  koi: "/teams-icons/mad-lions.webp",
-  madlionskoi: "/teams-icons/mad-lions.webp",
-  natusvincere: "/teams-icons/natus-vincere.webp",
-  skgaming: "/teams-icons/sk-gaming.webp",
-  teamheretics: "/teams-icons/team-heretics-lec.webp",
-  teamvitality: "/teams-icons/team-vitality.webp",
-  teambds: "/teams-icons/team-bds.webp",
-  shifters: "/teams-icons/team-bds.webp",
-};
-
-function resolveTeamLogo(teamName: string): string | null {
-  return TEAM_LOGO_BY_NAME[normalizeKey(teamName)] ?? null;
-}
 
 interface PreMatchSetupProps {
   snapshot: MatchSnapshot;
@@ -78,8 +54,10 @@ export default function PreMatchSetup({
   const fixtureLabel = currentFixture
     ? getFixtureDisplayLabel(t, currentFixture)
     : t("match.matchDay");
-  const homeLogo = resolveTeamLogo(snapshot.home_team.name);
-  const awayLogo = resolveTeamLogo(snapshot.away_team.name);
+  const homeTeamData = gameState.teams.find((t) => t.id === snapshot.home_team.id);
+  const awayTeamData = gameState.teams.find((t) => t.id === snapshot.away_team.id);
+  const homeLogo = homeTeamData?.logo_url ?? null;
+  const awayLogo = awayTeamData?.logo_url ?? null;
 
   // Use snapshot bench data (updated after swaps)
   const userBench =

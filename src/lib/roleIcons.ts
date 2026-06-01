@@ -9,11 +9,11 @@ export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
  * Maps each role to its icon path (relative to public/)
  */
 export const ROLE_ICON_PATHS: Record<LolRole, string> = {
-  TOP: "/role-icons/top.png",
-  JUNGLE: "/role-icons/jungler.png",
-  MID: "/role-icons/mid.png",
-  ADC: "/role-icons/adc.png",
-  SUPPORT: "/role-icons/support.png",
+  TOP: "/role-icons/top.webp",
+  JUNGLE: "/role-icons/jungler.webp",
+  MID: "/role-icons/mid.webp",
+  ADC: "/role-icons/adc.webp",
+  SUPPORT: "/role-icons/support.webp",
 };
 
 /**

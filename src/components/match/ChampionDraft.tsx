@@ -7,6 +7,7 @@ import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolvePlayerLolRole } from "../../lib/lolIdentity";
+import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import teamsSeed from "../../../data/draft/teams.json";
 import playersSeed from "../../../data/draft/players.json";
 import championsSeed from "../../../data/draft/champions.json";
@@ -285,15 +286,7 @@ const ROLE_ORDER: Role[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.webp";
 const LEC_LOGO_URL = "/lec-logo.svg";
 const EMPTY_LOCKED_CHAMPION_IDS: string[] = [];
-const ROLE_ICON_URLS: Record<Role, string> = {
-  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.webp",
-  JUNGLE:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.webp",
-  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.webp",
-  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.webp",
-  SUPPORT:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.webp",
-};
+const ROLE_ICON_URLS: Record<Role, string> = ROLE_ICON_PATHS;
 
 const DRAFT_SEQUENCE: DraftAction[] = [
   { type: "ban", side: "blue", label: "B1" },
@@ -706,12 +699,17 @@ function teamTriCode(name: string): string {
   return cleaned.slice(0, 4).toUpperCase();
 }
 
-function teamLogo(name: string): string | null {
+function teamLogo(name: string, teams?: import("../../store/types").TeamData[]): string | null {
+  const normalizedName = normalizeKey(name);
+  if (teams) {
+    const fromTeams = teams.find((t) => normalizeKey(t.name) === normalizedName);
+    if (fromTeams?.logo_url) return fromTeams.logo_url;
+  }
+
   const key = name.trim().toLowerCase();
   const known = TEAM_BRAND_MAP[key]?.logo;
   if (known) return known;
 
-  const normalizedName = normalizeKey(name);
   const fromSeed = TEAM_SEEDS.find((team) => normalizeKey(team.name) === normalizedName);
   if (fromSeed?.logo) {
     const logoFileName = fromSeed.logo.split("/").pop();
@@ -2515,8 +2513,8 @@ export default function ChampionDraft({
   const blueTriCode = teamTriCode(snapshot.home_team.name);
   const redTriCode = teamTriCode(snapshot.away_team.name);
   const controlledTriCode = controlledSide === "blue" ? blueTriCode : redTriCode;
-  const blueLogo = teamLogo(snapshot.home_team.name);
-  const redLogo = teamLogo(snapshot.away_team.name);
+  const blueLogo = teamLogo(snapshot.home_team.name, gameState?.teams);
+  const redLogo = teamLogo(snapshot.away_team.name, gameState?.teams);
   const seriesSquares = seriesLength === 5 ? 3 : seriesLength === 3 ? 2 : 0;
   const scoreDelta = controlledScore.total - rivalScore.total;
   const blueWinProb = Math.max(5, Math.min(95, Math.round(50 + scoreDelta * 4)));

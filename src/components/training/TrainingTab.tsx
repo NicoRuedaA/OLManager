@@ -22,7 +22,7 @@ import {
 } from "../../lib/trainingFocus";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerCurrentLolRole } from "../../lib/lolIdentity";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import type { GameStateData } from "../../store/gameStore";
 import { setTraining, setTrainingSchedule } from "../../services/trainingService";
@@ -394,7 +394,7 @@ export default function TrainingTab({
                       <div className="flex min-w-0 items-center gap-2">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
                           <img
-                            src={resolvePlayerPhoto(player.id) ?? undefined}
+                            src={player.profile_image_url ?? "/default/defaultplayer.webp"}
                             alt={player.match_name}
                             className="h-full w-full object-cover"
                             loading="lazy"

@@ -5,7 +5,7 @@ import playersSeed from "../../../data/draft/players.json";
 import type { ChampionMasteryEntryData, PlayerData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader } from "../ui";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { normalizeChampionKey } from "../../lib/championIds";
 import { resolveChampionSplash } from "../../lib/championImages";
@@ -105,7 +105,7 @@ export default function HomeRosterLineupCard({
       <CardBody>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
           {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name) : null;
+            const photo = player ? player.profile_image_url ?? "/default/defaultplayer.webp" : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
             const morale = player?.morale ?? null;

@@ -87,8 +87,11 @@ export {
 
 // ─── Competition selectors (multi-league) ──────────────────────────────
 
-/** Return the player's active league (leagues[0]) */
+/** Return the player's active league */
 export function useActiveLeague(state: GameStateData) {
+  if (state.user_competition_id) {
+    return state.leagues.find((l) => l.competition_id === state.user_competition_id);
+  }
   return state.leagues[0];
 }
 

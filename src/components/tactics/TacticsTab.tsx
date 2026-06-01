@@ -252,12 +252,6 @@ function positionToRole(position: string): DraftRole | null {
   return null;
 }
 
-function playerPhotoUrl(playerId: string): string | null {
-  const match = playerId.match(/^lec-player-(.+)$/);
-  if (!match) return null;
-  return `/player-photos/${match[1]}.webp`;
-}
-
 function Section<T extends string>({
   title,
   options,
@@ -391,6 +385,7 @@ export default function TacticsTab({
         role,
         playerId: player?.id ?? null,
         playerName: player?.match_name ?? t("tactics.lol.noStarter"),
+        profileImageUrl: player?.profile_image_url ?? null,
         base,
         modifier,
         variance,
@@ -649,7 +644,7 @@ export default function TacticsTab({
 
                       {row.playerId ? (
                         <img
-                          src={playerPhotoUrl(row.playerId) ?? ""}
+                          src={row.profileImageUrl ?? "/default/defaultplayer.webp"}
                           alt={row.playerName}
                           className="h-10 w-10 shrink-0 rounded object-cover"
                           loading="lazy"

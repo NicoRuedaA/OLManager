@@ -21,6 +21,8 @@ pub struct League {
     #[serde(default)]
     pub competition_id: Option<String>,
     #[serde(default)]
+    pub logo: Option<String>,
+    #[serde(default)]
     pub league_kind: LeagueKind,
 }
 
@@ -196,6 +198,7 @@ impl League {
             fixtures: Vec::new(),
             standings,
             competition_id,
+            logo: None,
             league_kind: LeagueKind::Main,
         }
     }

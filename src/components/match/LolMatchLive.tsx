@@ -49,7 +49,7 @@ const SPEEDS = [
 const DDRAGON_VERSION = "14.24.1";
 const USE_RUST_SIM_V2 = true;
 const ICON_TOWER = "/lol-map-icons/icon_ui_tower_minimap.webp";
-const ICON_GOLD = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-event-hub/global/default/images/currency.webp";
+const ICON_GOLD = "/lol-map-icons/gold.webp";
 const ICON_VOIDGRUB = "/lol-map-icons/grub.webp";
 const ICON_LEC = "/lec-logo.svg";
 const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.webp";
@@ -118,8 +118,14 @@ function normalizeKey(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function teamBrand(name: string): { tag: string; logo: string | null } {
+function teamBrand(name: string, teams?: import("../../store/types").TeamData[]): { tag: string; logo: string | null } {
   const normalized = normalizeKey(name);
+
+  if (teams) {
+    const fromTeams = teams.find((t) => normalizeKey(t.name) === normalized);
+    if (fromTeams?.logo_url) return { tag: teamTag(name), logo: fromTeams.logo_url };
+  }
+
   const known = TEAM_BRAND_MAP[normalized];
   if (known) return { tag: known.tricode, logo: known.logo };
 
@@ -805,8 +811,8 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
   hudObjectiveCountersRef.current.blueVoidgrubs = blueVoidgrubs;
   hudObjectiveCountersRef.current.redVoidgrubs = redVoidgrubs;
   const clock = `${Math.floor((state?.timeSec ?? 0) / 60)}:${Math.floor((state?.timeSec ?? 0) % 60).toString().padStart(2, "0")}`;
-  const blueBrand = teamBrand(snapshot.home_team.name);
-  const redBrand = teamBrand(snapshot.away_team.name);
+  const blueBrand = teamBrand(snapshot.home_team.name, gameState?.teams);
+  const redBrand = teamBrand(snapshot.away_team.name, gameState?.teams);
   const dragonIcon = dragonIconForKind(dragon?.currentKind);
   const blueDragonIcons = dragonKillIconsBySide(
     state?.events,
