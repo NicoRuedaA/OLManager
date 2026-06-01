@@ -5,7 +5,6 @@ import type { GameStateData, ScrimReportData } from "../../store/gameStore";
 import { useSettingsStore } from "../../store/settingsStore";
 import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import teamsSeed from "../../../data/draft/teams.json";
@@ -2245,7 +2244,7 @@ export default function ChampionDraft({
 
       const sourceRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
       const sourceImage =
-        resolvePlayerPhoto(player.id, player.name) ??
+        player.profile_image_url ??
         playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
         `/player-photos/${player.id}.webp`;
 
@@ -2382,7 +2381,7 @@ export default function ChampionDraft({
           sourceName: fallbackPlayer.name,
           sourceRole: mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[0],
           sourceImage:
-            resolvePlayerPhoto(fallbackPlayer.id, fallbackPlayer.name) ??
+            fallbackPlayer.profile_image_url ??
             playerSeedPhotoUrl(fallbackSeedPlayer?.photo) ??
             `/player-photos/${fallbackPlayer.id}.webp`,
           type: "pick",

@@ -16,7 +16,6 @@ import type { MatchModeType } from "../../hooks/useAdvanceTime";
 import { Badge, ThemeToggle } from "../ui";
 import { translatePositionAbbreviation } from "../squad/SquadTab.helpers";
 import { getPlayerBadgeVariant } from "./dashboardHelpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveTeamLogo } from "../../lib/teamLogos";
 
 export interface DashboardMatchModeMeta {
@@ -241,7 +240,7 @@ function renderSearchResults(props: {
               className="flex w-full items-center gap-2 px-3 py-2 text-left transition-colors hover:bg-gray-50 dark:hover:bg-navy-600"
             >
               {(() => {
-                const photo = resolvePlayerPhoto(player.id, player.match_name);
+                const photo = player.profile_image_url ?? null;
                 if (photo) {
                   return <img src={photo} alt={player.match_name} className="w-6 h-6 rounded-full object-cover shrink-0" />;
                 }

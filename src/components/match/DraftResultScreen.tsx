@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import teamsSeed from "../../../data/draft/teams.json";
 import { buildLolScrimPrepInsight } from "../../lib/lolScrimPrep";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveTeamLogo } from "../../lib/teamLogos";
 import type { MatchSnapshot } from "./types";
 import type { DraftMatchResult, DraftTimelineEvent } from "./draftResultSimulator";
@@ -204,7 +203,7 @@ export default function DraftResultScreen({
     ? `M ${chartPoints[0].x},${GOLD_CHART_CENTER_Y} L ${chartPoints.map((point) => `${point.x},${point.y}`).join(" L ")} L ${chartPoints[chartPoints.length - 1].x},${GOLD_CHART_CENTER_Y} Z`
     : "";
 
-  const mvpPhoto = resolvePlayerPhoto(selectedResult.mvp.playerId, selectedResult.mvp.playerName);
+  const mvpPhoto = "/default/defaultplayer.webp";
   const playedSeriesGames = Math.max(latestSeriesGame?.gameIndex ?? 1, seriesGamesForTabs.length);
   const nextGameLabel = `${Math.min(seriesLength, playedSeriesGames + 1)}/${seriesLength}`;
   const targetSeriesWins = seriesLength === 1 ? 1 : seriesLength === 3 ? 2 : 3;
@@ -573,7 +572,7 @@ export default function DraftResultScreen({
                 <p className="text-xs uppercase tracking-[0.2em] text-cyan-200 mb-3">{blueTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {blueRows.map((row) => {
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
+                    const icon = "/default/defaultplayer.webp";
                     const isMvp = row.playerId === selectedResult.mvp.playerId;
                     return (
                       <div
@@ -596,7 +595,7 @@ export default function DraftResultScreen({
                 <p className="text-xs uppercase tracking-[0.2em] text-cyan-200 mb-3">{redTri}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
                   {redRows.map((row) => {
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName);
+                    const icon = "/default/defaultplayer.webp";
                     const isMvp = row.playerId === selectedResult.mvp.playerId;
                     return (
                       <div
