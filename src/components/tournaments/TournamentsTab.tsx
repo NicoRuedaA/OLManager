@@ -209,7 +209,7 @@ export default function TournamentsTab({
       </div>
 
       {/* Overview */}
-      {view === "overview" &&
+      {view === "overview" && (
         <div className="space-y-5">
           {hasPlayoffsStarted ? (
             <PlayoffBracketBoard
@@ -257,8 +257,6 @@ export default function TournamentsTab({
             </CardBody>
           </Card>
           </div>
-        </div>
-        }
 
           {academyLeague ? (
             <div className="space-y-4">
