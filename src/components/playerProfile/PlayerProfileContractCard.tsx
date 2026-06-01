@@ -24,6 +24,7 @@ interface PlayerProfileContractCardProps {
     contractEnd: string | null;
     currentDate: string;
     condition: number;
+    fitness: number;
     morale: number;
     marketValue: number;
     wage: number;
@@ -45,6 +46,7 @@ export default function PlayerProfileContractCard({
     contractEnd,
     currentDate,
     condition,
+    fitness,
     morale,
     marketValue,
     wage,
@@ -115,6 +117,21 @@ export default function PlayerProfileContractCard({
                                     />
                                 </div>
                                 <span>{condition}%</span>
+                            </div>
+                        }
+                    />
+                    <InfoRow
+                        icon={<Activity className="w-4 h-4" />}
+                        label={t("common.fitness")}
+                        value={
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-12 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
+                                    <div
+                                        className={`h-full rounded-full ${fitness >= 70 ? "bg-success-400" : fitness >= 40 ? "bg-yellow-500" : "bg-red-500"}`}
+                                        style={{ width: `${fitness}%` }}
+                                    />
+                                </div>
+                                <span>{fitness}%</span>
                             </div>
                         }
                     />

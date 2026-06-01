@@ -75,10 +75,6 @@ impl PlayerData {
             / 9.0
     }
 
-    /// Effective rating accounting for current condition (0-100).
-    pub fn effective_overall(&self) -> f64 {
-        self.overall() * (self.condition as f64 / 100.0)
-    }
 }
 
 // ---------------------------------------------------------------------------
@@ -156,8 +152,6 @@ pub struct MatchConfig {
     pub home_advantage: f64,
     /// Base probability that a shot from the box is on target (0.0–1.0).
     pub shot_accuracy_base: f64,
-    /// Per-minute fatigue factor applied to condition.
-    pub fatigue_per_minute: f64,
     /// Random swing applied in objective control comparisons.
     #[serde(default = "default_objective_swing_min")]
     pub objective_swing_min: f64,
@@ -178,7 +172,6 @@ impl Default for MatchConfig {
         Self {
             home_advantage: 1.03,
             shot_accuracy_base: 0.45,
-            fatigue_per_minute: 0.20,
             objective_swing_min: default_objective_swing_min(),
             objective_swing_max: default_objective_swing_max(),
             structure_damage_min: default_structure_damage_min(),

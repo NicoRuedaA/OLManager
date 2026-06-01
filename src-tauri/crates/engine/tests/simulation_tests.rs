@@ -87,14 +87,6 @@ fn player_overall_rating() {
 }
 
 #[test]
-fn player_effective_overall_accounts_for_condition() {
-    let mut p = make_player("p1", "Test", "Forward", 80);
-    p.condition = 50;
-    let eff = p.effective_overall();
-    assert!((eff - 40.0).abs() < 0.01, "Expected ~40.0, got {eff}");
-}
-
-#[test]
 fn team_position_counts() {
     let team = make_team("t1", "Test FC", 60, DraftStrategy::Balanced);
     assert_eq!(team.count_role(LolRole::Support), 1);

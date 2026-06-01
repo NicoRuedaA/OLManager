@@ -248,7 +248,7 @@ export function SubPanel({
                         <th className="py-2 w-12 text-center">
                           {t("common.ovr")}
                         </th>
-                        <th className="py-2 w-24">{t("match.fitness")}</th>
+                        <th className="py-2 w-24">{t("match.condition")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -442,7 +442,7 @@ export function SubPanel({
                           <th className="py-2 w-12 text-center">
                             {t("common.ovr")}
                           </th>
-                          <th className="py-2 w-24">{t("match.fitness")}</th>
+                          <th className="py-2 w-24">{t("match.condition")}</th>
                         </tr>
                       </thead>
                       <tbody>

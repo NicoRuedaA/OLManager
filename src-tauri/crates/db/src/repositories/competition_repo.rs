@@ -18,9 +18,9 @@ pub fn upsert_competition(
 
     // Upsert competition metadata with optional schedule_config
     conn.execute(
-        "INSERT OR REPLACE INTO competitions (id, name, region, tier, schedule_config)
-         VALUES (?1, ?2, '', 1, ?3)",
-        params![cid, league.name, schedule_config_json],
+        "INSERT OR REPLACE INTO competitions (id, name, region, tier, schedule_config, logo)
+         VALUES (?1, ?2, '', 1, ?3, ?4)",
+        params![cid, league.name, schedule_config_json, league.logo],
     )
     .map_err(|e| format!("Failed to upsert competition: {}", e))?;
 
@@ -105,7 +105,7 @@ pub fn load_competition(
     competition_id: &str,
 ) -> Result<Option<(League, Option<String>)>, String> {
     let mut stmt = conn
-        .prepare("SELECT c.id, c.name, c.schedule_config, COALESCE((SELECT MAX(s.season_number) FROM seasons s WHERE s.competition_id = c.id), 0) FROM competitions c WHERE c.id = ?1")
+        .prepare("SELECT c.id, c.name, c.logo, c.schedule_config, COALESCE((SELECT MAX(s.season_number) FROM seasons s WHERE s.competition_id = c.id), 0) FROM competitions c WHERE c.id = ?1")
         .map_err(|e| format!("Failed to prepare competition query: {}", e))?;
 
     let mut rows = stmt
@@ -114,12 +114,13 @@ pub fn load_competition(
                 row.get::<_, String>(0)?,
                 row.get::<_, String>(1)?,
                 row.get::<_, Option<String>>(2)?,
-                row.get::<_, u32>(3)?,
+                row.get::<_, Option<String>>(3)?,
+                row.get::<_, u32>(4)?,
             ))
         })
         .map_err(|e| format!("Failed to query competition: {}", e))?;
 
-    let (id, name, schedule_config_raw, season_number) = match rows.next() {
+    let (id, name, logo, schedule_config_raw, season_number) = match rows.next() {
         Some(Ok(tuple)) => tuple,
         Some(Err(e)) => return Err(format!("Failed to read competition row: {}", e)),
         None => return Ok(None),
@@ -137,7 +138,7 @@ pub fn load_competition(
             fixtures,
             standings,
             competition_id: Some(cid),
-            logo: None,
+            logo,
             league_kind: domain::league::LeagueKind::Main,
         },
         schedule_config_raw,
@@ -153,7 +154,7 @@ pub fn load_competitions(
     use std::collections::HashMap;
 
     let mut stmt = conn
-        .prepare("SELECT c.id, c.name, c.schedule_config, COALESCE((SELECT MAX(s.season_number) FROM seasons s WHERE s.competition_id = c.id), 0) FROM competitions c ORDER BY c.name")
+        .prepare("SELECT c.id, c.name, c.logo, c.schedule_config, COALESCE((SELECT MAX(s.season_number) FROM seasons s WHERE s.competition_id = c.id), 0) FROM competitions c ORDER BY c.name")
         .map_err(|e| format!("Failed to prepare competitions query: {}", e))?;
 
     let rows = stmt
@@ -162,7 +163,8 @@ pub fn load_competitions(
                 row.get::<_, String>(0)?,
                 row.get::<_, String>(1)?,
                 row.get::<_, Option<String>>(2)?,
-                row.get::<_, u32>(3)?,
+                row.get::<_, Option<String>>(3)?,
+                row.get::<_, u32>(4)?,
             ))
         })
         .map_err(|e| format!("Failed to query competitions: {}", e))?;
@@ -170,7 +172,7 @@ pub fn load_competitions(
     let mut leagues = Vec::new();
     let mut configs = HashMap::new();
     for row in rows {
-        let (id, name, schedule_config_raw, season_number) =
+        let (id, name, logo, schedule_config_raw, season_number) =
             row.map_err(|e| format!("Failed to read competition row: {}", e))?;
         let cid = id.clone();
         let fixtures = load_fixtures(conn, &cid)?;
@@ -182,7 +184,7 @@ pub fn load_competitions(
             fixtures,
             standings,
             competition_id: Some(cid),
-            logo: None,
+            logo,
             league_kind: domain::league::LeagueKind::Main,
         });
         if let Some(json) = schedule_config_raw {

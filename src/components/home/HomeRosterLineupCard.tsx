@@ -108,6 +108,7 @@ export default function HomeRosterLineupCard({
             const photo = player ? player.profile_image_url ?? "/default/defaultplayer.webp" : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
+            const fitness = player?.fitness ?? null;
             const morale = player?.morale ?? null;
             const topChampion = player
               ? topMasteryChampionByPlayerId.get(player.id)
@@ -164,11 +165,17 @@ export default function HomeRosterLineupCard({
                   </div>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-1 text-2xs">
+                <div className="mt-2 grid grid-cols-3 gap-1 text-2xs">
                   <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">
                     <p className="text-gray-400">{t("common.condition")}</p>
                     <p className="font-heading font-bold text-primary-400">
                       {condition !== null ? `${condition}%` : "—"}
+                    </p>
+                  </div>
+                  <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">
+                    <p className="text-gray-400">{t("common.fitness")}</p>
+                    <p className="font-heading font-bold text-green-400">
+                      {fitness !== null ? `${fitness}%` : "—"}
                     </p>
                   </div>
                   <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">

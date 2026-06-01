@@ -274,7 +274,7 @@ export default function PlayerProfileHeroCard({
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <div className="grid grid-cols-3 gap-3 flex-1">
+            <div className="grid grid-cols-4 gap-3 flex-1">
               <QuickStat
                 label={t("common.ovr")}
                 value={String(ovr)}
@@ -284,6 +284,11 @@ export default function PlayerProfileHeroCard({
                 label={t("common.condition", { defaultValue: "Condition" })}
                 value={`${player.condition}%`}
                 color={player.condition >= 70 ? "text-primary-400" : "text-red-400"}
+              />
+              <QuickStat
+                label={t("common.fitness")}
+                value={`${player.fitness ?? 75}%`}
+                color={player.fitness != null && player.fitness >= 70 ? "text-green-400" : "text-red-400"}
               />
               <QuickStat
                 label={t("common.morale")}
@@ -321,6 +326,11 @@ export default function PlayerProfileHeroCard({
           label={t("common.condition", { defaultValue: "Energía" })}
           value={`${player.condition}%`}
           color={player.condition >= 70 ? "text-primary-500" : "text-red-500"}
+        />
+        <MobileQuickStat
+          label={t("common.fitness")}
+          value={`${player.fitness ?? 75}%`}
+          color={player.fitness != null && player.fitness >= 70 ? "text-green-500" : "text-red-500"}
         />
         <MobileQuickStat
           label={t("common.morale")}

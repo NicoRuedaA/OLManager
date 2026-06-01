@@ -568,7 +568,7 @@
       "fitness": 100,
       "team_id": "team-76137e73",
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 128000,
       "market_value": 1920000,
       "stats": {

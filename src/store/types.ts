@@ -325,6 +325,7 @@ export interface PlayerData {
   training_focus: string | null;
   attributes: PlayerAttributes;
   condition: number;
+  fitness?: number;
   morale: number;
   injury: null | { name: string; days_remaining: number };
   team_id: string | null;

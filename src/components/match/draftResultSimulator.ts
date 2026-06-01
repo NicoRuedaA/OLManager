@@ -147,7 +147,7 @@ function toEnginePlayerFromState(
     name: player.match_name,
     role: player.position,
     condition: player.condition,
-    fitness: player.condition,
+    fitness: player.fitness ?? 75,
     mechanics: player.attributes.mechanics,
     laning: player.attributes.laning,
     teamfighting: player.attributes.teamfighting,

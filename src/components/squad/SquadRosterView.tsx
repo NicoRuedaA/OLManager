@@ -10,7 +10,6 @@ import { AlertTriangle, ChevronRight, Repeat, ShoppingCart, User } from "lucide-
 import { calcAge, formatVal } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
-import playersSeed from "../../../data/draft/players.json";
 import {
   buildActiveLineupIds,
   buildActiveLineupSlots,
@@ -20,12 +19,10 @@ import {
 } from "./SquadTab.helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
-import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
-import { normalizeChampionKey } from "../../lib/championIds";
-import { resolveChampionTile } from "../../lib/championImages";
+import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
-type SortKey = "pos" | "ovr" | "condition" | "morale" | "age";
+type SortKey = "pos" | "ovr" | "condition" | "fitness" | "morale" | "age";
 
 const LOL_ROLE_ORDER: Record<LolRole, number> = {
   TOP: 1,
@@ -52,33 +49,6 @@ const ROLE_ICON_URLS: Record<LolRole, string> = {
   SUPPORT:
     "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
 };
-
-interface PlayerSeed {
-  ign: string;
-  role: string;
-  champions: Array<Array<string | number>>;
-}
-
-const PLAYER_SEEDS: PlayerSeed[] = [
-  ...(((playersSeed as { data?: { rostered_seeds?: PlayerSeed[] } }).data?.rostered_seeds ?? []) as PlayerSeed[]),
-  ...(((playersSeed as { data?: { free_agent_seeds?: PlayerSeed[] } }).data?.free_agent_seeds ?? []) as PlayerSeed[]),
-];
-
-function normalizeKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-const TOP_3_CHAMPIONS_BY_IGN = new Map(
-  PLAYER_SEEDS.map((player) => {
-    const top = [...(player.champions ?? [])]
-      .map((entry) => ({ name: String(entry[0] ?? ""), mastery: Number(entry[1] ?? 0) }))
-      .filter((entry) => entry.name.length > 0)
-      .sort((a, b) => b.mastery - a.mastery)
-      .slice(0, 3)
-      .map((entry) => entry.name);
-    return [normalizeKey(player.ign), top] as const;
-  }),
-);
 
 function resolveRole(player: PlayerData): LolRole {
   return resolvePlayerLolRole(player);
@@ -141,6 +111,8 @@ export default function SquadRosterView({
           return calculateLolOvr(a) - calculateLolOvr(b);
         case "condition":
           return a.condition - b.condition;
+        case "fitness":
+          return (a.fitness ?? 75) - (b.fitness ?? 75);
         case "morale":
           return a.morale - b.morale;
         case "age":
@@ -151,28 +123,6 @@ export default function SquadRosterView({
     });
     return sortDir === "desc" ? sorted.reverse() : sorted;
   }, [gameState.clock.current_date, roster, sortDir, sortKey]);
-
-  const masteryTopChampionsByPlayer = useMemo(() => {
-    const grouped = new Map<string, Array<{ champion: string; mastery: number }>>();
-    (gameState.champion_masteries ?? []).forEach((entry) => {
-      const list = grouped.get(entry.player_id) ?? [];
-      list.push({ champion: entry.champion_id, mastery: Number(entry.mastery ?? 0) });
-      grouped.set(entry.player_id, list);
-    });
-
-    const topByPlayer = new Map<string, string[]>();
-    grouped.forEach((entries, playerId) => {
-      const top = entries
-        .sort((a, b) => b.mastery - a.mastery)
-        .map((item) => item.champion)
-        .filter((champion, index, arr) => arr.indexOf(champion) === index)
-        .slice(0, 3);
-      if (top.length > 0) {
-        topByPlayer.set(playerId, top);
-      }
-    });
-    return topByPlayer;
-  }, [gameState.champion_masteries]);
 
   const toggleSort = (nextKey: SortKey): void => {
     if (sortKey === nextKey) {
@@ -258,6 +208,7 @@ export default function SquadRosterView({
               ["pos", t("squad.pos", { defaultValue: "Posición" })],
               ["ovr", t("common.ovr", { defaultValue: "OVR" })],
               ["condition", t("common.condition", { defaultValue: "Energía" })],
+              ["fitness", t("common.fitness", { defaultValue: "Fitness" })],
               ["morale", t("common.morale", { defaultValue: "Moral" })],
               ["age", t("common.age", { defaultValue: "Edad" })],
             ] as Array<[SortKey, string]>).map(([key, label]) => (
@@ -281,10 +232,6 @@ export default function SquadRosterView({
             const role = resolveRole(player);
             const ovr = calculateLolOvr(player);
             const photo = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
-            const fallbackChampion = fallbackChampionForRole(player.id, role);
-            const championNames = masteryTopChampionsByPlayer.get(player.id)
-              ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.match_name))
-              ?? (fallbackChampion ? [fallbackChampion] : []);
             const inXI = activeIds.has(player.id);
             const currentPos = player.position;
             const wrongPos = inXI && isPlayerOutOfPosition(player, currentPos);
@@ -338,7 +285,7 @@ export default function SquadRosterView({
                   className="w-full text-left rounded-xl border border-[#21365f] bg-[#13274a] hover:bg-[#17305a] transition-colors px-3 py-2.5"
                   onClick={() => onSelectPlayer(player.id)}
                 >
-                  <div className="grid grid-cols-1 xl:grid-cols-[34px_44px_minmax(220px,1fr)_72px_130px_170px_170px_110px_90px] items-center gap-3">
+                  <div className="grid grid-cols-1 xl:grid-cols-[34px_44px_minmax(220px,1fr)_72px_72px_170px_170px_170px_110px_90px] items-center gap-3">
                     <div className="w-8 h-8 rounded-md bg-[#0f213f] border border-white/10 flex items-center justify-center">
                       <img src={ROLE_ICON_URLS[role]} alt={ROLE_LABEL[role]} className="w-4 h-4 object-contain opacity-90" />
                     </div>
@@ -368,20 +315,12 @@ export default function SquadRosterView({
                       <p className="text-xs uppercase tracking-wide text-blue-200/65">{t("common.ovr")}</p>
                     </div>
 
-                    <div className="hidden xl:flex items-center gap-1.5 justify-start">
-                      {championNames.map((name) => {
-                        const canonicalKey = normalizeChampionKey(name);
-                        const portrait = canonicalKey
-                          ? resolveChampionTile(canonicalKey)
-                          : null;
-                        return (
-                          <div key={name} className="w-6 h-6 rounded-sm bg-[#0d1d39] overflow-hidden border border-white/10" title={name}>
-                            {portrait ? (
-                              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${portrait})` }} />
-                            ) : null}
-                          </div>
-                        );
-                      })}
+                    <div className="hidden xl:flex items-center justify-center">
+                      <img
+                        src={ROLE_ICON_URLS[role]}
+                        alt={ROLE_LABEL[role]}
+                        className="w-8 h-8 object-contain opacity-90"
+                      />
                     </div>
 
                     <div className="hidden xl:block min-w-36">
@@ -404,6 +343,16 @@ export default function SquadRosterView({
                       </div>
                     </div>
 
+                    <div className="hidden xl:block min-w-36">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.fitness")}</p>
+                        <p className="text-[11px] font-heading font-bold text-green-300">{player.fitness ?? 75}</p>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                        <div className="h-full bg-green-400" style={{ width: `${clampBar(player.fitness ?? 75)}%` }} />
+                      </div>
+                    </div>
+
                     <div className="hidden xl:block text-right min-w-24">
                       <p className="text-sm font-heading font-bold text-white">{formatVal(annualWage)}</p>
                       <p className="text-[11px] text-blue-200/60">{t("common.per_year_with_slash")}</p>
@@ -414,7 +363,7 @@ export default function SquadRosterView({
                       <ChevronRight className="w-4 h-4" />
                     </div>
 
-                    <div className="xl:hidden mt-2 grid grid-cols-2 gap-3">
+                    <div className="xl:hidden mt-2 grid grid-cols-3 gap-3">
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <p className="text-2xs uppercase tracking-wide text-blue-200/60">{t("common.morale")}</p>
@@ -431,6 +380,15 @@ export default function SquadRosterView({
                         </div>
                         <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
                           <div className="h-full bg-amber-400" style={{ width: `${clampBar(player.condition)}%` }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="text-2xs uppercase tracking-wide text-blue-200/60">{t("common.fitness")}</p>
+                          <p className="text-xs font-heading font-bold text-green-300">{player.fitness ?? 75}</p>
+                        </div>
+                        <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                          <div className="h-full bg-green-400" style={{ width: `${clampBar(player.fitness ?? 75)}%` }} />
                         </div>
                       </div>
                     </div>

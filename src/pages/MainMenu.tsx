@@ -635,6 +635,13 @@ export default function MainMenu() {
                         toggleNationalityDropdown();
                       }
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Tab" && !e.shiftKey) {
+                        e.preventDefault();
+                        if (nationalityOpen) setNationalityOpen(false);
+                        document.getElementById("create-manager-submit")?.focus();
+                      }
+                    }}
                     className={`w-full flex items-center justify-between bg-gray-50 dark:bg-navy-900 border text-left rounded-lg p-3 outline-none transition-all ${formErrors.nationality
                         ? "border-red-400 dark:border-red-500"
                         : nationalityOpen
@@ -679,6 +686,14 @@ export default function MainMenu() {
                       onMouseDown={(event) => {
                         event.stopPropagation();
                         logNationalityDebug("dropdown panel mousedown");
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Tab") {
+                          e.preventDefault();
+                          setNationalityOpen(false);
+                          setNationalitySearch("");
+                          document.getElementById("create-manager-submit")?.focus();
+                        }
                       }}
                     >
                       <div className="p-2 border-b border-gray-100 dark:border-navy-600">
@@ -751,6 +766,7 @@ export default function MainMenu() {
               </div>
 
               <Button
+                id="create-manager-submit"
                 type="submit"
                 variant="primary"
                 size="lg"

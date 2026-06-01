@@ -157,7 +157,7 @@
       "fitness": 100,
       "team_id": "team-f8f7f78d",
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {},

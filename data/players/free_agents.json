@@ -292,7 +292,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -336,7 +336,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -383,7 +383,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 51000,
       "market_value": 765000,
       "stats": {
@@ -430,7 +430,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -693,7 +693,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -820,7 +820,7 @@
       "match_name": "Legolas",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 73,
       "transfer_listed": false,
@@ -953,7 +953,7 @@
       "match_name": "Milton Mendoza",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 67,
       "transfer_listed": false,
@@ -1003,7 +1003,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1051,7 +1051,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1094,7 +1094,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1446,7 +1446,7 @@
       "match_name": "Claudio Ignacio Fuentealba Oliva",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 67,
       "transfer_listed": false,
@@ -1495,7 +1495,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1541,7 +1541,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1589,7 +1589,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 38000,
       "market_value": 570000,
       "stats": {
@@ -1755,7 +1755,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -1932,7 +1932,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2099,7 +2099,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2248,7 +2248,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2292,7 +2292,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2340,7 +2340,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 42000,
       "market_value": 630000,
       "stats": {
@@ -2385,7 +2385,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2507,7 +2507,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -2588,7 +2588,7 @@
       "match_name": "Kevin Andrés Santana Caballero",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 66,
       "transfer_listed": false,
@@ -3061,7 +3061,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3107,7 +3107,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3150,7 +3150,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3200,7 +3200,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3240,7 +3240,7 @@
       "match_name": "Daemi",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 77,
       "transfer_listed": false,
@@ -3292,7 +3292,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3405,7 +3405,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3447,7 +3447,7 @@
       "match_name": "SeTab",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 82,
       "transfer_listed": false,
@@ -3496,7 +3496,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3543,7 +3543,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3591,7 +3591,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3787,7 +3787,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3832,7 +3832,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 48000,
       "market_value": 720000,
       "stats": {
@@ -3876,7 +3876,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3923,7 +3923,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -3971,7 +3971,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4015,7 +4015,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4146,7 +4146,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4192,7 +4192,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4241,7 +4241,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4285,7 +4285,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4330,7 +4330,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4471,7 +4471,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4513,7 +4513,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4639,7 +4639,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4803,7 +4803,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -4985,7 +4985,7 @@
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Colombia",
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 1380000,
       "birth_country": null,
       "date_of_birth": "2000-01-01",
@@ -5031,7 +5031,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5229,7 +5229,7 @@
       "match_name": "Nicolás Gerardo Rivero Kiefer",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 69,
       "transfer_listed": false,
@@ -5278,7 +5278,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5373,7 +5373,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5478,7 +5478,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5524,7 +5524,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5582,7 +5582,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5846,7 +5846,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -5993,7 +5993,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6041,7 +6041,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6084,7 +6084,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6128,7 +6128,7 @@
       "match_name": "leaf",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 75,
       "transfer_listed": false,
@@ -6245,7 +6245,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6384,7 +6384,7 @@
       "match_name": "Macaquinho",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 72,
       "transfer_listed": false,
@@ -6431,7 +6431,7 @@
       "match_name": "selenex",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 71,
       "transfer_listed": false,
@@ -6478,7 +6478,7 @@
       "match_name": "Koldo",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 71,
       "transfer_listed": false,
@@ -6530,7 +6530,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6650,7 +6650,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -6812,7 +6812,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -7016,7 +7016,7 @@
       "match_name": "Lucy",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 82,
       "transfer_listed": false,
@@ -7398,7 +7398,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -7481,7 +7481,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -7667,7 +7667,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -7711,7 +7711,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8059,7 +8059,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8261,7 +8261,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8303,7 +8303,7 @@
       "match_name": "dresscode",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 73,
       "transfer_listed": false,
@@ -8353,7 +8353,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8401,7 +8401,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8445,7 +8445,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8490,7 +8490,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -8759,7 +8759,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9013,7 +9013,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9126,7 +9126,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9174,7 +9174,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9539,7 +9539,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9585,7 +9585,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9724,7 +9724,7 @@
       "match_name": "Kania",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 76,
       "transfer_listed": false,
@@ -9773,7 +9773,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9880,7 +9880,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9925,7 +9925,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -9964,7 +9964,7 @@
       },
       "match_name": "Ez-zejjari Amine",
       "loan_listed": false,
-      "contract_end": "2007-01-01",
+      "contract_end": null,
       "transfer_listed": false,
       "date_of_birth": null,
       "nationality": "MA",
@@ -10016,7 +10016,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -10060,7 +10060,7 @@
       "match_name": "Mihawk",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 82,
       "transfer_listed": false,
@@ -10402,7 +10402,7 @@
       "fitness": 100,
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -10605,7 +10605,7 @@
       "alternate_positions": [],
       "team_id": null,
       "traits": [],
-      "contract_end": "",
+      "contract_end": null,
       "wage": 0,
       "market_value": 0,
       "stats": {
@@ -10645,7 +10645,7 @@
       "match_name": "Janus",
       "loan_listed": false,
       "morale_core": {},
-      "contract_end": "",
+      "contract_end": null,
       "market_value": 0,
       "potential_base": 82,
       "transfer_listed": false,

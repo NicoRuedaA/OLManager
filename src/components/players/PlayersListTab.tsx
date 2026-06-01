@@ -206,7 +206,7 @@ export default function PlayersListTab({
             }`}
             title="All roles"
           >
-            <img src="/role-icons/allroles.png" alt="All roles" className="h-3.5 w-3.5" />
+            <img src="/role-icons/allroles.webp" alt="All roles" className="h-3.5 w-3.5" />
           </button>
           {positions.map((pos) => (
             <button

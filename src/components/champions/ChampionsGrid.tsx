@@ -96,7 +96,7 @@ export default function ChampionsGrid({ champions, onChampionClick }: ChampionsG
             onClick={() => { setRoleFilter("ALL"); setPage(0); }}
             className={`px-3 py-1.5 rounded-lg text-xs font-heading font-bold uppercase tracking-wider transition-all ${roleFilter === "ALL" ? "bg-primary-500 text-white shadow-sm" : "bg-white dark:bg-navy-800 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-navy-600"}`}
           >
-            <img src="/role-icons/allroles.png" alt="All" className="h-3.5 w-3.5" />
+            <img src="/role-icons/allroles.webp" alt="All" className="h-3.5 w-3.5" />
           </button>
           {LOL_ROLE_ORDER.map((role) => (
             <button
