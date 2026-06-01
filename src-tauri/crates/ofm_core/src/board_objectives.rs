@@ -62,7 +62,12 @@ fn objective_profile_for_rank(expected_rank: u32, num_teams: u32) -> ObjectivePr
     }
 }
 
-fn objective_targets(expected_rank: u32, num_teams: u32) -> ObjectiveTargets {
+fn objective_targets(
+    expected_rank: u32,
+    num_teams: u32,
+    total_series: u32,
+    total_winnable_maps: u32,
+) -> ObjectiveTargets {
     let profile = objective_profile_for_rank(expected_rank, num_teams);
     let expected_pos = match profile {
         ObjectiveProfile::TitleContender => expected_rank.max(1),
@@ -72,30 +77,75 @@ fn objective_targets(expected_rank: u32, num_teams: u32) -> ObjectiveTargets {
     }
     .min(num_teams.max(1));
 
-    let total_matchdays = if num_teams > 1 {
-        (num_teams - 1) * 2
-    } else {
-        0
-    };
-
     let win_target = match profile {
-        ObjectiveProfile::TitleContender => total_matchdays * 60 / 100,
-        ObjectiveProfile::PlayoffContender => total_matchdays * 45 / 100,
-        ObjectiveProfile::MidTable => total_matchdays * 35 / 100,
-        ObjectiveProfile::Survival => total_matchdays * 25 / 100,
+        ObjectiveProfile::TitleContender => total_series * 60 / 100,
+        ObjectiveProfile::PlayoffContender => total_series * 45 / 100,
+        ObjectiveProfile::MidTable => total_series * 35 / 100,
+        ObjectiveProfile::Survival => total_series * 25 / 100,
     };
 
     let goals_target = match profile {
-        ObjectiveProfile::TitleContender => total_matchdays * 2,
-        ObjectiveProfile::PlayoffContender => total_matchdays * 3 / 2,
-        ObjectiveProfile::MidTable => total_matchdays * 5 / 4,
-        ObjectiveProfile::Survival => total_matchdays,
+        ObjectiveProfile::TitleContender => total_winnable_maps,
+        ObjectiveProfile::PlayoffContender => total_winnable_maps * 75 / 100,
+        ObjectiveProfile::MidTable => total_winnable_maps * 625 / 1000,
+        ObjectiveProfile::Survival => total_winnable_maps * 50 / 100,
     };
 
     ObjectiveTargets {
         expected_pos,
         win_target: win_target.max(1),
         goals_target: goals_target.max(1),
+    }
+}
+
+fn fallback_series_count(num_teams: u32) -> u32 {
+    if num_teams > 1 {
+        (num_teams - 1) * 2
+    } else {
+        0
+    }
+}
+
+fn active_league_teams(game: &Game) -> Vec<Team> {
+    let Some(league) = game.active_league() else {
+        return Vec::new();
+    };
+
+    league
+        .standings
+        .iter()
+        .filter_map(|standing| {
+            game.teams
+                .iter()
+                .find(|team| team.id == standing.team_id)
+                .cloned()
+        })
+        .collect()
+}
+
+fn scheduled_totals(game: &Game, user_team_id: &str, num_teams: u32) -> (u32, u32) {
+    let Some(league) = game.active_league() else {
+        let fallback_series = fallback_series_count(num_teams);
+        return (fallback_series, fallback_series * 2);
+    };
+
+    let user_fixtures = league.fixtures.iter().filter(|fixture| {
+        fixture.counts_for_league_standings()
+            && (fixture.home_team_id == user_team_id || fixture.away_team_id == user_team_id)
+    });
+
+    let mut total_series = 0;
+    let mut total_winnable_maps = 0;
+    for fixture in user_fixtures {
+        total_series += 1;
+        total_winnable_maps += u32::from(fixture.best_of.max(1) / 2 + 1);
+    }
+
+    if total_series > 0 {
+        (total_series, total_winnable_maps.max(total_series))
+    } else {
+        let fallback_series = fallback_series_count(num_teams);
+        (fallback_series, fallback_series * 2)
     }
 }
 
@@ -166,14 +216,16 @@ pub fn generate_objectives(game: &mut Game) {
         None => return,
     };
 
-    let team = match game.teams.iter().find(|t| t.id == user_team_id) {
+    let active_teams = active_league_teams(game);
+    let team = match active_teams.iter().find(|t| t.id == user_team_id) {
         Some(t) => t,
         None => return,
     };
 
-    let num_teams = game.teams.len() as u32;
-    let expected_rank = expected_league_rank(&team.id, &game.teams, &game.players);
-    let targets = objective_targets(expected_rank, num_teams);
+    let num_teams = active_teams.len() as u32;
+    let expected_rank = expected_league_rank(&team.id, &active_teams, &game.players);
+    let (total_series, total_winnable_maps) = scheduled_totals(game, &team.id, num_teams);
+    let targets = objective_targets(expected_rank, num_teams, total_series, total_winnable_maps);
 
     game.board_objectives = vec![
         BoardObjective {
@@ -293,18 +345,17 @@ pub fn evaluate_objective_result(game: &Game) -> ObjectiveEvaluation {
 #[cfg(test)]
 mod tests {
     use super::{
-        ObjectiveProfile, evaluate_objectives, expected_league_rank, generate_objectives,
-        objective_profile_for_rank, update_objective_progress,
+        evaluate_objectives, expected_league_rank, generate_objectives, objective_profile_for_rank,
+        update_objective_progress, ObjectiveProfile,
     };
     use crate::clock::GameClock;
     use crate::game::{BoardObjective, Game, ObjectiveType};
     use chrono::{TimeZone, Utc};
-    use domain::league::{
-        Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
-    };
+    use domain::league::{Fixture, FixtureStatus, League, MatchResult, MatchType, StandingEntry};
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessageCategory, MessagePriority};
     use domain::player::{Player, PlayerAttributes};
+    use domain::stats::LolRole;
     use domain::team::Team;
 
     fn make_team(id: &str, name: &str, reputation: u32) -> Team {
@@ -544,6 +595,85 @@ mod tests {
                 .count(),
             1
         );
+    }
+
+    #[test]
+    fn generate_objectives_scope_targets_to_active_league_and_user_schedule() {
+        let mut game = make_game(80, 1, 30);
+        for team in game.teams.iter_mut().skip(4) {
+            team.reputation = 99;
+        }
+
+        let active_team_ids = vec![
+            "team1".to_string(),
+            "team2".to_string(),
+            "team3".to_string(),
+            "team4".to_string(),
+        ];
+        let mut active_league = League::new(
+            "league1".to_string(),
+            "Active League".to_string(),
+            1,
+            &active_team_ids,
+            Some("active".to_string()),
+        );
+        active_league.fixtures = vec![
+            Fixture {
+                id: "f1".to_string(),
+                matchday: 1,
+                date: "2025-08-01".to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team2".to_string(),
+                match_type: MatchType::League,
+                best_of: 3,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            },
+            Fixture {
+                id: "f2".to_string(),
+                matchday: 2,
+                date: "2025-08-08".to_string(),
+                home_team_id: "team3".to_string(),
+                away_team_id: "team1".to_string(),
+                match_type: MatchType::League,
+                best_of: 3,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            },
+            Fixture {
+                id: "f3".to_string(),
+                matchday: 3,
+                date: "2025-08-15".to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team4".to_string(),
+                match_type: MatchType::League,
+                best_of: 3,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            },
+        ];
+
+        let other_team_ids: Vec<String> = (5..=30).map(|idx| format!("team{idx}")).collect();
+        game.leagues = vec![
+            active_league,
+            League::new(
+                "league2".to_string(),
+                "Other League".to_string(),
+                1,
+                &other_team_ids,
+                Some("other".to_string()),
+            ),
+        ];
+        game.user_competition_id = Some("active".to_string());
+
+        generate_objectives(&mut game);
+
+        assert_eq!(objective_by_id(&game, "obj_position").target, 1);
+        assert!(objective_by_id(&game, "obj_position").target <= active_team_ids.len() as u32);
+        assert_eq!(objective_by_id(&game, "obj_wins").target, 1);
+        assert!(objective_by_id(&game, "obj_wins").target <= 3);
+        assert_eq!(objective_by_id(&game, "obj_goals").target, 6);
+        assert!(objective_by_id(&game, "obj_goals").target <= 6);
     }
 
     #[test]
