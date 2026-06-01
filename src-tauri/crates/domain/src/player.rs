@@ -11,7 +11,7 @@ pub struct Player {
     pub id: String,
     pub match_name: String,
     pub full_name: String,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::serde_util::null_to_default")]
     pub date_of_birth: String,
     #[serde(default)]
     pub nationality: String,

@@ -11,6 +11,7 @@ pub mod negotiation;
 pub mod news;
 pub mod player;
 pub mod season;
+pub mod serde_util;
 pub mod social;
 pub mod staff;
 pub mod stats;
