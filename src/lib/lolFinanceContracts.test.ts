@@ -224,14 +224,14 @@ describe("lolFinanceContracts", () => {
     const sponsorship: SponsorshipData = {
       sponsor_name: "HyperX eSports",
       base_value: 120000,
-      remaining_weeks: 10,
+      remaining_months: 10,
       bonus_criteria: [{ kind: "unbeaten-run", bonus_amount: 30000 }],
     };
 
     expect(getSponsorshipContractView(sponsorship)).toEqual({
       sponsorName: "HyperX eSports",
       baseValue: 120000,
-      remainingWeeks: 10,
+      remainingMonths: 10,
       bonusCount: 1,
       theme: "esports",
       themeLabel: "Esports sponsor",
@@ -243,14 +243,14 @@ describe("lolFinanceContracts", () => {
     const sponsorship: SponsorshipData = {
       sponsor_name: "Local Bank",
       base_value: 50000,
-      remaining_weeks: 4,
+      remaining_months: 4,
       bonus_criteria: [],
     };
 
     expect(getSponsorshipContractView(sponsorship)).toEqual({
       sponsorName: "Local Bank",
       baseValue: 50000,
-      remainingWeeks: 4,
+      remainingMonths: 4,
       bonusCount: 0,
       theme: "standard",
       themeLabel: "Standard sponsor",

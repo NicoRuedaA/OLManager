@@ -726,7 +726,7 @@ mod tests {
 
         assert_eq!(sponsorship.sponsor_name, "Acme Corp");
         assert_eq!(sponsorship.base_value, 0);
-        assert_eq!(sponsorship.remaining_weeks, 0);
+        assert_eq!(sponsorship.remaining_months, 0);
         assert!(sponsorship.bonus_criteria.is_empty());
     }
 

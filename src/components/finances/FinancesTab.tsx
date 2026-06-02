@@ -16,7 +16,7 @@ import {
   getContractYearsRemaining,
 } from "../../lib/helpers";
 import {
-  annualAmountToWeeklyCommitment,
+  annualAmountToMonthlyCommitment,
   getTeamFinanceSnapshot,
 } from "../../lib/finance";
 import type { FacilityUpgradeId } from "../../lib/lolFinanceContracts";
@@ -140,15 +140,15 @@ export default function FinancesTab({
   const activeSponsorship = getSponsorshipContractView(myTeam.sponsorship);
   const annualSponsorIncome = financeSnapshot.annualSponsorIncome;
   const projectedAnnualNet = financeSnapshot.projectedAnnualNet;
-  const cashRunwayWeeks = financeSnapshot.cashRunwayWeeks;
+  const cashRunwayMonths = financeSnapshot.cashRunwayMonths;
   const wageBudgetUsagePercent = financeSnapshot.wageBudgetUsagePercent;
   const weeklyWageBudget = financeSnapshot.weeklyWageBudget;
   const playerWeeklyWages = roster.reduce(
-    (sum, p) => sum + annualAmountToWeeklyCommitment(p.wage),
+    (sum, p) => sum + annualAmountToMonthlyCommitment(p.wage),
     0,
   );
   const staffWeeklyWages = teamStaff.reduce(
-    (sum, s) => sum + annualAmountToWeeklyCommitment(s.wage),
+    (sum, s) => sum + annualAmountToMonthlyCommitment(s.wage),
     0,
   );
   const unusedWeeklyBudget = Math.max(0, weeklyWageBudget - playerWeeklyWages - staffWeeklyWages);
@@ -443,16 +443,16 @@ export default function FinancesTab({
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
                 {t("finances.cashRunway")}
               </p>
-              <p className={`font-heading font-bold text-base ${cashRunwayWeeks !== null && cashRunwayWeeks < 52 ? "text-red-500" : "text-gray-800 dark:text-gray-100"}`}>
-                {cashRunwayWeeks === null
+              <p className={`font-heading font-bold text-base ${cashRunwayMonths !== null && cashRunwayMonths < 52 ? "text-red-500" : "text-gray-800 dark:text-gray-100"}`}>
+                {cashRunwayMonths === null
                   ? t("finances.runwayStable")
-                  : t("finances.runwayWeeks", { count: cashRunwayWeeks })}
+                  : t("finances.runwayMonths", { count: cashRunwayMonths })}
               </p>
-              {cashRunwayWeeks !== null && (
+              {cashRunwayMonths !== null && (
                 <div className="w-full max-w-[120px] mx-auto mt-2 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
                   <div
-                    className={`h-full rounded-full ${cashRunwayWeeks >= 104 ? "bg-success-400" : cashRunwayWeeks >= 52 ? "bg-yellow-500" : "bg-red-500"}`}
-                    style={{ width: `${Math.min(100, (cashRunwayWeeks / 260) * 100)}%` }}
+                    className={`h-full rounded-full ${cashRunwayMonths >= 104 ? "bg-success-400" : cashRunwayMonths >= 52 ? "bg-yellow-500" : "bg-red-500"}`}
+                    style={{ width: `${Math.min(100, (cashRunwayMonths / 260) * 100)}%` }}
                   />
                 </div>
               )}
@@ -615,12 +615,12 @@ export default function FinancesTab({
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {t("finances.sponsorWeeklyValue", {
-                      amount: activeSponsorship.baseValue,
+                      amount: Math.round(activeSponsorship.baseValue / 12),
                     })}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t("finances.sponsorRemainingWeeks", {
-                      count: activeSponsorship.remainingWeeks,
+                    {t("finances.sponsorRemainingMonths", {
+                      count: activeSponsorship.remainingMonths,
                     })}
                   </p>
                   <Badge variant={activeSponsorship.theme === "esports" ? "accent" : "neutral"}>

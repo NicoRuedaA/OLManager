@@ -13,6 +13,7 @@ use tauri::State;
 
 use crate::commands::game::{
     academy_seed_team_id, ensure_example_academy_pool, example_academy_seed_catalog,
+    RESOURCE_DATA_DIR,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -536,6 +537,11 @@ fn academy_erl_catalog() -> &'static [ErlLeagueDefinition] {
 
 /// Try to find the `data/` directory from common locations (same logic as `resolve_data_base`).
 fn resolve_data_dir_for_catalog() -> Option<std::path::PathBuf> {
+    if let Some(dir) = RESOURCE_DATA_DIR.get() {
+        if dir.is_dir() {
+            return Some(dir.clone());
+        }
+    }
     let cwd = std::env::current_dir().ok()?;
     for candidate in [
         cwd.join("..").join("data"),

@@ -65,7 +65,7 @@ import {
   type TransferSortState,
   type TransferTabView,
 } from "./TransfersTab.model";
-import { annualAmountToWeeklyCommitment } from "../../lib/finance";
+import { annualAmountToMonthlyCommitment } from "../../lib/finance";
 
 interface TransfersTabProps {
   gameState: GameStateData;
@@ -386,7 +386,7 @@ export default function TransfersTab({
     (team) => team.id === gameState.manager.team_id,
   );
   const myRoster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
-  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToWeeklyCommitment(p.wage), 0);
+  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToMonthlyCommitment(p.wage), 0);
   const academyTeam = gameState.teams.find(
     (team) => team.id === myTeam?.academy_team_id,
   ) ?? gameState.teams.find(
@@ -512,7 +512,7 @@ export default function TransfersTab({
     sort,
   );
   const annualWageBudget = myTeam ? myTeam.wage_budget : 0;
-  const weeklyWageBudget = annualAmountToWeeklyCommitment(annualWageBudget);
+  const weeklyWageBudget = annualAmountToMonthlyCommitment(annualWageBudget);
   const bidAmountValue = Number.parseFloat(bidAmount);
   const bidFee = Number.isFinite(bidAmountValue)
     ? Math.round(bidAmountValue)

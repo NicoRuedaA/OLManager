@@ -55,7 +55,7 @@ pub fn check_random_events(game: &mut Game) {
                 .find(|t| t.id == user_team_id)
                 .map(|t| t.name.as_str())
                 .unwrap_or("Your Club");
-            let amount = rng.random_range(12..=60) * 1_000; // 12k - 60k
+            let amount = rng.random_range(12..=60) * 52_000; // 624k - 3.12M (annual)
             let sponsor_names = [
                 "GreenTech Industries",
                 "Nova Sports",

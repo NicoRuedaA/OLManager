@@ -670,7 +670,7 @@ mod tests {
         team.sponsorship = Some(Sponsorship {
             sponsor_name: "Acme Corp".to_string(),
             base_value: 100_000,
-            remaining_weeks: 12,
+            remaining_months: 12,
             bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
                 required_matches: 3,
                 bonus_amount: 25_000,
@@ -685,7 +685,7 @@ mod tests {
             .expect("sponsorship should roundtrip through DB");
         assert_eq!(sponsorship.sponsor_name, "Acme Corp");
         assert_eq!(sponsorship.base_value, 100_000);
-        assert_eq!(sponsorship.remaining_weeks, 12);
+        assert_eq!(sponsorship.remaining_months, 12);
         assert!(matches!(
             sponsorship.bonus_criteria.as_slice(),
             [SponsorshipBonusCriterion::UnbeatenRun {

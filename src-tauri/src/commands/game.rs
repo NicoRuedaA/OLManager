@@ -8,9 +8,14 @@ use domain::team::{
 use log::{info, warn};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
+use std::path::PathBuf;
 use std::sync::OnceLock;
 use tauri::Manager as TauriManager;
 use tauri::State;
+
+/// Set during `assemble_world_from_modular_data` to the app's resource data directory.
+/// Used by static/fn functions that can't receive `app_handle` directly.
+pub(crate) static RESOURCE_DATA_DIR: OnceLock<PathBuf> = OnceLock::new();
 
 use db::save_index::SaveEntry;
 use domain::manager::Manager;
@@ -205,7 +210,12 @@ pub(crate) fn example_academy_seed_catalog() -> &'static Vec<ExampleAcademyTeamS
     })
 }
 
-fn resolve_data_dir_for_seed_catalog() -> Option<std::path::PathBuf> {
+fn resolve_data_dir_for_seed_catalog() -> Option<PathBuf> {
+    if let Some(dir) = RESOURCE_DATA_DIR.get() {
+        if dir.is_dir() {
+            return Some(dir.clone());
+        }
+    }
     let cwd = std::env::current_dir().ok()?;
     for candidate in [
         cwd.join("..").join("data"),
@@ -632,32 +642,33 @@ fn seed_profile_image_url(photo: Option<&str>) -> Option<String> {
 fn load_draft_seed_root() -> DraftSeedRoot {
     // Runtime read from draft/players.json for world editor compatibility.
     // Returns empty if file doesn't exist — Flow C provides players from modular data.
-    let content = match std::fs::read_to_string(
-        std::env::current_dir().ok().map_or_else(
-            || std::path::PathBuf::from("data/draft/players.json"),
-            |cwd| {
+    let Some(content) = RESOURCE_DATA_DIR.get()
+        .map(|dir| dir.join("draft").join("players.json"))
+        .filter(|p| p.exists())
+        .or_else(|| {
+            std::env::current_dir().ok().and_then(|cwd| {
                 let mut path = cwd.clone();
                 path.push("data");
                 path.push("draft");
                 path.push("players.json");
-                if path.exists() { return path; }
-                // tauri dev: cwd is src-tauri/
+                if path.exists() { return Some(path); }
                 path = cwd;
                 path.push("..");
                 path.push("data");
                 path.push("draft");
                 path.push("players.json");
-                path
-            },
-        ),
-    ) {
-        Ok(c) => c,
-        Err(_) => return DraftSeedRoot {
+                if path.exists() { return Some(path); }
+                None
+            })
+        })
+        .and_then(|p| std::fs::read_to_string(p).ok())
+    else {
+        return DraftSeedRoot {
             data: DraftSeedData {
                 rostered_seeds: vec![],
                 free_agent_seeds: vec![],
             },
-        },
+        };
     };
 
     let mut merged = serde_json::from_str::<DraftSeedRoot>(&content).unwrap_or(DraftSeedRoot {
@@ -735,8 +746,11 @@ fn load_external_more_fa_seed() -> Option<DraftSeedRoot> {
 fn load_free_agent_players() -> &'static Vec<Player> {
     static FREE_AGENTS: OnceLock<Vec<Player>> = OnceLock::new();
     FREE_AGENTS.get_or_init(|| {
+        let resource = RESOURCE_DATA_DIR.get()
+            .map(|p| p.join("players").join("free_agents.json"));
         let cwd = std::env::current_dir().ok();
         let candidates = [
+            resource,
             cwd.as_ref().map(|p| p.join("data").join("players").join("free_agents.json")),
             cwd.as_ref().map(|p| p.join("..").join("data").join("players").join("free_agents.json")),
             cwd.as_ref().map(|p| p.join("src-tauri").join("data").join("players").join("free_agents.json")),
@@ -1921,6 +1935,14 @@ fn assemble_world_from_modular_data(
         "[game] assemble_world_from_modular_data: competition={}, team_id={}",
         competition_id, team_id
     );
+
+    // Initialize shared resource directory for static functions
+    RESOURCE_DATA_DIR.get_or_init(|| {
+        app_handle.path().resource_dir()
+            .ok()
+            .map(|d| d.join("data"))
+            .unwrap_or_else(|| PathBuf::from("data"))
+    });
 
     // 1. Scan ALL competitions and load every team + player
     let manifests = crate::commands::competitions::scan_competitions(app_handle);

@@ -745,8 +745,9 @@ pub enum SponsorshipBonusCriterion {
 #[serde(default)]
 pub struct Sponsorship {
     pub sponsor_name: String,
+    /// Total annual value (paid monthly as base_value / 12)
     pub base_value: i64,
-    pub remaining_weeks: u32,
+    pub remaining_months: u32,
     pub bonus_criteria: Vec<SponsorshipBonusCriterion>,
 }
 

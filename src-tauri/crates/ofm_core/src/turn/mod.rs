@@ -69,8 +69,8 @@ where
 
     crate::contracts::process_contract_expiries(game);
 
-    // Weekly financial processing (wages, matchday income, warnings)
-    crate::finances::process_weekly_finances(game);
+    // Monthly financial processing (wages, matchday income, warnings)
+    crate::finances::process_monthly_finances(game);
 
     // Board objectives (generate if missing, update progress)
     board_objectives::generate_objectives(game);

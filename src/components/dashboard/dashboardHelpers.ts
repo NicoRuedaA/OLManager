@@ -191,7 +191,7 @@ export function getDashboardAlerts(
         id: "finance_crisis",
         text: t("dashboard.alerts.financeCrisis", {
           balance: formatVal(myTeam.finance),
-          weeks: financeSnapshot.cashRunwayWeeks ?? 0,
+          weeks: financeSnapshot.cashRunwayMonths ?? 0,
           defaultValue:
             "Finances critical — balance {{balance}}, runway {{weeks}} week(s)",
         }),
@@ -202,7 +202,7 @@ export function getDashboardAlerts(
       alerts.push({
         id: "finance_runway",
         text: t("dashboard.alerts.financeRunway", {
-          count: financeSnapshot.cashRunwayWeeks,
+          count: financeSnapshot.cashRunwayMonths,
           defaultValue: "Cash runway down to {{count}} week(s)",
         }),
         tab: "Finances",

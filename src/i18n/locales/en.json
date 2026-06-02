@@ -1,4 +1,4 @@
-{
+﻿{
   "app": {
     "name": "Open League Manager",
     "version": "pre-alpha"
@@ -1218,8 +1218,8 @@
     "sponsors": "Sponsors",
     "activeSponsor": "Active Sponsor",
     "noActiveSponsor": "No active sponsor",
-    "sponsorWeeklyValue": "Weekly value: €{{amount}}",
-    "sponsorRemainingWeeks": "{{count}} weeks remaining",
+    "sponsorWeeklyValue": "Monthly value: €{{amount}}",
+    "sponsorRemainingMonths": "{{count}} months remaining",
     "pendingSponsorOffers": "Pending Offers",
     "noPendingSponsorOffers": "No pending sponsor offers",
     "cashFlow": "Cash Flow",
@@ -1228,7 +1228,7 @@
     "annualSponsorIncome": "Annual Sponsor Income",
     "projectedAnnualNet": "Projected Annual Net",
     "cashRunway": "Cash Runway",
-    "runwayWeeks": "{{count}} weeks at current pace",
+    "runwayMonths": "{{count}} months at current pace",
     "runwayStable": "Stable at current pace",
     "wagePressure": "Wage Pressure",
     "wageBudgetUsed": "{{percent}}% of wage budget used",

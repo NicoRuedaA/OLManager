@@ -184,7 +184,7 @@ fn count_recent_home_matches(game: &Game, team_id: &str) -> i64 {
     };
 
     let current = game.clock.current_date.date_naive();
-    let week_ago = current - chrono::Duration::days(7);
+    let month_ago = current - chrono::Duration::days(28);
 
     league
         .fixtures
@@ -196,7 +196,7 @@ fn count_recent_home_matches(game: &Game, team_id: &str) -> i64 {
         })
         .filter(|fixture| {
             if let Ok(date) = chrono::NaiveDate::parse_from_str(&fixture.date, "%Y-%m-%d") {
-                date > week_ago && date <= current
+                date > month_ago && date <= current
             } else {
                 false
             }
@@ -204,20 +204,18 @@ fn count_recent_home_matches(game: &Game, team_id: &str) -> i64 {
         .count() as i64
 }
 
-fn should_apply_monthly_upkeep(game: &Game) -> bool {
-    let date = game.clock.current_date.date_naive();
-    game.clock.current_date.weekday().num_days_from_monday() == 0 && date.day() <= 7
+fn should_apply_upkeep(game: &Game) -> bool {
+    game.clock.current_date.date_naive().day() == 1
 }
 
-/// Process weekly financial operations (called every Monday = weekday 0).
-/// - Deduct player wages (weekly = annual / 52)
+/// Process monthly financial operations (called on the 1st of each month).
+/// - Deduct player wages (monthly = annual / 12)
 /// - Deduct staff wages
-/// - Add matchday revenue for home matches played that week
+/// - Add matchday revenue for home matches played that month
 /// - Check financial health and generate warnings
-pub fn process_weekly_finances(game: &mut Game) {
-    let weekday = game.clock.current_date.weekday().num_days_from_monday();
-    if weekday != 0 {
-        return; // Only process on Mondays
+pub fn process_monthly_finances(game: &mut Game) {
+    if game.clock.current_date.date_naive().day() != 1 {
+        return; // Only process on the 1st of each month
     }
 
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
@@ -225,8 +223,8 @@ pub fn process_weekly_finances(game: &mut Game) {
         .teams
         .iter()
         .map(|team| {
-            let wages = calc_annual_wages(game, &team.id) / 52;
-            let upkeep = if should_apply_monthly_upkeep(game) {
+            let wages = calc_annual_wages(game, &team.id) / 12;
+            let upkeep = if should_apply_upkeep(game) {
                 calc_upkeep(team)
             } else {
                 0
@@ -263,7 +261,8 @@ pub fn process_weekly_finances(game: &mut Game) {
                 let base_income =
                     calc_sponsorship_income(current_position, &team.form, sponsorship);
                 let facility_mult = facility_module_sponsorship_multiplier(&team.facilities);
-                (base_income as f64 * facility_mult).round() as i64
+                // base_value is annual, divide by 12 for monthly payment
+                ((base_income as f64 * facility_mult) / 12.0).round() as i64
             })
             .unwrap_or(0);
 
@@ -273,14 +272,14 @@ pub fn process_weekly_finances(game: &mut Game) {
         }
 
         if let Some(sponsorship) = team.sponsorship.as_mut() {
-            sponsorship.remaining_weeks = sponsorship.remaining_weeks.saturating_sub(1);
-            if sponsorship.remaining_weeks == 0 {
+            sponsorship.remaining_months = sponsorship.remaining_months.saturating_sub(1);
+            if sponsorship.remaining_months == 0 {
                 team.sponsorship = None;
             }
         }
     }
 
-    // --- Matchday income for home matches completed in last 7 days ---
+    // --- Matchday income for home matches completed in last ~28 days ---
     if !game.leagues.is_empty() {
         let home_match_counts: Vec<(String, i64)> = game
             .teams
@@ -338,14 +337,14 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
     let annual_sponsorship_income = team
         .sponsorship
         .as_ref()
-        .map(|s| calc_sponsorship_income(current_position, &team.form, s) * 52)
+        .map(|s| calc_sponsorship_income(current_position, &team.form, s))
         .unwrap_or(0);
     let _projected_annual_net = annual_sponsorship_income - annual_wages;
-    let weeks_left = {
-        let weekly_sponsor = annual_sponsorship_income / 52;
-        let weekly_wages = annual_wages / 52;
-        let weekly_net = weekly_sponsor - weekly_wages;
-        calc_cash_runway_weeks(team.finance, weekly_net).unwrap_or(999)
+    let months_left = {
+        let monthly_sponsor = annual_sponsorship_income / 12;
+        let monthly_wages = annual_wages / 12;
+        let monthly_net = monthly_sponsor - monthly_wages;
+        calc_cash_runway_weeks(team.finance, monthly_net).unwrap_or(999)
     };
 
     // Critical: finances negative
@@ -384,8 +383,8 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
             );
         }
     }
-    // Warning: less than 4 weeks of runway
-    else if (0..4).contains(&weeks_left) {
+    // Warning: less than 4 months of runway
+    else if (0..4).contains(&months_left) {
         let msg_id = format!("finance_warning_{}", today);
         if !existing_ids.contains(&msg_id) {
             new_messages.push(
@@ -394,9 +393,9 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
                     "Financial Warning — Low Reserves".to_string(),
                     format!(
                         "Our financial reserves are running low. At the current burn rate (€{}/year in wages), \
-                        we have approximately {} weeks of funding remaining.\n\n\
+                        we have approximately {} months of funding remaining.\n\n\
                         I'd recommend reviewing the wage bill and exploring ways to boost income.",
-                        format_money(annual_wages as u64), weeks_left
+                        format_money(annual_wages as u64), months_left
                     ),
                     "Financial Director".to_string(),
                     today.to_string(),
@@ -410,7 +409,7 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
                     {
                         let mut p = std::collections::HashMap::new();
                         p.insert("annualWages".to_string(), format_money(annual_wages as u64));
-                        p.insert("weeksLeft".to_string(), weeks_left.to_string());
+                        p.insert("monthsLeft".to_string(), months_left.to_string());
                         p
                     },
                 )

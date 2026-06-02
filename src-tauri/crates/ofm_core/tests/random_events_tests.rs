@@ -616,7 +616,7 @@ fn apply_sponsor_accept_adds_finance() {
         .as_ref()
         .expect("accepted sponsor should create active sponsorship state");
     assert_eq!(sponsorship.base_value, 100_000);
-    assert_eq!(sponsorship.remaining_weeks, 12);
+    assert_eq!(sponsorship.remaining_months, 12);
     assert_eq!(sponsorship.sponsor_name, "Test Sponsor");
     assert!(matches!(
         sponsorship.bonus_criteria.as_slice(),

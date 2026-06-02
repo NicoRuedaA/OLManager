@@ -79,7 +79,7 @@ fn make_staff(id: &str, team_id: &str, wage: u32) -> Staff {
     s
 }
 
-/// Create a game set on a Monday (weekday 0) so process_weekly_finances runs.
+/// Create a game set on the 1st of a month so process_monthly_finances runs.
 fn make_game_on(year: i32, month: u32, day: u32) -> Game {
     let date = Utc.with_ymd_and_hms(year, month, day, 12, 0, 0).unwrap();
     let clock = GameClock::new(date);
@@ -93,25 +93,25 @@ fn make_game_on(year: i32, month: u32, day: u32) -> Game {
     manager.hire("team1".to_string());
 
     let team1 = make_team("team1", "Test FC");
-    let p1 = make_player("p1", "team1", 52_000); // 52000/52 = 1000/week
-    let p2 = make_player("p2", "team1", 26_000); // 26000/52 = 500/week
-    let s1 = make_staff("s1", "team1", 10_400); // 10400/52 = 200/week
+    let p1 = make_player("p1", "team1", 52_000); // 52000/12 = 4333/month
+    let p2 = make_player("p2", "team1", 26_000); // 26000/12 = 2167/month
+    let s1 = make_staff("s1", "team1", 10_400); // 10400/12 = 867/month
 
     Game::new(clock, manager, vec![team1], vec![p1, p2], vec![s1], vec![])
 }
 
-fn make_monday_game() -> Game {
-    // 2025-06-16 is a Monday
-    make_game_on(2025, 6, 16)
+fn make_first_of_month_game() -> Game {
+    // 2025-06-01 is the 1st of June
+    make_game_on(2025, 6, 1)
 }
 
 // ---------------------------------------------------------------------------
-// process_weekly_finances — wage deductions
+// process_monthly_finances — wage deductions
 // ---------------------------------------------------------------------------
 
 #[test]
 fn calc_annual_wages_sums_player_and_staff_wages_for_a_team() {
-    let game = make_monday_game();
+    let game = make_first_of_month_game();
 
     let annual_wages = finances::calc_annual_wages(&game, "team1");
 
@@ -120,7 +120,7 @@ fn calc_annual_wages_sums_player_and_staff_wages_for_a_team() {
 
 #[test]
 fn calc_annual_wages_sums_full_contract_values_for_a_team() {
-    let game = make_monday_game();
+    let game = make_first_of_month_game();
 
     let annual_wages = finances::calc_annual_wages(&game, "team1");
 
@@ -128,7 +128,7 @@ fn calc_annual_wages_sums_full_contract_values_for_a_team() {
 }
 
 #[test]
-fn calc_cash_runway_weeks_uses_projected_weekly_net() {
+fn calc_cash_runway_weeks_uses_projected_monthly_net() {
     assert_eq!(finances::calc_cash_runway_weeks(180_000, -30_000), Some(6));
     assert_eq!(finances::calc_cash_runway_weeks(180_000, 5_000), None);
 }
@@ -142,7 +142,7 @@ fn calc_matchday_uses_explicit_attendance_and_ticket_inputs() {
 
 #[test]
 fn calc_upkeep_defaults_to_zero_for_now() {
-    let game = make_monday_game();
+    let game = make_first_of_month_game();
 
     let upkeep = finances::calc_upkeep(&game.teams[0]);
 
@@ -151,14 +151,14 @@ fn calc_upkeep_defaults_to_zero_for_now() {
 
 #[test]
 fn calc_upkeep_stays_zero_for_legacy_default_facilities() {
-    let game = make_monday_game();
+    let game = make_first_of_month_game();
 
     assert_eq!(finances::calc_upkeep(&game.teams[0]), 0);
 }
 
 #[test]
 fn calc_upkeep_scales_with_upgraded_facilities() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].facilities = Facilities {
         training: 3,
         medical: 2,
@@ -171,7 +171,7 @@ fn calc_upkeep_scales_with_upgraded_facilities() {
 
 #[test]
 fn calc_upkeep_uses_canonical_modular_hub_contract() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].facilities = Facilities {
         main_hub_level: 4,
         training: 3,
@@ -215,7 +215,7 @@ fn evaluate_sponsorship_bonus_sums_met_criteria_for_team_context() {
     let sponsorship = Sponsorship {
         sponsor_name: "Acme Corp".to_string(),
         base_value: 100_000,
-        remaining_weeks: 8,
+        remaining_months: 8,
         bonus_criteria: vec![
             SponsorshipBonusCriterion::LeaguePosition {
                 max_position: 2,
@@ -242,7 +242,7 @@ fn calc_sponsorship_income_applies_esports_or_pc_theme_bonus() {
     let sponsorship = Sponsorship {
         sponsor_name: "Nexus eSports".to_string(),
         base_value: 100_000,
-        remaining_weeks: 8,
+        remaining_months: 8,
         bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
             required_matches: 3,
             bonus_amount: 25_000,
@@ -263,7 +263,7 @@ fn calc_sponsorship_income_leaves_generic_brands_unmodified() {
     let sponsorship = Sponsorship {
         sponsor_name: "Acme Corp".to_string(),
         base_value: 100_000,
-        remaining_weeks: 8,
+        remaining_months: 8,
         bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
             required_matches: 3,
             bonus_amount: 25_000,
@@ -280,38 +280,38 @@ fn calc_sponsorship_income_leaves_generic_brands_unmodified() {
 }
 
 #[test]
-fn weekly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
-    let mut game = make_monday_game();
+fn monthly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
+    let mut game = make_first_of_month_game();
     let initial_finance = game.teams[0].finance;
     game.teams[0].form = vec!["W".to_string(), "D".to_string(), "W".to_string()];
     game.teams[0].sponsorship = Some(Sponsorship {
         sponsor_name: "Acme Corp".to_string(),
         base_value: 100_000,
-        remaining_weeks: 2,
+        remaining_months: 2,
         bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
             required_matches: 3,
             bonus_amount: 25_000,
         }],
     });
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    let wages = (52_000 + 26_000 + 10_400) / 52;
-    let expected_sponsor_income = 125_000;
+    let wages = (52_000 + 26_000 + 10_400) / 12;
+    let expected_sponsor_income = 2_404; // 125_000 annual / 12
     assert_eq!(
         game.teams[0].finance,
         initial_finance - wages + expected_sponsor_income
     );
     assert_eq!(game.teams[0].season_income, expected_sponsor_income);
     assert_eq!(
-        game.teams[0].sponsorship.as_ref().unwrap().remaining_weeks,
+        game.teams[0].sponsorship.as_ref().unwrap().remaining_months,
         1
     );
 }
 
 #[test]
-fn monthly_upkeep_is_deducted_on_first_monday_of_the_month() {
-    let mut game = make_game_on(2025, 6, 2);
+fn monthly_upkeep_is_deducted_on_first_of_month() {
+    let mut game = make_game_on(2025, 6, 1);
     game.teams[0].facilities = Facilities {
         main_hub_level: 4,
         training: 3,
@@ -321,82 +321,64 @@ fn monthly_upkeep_is_deducted_on_first_monday_of_the_month() {
     };
     let initial_finance = game.teams[0].finance;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    let wages = (52_000 + 26_000 + 10_400) / 52;
+    let wages = (52_000 + 26_000 + 10_400) / 12;
     let upkeep = 155_000;
     assert_eq!(game.teams[0].finance, initial_finance - wages - upkeep);
     assert_eq!(game.teams[0].season_expenses, wages + upkeep);
 }
 
 #[test]
-fn monthly_upkeep_is_skipped_on_mid_month_mondays() {
-    let mut game = make_monday_game();
-    game.teams[0].facilities = Facilities {
-        training: 3,
-        medical: 2,
-        scouting: 1,
-        ..Facilities::default()
-    };
-    let initial_finance = game.teams[0].finance;
-
-    finances::process_weekly_finances(&mut game);
-
-    let wages = (52_000 + 26_000 + 10_400) / 52;
-    assert_eq!(game.teams[0].finance, initial_finance - wages);
-    assert_eq!(game.teams[0].season_expenses, wages);
-}
-
-#[test]
-fn sponsorship_expires_after_the_final_weekly_tick() {
-    let mut game = make_monday_game();
+fn sponsorship_expires_after_the_final_monthly_tick() {
+    let mut game = make_first_of_month_game();
     game.teams[0].sponsorship = Some(Sponsorship {
         sponsor_name: "Acme Corp".to_string(),
         base_value: 100_000,
-        remaining_weeks: 1,
+        remaining_months: 1,
         bonus_criteria: vec![],
     });
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     assert!(game.teams[0].sponsorship.is_none());
 }
 
 #[test]
-fn wages_deducted_on_monday() {
-    let mut game = make_monday_game();
+fn wages_deducted_on_first_of_month() {
+    let mut game = make_first_of_month_game();
     let initial_finance = game.teams[0].finance;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    // Weekly wages: (52000+26000+10400)/52 = 1700
-    let expected_deduction = (52_000 + 26_000 + 10_400) / 52;
+    // Monthly wages: (52000+26000+10400)/52 = 1700
+    let expected_deduction = (52_000 + 26_000 + 10_400) / 12;
     assert_eq!(
         game.teams[0].finance,
         initial_finance - expected_deduction,
-        "Finance should be reduced by weekly wages"
+        "Finance should be reduced by monthly wages"
     );
 }
 
 #[test]
 fn season_expenses_tracked() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     assert_eq!(game.teams[0].season_expenses, 0);
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    let expected = (52_000 + 26_000 + 10_400) / 52;
+    let expected = (52_000 + 26_000 + 10_400) / 12;
     assert_eq!(game.teams[0].season_expenses, expected);
 }
 
 #[test]
-fn no_processing_on_non_monday() {
-    let mut game = make_monday_game();
+fn no_processing_on_non_first_of_month() {
+    let mut game = make_first_of_month_game();
     // Change to Tuesday
     game.clock.current_date = Utc.with_ymd_and_hms(2025, 6, 17, 12, 0, 0).unwrap();
     let initial_finance = game.teams[0].finance;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     assert_eq!(
         game.teams[0].finance, initial_finance,
@@ -410,10 +392,10 @@ fn no_processing_on_non_monday() {
 
 #[test]
 fn no_warning_when_finances_healthy() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].finance = 5_000_000;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let finance_msgs: Vec<_> = game
         .messages
@@ -428,10 +410,10 @@ fn no_warning_when_finances_healthy() {
 
 #[test]
 fn critical_warning_when_in_debt() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].finance = -100_000;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let critical_msgs: Vec<_> = game
         .messages
@@ -452,33 +434,33 @@ fn critical_warning_when_in_debt() {
 
 #[test]
 fn warning_when_low_runway() {
-    let mut game = make_monday_game();
-    // Set finance to ~2 weeks of wages (weekly wages ~1700, so ~3400)
+    let mut game = make_first_of_month_game();
+    // Set finance to ~2 weeks of wages (monthly wages ~1700, so ~3400)
     game.teams[0].finance = 3400;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let warning_msgs: Vec<_> = game
         .messages
         .iter()
         .filter(|m| m.id.starts_with("finance_warning_"))
         .collect();
-    // After deducting wages (1700), finance=1700, weeks_left=1700/1700=1 → < 4
+    // After deducting wages (1700), finance=1700, months_left=1700/1700=1 → < 4
     assert_eq!(warning_msgs.len(), 1, "Should send low reserves warning");
 }
 
 #[test]
 fn sponsorship_income_prevents_false_low_runway_warning() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].finance = 3_400;
     game.teams[0].sponsorship = Some(Sponsorship {
         sponsor_name: "PixelForge PCs".to_string(),
-        base_value: 1_600,
-        remaining_weeks: 8,
+        base_value: 83_200, // equivalent to 1_600/week annualized
+        remaining_months: 8,
         bonus_criteria: vec![],
     });
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let warning_msgs: Vec<_> = game
         .messages
@@ -493,12 +475,12 @@ fn sponsorship_income_prevents_false_low_runway_warning() {
 
 #[test]
 fn wage_over_budget_warning() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].finance = 5_000_000; // healthy
     game.teams[0].wage_budget = 50_000; // very low budget
 
     // Annual wages = (52000+26000+10400) = 88400 > 50000 budget
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let budget_msgs: Vec<_> = game
         .messages
@@ -514,12 +496,12 @@ fn wage_over_budget_warning() {
 
 #[test]
 fn financial_warnings_not_duplicated() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.teams[0].finance = -100_000;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
     // Process again on same day (shouldn't add duplicate)
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let critical_msgs: Vec<_> = game
         .messages
@@ -537,11 +519,11 @@ fn financial_warnings_not_duplicated() {
 
 #[test]
 fn no_warning_without_manager_team() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     game.manager.team_id = None;
     game.teams[0].finance = -100_000;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     let finance_msgs: Vec<_> = game
         .messages
@@ -557,7 +539,7 @@ fn no_warning_without_manager_team() {
 
 #[test]
 fn home_match_generates_income() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     let initial_finance = game.teams[0].finance;
 
     // Add a completed home fixture within the last 7 days
@@ -569,7 +551,7 @@ fn home_match_generates_income() {
         fixtures: vec![Fixture {
             id: "f1".to_string(),
             matchday: 1,
-            date: "2025-06-14".to_string(), // Saturday, within 7 days of Monday 2025-06-16
+            date: "2025-06-14".to_string(), // Saturday, within ~28 days of Monday 2025-06-16
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
             match_type: MatchType::League,
@@ -587,10 +569,10 @@ fn home_match_generates_income() {
     };
     game.leagues = vec![league];
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
     // After wage deduction AND matchday income
-    let wages = (52_000 + 26_000 + 10_400) / 52;
+    let wages = (52_000 + 26_000 + 10_400) / 12;
     // Income should make final finance > initial - wages
     // (stadium capacity 40000, attendance 60-92%, ticket €15-25)
     // Min income: 40000 * 0.60 * 15 = 360,000
@@ -606,7 +588,7 @@ fn home_match_generates_income() {
 
 #[test]
 fn away_match_no_income() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
 
     // Add a completed away fixture (team1 is away)
     let league = League {
@@ -636,9 +618,9 @@ fn away_match_no_income() {
     game.leagues = vec![league];
 
     let initial_finance = game.teams[0].finance;
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    let wages = (52_000 + 26_000 + 10_400) / 52;
+    let wages = (52_000 + 26_000 + 10_400) / 12;
     assert_eq!(
         game.teams[0].finance,
         initial_finance - wages,
@@ -652,7 +634,7 @@ fn away_match_no_income() {
 
 #[test]
 fn multiple_teams_processed_independently() {
-    let mut game = make_monday_game();
+    let mut game = make_first_of_month_game();
     let mut team2 = make_team("team2", "Rival FC");
     team2.finance = 3_000_000;
     game.teams.push(team2);
@@ -663,10 +645,10 @@ fn multiple_teams_processed_independently() {
     let initial_t1 = game.teams[0].finance;
     let initial_t2 = game.teams[1].finance;
 
-    finances::process_weekly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
 
-    let t1_wages = (52_000 + 26_000 + 10_400) / 52; // 1700
-    let t2_wages = 104_000 / 52; // 2000
+    let t1_wages = (52_000 + 26_000 + 10_400) / 12; // 1700
+    let t2_wages = 104_000 / 12; // 2000
     assert_eq!(game.teams[0].finance, initial_t1 - t1_wages);
     assert_eq!(game.teams[1].finance, initial_t2 - t2_wages);
 }

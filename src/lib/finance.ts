@@ -8,7 +8,7 @@ export interface TeamFinanceSnapshot {
   annualSponsorIncome: number;
   weeklyWageBudget: number;
   projectedAnnualNet: number;
-  cashRunwayWeeks: number | null;
+  cashRunwayMonths: number | null;
   wageBudgetUsagePercent: number;
   wageBudgetStatus: FinanceHealthLevel;
   runwayStatus: FinanceHealthLevel;
@@ -30,14 +30,14 @@ export function getAnnualWageBill(
     return sum + Math.max(0, person.wage);
   }, 0);
 }
-export function annualAmountToWeeklyCommitment(amount: number): number {
-  return Math.floor(Math.max(0, amount) / 52);
+export function annualAmountToMonthlyCommitment(amount: number): number {
+  return Math.floor(Math.max(0, amount) / 12);
 }
-export function getCashRunwayWeeks(
+export function getCashRunwayMonths(
   balance: number,
   projectedAnnualNet: number,
 ): number | null {
-  const projectedWeeklyNet = projectedAnnualNet / 52;
+  const projectedMonthlyNet = projectedAnnualNet / 12;
   if (projectedWeeklyNet >= 0) {
     return null;
   }
@@ -63,25 +63,25 @@ function getWageBudgetStatus(usagePercent: number): FinanceHealthLevel {
 
 function getRunwayStatus(
   balance: number,
-  runwayWeeks: number | null,
+  runwayMonths: number | null,
 ): FinanceHealthLevel {
   if (balance < 0) {
     return "critical";
   }
 
-  if (runwayWeeks === null) {
+  if (runwayMonths === null) {
     return "stable";
   }
 
-  if (runwayWeeks <= 4) {
+  if (runwayMonths <= 4) {
     return "critical";
   }
 
-  if (runwayWeeks <= 8) {
+  if (runwayMonths <= 8) {
     return "warning";
   }
 
-  if (runwayWeeks <= 12) {
+  if (runwayMonths <= 12) {
     return "watch";
   }
 
@@ -102,21 +102,21 @@ export function getTeamFinanceSnapshot(
 ): TeamFinanceSnapshot {
   const annualWageBill = getAnnualWageBill(players, staff);
   const annualWageBudget = team.wage_budget;
-  const annualSponsorIncome = (team.sponsorship?.base_value ?? 0) * 52;
+  const annualSponsorIncome = team.sponsorship?.base_value ?? 0;
   const projectedAnnualNet = annualSponsorIncome - annualWageBill;
-  const cashRunwayWeeks = getCashRunwayWeeks(team.finance, projectedAnnualNet);
+  const cashRunwayMonths = getcashRunwayMonths(team.finance, projectedAnnualNet);
   const wageBudgetUsagePercent = Math.round(
     (annualWageBill / Math.max(1, team.wage_budget)) * 100,
   );
   const wageBudgetStatus = getWageBudgetStatus(wageBudgetUsagePercent);
-  const runwayStatus = getRunwayStatus(team.finance, cashRunwayWeeks);
+  const runwayStatus = getRunwayStatus(team.finance, cashRunwayMonths);
 
   return {
     annualWageBill,
     annualWageBudget,
     annualSponsorIncome,
     projectedAnnualNet,
-    cashRunwayWeeks,
+    cashRunwayMonths,
     wageBudgetUsagePercent,
     wageBudgetStatus,
     runwayStatus,

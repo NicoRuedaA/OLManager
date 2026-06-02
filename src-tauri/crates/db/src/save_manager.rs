@@ -1176,7 +1176,7 @@ mod tests {
         game.teams[0].sponsorship = Some(Sponsorship {
             sponsor_name: "PixelForge PCs".to_string(),
             base_value: 140_000,
-            remaining_weeks: 9,
+            remaining_months: 9,
             bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
                 required_matches: 4,
                 bonus_amount: 25_000,
@@ -1200,7 +1200,7 @@ mod tests {
         let sponsorship = team.sponsorship.as_ref().expect("sponsorship should load");
         assert_eq!(sponsorship.sponsor_name, "PixelForge PCs");
         assert_eq!(sponsorship.base_value, 140_000);
-        assert_eq!(sponsorship.remaining_weeks, 9);
+        assert_eq!(sponsorship.remaining_months, 9);
 
         let template = sm.new_game_from_save(&save_id).unwrap();
         let template_team = &template.teams[0];

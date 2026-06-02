@@ -327,7 +327,7 @@ describe("dashboardHelpers", function (): void {
       sponsorship: {
         sponsor_name: "HyperX eSports",
         base_value: 100000,
-        remaining_weeks: 8,
+        remaining_months: 8,
         bonus_criteria: [],
       },
     });

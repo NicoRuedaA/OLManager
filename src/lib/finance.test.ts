@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { PlayerData, StaffData, TeamData } from "../store/gameStore";
 import {
   getAnnualWageBill,
-  getCashRunwayWeeks,
+  getcashRunwayMonths,
   getTeamFinanceSnapshot,
 } from "./finance";
 
@@ -131,8 +131,8 @@ describe("finance helpers", () => {
   });
 
   it("computes runway from projected annual net", () => {
-    expect(getCashRunwayWeeks(200000, -30000 * 52)).toBe(6);
-    expect(getCashRunwayWeeks(200000, 5000 * 52)).toBeNull();
+    expect(getcashRunwayMonths(200000, -30000 * 52)).toBe(6);
+    expect(getcashRunwayMonths(200000, 5000 * 52)).toBeNull();
   });
 
   it("builds a finance snapshot with the worst status carried forward", () => {
@@ -151,7 +151,7 @@ describe("finance helpers", () => {
     expect(snapshot.annualWageBudget).toBe(500000);
     expect(snapshot.annualSponsorIncome).toBe(0);
     expect(snapshot.projectedAnnualNet).toBe(-600000);
-    expect(snapshot.cashRunwayWeeks).toBe(2);
+    expect(snapshot.cashRunwayMonths).toBe(2);
     expect(snapshot.wageBudgetUsagePercent).toBe(120);
     expect(snapshot.wageBudgetStatus).toBe("critical");
     expect(snapshot.runwayStatus).toBe("critical");

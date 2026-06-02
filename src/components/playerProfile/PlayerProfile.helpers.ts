@@ -1,6 +1,6 @@
 import type { TeamData } from "../../store/gameStore";
 import type { TOptions } from "i18next";
-import { annualAmountToWeeklyCommitment } from "../../lib/finance";
+import { annualAmountToMonthlyCommitment } from "../../lib/finance";
 import { calcAge, formatWeeklyAmount } from "../../lib/helpers";
 
 export function getPlayerTeamName(

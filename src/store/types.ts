@@ -19,7 +19,7 @@ export interface FacilitiesData {
 export interface SponsorshipData {
   sponsor_name: string;
   base_value: number;
-  remaining_weeks: number;
+  remaining_months: number;
   bonus_criteria: unknown[];
 }
 

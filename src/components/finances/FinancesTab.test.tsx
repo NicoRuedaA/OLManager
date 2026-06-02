@@ -27,8 +27,8 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.esportsSponsor") return "Esports sponsor";
       if (key === "finances.sponsorWeeklyValue")
         return `Weekly value: €${params?.amount}`;
-      if (key === "finances.sponsorRemainingWeeks")
-        return `${params?.count} weeks remaining`;
+      if (key === "finances.sponsorRemainingMonths")
+        return `${params?.count} months remaining`;
       if (key === "finances.pendingSponsorOffers") return "Pending Offers";
       if (key === "finances.noPendingSponsorOffers")
         return "No pending sponsor offers";
@@ -38,7 +38,7 @@ vi.mock("react-i18next", () => ({
         return "Annual Sponsor Income";
       if (key === "finances.projectedAnnualNet") return "Projected Annual Net";
       if (key === "finances.cashRunway") return "Cash Runway";
-      if (key === "finances.runwayWeeks")
+      if (key === "finances.runwayMonths")
         return `${params?.count} weeks at current pace`;
       if (key === "finances.runwayStable") return "Stable at current pace";
       if (key === "finances.wagePressure") return "Wage Pressure";
@@ -373,7 +373,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "Acme eSports",
           base_value: 125000,
-          remaining_weeks: 8,
+          remaining_months: 8,
           bonus_criteria: [],
         },
       },
@@ -385,7 +385,7 @@ describe("FinancesTab facilities", () => {
     expect(screen.getByText("Sponsors")).toBeInTheDocument();
     expect(screen.getByText("Active Sponsor")).toBeInTheDocument();
     expect(screen.getByText("Acme eSports")).toBeInTheDocument();
-    expect(screen.getByText("Weekly value: €125000")).toBeInTheDocument();
+    expect(screen.getByText("Weekly value: €2404")).toBeInTheDocument();
     expect(screen.getByText("8 weeks remaining")).toBeInTheDocument();
     expect(screen.getByText("Esports sponsor")).toBeInTheDocument();
     expect(screen.getByText("Pending Offers")).toBeInTheDocument();
@@ -410,7 +410,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "GreenTech Industries",
           base_value: 100000,
-          remaining_weeks: 12,
+          remaining_months: 12,
           bonus_criteria: [],
         },
       },
@@ -447,7 +447,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "Acme Corp",
           base_value: 10000,
-          remaining_weeks: 8,
+          remaining_months: 8,
           bonus_criteria: [],
         },
       },
@@ -462,7 +462,7 @@ describe("FinancesTab facilities", () => {
     expect(screen.getByText("Annual Sponsor Income")).toBeInTheDocument();
     expect(screen.getByText("Projected Annual Net")).toBeInTheDocument();
     expect(screen.getByText("Cash Runway")).toBeInTheDocument();
-    expect(screen.getByText("9 weeks at current pace")).toBeInTheDocument();
+    expect(screen.getByText("7 weeks at current pace")).toBeInTheDocument();
   });
 
   it("shows monthly upkeep on the installation cards", () => {

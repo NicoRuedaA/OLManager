@@ -57,7 +57,7 @@ pub fn apply_event_response(
                     team.sponsorship = Some(Sponsorship {
                         sponsor_name,
                         base_value: amount as i64,
-                        remaining_weeks: 12,
+                        remaining_months: 3,
                         bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
                             required_matches: 3,
                             bonus_amount: amount as i64 / 4,
@@ -71,7 +71,7 @@ pub fn apply_event_response(
                     }
                 }
                 Some(format!(
-                    "Sponsorship deal signed! You will receive €{}/week for 12 weeks.",
+                    "Sponsorship deal signed! You will receive a total of €{} over 3 months (paid monthly).",
                     format_money(amount)
                 ))
             }

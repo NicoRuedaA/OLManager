@@ -29,7 +29,7 @@ export interface InstallationContractView {
 export interface SponsorshipContractView {
   sponsorName: string;
   baseValue: number;
-  remainingWeeks: number;
+  remainingMonths: number;
   bonusCount: number;
   theme: "standard" | "esports";
   themeLabel: string;
@@ -186,7 +186,7 @@ export function getSponsorshipContractView(
   return {
     sponsorName: sponsorship.sponsor_name,
     baseValue: sponsorship.base_value,
-    remainingWeeks: sponsorship.remaining_weeks,
+    remainingMonths: sponsorship.remaining_months,
     bonusCount: sponsorship.bonus_criteria.length,
     theme: getSponsorTheme(sponsorship.sponsor_name),
     themeLabel:
