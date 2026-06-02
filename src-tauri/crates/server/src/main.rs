@@ -97,6 +97,8 @@ async fn main() {
 
     let state = AppState { store, verifier };
 
+    import::run_startup_import().await;
+
     let app = Router::new()
         .route("/health", get(health))
         .route("/api/me", get(me))

@@ -590,8 +590,8 @@ function ImportDataSection() {
   return (
     <div className="flex flex-col gap-3">
       <SettingRow
-        label="Importar export (.zip)"
-        description="Sube el .zip de OLMDBManager para reemplazar equipos, jugadores y fotos. Afecta a las partidas nuevas."
+        label="Import manual de respaldo (.zip)"
+        description="El servidor web sincroniza OLMDBManager al arrancar. Usa este zip solo si necesitas forzar una importación puntual."
       >
         <div className="flex items-center gap-2">
           <label className="cursor-pointer rounded-lg border border-gray-200 dark:border-navy-600 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-navy-700 transition-colors">
