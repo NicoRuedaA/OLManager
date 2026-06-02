@@ -120,7 +120,7 @@ export default function TransfersTab({
   const renderSortIcon = (key: TransferSortKey) => {
     if (!sort || sort.key !== key) {
       return (
-        <ArrowUpDown className="w-3 h-3 text-gray-400 dark:text-gray-500 opacity-60 group-hover/sort:opacity-100 transition-opacity" />
+        <ArrowUpDown className="w-3 h-3 text-gray-400 dark:text-gray-500 opacity-60" />
       );
     }
     return sort.direction === "desc" ? (
@@ -743,7 +743,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("position")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByPosition", "Ordenar por posición")}
                       >
                         {t("common.position")}
@@ -754,7 +754,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("name")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByName", "Ordenar por nombre")}
                       >
                         {t("common.player")}
@@ -765,7 +765,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("age")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByAge", "Ordenar por edad")}
                       >
                         {t("common.age")}
@@ -776,7 +776,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("team")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByTeam", "Ordenar por equipo")}
                       >
                         {t("common.team")}
@@ -787,7 +787,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("value")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByValue", "Ordenar por valor")}
                       >
                         {t("common.value")}
@@ -798,7 +798,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("wage")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByWage", "Ordenar por salario")}
                       >
                         {t("common.wage")}
@@ -809,7 +809,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("ovr")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByOvr", "Ordenar por OVR")}
                       >
                         {t("common.ovr")}
@@ -820,7 +820,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("status")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByStatus", "Ordenar por estado")}
                       >
                         {t("common.status")}
@@ -849,7 +849,7 @@ export default function TransfersTab({
                     return (
                       <tr
                         key={player.id}
-                        className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
+                        className="cursor-pointer"
                         onClick={() => onSelectPlayer(player.id)}
                       >
                         <td className="py-2.5 px-4">
@@ -868,7 +868,7 @@ export default function TransfersTab({
                           <RoleBadge role={lolRole} size="sm" />
                         </td>
                         <td className="py-2.5 px-4">
-                          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200">
                             {player.match_name || player.full_name}
                           </span>
                           <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">

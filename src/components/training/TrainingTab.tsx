@@ -376,7 +376,12 @@ export default function TrainingTab({
             <div className="space-y-2">
               {roster
                 .slice()
-                .sort((a, b) => a.match_name.localeCompare(b.match_name))
+                .sort((a, b) => {
+                  const ROLE_SORT_ORDER: Record<string, number> = { TOP: 0, JUNGLE: 1, MID: 2, ADC: 3, SUPPORT: 4 };
+                  const roleA = resolvePlayerCurrentLolRole(a, myTeam);
+                  const roleB = resolvePlayerCurrentLolRole(b, myTeam);
+                  return (ROLE_SORT_ORDER[roleA] ?? 99) - (ROLE_SORT_ORDER[roleB] ?? 99);
+                })
                 .map((player) => {
                   const playerFocus = normalizeTrainingFocus(player.training_focus ?? currentFocus);
                   const soloQ = computeSoloQ(

@@ -8,7 +8,7 @@
   "logo": "/competition-icons/lcs.webp",
   "teams_file": "teams/lcs_teams.json",
   "players_file": "players/lcs_players.json",
-  "staff_file": null,
+  "staff_file": "staffs/lcs_staffs.json",
   "schedule": {
     "format": "double_round_robin",
     "team_count": 8,

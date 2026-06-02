@@ -172,7 +172,6 @@
   }
   .bg-navy-noise > * {
     position: relative;
-    z-index: 1;
   }
 
   .bg-navy-mesh {

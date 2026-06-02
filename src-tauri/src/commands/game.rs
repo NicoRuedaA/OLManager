@@ -1944,10 +1944,11 @@ fn assemble_world_from_modular_data(
             .unwrap_or_else(|| PathBuf::from("data"))
     });
 
-    // 1. Scan ALL competitions and load every team + player
+    // 1. Scan ALL competitions and load every team + player + staff
     let manifests = crate::commands::competitions::scan_competitions(app_handle);
     let mut all_teams: Vec<Team> = Vec::new();
     let mut all_players: Vec<Player> = Vec::new();
+    let mut staff = crate::commands::competitions::load_staff_free_agents(app_handle)?;
 
     for manifest in &manifests {
         let cid = &manifest.id;
@@ -1982,12 +1983,29 @@ fn assemble_world_from_modular_data(
         }
         let loaded = all_players.len() - player_count_before;
         info!("[game] loaded {} players for '{}'", loaded, cid);
+
+        // Load competition staff
+        let staff_count_before = staff.len();
+        match crate::commands::competitions::load_competition_staff(app_handle, manifest) {
+            Ok(comp_staff) => {
+                for mut s in comp_staff {
+                    if let Some(ref tid) = s.team_id.clone() {
+                        if !tid.starts_with(&prefix) {
+                            s.team_id = Some(format!("{}-{}", cid, tid));
+                        }
+                    }
+                    staff.push(s);
+                }
+            }
+            Err(err) => {
+                info!("[game] FAILED to load staff for '{}': {}", cid, err);
+            }
+        }
+        let loaded_staff = staff.len() - staff_count_before;
+        info!("[game] loaded {} staff for '{}'", loaded_staff, cid);
     }
 
-    // 2. Load staff free agents
-    let mut staff = crate::commands::competitions::load_staff_free_agents(app_handle)?;
-
-    // 3. Bootstrap academy seeds from ERL catalog (JSON or legacy .txt fallback)
+    // 2. Bootstrap academy seeds from ERL catalog (JSON or legacy .txt fallback)
     let academy_bootstrap_date = "2025-01-01".to_string();
     let pre_count = all_teams.len();
     bootstrap_example_academy_pool_from_example(&mut all_teams, &mut all_players, &academy_bootstrap_date);
@@ -2003,10 +2021,27 @@ fn assemble_world_from_modular_data(
     // 5. Apply default contract ends
     apply_default_initial_contract_end(&mut all_players);
 
+    // DEBUG: count staff by team_id
+    {
+        use std::collections::HashMap;
+        let mut by_team: HashMap<&str, usize> = HashMap::new();
+        for s in &staff {
+            match s.team_id.as_deref() {
+                None => { *by_team.entry("(free agent)").or_insert(0) += 1; }
+                Some(tid) => { *by_team.entry(tid).or_insert(0) += 1; }
+            }
+        }
+        info!("[game] STAFF BREAKDOWN:");
+        for (tid, count) in &by_team {
+            info!("[game]   {}: {}", tid, count);
+        }
+    }
+
     info!(
-        "[game] assemble_world_from_modular_data: {} teams, {} players",
+        "[game] assemble_world_from_modular_data: {} teams, {} players, {} staff",
         all_teams.len(),
-        all_players.len()
+        all_players.len(),
+        staff.len()
     );
 
     Ok((all_teams, all_players, staff))
@@ -2027,6 +2062,7 @@ pub async fn select_team(
         .ok_or("No active game session".to_string())?;
 
     // Detect flow: if game has no teams, this is Flow C (modular assembly)
+    eprintln!("[select_team] teams.is_empty={}, staff.len={}", game.teams.is_empty(), game.staff.len());
     if game.teams.is_empty() {
         info!("[cmd] select_team: empty game state — assembling from modular data");
 
@@ -2041,6 +2077,7 @@ pub async fn select_team(
         game.teams = assembled_teams;
         game.players = assembled_players;
         game.staff = assembled_staff;
+        eprintln!("[select_team] AFTER assembly: staff.len={}", game.staff.len());
     }
 
     // Validate team exists
@@ -2212,6 +2249,7 @@ pub async fn select_team(
     let save_id = sm.create_save(&game, &save_name)?;
     state.set_save_id(save_id);
 
+    eprintln!("[select_team] BEFORE return: staff.len={}", game.staff.len());
     state.set_game(game.clone());
     state.set_stats_state(StatsState::default());
     Ok(game)

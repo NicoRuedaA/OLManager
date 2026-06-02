@@ -20,7 +20,7 @@ import { renderSimulation } from "./lol-prototype/ui/render";
 import { LecLowerThirdPanel } from "./lol-prototype/ui/panels";
 import { useSettingsStore } from "../../store/settingsStore";
 import type { GameStateData } from "../../store/gameStore";
-import teamsSeed from "../../../data/draft/teams.json";
+
 
 export interface ChampionSelectionByPlayer {
   home: Record<string, string>;
@@ -53,15 +53,6 @@ const ICON_GOLD = "/lol-map-icons/gold.webp";
 const ICON_VOIDGRUB = "/lol-map-icons/grub.webp";
 const ICON_LEC = "/lec-logo.svg";
 const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.webp";
-
-interface TeamSeed {
-  id: string;
-  name: string;
-  shortName?: string;
-  logo?: string;
-}
-
-const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
   g2esports: { tricode: "G2", logo: "/teams-icons/g2-esports.webp" },
@@ -123,20 +114,11 @@ function teamBrand(name: string, teams?: import("../../store/types").TeamData[])
 
   if (teams) {
     const fromTeams = teams.find((t) => normalizeKey(t.name) === normalized);
-    if (fromTeams?.logo_url) return { tag: teamTag(name), logo: fromTeams.logo_url };
+    if (fromTeams) return { tag: fromTeams.short_name, logo: fromTeams.logo_url ?? null };
   }
 
   const known = TEAM_BRAND_MAP[normalized];
   if (known) return { tag: known.tricode, logo: known.logo };
-
-  const fromSeed = TEAM_SEEDS.find((team) => normalizeKey(team.name) === normalized);
-  if (fromSeed) {
-    const logoFileName = fromSeed.logo?.split("/").pop();
-    return {
-      tag: (fromSeed.shortName || teamTag(name)).toUpperCase(),
-      logo: logoFileName ? `/teams-icons/${logoFileName.toLowerCase()}` : null,
-    };
-  }
 
   return { tag: teamTag(name), logo: null };
 }

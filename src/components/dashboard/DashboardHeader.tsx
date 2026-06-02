@@ -50,7 +50,9 @@ interface DashboardHeaderProps {
   onSelectSearchTeam: (teamId: string) => void;
   onSelectSearchChampion: (championKey: string) => void;
   onSkipToMatchDay: () => void;
+  onSkipToNextDay: () => void;
   onToggleContinueMenu: () => void;
+  dayPhase?: string;
   saveFlash: boolean;
   searchOpen: boolean;
   searchQuery: string;
@@ -316,6 +318,7 @@ export default function DashboardHeader({
   onSelectSearchTeam,
   onSelectSearchChampion,
   onSkipToMatchDay,
+  onSkipToNextDay,
   onToggleContinueMenu,
   saveFlash,
   searchOpen,
@@ -323,6 +326,7 @@ export default function DashboardHeader({
   seasonComplete,
   showContinueMenu,
   teams,
+  dayPhase,
 }: DashboardHeaderProps): JSX.Element {
   const { t } = useTranslation();
   const currentModeMeta = modeMeta[matchMode];
@@ -361,8 +365,18 @@ export default function DashboardHeader({
     onSkipToMatchDay();
   }
 
+  function handleSkipToNextDayClick(): void {
+    console.info("[DashboardHeader] skipToNextDayClick", {
+      isAdvancing,
+      matchMode,
+      seasonComplete,
+      showContinueMenu,
+    });
+    onSkipToNextDay();
+  }
+
   return (
-    <header className="z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm transition-colors duration-300 dark:border-navy-700 dark:bg-navy-800">
+    <header className="relative z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shadow-sm transition-colors duration-300 dark:border-navy-700 dark:bg-navy-800">
       <div className="flex items-center gap-3">
         {hasProfileHistory && (
           <button
@@ -380,6 +394,11 @@ export default function DashboardHeader({
           <p className="mt-0.5 flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
             <CalendarIcon className="h-3.5 w-3.5" />
             <span className="font-medium">{currentDate}</span>
+            {dayPhase && (
+              <span className="inline-flex items-center gap-1 rounded-md bg-primary-500/10 px-1.5 py-0.5 text-2xs font-heading font-bold uppercase tracking-wider text-primary-500 dark:text-primary-400">
+                {dayPhase}
+              </span>
+            )}
           </p>
         </div>
       </div>
@@ -463,7 +482,7 @@ export default function DashboardHeader({
             </div>
 
             {showContinueMenu && (
-              <div className="absolute right-0 top-full z-50 mt-1 w-64 rounded-lg border border-gray-200 bg-white py-1 shadow-xl dark:border-navy-600 dark:bg-navy-700">
+              <div className="absolute right-0 top-full z-[9999] mt-1 w-64 rounded-lg border border-gray-200 bg-white py-1 shadow-xl dark:border-navy-600 dark:bg-navy-700">
                 {(["live", "spectator"] as const).map((mode) => {
                   const isActive = matchMode === mode;
                   const optionMeta = modeMeta[mode];
@@ -503,6 +522,17 @@ export default function DashboardHeader({
                   </span>
                   <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
                     {t("continueMenu.skipToMatchDayDesc")}
+                  </p>
+                </button>
+                <button
+                  onClick={handleSkipToNextDayClick}
+                  className="w-full px-4 py-2.5 text-left text-sm transition-colors hover:bg-gray-50 dark:hover:bg-navy-600"
+                >
+                  <span className="text-xs font-heading font-bold uppercase tracking-wide text-gray-800 dark:text-gray-100">
+                    {t("continueMenu.skipToNextDay", "Saltar al Siguiente Día")}
+                  </span>
+                  <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+                    {t("continueMenu.skipToNextDayDesc", "Avanzar hasta el próximo día")}
                   </p>
                 </button>
               </div>

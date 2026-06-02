@@ -359,7 +359,7 @@ export default function PlayersListTab({
                       <tr
                         key={player.id}
                         onClick={() => onSelectPlayer(player.id)}
-                        className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
+                        className="cursor-pointer"
                       >
                         <td className="py-2.5 px-4">
                           <img
@@ -389,7 +389,7 @@ export default function PlayersListTab({
                         </td>
                         <td className="py-2.5 px-4">
                           <div className="min-w-0">
-                            <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
+                            <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 truncate">
                               {player.match_name}
                             </p>
                             <p className="text-xs text-gray-500 dark:text-gray-400 truncate">

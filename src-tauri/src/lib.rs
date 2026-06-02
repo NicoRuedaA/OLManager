@@ -13,6 +13,7 @@ pub struct SaveManagerState(pub Mutex<SaveManager>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    eprintln!("[OLManager] BUILD: staff-fix-v2");
     // Workaround for WebKitGTK DMABuf rendering issues on Wayland (Linux)
     #[cfg(target_os = "linux")]
     {

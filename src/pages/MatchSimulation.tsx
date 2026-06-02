@@ -1875,6 +1875,7 @@ export default function MatchSimulation() {
               opponentSeriesWins={opponentSeriesWins}
               onPressConference={canOpenPressConference ? handlePressConference : undefined}
               onContinue={handleDraftResultContinue}
+              teams={gameState.teams}
             />
           );
         }
