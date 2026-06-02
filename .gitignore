@@ -72,5 +72,3 @@ Thumbs.db
 # =========================
 openspec/
 
-# Generated player photos
-public/player-photos/*.webp
