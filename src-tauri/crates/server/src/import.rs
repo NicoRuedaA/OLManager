@@ -387,6 +387,11 @@ pub fn current_catalog_summary() -> ImportSummary {
 
 /// Run startup import if configured. Missing OLM_IMPORT_SOURCE is a no-op.
 pub async fn run_startup_import() {
+    if !env_truthy("OLM_AUTO_IMPORT") {
+        tracing::debug!("startup data import skipped: OLM_AUTO_IMPORT disabled");
+        return;
+    }
+
     let Ok(source) = std::env::var("OLM_IMPORT_SOURCE") else {
         tracing::debug!("startup data import skipped: OLM_IMPORT_SOURCE not set");
         return;
