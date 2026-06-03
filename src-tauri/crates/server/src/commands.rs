@@ -134,6 +134,8 @@ pub fn dispatch(
             ok(json!(data), false)
         }
         "get_player_match_history" | "get_team_match_history" => ok(json!([]), false),
+        "get_player_stats_overview" => ok(json!(empty_player_stats_overview()), false),
+        "get_team_stats_overview" => ok(json!(empty_team_stats_overview()), false),
         _ => Err(CommandError::not_found(format!(
             "unsupported command: {command}"
         ))),
@@ -142,6 +144,52 @@ pub fn dispatch(
 
 fn ok(value: Value, persist: bool) -> Result<CommandResult, CommandError> {
     Ok(CommandResult { value, persist })
+}
+
+fn empty_metric(include_percentile: bool) -> Value {
+    if include_percentile {
+        json!({
+            "total": 0,
+            "perMatch": null,
+            "percentile": null,
+        })
+    } else {
+        json!({
+            "total": 0,
+            "perMatch": null,
+        })
+    }
+}
+
+fn empty_player_stats_overview() -> Value {
+    json!({
+        "percentileEligible": false,
+        "matchesPlayed": 0,
+        "metrics": {
+            "kills": empty_metric(true),
+            "deaths": empty_metric(true),
+            "assists": empty_metric(true),
+            "creepScore": empty_metric(true),
+            "visionScore": empty_metric(true),
+            "wardsPlaced": empty_metric(true),
+        },
+    })
+}
+
+fn empty_team_stats_overview() -> Value {
+    json!({
+        "matchesPlayed": 0,
+        "wins": 0,
+        "losses": 0,
+        "metrics": {
+            "kills": empty_metric(false),
+            "deaths": empty_metric(false),
+            "goldEarned": empty_metric(false),
+            "damageToChampions": empty_metric(false),
+            "objectives": empty_metric(false),
+            "averageGameDurationSeconds": empty_metric(false),
+        },
+    })
 }
 
 fn get_arg<'a>(args: &'a Value, names: &[&str]) -> Result<&'a Value, CommandError> {
