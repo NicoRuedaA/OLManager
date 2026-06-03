@@ -144,6 +144,45 @@ pub fn dispatch(
         "get_player_match_history" | "get_team_match_history" => ok(json!([]), false),
         "get_player_stats_overview" => ok(json!(empty_player_stats_overview()), false),
         "get_team_stats_overview" => ok(json!(empty_team_stats_overview()), false),
+        "get_champions" => ok(json!(champions_catalog()), false),
+        "mark_message_read" => {
+            let message_id = string_arg(&args, &["messageId", "message_id"])?;
+            if let Some(message) = game.messages.iter_mut().find(|m| m.id == message_id) {
+                message.read = true;
+            }
+            ok(json!(game), true)
+        }
+        "mark_all_messages_read" => {
+            for message in game.messages.iter_mut() {
+                message.read = true;
+            }
+            ok(json!(game), true)
+        }
+        "relocalize_social_feed" => {
+            let language =
+                optional_string_arg(&args, &["language", "locale"]).unwrap_or_else(|| "en".to_string());
+            ofm_core::social::relocalize_social_posts(game, &language);
+            ok(json!(game), true)
+        }
+        "check_blocking_actions" => {
+            let blockers = crate::time_blockers::compute_blocking_actions(game);
+            ok(json!(blockers), false)
+        }
+        "get_academy_acquisition_options" => {
+            // The acquisition pool is seeded from the ERL data tree, which the web
+            // server does not assemble yet. Return a valid, non-blocking response so
+            // the tab renders cleanly instead of erroring.
+            let parent_team_id = string_arg(&args, &["parentTeamId", "parent_team_id"])?;
+            ok(
+                json!({
+                    "parent_team_id": parent_team_id,
+                    "acquisition_allowed": false,
+                    "blocked_reason": "Academy acquisition is not yet available in the web version",
+                    "options": [],
+                }),
+                false,
+            )
+        }
         _ => Err(CommandError::not_found(format!(
             "unsupported command: {command}"
         ))),
@@ -371,4 +410,96 @@ fn load_player_count_by_team(
         }
     }
     Ok(counts)
+}
+
+/// Splits a camel/Pascal-case champion key into a display name, e.g.
+/// `MissFortune` -> `Miss Fortune`, `Aatrox` -> `Aatrox`.
+fn split_camel_case(key: &str) -> String {
+    let mut name = String::with_capacity(key.len() + 4);
+    for (index, ch) in key.chars().enumerate() {
+        if index > 0 && ch.is_uppercase() {
+            name.push(' ');
+        }
+        name.push(ch);
+    }
+    name
+}
+
+/// Builds the champion catalog from the embedded `champions.json`, matching the
+/// shape the desktop app serves from its SQLite `champions` table (see
+/// `db::champion_repo`). Parsed once and cached.
+fn champions_catalog() -> &'static Vec<Value> {
+    static CATALOG: std::sync::OnceLock<Vec<Value>> = std::sync::OnceLock::new();
+    CATALOG.get_or_init(|| {
+        let raw = include_str!("../../../../data/draft/champions.json");
+        let json: Value = match serde_json::from_str(raw) {
+            Ok(value) => value,
+            Err(_) => return Vec::new(),
+        };
+        let data = json.get("data");
+        let roles = match data.and_then(|d| d.get("roles")).and_then(|r| r.as_object()) {
+            Some(map) => map,
+            None => return Vec::new(),
+        };
+        let counterpicks = data
+            .and_then(|d| d.get("counterpicks"))
+            .and_then(|c| c.as_array());
+        let synergies = data.and_then(|d| d.get("synergies")).and_then(|s| s.as_array());
+
+        // display_aliases maps a display name -> champion key; invert to key -> name
+        // so apostrophe names (e.g. "Kai'Sa" for "Kaisa") render correctly.
+        let mut key_to_name: HashMap<String, String> = HashMap::new();
+        if let Some(aliases) = data
+            .and_then(|d| d.get("display_aliases"))
+            .and_then(|a| a.as_object())
+        {
+            for (alias, value) in aliases {
+                if let Some(key) = value.as_str() {
+                    key_to_name.insert(key.to_string(), alias.clone());
+                }
+            }
+        }
+
+        let filter_relations = |array: Option<&Vec<Value>>, champion_key: &str| -> Option<String> {
+            let items = array?;
+            let filtered: Vec<&Value> = items
+                .iter()
+                .filter(|item| item.get("a").and_then(|v| v.as_str()) == Some(champion_key))
+                .collect();
+            if filtered.is_empty() {
+                None
+            } else {
+                serde_json::to_string(&filtered).ok()
+            }
+        };
+
+        let mut keys: Vec<&String> = roles.keys().collect();
+        keys.sort();
+
+        keys.into_iter()
+            .enumerate()
+            .map(|(index, key)| {
+                let champion_key = key.as_str();
+                let name = key_to_name
+                    .get(champion_key)
+                    .cloned()
+                    .unwrap_or_else(|| split_camel_case(champion_key));
+                let roles_json = roles
+                    .get(champion_key)
+                    .map(|value| value.to_string())
+                    .unwrap_or_else(|| "[]".to_string());
+
+                json!({
+                    "id": (index as i64) + 1,
+                    "name": name,
+                    "champion_key": champion_key,
+                    "roles_json": roles_json,
+                    "counterpicks_json": filter_relations(counterpicks, champion_key),
+                    "synergies_json": filter_relations(synergies, champion_key),
+                    "image_tile_url": format!("/champion-tiles/{champion_key}.webp"),
+                    "image_splash_url": format!("/champion-splash/{champion_key}.webp"),
+                })
+            })
+            .collect()
+    })
 }
