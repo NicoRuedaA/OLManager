@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import type { PlayerData, StaffData, TeamData } from "../store/gameStore";
 import {
+  annualAmountToWeeklyCommitment,
   getAnnualWageBill,
   getCashRunwayWeeks,
   getTeamFinanceSnapshot,
+  safeFinanceNumber,
 } from "./finance";
 
 function createTeam(overrides: Partial<TeamData> = {}): TeamData {
@@ -156,5 +158,30 @@ describe("finance helpers", () => {
     expect(snapshot.wageBudgetStatus).toBe("critical");
     expect(snapshot.runwayStatus).toBe("critical");
     expect(snapshot.overallStatus).toBe("critical");
+  });
+
+  it("normalizes incomplete imported finance values", () => {
+    const team = createTeam({
+      finance: undefined as unknown as number,
+      wage_budget: undefined as unknown as number,
+      sponsorship: {
+        sponsor_name: "Import Sponsor",
+        base_value: undefined as unknown as number,
+        remaining_weeks: undefined as unknown as number,
+        bonus_criteria: [],
+      },
+    });
+    const players = [createPlayer({ wage: undefined as unknown as number })];
+    const staff = [createStaff({ wage: Number.NaN })];
+
+    expect(safeFinanceNumber(undefined)).toBe(0);
+    expect(annualAmountToWeeklyCommitment(undefined)).toBe(0);
+
+    const snapshot = getTeamFinanceSnapshot(team, players, staff);
+
+    expect(snapshot.annualWageBill).toBe(0);
+    expect(snapshot.annualWageBudget).toBe(0);
+    expect(snapshot.annualSponsorIncome).toBe(0);
+    expect(snapshot.cashRunwayWeeks).toBeNull();
   });
 });

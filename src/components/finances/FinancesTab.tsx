@@ -18,6 +18,7 @@ import {
 import {
   annualAmountToWeeklyCommitment,
   getTeamFinanceSnapshot,
+  safeFinanceNumber,
 } from "../../lib/finance";
 import type { FacilityUpgradeId } from "../../lib/lolFinanceContracts";
 import {
@@ -96,13 +97,6 @@ export default function FinancesTab({
 }: FinancesTabProps) {
   const { t } = useTranslation();
   const annualSuffix = t("finances.perYearSuffix", "/yr");
-  const myTeam = gameState.teams.find(
-    (tm) => tm.id === gameState.manager.team_id,
-  );
-  if (!myTeam)
-    return (
-      <p className="text-gray-500 dark:text-gray-400">{t("common.noTeam")}</p>
-    );
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [delegatedRenewalsSummary, setDelegatedRenewalsSummary] = useState<
     string | null
@@ -110,11 +104,21 @@ export default function FinancesTab({
   const [selectedRiskPlayerIds, setSelectedRiskPlayerIds] = useState<string[]>(
     [],
   );
-
-  const roster = gameState.players.filter((p) => p.team_id === myTeam.id);
   type SortKey = "name" | "position" | "wage" | "value" | "contract";
   const [sortKey, setSortKey] = useState<SortKey>("wage");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const myTeam = gameState.teams.find(
+    (tm) => tm.id === gameState.manager.team_id,
+  );
+  const roster = myTeam
+    ? gameState.players.filter((p) => p.team_id === myTeam.id)
+    : [];
+  const teamBalance = safeFinanceNumber(myTeam?.finance);
+  const teamWageBudget = safeFinanceNumber(myTeam?.wage_budget);
+  const teamTransferBudget = safeFinanceNumber(myTeam?.transfer_budget);
+  const teamSeasonIncome = safeFinanceNumber(myTeam?.season_income);
+  const teamSeasonExpenses = safeFinanceNumber(myTeam?.season_expenses);
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -125,20 +129,33 @@ export default function FinancesTab({
     }
   };
 
-  const teamStaff = gameState.staff.filter(
-    (staffMember) => staffMember.team_id === myTeam.id,
-  );
-  const financeSnapshot = getTeamFinanceSnapshot(myTeam, roster, teamStaff);
+  const teamStaff = myTeam
+    ? gameState.staff.filter((staffMember) => staffMember.team_id === myTeam.id)
+    : [];
+  const financeSnapshot = myTeam
+    ? getTeamFinanceSnapshot(myTeam, roster, teamStaff)
+    : {
+        annualWageBill: 0,
+        annualWageBudget: 0,
+        annualSponsorIncome: 0,
+        weeklyWageBudget: 0,
+        projectedAnnualNet: 0,
+        cashRunwayWeeks: null,
+        wageBudgetUsagePercent: 0,
+        wageBudgetStatus: "stable" as const,
+        runwayStatus: "stable" as const,
+        overallStatus: "stable" as const,
+      };
   const totalWages = financeSnapshot.annualWageBill;
-  const totalValue = roster.reduce((s, p) => s + p.market_value, 0);
-  const installationContract = getClubInstallationContract(myTeam);
+  const totalValue = roster.reduce((s, p) => s + safeFinanceNumber(p.market_value), 0);
+  const installationContract = myTeam ? getClubInstallationContract(myTeam) : [];
   const mainHubLevel = installationContract.reduce(
     (maxLevel, module) => Math.max(maxLevel, module.level),
     1,
   );
   const nextHubExpansionCost = getMainHubExpansionCost(mainHubLevel);
-  const canExpandMainHub = myTeam.finance >= nextHubExpansionCost;
-  const activeSponsorship = getSponsorshipContractView(myTeam.sponsorship);
+  const canExpandMainHub = teamBalance >= nextHubExpansionCost;
+  const activeSponsorship = getSponsorshipContractView(myTeam?.sponsorship);
   const annualSponsorIncome = financeSnapshot.annualSponsorIncome;
   const projectedAnnualNet = financeSnapshot.projectedAnnualNet;
   const cashRunwayWeeks = financeSnapshot.cashRunwayWeeks;
@@ -178,7 +195,7 @@ export default function FinancesTab({
       return leftDate.localeCompare(rightDate);
     });
   const atRiskWages = contractRiskPlayers.reduce(
-    (sum, { player }) => sum + player.wage,
+    (sum, { player }) => sum + safeFinanceNumber(player.wage),
     0,
   );
   const selectedRiskPlayers = contractRiskPlayers.filter(({ player }) =>
@@ -200,6 +217,11 @@ export default function FinancesTab({
       return allRiskPlayerIds;
     });
   }, [allRiskPlayerIds.join("|")]);
+
+  if (!myTeam)
+    return (
+      <p className="text-gray-500 dark:text-gray-400">{t("common.noTeam")}</p>
+    );
 
   function handleToggleRiskPlayer(playerId: string): void {
     setSelectedRiskPlayerIds((currentIds) => {
@@ -307,27 +329,27 @@ export default function FinancesTab({
   const financeItems = [
     {
       label: t("finances.clubBalance"),
-      value: myTeam.finance,
-      color: myTeam.finance >= 0 ? "text-primary-500" : "text-red-500",
+      value: teamBalance,
+      color: teamBalance >= 0 ? "text-primary-500" : "text-red-500",
     },
     {
       label: t("finances.wageBudget"),
-      value: myTeam.wage_budget,
+      value: teamWageBudget,
       color: "text-gray-800 dark:text-gray-200",
     },
     {
       label: t("finances.transferBudget"),
-      value: myTeam.transfer_budget,
+      value: teamTransferBudget,
       color: "text-gray-800 dark:text-gray-200",
     },
     {
       label: t("finances.seasonIncome"),
-      value: myTeam.season_income,
+      value: teamSeasonIncome,
       color: "text-primary-500",
     },
     {
       label: t("finances.seasonExpenses"),
-      value: myTeam.season_expenses,
+      value: teamSeasonExpenses,
       color: "text-red-500",
     },
   ];
@@ -571,7 +593,7 @@ export default function FinancesTab({
                             : t("finances.contractRiskWarning")}
                         </Badge>
                         <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                          €{player.wage.toLocaleString()}{annualSuffix}
+                          €{safeFinanceNumber(player.wage).toLocaleString()}{annualSuffix}
                         </span>
                         {onSelectPlayer ? (
                           <Button
@@ -753,7 +775,7 @@ export default function FinancesTab({
               const canUpgrade =
                 Boolean(facility.upgradeFacility) &&
                 unlocksNextLevel &&
-                myTeam.finance >= nextUpgradeCost;
+                teamBalance >= nextUpgradeCost;
               const isLoading = actionLoading === facility.upgradeFacility;
               const label = t(facility.labelKey, facility.label);
 
@@ -895,9 +917,9 @@ export default function FinancesTab({
                       case "position":
                         return dir * (getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b)));
                       case "wage":
-                        return dir * (a.wage - b.wage);
+                        return dir * (safeFinanceNumber(a.wage) - safeFinanceNumber(b.wage));
                       case "value":
-                        return dir * (a.market_value - b.market_value);
+                        return dir * (safeFinanceNumber(a.market_value) - safeFinanceNumber(b.market_value));
                       case "contract":
                         return dir * ((a.contract_end || "").localeCompare(b.contract_end || ""));
                       default:
@@ -946,10 +968,10 @@ export default function FinancesTab({
                           <RoleBadge role={lolRole} size="sm" />
                         </td>
                         <td className="py-3 px-5 text-sm font-medium text-gray-700 dark:text-gray-300">
-                          €{p.wage.toLocaleString()}
+                          €{safeFinanceNumber(p.wage).toLocaleString()}
                         </td>
                         <td className="py-3 px-5 text-sm text-gray-600 dark:text-gray-400">
-                          {formatVal(p.market_value)}
+                          {formatVal(safeFinanceNumber(p.market_value))}
                         </td>
                         <td className="py-3 px-5 text-sm text-gray-500 dark:text-gray-400">
                           {p.contract_end

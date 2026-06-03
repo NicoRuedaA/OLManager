@@ -183,14 +183,29 @@ export function getSponsorshipContractView(
     return null;
   }
 
+  const sponsorName = sponsorship.sponsor_name ?? "Sponsor";
+  const baseValue =
+    typeof sponsorship.base_value === "number" && Number.isFinite(sponsorship.base_value)
+      ? sponsorship.base_value
+      : 0;
+  const remainingWeeks =
+    typeof sponsorship.remaining_weeks === "number" &&
+    Number.isFinite(sponsorship.remaining_weeks)
+      ? sponsorship.remaining_weeks
+      : 0;
+  const bonusCriteria = Array.isArray(sponsorship.bonus_criteria)
+    ? sponsorship.bonus_criteria
+    : [];
+  const theme = getSponsorTheme(sponsorName);
+
   return {
-    sponsorName: sponsorship.sponsor_name,
-    baseValue: sponsorship.base_value,
-    remainingWeeks: sponsorship.remaining_weeks,
-    bonusCount: sponsorship.bonus_criteria.length,
-    theme: getSponsorTheme(sponsorship.sponsor_name),
+    sponsorName,
+    baseValue,
+    remainingWeeks,
+    bonusCount: bonusCriteria.length,
+    theme,
     themeLabel:
-      getSponsorTheme(sponsorship.sponsor_name) === "esports"
+      theme === "esports"
         ? "Esports sponsor"
         : "Standard sponsor",
   };

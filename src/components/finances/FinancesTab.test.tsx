@@ -403,6 +403,39 @@ describe("FinancesTab facilities", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders imported teams with incomplete finance and sponsorship fields", () => {
+    const gameState = createGameState(
+      {
+        finance: undefined as unknown as number,
+        wage_budget: undefined as unknown as number,
+        transfer_budget: undefined as unknown as number,
+        season_income: undefined as unknown as number,
+        season_expenses: undefined as unknown as number,
+        sponsorship: {
+          sponsor_name: undefined as unknown as string,
+          base_value: undefined as unknown as number,
+          remaining_weeks: undefined as unknown as number,
+          bonus_criteria: undefined as unknown as [],
+        },
+      },
+      [],
+      [
+        createPlayer({
+          wage: undefined as unknown as number,
+          market_value: undefined as unknown as number,
+        }),
+      ],
+    );
+
+    render(<FinancesTab gameState={gameState} />);
+
+    expect(screen.getByText("Overview")).toBeInTheDocument();
+    expect(screen.getByText("Active Sponsor")).toBeInTheDocument();
+    expect(screen.getByText("Sponsor")).toBeInTheDocument();
+    expect(screen.getByText("Weekly value: €0")).toBeInTheDocument();
+    expect(screen.getByText("0 weeks remaining")).toBeInTheDocument();
+  });
+
   it("accepts a sponsor offer through resolve_message_action and publishes the updated state", async () => {
     const initialState = createGameState({}, [createSponsorOfferMessage()]);
     const updatedState = createGameState(
@@ -494,12 +527,14 @@ describe("FinancesTab facilities", () => {
       [
         createPlayer({
           id: "player-critical",
+          match_name: "Alex Critical",
           full_name: "Alex Critical",
           wage: 35000,
           contract_end: "2025-04-30",
         }),
         createPlayer({
           id: "player-warning",
+          match_name: "Ben Warning",
           full_name: "Ben Warning",
           wage: 25000,
           contract_end: "2025-10-15",
@@ -544,12 +579,14 @@ describe("FinancesTab facilities", () => {
     const riskyPlayers = [
       createPlayer({
         id: "player-critical",
+        match_name: "Alex Critical",
         full_name: "Alex Critical",
         wage: 35000,
         contract_end: "2025-04-30",
       }),
       createPlayer({
         id: "player-warning",
+        match_name: "Ben Warning",
         full_name: "Ben Warning",
         wage: 25000,
         contract_end: "2025-10-15",
@@ -566,12 +603,14 @@ describe("FinancesTab facilities", () => {
       [
         createPlayer({
           id: "player-critical",
+          match_name: "Alex Critical",
           full_name: "Alex Critical",
           wage: 36000,
           contract_end: "2028-01-20",
         }),
         createPlayer({
           id: "player-warning",
+          match_name: "Ben Warning",
           full_name: "Ben Warning",
           wage: 25000,
           contract_end: "2025-10-15",

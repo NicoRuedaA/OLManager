@@ -46,9 +46,9 @@ export default function CompetitionsTab({ gameState, onSelectTeam }: Competition
   const [selectedCid, setSelectedCid] = useState<string | null>(null);
   const [detailView, setDetailView] = useState<DetailView>("calendar");
 
-  const leagues = gameState.leagues;
+  const leagues = Array.isArray(gameState.leagues) ? gameState.leagues : [];
   const selectedLeague = selectedCid
-    ? leagues.find((l) => l.competition_id === selectedCid) ?? null
+    ? leagues.find((l) => (l.competition_id ?? l.id) === selectedCid) ?? null
     : null;
 
   // Teams in selected competition (competition_id = manifest id like "lec", not UUID)
@@ -67,18 +67,18 @@ export default function CompetitionsTab({ gameState, onSelectTeam }: Competition
 
   // Standings sorted
   const sortedStandings = selectedLeague
-    ? [...selectedLeague.standings].sort(compareStandingsByLolScore)
+    ? [...(selectedLeague.standings ?? [])].sort(compareStandingsByLolScore)
     : [];
 
   // Build competition label map for calendar
   const competitionLabelMap = new Map<string, string>();
   leagues.forEach((l) => {
-    l.fixtures.forEach((f) => competitionLabelMap.set(f.id, l.name));
+    (l.fixtures ?? []).forEach((f) => competitionLabelMap.set(f.id, l.name));
   });
 
   const calendarFixtures = selectedLeague
-    ? selectedLeague.fixtures
-    : leagues.flatMap((l) => l.fixtures);
+    ? selectedLeague.fixtures ?? []
+    : leagues.flatMap((l) => l.fixtures ?? []);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -92,22 +92,25 @@ export default function CompetitionsTab({ gameState, onSelectTeam }: Competition
 
       {/* Competitions grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {leagues.map((league) => (
-          <CompetitionCard
-            key={league.id}
-            league={league}
-            selected={selectedCid === league.id}
-            colorClass={getCompetitionColor(league.id)}
-            teamsCount={
-              gameState.teams.filter((t) => t.competition_id === league.id)
-                .length
-            }
-            onSelect={() => {
-              const cid = league.competition_id ?? league.id;
-              setSelectedCid(selectedCid === cid ? null : cid);
-            }}
-          />
-        ))}
+        {leagues.map((league) => {
+          const cid = league.competition_id ?? league.id;
+
+          return (
+            <CompetitionCard
+              key={league.id}
+              league={league}
+              selected={selectedCid === cid}
+              colorClass={getCompetitionColor(cid)}
+              teamsCount={
+                gameState.teams.filter((t) => t.competition_id === cid)
+                  .length
+              }
+              onSelect={() => {
+                setSelectedCid(selectedCid === cid ? null : cid);
+              }}
+            />
+          );
+        })}
       </div>
 
       {/* Selected competition detail */}
@@ -235,11 +238,12 @@ function CompetitionCard({
 }: CompetitionCardProps) {
   const { t } = useTranslation();
 
-  const totalMatches = league.fixtures.length;
-  const playedMatches = league.fixtures.filter(
+  const fixtures = league.fixtures ?? [];
+  const totalMatches = fixtures.length;
+  const playedMatches = fixtures.filter(
     (f) => f.status === "Completed",
   ).length;
-  const playoffFixtures = league.fixtures.filter(
+  const playoffFixtures = fixtures.filter(
     (f) => f.match_type === "Playoffs",
   ).length;
 
