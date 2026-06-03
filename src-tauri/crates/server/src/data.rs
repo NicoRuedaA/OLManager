@@ -21,8 +21,6 @@ use serde_json::Value;
 pub struct Manifest {
     pub id: String,
     pub name: String,
-    pub teams_file: Option<String>,
-    pub players_file: Option<String>,
     pub schedule: ScheduleConfig,
 }
 
@@ -165,6 +163,36 @@ fn build_photo_fallback_map(base: &Path) -> HashMap<String, String> {
     map
 }
 
+/// One shard file per competition slug, preferring `data/erls/<kind>` over
+/// `data/<kind>`. The OLMDBManager export emits ERL leagues twice: a sparse,
+/// photo-less tier-1 copy under `data/<kind>` and the complete copy (full
+/// roster + photos) under `data/erls/<kind>`. We load the complete one.
+fn resolve_preferred_shards(base: &Path, kind: &str) -> Vec<PathBuf> {
+    let mut by_slug: HashMap<String, PathBuf> = HashMap::new();
+    for path in list_json_files(&base.join(kind)) {
+        by_slug.insert(file_competition_id(&path), path);
+    }
+    for path in list_json_files(&base.join("erls").join(kind)) {
+        by_slug.insert(file_competition_id(&path), path); // erls wins
+    }
+    let mut paths: Vec<PathBuf> = by_slug.into_values().collect();
+    paths.sort();
+    paths
+}
+
+/// Resolve a single competition's shard (`teams`/`players`), preferring the
+/// complete `data/erls/<kind>` copy. Used by the team picker so the ids it
+/// shows match the world that `assemble_world` builds.
+pub fn preferred_shard_path(base: &Path, kind: &str, slug: &str) -> Option<PathBuf> {
+    let file = format!("{slug}_{kind}.json");
+    let erls = base.join("erls").join(kind).join(&file);
+    if erls.is_file() {
+        return Some(erls);
+    }
+    let main = base.join(kind).join(&file);
+    main.is_file().then_some(main)
+}
+
 /// Competition slug for an unscheduled shard file: `al_teams.json` → `al`.
 fn file_competition_id(path: &Path) -> String {
     path.file_stem()
@@ -303,31 +331,16 @@ fn load_all_staff(base: &Path, team_id_map: &HashMap<String, String>) -> Vec<Sta
 /// `team_id`s are re-pointed to match. This is the single source of truth for
 /// both `select_team` and the import summary, so reported counts match what a
 /// save actually loads.
-pub fn assemble_world(base: &Path, manifests: &[Manifest]) -> (Vec<Team>, Vec<Player>, Vec<Staff>) {
+pub fn assemble_world(base: &Path) -> (Vec<Team>, Vec<Player>, Vec<Staff>) {
     let mut all_teams: Vec<Team> = Vec::new();
     let mut all_players: Vec<Player> = Vec::new();
     // Original (export) team id → final world id, for re-pointing staff/players.
     let mut team_id_map: HashMap<String, String> = HashMap::new();
     let mut seen_teams: HashSet<String> = HashSet::new();
 
-    // 1. Manifest-backed competitions first: these own the canonical slug
-    //    (used for scheduling in `select_team`) and win id collisions.
-    for manifest in manifests {
-        if let Some(file) = &manifest.teams_file {
-            let teams = parse_teams_file(&base.join(file));
-            add_teams(
-                &manifest.id,
-                teams,
-                &mut all_teams,
-                &mut team_id_map,
-                &mut seen_teams,
-            );
-        }
-    }
-
-    // 2. Every remaining team shard (leagues without a manifest). They populate
-    //    the world database but have no schedule.
-    for path in list_json_files(&base.join("teams")) {
+    // Teams, one shard per competition (ERL-complete copy preferred). The slug
+    // matches each manifest id, so scheduling in `select_team` still resolves.
+    for path in resolve_preferred_shards(base, "teams") {
         let comp = file_competition_id(&path);
         add_teams(
             &comp,
@@ -338,20 +351,12 @@ pub fn assemble_world(base: &Path, manifests: &[Manifest]) -> (Vec<Team>, Vec<Pl
         );
     }
 
-    // 3. All players from every shard, de-duplicated by id. Manifest player
-    //    files are read first so their record wins for any duplicated player.
-    //    `team_id` is re-pointed via the world id map; anything that doesn't
-    //    resolve (free agents, name-keyed refs, unloaded teams) becomes None.
-    let mut player_paths: Vec<PathBuf> = manifests
-        .iter()
-        .filter_map(|m| m.players_file.as_ref().map(|f| base.join(f)))
-        .filter(|p| p.is_file())
-        .collect();
-    player_paths.extend(list_json_files(&base.join("players")));
-
+    // Players, one shard per competition, de-duplicated by id. `team_id` is
+    // re-pointed via the world id map; anything that doesn't resolve (free
+    // agents, name-keyed refs, unloaded teams) becomes None.
     let photo_fallback = build_photo_fallback_map(base);
     let mut seen_players: HashSet<String> = HashSet::new();
-    for path in player_paths {
+    for path in resolve_preferred_shards(base, "players") {
         for mut player in parse_players_file(&path) {
             if !seen_players.insert(player.id.clone()) {
                 continue;
@@ -388,9 +393,7 @@ pub fn assemble_world(base: &Path, manifests: &[Manifest]) -> (Vec<Team>, Vec<Pl
 /// Count the entities the world assembles to (teams, players, staff). Used by
 /// the import/catalog endpoints so the reported numbers match the game.
 pub fn world_summary() -> (usize, usize, usize) {
-    let base = data_dir();
-    let manifests = scan_manifests(&base);
-    let (teams, players, staff) = assemble_world(&base, &manifests);
+    let (teams, players, staff) = assemble_world(&data_dir());
     (teams.len(), players.len(), staff.len())
 }
 
@@ -409,7 +412,7 @@ pub fn select_team(game: &mut Game, team_id: &str) -> Result<(), String> {
         ));
     }
 
-    let (all_teams, all_players, all_staff) = assemble_world(&base, &manifests);
+    let (all_teams, all_players, all_staff) = assemble_world(&base);
 
     if !all_teams.iter().any(|t| t.id == team_id) {
         return Err(format!("team '{}' not found in assembled world", team_id));

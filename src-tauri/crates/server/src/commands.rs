@@ -286,7 +286,10 @@ fn load_teams(
     base: &Path,
     manifest: &CompetitionManifest,
 ) -> Result<Vec<domain::team::Team>, String> {
-    let path = base.join(&manifest.teams_file);
+    // Prefer the ERL-complete shard so the picker's team ids match the world
+    // `assemble_world` builds (otherwise selecting an ERL team would 404).
+    let path = data::preferred_shard_path(base, "teams", &manifest.id)
+        .unwrap_or_else(|| base.join(&manifest.teams_file));
     let json = std::fs::read_to_string(&path)
         .map_err(|e| format!("failed to read teams file {:?}: {e}", path))?;
     let data: TeamDataFile =
@@ -298,7 +301,8 @@ fn load_player_count_by_team(
     base: &Path,
     manifest: &CompetitionManifest,
 ) -> Result<HashMap<String, usize>, String> {
-    let path = base.join(&manifest.players_file);
+    let path = data::preferred_shard_path(base, "players", &manifest.id)
+        .unwrap_or_else(|| base.join(&manifest.players_file));
     let json = std::fs::read_to_string(&path)
         .map_err(|e| format!("failed to read players file {:?}: {e}", path))?;
     let data: PlayerDataFile =
