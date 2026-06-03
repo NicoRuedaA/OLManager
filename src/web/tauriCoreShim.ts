@@ -1,4 +1,14 @@
 import { supabase } from "./supabase";
+import {
+  deriveTodayScrimContext,
+  deriveWeeklyScrimContext,
+  type ScrimContextResponse,
+  type TodayScrimContext,
+  type WeeklyScrimContext,
+  type WeeklyScrimSlotContext,
+} from "../lib/scrimContext";
+import type { BackendScrimContextResponse } from "../services/trainingService";
+import type { GameStateData } from "../store/gameStore";
 
 const API_BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? "";
 const ACTIVE_SAVE_KEY = "olmanager.web.activeSaveId";
@@ -63,6 +73,72 @@ function managerDisplayName(game: any): string {
   return manager.nickname?.trim?.() || `${manager.first_name ?? ""} ${manager.last_name ?? ""}`.trim();
 }
 
+function toBackendTodayScrimContext(today: TodayScrimContext): BackendScrimContextResponse["today"] {
+  return {
+    state: today.state,
+    slot_index: today.slotIndex,
+    opponent_team_id: today.opponentTeamId,
+    resolved_opponent_team_id: today.resolvedOpponentTeamId,
+    objective: today.objective,
+    report: today.report,
+    can_edit_plan: today.canEditPlan,
+    can_cancel: today.canCancel,
+    can_review: today.canReview,
+    can_view_weekly_plan: today.canViewWeeklyPlan,
+    has_official_match: today.hasOfficialMatch,
+    primary_action: today.primaryAction,
+    push_through_recommended: today.pushThroughRecommended,
+  };
+}
+
+function toBackendWeeklyScrimSlot(slot: WeeklyScrimSlotContext): BackendScrimContextResponse["week"]["slots"][number] {
+  return {
+    slot_index: slot.slotIndex,
+    weekday: slot.weekday,
+    label: slot.label,
+    label_day: slot.labelDay,
+    label_suffix: slot.labelSuffix,
+    plan: slot.plan,
+    resolved_opponent_team_id: slot.resolvedOpponentTeamId,
+    result_won: slot.resultWon,
+    report: slot.report,
+    status: slot.status,
+    can_edit: slot.canEdit,
+  };
+}
+
+function toBackendWeeklyScrimContext(week: WeeklyScrimContext): BackendScrimContextResponse["week"] {
+  return {
+    week_key: week.weekKey,
+    objective: week.objective,
+    capacity: week.capacity,
+    planned: week.planned,
+    reputation: week.reputation,
+    cancellations: week.cancellations,
+    played: week.played,
+    wins: week.wins,
+    losses: week.losses,
+    loss_streak: week.lossStreak,
+    avg_quality: week.avgQuality,
+    top_focus: week.topFocus,
+    top_issue: week.topIssue,
+    next_official_rival_team_id: week.nextOfficialRivalTeamId,
+    next_official_rival_competition: week.nextOfficialRivalCompetition,
+    setup_locked: week.setupLocked,
+    setup_locked_reason: week.setupLockedReason,
+    can_finalize_setup: week.canFinalizeSetup,
+    slots: week.slots.map(toBackendWeeklyScrimSlot),
+    latest_reports: week.latestReports,
+  };
+}
+
+function toBackendScrimContext(context: ScrimContextResponse): BackendScrimContextResponse {
+  return {
+    today: toBackendTodayScrimContext(context.today),
+    week: toBackendWeeklyScrimContext(context.week),
+  };
+}
+
 function toLegacySaveEntry(save: SaveSummary) {
   return {
     id: save.id,
@@ -107,6 +183,18 @@ export async function invoke<T = unknown>(command: string, args?: InvokeArgs): P
       const result = await request<{ id: string; game: unknown }>(`/api/saves/${saveId}`);
       setActiveSave(result.id);
       return managerDisplayName(result.game) as T;
+    }
+    case "get_scrim_context": {
+      const result = await request<{ id: string; game: GameStateData }>(`/api/saves/${activeSaveId()}`);
+      const teamId = result.game.manager.team_id;
+      const team = teamId ? result.game.teams.find((candidate) => candidate.id === teamId) : null;
+      if (!team) {
+        throw new Error("Manager team not found");
+      }
+      return toBackendScrimContext({
+        today: deriveTodayScrimContext(result.game, team),
+        week: deriveWeeklyScrimContext(result.game, team),
+      }) as T;
     }
     case "delete_save": {
       const saveId = String(args?.saveId ?? "");
