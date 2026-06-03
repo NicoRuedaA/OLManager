@@ -188,6 +188,94 @@ fn add_entity_counts(summary: &mut ImportSummary, rel_name: &str, bytes: &[u8]) 
     summary.staff_count += staff;
 }
 
+fn public_reference_exists(path: &str) -> bool {
+    let Some(rel) = safe_relative(path.trim_start_matches('/')) else {
+        return false;
+    };
+    public_dir().join(rel).is_file()
+}
+
+fn sanitize_image_field(item: &mut Value, key: &str) -> bool {
+    let Some(url) = item.get(key).and_then(Value::as_str) else {
+        return false;
+    };
+    if !url.starts_with('/') || public_reference_exists(url) {
+        return false;
+    }
+    if let Some(obj) = item.as_object_mut() {
+        obj.insert(key.to_string(), Value::Null);
+        return true;
+    }
+    false
+}
+
+fn usable_public_image_url(url: Option<String>) -> Option<String> {
+    match url {
+        Some(value) if value.starts_with('/') && !public_reference_exists(&value) => None,
+        other => other,
+    }
+}
+
+fn sanitize_catalog_image_references() -> Result<usize, String> {
+    let base = data_dir();
+    let mut files = Vec::new();
+    walk_files(&base, &mut files)?;
+
+    let mut fixed = 0;
+    for file in files {
+        let Ok(rel) = file.strip_prefix(&base) else {
+            continue;
+        };
+        let rel_name = format!("data/{}", rel.to_string_lossy().replace('\\', "/"));
+        let Some(category) = rel_category(&rel_name) else {
+            continue;
+        };
+        let Ok(contents) = std::fs::read_to_string(&file) else {
+            continue;
+        };
+        let Ok(mut value) = serde_json::from_str::<Value>(&contents) else {
+            continue;
+        };
+
+        let mut changed = false;
+        let keys: &[&str] = match category {
+            "players" => &["players"],
+            "teams" => &["teams"],
+            "staff" => &["staff", "staffs"],
+            _ => &[],
+        };
+        let image_field = if category == "teams" {
+            "logo_url"
+        } else {
+            "profile_image_url"
+        };
+
+        if let Some(items) = value.as_array_mut() {
+            for item in items {
+                changed |= sanitize_image_field(item, image_field);
+            }
+        } else {
+            for key in keys {
+                let Some(items) = value.get_mut(*key).and_then(Value::as_array_mut) else {
+                    continue;
+                };
+                for item in items {
+                    changed |= sanitize_image_field(item, image_field);
+                }
+            }
+        }
+
+        if changed {
+            let output = serde_json::to_vec_pretty(&value)
+                .map_err(|e| format!("serialize sanitized {file:?}: {e}"))?;
+            std::fs::write(&file, output).map_err(|e| format!("write {file:?}: {e}"))?;
+            fixed += 1;
+        }
+    }
+
+    Ok(fixed)
+}
+
 /// Replace the per-shard entity sums with the counts the game actually loads
 /// (manifest-scoped, de-duplicated, staff included). The raw shard sums double
 /// count players/teams that appear in several files and ignore that the world
@@ -295,6 +383,7 @@ fn import_zip_unchecked(bytes: &[u8]) -> Result<ImportSummary, String> {
     }
 
     apply_world_counts(&mut summary);
+    let _ = sanitize_catalog_image_references();
     Ok(summary)
 }
 
@@ -409,6 +498,7 @@ pub fn import_dir(root: &Path) -> Result<ImportSummary, String> {
     }
 
     apply_world_counts(&mut summary);
+    let _ = sanitize_catalog_image_references();
     Ok(summary)
 }
 
@@ -515,7 +605,10 @@ pub fn current_catalog() -> CatalogResponse {
                         team_id: json_string(item, &["team_id"]),
                         nationality: json_string(item, &["nationality", "country"]),
                         role: json_string(item, &["role", "position", "lol_role"]),
-                        image_url: json_string(item, &["profile_image_url", "image_url"]),
+                        image_url: usable_public_image_url(json_string(
+                            item,
+                            &["profile_image_url", "image_url"],
+                        )),
                     });
                 }
             }
@@ -529,7 +622,7 @@ pub fn current_catalog() -> CatalogResponse {
                         short_name: json_string(item, &["short_name", "abbreviation"]),
                         country: json_string(item, &["country", "region"]),
                         competition_id: json_string(item, &["competition_id"]),
-                        logo_url: json_string(item, &["logo_url"]),
+                        logo_url: usable_public_image_url(json_string(item, &["logo_url"])),
                         id,
                     });
                 }
@@ -553,7 +646,10 @@ pub fn current_catalog() -> CatalogResponse {
                         role: json_string(item, &["role"]),
                         team_id: json_string(item, &["team_id"]),
                         nationality: json_string(item, &["nationality", "country"]),
-                        image_url: json_string(item, &["profile_image_url", "image_url"]),
+                        image_url: usable_public_image_url(json_string(
+                            item,
+                            &["profile_image_url", "image_url"],
+                        )),
                     });
                 }
             }

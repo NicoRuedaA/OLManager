@@ -908,6 +908,7 @@ function CatalogRow({
   tab: "players" | "teams" | "staff";
   teamName: string | null | undefined;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
   const imageUrl = "image_url" in item ? item.image_url : item.logo_url;
   const subtitle = (() => {
     if (tab === "teams") {
@@ -920,8 +921,14 @@ function CatalogRow({
   return (
     <div className="flex items-center gap-3 rounded-lg bg-gray-50 px-3 py-2 dark:bg-navy-800">
       <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-200 dark:bg-navy-700">
-        {imageUrl ? (
-          <img src={imageUrl} alt={item.name} className="h-full w-full object-cover" loading="lazy" />
+        {imageUrl && !imageFailed ? (
+          <img
+            src={imageUrl}
+            alt={item.name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            onError={() => setImageFailed(true)}
+          />
         ) : (
           <Database className="h-4 w-4 text-gray-400" />
         )}
