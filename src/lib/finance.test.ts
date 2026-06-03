@@ -131,8 +131,8 @@ describe("finance helpers", () => {
   });
 
   it("computes runway from projected annual net", () => {
-    expect(getcashRunwayMonths(200000, -30000 * 52)).toBe(6);
-    expect(getcashRunwayMonths(200000, 5000 * 52)).toBeNull();
+    expect(getCashRunwayMonths(200000, -30000 * 52)).toBe(6);
+    expect(getCashRunwayMonths(200000, 5000 * 52)).toBeNull();
   });
 
   it("builds a finance snapshot with the worst status carried forward", () => {

@@ -57,7 +57,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
 
   // Compute standings for display
   const standings = league
-    ? [...playerLeague.standings].sort(compareStandingsByLolScore)
+    ? [...league.standings].sort(compareStandingsByLolScore)
     : [];
 
   const userStandingIdx = standings.findIndex(s => s.team_id === userTeamId);
@@ -113,7 +113,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
               {t('endOfSeason.seasonComplete')}
             </h1>
             <p className="text-lg text-gray-500 dark:text-gray-400 mt-1">
-              {playerLeague?.name} — Season {playerLeague?.season}
+              {league?.name} — Season {league?.season}
             </p>
             {isChampion && (
               <p className="text-xl font-heading font-bold text-accent-500 mt-2 uppercase tracking-wider animate-pulse">
@@ -155,7 +155,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
           {hasPlayoffs ? (
             <div className="mb-6">
               <PlayoffBracketBoard
-                league={playerLeague!}
+                league={league!}
                 teams={gameState.teams}
                 title={`${t("schedule.playoffs")} · Bracket`}
               />

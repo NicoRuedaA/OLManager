@@ -328,19 +328,6 @@ export default function MatchLive({
                 {t('match.subs')} ({userSide === "Home" ? snapshot.home_subs_made : snapshot.away_subs_made}/{snapshot.max_subs})
               </button>
               <div>
-                <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.formation')}</p>
-                <div className="flex flex-wrap gap-1">
-                  {["4-4-2", "4-3-3", "3-5-2", "4-5-1", "4-2-3-1", "3-4-3"].map(f => {
-                    const cur = userSide === "Home" ? snapshot.home_team.formation : snapshot.away_team.formation;
-                    return (
-                      <button key={f} onClick={() => handleFormationChange(f)}
-                        className={`px-2 py-1 rounded text-xs font-heading transition-colors ${cur === f ? "bg-primary-500/20 text-primary-500 dark:text-primary-400 ring-1 ring-primary-500/50" : "bg-gray-100 text-gray-600 hover:text-gray-900 dark:bg-navy-700 dark:text-gray-400 dark:hover:text-gray-300"}`}
-                      >{f}</button>
-                    );
-                  })}
-                </div>
-              </div>
-              <div>
                 <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">{t('match.playStyle')}</p>
                 <div className="flex flex-wrap gap-1">
                   {[

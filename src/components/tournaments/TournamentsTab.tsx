@@ -5,6 +5,7 @@ import { Trophy, TableProperties, Calendar } from "lucide-react";
 import { getTeamName, formatMatchDate } from "../../lib/helpers";
 import { resolveSeasonContext } from "../../lib/seasonContext";
 import { useTranslation } from "react-i18next";
+import PlayoffBracketBoard from "../playoffs/PlayoffBracketBoard";
 
 interface TournamentsTabProps {
   gameState: GameStateData;
