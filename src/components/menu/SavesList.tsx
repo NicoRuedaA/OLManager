@@ -43,12 +43,12 @@ export default function SavesList({ saves, isLoading, loadingSaveId, confirmDele
 
       <div className="flex flex-col gap-3 max-h-[60vh] overflow-y-auto pr-1">
         {isLoading ? (
-          <div className="flex flex-col items-center gap-3 py-8 text-gray-400"><Loader2 className="w-8 h-8 animate-spin text-accent-400" /><span className="text-sm font-heading uppercase tracking-wider">{t('menu.loadingSaves')}</span></div>
+          <div className="flex flex-col items-center gap-3 py-8 text-gray-400"><Loader2 className="w-8 h-8 animate-spin text-gold" /><span className="text-sm font-heading uppercase tracking-wider">{t('menu.loadingSaves')}</span></div>
         ) : saves.length === 0 ? (
           <div className="text-gray-400 text-center py-8">{t('menu.noSaves')}</div>
         ) : (
           saves.map(save => (
-            <div key={save.id} className="group relative flex flex-col gap-2 w-full p-4 bg-white/5 hover:bg-white/10 text-left rounded-xl transition-all duration-200 border border-white/10 hover:border-accent-400/50">
+            <div key={save.id} className="group relative flex flex-col gap-2 w-full p-4 bg-white/5 hover:bg-white/10 text-left rounded-xl transition-all duration-200 border border-white/10 hover:border-gold/50">
               {confirmDeleteId === save.id ? (
                 <div className="flex flex-col gap-2">
                   <p className="text-sm text-gray-300" dangerouslySetInnerHTML={{ __html: t('menu.deleteConfirm', { name: save.name }) }} />
@@ -75,7 +75,7 @@ export default function SavesList({ saves, isLoading, loadingSaveId, confirmDele
                   >
                     <div className="flex justify-between items-center w-full">
                       <span className="font-heading font-bold text-white text-lg uppercase tracking-wide truncate">{save.name}</span>
-                      {loadingSaveId === save.id ? <Loader2 className="w-4 h-4 text-accent-400 animate-spin shrink-0" /> : <Play className="w-4 h-4 text-accent-400 opacity-0 group-hover:opacity-100 transition-all shrink-0" />}
+                      {loadingSaveId === save.id ? <Loader2 className="w-4 h-4 text-gold animate-spin shrink-0" /> : <Play className="w-4 h-4 text-gold opacity-0 group-hover:opacity-100 transition-all shrink-0" />}
                     </div>
                     <div className="flex justify-between items-center w-full text-sm text-gray-400">
                       <span>{t('menu.manager', { name: save.manager_name })}</span>

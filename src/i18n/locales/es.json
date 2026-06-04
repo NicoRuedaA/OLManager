@@ -147,6 +147,7 @@
     }
   },
   "menu": {
+    "mainMenu": "Menú Principal",
     "newGame": "Nueva Partida",
     "loadGame": "Cargar Partida",
     "settings": "Configuración",

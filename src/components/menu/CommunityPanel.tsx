@@ -133,7 +133,7 @@ export default function CommunityPanel({ onClose }: { onClose: () => void }) {
       {/* Mentions */}
       <div className="border-t border-white/10 pt-4">
         <div className="flex items-center gap-2 mb-1">
-          <Heart className="w-4 h-4 text-accent-400" />
+          <Heart className="w-4 h-4 text-gold" />
           <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-white">
             {t("community.mentionsTitle", "Menciones")}
           </h3>
@@ -156,7 +156,7 @@ export default function CommunityPanel({ onClose }: { onClose: () => void }) {
           <ul className="flex flex-col gap-2">
             {SUPPORTERS.map((s) => (
               <li key={s.name} className="flex items-center gap-3">
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent-400/15 text-accent-400 font-heading font-bold text-sm shrink-0">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gold/15 text-gold font-heading font-bold text-sm shrink-0">
                   {s.name.charAt(0).toUpperCase()}
                 </span>
                 <div className="min-w-0">

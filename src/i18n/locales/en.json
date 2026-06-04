@@ -147,6 +147,7 @@
     }
   },
   "menu": {
+    "mainMenu": "Main Menu",
     "newGame": "New Game",
     "loadGame": "Load Game",
     "settings": "Settings",

@@ -368,18 +368,24 @@ export default function MainMenu() {
       {/* Theme Toggle */}
       <ThemeToggle className="absolute top-6 right-6 z-20" />
 
-      {/* Two-column layout: persistent nav on the left, active panel on the right */}
-      <div className="relative z-10 min-h-screen flex">
-        {/* Left column — logo + nav (always visible) */}
-        <div className="flex flex-col justify-center px-8 sm:px-14 lg:px-20 w-full max-w-md shrink-0">
+      {/* Classic-client two-column layout (stacks below lg) */}
+      <div className="relative z-10 min-h-screen flex flex-col lg:flex-row">
+        {/* Left column — logo + framed nav panel */}
+        <div className="w-full lg:max-w-sm lg:shrink-0 flex flex-col justify-center px-6 sm:px-10 lg:px-14 pt-12 pb-6 lg:py-0">
           <div className="w-full animate-fade-in-up">
             <img
               src="/olmanager-logo.svg"
               alt="Open League Manager"
-              className="h-24 mb-10 drop-shadow-[0_4px_24px_rgba(0,0,0,0.65)]"
+              className="h-20 mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.7)]"
             />
 
-            <nav className="flex flex-col gap-1">
+            <div className="border border-gold-dark/60 bg-hextech-blue/85 backdrop-blur-md shadow-2xl">
+              <div className="px-5 py-3 border-b border-gold-dark/50 bg-gradient-to-b from-white/[0.06] to-transparent">
+                <span className="font-heading font-bold uppercase tracking-[0.25em] text-gold text-xs">
+                  {t("menu.mainMenu", "Menú Principal")}
+                </span>
+              </div>
+              <nav className="flex flex-col py-1.5">
               <MenuItem
                 icon={<PlusCircle />}
                 label={t("menu.newGame")}
@@ -430,18 +436,19 @@ export default function MainMenu() {
                   void handleExitApp();
                 }}
               />
-            </nav>
+              </nav>
+            </div>
           </div>
         </div>
 
-        {/* Right column — active panel opens beside the nav */}
+        {/* Right column — active panel beside the nav (below on mobile) */}
         {menuState !== "main" && (
-          <div className="dark flex-1 min-w-0 flex flex-col overflow-y-auto p-6 lg:p-10">
+          <div className="dark w-full lg:flex-1 min-w-0 flex flex-col lg:overflow-y-auto px-6 pb-12 lg:p-10">
             <div
               key={menuState}
-              className="w-full max-w-lg mx-auto my-auto animate-fade-in-up rounded-2xl border border-white/10 shadow-2xl bg-navy-900/85 backdrop-blur-xl"
+              className="w-full max-w-lg mx-auto my-auto animate-fade-in-up border border-gold-dark/60 shadow-2xl bg-hextech-blue/90 backdrop-blur-xl"
             >
-              <div className="h-1.5 rounded-t-2xl bg-gradient-to-r from-primary-500 via-accent-400 to-primary-500" />
+              <div className="h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent" />
               <div className="p-6 sm:p-8">
 
           {/* Step 1: Create Manager Form */}
@@ -451,7 +458,7 @@ export default function MainMenu() {
               className="flex flex-col gap-4"
             >
               <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-sans font-bold uppercase tracking-wide text-gray-900 dark:text-white transition-colors">
+                <h2 className="text-xl font-heading font-bold uppercase tracking-wide text-white">
                   {t("createManager.title")}
                 </h2>
                 <button
@@ -460,7 +467,7 @@ export default function MainMenu() {
                     setMenuState("main");
                     setFormErrors({});
                   }}
-                  className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-navy-600"
+                  className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -468,24 +475,24 @@ export default function MainMenu() {
 
               {/* Step indicator */}
               <div className="flex items-center gap-2 mb-1">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold">
+                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gold text-navy-950 text-xs font-bold">
                   1
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wide">
+                <span className="text-xs text-gray-400 font-heading uppercase tracking-wide">
                   {t("worldSelect.startCareer")}
                 </span>
               </div>
 
               {/* Nickname */}
               <div id="create-manager-field-nickname">
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   {t("createManager.nickname", "Nick")}
                 </label>
                 <input
                   maxLength={20}
-                  className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.nickname
+                  className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${formErrors.nickname
                       ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                      : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
+                      : "border-white/15 focus:border-gold focus:ring-gold/20"
                     }`}
                   placeholder={t("createManager.placeholderNickname", "ej. Faker")}
                   value={formData.nickname}
@@ -508,14 +515,14 @@ export default function MainMenu() {
               {/* Name fields with labels */}
               <div className="flex gap-3">
                 <div className="flex-1" id="create-manager-field-firstName">
-                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                     {t("createManager.firstName")}
                   </label>
                   <input
                     maxLength={30}
-                    className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.firstName
+                    className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${formErrors.firstName
                         ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                        : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
+                        : "border-white/15 focus:border-gold focus:ring-gold/20"
                       }`}
                     placeholder={t("createManager.placeholderFirst")}
                     value={formData.firstName}
@@ -535,14 +542,14 @@ export default function MainMenu() {
                   )}
                 </div>
                 <div className="flex-1" id="create-manager-field-lastName">
-                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                     {t("createManager.lastName")}
                   </label>
                   <input
                     maxLength={30}
-                    className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.lastName
+                    className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${formErrors.lastName
                         ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                        : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
+                        : "border-white/15 focus:border-gold focus:ring-gold/20"
                       }`}
                     placeholder={t("createManager.placeholderLast")}
                     value={formData.lastName}
@@ -565,7 +572,7 @@ export default function MainMenu() {
 
               {/* Date of Birth with label */}
               <div id="create-manager-field-dob">
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   {t("createManager.dob")}
                 </label>
                 <DatePicker
@@ -593,7 +600,7 @@ export default function MainMenu() {
                 ref={nationalityRef}
                 className={nationalityOpen ? "relative z-50" : undefined}
               >
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
+                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-300 mb-1.5">
                   {t(
                     "createManager.countryOfOrigin",
                     "Country/Region of Origin",
@@ -622,7 +629,7 @@ export default function MainMenu() {
                     className={`w-full flex items-center justify-between bg-white/5 border text-left rounded-lg p-3 outline-none transition-all ${formErrors.nationality
                         ? "border-red-400 dark:border-red-500"
                         : nationalityOpen
-                          ? "border-accent-400 ring-2 ring-accent-400/20"
+                          ? "border-gold ring-2 ring-gold/20"
                           : "border-white/15"
                       }`}
                   >
@@ -678,7 +685,7 @@ export default function MainMenu() {
                           placeholder={t("createManager.searchNationalities")}
                           value={nationalitySearch}
                           onChange={(e) => setNationalitySearch(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-accent-400 transition-colors placeholder:text-gray-500"
+                          className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-gold transition-colors placeholder:text-gray-500"
                         />
                       </div>
                       <div className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
@@ -710,7 +717,7 @@ export default function MainMenu() {
                                 }));
                               }}
                               className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between transition-colors ${formData.nationality === nat.code
-                                  ? "bg-accent-400/10 text-accent-400"
+                                  ? "bg-gold/10 text-gold"
                                   : "text-gray-200 hover:bg-white/10"
                                 }`}
                             >
@@ -723,7 +730,7 @@ export default function MainMenu() {
                                 <span>{nat.name}</span>
                               </div>
                               {formData.nationality === nat.code && (
-                                <Check className="w-4 h-4 text-accent-400" />
+                                <Check className="w-4 h-4 text-gold" />
                               )}
                             </button>
                           ))
@@ -813,7 +820,7 @@ function MenuItem({
       ? "bg-red-500"
       : tone === "primary"
         ? "bg-primary-500"
-        : "bg-accent-400";
+        : "bg-gold";
   const iconColor =
     tone === "danger"
       ? "text-red-400"
@@ -821,32 +828,32 @@ function MenuItem({
         ? "text-primary-400"
         : tone === "muted"
           ? "text-gray-300"
-          : "text-accent-400";
-  const hoverBg = tone === "danger" ? "hover:bg-red-500/10" : "hover:bg-white/5";
+          : "text-gold";
+  const hoverBg = tone === "danger" ? "hover:bg-red-500/10" : "hover:bg-gold/10";
 
   return (
     <button
       onClick={onClick}
       title={title}
-      className={`group relative flex items-center gap-4 w-full py-3 pl-5 pr-6 text-left rounded-lg transition-colors duration-200 ${
-        active ? "bg-white/10" : hoverBg
+      className={`group relative flex items-center gap-3.5 w-full py-2.5 pl-5 pr-6 text-left transition-colors duration-200 ${
+        active ? "bg-gold/10" : hoverBg
       }`}
     >
       <span
-        className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 rounded-full transition-all duration-200 ${bar} ${
+        className={`absolute left-0 top-1/2 -translate-y-1/2 w-0.5 transition-all duration-200 ${bar} ${
           active ? "h-3/5" : "h-0 group-hover:h-3/5"
         }`}
       />
       <span
-        className={`${iconColor} transition-transform group-hover:scale-110 [&>svg]:w-6 [&>svg]:h-6`}
+        className={`${iconColor} transition-transform group-hover:scale-110 [&>svg]:w-5 [&>svg]:h-5`}
       >
         {icon}
       </span>
       <span
-        className={`font-heading font-bold text-2xl uppercase tracking-wider transition-all ${
+        className={`font-heading font-bold text-xl uppercase tracking-wider transition-all ${
           active
-            ? "text-white translate-x-1"
-            : "text-gray-100 group-hover:text-white group-hover:translate-x-1"
+            ? "text-gold-bright translate-x-0.5"
+            : "text-gray-200 group-hover:text-gold-bright group-hover:translate-x-0.5"
         }`}
       >
         {label}

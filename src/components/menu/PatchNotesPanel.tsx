@@ -77,7 +77,7 @@ function groupStyle(
     case "added":
       return { label: t("patchNotes.added", "Añadido"), className: "text-green-400" };
     case "changed":
-      return { label: t("patchNotes.changed", "Cambiado"), className: "text-accent-400" };
+      return { label: t("patchNotes.changed", "Cambiado"), className: "text-gold" };
     case "fixed":
       return { label: t("patchNotes.fixed", "Arreglado"), className: "text-amber-400" };
     case "removed":
@@ -124,7 +124,7 @@ export default function PatchNotesPanel({ onClose }: { onClose: () => void }) {
           releases.map((release) => (
             <div key={release.version}>
               <div className="flex items-baseline gap-2 mb-2 pb-1 border-b border-white/10">
-                <h3 className="text-lg font-heading font-bold text-accent-400">
+                <h3 className="text-lg font-heading font-bold text-gold">
                   v{release.version}
                 </h3>
                 {release.date && (

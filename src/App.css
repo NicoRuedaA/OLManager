@@ -55,6 +55,12 @@
   --color-accent-300: #fcd34d;
   --color-accent-400: #ffd60a;
   --color-accent-500: #eab308;
+
+  /* Classic League of Legends client palette (menu chrome) */
+  --color-gold: #c8aa6e;
+  --color-gold-bright: #f0e6d2;
+  --color-gold-dark: #785a28;
+  --color-hextech-blue: #0a1428;
   --color-accent-600: #b8960a;
   --color-accent-700: #a16207;
   --color-accent-800: #854d0e;
