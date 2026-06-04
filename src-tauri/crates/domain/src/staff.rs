@@ -15,9 +15,11 @@ where
 pub struct Staff {
     pub id: String,
     pub first_name: String,
+    #[serde(default)]
     pub last_name: String,
     #[serde(default, deserialize_with = "deserialize_null_to_empty")]
     pub date_of_birth: String,
+    #[serde(default)]
     pub nationality: String,
     #[serde(default)]
     pub birth_country: Option<String>,
@@ -26,6 +28,7 @@ pub struct Staff {
     pub role: StaffRole,
 
     // Attributes 0-100
+    #[serde(default)]
     pub attributes: StaffAttributes,
     pub team_id: Option<String>,
 
@@ -49,7 +52,7 @@ pub enum StaffRole {
     Owner,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct StaffAttributes {

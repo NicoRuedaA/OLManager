@@ -165,19 +165,78 @@ pub fn dispatch(
             ok(json!(blockers), false)
         }
         "get_academy_acquisition_options" => {
-            // The acquisition pool is seeded from the ERL data tree, which the web
-            // server does not assemble yet. Return a valid, non-blocking response so
-            // the tab renders cleanly instead of erroring.
             let parent_team_id = string_arg(&args, &["parentTeamId", "parent_team_id"])?;
-            ok(
-                json!({
-                    "parent_team_id": parent_team_id,
-                    "acquisition_allowed": false,
-                    "blocked_reason": "Academy acquisition is not yet available in the web version",
-                    "options": [],
-                }),
-                false,
-            )
+
+            // Bootstrap academy seeds from ERL data
+            let bootstrap_date = game.clock.current_date.format("%Y-%m-%d").to_string();
+            ofm_core::game_setup::bootstrap_example_academy_pool_from_example(
+                &mut game.teams,
+                &mut game.players,
+                &bootstrap_date,
+            );
+
+            let parent = match game.teams.iter().find(|t| t.id == parent_team_id) {
+                Some(t) => t.clone(),
+                None => return Err(CommandError::bad_request(format!("Team '{}' not found", parent_team_id))),
+            };
+
+            let occupied_source_ids: std::collections::HashSet<String> = game.teams
+                .iter()
+                .filter(|t| t.team_kind == domain::team::TeamKind::Academy && t.parent_team_id.is_some())
+                .flat_map(|t| {
+                    let mut ids = vec![t.id.clone()];
+                    if let Some(ref meta) = t.academy {
+                        ids.push(meta.source_team_id.clone());
+                    }
+                    ids
+                })
+                .collect();
+
+            let taken_original_names: std::collections::HashSet<String> = game.teams
+                .iter()
+                .filter(|t| t.team_kind == domain::team::TeamKind::Academy && t.parent_team_id.is_some())
+                .filter_map(|t| t.academy.as_ref().map(|m| {
+                    m.original_name.to_lowercase().chars()
+                        .filter(|ch| ch.is_ascii_alphanumeric())
+                        .collect::<String>()
+                }))
+                .collect();
+
+            let options: Vec<ofm_core::academy::AcademyAcquisitionOption> =
+                ofm_core::academy::eligible_academy_acquisition_options(
+                    &parent.country,
+                    ofm_core::academy::academy_erl_catalog(),
+                    ofm_core::academy::academy_candidate_catalog(),
+                )
+                .into_iter()
+                .filter(|opt| {
+                    !occupied_source_ids.contains(&opt.source_team_id)
+                        && !taken_original_names.contains(
+                            &opt.name.to_lowercase().chars()
+                                .filter(|ch| ch.is_ascii_alphanumeric())
+                                .collect::<String>()
+                        )
+                })
+                .collect();
+
+            let blocked_reason = if !parent.is_main() {
+                Some("Academy can only be acquired for a main team".to_string())
+            } else if parent.academy_team_id.is_some() {
+                Some("Parent team already has academy".to_string())
+            } else if options.is_empty() {
+                Some("No free academy candidates available".to_string())
+            } else if options.iter().all(|o| parent.finance < o.acquisition_cost) {
+                Some("Insufficient funds for all eligible academy acquisition options".to_string())
+            } else {
+                None
+            };
+
+            ok(json!({
+                "parent_team_id": parent_team_id,
+                "acquisition_allowed": blocked_reason.is_none(),
+                "blocked_reason": blocked_reason,
+                "options": options,
+            }), false)
         }
         _ => Err(CommandError::not_found(format!(
             "unsupported command: {command}"
