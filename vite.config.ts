@@ -1,7 +1,12 @@
 import path from "node:path";
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+
+const pkg = JSON.parse(
+  readFileSync(path.resolve(__dirname, "package.json"), "utf-8"),
+) as { version: string };
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
@@ -43,6 +48,9 @@ export default defineConfig(async ({ mode }) => {
   const isWeb = mode === "web";
 
   return {
+    define: {
+      __APP_VERSION__: JSON.stringify(pkg.version),
+    },
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
