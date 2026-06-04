@@ -1,19 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { GameStateData, useGameStore } from "../../store/gameStore";
-import { Card, CardHeader, CardBody, ProgressBar, CountryFlag, Button, Badge } from "../ui";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  ProgressBar,
+  CountryFlag,
+  Button,
+  Badge,
+} from "../ui";
 import { formatDate } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "../../lib/countries";
 import DashboardModalFrame from "../dashboard/DashboardModalFrame";
 import { Settings, X, ChevronDown, Check, ImagePlus } from "lucide-react";
 import { resolveStaffPhoto } from "../../lib/playerPhotos";
-
-const MANAGER_ICONS = Array.from({ length: 29 }, (_, i) => {
-  // icons 0-28, skip 2 (doesn't exist)
-  if (i === 2) return null;
-  return `/manager-icons/${i}.webp`;
-}).filter(Boolean) as string[];
+import { MANAGER_ICON_PATHS } from "../../lib/managerAvatars";
 
 interface ManagerTabProps {
   gameState: GameStateData;
@@ -23,7 +26,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
   const setGameState = useGameStore((state) => state.setGameState);
   const { t, i18n } = useTranslation();
   const mgr = gameState.manager;
-  const myTeam = gameState.teams.find(tm => tm.id === mgr.team_id);
+  const myTeam = gameState.teams.find((tm) => tm.id === mgr.team_id);
   const stats = mgr.career_stats;
   const fullName = `${mgr.first_name} ${mgr.last_name}`;
   const displayName = mgr.nickname?.trim() || fullName;
@@ -36,8 +39,11 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     setIsSavingAvatar(true);
     try {
       await invoke("update_manager_profile", {
-        nickname: null, firstName: null, lastName: null,
-        dob: null, nationality: null,
+        nickname: null,
+        firstName: null,
+        lastName: null,
+        dob: null,
+        nationality: null,
         avatarPath,
       });
       setGameState({
@@ -69,8 +75,10 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
 
   const filteredNationalities = countriesList.filter((nat) => {
     const searchLower = nationalitySearch.toLowerCase();
-    return nat.name.toLowerCase().includes(searchLower) || 
-           nat.code.toLowerCase().includes(searchLower);
+    return (
+      nat.name.toLowerCase().includes(searchLower) ||
+      nat.code.toLowerCase().includes(searchLower)
+    );
   });
 
   // Close nationality dropdown on outside click
@@ -78,7 +86,9 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
     const handleClickOutside = (e: MouseEvent) => {
       if (!nationalityOpen || !nationalityRef.current) return;
       const targetNode = e.target instanceof Node ? e.target : null;
-      const clickedInside = targetNode ? nationalityRef.current.contains(targetNode) : false;
+      const clickedInside = targetNode
+        ? nationalityRef.current.contains(targetNode)
+        : false;
       if (!clickedInside) {
         setNationalityOpen(false);
       }
@@ -121,7 +131,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
         date_of_birth: formData.dob,
         nationality: formData.nationality,
       };
-      
+
       setGameState({
         ...gameState,
         manager: updatedManager,
@@ -157,22 +167,44 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
             </div>
           </div>
           <div>
-            <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">{displayName}</h2>
+            <h2 className="text-2xl font-heading font-bold text-white uppercase tracking-wide">
+              {displayName}
+            </h2>
             {mgr.nickname?.trim() ? (
-              <p className="text-gray-400 text-xs mt-0.5 uppercase tracking-wide">{fullName}</p>
+              <p className="text-gray-400 text-xs mt-0.5 uppercase tracking-wide">
+                {fullName}
+              </p>
             ) : null}
             <p className="text-gray-400 text-sm mt-1">
-              <CountryFlag code={mgr.nationality} locale={i18n.language} className="mr-1 text-sm leading-none" />
-              {countryName(mgr.nationality, i18n.language)} • {t('manager.born')} {formatDate(mgr.date_of_birth, i18n.language)}
+              <CountryFlag
+                code={mgr.nationality}
+                locale={i18n.language}
+                className="mr-1 text-sm leading-none"
+              />
+              {countryName(mgr.nationality, i18n.language)} •{" "}
+              {t("manager.born")} {formatDate(mgr.date_of_birth, i18n.language)}
             </p>
-            {myTeam && <p className="text-primary-400 text-sm font-semibold mt-0.5">{t('manager.managerOf', { team: myTeam.name })}</p>}
+            {myTeam && (
+              <p className="text-primary-400 text-sm font-semibold mt-0.5">
+                {t("manager.managerOf", { team: myTeam.name })}
+              </p>
+            )}
           </div>
           <div className="ml-auto flex items-center gap-4">
             <div className="text-right">
-              <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">{t('manager.reputation')}</p>
-              <p className="font-heading font-bold text-2xl text-accent-400">{mgr.reputation}</p>
+              <p className="text-xs text-gray-400 font-heading uppercase tracking-wider">
+                {t("manager.reputation")}
+              </p>
+              <p className="font-heading font-bold text-2xl text-accent-400">
+                {mgr.reputation}
+              </p>
               <div className="w-20 h-1 rounded-full bg-white/10 overflow-hidden mt-1 ml-auto">
-                <div className="h-full rounded-full bg-accent-400" style={{ width: `${Math.min(100, (mgr.reputation / 1000) * 100)}%` }} />
+                <div
+                  className="h-full rounded-full bg-accent-400"
+                  style={{
+                    width: `${Math.min(100, (mgr.reputation / 1000) * 100)}%`,
+                  }}
+                />
               </div>
             </div>
             <button
@@ -207,7 +239,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
               </div>
             ) : (
               <div className="grid grid-cols-6 gap-3 max-h-80 overflow-y-auto p-1">
-                {MANAGER_ICONS.map((path) => (
+                {MANAGER_ICON_PATHS.map((path) => (
                   <button
                     key={path}
                     onClick={() => handleSelectAvatar(path)}
@@ -255,7 +287,9 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                 maxLength={20}
                 className="w-full bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
                 value={formData.nickname}
-                onChange={(e) => setFormData((prev) => ({ ...prev, nickname: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, nickname: e.target.value }))
+                }
               />
             </div>
 
@@ -269,7 +303,12 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                   maxLength={30}
                   className="w-full bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
                   value={formData.firstName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      firstName: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <div className="flex-1">
@@ -280,7 +319,12 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                   maxLength={30}
                   className="w-full bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
                   value={formData.lastName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      lastName: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
@@ -294,12 +338,17 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                 type="date"
                 className="w-full bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
                 value={formData.dob}
-                onChange={(e) => setFormData((prev) => ({ ...prev, dob: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, dob: e.target.value }))
+                }
               />
             </div>
 
             {/* Nationality dropdown */}
-            <div ref={nationalityRef} className={nationalityOpen ? "relative z-50" : undefined}>
+            <div
+              ref={nationalityRef}
+              className={nationalityOpen ? "relative z-50" : undefined}
+            >
               <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
                 {t("createManager.countryOfOrigin", "Country/Region of Origin")}
               </label>
@@ -309,17 +358,32 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                   onClick={() => setNationalityOpen(!nationalityOpen)}
                   className="w-full flex items-center justify-between bg-gray-50 dark:bg-navy-900 border border-gray-300 dark:border-navy-600 text-left rounded-lg p-3 outline-none transition-all hover:border-primary-500"
                 >
-                  <span className={formData.nationality ? "text-gray-900 dark:text-white" : "text-gray-400"}>
+                  <span
+                    className={
+                      formData.nationality
+                        ? "text-gray-900 dark:text-white"
+                        : "text-gray-400"
+                    }
+                  >
                     {formData.nationality ? (
                       <span className="flex items-center gap-2">
-                        <CountryFlag code={formData.nationality} locale={i18n.language} className="text-lg leading-none" />
-                        <span>{countryName(formData.nationality, i18n.language) || formData.nationality}</span>
+                        <CountryFlag
+                          code={formData.nationality}
+                          locale={i18n.language}
+                          className="text-lg leading-none"
+                        />
+                        <span>
+                          {countryName(formData.nationality, i18n.language) ||
+                            formData.nationality}
+                        </span>
                       </span>
                     ) : (
                       t("createManager.selectCountry", "Select Country/Region")
                     )}
                   </span>
-                  <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${nationalityOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 text-gray-400 transition-transform ${nationalityOpen ? "rotate-180" : ""}`}
+                  />
                 </button>
                 {nationalityOpen && (
                   <div className="absolute z-50 top-full mt-1 left-0 right-0 bg-white dark:bg-navy-700 rounded-lg shadow-xl border border-gray-200 dark:border-navy-600 overflow-hidden max-h-[200px] overflow-y-auto">
@@ -339,7 +403,10 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                         type="button"
                         onMouseDown={(e) => {
                           e.preventDefault();
-                          setFormData((prev) => ({ ...prev, nationality: nat.code }));
+                          setFormData((prev) => ({
+                            ...prev,
+                            nationality: nat.code,
+                          }));
                           setNationalityOpen(false);
                           setNationalitySearch("");
                         }}
@@ -350,10 +417,16 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                         }`}
                       >
                         <div className="flex items-center gap-2">
-                          <CountryFlag code={nat.code} locale={i18n.language} className="text-lg leading-none" />
+                          <CountryFlag
+                            code={nat.code}
+                            locale={i18n.language}
+                            className="text-lg leading-none"
+                          />
                           <span>{nat.name}</span>
                         </div>
-                        {formData.nationality === nat.code && <Check className="w-4 h-4 text-primary-500" />}
+                        {formData.nationality === nat.code && (
+                          <Check className="w-4 h-4 text-primary-500" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -378,7 +451,9 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
                 onClick={handleSaveSettings}
                 disabled={isSaving}
               >
-                {isSaving ? t("common.saving", "Guardando...") : t("common.save", "Guardar")}
+                {isSaving
+                  ? t("common.saving", "Guardando...")
+                  : t("common.save", "Guardar")}
               </Button>
             </div>
           </div>
@@ -387,53 +462,104 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
 
       {/* Career stats */}
       <Card accent="accent" className="md:col-span-2">
-        <CardHeader>{t('manager.careerStats')}</CardHeader>
+        <CardHeader>{t("manager.careerStats")}</CardHeader>
         <CardBody>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-            <StatBlock label={t('manager.matches')} value={stats.matches_managed} />
-            <StatBlock label={t('manager.wins')} value={stats.wins} />
-            <StatBlock label={t('manager.losses')} value={stats.losses} />
-            <StatBlock label={t('manager.trophies')} value={stats.trophies} />
-            <StatBlock label={t('manager.winPercent')} value={stats.matches_managed > 0 ? `${(stats.wins / stats.matches_managed * 100).toFixed(0)}%` : "—"} />
+            <StatBlock
+              label={t("manager.matches")}
+              value={stats.matches_managed}
+            />
+            <StatBlock label={t("manager.wins")} value={stats.wins} />
+            <StatBlock label={t("manager.losses")} value={stats.losses} />
+            <StatBlock label={t("manager.trophies")} value={stats.trophies} />
+            <StatBlock
+              label={t("manager.winPercent")}
+              value={
+                stats.matches_managed > 0
+                  ? `${((stats.wins / stats.matches_managed) * 100).toFixed(0)}%`
+                  : "—"
+              }
+            />
           </div>
         </CardBody>
       </Card>
 
       {/* Board satisfaction + Fan approval */}
       <Card>
-        <CardHeader>{t('manager.boardStatus')}</CardHeader>
+        <CardHeader>{t("manager.boardStatus")}</CardHeader>
         <CardBody>
           <div className="grid grid-cols-2 gap-4">
             {/* Board */}
             <div>
               <div className="text-center mb-2">
-                <p className="font-heading font-bold text-3xl text-gray-800 dark:text-gray-100">{mgr.satisfaction}%</p>
-                <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">{t('manager.board')}</p>
+                <p className="font-heading font-bold text-3xl text-gray-800 dark:text-gray-100">
+                  {mgr.satisfaction}%
+                </p>
+                <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">
+                  {t("manager.board")}
+                </p>
               </div>
               <ProgressBar value={mgr.satisfaction} variant="auto" size="md" />
               <div className="flex items-center justify-center gap-1.5 mt-2">
-                <Badge variant={mgr.satisfaction >= 80 ? "success" : mgr.satisfaction >= 50 ? "primary" : mgr.satisfaction >= 30 ? "accent" : "danger"} size="sm">
-                  {mgr.satisfaction >= 80 ? t('manager.boardVeryPleased') :
-                   mgr.satisfaction >= 50 ? t('manager.boardSatisfied') :
-                   mgr.satisfaction >= 30 ? t('manager.boardConcerns') :
-                   t('manager.boardThreat')}
+                <Badge
+                  variant={
+                    mgr.satisfaction >= 80
+                      ? "success"
+                      : mgr.satisfaction >= 50
+                        ? "primary"
+                        : mgr.satisfaction >= 30
+                          ? "accent"
+                          : "danger"
+                  }
+                  size="sm"
+                >
+                  {mgr.satisfaction >= 80
+                    ? t("manager.boardVeryPleased")
+                    : mgr.satisfaction >= 50
+                      ? t("manager.boardSatisfied")
+                      : mgr.satisfaction >= 30
+                        ? t("manager.boardConcerns")
+                        : t("manager.boardThreat")}
                 </Badge>
               </div>
             </div>
             {/* Fans */}
             <div>
               <div className="text-center mb-2">
-                <p className="font-heading font-bold text-3xl text-gray-800 dark:text-gray-100">{mgr.fan_approval ?? 50}%</p>
-                <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">{t('manager.fans')}</p>
+                <p className="font-heading font-bold text-3xl text-gray-800 dark:text-gray-100">
+                  {mgr.fan_approval ?? 50}%
+                </p>
+                <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">
+                  {t("manager.fans")}
+                </p>
               </div>
-              <ProgressBar value={mgr.fan_approval ?? 50} variant="auto" size="md" />
+              <ProgressBar
+                value={mgr.fan_approval ?? 50}
+                variant="auto"
+                size="md"
+              />
               <div className="flex items-center justify-center gap-1.5 mt-2">
-                <Badge variant={(mgr.fan_approval ?? 50) >= 80 ? "success" : (mgr.fan_approval ?? 50) >= 60 ? "primary" : (mgr.fan_approval ?? 50) >= 40 ? "accent" : "danger"} size="sm">
-                  {(mgr.fan_approval ?? 50) >= 80 ? t('manager.fanAdore') :
-                   (mgr.fan_approval ?? 50) >= 60 ? t('manager.fanBehind') :
-                   (mgr.fan_approval ?? 50) >= 40 ? t('manager.fanMixed') :
-                   (mgr.fan_approval ?? 50) >= 20 ? t('manager.fanRestless') :
-                   t('manager.fanUnrest')}
+                <Badge
+                  variant={
+                    (mgr.fan_approval ?? 50) >= 80
+                      ? "success"
+                      : (mgr.fan_approval ?? 50) >= 60
+                        ? "primary"
+                        : (mgr.fan_approval ?? 50) >= 40
+                          ? "accent"
+                          : "danger"
+                  }
+                  size="sm"
+                >
+                  {(mgr.fan_approval ?? 50) >= 80
+                    ? t("manager.fanAdore")
+                    : (mgr.fan_approval ?? 50) >= 60
+                      ? t("manager.fanBehind")
+                      : (mgr.fan_approval ?? 50) >= 40
+                        ? t("manager.fanMixed")
+                        : (mgr.fan_approval ?? 50) >= 20
+                          ? t("manager.fanRestless")
+                          : t("manager.fanUnrest")}
                 </Badge>
               </div>
             </div>
@@ -444,29 +570,54 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
       {/* Career history */}
       {mgr.career_history.length > 0 && (
         <Card className="md:col-span-3">
-          <CardHeader>{t('manager.careerHistory')}</CardHeader>
+          <CardHeader>{t("manager.careerHistory")}</CardHeader>
           <CardBody className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{t('manager.club')}</th>
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">{t('manager.period')}</th>
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.played')}</th>
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.won')}</th>
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.drawn')}</th>
-                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">{t('common.lost')}</th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      {t("manager.club")}
+                    </th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                      {t("manager.period")}
+                    </th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                      {t("common.played")}
+                    </th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                      {t("common.won")}
+                    </th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                      {t("common.drawn")}
+                    </th>
+                    <th className="py-3 px-5 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
+                      {t("common.lost")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
                   {mgr.career_history.map((entry, i) => (
                     <tr key={i}>
-                      <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">{entry.team_name}</td>
-                      <td className="py-3 px-5 text-sm text-gray-500 dark:text-gray-400">{entry.start_date.substring(0, 4)} — {entry.end_date?.substring(0, 4) || t('common.present')}</td>
-                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.matches}</td>
-                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.wins}</td>
-                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.draws}</td>
-                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">{entry.losses}</td>
+                      <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
+                        {entry.team_name}
+                      </td>
+                      <td className="py-3 px-5 text-sm text-gray-500 dark:text-gray-400">
+                        {entry.start_date.substring(0, 4)} —{" "}
+                        {entry.end_date?.substring(0, 4) || t("common.present")}
+                      </td>
+                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                        {entry.matches}
+                      </td>
+                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                        {entry.wins}
+                      </td>
+                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                        {entry.draws}
+                      </td>
+                      <td className="py-3 px-5 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
+                        {entry.losses}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -479,11 +630,21 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
   );
 }
 
-function StatBlock({ label, value }: { label: string; value: number | string }) {
+function StatBlock({
+  label,
+  value,
+}: {
+  label: string;
+  value: number | string;
+}) {
   return (
     <div className="text-center p-3 bg-gray-50 dark:bg-navy-700 rounded-lg">
-      <p className="font-heading font-bold text-xl text-gray-800 dark:text-gray-100 tabular-nums">{value}</p>
-      <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">{label}</p>
+      <p className="font-heading font-bold text-xl text-gray-800 dark:text-gray-100 tabular-nums">
+        {value}
+      </p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 font-heading uppercase tracking-wider mt-0.5">
+        {label}
+      </p>
     </div>
   );
 }

@@ -28,8 +28,15 @@ import {
   LogOut,
   Mail,
   KeyRound,
+  ImagePlus,
+  Clock,
+  Globe2,
 } from "lucide-react";
 import { countryName, allNationalities } from "../lib/countries";
+import {
+  DEFAULT_MANAGER_ICON_PATH,
+  MANAGER_ICON_PATHS,
+} from "../lib/managerAvatars";
 
 const canUseTauriInvoke = () => {
   if (import.meta.env.MODE === "test") return true;
@@ -127,10 +134,27 @@ function logNationalityDebug(
   });
 }
 
+function numericUserMetadataValue(value: unknown): number | null {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+function formatPlaytime(totalSeconds: number): string {
+  const safeSeconds = Math.max(0, Math.floor(totalSeconds));
+  const hours = Math.floor(safeSeconds / 3600);
+  const minutes = Math.floor((safeSeconds % 3600) / 60);
+
+  if (hours > 0) {
+    return `${hours}h ${minutes.toString().padStart(2, "0")}m`;
+  }
+
+  return `${minutes}m`;
+}
+
 export default function MainMenu() {
   const navigate = useNavigate();
   const setGameActive = useGameStore((state) => state.setGameActive);
-  const { session, signOut } = useAuth();
+  const { session, playtimeSeconds, signOut, updateUserAvatarPath } = useAuth();
   const debugToolsEnabled = useSettingsStore(
     (state) => state.settings.debug_tools_enabled,
   );
@@ -142,6 +166,14 @@ export default function MainMenu() {
     (session?.user.user_metadata?.name as string | undefined) ||
     userEmail.split("@")[0] ||
     t("auth.user", "Usuario");
+  const userAvatarPath =
+    (session?.user.user_metadata?.avatar_path as string | undefined) ||
+    (session?.user.user_metadata?.avatar_url as string | undefined) ||
+    (session?.user.user_metadata?.picture as string | undefined) ||
+    DEFAULT_MANAGER_ICON_PATH;
+  const userCountry =
+    (session?.user.user_metadata?.country as string | undefined) || "";
+  const userAge = numericUserMetadataValue(session?.user.user_metadata?.age);
 
   const [menuState, setMenuState] = useState<
     "main" | "create" | "load" | "community" | "patchnotes" | "profile"
@@ -392,7 +424,7 @@ export default function MainMenu() {
       {/* Two-column layout: persistent nav on the left, active panel on the right */}
       <div className="relative z-10 min-h-screen flex">
         {/* Left column — logo + nav (always visible) */}
-        <div className="flex flex-col justify-center px-8 sm:px-14 lg:px-20 w-full max-w-md shrink-0">
+        <div className="flex flex-col justify-start pt-[15vh] pb-8 px-8 sm:px-14 lg:px-20 w-full max-w-md shrink-0">
           <div className="w-full animate-fade-in-up">
             <img
               src="/olmanager-logo.svg"
@@ -423,15 +455,6 @@ export default function MainMenu() {
                   })
                 }
               />
-              {isWebSession && (
-                <MenuItem
-                  icon={<UserCircle />}
-                  tone="muted"
-                  label={t("auth.profile")}
-                  active={menuState === "profile"}
-                  onClick={() => setMenuState("profile")}
-                />
-              )}
               <MenuItem
                 icon={<Users />}
                 label={t("menu.community", "Comunidad")}
@@ -454,16 +477,7 @@ export default function MainMenu() {
                   onClick={() => navigate("/world-editor")}
                 />
               )}
-              {isWebSession ? (
-                <MenuItem
-                  icon={<LogOut />}
-                  tone="danger"
-                  label={t("auth.signOut")}
-                  onClick={() => {
-                    void handleSignOut();
-                  }}
-                />
-              ) : (
+              {!isWebSession && (
                 <MenuItem
                   icon={<Power />}
                   tone="danger"
@@ -479,10 +493,15 @@ export default function MainMenu() {
               <button
                 type="button"
                 onClick={() => setMenuState("profile")}
-                className="mt-8 flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
+                className="mt-12 sm:mt-14 flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-400 text-navy-950">
-                  <UserCircle className="h-6 w-6" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-accent-400/40 bg-white/10">
+                  <img
+                    src={userAvatarPath}
+                    alt={userDisplayName}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
                 </span>
                 <span className="min-w-0">
                   <span className="block truncate font-heading text-sm font-bold uppercase tracking-wider text-white">
@@ -882,9 +901,14 @@ export default function MainMenu() {
                     email={userEmail}
                     userId={session.user.id}
                     displayName={userDisplayName}
+                    avatarPath={userAvatarPath}
+                    country={userCountry}
+                    age={userAge}
+                    playtimeSeconds={playtimeSeconds}
                     createdAt={session.user.created_at}
                     onClose={() => setMenuState("main")}
                     onSignOut={handleSignOut}
+                    onAvatarChange={updateUserAvatarPath}
                   />
                 )}
               </div>
@@ -905,18 +929,31 @@ function UserProfilePanel({
   email,
   userId,
   displayName,
+  avatarPath,
+  country,
+  age,
+  playtimeSeconds,
   createdAt,
   onClose,
   onSignOut,
+  onAvatarChange,
 }: {
   email: string;
   userId: string;
   displayName: string;
+  avatarPath: string;
+  country: string;
+  age: number | null;
+  playtimeSeconds: number;
   createdAt?: string;
   onClose: () => void;
   onSignOut: () => Promise<void>;
+  onAvatarChange: (avatarPath: string) => Promise<void>;
 }) {
   const { t, i18n } = useTranslation();
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+  const [isSavingAvatar, setIsSavingAvatar] = useState(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
   const createdDate = createdAt
     ? new Intl.DateTimeFormat(i18n.language, {
         year: "numeric",
@@ -924,6 +961,20 @@ function UserProfilePanel({
         day: "numeric",
       }).format(new Date(createdAt))
     : null;
+
+  const handleSelectAvatar = async (nextAvatarPath: string) => {
+    setIsSavingAvatar(true);
+    setAvatarError(null);
+    try {
+      await onAvatarChange(nextAvatarPath);
+      setShowAvatarPicker(false);
+    } catch (error) {
+      console.error("Failed to update user avatar:", error);
+      setAvatarError(t("auth.avatarSaveError"));
+    } finally {
+      setIsSavingAvatar(false);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -942,14 +993,89 @@ function UserProfilePanel({
 
       <div className="border-t border-white/10">
         <div className="flex items-center gap-4 border-b border-white/10 py-5">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-400 text-navy-950">
-            <UserCircle className="h-8 w-8" />
-          </span>
+          <div className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => setShowAvatarPicker((current) => !current)}
+              className="group relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-accent-400/40 bg-white/10 shadow-lg shadow-black/20"
+              title={t("auth.changeAvatar")}
+            >
+              <img
+                src={avatarPath}
+                alt={displayName}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <span className="absolute inset-0 flex items-center justify-center bg-black/55 opacity-0 transition-opacity group-hover:opacity-100">
+                <ImagePlus className="h-6 w-6 text-white" />
+              </span>
+            </button>
+
+            {showAvatarPicker && (
+              <div className="absolute bottom-full left-0 z-50 mb-3 w-[21rem] max-w-[calc(100vw-2rem)] rounded-2xl border border-white/15 bg-navy-900/95 p-4 shadow-2xl shadow-black/50 backdrop-blur-xl">
+                <div className="absolute -bottom-2 left-6 h-4 w-4 rotate-45 border-b border-r border-white/15 bg-navy-900/95" />
+                <div className="relative">
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="font-heading text-sm font-bold uppercase tracking-wider text-white">
+                      {t("auth.selectAvatar")}
+                    </p>
+                    {isSavingAvatar && (
+                      <span className="text-xs text-gray-400">
+                        {t("common.saving", "Guardando...")}
+                      </span>
+                    )}
+                  </div>
+                  <div className="grid max-h-64 grid-cols-6 gap-3 overflow-y-auto pr-1">
+                    {MANAGER_ICON_PATHS.map((path) => (
+                      <button
+                        key={path}
+                        type="button"
+                        onClick={() => {
+                          void handleSelectAvatar(path);
+                        }}
+                        disabled={isSavingAvatar}
+                        className={`relative aspect-square overflow-hidden rounded-xl border-2 transition-all hover:scale-105 disabled:cursor-wait disabled:opacity-70 ${
+                          avatarPath === path
+                            ? "border-accent-400 ring-2 ring-accent-400/30"
+                            : "border-white/10 hover:border-accent-400/70"
+                        }`}
+                        aria-label={t("auth.selectAvatar")}
+                      >
+                        <img
+                          src={path}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                        {avatarPath === path && (
+                          <span className="absolute right-1 top-1 rounded-full bg-accent-400 p-0.5 text-navy-950">
+                            <Check className="h-3.5 w-3.5" />
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  {avatarError && (
+                    <p className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+                      {avatarError}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
           <div className="min-w-0">
             <p className="font-heading text-xl font-bold uppercase tracking-wider text-white">
               {displayName}
             </p>
             <p className="truncate text-sm text-gray-400">{email}</p>
+            <button
+              type="button"
+              onClick={() => setShowAvatarPicker((current) => !current)}
+              className="mt-2 font-heading text-xs font-bold uppercase tracking-wider text-accent-400 transition-colors hover:text-accent-300"
+            >
+              {t("auth.changeAvatar")}
+            </button>
           </div>
         </div>
 
@@ -957,6 +1083,25 @@ function UserProfilePanel({
           icon={<Mail />}
           label={t("auth.email")}
           value={email || t("auth.notAvailable")}
+        />
+        {country && (
+          <ProfileRow
+            icon={<Globe2 />}
+            label={t("auth.country")}
+            value={countryName(country, i18n.language)}
+          />
+        )}
+        {age && (
+          <ProfileRow
+            icon={<UserCircle />}
+            label={t("auth.age")}
+            value={String(age)}
+          />
+        )}
+        <ProfileRow
+          icon={<Clock />}
+          label={t("auth.playtime")}
+          value={formatPlaytime(playtimeSeconds)}
         />
         <ProfileRow
           icon={<KeyRound />}
