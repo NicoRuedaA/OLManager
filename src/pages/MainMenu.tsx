@@ -9,6 +9,7 @@ import { Button, ThemeToggle, DatePicker, CountryFlag } from "../components/ui";
 import SavesList from "../components/menu/SavesList";
 import MenuBackground from "../components/menu/MenuBackground";
 import CommunityPanel from "../components/menu/CommunityPanel";
+import PatchNotesPanel from "../components/menu/PatchNotesPanel";
 import {
   FolderOpen,
   Settings,
@@ -21,6 +22,7 @@ import {
   Power,
   Database,
   Users,
+  Newspaper,
 } from "lucide-react";
 import { countryName, allNationalities } from "../lib/countries";
 
@@ -128,7 +130,7 @@ export default function MainMenu() {
   const { t, i18n } = useTranslation();
 
   const [menuState, setMenuState] = useState<
-    "main" | "create" | "load" | "community"
+    "main" | "create" | "load" | "community" | "patchnotes"
   >("main");
   const [saves, setSaves] = useState<SaveEntry[]>([]);
   const [isLoadingSaves, setIsLoadingSaves] = useState(false);
@@ -421,6 +423,17 @@ export default function MainMenu() {
                 </span>
               </button>
 
+              <button
+                onClick={() => setMenuState("patchnotes")}
+                className="group relative flex items-center gap-4 w-full py-3 pl-5 pr-6 text-left rounded-lg hover:bg-white/5 transition-colors duration-200"
+              >
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 h-0 w-1 rounded-full bg-accent-400 transition-all duration-200 group-hover:h-3/5" />
+                <Newspaper className="w-6 h-6 text-gray-300 transition-transform group-hover:scale-110" />
+                <span className="font-heading font-bold text-2xl uppercase tracking-wider text-gray-100 transition-all group-hover:text-white group-hover:translate-x-1">
+                  {t("menu.patchNotes", "Novedades")}
+                </span>
+              </button>
+
               {debugToolsEnabled && (
                 <button
                   onClick={() => navigate("/world-editor")}
@@ -452,10 +465,11 @@ export default function MainMenu() {
         </div>
       )}
 
-      {/* Create / Load / Community — glass card over the slideshow */}
+      {/* Create / Load / Community / Patch notes — glass card over the slideshow */}
       {(menuState === "create" ||
         menuState === "load" ||
-        menuState === "community") && (
+        menuState === "community" ||
+        menuState === "patchnotes") && (
         <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
           <div className="w-full max-w-md animate-scale-in">
             <div className="h-1.5 bg-gradient-to-r from-primary-500 via-accent-400 to-primary-500 rounded-t-2xl" />
@@ -798,6 +812,11 @@ export default function MainMenu() {
           {/* Community */}
           {menuState === "community" && (
             <CommunityPanel onClose={() => setMenuState("main")} />
+          )}
+
+          {/* Patch notes */}
+          {menuState === "patchnotes" && (
+            <PatchNotesPanel onClose={() => setMenuState("main")} />
           )}
             </div>
           </div>
