@@ -1,0 +1,42 @@
+# Self-hosted OLManager (web mode) — backend (Rust) + nginx frontend.
+# Database & auth stay on Supabase (configure via .env).
+#
+#   cp .env.docker.example .env   # then fill in the secrets
+#   docker compose up -d --build
+#
+# App will be available at http://<server>:${WEB_PORT:-8080}
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      # Container paths + port (override anything inherited from .env).
+      PORT: "8080"
+      OLM_DATA_DIR: /app/data
+      OLM_PUBLIC_DIR: /app/public
+    expose:
+      - "8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${WEB_PORT:-8080}:80"

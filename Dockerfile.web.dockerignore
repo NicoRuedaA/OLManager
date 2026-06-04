@@ -1,0 +1,18 @@
+# Build context for the frontend image. Keep src/, public/, index.html and
+# the Vite/TS config; drop everything the web build doesn't need.
+node_modules
+dist
+src-tauri
+web
+e2e
+docs
+tmp
+export-test-lec
+.git
+.github
+.engram
+.claude
+.env
+.env.*
+!.env.example
+*.zip

@@ -119,8 +119,12 @@ async fn main() {
         .layer(CorsLayer::permissive())
         .with_state(state);
 
-    let addr = "0.0.0.0:3001";
-    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    let port = std::env::var("PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .unwrap_or(3001);
+    let addr = format!("0.0.0.0:{port}");
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
     tracing::info!("olmanager-server listening on http://{addr}");
     axum::serve(listener, app).await.unwrap();
 }

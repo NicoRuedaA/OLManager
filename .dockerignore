@@ -1,0 +1,21 @@
+# Keep the backend image build context small and fast.
+# Only src-tauri/ (the Rust workspace) and data/ are needed.
+node_modules
+dist
+web
+public
+docs
+e2e
+target
+src-tauri/target
+.git
+.github
+.engram
+.claude
+tmp
+export-test-lec
+*.png
+*.md
+.env
+.env.*
+!.env.example
