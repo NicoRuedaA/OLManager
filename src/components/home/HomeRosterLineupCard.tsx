@@ -1,12 +1,14 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import playersSeed from "../../../data/lec/draft/players.json";
+import playersSeed from "../../../data/draft/players.json";
 
 import type { ChampionMasteryEntryData, PlayerData } from "../../store/gameStore";
 import { Card, CardBody, CardHeader } from "../ui";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
+import { normalizeChampionKey } from "../../lib/championIds";
+import { resolveChampionSplash } from "../../lib/championImages";
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -42,39 +44,6 @@ const TOP_CHAMPION_BY_IGN = new Map(
 
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-function championIdFromName(name: string): string | null {
-  const normalized = normalizeKey(name);
-  if (!normalized) return null;
-
-  const overrides: Record<string, string> = {
-    aurelionsol: "AurelionSol",
-    belveth: "Belveth",
-    chogath: "Chogath",
-    drmundo: "DrMundo",
-    jarvaniv: "JarvanIV",
-    kaisa: "Kaisa",
-    ksante: "KSante",
-    khazix: "Khazix",
-    kogmaw: "KogMaw",
-    leesin: "LeeSin",
-    monkeyking: "MonkeyKing",
-    nunuandwillump: "Nunu",
-    reksai: "RekSai",
-    tahmkench: "TahmKench",
-    velkoz: "Velkoz",
-  };
-
-  if (overrides[normalized]) return overrides[normalized];
-
-  const special = normalized.charAt(0).toUpperCase() + normalized.slice(1);
-  return special;
-}
-
-function championSplashUrl(championId: string | null): string | null {
-  if (!championId) return null;
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_0.jpg`;
 }
 
 export default function HomeRosterLineupCard({
@@ -135,10 +104,11 @@ export default function HomeRosterLineupCard({
       </CardHeader>
       <CardBody>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
-          {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name) : null;
+          {lineup.map(({ role, player }, index) => {
+            const photo = player ? player.profile_image_url ?? "/default/defaultplayer.webp" : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
+            const fitness = player?.fitness ?? null;
             const morale = player?.morale ?? null;
             const topChampion = player
               ? topMasteryChampionByPlayerId.get(player.id)
@@ -146,12 +116,15 @@ export default function HomeRosterLineupCard({
                 ?? fallbackChampionForRole(player.id, role)
                 ?? ""
               : "";
-            const championSplash = championSplashUrl(championIdFromName(topChampion));
+            const canonicalKey = topChampion ? normalizeChampionKey(topChampion) : "";
+            const championSplash = canonicalKey
+              ? resolveChampionSplash(canonicalKey)
+              : null;
 
             return (
               <div
                 key={role}
-                className="relative overflow-hidden rounded-md border border-gray-100 dark:border-navy-600 bg-gray-50 dark:bg-navy-800/40 p-2"
+                className={`relative overflow-hidden rounded-md border border-gray-100 dark:border-navy-600 bg-gray-50 dark:bg-navy-800/40 p-2 animate-fade-in-up delay-${(index % 5) * 100 + 100}`}
               >
                 {championSplash ? (
                   <>
@@ -164,7 +137,7 @@ export default function HomeRosterLineupCard({
                 ) : null}
 
                 <div className="relative z-10">
-                <p className="text-[10px] font-heading font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                <p className="text-2xs font-heading font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {role}
                 </p>
 
@@ -183,20 +156,26 @@ export default function HomeRosterLineupCard({
                     <p className="text-xs font-heading font-bold truncate text-gray-800 dark:text-gray-100">
                       {player?.match_name ?? "—"}
                     </p>
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                    <p className="text-2xs text-gray-500 dark:text-gray-400">
                       {t("common.ovr")} {ovr ?? "—"}
                     </p>
                     {topChampion ? (
-                      <p className="text-[10px] text-primary-300 truncate">{topChampion}</p>
+                      <p className="text-2xs text-primary-300 truncate">{topChampion}</p>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-1 text-[10px]">
+                <div className="mt-2 grid grid-cols-3 gap-1 text-2xs">
                   <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">
                     <p className="text-gray-400">{t("common.condition")}</p>
                     <p className="font-heading font-bold text-primary-400">
                       {condition !== null ? `${condition}%` : "—"}
+                    </p>
+                  </div>
+                  <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">
+                    <p className="text-gray-400">{t("common.fitness")}</p>
+                    <p className="font-heading font-bold text-green-400">
+                      {fitness !== null ? `${fitness}%` : "—"}
                     </p>
                   </div>
                   <div className="rounded bg-navy-900/60 px-1.5 py-1 text-center">

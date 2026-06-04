@@ -532,7 +532,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 dark:bg-navy-900">
-      <div className="mx-auto max-w-7xl space-y-4">
+      <div className="w-[92%] max-w-[2000px] mx-auto space-y-4">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {onBack ? (
@@ -615,7 +615,7 @@ export default function WorldEditorTab({ onBack }: WorldEditorTabProps) {
                     <button type="button" onClick={importPlayerRatingsFromExcel} disabled={!excelImportText.trim()} className="mt-2 w-full rounded-lg border border-primary-400 px-3 py-2 text-xs font-heading font-bold uppercase tracking-wider text-primary-600 hover:bg-primary-500/10 disabled:opacity-50 dark:text-primary-300">
                       Aplicar ratings por Player
                     </button>
-                    <p className="mt-2 text-[11px] text-gray-500 dark:text-gray-400">Busca por nombre in-game exacto normalizado. Ignora medias calculadas del Excel.</p>
+                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">Busca por nombre in-game exacto normalizado. Ignora medias calculadas del Excel.</p>
                   </div>
                 ) : null}
                 <div className="relative mb-3">
@@ -751,7 +751,7 @@ function ModeButton({ active, onClick, children }: { active: boolean; onClick: (
 }
 
 function ScopeButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
-  return <button type="button" onClick={onClick} className={`rounded-lg px-2 py-1.5 text-[11px] font-heading font-bold uppercase tracking-wider ${active ? "bg-accent-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-300"}`}>{children}</button>;
+  return <button type="button" onClick={onClick} className={`rounded-lg px-2 py-1.5 text-xs font-heading font-bold uppercase tracking-wider ${active ? "bg-accent-500 text-white" : "bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-300"}`}>{children}</button>;
 }
 
 function DeleteButton({ onClick, children }: { onClick: () => void; children: ReactNode }) {

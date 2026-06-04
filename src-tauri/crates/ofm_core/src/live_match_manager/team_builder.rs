@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::game::Game;
 use crate::potential::calculate_lol_ovr;
 use domain::player::LolRole as DomainLolRole;

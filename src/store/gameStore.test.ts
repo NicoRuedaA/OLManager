@@ -29,7 +29,7 @@ const makeGameState = (overrides: Partial<GameStateData> = {}): GameStateData =>
   players: [],
   staff: [],
   messages: [],
-  league: null,
+  leagues: [],
   news: [],
   board_objectives: [],
   scouting_assignments: [],

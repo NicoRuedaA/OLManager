@@ -14,9 +14,9 @@ use crate::scouting;
 use crate::training;
 use crate::transfers;
 use chrono::Datelike;
-use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, MatchResult};
+use domain::league::{Fixture, FixtureStatus, League, MatchResult, MatchType};
 use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::player::LolRole as DomainLolRole;
+use domain::player::{LolRole as DomainLolRole, Player};
 use domain::stats::StatsState;
 use domain::team::{Team, TeamKind, TeamSeasonRecord};
 use engine::LolRole as EngineLolRole;
@@ -39,19 +39,6 @@ pub use round_summary::{
     build_round_summary,
 };
 
-/// Progress injury recovery by one day for all currently injured players.
-/// Players with 1 day remaining are cleared (fully recovered).
-fn progress_injury_recovery(game: &mut Game) {
-    for player in game.players.iter_mut() {
-        if let Some(mut injury) = player.injury.take()
-            && injury.days_remaining > 1
-        {
-            injury.days_remaining -= 1;
-            player.injury = Some(injury);
-        }
-    }
-}
-
 /// Process a single day advance.
 pub fn process_day(game: &mut Game) {
     process_day_with_capture(game, &mut |_| {});
@@ -63,7 +50,7 @@ where
 {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
 
-    let has_match_today = game.league.as_ref().is_some_and(|league| {
+    let has_match_today = game.active_league().is_some_and(|league| {
         league
             .fixtures
             .iter()
@@ -82,8 +69,8 @@ where
 
     crate::contracts::process_contract_expiries(game);
 
-    // Weekly financial processing (wages, matchday income, warnings)
-    crate::finances::process_weekly_finances(game);
+    // Monthly financial processing (wages, matchday income, warnings)
+    crate::finances::process_monthly_finances(game);
 
     // Board objectives (generate if missing, update progress)
     board_objectives::generate_objectives(game);
@@ -91,11 +78,11 @@ where
 
     // Player conversations, random events, and scouting
     player_events::check_player_events(game);
-    progress_injury_recovery(game);
     random_events::check_random_events(game);
     scouting::process_scouting(game);
     transfers::generate_incoming_transfer_offers(game);
     maybe_simulate_parallel_academy_leagues(game);
+    process_background_leagues(game, &today);
     maybe_push_weekly_academy_report(game, &today);
 
     news::generate_weekly_digest_news(game, &today);
@@ -126,11 +113,11 @@ pub fn finish_live_match_day(game: &mut Game) {
     board_objectives::update_objective_progress(game);
 
     player_events::check_player_events(game);
-    progress_injury_recovery(game);
     random_events::check_random_events(game);
     scouting::process_scouting(game);
     transfers::generate_incoming_transfer_offers(game);
     maybe_simulate_parallel_academy_leagues(game);
+    process_background_leagues(game, &today);
     maybe_push_weekly_academy_report(game, &today);
     news::generate_weekly_digest_news(game, &today);
     news::generate_pre_match_messages(game, &today);
@@ -149,8 +136,9 @@ pub fn finish_live_match_day(game: &mut Game) {
 // Domain → Engine type conversion
 // ---------------------------------------------------------------------------
 
-fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
-    let team = game.teams.iter().find(|t| t.id == team_id);
+fn build_engine_team_from(teams: &[Team], players: &[Player], team_id: &str) -> engine::TeamData {
+    let team = teams.iter().find(|t| t.id == team_id);
+
     let (name, draft_strategy) = match team {
         Some(t) => (
             t.name.clone(),
@@ -166,8 +154,7 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         None => ("Unknown".into(), engine::DraftStrategy::Balanced),
     };
 
-    let players: Vec<engine::PlayerData> = game
-        .players
+    let engine_players: Vec<engine::PlayerData> = players
         .iter()
         .filter(|p| p.team_id.as_deref() == Some(team_id))
         .map(|p| engine::PlayerData {
@@ -196,8 +183,12 @@ fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
         id: team_id.to_string(),
         name,
         draft_strategy,
-        players,
+        players: engine_players,
     }
+}
+
+fn build_engine_team(game: &Game, team_id: &str) -> engine::TeamData {
+    build_engine_team_from(&game.teams, &game.players, team_id)
 }
 
 fn academy_player_ovr(player: &domain::player::Player) -> u32 {
@@ -541,6 +532,137 @@ fn register_parallel_result(
     }
 }
 
+/// Simulate due fixtures for a background league (academy or competition league[1..]).
+/// Updates fixture results, standings, and team form. Does NOT generate playoff fixtures,
+/// player stats, messages, or news.
+/// Takes separate slices for teams, players, and league (disjoint Game fields) so
+/// the borrow checker permits simultaneous mutable access.
+fn simulate_background_league(
+    teams: &mut [Team],
+    players: &mut [Player],
+    league: &mut League,
+    today: &str,
+    season: u32,
+) {
+    let mut completed_fixtures: Vec<(String, String, u8, u8)> = Vec::new();
+
+    // Find due fixtures
+    let fixtures_to_play: Vec<(usize, String, String)> = league
+        .fixtures
+        .iter()
+        .enumerate()
+        .filter(|(_, fixture)| fixture.status == FixtureStatus::Scheduled && fixture.date == today)
+        .map(|(index, fixture)| {
+            (
+                index,
+                fixture.home_team_id.clone(),
+                fixture.away_team_id.clone(),
+            )
+        })
+        .collect();
+
+    if fixtures_to_play.is_empty() {
+        return;
+    }
+
+    // Simulate each fixture
+    let mut simulated_results: Vec<(usize, String, String, u8, u8)> = Vec::new();
+    let mut match_reports: Vec<engine::MatchReport> = Vec::new();
+    for (fixture_index, home_team_id, away_team_id) in fixtures_to_play {
+        let home_data = build_engine_team_from(teams, players, &home_team_id);
+        let away_data = build_engine_team_from(teams, players, &away_team_id);
+        let mut rng = rand::rng();
+        let report = engine::simulate_lol(
+            &home_data,
+            &away_data,
+            &engine::MatchConfig::default(),
+            &mut rng,
+        );
+        simulated_results.push((
+            fixture_index,
+            home_team_id,
+            away_team_id,
+            report.home_wins,
+            report.away_wins,
+        ));
+        match_reports.push(report);
+    }
+
+    // Store results and update standings
+    for ((fixture_index, home_team_id, away_team_id, home_wins, away_wins), report) in
+        simulated_results.iter().zip(match_reports.iter())
+    {
+        if let Some(fixture) = league.fixtures.get_mut(*fixture_index) {
+            fixture.result = Some(MatchResult {
+                home_wins: *home_wins,
+                away_wins: *away_wins,
+                ..MatchResult::default()
+            });
+            fixture.status = FixtureStatus::Completed;
+        }
+        completed_fixtures.push((
+            home_team_id.clone(),
+            away_team_id.clone(),
+            *home_wins,
+            *away_wins,
+        ));
+
+        // Apply basic player stats without news/messages (light mode)
+        for player in players.iter_mut() {
+            if let Some(ps) = report.player_stats.get(&player.id) {
+                player.stats.appearances += 1;
+                player.stats.kills += u32::from(ps.kills);
+                player.stats.assists += u32::from(ps.assists);
+                player.stats.minutes_played += ps.duration_seconds / 60;
+            }
+        }
+    }
+
+    for (home_team_id, away_team_id, home_wins, away_wins) in &completed_fixtures {
+        if let Some(home) = league
+            .standings
+            .iter_mut()
+            .find(|entry| entry.team_id == *home_team_id)
+        {
+            home.record_result(*home_wins, *away_wins);
+        }
+        if let Some(away) = league
+            .standings
+            .iter_mut()
+            .find(|entry| entry.team_id == *away_team_id)
+        {
+            away.record_result(*away_wins, *home_wins);
+        }
+    }
+
+    // Update team form (no player stats, messages, news)
+    for (home_team_id, away_team_id, home_wins, away_wins) in &completed_fixtures {
+        let home_won = if home_wins == away_wins {
+            home_team_id <= away_team_id
+        } else {
+            home_wins > away_wins
+        };
+        let away_won = !home_won;
+
+        if let Some(home_team) = teams.iter_mut().find(|team| team.id == *home_team_id) {
+            register_parallel_result(home_team, season, *home_wins, *away_wins, home_won);
+        }
+        if let Some(away_team) = teams.iter_mut().find(|team| team.id == *away_team_id) {
+            register_parallel_result(away_team, season, *away_wins, *home_wins, away_won);
+        }
+    }
+}
+
+/// Simulate all background leagues (game.leagues[1..]) for today.
+/// This is a no-op when there is only the active league.
+fn process_background_leagues(game: &mut Game, today: &str) {
+    let season = game.clock.current_date.year() as u32;
+    for i in 1..game.leagues.len() {
+        let league = &mut game.leagues[i];
+        simulate_background_league(&mut game.teams, &mut game.players, league, today, season);
+    }
+}
+
 fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
     let weekday = game.clock.current_date.weekday().num_days_from_monday();
     if weekday != 0 {
@@ -592,153 +714,90 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
         return;
     }
 
-    let league_name = format!("{} Academy", academy_team.name);
-    let should_rebuild = match game.academy_league.as_ref() {
-        None => true,
-        Some(league) => {
-            league.id != erl_league_id
-                || league.season != season
-                || league.standings.len() != ordered_team_ids.len()
+    // Find existing academy league in game.leagues, or create one
+    let league_pos = game.leagues.iter().position(|l| {
+        l.league_kind == domain::league::LeagueKind::Academy && l.id == erl_league_id
+    });
+
+    let (league_idx, should_rebuild) = match league_pos {
+        Some(idx) => {
+            let league = &game.leagues[idx];
+            let rebuild =
+                league.season != season || league.standings.len() != ordered_team_ids.len();
+            (idx, rebuild)
+        }
+        None => {
+            // Add new academy league
+            let idx = game.leagues.len();
+            game.leagues.push(League::new(
+                erl_league_id.clone(),
+                format!("{} Academy", academy_team.name),
+                season,
+                &ordered_team_ids,
+                None,
+            ));
+            game.leagues[idx].league_kind = domain::league::LeagueKind::Academy;
+            (idx, true)
         }
     };
 
     if should_rebuild {
-        game.academy_league = Some(League::new(
-            erl_league_id.clone(),
-            league_name,
-            season,
-            &ordered_team_ids,
-        ));
-        if let Some(league) = game.academy_league.as_mut() {
-            let mut start_date = game.clock.current_date;
-            while start_date.weekday().num_days_from_monday() != 0 {
-                start_date += chrono::Duration::days(1);
-            }
-            let total_rounds = ordered_team_ids.len().saturating_sub(1);
-            for round in 0..total_rounds {
-                let pairings = round_robin_pairings(&ordered_team_ids, round);
-                let date = (start_date + chrono::Duration::days((round as i64) * 7))
-                    .format("%Y-%m-%d")
-                    .to_string();
-                for (idx, (home_team_id, away_team_id)) in pairings.into_iter().enumerate() {
-                    league.fixtures.push(Fixture {
-                        id: format!("academy-{}-md{}-{}", league.id, round + 1, idx + 1),
-                        matchday: (round + 1) as u32,
-                        date: date.clone(),
-                        home_team_id,
-                        away_team_id,
-                        competition: FixtureCompetition::League,
-                        best_of: 3,
-                        status: FixtureStatus::Scheduled,
-                        result: None,
-                    });
-                }
+        let league = &mut game.leagues[league_idx];
+        league.season = season;
+        league.standings = ordered_team_ids
+            .iter()
+            .map(|tid| domain::league::StandingEntry::new(tid.clone()))
+            .collect();
+        league.fixtures.clear();
+        league.league_kind = domain::league::LeagueKind::Academy;
+
+        let mut start_date = game.clock.current_date;
+        while start_date.weekday().num_days_from_monday() != 0 {
+            start_date += chrono::Duration::days(1);
+        }
+        let total_rounds = ordered_team_ids.len().saturating_sub(1);
+        for round in 0..total_rounds {
+            let pairings = round_robin_pairings(&ordered_team_ids, round);
+            let date = (start_date + chrono::Duration::days((round as i64) * 7))
+                .format("%Y-%m-%d")
+                .to_string();
+            for (idx, (home_team_id, away_team_id)) in pairings.into_iter().enumerate() {
+                league.fixtures.push(Fixture {
+                    id: format!("academy-{}-md{}-{}", league.id, round + 1, idx + 1),
+                    matchday: (round + 1) as u32,
+                    date: date.clone(),
+                    home_team_id,
+                    away_team_id,
+                    match_type: MatchType::League,
+                    best_of: 3,
+                    status: FixtureStatus::Scheduled,
+                    result: None,
+                });
             }
         }
     }
 
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-    let mut completed_fixtures: Vec<(String, String, u8, u8)> = Vec::new();
-    let fixtures_to_play: Vec<(usize, String, String)> = game
-        .academy_league
-        .as_ref()
-        .map(|league| {
-            league
-                .fixtures
-                .iter()
-                .enumerate()
-                .filter(|(_, fixture)| {
-                    fixture.status == FixtureStatus::Scheduled && fixture.date == today
-                })
-                .map(|(index, fixture)| {
-                    (
-                        index,
-                        fixture.home_team_id.clone(),
-                        fixture.away_team_id.clone(),
-                    )
-                })
-                .collect()
-        })
-        .unwrap_or_default();
+    let league = &mut game.leagues[league_idx];
+    simulate_background_league(&mut game.teams, &mut game.players, league, &today, season);
 
-    let mut simulated_results: Vec<(usize, String, String, u8, u8)> = Vec::new();
-    for (fixture_index, home_team_id, away_team_id) in fixtures_to_play {
-        let home_data = build_engine_team(game, &home_team_id);
-        let away_data = build_engine_team(game, &away_team_id);
-        let mut rng = rand::rng();
-        let report = engine::simulate_lol(
-            &home_data,
-            &away_data,
-            &engine::MatchConfig::default(),
-            &mut rng,
-        );
-        simulated_results.push((
-            fixture_index,
-            home_team_id,
-            away_team_id,
-            report.home_wins,
-            report.away_wins,
-        ));
-    }
-
-    if let Some(league) = game.academy_league.as_mut() {
-        for (fixture_index, home_team_id, away_team_id, home_wins, away_wins) in &simulated_results
-        {
-            if let Some(fixture) = league.fixtures.get_mut(*fixture_index) {
-                fixture.result = Some(MatchResult {
-                    home_wins: *home_wins,
-                    away_wins: *away_wins,
-                    ..MatchResult::default()
-                });
-                fixture.status = FixtureStatus::Completed;
-            }
-            completed_fixtures.push((
-                home_team_id.clone(),
-                away_team_id.clone(),
-                *home_wins,
-                *away_wins,
-            ));
-        }
-
-        for (home_team_id, away_team_id, home_wins, away_wins) in &completed_fixtures {
-            if let Some(home) = league
-                .standings
-                .iter_mut()
-                .find(|entry| entry.team_id == *home_team_id)
-            {
-                home.record_result(*home_wins, *away_wins);
-            }
-            if let Some(away) = league
-                .standings
-                .iter_mut()
-                .find(|entry| entry.team_id == *away_team_id)
-            {
-                away.record_result(*away_wins, *home_wins);
-            }
-        }
-
-        let regular_fixtures_total = league
-            .fixtures
-            .iter()
-            .filter(|fixture| fixture.competition == FixtureCompetition::League)
-            .count();
-        let regular_completed = league
-            .fixtures
-            .iter()
-            .filter(|fixture| {
-                fixture.competition == FixtureCompetition::League
-                    && fixture.status == FixtureStatus::Completed
-            })
-            .count();
+    // Academy-specific: generate playoffs when regular season completes
+    let regular_fixtures_total = league
+        .fixtures
+        .iter()
+        .filter(|fixture| fixture.match_type == MatchType::League)
+        .count();
+    let regular_completed = league
+        .fixtures
+        .iter()
+        .filter(|fixture| fixture.status == FixtureStatus::Completed)
+        .count();
+    if regular_completed >= regular_fixtures_total && regular_fixtures_total > 0 {
         let has_playoffs = league
             .fixtures
             .iter()
-            .any(|fixture| fixture.competition == FixtureCompetition::Playoffs);
-
-        if regular_fixtures_total > 0
-            && regular_completed == regular_fixtures_total
-            && !has_playoffs
-        {
+            .any(|fixture| fixture.match_type == MatchType::Playoffs);
+        if !has_playoffs {
             let mut sorted = league.standings.clone();
             sorted.sort_by(|a, b| {
                 b.points
@@ -772,7 +831,7 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
                         date: semis_date.format("%Y-%m-%d").to_string(),
                         home_team_id,
                         away_team_id,
-                        competition: FixtureCompetition::Playoffs,
+                        match_type: MatchType::Playoffs,
                         best_of: 5,
                         status: FixtureStatus::Scheduled,
                         result: None,
@@ -784,7 +843,7 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
                     date: final_date.format("%Y-%m-%d").to_string(),
                     home_team_id: sorted[0].team_id.clone(),
                     away_team_id: sorted[1].team_id.clone(),
-                    competition: FixtureCompetition::Playoffs,
+                    match_type: MatchType::Playoffs,
                     best_of: 5,
                     status: FixtureStatus::Scheduled,
                     result: None,
@@ -792,26 +851,9 @@ fn maybe_simulate_parallel_academy_leagues(game: &mut Game) {
             }
         }
     }
-
-    for (home_team_id, away_team_id, home_wins, away_wins) in completed_fixtures {
-        let home_won = if home_wins == away_wins {
-            home_team_id <= away_team_id
-        } else {
-            home_wins > away_wins
-        };
-        let away_won = !home_won;
-
-        if let Some(home_team) = game.teams.iter_mut().find(|team| team.id == home_team_id) {
-            register_parallel_result(home_team, season, home_wins, away_wins, home_won);
-        }
-        if let Some(away_team) = game.teams.iter_mut().find(|team| team.id == away_team_id) {
-            register_parallel_result(away_team, season, away_wins, home_wins, away_won);
-        }
-    }
 }
-
 fn maybe_schedule_playoffs(game: &mut Game) {
-    let Some(league) = game.league.as_mut() else {
+    let Some(league) = game.leagues.first_mut() else {
         return;
     };
 
@@ -823,7 +865,7 @@ fn maybe_schedule_playoffs(game: &mut Game) {
     let playoff_fixtures_exist = league
         .fixtures
         .iter()
-        .any(|fixture| fixture.competition == FixtureCompetition::Playoffs);
+        .any(|fixture| fixture.match_type == MatchType::Playoffs);
 
     if !playoff_fixtures_exist {
         if !regular_season_complete(league) {
@@ -879,8 +921,7 @@ fn maybe_schedule_playoffs(game: &mut Game) {
     }
 
     let has_pending_playoffs = league.fixtures.iter().any(|fixture| {
-        fixture.competition == FixtureCompetition::Playoffs
-            && fixture.status != FixtureStatus::Completed
+        fixture.match_type == MatchType::Playoffs && fixture.status != FixtureStatus::Completed
     });
     if has_pending_playoffs {
         return;
@@ -903,7 +944,7 @@ fn maybe_schedule_playoffs(game: &mut Game) {
     let next_matchday = league
         .fixtures
         .iter()
-        .filter(|fixture| fixture.competition == FixtureCompetition::Playoffs)
+        .filter(|fixture| fixture.match_type == MatchType::Playoffs)
         .map(|fixture| fixture.matchday)
         .max()
         .unwrap_or(0)
@@ -956,7 +997,7 @@ fn build_playoff_round_fixtures(
             date: date.clone(),
             home_team_id,
             away_team_id,
-            competition: FixtureCompetition::Playoffs,
+            match_type: MatchType::Playoffs,
             best_of,
             status: FixtureStatus::Scheduled,
             result: None,
@@ -968,7 +1009,7 @@ fn playoff_round_fixtures(league: &League, round: u32) -> Vec<&Fixture> {
     let Some(start_matchday) = league
         .fixtures
         .iter()
-        .filter(|fixture| fixture.competition == FixtureCompetition::Playoffs)
+        .filter(|fixture| fixture.match_type == MatchType::Playoffs)
         .map(|fixture| fixture.matchday)
         .min()
     else {
@@ -980,8 +1021,7 @@ fn playoff_round_fixtures(league: &League, round: u32) -> Vec<&Fixture> {
         .fixtures
         .iter()
         .filter(|fixture| {
-            fixture.competition == FixtureCompetition::Playoffs
-                && fixture.matchday == target_matchday
+            fixture.match_type == MatchType::Playoffs && fixture.matchday == target_matchday
         })
         .collect()
 }
@@ -1165,7 +1205,7 @@ pub fn simulate_other_matches_with_capture<F>(
         "[turn] simulate_other_matches: date={}, skip={:?}",
         today, skip_fixture
     );
-    let fixture_indices: Vec<usize> = game.league.as_ref().map_or(vec![], |league| {
+    let fixture_indices: Vec<usize> = game.active_league().map_or(vec![], |league| {
         league
             .fixtures
             .iter()
@@ -1189,7 +1229,7 @@ where
     F: FnMut(StatsState),
 {
     let (home_team_id, away_team_id, best_of) = {
-        let f = &game.league.as_ref().unwrap().fixtures[idx];
+        let f = &game.active_league().unwrap().fixtures[idx];
         (f.home_team_id.clone(), f.away_team_id.clone(), f.best_of)
     };
 
@@ -1420,4 +1460,374 @@ fn simulate_series(
     }
 
     merged
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::clock::GameClock;
+    use chrono::{TimeZone, Utc};
+    use domain::player::{Player, PlayerAttributes};
+    use domain::stats::LolRole;
+
+    fn make_player(id: &str, team_id: &str, overall: u8) -> Player {
+        let attrs = PlayerAttributes {
+            mechanics: overall,
+            laning: overall,
+            teamfighting: overall,
+            macro_play: overall,
+            consistency: overall,
+            shotcalling: overall,
+            champion_pool: overall,
+            discipline: overall,
+            mental_resilience: overall,
+        };
+        let mut player = Player::new(
+            id.to_string(),
+            id.to_string(),
+            format!("Full {id}"),
+            "2000-01-01".to_string(),
+            "ES".to_string(),
+            LolRole::Mid,
+            attrs,
+        );
+        player.team_id = Some(team_id.to_string());
+        player.condition = 100;
+        player
+    }
+
+    fn make_team(id: &str) -> Team {
+        let team = Team::new(
+            id.to_string(),
+            format!("Team {id}"),
+            id.to_string(),
+            "ES".to_string(),
+            "Test League".to_string(),
+            "Test Arena".to_string(),
+            1000,
+        );
+        team
+    }
+
+    /// Create a minimal Game with 2 teams (5 players each) and a league with 1 fixture.
+    fn bg_test_game(today: &str) -> (Game, String) {
+        let clock = GameClock::new(Utc.with_ymd_and_hms(2025, 6, 15, 12, 0, 0).unwrap());
+        let manager = domain::manager::Manager::new(
+            "mgr".to_string(),
+            "Test".to_string(),
+            "Manager".to_string(),
+            "1980-01-01".to_string(),
+            "ES".to_string(),
+        );
+
+        let teams = vec![make_team("team1"), make_team("team2")];
+        let mut players = Vec::new();
+        for tid in &["team1", "team2"] {
+            for i in 0..5 {
+                players.push(make_player(&format!("{}-p{}", tid, i), tid, 60 + i as u8));
+            }
+        }
+
+        let mut game = Game::new(clock, manager, teams, players, vec![], vec![]);
+
+        let league = League::new(
+            "bg-league".to_string(),
+            "BG League".to_string(),
+            2025,
+            &["team1".to_string(), "team2".to_string()],
+            None,
+        );
+        game.leagues = vec![league];
+
+        // Create a fixture dated today
+        if let Some(league) = game.active_league_mut() {
+            league.fixtures.push(Fixture {
+                id: "fix-1".to_string(),
+                matchday: 1,
+                date: today.to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team2".to_string(),
+                match_type: MatchType::League,
+                best_of: 1,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            });
+        }
+
+        (game, today.to_string())
+    }
+
+    // -----------------------------------------------------------------------
+    // T9: simulate_background_league tests
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn test_bg_league_simulates_due_fixture() {
+        let today = "2025-06-15";
+        let (mut game, today_str) = bg_test_game(today);
+        let season = 2025;
+
+        let league = game.leagues.first_mut().unwrap();
+        simulate_background_league(&mut game.teams, &game.players, league, &today_str, season);
+
+        // The fixture should now be Completed with a result
+        let fixture = &league.fixtures[0];
+        assert_eq!(fixture.status, FixtureStatus::Completed);
+        assert!(fixture.result.is_some());
+        let result = fixture.result.as_ref().unwrap();
+        // One team must have won (home_wins + away_wins >= 1 in a bo1)
+        assert!(result.home_wins >= 1 || result.away_wins >= 1);
+    }
+
+    #[test]
+    fn test_bg_league_updates_standings() {
+        let today = "2025-06-15";
+        let (mut game, today_str) = bg_test_game(today);
+        let season = 2025;
+
+        let league = game.leagues.first_mut().unwrap();
+        simulate_background_league(&mut game.teams, &game.players, league, &today_str, season);
+
+        // Both teams should have played=1
+        let home_entry = league
+            .standings
+            .iter()
+            .find(|e| e.team_id == "team1")
+            .unwrap();
+        let away_entry = league
+            .standings
+            .iter()
+            .find(|e| e.team_id == "team2")
+            .unwrap();
+
+        assert_eq!(home_entry.played, 1);
+        assert_eq!(away_entry.played, 1);
+
+        // Total maps_won + maps_lost for both teams should equal total maps played
+        let total_maps = home_entry.maps_won + home_entry.maps_lost;
+        assert_eq!(total_maps, 1);
+        let total_maps_away = away_entry.maps_won + away_entry.maps_lost;
+        assert_eq!(total_maps_away, 1);
+    }
+
+    #[test]
+    fn test_bg_league_updates_team_form() {
+        let today = "2025-06-15";
+        let (mut game, today_str) = bg_test_game(today);
+        let season = 2025;
+
+        simulate_background_league(
+            &mut game.teams,
+            &game.players,
+            game.active_league_mut().unwrap(),
+            &today_str,
+            season,
+        );
+
+        // Both teams should have form entries (W or L)
+        let team1 = game.teams.iter().find(|t| t.id == "team1").unwrap();
+        let team2 = game.teams.iter().find(|t| t.id == "team2").unwrap();
+        assert_eq!(team1.form.len(), 1);
+        assert_eq!(team2.form.len(), 1);
+        // One team won, one lost
+        let all_forms = [team1.form[0].as_str(), team2.form[0].as_str()];
+        assert!(all_forms.contains(&"W"));
+        assert!(all_forms.contains(&"L"));
+    }
+
+    #[test]
+    fn test_bg_league_no_player_stats_modified() {
+        let today = "2025-06-15";
+        let (mut game, today_str) = bg_test_game(today);
+        let season = 2025;
+
+        // Capture player stats before
+        let before: Vec<_> = game
+            .players
+            .iter()
+            .map(|p| (p.id.clone(), p.stats.clone()))
+            .collect();
+
+        simulate_background_league(
+            &mut game.teams,
+            &game.players,
+            game.active_league_mut().unwrap(),
+            &today_str,
+            season,
+        );
+
+        // Player stats should be unchanged
+        for (id, before_stats) in &before {
+            let after = game.players.iter().find(|p| &p.id == id).unwrap();
+            assert_eq!(
+                format!("{:?}", before_stats),
+                format!("{:?}", after.stats),
+                "player {} stats changed",
+                id
+            );
+        }
+    }
+
+    #[test]
+    fn test_bg_league_no_side_effects() {
+        let today = "2025-06-15";
+        let (mut game, today_str) = bg_test_game(today);
+        let season = 2025;
+
+        let before_msgs = game.messages.len();
+        let before_news = game.news.len();
+
+        simulate_background_league(
+            &mut game.teams,
+            &game.players,
+            game.active_league_mut().unwrap(),
+            &today_str,
+            season,
+        );
+
+        // No messages or news should be generated
+        assert_eq!(game.messages.len(), before_msgs);
+        assert_eq!(game.news.len(), before_news);
+    }
+
+    #[test]
+    fn test_bg_league_no_fixtures_is_noop() {
+        let today = "2025-06-15";
+        let (mut game, _) = bg_test_game(today);
+
+        // Remove the fixture — no due fixtures
+        if let Some(league) = game.active_league_mut() {
+            league.fixtures.clear();
+        }
+
+        let season = 2025;
+
+        // Add a future fixture instead
+        if let Some(league) = game.active_league_mut() {
+            league.fixtures.push(Fixture {
+                id: "fix-future".to_string(),
+                matchday: 2,
+                date: "2025-06-22".to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team2".to_string(),
+                match_type: MatchType::League,
+                best_of: 1,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            });
+        }
+
+        simulate_background_league(
+            &mut game.teams,
+            &game.players,
+            game.active_league_mut().unwrap(),
+            "2025-06-15",
+            season,
+        );
+
+        // Fixture should still be Scheduled
+        let fixture = &game.leagues[0].fixtures[0];
+        assert_eq!(fixture.status, FixtureStatus::Scheduled);
+        assert!(fixture.result.is_none());
+    }
+
+    // -----------------------------------------------------------------------
+    // T10: process_background_leagues tests
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn test_bg_loop_multiple_leagues() {
+        let today = "2025-06-15";
+        let (mut base_game, _) = bg_test_game(today);
+
+        // Add a second background league with a due fixture
+        let bg2_league = League::new(
+            "bg-league-2".to_string(),
+            "BG League 2".to_string(),
+            2025,
+            &["team1".to_string(), "team2".to_string()],
+            None,
+        );
+        base_game.leagues.push(bg2_league);
+        if let Some(league) = base_game.leagues.last_mut() {
+            league.fixtures.push(Fixture {
+                id: "fix-bg2".to_string(),
+                matchday: 1,
+                date: today.to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team2".to_string(),
+                match_type: MatchType::League,
+                best_of: 1,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            });
+        }
+
+        process_background_leagues(&mut base_game, today);
+
+        // Active league (index 0) should be unchanged
+        assert_eq!(
+            base_game.leagues[0].fixtures[0].status,
+            FixtureStatus::Scheduled
+        );
+        // BG league 1 (index 1) should have simulated
+        assert_eq!(
+            base_game.leagues[1].fixtures[0].status,
+            FixtureStatus::Completed
+        );
+        // BG league 2 (index 2) should have simulated
+        assert_eq!(
+            base_game.leagues[2].fixtures[0].status,
+            FixtureStatus::Completed
+        );
+    }
+
+    #[test]
+    fn test_bg_loop_no_bg_leagues_is_noop() {
+        let today = "2025-06-15";
+        let (mut game, _) = bg_test_game(today);
+
+        // Only 1 league — should be a no-op
+        process_background_leagues(&mut game, today);
+
+        // League still has the original fixture in Scheduled
+        assert_eq!(game.leagues[0].fixtures[0].status, FixtureStatus::Scheduled);
+    }
+
+    #[test]
+    fn test_bg_loop_no_due_fixtures_is_noop() {
+        let today = "2025-06-15";
+        let (mut game, _) = bg_test_game(today);
+
+        // Remove fixture from index 0 to simulate no due fixtures in active
+        game.leagues[0].fixtures.clear();
+
+        // Add a bg league with no due fixture (future date)
+        let bg_league = League::new(
+            "bg-league".to_string(),
+            "BG League".to_string(),
+            2025,
+            &["team1".to_string(), "team2".to_string()],
+            None,
+        );
+        game.leagues.push(bg_league);
+        if let Some(league) = game.leagues.last_mut() {
+            league.fixtures.push(Fixture {
+                id: "fix-future".to_string(),
+                matchday: 2,
+                date: "2025-06-22".to_string(),
+                home_team_id: "team1".to_string(),
+                away_team_id: "team2".to_string(),
+                match_type: MatchType::League,
+                best_of: 1,
+                status: FixtureStatus::Scheduled,
+                result: None,
+            });
+        }
+
+        process_background_leagues(&mut game, today);
+
+        // BG league fixture should still be Scheduled (no due fixtures)
+        assert_eq!(game.leagues[1].fixtures[0].status, FixtureStatus::Scheduled);
+    }
 }

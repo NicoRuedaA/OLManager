@@ -1,0 +1,18 @@
+{
+  "id": "lplol",
+  "name": "LPLOL",
+  "full_name": "Liga Portuguesa de League of Legends",
+  "region": "LPLOL",
+  "country": "PT",
+  "tier": 2,
+  "logo": "/competition-icons/1779542166963_vgkcjxvwny.webp",
+  "teams_file": "erls/teams/lplol_teams.json",
+  "players_file": "erls/players/lplol_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 12,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

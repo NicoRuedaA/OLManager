@@ -24,7 +24,6 @@ import HomeRecentResultsCard from "./HomeRecentResultsCard";
 import HomeRecentMessagesCard from "./HomeRecentMessagesCard";
 import HomeSquadOverviewCard from "./HomeSquadOverviewCard";
 import HomeSeasonStatusCard from "./HomeSeasonStatusCard";
-import HomeUnavailablePlayersCard from "./HomeUnavailablePlayersCard";
 import {
   Dumbbell,
   Mail,
@@ -72,7 +71,9 @@ export default function HomeTab({
   const myTeam = gameState.teams.find(
     (tm) => tm.id === gameState.manager.team_id,
   );
-  const league = gameState.league;
+  const playerLeague = gameState.user_competition_id
+    ? gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id)
+    : gameState.leagues[0] ?? null;
   const roster = myTeam
     ? gameState.players.filter((p) => p.team_id === myTeam.id)
     : [];
@@ -80,15 +81,7 @@ export default function HomeTab({
     avgCondition,
     avgOvr,
     exhaustedCount,
-    unavailablePlayers,
   } = getHomeRosterOverview(roster);
-  const resolveInjuryName = (injuryName: string): string => {
-    if (injuryName.includes(".")) {
-      return t(injuryName, { defaultValue: injuryName });
-    }
-
-    return t(`common.injuries.${injuryName}`, { defaultValue: injuryName });
-  };
 
   // Current date / season context
   const lang = i18n.language;
@@ -119,8 +112,8 @@ export default function HomeTab({
           })
           : t("season.windowClosed");
 
-  const sortedStandings = league
-    ? [...league.standings]
+  const sortedStandings = playerLeague
+    ? [...playerLeague.standings]
         .sort(compareStandingsByLolScore)
         .map((standing) => ({
           team_id: standing.team_id,
@@ -236,7 +229,7 @@ export default function HomeTab({
             onNavigate={onNavigate}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-3 gap-5">
             {/* Next Match Card */}
             <Card accent="primary" className="md:col-span-2">
               <CardHeader>{t("home.nextMatch")}</CardHeader>
@@ -250,7 +243,7 @@ export default function HomeTab({
               isPreseason={isPreseason}
               phase={seasonContext.phase}
               seasonStartLabel={seasonStartLabel}
-              league={league}
+              league={playerLeague}
               sortedStandings={sortedStandings}
               teams={gameState.teams}
               myTeamId={myTeam.id}
@@ -264,7 +257,7 @@ export default function HomeTab({
             isPreseason={isPreseason}
             phase={seasonContext.phase}
             seasonStartLabel={seasonStartLabel}
-            league={league}
+            league={playerLeague}
             sortedStandings={sortedStandings}
             teams={gameState.teams}
             myTeamId={null}
@@ -298,12 +291,6 @@ export default function HomeTab({
               onNavigate={onNavigate}
             />
           </div>
-
-          <HomeUnavailablePlayersCard
-            players={unavailablePlayers}
-            resolveInjuryName={resolveInjuryName}
-            onNavigate={onNavigate}
-          />
 
           <HomeRosterLineupCard
             roster={roster}

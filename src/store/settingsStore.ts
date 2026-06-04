@@ -74,11 +74,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   updateSettings: async (partial) => {
     const previousSettings = get().settings;
-    const nextPartial = { ...partial };
-    if (isAndroidDevice()) {
-      nextPartial.ui_scale = "xsmall";
-    }
-    const merged = mergeWithDefaultSettings({ ...previousSettings, ...nextPartial });
+    const merged = mergeWithDefaultSettings({ ...previousSettings, ...partial });
     set({ settings: merged });
     try {
       await persistSettings(merged);

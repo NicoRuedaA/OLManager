@@ -1,0 +1,6326 @@
+{
+  "name": "TCL Players",
+  "description": "TCL - 2026 Season",
+  "players": [
+    {
+      "id": "player-007d4382",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Stalken",
+      "attributes": {
+        "laning": 65,
+        "mechanics": 64,
+        "discipline": 62,
+        "macro_play": 65,
+        "consistency": 65,
+        "shotcalling": 63,
+        "teamfighting": 64,
+        "champion_pool": 63,
+        "mental_resilience": 63
+      },
+      "match_name": "Stalken",
+      "potential_base": 74,
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "tcl-pcific-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "nerdRage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Hex",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Tigers Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "3BL Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "aNc Outplayed",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NORD Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fog Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "contract_end": "2026-06-25",
+      "id": "player-024b1212",
+      "match_name": "Eid Alazmi",
+      "full_name": "Aklass",
+      "date_of_birth": "2001-06-01",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779823172811_Aklass.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bursaspor Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "tcl-dark-passage",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Esports\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "LDLC OL",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team GO",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LDLC OL",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Gentle Mates",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team GO",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "team-da97809e",
+          "team_name": "Galions",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gentle Mates",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "tcl-misa-esports",
+          "team_name": "Misa Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galions",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-misa-esports",
+          "team_name": "Misa Esports",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 64,
+        "mechanics": 62,
+        "discipline": 62,
+        "macro_play": 64,
+        "consistency": 65,
+        "shotcalling": 63,
+        "teamfighting": 62,
+        "champion_pool": 62,
+        "mental_resilience": 64
+      },
+      "loan_listed": false,
+      "contract_end": "2026-11-16",
+      "potential_base": 70,
+      "transfer_listed": false,
+      "stats.potential_base": "74",
+      "stats.transfer_listed": "false",
+      "stats.attributes.laning": "68",
+      "stats.potential_revealed": "71",
+      "stats.attributes.mechanics": "68",
+      "stats.attributes.discipline": "75",
+      "stats.attributes.macro_play": "65",
+      "stats.attributes.consistency": "80",
+      "stats.attributes.shotcalling": "68",
+      "stats.attributes.teamfighting": "65",
+      "stats.attributes.champion_pool": "70",
+      "stats.attributes.mental_resilience": "72",
+      "id": "player-031c31af",
+      "match_name": "Onurcan Aslan",
+      "full_name": "Ragner",
+      "date_of_birth": "2000-12-19",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823211923_Ragner.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-033b395f",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Raen1",
+      "attributes": {
+        "laning": 66,
+        "mechanics": 66,
+        "discipline": 66,
+        "macro_play": 66,
+        "consistency": 66,
+        "shotcalling": 63,
+        "teamfighting": 66,
+        "champion_pool": 63,
+        "mental_resilience": 66
+      },
+      "match_name": "Eren Parlak",
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "potential_base": 75,
+      "transfer_listed": false,
+      "date_of_birth": "2005-10-25",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-124b3ca7",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Hype",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 73,
+        "discipline": 66,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 65,
+        "teamfighting": 72,
+        "champion_pool": 67,
+        "mental_resilience": 70
+      },
+      "match_name": "Hype",
+      "potential_base": 77,
+      "date_of_birth": null,
+      "nationality": "KR",
+      "profile_image_url": null,
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-1a2ec39e",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Bmoooo",
+      "attributes": {
+        "laning": 60,
+        "mechanics": 55,
+        "discipline": 58,
+        "macro_play": 55,
+        "consistency": 55,
+        "shotcalling": 61,
+        "teamfighting": 55,
+        "champion_pool": 59,
+        "mental_resilience": 57
+      },
+      "match_name": "Mert Ali Orman",
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "potential_base": 65,
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-1ba5dc01",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Homyno Pulsia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulsia Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NORD Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ramboot Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ramboot Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Colossal Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Venomcrest Serpents",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lille Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "UOL Sexy Edition",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Seneca",
+      "attributes": {
+        "laning": 56,
+        "mechanics": 62,
+        "discipline": 58,
+        "macro_play": 58,
+        "consistency": 56,
+        "shotcalling": 55,
+        "teamfighting": 63,
+        "champion_pool": 57,
+        "mental_resilience": 60
+      },
+      "match_name": "Simon Bucht",
+      "contract_end": "2026-06-25",
+      "potential_base": 69,
+      "date_of_birth": null,
+      "nationality": "SE",
+      "profile_image_url": "/player-photos/1779823168741_Seneca.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-1d424a4e",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Nawa",
+      "attributes": {
+        "laning": 64,
+        "mechanics": 63,
+        "discipline": 60,
+        "macro_play": 63,
+        "consistency": 63,
+        "shotcalling": 61,
+        "teamfighting": 60,
+        "champion_pool": 59,
+        "mental_resilience": 61
+      },
+      "match_name": "Nawa",
+      "potential_base": 68,
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-pcific-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-2ad76443",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Beplush",
+      "attributes": {
+        "laning": 64,
+        "mechanics": 58,
+        "discipline": 61,
+        "macro_play": 60,
+        "consistency": 64,
+        "shotcalling": 63,
+        "teamfighting": 58,
+        "champion_pool": 61,
+        "mental_resilience": 60
+      },
+      "match_name": "Beplush",
+      "potential_base": 70,
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-pcific-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-2ca57031",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "IWC Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Goskilla",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Goskilla",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Orbit Anonymo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Szaty Bobra",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GnG Amazigh",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Orbit Anonymo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Verdant",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GLORE.FIFINE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Paradox",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "JSK Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Neramin",
+      "attributes": {
+        "laning": 58,
+        "mechanics": 60,
+        "discipline": 60,
+        "macro_play": 58,
+        "consistency": 58,
+        "shotcalling": 63,
+        "teamfighting": 60,
+        "champion_pool": 61,
+        "mental_resilience": 60
+      },
+      "match_name": "Hasan Samarsın",
+      "contract_end": "2026-03-10",
+      "potential_base": 68,
+      "date_of_birth": "2001-08-04",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823209569_Neramin.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-dark-passage",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Turkey",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beetle Juice",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fourth Wall",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Turkey",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fourth Wall",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ULF Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "contract_end": "2026-11-16",
+      "id": "player-2f019360",
+      "match_name": "Demir Demirsoy",
+      "full_name": "Grave",
+      "date_of_birth": "2005-01-01",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779823113727_Grave.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-ozarox-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-30d4d38d",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş.OH",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Victorious Ace",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Macro Maniacs",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Oyun Hizmetleri",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Myth Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Mean",
+      "attributes": {
+        "laning": 54,
+        "mechanics": 58,
+        "discipline": 56,
+        "macro_play": 54,
+        "consistency": 54,
+        "shotcalling": 61,
+        "teamfighting": 57,
+        "champion_pool": 59,
+        "mental_resilience": 56
+      },
+      "match_name": "Ahmet&#160;Cihan Battal",
+      "contract_end": "2026-03-16",
+      "potential_base": 65,
+      "date_of_birth": "1999-04-27",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823111860_Mean.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-boostgate-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 41.4,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Always With Honor",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Baam Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 66,
+        "mechanics": 70,
+        "discipline": 71,
+        "macro_play": 72,
+        "consistency": 68,
+        "shotcalling": 71,
+        "teamfighting": 69,
+        "champion_pool": 69,
+        "mental_resilience": 69
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "market_value": 20.6,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 76,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-38c26301",
+      "match_name": "Eren Yücel",
+      "full_name": "Warner",
+      "date_of_birth": "2005-08-23",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-39987898",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Panathinaikos AC",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Panathinaikos AC",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ULF Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Joexy",
+      "attributes": {
+        "laning": 60,
+        "mechanics": 57,
+        "discipline": 64,
+        "macro_play": 60,
+        "consistency": 61,
+        "shotcalling": 63,
+        "teamfighting": 60,
+        "champion_pool": 63,
+        "mental_resilience": 62
+      },
+      "match_name": "Bedirhan Kalkan",
+      "loan_listed": false,
+      "contract_end": "2026-06-01",
+      "potential_base": 73,
+      "transfer_listed": false,
+      "date_of_birth": "2003-07-26",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-dark-passage",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "transfer_listed": false,
+      "id": "player-3f634687",
+      "match_name": "Berkay Çinpolat",
+      "full_name": "Podex",
+      "date_of_birth": "2003-04-09",
+      "nationality": "",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SUP Blaze Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Cyberground",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Crvena zvezda",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "tcl-boostgate-esports",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Otter Side",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-pcific-esports",
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 64,
+        "mechanics": 64,
+        "discipline": 60,
+        "macro_play": 63,
+        "consistency": 64,
+        "shotcalling": 61,
+        "teamfighting": 62,
+        "champion_pool": 61,
+        "mental_resilience": 61
+      },
+      "loan_listed": false,
+      "potential_base": 71,
+      "transfer_listed": false,
+      "id": "player-456675f0",
+      "match_name": "Aytekin Tekin",
+      "full_name": "Aytekn",
+      "date_of_birth": "2004-07-28",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779403069539_8gfi8v8frx.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-pcific-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 72000,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Valhalla Vikings",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "HWA Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "HWA Gaming",
+          "appearances": 18
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Istanbul Wildcats",
+          "appearances": 37
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Esports",
+          "appearances": 18
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 45
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galatasaray Esports",
+          "appearances": 32
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Istanbul Wildcats",
+          "appearances": 75
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zero Tenacity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Z10",
+          "appearances": 113
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zero Tenacity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 22
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bushido Wildcats",
+          "appearances": 37
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Misa Esports",
+          "appearances": 11
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "S2G Esports",
+          "appearances": 29
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Misa Esports",
+          "appearances": 8
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 65,
+        "mechanics": 64,
+        "discipline": 58,
+        "macro_play": 66,
+        "consistency": 65,
+        "shotcalling": 63,
+        "teamfighting": 62,
+        "champion_pool": 61,
+        "mental_resilience": 61
+      },
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "market_value": 34500,
+      "potential_base": 69,
+      "transfer_listed": false,
+      "id": "player-52665c56",
+      "match_name": "Emre Akça",
+      "full_name": "Kofte",
+      "date_of_birth": "2001-05-15",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823221085_Kofte.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 3300,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Ascendance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Comanchero Gaming\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 64,
+        "mechanics": 63,
+        "discipline": 64,
+        "macro_play": 65,
+        "consistency": 64,
+        "shotcalling": 63,
+        "teamfighting": 63,
+        "champion_pool": 62,
+        "mental_resilience": 63
+      },
+      "loan_listed": false,
+      "market_value": 20000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 72,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-564a1818",
+      "match_name": "Resul Polat",
+      "full_name": "FireAscept",
+      "date_of_birth": "2006-09-20",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-pcific-esports",
+      "traits": [],
+      "contract_end": "",
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-5666118e",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "5 Ronin",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "5 Ronin",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Misa Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ULF Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Kireas",
+      "attributes": {
+        "laning": 58,
+        "mechanics": 58,
+        "discipline": 64,
+        "macro_play": 62,
+        "consistency": 60,
+        "shotcalling": 63,
+        "teamfighting": 60,
+        "champion_pool": 62,
+        "mental_resilience": 62
+      },
+      "match_name": "Tunahan Kevioğlu",
+      "contract_end": "2026-03-10",
+      "potential_base": 70,
+      "date_of_birth": "2001-04-04",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823199396_Kireas.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "tcl-dark-passage",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 23400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "R5 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 64,
+        "mechanics": 64,
+        "discipline": 64,
+        "macro_play": 64,
+        "consistency": 64,
+        "shotcalling": 61,
+        "teamfighting": 64,
+        "champion_pool": 61,
+        "mental_resilience": 64
+      },
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "market_value": 11700,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 69,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-5f7e7ef8",
+      "match_name": "Yiğithan Yaşar",
+      "full_name": "SmallBugi",
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Aces High Esports Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Aces High Esports Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Huma",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "HWA Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Low Priority",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Crew e-Sports Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Huma",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "HWA Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ThunderX3 Baskonia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Royal Bandits",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Royal Bandits",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Royal Youth",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Misa Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        }
+      ],
+      "contract_end": "2026-11-16",
+      "id": "player-67cd8bd2",
+      "match_name": "Anıl Işık",
+      "full_name": "HolyPhoenix",
+      "date_of_birth": "1997-06-02",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779823217888_HolyPhoenix.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-6fbc9197",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Misa Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Carry",
+      "attributes": {
+        "laning": 64,
+        "mechanics": 60,
+        "discipline": 65,
+        "macro_play": 64,
+        "consistency": 62,
+        "shotcalling": 63,
+        "teamfighting": 60,
+        "champion_pool": 59,
+        "mental_resilience": 64
+      },
+      "match_name": "Mustafa Selim Yılmaz",
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "potential_base": 67,
+      "transfer_listed": false,
+      "date_of_birth": "2000-03-17",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823229432_Carry__Mustafa_Selim_Y_lmaz_.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Lynch Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lynch Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Underworld Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Project Conquerors",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Colossal Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Underworld Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-su-esports",
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-boostgate-esports",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 68,
+        "macro_play": 70,
+        "consistency": 70,
+        "shotcalling": 71,
+        "teamfighting": 71,
+        "champion_pool": 69,
+        "mental_resilience": 66
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-24",
+      "potential_base": 79,
+      "transfer_listed": false,
+      "id": "player-752adfb4",
+      "match_name": "Yağız Özvarna",
+      "full_name": "Dionelux",
+      "date_of_birth": "2006-08-24",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823101852_Dionelux.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-boostgate-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-7c5d8bbe",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Elyandra Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "PCS Taran",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team MCES",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lille Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zerance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "eSuba",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lille Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Vespa",
+      "attributes": {
+        "laning": 63,
+        "mechanics": 64,
+        "discipline": 64,
+        "macro_play": 64,
+        "consistency": 64,
+        "shotcalling": 55,
+        "teamfighting": 64,
+        "champion_pool": 61,
+        "mental_resilience": 64
+      },
+      "match_name": "Marley Benezech",
+      "contract_end": "2026-06-25",
+      "potential_base": 72,
+      "date_of_birth": "2002-12-02",
+      "nationality": "FR",
+      "profile_image_url": "/player-photos/1779823164462_Vespa.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-843e5af4",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Meto",
+      "attributes": {
+        "laning": 76,
+        "mechanics": 76,
+        "discipline": 76,
+        "macro_play": 76,
+        "consistency": 76,
+        "shotcalling": 73,
+        "teamfighting": 76,
+        "champion_pool": 73,
+        "mental_resilience": 76
+      },
+      "match_name": "Yağız Mert Tütüncüoğlu",
+      "contract_end": "2026-07-01",
+      "potential_base": 86,
+      "date_of_birth": "2005-02-13",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823215160_Meto.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-84a4a487",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Only Heroes Academia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Forbidden Five",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Kurama",
+      "attributes": {
+        "laning": 61,
+        "mechanics": 61,
+        "discipline": 62,
+        "macro_play": 60,
+        "consistency": 61,
+        "shotcalling": 61,
+        "teamfighting": 62,
+        "champion_pool": 60,
+        "mental_resilience": 58
+      },
+      "match_name": "Alp Eren Öğdem",
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "potential_base": 70,
+      "transfer_listed": false,
+      "date_of_birth": "2005-05-08",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Aurora",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Aurora",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-team-phoenix",
+          "team_name": "Team Phoenix",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 64,
+        "mechanics": 64,
+        "discipline": 64,
+        "macro_play": 64,
+        "consistency": 64,
+        "shotcalling": 55,
+        "teamfighting": 64,
+        "champion_pool": 61,
+        "mental_resilience": 64
+      },
+      "loan_listed": false,
+      "contract_end": "2026-07-01",
+      "potential_base": 69,
+      "transfer_listed": false,
+      "id": "player-8bdb0d29",
+      "match_name": "Dzhaner Feyzula",
+      "full_name": "Hecabrand",
+      "date_of_birth": "2005-12-24",
+      "nationality": "BG",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-team-phoenix",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "HWA Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Istanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "HWA Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Baam Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GLORE.FIFINE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Veni Vidi Vici",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dragons Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Nocturne Gale",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Baam Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Twareg Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Veni Vidi Vici",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-bushido-wildcats",
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-ozarox-esports",
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Nocturne Gale",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 62,
+        "mechanics": 65,
+        "discipline": 62,
+        "macro_play": 65,
+        "consistency": 64,
+        "shotcalling": 63,
+        "teamfighting": 64,
+        "champion_pool": 61,
+        "mental_resilience": 64
+      },
+      "loan_listed": false,
+      "contract_end": "2026-11-16",
+      "potential_base": 74,
+      "transfer_listed": false,
+      "id": "player-8c60bca6",
+      "match_name": "Soner Kaya",
+      "full_name": "StarScreen",
+      "date_of_birth": "2001-01-20",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823104747_StarScreen.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-ozarox-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-8eb5f967",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Stend",
+      "attributes": {
+        "laning": 60,
+        "mechanics": 62,
+        "discipline": 54,
+        "macro_play": 64,
+        "consistency": 64,
+        "shotcalling": 55,
+        "teamfighting": 57,
+        "champion_pool": 56,
+        "mental_resilience": 59
+      },
+      "match_name": "Stend",
+      "potential_base": 65,
+      "date_of_birth": null,
+      "nationality": "FR",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-a1200f38",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Eternal Fire",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Eternal Fire",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Misa Esports",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Ruep",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 71,
+        "discipline": 70,
+        "macro_play": 72,
+        "consistency": 72,
+        "shotcalling": 71,
+        "teamfighting": 70,
+        "champion_pool": 69,
+        "mental_resilience": 72
+      },
+      "match_name": "İlker Bilen",
+      "contract_end": "2026-07-01",
+      "potential_base": 79,
+      "date_of_birth": "2002-12-09",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823225256_Ruep.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 0,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Turkey",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Forbidden Five",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Crusaders",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 62,
+        "mechanics": 60,
+        "discipline": 63,
+        "macro_play": 60,
+        "consistency": 60,
+        "shotcalling": 61,
+        "teamfighting": 62,
+        "champion_pool": 60,
+        "mental_resilience": 63
+      },
+      "loan_listed": false,
+      "contract_end": "2026-11-16",
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 72,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-a304bf1e",
+      "match_name": "Bedirhan Çalişkan",
+      "full_name": "Cape",
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-ozarox-esports",
+      "traits": [],
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Beşiktaş Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "5 Ronin Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "ERKO Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Hell Zerolag Esports\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Hell Zerolag Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NONAME",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "GLORE.FIFINE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠ZETA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ZETA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-dark-passage",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 60,
+        "mechanics": 59,
+        "discipline": 63,
+        "macro_play": 60,
+        "consistency": 60,
+        "shotcalling": 61,
+        "teamfighting": 61,
+        "champion_pool": 61,
+        "mental_resilience": 60
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-01",
+      "potential_base": 67,
+      "transfer_listed": false,
+      "id": "player-a92a7ef2",
+      "match_name": "Kerem Güzel",
+      "full_name": "Sangrod",
+      "date_of_birth": "2001-08-15",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823194525_Sangrod.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-dark-passage",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 44400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "AURORA Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fenerbahçe Academy\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fourth Wall",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "GnG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GnG Amazigh",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠eSuba",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "eSuba",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 62,
+        "mechanics": 63,
+        "discipline": 60,
+        "macro_play": 62,
+        "consistency": 62,
+        "shotcalling": 61,
+        "teamfighting": 61,
+        "champion_pool": 60,
+        "mental_resilience": 62
+      },
+      "loan_listed": false,
+      "contract_end": "2026-11-16",
+      "market_value": 24000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 67,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-b2160bc5",
+      "match_name": "Fatih Kurşun",
+      "full_name": "Fade",
+      "date_of_birth": "2003-11-03",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-ozarox-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Fenerbahçe Academy\t",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "IWC Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fox Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Kim Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Only Heroes Academia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Kim Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Phoenix Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-pcific-esports",
+          "team_name": "PCIFIC Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-bushido-wildcats",
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 70,
+        "mechanics": 73,
+        "discipline": 70,
+        "macro_play": 72,
+        "consistency": 70,
+        "shotcalling": 73,
+        "teamfighting": 70,
+        "champion_pool": 71,
+        "mental_resilience": 68
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "potential_base": 78,
+      "transfer_listed": false,
+      "id": "player-b85eaf08",
+      "match_name": "Salim Ersin Altıparmak",
+      "full_name": "Ersin",
+      "date_of_birth": "2004-03-09",
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 44400,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Actions Per Minute",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Meavedron",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Zero Tenacity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Juicy Ballers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "GMBLERS Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Orbit Anonymo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "6GPA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Juicy Ballers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LODIS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Senshi eSports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zerance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "6GPA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GnG Amazigh",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 60,
+        "mechanics": 64,
+        "discipline": 57,
+        "macro_play": 57,
+        "consistency": 60,
+        "shotcalling": 55,
+        "teamfighting": 64,
+        "champion_pool": 61,
+        "mental_resilience": 55
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-24",
+      "market_value": 24000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 65,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-ba94a490",
+      "match_name": "Tomasz Gas",
+      "full_name": "Iwanan",
+      "date_of_birth": null,
+      "nationality": "PL",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-boostgate-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AaB Esport",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "neXtPlease! Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rift Sloths",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rift Sloths",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rift Sloths",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SNOOZE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Orbit Anonymo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "tcl-boostgate-esports",
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Colossal Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Colossal Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Bulldog Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-su-esports",
+          "team_name": "SU Esports",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "attributes": {
+        "laning": 66,
+        "mechanics": 66,
+        "discipline": 64,
+        "macro_play": 66,
+        "consistency": 66,
+        "shotcalling": 63,
+        "teamfighting": 65,
+        "champion_pool": 63,
+        "mental_resilience": 65
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "potential_base": 74,
+      "transfer_listed": false,
+      "id": "player-c3094769",
+      "match_name": "Aleksan Zaruki",
+      "full_name": "Leks",
+      "date_of_birth": "2003-01-25",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823144166_Leks.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-c9afca1f",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Hell Zerolag Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Project Sinners",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Spawn",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Hell Zerolag Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GRP Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Hell Zerolag Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Insidious",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gamespace MCE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Colossal Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Centu",
+      "attributes": {
+        "laning": 70,
+        "mechanics": 70,
+        "discipline": 70,
+        "macro_play": 70,
+        "consistency": 72,
+        "shotcalling": 67,
+        "teamfighting": 70,
+        "champion_pool": 72,
+        "mental_resilience": 68
+      },
+      "match_name": "Spyridon Pantelopoulos",
+      "loan_listed": false,
+      "contract_end": "2026-06-24",
+      "potential_base": 83,
+      "transfer_listed": false,
+      "date_of_birth": "2004-08-03",
+      "nationality": "GR",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "tcl-boostgate-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-d8fdd88c",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Royal Youth",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "IWC Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Looking for ORG",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Otter Side",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Jeyrus",
+      "attributes": {
+        "laning": 72,
+        "mechanics": 71,
+        "discipline": 68,
+        "macro_play": 71,
+        "consistency": 71,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 68
+      },
+      "match_name": "Tunahan Durmaz",
+      "contract_end": "2026-06-25",
+      "potential_base": 79,
+      "date_of_birth": "2002-09-24",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823213204_Jeyrus.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 55200,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LODIS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maestro V Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LODIS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Meavedron",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ThunderFlash",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠GTZ Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "WLGaming Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GTZ Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠Forsaken",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Forsaken",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LODIS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Forsaken",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 64,
+        "mechanics": 64,
+        "discipline": 63,
+        "macro_play": 64,
+        "consistency": 64,
+        "shotcalling": 55,
+        "teamfighting": 64,
+        "champion_pool": 60,
+        "mental_resilience": 63
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "market_value": 28750,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 71,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-da2efcc9",
+      "match_name": "Maciej Charzyński",
+      "full_name": "Secrett",
+      "date_of_birth": null,
+      "nationality": "PL",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 2650,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team Cappadocia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "⁠RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Sangal Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "RY Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SUP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Papara SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SuperMassive",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SuperMassive Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Anubis Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BBL Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Dark Passage",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "JSK Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 58,
+        "mechanics": 58,
+        "discipline": 58,
+        "macro_play": 58,
+        "consistency": 56,
+        "shotcalling": 61,
+        "teamfighting": 61,
+        "champion_pool": 61,
+        "mental_resilience": 58
+      },
+      "loan_listed": false,
+      "contract_end": "2026-03-10",
+      "market_value": 15000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 67,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-e970485e",
+      "match_name": "Yunus Emre Şahin",
+      "full_name": "KSAEZ",
+      "date_of_birth": "2000-11-12",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823204472_KSAEZ.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-dark-passage",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-ee635235",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "SlowQ",
+      "attributes": {
+        "laning": 64,
+        "mechanics": 62,
+        "discipline": 66,
+        "macro_play": 62,
+        "consistency": 64,
+        "shotcalling": 57,
+        "teamfighting": 62,
+        "champion_pool": 61,
+        "mental_resilience": 66
+      },
+      "match_name": "SlowQ",
+      "potential_base": 72,
+      "date_of_birth": null,
+      "nationality": "KR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-efc0f6cd",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Boavista FC",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EFIVE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Odivelas Sports Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BWE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Odivelas Sports Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GTZ Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Otter Side",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tan'i eSports CZ",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Atruvia Münster",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BoostGate Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Otter Side",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Bicas",
+      "attributes": {
+        "laning": 56,
+        "mechanics": 58,
+        "discipline": 58,
+        "macro_play": 58,
+        "consistency": 56,
+        "shotcalling": 55,
+        "teamfighting": 56,
+        "champion_pool": 59,
+        "mental_resilience": 56
+      },
+      "match_name": "Pedro Simões",
+      "contract_end": "2026-06-24",
+      "potential_base": 63,
+      "date_of_birth": null,
+      "nationality": "PT",
+      "profile_image_url": "/player-photos/1779823105829_Bicas.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "tcl-boostgate-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-f0d328d6",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Creal",
+      "attributes": {
+        "laning": 65,
+        "mechanics": 67,
+        "discipline": 71,
+        "macro_play": 64,
+        "consistency": 65,
+        "shotcalling": 71,
+        "teamfighting": 70,
+        "champion_pool": 67,
+        "mental_resilience": 68
+      },
+      "match_name": "Creal",
+      "potential_base": 75,
+      "date_of_birth": null,
+      "nationality": "TR",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "tcl-bushido-wildcats",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beetle Juice",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NASR Turkey",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bushido Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ozarox Esports",
+          "appearances": 0
+        }
+      ],
+      "contract_end": "2026-11-16",
+      "id": "player-f0e036fb",
+      "match_name": "Mehmet Kaan Sönmez",
+      "full_name": "MonkaS",
+      "date_of_birth": "2001-10-26",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779823115651_MonkaS.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-ozarox-esports",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 39000,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Absolved",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Entropiq",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galatasaray Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Entropiq",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galakticos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Joblife",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Nigma Galaxy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phantasma",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Joblife",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SU Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phantasma",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 76,
+        "discipline": 74,
+        "macro_play": 76,
+        "consistency": 76,
+        "shotcalling": 73,
+        "teamfighting": 76,
+        "champion_pool": 72,
+        "mental_resilience": 75
+      },
+      "loan_listed": false,
+      "contract_end": "2026-06-25",
+      "market_value": 18000,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 83,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-f28272fb",
+      "match_name": "Mustafa Korkmaz",
+      "full_name": "RAMES",
+      "date_of_birth": "2004-01-05",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823151451_RAMES.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-su-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "wage": 0,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "SUP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Vodafone Giants",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": "lec-karmine-corp",
+          "team_name": "Karmine Corp",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SUP Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": "eu-lcs-l-astralis",
+          "team_name": "Astralis",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Karmine Corp",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Astralis",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FUT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "BK ROG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "team-af25d742",
+          "team_name": "Karmine Corp Blue",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": "",
+          "team_name": "Team BDS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": "team-06974122",
+          "team_name": "Barcelona Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Barça eSports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Misa Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team BDS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": "tcl-misa-esports",
+          "team_name": "Misa Esports",
+          "appearances": 0
+        }
+      ],
+      "attributes": {
+        "laning": 66,
+        "mechanics": 66,
+        "discipline": 62,
+        "macro_play": 66,
+        "consistency": 66,
+        "shotcalling": 63,
+        "teamfighting": 64,
+        "champion_pool": 63,
+        "mental_resilience": 64
+      },
+      "loan_listed": false,
+      "contract_end": "2026-11-16",
+      "market_value": 0,
+      "stats.injury": "",
+      "stats.morale": "100",
+      "stats.fitness": "100",
+      "potential_base": 71,
+      "stats.condition": "100",
+      "transfer_listed": false,
+      "id": "player-f419fc4a",
+      "match_name": "Doğukan Balcı",
+      "full_name": "113",
+      "date_of_birth": "2004-08-12",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779823217008_113.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "tcl-misa-esports",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    }
+  ]
+}

@@ -13,6 +13,7 @@ use tauri::State;
 
 use crate::commands::game::{
     academy_seed_team_id, ensure_example_academy_pool, example_academy_seed_catalog,
+    RESOURCE_DATA_DIR,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -528,97 +529,110 @@ fn format_academy_error(error: ofm_core::academy::AcademyError) -> String {
 fn academy_erl_catalog() -> &'static [ErlLeagueDefinition] {
     static CATALOG: std::sync::OnceLock<Vec<ErlLeagueDefinition>> = std::sync::OnceLock::new();
     CATALOG.get_or_init(|| {
-        vec![
-            erl(
-                "lfl",
-                "La Ligue Française",
-                "FR",
-                "EMEA",
-                5,
-                &["BE", "LU", "MC"],
-            ),
-            erl(
-                "liga-espanola",
-                "Liga Española de League of Legends",
-                "ES",
-                "EMEA",
-                4,
-                &["PT", "AD"],
-            ),
-            erl(
-                "prime-league",
-                "Prime League",
-                "DE",
-                "EMEA",
-                5,
-                &["AT", "CH"],
-            ),
-            erl(
-                "nlc",
-                "Northern League of Legends Championship",
-                "GB",
-                "EMEA",
-                4,
-                &["IE"],
-            ),
-            erl("ultraliga", "Ultraliga", "PL", "EMEA", 3, &["UA", "LT"]),
-            erl(
-                "hitpoint-masters",
-                "Hitpoint Masters",
-                "CZ",
-                "EMEA",
-                2,
-                &["SK"],
-            ),
-            erl(
-                "elite-series",
-                "Elite Series",
-                "BE",
-                "EMEA",
-                3,
-                &["NL", "LU"],
-            ),
-            erl(
-                "greek-legends-league",
-                "Greek Legends League",
-                "GR",
-                "EMEA",
-                2,
-                &["CY"],
-            ),
-            erl(
-                "lplol",
-                "Liga Portuguesa de League of Legends",
-                "PT",
-                "EMEA",
-                2,
-                &["ES"],
-            ),
-            erl(
-                "tcl",
-                "Turkish Championship League",
-                "TR",
-                "EMEA",
-                4,
-                &["AZ"],
-            ),
-            erl("lit", "Italian ERL / LIT", "IT", "EMEA", 2, &["MT", "SM"]),
-        ]
+        catalogs_from_erl_manifests(|path| {
+            std::fs::read_to_string(path).ok()
+        })
     })
+}
+
+/// Try to find the `data/` directory from common locations (same logic as `resolve_data_base`).
+fn resolve_data_dir_for_catalog() -> Option<std::path::PathBuf> {
+    if let Some(dir) = RESOURCE_DATA_DIR.get() {
+        if dir.is_dir() {
+            return Some(dir.clone());
+        }
+    }
+    let cwd = std::env::current_dir().ok()?;
+    for candidate in [
+        cwd.join("..").join("data"),
+        cwd.join("data"),
+        cwd.join("src-tauri").join("data"),
+    ] {
+        if candidate.is_dir() {
+            return Some(candidate);
+        }
+    }
+    None
+}
+
+/// Scan `data/erls/competitions/` for manifests and build ErlLeagueDefinition entries.
+fn catalogs_from_erl_manifests(
+    reader: impl Fn(&std::path::Path) -> Option<String>,
+) -> Vec<ErlLeagueDefinition> {
+    use ofm_core::generator::definitions::CompetitionManifest;
+
+    let data_base = match resolve_data_dir_for_catalog() {
+        Some(b) => b,
+        None => return vec![],
+    };
+    let erls_dir = data_base.join("erls").join("competitions");
+
+    let mut catalogs = Vec::new();
+    let entries = match std::fs::read_dir(&erls_dir) {
+        Ok(e) => e,
+        Err(_) => return catalogs,
+    };
+
+    for entry in entries.flatten() {
+        let dir_path = entry.path();
+        if !dir_path.is_dir() { continue; }
+        let manifest_path = dir_path.join("manifest.json");
+        if !manifest_path.exists() { continue; }
+        let file_name = dir_path.file_name().and_then(|n| n.to_str()).unwrap_or("");
+        if file_name.is_empty() { continue; }
+
+        let json_str = match reader(&manifest_path) {
+            Some(s) => s,
+            None => continue,
+        };
+        if let Ok(manifest) = serde_json::from_str::<CompetitionManifest>(&json_str) {
+            let country_code = manifest.country.clone().unwrap_or_default();
+            let region = manifest.region.clone();
+            let reputation = manifest.reputation.unwrap_or(3); // default for tier 2
+            let nearby = manifest.nearby_country_codes.clone();
+
+            let academy_id = match file_name {
+                "les" => "liga-espanola".to_string(),
+                other => other.to_string(),
+            };
+
+            catalogs.push(ErlLeagueDefinition {
+                id: academy_id,
+                name: manifest.name,
+                country_code,
+                region,
+                reputation,
+                nearby_country_codes: nearby,
+            });
+        }
+    }
+    catalogs
 }
 
 fn academy_candidate_catalog() -> &'static [ErlAcademyCandidate] {
     static CATALOG: std::sync::OnceLock<Vec<ErlAcademyCandidate>> = std::sync::OnceLock::new();
     CATALOG.get_or_init(|| {
+        // Build a lookup: erl_league_id → (reputation, development_level) from manifests
+        let erl_reputations: std::collections::HashMap<String, (u8, u8)> = academy_erl_catalog()
+            .iter()
+            .map(|erl| {
+                let dev_level = match erl.reputation {
+                    5 => 4,
+                    4 => 3,
+                    3 => 2,
+                    _ => 1,
+                };
+                (erl.id.clone(), (erl.reputation, dev_level))
+            })
+            .collect();
+
         example_academy_seed_catalog()
             .iter()
             .map(|seed| {
-                let (reputation, development_level) = match seed.league_id.as_str() {
-                    "lfl" => (5, 4),
-                    "prime-league" => (5, 3),
-                    "les" | "liga-espanola" => (4, 3),
-                    _ => (4, 3),
-                };
+                let (reputation, development_level) = erl_reputations
+                    .get(&seed.league_id)
+                    .copied()
+                    .unwrap_or((3, 2));
 
                 ErlAcademyCandidate {
                     source_team_id: academy_seed_team_id(&seed.league_id, &seed.team_name),
@@ -633,27 +647,6 @@ fn academy_candidate_catalog() -> &'static [ErlAcademyCandidate] {
             })
             .collect()
     })
-}
-
-fn erl(
-    id: &str,
-    name: &str,
-    country_code: &str,
-    region: &str,
-    reputation: u8,
-    nearby_country_codes: &[&str],
-) -> ErlLeagueDefinition {
-    ErlLeagueDefinition {
-        id: id.to_string(),
-        name: name.to_string(),
-        country_code: country_code.to_string(),
-        region: region.to_string(),
-        reputation,
-        nearby_country_codes: nearby_country_codes
-            .iter()
-            .map(|country| country.to_string())
-            .collect(),
-    }
 }
 
 #[cfg(test)]

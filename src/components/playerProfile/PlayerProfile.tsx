@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { getContractRiskLevel } from "../../lib/helpers";
+import { getContractRiskLevel, calcAge, formatVal, positionBadgeVariant } from "../../lib/helpers";
+import { parseUtcDate } from "../../lib/dateFormatting";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { PlayerData, GameStateData, PlayerMatchHistoryEntryData, ScoutReportData, ChampionMasteryEntryData } from "../../store/gameStore";
 import { ArrowLeft } from "lucide-react";
@@ -17,7 +18,6 @@ import { buildPlayerAttributeGroups } from "./PlayerProfile.attributes";
 import PlayerProfileAttributesCard from "./PlayerProfileAttributesCard";
 import PlayerProfileContractCard from "./PlayerProfileContractCard";
 import PlayerProfileHeroCard from "./PlayerProfileHeroCard";
-import PlayerProfileInjuryBanner from "./PlayerProfileInjuryBanner";
 import PlayerProfileRenewalModal from "./PlayerProfileRenewalModal";
 import {
   type DelegatedRenewalCaseData,
@@ -35,8 +35,11 @@ import {
   type PlayerProfileScoutStatus,
 } from "./PlayerProfile.scouting";
 import PlayerProfileChampionsCard from "./PlayerProfileChampionsCard";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
+import NegotiationFeedbackPanel from "../NegotiationFeedbackPanel";
+import TransferNegotiationHistory from "../transfers/TransferNegotiationHistory";
+import WageNegotiationModal from "../transfers/WageNegotiationModal";
 import { startPotentialResearch } from "../../services/playerService";
 import { demoteMainPlayerToAcademy, promoteAcademyPlayer } from "../../services/academyService";
 import { findAcademyTeamForParent } from "../../store/academySelectors";
@@ -44,10 +47,13 @@ import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIden
 import {
   makeTransferBid,
   releasePlayerContract,
+  previewTransferBidFinancialImpact,
+  negotiatePlayerWage,
   type TransferDestinationData,
   type TransferNegotiationFeedbackData,
+  type TransferBidProjectionData,
+  type WageNegotiationResponseData,
 } from "../../services/transfersService";
-import { formatVal } from "../../lib/helpers";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -263,7 +269,7 @@ export default function PlayerProfile({
   onViewChampion,
 }: PlayerProfileProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
+  const annualSuffix = t("finances.perYearSuffix", "/yr");
   const primaryRole = resolvePlayerLolRole(player);
 
   if (!player) {
@@ -288,6 +294,30 @@ export default function PlayerProfile({
   const [transferOfferError, setTransferOfferError] = useState<string | null>(null);
   const [transferOfferFeedback, setTransferOfferFeedback] =
     useState<TransferOfferFeedbackState | null>(null);
+  const [transferOfferIncludedPlayerIds, setTransferOfferIncludedPlayerIds] =
+    useState<string[]>([]);
+  const [transferOfferProjection, setTransferOfferProjection] =
+    useState<TransferBidProjectionData["projection"] | null>(null);
+  const [transferOfferFee, setTransferOfferFee] = useState<number | null>(null);
+
+  const [showWageModal, setShowWageModal] = useState(false);
+  const [wageNegotiationTarget, setWageNegotiationTarget] = useState<{
+    player: PlayerData;
+    offerId: string;
+    fromTeamId: string | null;
+    fee: number;
+    destinationTeamId: string;
+  } | null>(null);
+  const [wageNegotiationAmount, setWageNegotiationAmount] = useState("");
+  const [wageNegotiationYears, setWageNegotiationYears] = useState(3);
+  const [wageNegotiationLoading, setWageNegotiationLoading] = useState(false);
+  const [wageNegotiationResult, setWageNegotiationResult] = useState<
+    WageNegotiationResponseData["decision"] | "error" | null
+  >(null);
+  const [wageNegotiationFeedback, setWageNegotiationFeedback] =
+    useState<TransferNegotiationFeedbackData | null>(null);
+  const [wageNegotiationError, setWageNegotiationError] = useState<string | null>(null);
+
   const [renewalWage, setRenewalWage] = useState("");
   const [renewalLength, setRenewalLength] = useState("2");
   const [renewalSubmitting, setRenewalSubmitting] = useState(false);
@@ -311,6 +341,8 @@ export default function PlayerProfile({
     useState(false);
   const ovr = calculateLolOvr(player);
   const age = getPlayerAge(player.date_of_birth, gameState.clock.current_date);
+  const playerTeam = gameState.teams.find((t) => t.id === player.team_id);
+  const teamLogoUrl = playerTeam?.logo_url ?? null;
   const teamName = getPlayerTeamName(
     gameState.teams,
     player.team_id,
@@ -320,6 +352,7 @@ export default function PlayerProfile({
     },
   );
   const managerTeamId = gameState.manager.team_id;
+  const managerTeam = gameState.teams.find((t) => t.id === managerTeamId) ?? null;
   const managerAcademyTeam = findAcademyTeamForParent(gameState.teams, managerTeamId);
   const managedTeamIds = new Set<string>();
   if (managerTeamId) {
@@ -332,6 +365,22 @@ export default function PlayerProfile({
       }
     });
   }
+
+  const transferOfferAvailablePlayers = gameState.players.filter(
+    (p) =>
+      managedTeamIds.has(p.team_id ?? "") &&
+      p.id !== player.id &&
+      p.transfer_offers.every((o) => o.status !== "Pending"),
+  );
+
+  const toggleTransferOfferPlayer = (playerId: string) => {
+    if (transferOfferIncludedPlayerIds.includes(playerId)) {
+      setTransferOfferIncludedPlayerIds(transferOfferIncludedPlayerIds.filter((id) => id !== playerId));
+    } else if (transferOfferIncludedPlayerIds.length < 2) {
+      setTransferOfferIncludedPlayerIds([...transferOfferIncludedPlayerIds, playerId]);
+    }
+  };
+
   const isOwnMainPlayer = managerTeamId !== null && player.team_id === managerTeamId;
   const isOwnAcademyPlayer = player.team_id !== null && managedTeamIds.has(player.team_id) && !isOwnMainPlayer;
   const actualIsOwnClub = isOwnMainPlayer || isOwnAcademyPlayer;
@@ -344,9 +393,9 @@ export default function PlayerProfile({
       return 0;
     }
 
-    const currentDate = new Date(gameState.clock.current_date);
-    const contractEndDate = new Date(`${player.contract_end}T00:00:00Z`);
-    if (Number.isNaN(currentDate.getTime()) || Number.isNaN(contractEndDate.getTime())) {
+    const currentDate = parseUtcDate(gameState.clock.current_date);
+    const contractEndDate = parseUtcDate(player.contract_end);
+    if (!currentDate || !contractEndDate) {
       return 0;
     }
 
@@ -506,7 +555,16 @@ export default function PlayerProfile({
     setTransferOfferDestination("main");
     setTransferOfferError(null);
     setTransferOfferFeedback(null);
+    setTransferOfferIncludedPlayerIds([]);
+    setTransferOfferProjection(null);
+    setTransferOfferFee(null);
     setShowTransferOfferModal(true);
+    void previewTransferBidFinancialImpact(player.id, initialFee, "main")
+      .then((res) => {
+        setTransferOfferProjection(res.projection);
+        setTransferOfferFee(initialFee);
+      })
+      .catch(() => {});
   }
 
   async function handleSubmitTransferOffer(): Promise<void> {
@@ -528,7 +586,7 @@ export default function PlayerProfile({
     setTransferOfferFeedback(null);
     setTransferActionSubmitting(true);
     try {
-      const result = await makeTransferBid(player.id, fee, transferOfferDestination);
+      const result = await makeTransferBid(player.id, fee, transferOfferDestination, transferOfferIncludedPlayerIds);
       onGameUpdate(result.game);
       setTransferOfferFeedback({
         decision: result.decision,
@@ -539,8 +597,30 @@ export default function PlayerProfile({
         setTransferOfferAmount(String(Math.round(result.suggested_fee)));
       }
 
-      if (result.decision === "accepted") {
+      if (result.decision === "accepted" && !result.is_terminal) {
+        const updatedPlayer = result.game.players.find((p: PlayerData) => p.id === player.id);
+        const acceptedOffer = updatedPlayer
+          ?.transfer_offers.find((o) => o.status === "Accepted" && o.destination_team_id);
+        if (updatedPlayer && acceptedOffer && acceptedOffer.destination_team_id) {
+          setWageNegotiationTarget({
+            player: updatedPlayer,
+            offerId: acceptedOffer.id,
+            fromTeamId: updatedPlayer.team_id ?? null,
+            fee,
+            destinationTeamId: acceptedOffer.destination_team_id,
+          });
+          setWageNegotiationAmount(String(Math.round(updatedPlayer.wage * 1.5)));
+          setWageNegotiationYears(acceptedOffer.suggested_counter_years ?? 3);
+          setWageNegotiationResult(null);
+          setWageNegotiationFeedback(null);
+          setWageNegotiationError(null);
+          setShowWageModal(true);
+        }
         setShowTransferOfferModal(false);
+        setTransferOfferIncludedPlayerIds([]);
+      } else if (result.decision === "accepted") {
+        setShowTransferOfferModal(false);
+        setTransferOfferIncludedPlayerIds([]);
       }
     } catch (error) {
       console.error("Failed to make transfer offer:", error);
@@ -578,6 +658,48 @@ export default function PlayerProfile({
       }
     } finally {
       setTransferActionSubmitting(false);
+    }
+  }
+
+  async function handleWageNegotiation(): Promise<void> {
+    if (!wageNegotiationTarget || !wageNegotiationAmount) return;
+
+    setWageNegotiationLoading(true);
+    setWageNegotiationError(null);
+    setWageNegotiationResult(null);
+    setWageNegotiationFeedback(null);
+
+    try {
+      const annualWage = Math.round(parseFloat(wageNegotiationAmount));
+      const result = await negotiatePlayerWage(
+        wageNegotiationTarget.player.id,
+        wageNegotiationTarget.offerId,
+        annualWage,
+        wageNegotiationYears,
+      );
+      onGameUpdate?.(result.game);
+      setWageNegotiationResult(result.decision);
+      setWageNegotiationFeedback(result.feedback);
+      if (result.suggested_wage !== null) {
+        setWageNegotiationAmount(String(Math.round(result.suggested_wage)));
+      }
+      if (result.is_terminal && result.decision === "accepted") {
+        setTimeout(() => {
+          setShowWageModal(false);
+          setWageNegotiationTarget(null);
+          setWageNegotiationAmount("");
+          setWageNegotiationResult(null);
+          setWageNegotiationFeedback(null);
+          setWageNegotiationError(null);
+        }, 2000);
+      }
+    } catch (error) {
+      console.error("Failed to negotiate wage:", error);
+      setWageNegotiationError(
+        typeof error === "string" ? error : error instanceof Error ? error.message : String(error),
+      );
+    } finally {
+      setWageNegotiationLoading(false);
     }
   }
 
@@ -642,7 +764,7 @@ export default function PlayerProfile({
           "preview_renewal_financial_impact",
           {
             playerId: player.id,
-            weeklyWage: renewalOfferedWage,
+            annualWage: renewalOfferedWage,
           },
         );
 
@@ -676,7 +798,7 @@ export default function PlayerProfile({
     try {
       const result = await invoke<RenewalResponseData>("propose_renewal", {
         playerId: player.id,
-        weeklyWage: renewalOfferedWage,
+        annualWage: renewalOfferedWage,
         contractYears: renewalOfferedYears,
       });
 
@@ -791,7 +913,7 @@ export default function PlayerProfile({
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       <button
         onClick={onClose}
         className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors mb-4"
@@ -808,7 +930,8 @@ export default function PlayerProfile({
         primaryRole={primaryRole}
         age={age}
         teamName={teamName}
-        weeklySuffix={weeklySuffix}
+        teamLogoUrl={teamLogoUrl}
+        annualSuffix={annualSuffix}
         language={i18n.language}
         isOwnClub={actualIsOwnClub || !onGameUpdate}
         scoutAvailability={scoutAvailability}
@@ -900,11 +1023,6 @@ export default function PlayerProfile({
         t={t}
       />
 
-      {/* Injury banner */}
-      {player.injury ? (
-        <PlayerProfileInjuryBanner injury={player.injury} t={t} />
-      ) : null}
-
       {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <PlayerProfileContractCard
@@ -912,10 +1030,11 @@ export default function PlayerProfile({
           contractEnd={player.contract_end}
           currentDate={gameState.clock.current_date}
           condition={player.condition}
+          fitness={player.fitness ?? 75}
           morale={player.morale}
           marketValue={player.market_value}
           wage={player.wage}
-          weeklySuffix={weeklySuffix}
+          annualSuffix={annualSuffix}
           language={i18n.language}
           contractRiskLevel={contractRiskLevel}
           contractRiskLabel={contractRiskLabel}
@@ -949,7 +1068,7 @@ export default function PlayerProfile({
         show={showRenewalModal}
         playerName={player.full_name}
         t={t}
-        weeklySuffix={weeklySuffix}
+        annualSuffix={annualSuffix}
         renewalWage={renewalWage}
         renewalLength={renewalLength}
         renewalIsTerminal={renewalIsTerminal}
@@ -1010,8 +1129,8 @@ export default function PlayerProfile({
       {showTransferOfferModal ? (
         <DashboardModalFrame maxWidthClassName="max-w-md">
           <div className="space-y-4">
-            <h3 className="text-lg font-heading font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
-              {t("playerProfile.makeTransferOffer")}
+            <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              {t("playerProfile.makeTransferOffer", { defaultValue: "Make Transfer Offer" })}
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">{player.full_name}</p>
             <div>
@@ -1044,7 +1163,13 @@ export default function PlayerProfile({
                 ) : null}
               </select>
             </div>
-            <div>
+            {!player.team_id ? (
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("transfers.freeAgentSigningHint", { defaultValue: "This player is a free agent and can be signed without a transfer fee." })}
+              </p>
+            ) : (
+              <>
+              <div>
               <label
                 htmlFor="transfer-offer-amount"
                 className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 block mb-1"
@@ -1059,7 +1184,18 @@ export default function PlayerProfile({
                 min="1"
                 step="1000"
                 value={transferOfferAmount}
-                onChange={(event) => setTransferOfferAmount(event.target.value)}
+                onChange={(event) => {
+                  setTransferOfferAmount(event.target.value);
+                  const fee = Math.round(Number.parseFloat(event.target.value));
+                  if (Number.isFinite(fee) && fee > 0) {
+                    void previewTransferBidFinancialImpact(player.id, fee, transferOfferDestination)
+                      .then((res) => {
+                        setTransferOfferProjection(res.projection);
+                        setTransferOfferFee(fee);
+                      })
+                      .catch(() => {});
+                  }
+                }}
                 className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
               />
             </div>
@@ -1068,46 +1204,124 @@ export default function PlayerProfile({
                 {transferOfferError}
               </p>
             ) : null}
-            {transferOfferFeedback ? (
-              <div className="rounded-md border border-primary-400/30 bg-primary-500/10 px-3 py-2 text-xs text-primary-100">
-                <p className="font-heading font-bold uppercase tracking-wider text-[10px] text-primary-200/90">
-                  {resolveBackendText(
-                    transferOfferFeedback.feedback.headline_key,
-                    transferOfferFeedback.feedback.headline_key,
-                    transferOfferFeedback.feedback.params,
-                  )}
+            {transferOfferFee !== null && transferOfferProjection ? (
+              <div className="rounded-lg border border-gray-200 dark:border-navy-700 bg-white/70 dark:bg-navy-900/40 p-3 space-y-2">
+                <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("transfers.bidImpactTitle", { defaultValue: "Projected impact" })}
                 </p>
-                {transferOfferFeedback.feedback.detail_key ? (
-                  <p className="mt-1 text-primary-100/90">
-                    {resolveBackendText(
-                      transferOfferFeedback.feedback.detail_key,
-                      transferOfferFeedback.feedback.detail_key,
-                      transferOfferFeedback.feedback.params,
-                    )}
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactTransferBudget", {
+                    before: formatVal(transferOfferProjection.transfer_budget_before),
+                    after: formatVal(transferOfferProjection.transfer_budget_after),
+                    defaultValue: "Transfer budget {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactBalance", {
+                    before: formatVal(transferOfferProjection.finance_before),
+                    after: formatVal(transferOfferProjection.finance_after),
+                    defaultValue: "Club balance {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactWagePressure", {
+                    percent: transferOfferProjection.projected_wage_budget_usage_pct,
+                    defaultValue: "Projected wage budget usage {{percent}}%",
+                  })}
+                </p>
+                {transferOfferProjection.exceeds_transfer_budget && (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverTransferBudget", { defaultValue: "This bid exceeds your transfer budget" })}
                   </p>
-                ) : null}
+                )}
+                {transferOfferProjection.exceeds_finance && (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverBalance", { defaultValue: "This bid would push the club into debt" })}
+                  </p>
+                )}
               </div>
             ) : null}
-            <div className="flex gap-2 justify-end">
+              </>
+            )}
+            {transferOfferFeedback ? (
+              <NegotiationFeedbackPanel
+                feedback={transferOfferFeedback.feedback}
+                titleKey="transfers.negotiationPulse"
+                roundKey="transfers.negotiationRound"
+                patienceKey="transfers.negotiationPatience"
+                tensionKey="transfers.negotiationTension"
+              />
+            ) : null}
+            <TransferNegotiationHistory offer={null} mode="outgoing" />
+            {transferOfferError ? (
+              <div className="text-xs font-heading font-bold uppercase tracking-wider text-red-500">
+                {transferOfferError}
+              </div>
+            ) : null}
+            {transferOfferFeedback ? (
+              <div
+                className={`text-xs font-heading font-bold uppercase tracking-wider ${
+                  transferOfferFeedback.decision === "accepted"
+                    ? "text-green-500"
+                    : transferOfferFeedback.decision === "rejected"
+                      ? "text-red-500"
+                      : "text-amber-500"
+                }`}
+              >
+                {transferOfferFeedback.decision === "accepted"
+                  ? t("transfers.bidAccepted", { defaultValue: "Bid accepted!" })
+                  : transferOfferFeedback.decision === "rejected"
+                    ? t("transfers.bidRejected", { defaultValue: "Bid rejected." })
+                    : t("transfers.bidCountered", { defaultValue: "They came back with revised terms." })}
+              </div>
+            ) : null}
+            <div className="flex gap-2">
+              <Button
+                onClick={() => void handleSubmitTransferOffer()}
+                disabled={transferActionSubmitting}
+                className="flex-1 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-heading font-bold text-sm uppercase tracking-wider transition-colors disabled:opacity-50"
+              >
+                {transferActionSubmitting
+                  ? t("transfers.submitting", { defaultValue: "Submitting..." })
+                  : t("playerProfile.transferOfferSubmit", { defaultValue: "Send offer" })}
+              </Button>
               <Button
                 variant="ghost"
                 onClick={() => setShowTransferOfferModal(false)}
                 disabled={transferActionSubmitting}
+                className="px-4 py-2 bg-gray-200 dark:bg-navy-700 text-gray-600 dark:text-gray-300 rounded-lg font-heading font-bold text-sm uppercase tracking-wider hover:bg-gray-300 dark:hover:bg-navy-600 transition-colors"
               >
-                {t("common.cancel")}
-              </Button>
-              <Button
-                onClick={() => void handleSubmitTransferOffer()}
-                disabled={transferActionSubmitting}
-              >
-                {t("playerProfile.transferOfferSubmit", {
-                  defaultValue: "Send offer",
-                })}
+                {t("common.cancel", { defaultValue: "Cancel" })}
               </Button>
             </div>
           </div>
         </DashboardModalFrame>
       ) : null}
+      {showWageModal && wageNegotiationTarget && (
+        <WageNegotiationModal
+          target={wageNegotiationTarget}
+          teams={gameState.teams}
+          wageAmount={wageNegotiationAmount}
+          onWageAmountChange={setWageNegotiationAmount}
+          contractYears={wageNegotiationYears}
+          onContractYearsChange={setWageNegotiationYears}
+          feedback={wageNegotiationFeedback}
+          activeOffer={null}
+          result={wageNegotiationResult}
+          error={wageNegotiationError}
+          loading={wageNegotiationLoading}
+          onSubmit={handleWageNegotiation}
+          onClose={() => {
+            setShowWageModal(false);
+            setWageNegotiationTarget(null);
+            setWageNegotiationAmount("");
+            setWageNegotiationResult(null);
+            setWageNegotiationFeedback(null);
+            setWageNegotiationError(null);
+          }}
+          annualWageBudget={managerTeam ? managerTeam.wage_budget : 0}
+        />
+      )}
     </div>
   );
 }

@@ -7,7 +7,6 @@ import {
     getAttributeColorClass,
     getPlayerAge,
     getPlayerTeamName,
-    resolvePlayerInjuryName,
 } from "./PlayerProfile.helpers";
 
 function createTeam(overrides: Partial<TeamData> = {}): TeamData {
@@ -141,8 +140,8 @@ describe("PlayerProfile.helpers", function (): void {
         expect(formatPlayerMarketValue(2500000)).toBe("€2.5M");
     });
 
-    it("formats annual wages as weekly display values", function (): void {
-        expect(formatPlayerWage(52000, "/wk")).toMatch(/^€1[.,]000\/wk$/);
+    it("formats annual wages with annual suffix", function (): void {
+        expect(formatPlayerWage(52000, "/año")).toMatch(/^€52[.,]000\/año$/);
     });
 
     it("maps attribute values to the expected color classes", function (): void {
@@ -150,24 +149,6 @@ describe("PlayerProfile.helpers", function (): void {
         expect(getAttributeColorClass(65)).toContain("text-accent-600");
         expect(getAttributeColorClass(45)).toContain("text-gray-600");
         expect(getAttributeColorClass(20)).toContain("text-red-500");
-    });
-
-    it("resolves injury names for explicit keys and plain injuries", function (): void {
-        const translate = (
-            key: string,
-            options?: { defaultValue?: unknown },
-        ): string => {
-            return typeof options?.defaultValue === "string"
-                ? `${key}:${options.defaultValue}`
-                : key;
-        };
-
-        expect(resolvePlayerInjuryName("injuries.hamstring", translate)).toBe(
-            "injuries.hamstring:injuries.hamstring",
-        );
-        expect(resolvePlayerInjuryName("Hamstring", translate)).toBe(
-            "common.injuries.Hamstring:Hamstring",
-        );
     });
 
 });

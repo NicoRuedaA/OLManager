@@ -6,8 +6,9 @@ use ofm_core::game::{BoardObjective, DayPhase, Game, ObjectiveType, ScoutingAssi
 
 use crate::game_database::GameDatabase;
 use crate::repositories::{
-    champion_progression_repo, league_repo, manager_repo, message_repo, meta_repo, news_repo,
-    objective_repo, player_repo, scouting_repo, social_repo, staff_repo, stats_repo, team_repo,
+    champion_progression_repo, competition_repo, league_repo, manager_repo, message_repo,
+    meta_repo, news_repo, objective_repo, player_repo, scouting_repo, social_repo, staff_repo,
+    stats_repo, team_repo,transfer_history_repo
 };
 
 pub struct GamePersistenceWriter;
@@ -46,8 +47,13 @@ impl GamePersistenceWriter {
         social_repo::upsert_social_accounts(conn, &game.social_accounts)?;
         social_repo::upsert_social_templates(conn, &game.social_templates)?;
 
-        if let Some(ref league) = game.league {
-            league_repo::upsert_league(conn, league)?;
+        // Persist ALL leagues (not just the active one)
+        for league in &game.leagues {
+            let config_json = game
+                .competition_configs
+                .get(&league.id)
+                .and_then(|config| serde_json::to_string(config).ok());
+            league_repo::upsert_league(conn, league, config_json.as_deref())?;
         }
 
         let objective_rows: Vec<objective_repo::BoardObjectiveRow> = game
@@ -80,6 +86,8 @@ impl GamePersistenceWriter {
             &game.champion_masteries,
             &game.champion_patch,
         )?;
+
+        transfer_history_repo::upsert_transfer_history(conn, &game.transfer_history)?;
 
         Ok(())
     }
@@ -142,10 +150,23 @@ impl GamePersistenceReader {
         let social_posts = social_repo::load_all_social_posts(conn)?;
         let social_accounts = social_repo::load_social_accounts(conn)?;
         let social_templates = social_repo::load_social_templates(conn)?;
+        // Load ALL competitions (background leagues survive save/load)
+        let (all_leagues, config_jsons) = competition_repo::load_competitions(conn)?;
+
+        // Parse schedule_config JSON strings into ScheduleConfig objects
+        use ofm_core::generator::definitions::ScheduleConfig;
+        let mut competition_configs = std::collections::HashMap::new();
+        for (cid, json_str) in &config_jsons {
+            if let Ok(config) = serde_json::from_str::<ScheduleConfig>(json_str) {
+                competition_configs.insert(cid.clone(), config);
+            }
+        }
+
         let league = league_repo::load_league(conn)?;
         log::info!(
-            "[GamePersistenceReader] read_game: league loaded: {:?}",
-            league.as_ref().map(|l| &l.name)
+            "[GamePersistenceReader] read_game: {} competitions loaded, {} configs",
+            all_leagues.len(),
+            competition_configs.len()
         );
 
         log::info!("[GamePersistenceReader] read_game: loading objectives...");
@@ -189,6 +210,13 @@ impl GamePersistenceReader {
             champion_masteries.len()
         );
 
+        log::info!("[GamePersistenceReader] read_game: loading transfer history...");
+        let transfer_history = transfer_history_repo::load_transfer_history(conn)?;
+        log::info!(
+            "[GamePersistenceReader] read_game: transfer history entries: {}",
+            transfer_history.entries.len()
+        );
+
         let mut game = Game {
             clock,
             day_phase: DayPhase::from_id(&meta.day_phase),
@@ -201,15 +229,27 @@ impl GamePersistenceReader {
             social_posts,
             social_accounts,
             social_templates,
-            league,
-            academy_league: None,
+            leagues: all_leagues,
+            user_competition_id: None,
             scouting_assignments,
             board_objectives,
             season_context: domain::season::SeasonContext::default(),
             days_since_last_job_offer: None,
             champion_masteries,
             champion_patch,
+            competition_configs,
+            transfer_history,
         };
+        // Derive user_competition_id from the manager's team
+        game.user_competition_id = game
+            .teams
+            .iter()
+            .find(|t| t.manager_id.as_deref() == Some(&game.manager.id))
+            .and_then(|t| {
+                let dash_pos = t.id.find('-')?;
+                let prefix = &t.id[..dash_pos];
+                if prefix.is_empty() { None } else { Some(prefix.to_string()) }
+            });
         ofm_core::season_context::refresh_game_context(&mut game);
 
         Ok(game)

@@ -1,7 +1,5 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{
-    Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
-};
+use domain::league::{Fixture, FixtureStatus, League, MatchResult, MatchType, StandingEntry};
 use domain::manager::Manager;
 use domain::message::{ActionOption, ActionType, MessageAction, MessageContext};
 use domain::player::{
@@ -183,26 +181,6 @@ fn normal_morale_no_message() {
 }
 
 #[test]
-fn injured_player_no_morale_message() {
-    let mut game = make_game();
-    let player = game.players.iter_mut().find(|p| p.id == "p_fwd0").unwrap();
-    player.morale = 20;
-    player.injury = Some(domain::player::Injury {
-        name: "Muscle".to_string(),
-        days_remaining: 5,
-    });
-
-    player_events::check_player_events(&mut game);
-
-    let morale_msgs: Vec<_> = game
-        .messages
-        .iter()
-        .filter(|m| m.id == "morale_talk_p_fwd0")
-        .collect();
-    assert!(morale_msgs.is_empty(), "No morale talk for injured player");
-}
-
-#[test]
 fn morale_message_not_duplicated() {
     let mut game = make_game();
     game.players
@@ -264,7 +242,7 @@ fn bench_complaint_after_5_missed_matches() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -280,10 +258,11 @@ fn bench_complaint_after_5_missed_matches() {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures,
         standings: vec![StandingEntry::new("team1".to_string())],
     };
-    game.league = Some(league);
+    game.leagues = vec![league];
 
     // Make p_fwd0 have low morale (< 50), 0 appearances, decent OVR
     let player = game.players.iter_mut().find(|p| p.id == "p_fwd0").unwrap();
@@ -321,7 +300,7 @@ fn bench_complaint_not_for_gk() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -333,13 +312,14 @@ fn bench_complaint_not_for_gk() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures,
         standings: vec![],
-    });
+    }];
     // GK has low morale
     game.players
         .iter_mut()
@@ -366,7 +346,7 @@ fn bench_complaint_not_with_fewer_than_5_fixtures() {
             date: format!("2025-06-{:02}", 10 + i),
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
-            competition: FixtureCompetition::League,
+            match_type: MatchType::League,
             best_of: 1,
             status: FixtureStatus::Completed,
             result: Some(MatchResult {
@@ -378,13 +358,14 @@ fn bench_complaint_not_with_fewer_than_5_fixtures() {
             }),
         })
         .collect();
-    game.league = Some(League {
+    game.leagues = vec![League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+        competition_id: None,
         fixtures,
         standings: vec![],
-    });
+    }];
     // Set low morale so they would complain if threshold was met
     for p in &mut game.players {
         p.morale = 30;

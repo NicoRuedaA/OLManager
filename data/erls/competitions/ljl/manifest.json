@@ -1,0 +1,18 @@
+{
+  "id": "ljl",
+  "name": "LJL",
+  "full_name": "Japan's professional League of Legends league",
+  "region": "LJL",
+  "country": "JP",
+  "tier": 2,
+  "logo": "/competition-icons/1779541099047_34egscw01nz.webp",
+  "teams_file": "erls/teams/ljl_teams.json",
+  "players_file": "erls/players/ljl_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

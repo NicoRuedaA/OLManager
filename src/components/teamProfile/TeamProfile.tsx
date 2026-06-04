@@ -20,12 +20,11 @@ export default function TeamProfile({
   onSelectPlayer,
 }: TeamProfileProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
   const viewModel = buildTeamProfileViewModel(team, gameState);
   const { recentMatches } = useTeamProfileStats(team.id);
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       <button
         onClick={onClose}
         className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors mb-4"
@@ -53,7 +52,6 @@ export default function TeamProfile({
           team={team}
           isOwnTeam={isOwnTeam}
           viewModel={viewModel}
-          weeklySuffix={weeklySuffix}
           t={t}
         />
         <TeamProfileLeagueStandingCard standings={viewModel.standings} t={t} />

@@ -20,7 +20,7 @@ import { renderSimulation } from "./lol-prototype/ui/render";
 import { LecLowerThirdPanel } from "./lol-prototype/ui/panels";
 import { useSettingsStore } from "../../store/settingsStore";
 import type { GameStateData } from "../../store/gameStore";
-import teamsSeed from "../../../data/lec/draft/teams.json";
+
 
 export interface ChampionSelectionByPlayer {
   home: Record<string, string>;
@@ -48,43 +48,31 @@ const SPEEDS = [
 
 const DDRAGON_VERSION = "14.24.1";
 const USE_RUST_SIM_V2 = true;
-const ICON_TOWER = "/lol-map-icons/icon_ui_tower_minimap.png";
-const ICON_GOLD = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-event-hub/global/default/images/currency.png";
-const ICON_VOIDGRUB = "/lol-map-icons/grub.png";
+const ICON_TOWER = "/lol-map-icons/icon_ui_tower_minimap.webp";
+const ICON_GOLD = "/lol-map-icons/gold.webp";
+const ICON_VOIDGRUB = "/lol-map-icons/grub.webp";
 const ICON_LEC = "/lec-logo.svg";
-const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.png";
-
-interface TeamSeed {
-  id: string;
-  name: string;
-  shortName?: string;
-  logo?: string;
-}
-
-const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } }).data?.teams ?? []) as TeamSeed[];
+const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.webp";
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
-  g2esports: { tricode: "G2", logo: "/team-logos/g2-esports.png" },
-  fnatic: { tricode: "FNC", logo: "/team-logos/fnatic.png" },
-  teamvitality: { tricode: "VIT", logo: "/team-logos/team-vitality.png" },
-  teamheretics: { tricode: "HRTS", logo: "/team-logos/team-heretics-lec.png" },
-  skgaming: { tricode: "SK", logo: "/team-logos/sk-gaming.png" },
-  movistarkoi: { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  mkoi: { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  koi: { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  madlionskoi: { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  teambds: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png" },
-  shifters: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png" },
-  giantx: { tricode: "GX", logo: "/team-logos/giantx-lec.png" },
-  natusvincere: { tricode: "NAVI", logo: "/team-logos/natus-vincere.png" },
-  karminecorp: { tricode: "KC", logo: "/team-logos/karmine-corp.png" },
+  g2esports: { tricode: "G2", logo: "/teams-icons/g2-esports.webp" },
+  fnatic: { tricode: "FNC", logo: "/teams-icons/fnatic.webp" },
+  teamvitality: { tricode: "VIT", logo: "/teams-icons/team-vitality.webp" },
+  teamheretics: { tricode: "HRTS", logo: "/teams-icons/team-heretics-lec.webp" },
+  skgaming: { tricode: "SK", logo: "/teams-icons/sk-gaming.webp" },
+  movistarkoi: { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  mkoi: { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  koi: { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  madlionskoi: { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  teambds: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.webp" },
+  shifters: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.webp" },
+  giantx: { tricode: "GX", logo: "/teams-icons/giantx-lec.webp" },
+  natusvincere: { tricode: "NAVI", logo: "/teams-icons/natus-vincere.webp" },
+  karminecorp: { tricode: "KC", logo: "/teams-icons/karmine-corp.webp" },
 };
 
 function championIconUrl(championId: string): string {
-  if (normalizeChampionLookupKey(championId) === "yunara") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/804.png";
-  }
-  return `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VERSION}/img/champion/${championId}.png`;
+  return `/champion-tiles/${championId}.webp`;
 }
 
 function attackTypeFromStats(attackRange: number, tags: string[]) {
@@ -121,19 +109,16 @@ function normalizeKey(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function teamBrand(name: string): { tag: string; logo: string | null } {
+function teamBrand(name: string, teams?: import("../../store/types").TeamData[]): { tag: string; logo: string | null } {
   const normalized = normalizeKey(name);
+
+  if (teams) {
+    const fromTeams = teams.find((t) => normalizeKey(t.name) === normalized);
+    if (fromTeams) return { tag: fromTeams.short_name, logo: fromTeams.logo_url ?? null };
+  }
+
   const known = TEAM_BRAND_MAP[normalized];
   if (known) return { tag: known.tricode, logo: known.logo };
-
-  const fromSeed = TEAM_SEEDS.find((team) => normalizeKey(team.name) === normalized);
-  if (fromSeed) {
-    const logoFileName = fromSeed.logo?.split("/").pop();
-    return {
-      tag: (fromSeed.shortName || teamTag(name)).toUpperCase(),
-      logo: logoFileName ? `/team-logos/${logoFileName.toLowerCase()}` : null,
-    };
-  }
 
   return { tag: teamTag(name), logo: null };
 }
@@ -207,14 +192,14 @@ function formatGoldCompact(value: number | undefined) {
 
 function dragonIconForKind(kind: string | null | undefined): string {
   const normalized = (kind ?? "").toLowerCase();
-  if (normalized.includes("mountain")) return "/lol-map-icons/dragon_mountain.png";
-  if (normalized.includes("cloud")) return "/lol-map-icons/dragon_cloud.png";
-  if (normalized.includes("ocean")) return "/lol-map-icons/dragon_ocean.png";
-  if (normalized.includes("hextech")) return "/lol-map-icons/dragon_hextech.png";
-  if (normalized.includes("chemtech")) return "/lol-map-icons/dragon_chemtech.png";
-  if (normalized.includes("elder")) return "/lol-map-icons/dragon_elder.png";
-  if (normalized.includes("infernal") || normalized.includes("fire")) return "/lol-map-icons/dragon_infernal.png";
-  return "/lol-map-icons/dragon.png";
+  if (normalized.includes("mountain")) return "/lol-map-icons/dragon_mountain.webp";
+  if (normalized.includes("cloud")) return "/lol-map-icons/dragon_cloud.webp";
+  if (normalized.includes("ocean")) return "/lol-map-icons/dragon_ocean.webp";
+  if (normalized.includes("hextech")) return "/lol-map-icons/dragon_hextech.webp";
+  if (normalized.includes("chemtech")) return "/lol-map-icons/dragon_chemtech.webp";
+  if (normalized.includes("elder")) return "/lol-map-icons/dragon_elder.webp";
+  if (normalized.includes("infernal") || normalized.includes("fire")) return "/lol-map-icons/dragon_infernal.webp";
+  return "/lol-map-icons/dragon.webp";
 }
 
 function dragonKillIconsBySide(
@@ -265,7 +250,7 @@ function dragonKillIconsBySide(
 
     const padded = [...merged];
     while (padded.length < expectedCount) {
-      padded.push("/lol-map-icons/dragon.png");
+      padded.push("/lol-map-icons/dragon.webp");
     }
     return padded;
   }
@@ -353,7 +338,7 @@ function resolveChampionPortrait(
 
   return iconByLookup[normalizeChampionLookupKey(match.name)]
     ?? iconByLookup[normalizeChampionLookupKey(match.id)]
-    ?? `/player-photos/${match.id}.png`;
+    ?? `/player-photos/${match.id}.webp`;
 }
 
 function objectiveIconForEvent(event: LolSimV1RuntimeState["events"][number]): string {
@@ -362,10 +347,10 @@ function objectiveIconForEvent(event: LolSimV1RuntimeState["events"][number]): s
     const kindMatch = text.match(/secured\s+([a-z_]+)\s+(dragon|drake)/i);
     return dragonIconForKind(kindMatch?.[1] ?? "dragon");
   }
-  if (event.type === "baron") return "/lol-map-icons/baron.png";
-  if (event.type === "tower") return "/lol-map-icons/icon_ui_tower_minimap.png";
-  if (event.type === "nexus") return "/lol-map-icons/icon_ui_nexus_minimap_v2.png";
-  return "/lol-map-icons/camp.png";
+  if (event.type === "baron") return "/lol-map-icons/baron.webp";
+  if (event.type === "tower") return "/lol-map-icons/icon_ui_tower_minimap.webp";
+  if (event.type === "nexus") return "/lol-map-icons/icon_ui_nexus_minimap_v2.webp";
+  return "/lol-map-icons/camp.webp";
 }
 
 function sideFromRuntimeText(text: string | null | undefined): "blue" | "red" | null {
@@ -808,8 +793,8 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
   hudObjectiveCountersRef.current.blueVoidgrubs = blueVoidgrubs;
   hudObjectiveCountersRef.current.redVoidgrubs = redVoidgrubs;
   const clock = `${Math.floor((state?.timeSec ?? 0) / 60)}:${Math.floor((state?.timeSec ?? 0) % 60).toString().padStart(2, "0")}`;
-  const blueBrand = teamBrand(snapshot.home_team.name);
-  const redBrand = teamBrand(snapshot.away_team.name);
+  const blueBrand = teamBrand(snapshot.home_team.name, gameState?.teams);
+  const redBrand = teamBrand(snapshot.away_team.name, gameState?.teams);
   const dragonIcon = dragonIconForKind(dragon?.currentKind);
   const blueDragonIcons = dragonKillIconsBySide(
     state?.events,
@@ -835,7 +820,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
       const championId = runtimeChampionId || mappedChampionId;
       const iconUrl = championId
         ? championIconUrl(championId)
-        : `/player-photos/${champion.id}.png`;
+        : `/player-photos/${champion.id}.webp`;
       const byName = normalizeChampionLookupKey(champion.name);
       if (byName) result[byName] = iconUrl;
       const byId = normalizeChampionLookupKey(champion.id);
@@ -988,7 +973,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                 animation: lolFeedSlideIn 260ms ease-out both;
               }
             `}</style>
-            <div className="relative flex h-[54px] items-center overflow-hidden border-t border-white/10 bg-gradient-to-r from-[#001a1a] via-black to-[#1a0a00] shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:h-[62px]">
+            <div className="relative flex h-[54px] items-center overflow-hidden border-t border-white/10 bg-gradient-to-r from-navy-950 via-black to-navy-950 shadow-[0_10px_30px_rgba(0,0,0,0.5)] sm:h-[62px]">
               <div className="absolute left-0 h-full w-1 bg-[#00fcdb] shadow-[2px_0_10px_rgba(0,252,219,0.3)]" />
               <div className="absolute right-0 h-full w-1 bg-[#ff4e00] shadow-[-2px_0_10px_rgba(255,78,0,0.3)]" />
 
@@ -997,10 +982,10 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                   {blueBrand.logo ? <img src={blueBrand.logo} className="h-9 w-9 object-contain" alt={`${snapshot.home_team.name} logo`} loading="lazy" /> : null}
                 </div>
                 <div className="flex flex-col leading-[0.9]">
-                  <span className="text-[22px] font-black tracking-[-1px] text-[#00fcdb] sm:text-[34px]">{blueBrand.tag || blueTag}</span>
-                  <span className="text-[13px] font-bold text-white/55">{t("match.live")}</span>
+                  <span className="text-xl font-black tracking-[-1px] text-primary-400 sm:text-4xl">{blueBrand.tag || blueTag}</span>
+                  <span className="text-sm font-bold text-white/55">{t("match.live")}</span>
                 </div>
-                <div className="ml-4 flex items-center gap-2 text-[16px] font-bold italic text-white sm:ml-7 sm:text-[24px]">
+                <div className="ml-4 flex items-center gap-2 text-base font-bold italic text-white sm:ml-7 sm:text-2xl">
                   <img src={ICON_TOWER} className="h-5 w-5 object-contain opacity-90" alt={t("match.liveA11y.towerIcon")} loading="lazy" />
                   <span>{blueTowers}</span>
                   <img src={ICON_GOLD} className="ml-2 h-5 w-5 object-contain" alt={t("match.liveA11y.goldIcon")} loading="lazy" />
@@ -1009,21 +994,21 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
               </div>
 
               <div className="flex w-[24%] items-center justify-center gap-4">
-                <span className="text-[34px] font-black italic leading-none text-white sm:text-[48px]">{blueKills}</span>
+                <span className="text-4xl font-black italic leading-none text-white sm:text-5xl">{blueKills}</span>
                 <img src={ICON_LEC} className="h-7 w-7 object-contain opacity-95" alt={t("match.liveA11y.lecLogo")} loading="lazy" />
-                <span className="text-[34px] font-black italic leading-none text-white sm:text-[48px]">{redKills}</span>
+                <span className="text-4xl font-black italic leading-none text-white sm:text-5xl">{redKills}</span>
               </div>
 
               <div className="flex w-[38%] items-center justify-end px-4 text-right">
-                <div className="mr-4 flex items-center gap-2 text-[16px] font-bold italic text-white sm:mr-5 sm:text-[24px]">
+                <div className="mr-4 flex items-center gap-2 text-base font-bold italic text-white sm:mr-5 sm:text-2xl">
                   <span>{redGold}</span>
                   <img src={ICON_GOLD} className="h-5 w-5 object-contain" alt={t("match.liveA11y.goldIcon")} loading="lazy" />
                   <span className="ml-2">{redTowers}</span>
                   <img src={ICON_TOWER} className="h-5 w-5 object-contain opacity-90" alt={t("match.liveA11y.towerIcon")} loading="lazy" />
                 </div>
                 <div className="flex flex-col leading-[0.9]">
-                  <span className="text-[22px] font-black tracking-[-1px] text-[#ff4e00] sm:text-[34px]">{redBrand.tag || redTag}</span>
-                  <span className="text-[13px] font-bold text-white/55">{t("match.live")}</span>
+                  <span className="text-xl font-black tracking-[-1px] text-accent-600 sm:text-4xl">{redBrand.tag || redTag}</span>
+                  <span className="text-sm font-bold text-white/55">{t("match.live")}</span>
                 </div>
                 <div className="ml-3 flex h-[42px] w-[42px] items-center justify-center border border-white/20 bg-white/5">
                   {redBrand.logo ? <img src={redBrand.logo} className="h-9 w-9 object-contain" alt={`${snapshot.away_team.name} logo`} loading="lazy" /> : null}
@@ -1032,7 +1017,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
             </div>
 
             <div
-              className="absolute left-1/2 top-[54px] flex h-[34px] -translate-x-1/2 items-center justify-between border-t border-[#222] bg-black px-[26px] sm:top-[62px] sm:h-[38px] sm:px-[60px]"
+              className="absolute left-1/2 top-[54px] flex h-[34px] -translate-x-1/2 items-center justify-between border-t border-navy-700 bg-black px-[26px] sm:top-[62px] sm:h-[38px] sm:px-[60px]"
               style={{ clipPath: "polygon(0 0, 100% 0, 93% 100%, 7% 100%)", width: "min(92%, 900px)" }}
             >
               <div className="flex items-center gap-2">
@@ -1041,16 +1026,16 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                     <img key={`blue-dragon-${idx}`} src={iconSrc} className="h-[22px] w-[22px] object-contain" alt={t("match.liveA11y.dragonIcon")} loading="lazy" />
                   ))
                   : <img src={dragonIcon} className="h-[22px] w-[22px] object-contain opacity-35" alt={t("match.liveA11y.dragonIcon")} loading="lazy" />}
-                <div className="flex items-center gap-1 text-[20px] font-bold text-white/70">
+                <div className="flex items-center gap-1 text-xl font-bold text-white/70">
                   <img src={ICON_VOIDGRUB} className="h-4 w-4 object-contain" alt={t("match.liveA11y.voidgrubIcon")} loading="lazy" />
                   <span>{blueVoidgrubs}</span>
                 </div>
               </div>
 
-              <div className="text-[24px] font-black italic tracking-[1px] text-white sm:text-[32px]">{clock}</div>
+              <div className="text-2xl font-black italic tracking-[1px] text-white sm:text-[32px]">{clock}</div>
 
               <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 text-[20px] font-bold text-white/70">
+                <div className="flex items-center gap-1 text-xl font-bold text-white/70">
                   <span>{redVoidgrubs}</span>
                   <img src={ICON_VOIDGRUB} className="h-4 w-4 object-contain" alt={t("match.liveA11y.voidgrubIcon")} loading="lazy" />
                 </div>
@@ -1078,15 +1063,15 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                           <div className="h-[36px] w-[36px] overflow-hidden rounded-[3px] border border-white/25 bg-black/45">
                             {entry.killerIcon
                               ? <img src={entry.killerIcon} className="h-full w-full object-cover" alt={t("match.liveA11y.killerIcon")} loading="lazy" />
-                              : <div className={`flex h-full w-full items-center justify-center text-[11px] font-bold ${entry.side === "red" ? "bg-[#22151a] text-red-200" : "bg-[#151a26] text-cyan-200"}`}>{actorInitials(entry.killerLabel, "K")}</div>}
+                              : <div className={`flex h-full w-full items-center justify-center text-xs font-bold ${entry.side === "red" ? "bg-[#22151a] text-red-200" : "bg-[#151a26] text-cyan-200"}`}>{actorInitials(entry.killerLabel, "K")}</div>}
                           </div>
-                          <div className={`flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border text-[13px] ${entry.side === "red" ? "border-red-400/40 bg-red-500/10 text-red-200" : "border-cyan-400/40 bg-cyan-500/10 text-cyan-200"}`}>⚔</div>
+                          <div className={`flex h-[26px] w-[26px] items-center justify-center rounded-[3px] border text-sm ${entry.side === "red" ? "border-red-400/40 bg-red-500/10 text-red-200" : "border-cyan-400/40 bg-cyan-500/10 text-cyan-200"}`}>⚔</div>
                           <div className="h-[36px] w-[36px] overflow-hidden rounded-[3px] border border-white/25 bg-black/45">
                             {entry.victimIcon
                               ? <img src={entry.victimIcon} className="h-full w-full object-cover" alt={t("match.liveA11y.victimIcon")} loading="lazy" />
-                              : <div className={`flex h-full w-full items-center justify-center text-[11px] font-bold ${entry.side === "red" ? "bg-[#22151a] text-red-200" : "bg-[#151a26] text-cyan-200"}`}>{actorInitials(entry.victimLabel, "V")}</div>}
+                              : <div className={`flex h-full w-full items-center justify-center text-xs font-bold ${entry.side === "red" ? "bg-[#22151a] text-red-200" : "bg-[#151a26] text-cyan-200"}`}>{actorInitials(entry.victimLabel, "V")}</div>}
                           </div>
-                          <span className="ml-auto text-[11px] font-bold text-white/75">{entry.minute}'</span>
+                          <span className="ml-auto text-xs font-bold text-white/75">{entry.minute}'</span>
                         </div>
                       ) : (
                         <div className="flex items-center gap-[7px]">
@@ -1096,16 +1081,16 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                               : null}
                           </div>
                           <div className="flex min-w-0 flex-1 flex-col">
-                            <span className={`truncate text-[10px] font-semibold uppercase tracking-[0.5px] ${entry.side === "red" ? "text-red-200" : "text-cyan-200"}`}>{entry.type}</span>
-                            <span className="truncate text-[10px] text-white/75">{entry.text}</span>
+                            <span className={`truncate text-2xs font-semibold uppercase tracking-[0.5px] ${entry.side === "red" ? "text-red-200" : "text-cyan-200"}`}>{entry.type}</span>
+                            <span className="truncate text-2xs text-white/75">{entry.text}</span>
                           </div>
-                          <span className="text-[11px] font-bold text-white/75">{entry.minute}'</span>
+                          <span className="text-xs font-bold text-white/75">{entry.minute}'</span>
                         </div>
                       )}
                       <div className={`mt-[5px] h-[2px] w-full bg-gradient-to-r ${entry.side === "red" ? "from-red-500/40 via-red-300 to-red-500/40" : "from-cyan-500/40 via-cyan-300 to-cyan-500/40"}`} />
                     </div>
                   )) : (
-                    <div className="rounded-[4px] border border-cyan-500/30 bg-black/75 px-2 py-1 text-[10px] text-white/65">
+                    <div className="rounded-[4px] border border-cyan-500/30 bg-black/75 px-2 py-1 text-2xs text-white/65">
                       {t("match.waitingFirstSkirmish")}
                     </div>
                   )}
@@ -1122,10 +1107,10 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
 
             <div className="w-full max-w-[260px] lg:w-[246px]">
               <div className="rounded border border-cyan-500/30 bg-black/70 p-2">
-                <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.6px] text-cyan-200/90">
+                <div className="mb-2 text-2xs font-semibold uppercase tracking-[0.6px] text-cyan-200/90">
                   {t("match.liveControls")}
                 </div>
-                <div className="grid grid-cols-2 gap-1 text-[10px]">
+                <div className="grid grid-cols-2 gap-1 text-2xs">
                   <button className="rounded border border-cyan-500/30 bg-black/60 px-2 py-1 text-white/90" onClick={() => setRunning((v) => !v)}>
                     {running ? t("match.pause") : t("match.play")}
                   </button>
@@ -1165,10 +1150,10 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
       {skipWarningOpen && !isSkipping ? (
         <div className="absolute inset-0 z-[60] flex items-center justify-center bg-black/55">
           <div className="w-[min(92vw,520px)] rounded border border-red-500/45 bg-[linear-gradient(180deg,rgba(44,8,10,0.95)_0%,rgba(24,5,6,0.95)_100%)] p-4 shadow-[0_18px_44px_rgba(0,0,0,0.6)]">
-            <h3 className="text-[15px] font-bold uppercase tracking-[0.5px] text-red-200">
+            <h3 className="text-sm font-bold uppercase tracking-[0.5px] text-red-200">
               {t("match.skipWarningTitle")}
             </h3>
-            <p className="mt-2 text-[13px] text-red-100/90">
+            <p className="mt-2 text-sm text-red-100/90">
               {t(
                 "match.skipWarningBody",
                 "Skip Match now re-simulates from minute 0. You will lose all progress from this live match.",
@@ -1176,13 +1161,13 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
             </p>
             <div className="mt-4 flex items-center justify-end gap-2">
               <button
-                className="rounded border border-white/20 bg-black/45 px-3 py-1.5 text-[12px] text-white/85"
+                className="rounded border border-white/20 bg-black/45 px-3 py-1.5 text-xs text-white/85"
                 onClick={() => setSkipWarningOpen(false)}
               >
                 {t("match.cancel")}
               </button>
               <button
-                className="rounded border border-red-400/50 bg-red-600/25 px-3 py-1.5 text-[12px] font-semibold text-red-100"
+                className="rounded border border-red-400/50 bg-red-600/25 px-3 py-1.5 text-xs font-semibold text-red-100"
                 onClick={() => {
                   void handleSkipMatch();
                 }}
@@ -1197,7 +1182,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
       {isSkipping ? (
         <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center bg-black/45 backdrop-blur-[1px]">
           <div className="flex flex-col items-center rounded border border-cyan-500/40 bg-black/75 px-6 py-4 shadow-[0_14px_35px_rgba(0,0,0,0.55)]">
-            <span className="text-[17px] font-semibold tracking-[0.4px] text-cyan-100">
+            <span className="text-base font-semibold tracking-[0.4px] text-cyan-100">
               {t("match.clearingBattlefield")}
             </span>
             <div className="mt-3 h-8 w-8 animate-spin rounded-full border-2 border-cyan-300/35 border-t-cyan-200" />

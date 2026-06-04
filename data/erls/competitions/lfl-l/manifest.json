@@ -1,0 +1,18 @@
+{
+  "id": "lfl-l",
+  "name": "LFL-L",
+  "full_name": "LFL Legacy",
+  "region": "LFL-L",
+  "country": "FR",
+  "tier": 2,
+  "logo": null,
+  "teams_file": "erls/teams/lfl-l_teams.json",
+  "players_file": "erls/players/lfl-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 20,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

@@ -133,11 +133,11 @@ pub fn seed_from_json(conn: &Connection, json_content: &str) -> Result<usize, St
                 Some(champ_synergies)
             },
             image_tile_url: Some(format!(
-                "https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/{}_0.jpg",
+                "/champion-tiles/{}.webp",
                 champion_key
             )),
             image_splash_url: Some(format!(
-                "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{}_0.jpg",
+                "/champion-splash/{}.webp",
                 champion_key
             )),
         };

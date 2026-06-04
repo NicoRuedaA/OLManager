@@ -15,3 +15,4 @@ pub mod social;
 pub mod staff;
 pub mod stats;
 pub mod team;
+pub mod transfer_history;

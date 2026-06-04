@@ -1,0 +1,134 @@
+{
+  "name": "ROL Teams",
+  "description": "ROL - 2026 Season",
+  "teams": [
+    {
+      "id": "team-45502488",
+      "name": "Dynasty",
+      "short_name": "DYN",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-3088debc",
+      "name": "Frites Esports Club",
+      "short_name": "FEC",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-a0e8ccac",
+      "name": "The Bandits",
+      "short_name": "THE",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-897210b6",
+      "name": "mCon esports",
+      "short_name": "MCON",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-96e42b9a",
+      "name": "ZennIT",
+      "short_name": "ZEN",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-e6e445de",
+      "name": "Myth Esports",
+      "short_name": "MYTH",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-3738562e",
+      "name": "Once Upon a Team",
+      "short_name": "OUT",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "colors": {
+        "primary": "#e66100",
+        "secondary": "#f8e45c"
+      },
+      "id": "team-f9cfb0f2",
+      "name": "Senshi eSports",
+      "short_name": "SEES",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "facilities": {},
+      "history": []
+    }
+  ]
+}

@@ -1,9 +1,7 @@
 import type { TeamData } from "../../store/gameStore";
 import type { TOptions } from "i18next";
-import { annualAmountToWeeklyCommitment } from "../../lib/finance";
+import { annualAmountToMonthlyCommitment } from "../../lib/finance";
 import { calcAge, formatWeeklyAmount } from "../../lib/helpers";
-
-type TranslateFn = (key: string, options?: TOptions) => string;
 
 export function getPlayerTeamName(
     teams: TeamData[],
@@ -39,10 +37,9 @@ export function formatPlayerMarketValue(value: number): string {
 
 export function formatPlayerWage(
     annualWage: number,
-    weeklySuffix: string,
+    suffix: string,
 ): string {
-    const weeklyWage = annualAmountToWeeklyCommitment(annualWage);
-    return formatWeeklyAmount(`€${weeklyWage.toLocaleString()}`, weeklySuffix);
+    return formatWeeklyAmount(`€${annualWage.toLocaleString()}`, suffix);
 }
 
 export function getAttributeColorClass(value: number): string {
@@ -56,17 +53,4 @@ export function getAttributeColorClass(value: number): string {
         return "text-gray-600 dark:text-gray-400";
     }
     return "text-red-500 dark:text-red-400";
-}
-
-export function resolvePlayerInjuryName(
-    injuryName: string,
-    translate: TranslateFn,
-): string {
-    if (injuryName.includes(".")) {
-        return translate(injuryName, { defaultValue: injuryName });
-    }
-
-    return translate(`common.injuries.${injuryName}`, {
-        defaultValue: injuryName,
-    });
 }

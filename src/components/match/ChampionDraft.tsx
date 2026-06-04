@@ -5,12 +5,13 @@ import type { GameStateData, ScrimReportData } from "../../store/gameStore";
 import { useSettingsStore } from "../../store/settingsStore";
 import { getChampionTiming } from "../../lib/championTiming";
 import { getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolvePlayerLolRole } from "../../lib/lolIdentity";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
-import aiConfigSeed from "../../../data/lec/draft/ai-config.json";
+import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
+import teamsSeed from "../../../data/draft/teams.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
+import championListSeed from "../../../data/draft/champion-list.json";
+import aiConfigSeed from "../../../data/draft/ai-config.json";
 import {
   computeBanRecommendationScore as computeUnifiedBanRecommendationScore,
   rankBanCandidates,
@@ -281,18 +282,10 @@ const META_CHAMPION_SCORES: Record<string, number> = {
 };
 
 const ROLE_ORDER: Role[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
-const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.png";
+const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.webp";
 const LEC_LOGO_URL = "/lec-logo.svg";
 const EMPTY_LOCKED_CHAMPION_IDS: string[] = [];
-const ROLE_ICON_URLS: Record<Role, string> = {
-  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
-  JUNGLE:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
-  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
-  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
-  SUPPORT:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
-};
+const ROLE_ICON_URLS: Record<Role, string> = ROLE_ICON_PATHS;
 
 const DRAFT_SEQUENCE: DraftAction[] = [
   { type: "ban", side: "blue", label: "B1" },
@@ -393,28 +386,28 @@ function inferRoleHints(tags: string[]): Role[] {
 }
 
 function splashUrl(championId: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_0.jpg`;
+  return `/champion-splash/${championId}.webp`;
 }
 
 function loadingUrl(championId: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${championId}_0.jpg`;
+  return `/champion-splash/${championId}.webp`;
 }
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
-  "g2 esports": { tricode: "G2", logo: "/team-logos/g2-esports.png" },
-  fnatic: { tricode: "FNC", logo: "/team-logos/fnatic.png" },
-  "team vitality": { tricode: "VIT", logo: "/team-logos/team-vitality.png" },
-  vitality: { tricode: "VIT", logo: "/team-logos/team-vitality.png" },
-  "team heretics": { tricode: "HRTS", logo: "/team-logos/team-heretics-lec.png" },
-  "sk gaming": { tricode: "SK", logo: "/team-logos/sk-gaming.png" },
-  "movistar koi": { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  "mad lions koi": { tricode: "MKOI", logo: "/team-logos/mad-lions.png" },
-  "team bds": { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png" },
-  giantx: { tricode: "GX", logo: "/team-logos/giantx-lec.png" },
-  heretics: { tricode: "HRTS", logo: "/team-logos/team-heretics-lec.png" },
-  shifters: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png" },
-  "natus vincere": { tricode: "NAVI", logo: "/team-logos/natus-vincere.png" },
-  "karmine corp": { tricode: "KC", logo: "/team-logos/karmine-corp.png" },
+  "g2 esports": { tricode: "G2", logo: "/teams-icons/g2-esports.webp" },
+  fnatic: { tricode: "FNC", logo: "/teams-icons/fnatic.webp" },
+  "team vitality": { tricode: "VIT", logo: "/teams-icons/team-vitality.webp" },
+  vitality: { tricode: "VIT", logo: "/teams-icons/team-vitality.webp" },
+  "team heretics": { tricode: "HRTS", logo: "/teams-icons/team-heretics-lec.webp" },
+  "sk gaming": { tricode: "SK", logo: "/teams-icons/sk-gaming.webp" },
+  "movistar koi": { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  "mad lions koi": { tricode: "MKOI", logo: "/teams-icons/mad-lions.webp" },
+  "team bds": { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.webp" },
+  giantx: { tricode: "GX", logo: "/teams-icons/giantx-lec.webp" },
+  heretics: { tricode: "HRTS", logo: "/teams-icons/team-heretics-lec.webp" },
+  shifters: { tricode: "SHFT", logo: "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.webp" },
+  "natus vincere": { tricode: "NAVI", logo: "/teams-icons/natus-vincere.webp" },
+  "karmine corp": { tricode: "KC", logo: "/teams-icons/karmine-corp.webp" },
 };
 
 const TEAM_SEEDS: TeamSeed[] = ((teamsSeed as { data?: { teams?: TeamSeed[] } })
@@ -705,16 +698,21 @@ function teamTriCode(name: string): string {
   return cleaned.slice(0, 4).toUpperCase();
 }
 
-function teamLogo(name: string): string | null {
+function teamLogo(name: string, teams?: import("../../store/types").TeamData[]): string | null {
+  const normalizedName = normalizeKey(name);
+  if (teams) {
+    const fromTeams = teams.find((t) => normalizeKey(t.name) === normalizedName);
+    if (fromTeams?.logo_url) return fromTeams.logo_url;
+  }
+
   const key = name.trim().toLowerCase();
   const known = TEAM_BRAND_MAP[key]?.logo;
   if (known) return known;
 
-  const normalizedName = normalizeKey(name);
   const fromSeed = TEAM_SEEDS.find((team) => normalizeKey(team.name) === normalizedName);
   if (fromSeed?.logo) {
     const logoFileName = fromSeed.logo.split("/").pop();
-    const fallback = logoFileName ? `/team-logos/${logoFileName.toLowerCase()}` : null;
+    const fallback = logoFileName ? `/teams-icons/${logoFileName.toLowerCase()}` : null;
     return fallback;
   }
 
@@ -722,9 +720,9 @@ function teamLogo(name: string): string | null {
 }
 
 function tricodeSizeClass(code: string): string {
-  if (code.length >= 4) return "text-[26px]";
-  if (code.length === 3) return "text-[30px]";
-  return "text-[34px]";
+  if (code.length >= 4) return "text-2xl";
+  if (code.length === 3) return "text-3xl";
+  return "text-4xl";
 }
 
 function playerSeedPhotoUrl(photo?: string): string | null {
@@ -791,51 +789,25 @@ export default function ChampionDraft({
   }, [userStaffEffects.metaDiscovery, userTeamId]);
 
   useEffect(() => {
-    let cancelled = false;
+    try {
+      const data = championListSeed as { champions: Array<{ id: string; key: number; name: string; tags: string[]; image: string }> };
+      const list = (data.champions ?? [])
+        .map((champion) => ({
+          id: champion.id,
+          key: champion.key,
+          name: champion.name,
+          image: `/champion-tiles/${champion.id}.webp`,
+          tags: champion.tags,
+          roleHints: inferRoleHintsFromSeed(champion.id, champion.name, champion.tags),
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
-    const loadChampions = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const versionsResponse = await fetch(
-          "https://ddragon.leagueoflegends.com/api/versions.json",
-        );
-        const versions = (await versionsResponse.json()) as string[];
-        const version = versions[0];
-
-        const championsResponse = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`,
-        );
-        const payload = (await championsResponse.json()) as {
-          data: Record<
-            string,
-            { key: string; id: string; name: string; tags: string[]; image: { full: string } }
-          >;
-        };
-
-        const list = Object.values(payload.data)
-          .map((champion) => ({
-            id: champion.id,
-            key: Number(champion.key),
-            name: champion.name,
-            image: `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${champion.image.full}`,
-            tags: champion.tags,
-            roleHints: inferRoleHintsFromSeed(champion.id, champion.name, champion.tags),
-          }))
-          .sort((a, b) => a.name.localeCompare(b.name));
-
-        if (!cancelled) setChampions(list);
-      } catch (err) {
-        if (!cancelled) setError(String(err));
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    void loadChampions();
-    return () => {
-      cancelled = true;
-    };
+      setChampions(list);
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const currentStep = DRAFT_SEQUENCE[stepIndex] ?? null;
@@ -2268,13 +2240,34 @@ export default function ChampionDraft({
         }
       }
 
-      if (!masteryMap) return;
+      if (!masteryMap) {
+        const runtimeMap = runtimeMasteryByPlayerId.get(player.id);
+        if (runtimeMap && runtimeMap.size > 0) {
+          masteryMap = runtimeMap;
+          matchedSeedPlayer = undefined;
+        } else {
+          const flexibleRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
+          const flexibleImage =
+            player.profile_image_url ??
+            playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
+            `/player-photos/${player.id}.webp`;
+          tips.push({
+            sourceType: "player",
+            sourceName: player.name,
+            sourceRole: flexibleRole,
+            sourceImage: flexibleImage,
+            type: "pick",
+            text: t("match.draft.phrases.playerFlexible", "No tengo prioridades para el pick. Me puedo adaptar al equipo."),
+          });
+          return;
+        }
+      }
 
       const sourceRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
       const sourceImage =
-        resolvePlayerPhoto(player.id, player.name) ??
+        player.profile_image_url ??
         playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
-        `/player-photos/${player.id}.png`;
+        `/player-photos/${player.id}.webp`;
 
       const playerState = gameState.players.find((item) => item.id === player.id);
       const gameIq = playerState
@@ -2304,6 +2297,7 @@ export default function ChampionDraft({
 
       for (const { champion, mastery } of masteredChampions) {
         if (usedChampionIds.has(champion.id)) continue;
+        if (sourceRole && !champion.roleHints.includes(sourceRole)) continue;
         if (mastery > bestMastery) {
           bestMastery = mastery;
           resolvedBestChampion = champion;
@@ -2400,26 +2394,21 @@ export default function ChampionDraft({
       });
       const fallbackPlayer =
         fallbackPlayerIndex >= 0 ? ownPlayers[fallbackPlayerIndex] : ownPlayers[0];
-      const fallbackChampion = availableChampions[0];
       const fallbackSeedPlayer =
         fallbackPlayerIndex >= 0 ? ownTeamSeedPlayers[fallbackPlayerIndex] : ownTeamSeedPlayers[0];
-      if (fallbackPlayer && fallbackChampion) {
+      const fallbackPlayerRole =
+        mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[Math.max(0, fallbackPlayerIndex)] ?? null;
+      if (fallbackPlayer) {
         tips.push({
           sourceType: "player",
           sourceName: fallbackPlayer.name,
-          sourceRole: mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[0],
+          sourceRole: fallbackPlayerRole ?? ROLE_ORDER[0],
           sourceImage:
-            resolvePlayerPhoto(fallbackPlayer.id, fallbackPlayer.name) ??
+            fallbackPlayer.profile_image_url ??
             playerSeedPhotoUrl(fallbackSeedPlayer?.photo) ??
-            `/player-photos/${fallbackPlayer.id}.png`,
+            `/player-photos/${fallbackPlayer.id}.webp`,
           type: "pick",
-          text: uniquePhrase(
-            "match.draft.phrases.playerComfortPick",
-            PLAYER_COMFORT_PICK_PHRASES,
-            `player-fallback-pick-${fallbackPlayer.id}-${fallbackChampion.id}-${stepIndex}`,
-            { champion: fallbackChampion.name, mastery: 60 },
-          ),
-          champion: fallbackChampion,
+          text: t("match.draft.phrases.playerFlexible", "Sin información de draft. Sugerencia: podemos priorizar picks seguros o adaptarnos al draft enemigo."),
         });
       }
     }
@@ -2540,8 +2529,8 @@ export default function ChampionDraft({
   const blueTriCode = teamTriCode(snapshot.home_team.name);
   const redTriCode = teamTriCode(snapshot.away_team.name);
   const controlledTriCode = controlledSide === "blue" ? blueTriCode : redTriCode;
-  const blueLogo = teamLogo(snapshot.home_team.name);
-  const redLogo = teamLogo(snapshot.away_team.name);
+  const blueLogo = teamLogo(snapshot.home_team.name, gameState?.teams);
+  const redLogo = teamLogo(snapshot.away_team.name, gameState?.teams);
   const seriesSquares = seriesLength === 5 ? 3 : seriesLength === 3 ? 2 : 0;
   const scoreDelta = controlledScore.total - rivalScore.total;
   const blueWinProb = Math.max(5, Math.min(95, Math.round(50 + scoreDelta * 4)));
@@ -2573,11 +2562,11 @@ export default function ChampionDraft({
   const topSectionHeightClass = seriesBansRequiresTwoRows ? "h-28" : "h-20";
 
   return (
-    <div className={`h-dvh bg-[#0a0a0a] text-white p-2 md:p-4 ${isCompactLayout ? "overflow-y-auto" : "overflow-hidden"}`}>
-      <div className={`w-[93%] max-w-none mx-auto flex flex-col gap-2 md:gap-3 ${isCompactLayout ? "min-h-full overflow-visible pb-3" : "h-full overflow-hidden"}`}>
-        <section className="order-2 shrink-0 rounded-md overflow-hidden border border-[#222]">
+    <div className={`h-dvh bg-navy-950 text-white p-2 md:p-4 ${isCompactLayout ? "overflow-y-auto" : "overflow-hidden"}`}>
+      <div className={`w-full max-w-[2000px] 2xl:max-w-[90vw] mx-auto flex flex-col gap-2 md:gap-3 ${isCompactLayout ? "min-h-full overflow-visible pb-3" : "h-full overflow-hidden"}`}>
+        <section className="order-2 shrink-0 rounded-md overflow-hidden border border-navy-700">
           <div
-            className={`relative flex items-stretch bg-linear-to-b from-[#032e35] via-[#021720] to-[#000] border-b-4 border-cyan-400 shadow-[0_0_16px_rgba(0,242,255,0.35)] ${topSectionHeightClass}`}
+            className={`relative flex items-stretch bg-linear-to-b from-navy-850 via-navy-900 to-[#000] border-b-4 border-cyan-400 shadow-[0_0_16px_rgba(0,242,255,0.35)] ${topSectionHeightClass}`}
           >
             <div
               className="absolute inset-0"
@@ -2592,7 +2581,7 @@ export default function ChampionDraft({
             <div className="absolute inset-0 bg-black/72" />
 
             <div className="relative z-10 border-t-2 border-cyan-400/90 bg-black/28 w-[250px] p-2.5">
-              <p className="font-heading uppercase font-bold tracking-[0.08em] mb-1 truncate text-cyan-100 [text-shadow:0_0_10px_rgba(0,0,0,0.9)] text-[13px]">
+              <p className="font-heading uppercase font-bold tracking-[0.08em] mb-1 truncate text-cyan-100 [text-shadow:0_0_10px_rgba(0,0,0,0.9)] text-sm">
                 {blueHeader}
               </p>
               <div className="flex gap-1">
@@ -2621,7 +2610,7 @@ export default function ChampionDraft({
             <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-1.5 px-2">
               {seriesLength > 1 && seriesLockedChampions.length > 0 ? (
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-gray-100 font-heading font-bold">
+                  <p className="text-xs uppercase tracking-[0.2em] text-gray-100 font-heading font-bold">
                     {t("match.draft.seriesBans", { defaultValue: "SERIES BANS" })}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-1 max-w-[520px]">
@@ -2643,13 +2632,13 @@ export default function ChampionDraft({
                 </div>
               ) : null}
 
-              <p className="text-[11px] uppercase tracking-[0.2em] text-gray-300 font-semibold">
+              <p className="text-xs uppercase tracking-[0.2em] text-gray-300 font-semibold">
                 {t("match.draft.championSelection")}
               </p>
             </div>
 
             <div className="relative z-10 text-right border-t-2 border-orange-500/95 bg-black/28 w-[250px] p-2.5">
-              <p className="font-heading uppercase font-bold tracking-[0.08em] mb-1 truncate text-orange-100 [text-shadow:0_0_10px_rgba(0,0,0,0.9)] text-[13px]">
+              <p className="font-heading uppercase font-bold tracking-[0.08em] mb-1 truncate text-orange-100 [text-shadow:0_0_10px_rgba(0,0,0,0.9)] text-sm">
                 {redHeader}
               </p>
               <div className="flex gap-1 justify-end">
@@ -2695,7 +2684,7 @@ export default function ChampionDraft({
               />
             ))}
 
-            <div className={`bg-linear-to-b from-[#032e35] via-[#021720] to-[#000] border-t-4 border-white flex flex-col items-center justify-between ${isCompactLayout ? "py-1 px-0.5" : "py-2 px-1"}`}>
+            <div className={`bg-linear-to-b from-navy-850 via-navy-900 to-[#000] border-t-4 border-white flex flex-col items-center justify-between ${isCompactLayout ? "py-1 px-0.5" : "py-2 px-1"}`}>
               <div className={`flex items-center justify-between min-h-2 ${isCompactLayout ? "w-full mt-0" : "w-[88%] mt-1"}`}>
                 {seriesSquares > 0 ? (
                   <div className="flex gap-1">
@@ -2733,14 +2722,14 @@ export default function ChampionDraft({
                     />
                   ) : null}
                   <p
-                    className={`w-full text-center ${isCompactLayout ? "text-[9px]" : tricodeSizeClass(blueTriCode)} leading-none font-black tracking-tight uppercase`}
+                    className={`w-full text-center ${isCompactLayout ? "text-2xs" : tricodeSizeClass(blueTriCode)} leading-none font-black tracking-tight uppercase`}
                   >
                     {blueTriCode}
                   </p>
                 </div>
 
                 {isCompactLayout ? (
-                  <p className="text-[8px] font-bold tracking-[0.12em] text-gray-300">VS</p>
+                  <p className="text-2xs font-bold tracking-[0.12em] text-gray-300">VS</p>
                 ) : (
                   <div className="w-10 h-10" />
                 )}
@@ -2754,7 +2743,7 @@ export default function ChampionDraft({
                     />
                   ) : null}
                   <p
-                    className={`w-full text-center ${isCompactLayout ? "text-[9px]" : tricodeSizeClass(redTriCode)} leading-none font-black tracking-tight uppercase`}
+                    className={`w-full text-center ${isCompactLayout ? "text-2xs" : tricodeSizeClass(redTriCode)} leading-none font-black tracking-tight uppercase`}
                   >
                     {redTriCode}
                   </p>
@@ -2768,7 +2757,7 @@ export default function ChampionDraft({
                   className="w-10 h-10 object-contain opacity-100 mt-1"
                 />
               ) : null}
-              <p className={`${isCompactLayout ? "text-[8px] tracking-[0.08em] mb-0.5" : "text-[11px] tracking-[0.15em] mb-1"} text-gray-300 uppercase`}>
+              <p className={`${isCompactLayout ? "text-2xs tracking-[0.08em] mb-0.5" : "text-xs tracking-[0.15em] mb-1"} text-gray-300 uppercase`}>
                 {t("match.draft.patchLabel", { patch: patchLabel })}
               </p>
             </div>
@@ -2793,11 +2782,11 @@ export default function ChampionDraft({
           </div>
         </section>
 
-        <section className={`order-1 rounded-md border border-cyan-400/25 bg-[#050608] p-2 md:p-3 shadow-[0_0_28px_rgba(18,215,255,0.06)] ${isCompactLayout ? "shrink-0 overflow-visible" : "flex-1 min-h-0 overflow-hidden"}`}>
-          <div className={`grid gap-2 md:gap-3 items-stretch ${isCompactLayout ? compactPanelsColsClass : "grid-cols-1 xl:grid-cols-[270px_minmax(0,1fr)_270px]"} ${isCompactLayout ? "h-auto min-h-0" : "h-full min-h-0"}`}>
-            <aside className={`${isCompactLayout ? "flex" : "hidden xl:flex"} h-full flex-col gap-2 min-h-0 overflow-y-auto scrollbar-draft pr-1`}>
+        <section className={`order-1 rounded-md border border-cyan-400/25 bg-navy-950 p-2 md:p-3 shadow-[0_0_28px_rgba(18,215,255,0.06)] ${isCompactLayout ? "shrink-0 overflow-visible" : "flex-1 min-h-0 overflow-hidden"}`}>
+          <div className={`grid gap-2 md:gap-3 items-stretch ${isCompactLayout ? compactPanelsColsClass : "grid-cols-1 xl:grid-cols-[270px_minmax(0,1fr)_270px] 2xl:grid-cols-[320px_minmax(0,1fr)_320px]"} ${isCompactLayout ? "h-auto min-h-0" : "h-full min-h-0"}`}>
+            <aside className={`${isCompactLayout ? "flex" : "hidden xl:flex"} lg:w-[280px] xl:w-[300px] h-full flex-col gap-2 min-h-0 overflow-y-auto scrollbar-draft pr-1`}>
               {assistantCoachTips.length > 0 ? (
-                <div className="rounded-md border border-cyan-400/25 bg-[#0a0b0f] p-3 text-[12px] text-gray-200">
+                <div className="rounded-md border border-cyan-400/25 bg-navy-950 p-3 text-xs text-gray-200">
                   <p className="font-heading uppercase tracking-wide text-xs text-white mb-2">
                     {t("match.draft.tipsTitle")}
                   </p>
@@ -2820,7 +2809,7 @@ export default function ChampionDraft({
                           />
 
                           <div className="min-w-0 flex-1">
-                            <p className="text-[13px] font-semibold leading-none text-white truncate">
+                            <p className="text-sm font-semibold leading-none text-white truncate">
                               {tip.sourceName}
                             </p>
                             <div className="mt-1 flex items-center gap-1">
@@ -2832,7 +2821,7 @@ export default function ChampionDraft({
                                   loading="lazy"
                                 />
                               ) : null}
-                              <p className="text-[10px] uppercase tracking-wide text-cyan-300/90">
+                              <p className="text-2xs uppercase tracking-wide text-cyan-300/90">
                                 {tip.sourceRole
                                   ?? (tip.sourceType === "coach"
                                     ? t("match.draft.assistantCoach")
@@ -2843,7 +2832,7 @@ export default function ChampionDraft({
                         </div>
 
                         <p
-                          className={`mt-2 text-[12px] leading-snug ${
+                          className={`mt-2 text-xs leading-snug ${
                             tip.type === "ban" ? "text-orange-200" : tip.type === "pick" ? "text-cyan-200" : "text-yellow-200"
                           }`}
                         >
@@ -2858,7 +2847,7 @@ export default function ChampionDraft({
                               className="w-7 h-7 rounded-sm object-cover border border-orange-400/60"
                               loading="lazy"
                             />
-                            <span className="text-[11px] text-gray-200 truncate">{tip.champion.name}</span>
+                            <span className="text-xs text-gray-200 truncate">{tip.champion.name}</span>
                           </div>
                         ) : null}
                       </article>
@@ -2866,26 +2855,26 @@ export default function ChampionDraft({
                   })()}
                 </div>
               ) : (
-                <div className="rounded-md border border-cyan-400/25 bg-[#0a0b0f] p-3 text-[12px] text-gray-200">
+                <div className="rounded-md border border-cyan-400/25 bg-navy-950 p-3 text-xs text-gray-200">
                   <p className="font-heading uppercase tracking-wide text-xs text-white mb-2">
                     {t("match.draft.tipsTitle")}
                   </p>
-                  <p className="text-[12px] mb-1">• {t("match.draft.tip1")}</p>
-                  <p className="text-[12px] mb-1">• {t("match.draft.tip2")}</p>
-                  <p className="text-[12px]">• {t("match.draft.tip3")}</p>
+                  <p className="text-xs mb-1">• {t("match.draft.tip1")}</p>
+                  <p className="text-xs mb-1">• {t("match.draft.tip2")}</p>
+                  <p className="text-xs">• {t("match.draft.tip3")}</p>
                 </div>
               )}
 
-              <div className="rounded-md border border-orange-400/30 bg-[#0a0b0f] p-3 text-[12px] text-gray-200">
+              <div className="rounded-md border border-orange-400/30 bg-navy-950 p-3 text-xs text-gray-200">
                 <p className="font-heading uppercase tracking-wide text-xs text-white mb-2">
                   {t("match.draft.scoreTitle")}
                 </p>
-                <div className="mb-2 text-[11px] text-gray-300">
+                <div className="mb-2 text-xs text-gray-300">
                   <p>
                     {t("match.draft.winProb")} <span className="text-cyan-300 font-semibold">{controlledTriCode} {blueWinProb}%</span>
                   </p>
                 </div>
-                <div className="space-y-1 text-[11px]">
+                <div className="space-y-1 text-xs">
                   {scoreRows.map((row) => (
                     <p key={row.label} className="text-gray-300">
                       {row.label}
@@ -2896,7 +2885,7 @@ export default function ChampionDraft({
                   ))}
                 </div>
                 {controlledScrimBonusTotal > 0 ? (
-                  <div className="mt-2 rounded border border-cyan-400/20 bg-cyan-400/5 px-2 py-1.5 text-[10px] text-cyan-100">
+                  <div className="mt-2 rounded border border-cyan-400/20 bg-cyan-400/5 px-2 py-1.5 text-2xs text-cyan-100">
                     <p className="font-semibold uppercase tracking-wide">
                       {t("match.draft.scrimSignalTitle", { defaultValue: "Scrim prep" })} +{controlledScrimBonusTotal}
                     </p>
@@ -2905,7 +2894,7 @@ export default function ChampionDraft({
                     </p>
                   </div>
                 ) : null}
-                <div className="mt-2 pt-2 border-t border-white/10 text-[11px]">
+                <div className="mt-2 pt-2 border-t border-white/10 text-xs">
                   <p className="text-gray-300">
                     {t("match.draft.total")} <span className="float-right font-bold text-white">{controlledScore.total}</span>
                   </p>
@@ -2922,13 +2911,13 @@ export default function ChampionDraft({
               </div>
             </aside>
 
-            <div className={`rounded-md border border-cyan-400/25 bg-[#0a0b0f]/95 p-3 space-y-2 relative shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)] flex flex-col ${isCompactLayout ? "h-auto min-h-[60dvh] overflow-visible" : "h-full min-h-0 overflow-hidden"}`}>
+            <div className={`rounded-md border border-cyan-400/25 bg-navy-950/95 p-3 space-y-2 relative shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)] flex flex-col ${isCompactLayout ? "h-auto min-h-[60dvh] overflow-visible" : "h-full min-h-0 overflow-hidden"}`}>
               <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_35%_45%,rgba(0,209,255,0.12),transparent_40%),radial-gradient(circle_at_70%_45%,rgba(255,146,56,0.1),transparent_45%)]" />
 
               <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_auto] gap-2 items-center">
                 <div className="flex flex-wrap gap-1">
                   <button
-                    className={`px-2 py-1 text-[11px] border rounded ${roleFilter === "ALL" ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
+                    className={`px-2 py-1 text-xs border rounded ${roleFilter === "ALL" ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
                     onClick={() => setRoleFilter("ALL")}
                   >
                     ALL
@@ -2936,7 +2925,7 @@ export default function ChampionDraft({
                   {ROLE_ORDER.map((role) => (
                       <button
                         key={`chip-${role}`}
-                        className={`px-2 py-1 text-[11px] border rounded ${roleFilter === role ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
+                        className={`px-2 py-1 text-xs border rounded ${roleFilter === role ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
                         onClick={() => setRoleFilter(role)}
                       >
                       {role}
@@ -2948,7 +2937,7 @@ export default function ChampionDraft({
                   {(["alpha", "meta", "mastery"] as const).map((mode) => (
                     <button
                       key={`sort-${mode}`}
-                      className={`px-2 py-1 text-[11px] border rounded ${sortMode === mode ? "border-orange-300/80 bg-orange-500/10 text-orange-100" : "border-white/20 text-gray-200"}`}
+                      className={`px-2 py-1 text-xs border rounded ${sortMode === mode ? "border-orange-300/80 bg-orange-500/10 text-orange-100" : "border-white/20 text-gray-200"}`}
                       onClick={() => setSortMode(mode)}
                     >
                       {mode === "alpha" ? "A-Z" : mode === "meta" ? "META" : "MAST"}
@@ -2960,7 +2949,7 @@ export default function ChampionDraft({
                   {(["ALL", "S", "A", "B", "C", "D"] as const).map((tier) => (
                     <button
                       key={`tier-${tier}`}
-                      className={`px-2 py-1 text-[11px] border rounded ${metaTierFilter === tier ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
+                      className={`px-2 py-1 text-xs border rounded ${metaTierFilter === tier ? "border-cyan-300/80 bg-cyan-400/10 text-cyan-100" : "border-white/20 text-gray-200"}`}
                       onClick={() => setMetaTierFilter(tier)}
                     >
                       {tier}
@@ -2971,7 +2960,7 @@ export default function ChampionDraft({
                 <input
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
-                  className="rounded-md bg-[#111318] border border-white/15 px-2 py-1 text-[11px] md:py-1.5 md:text-xs w-36 md:w-44"
+                  className="rounded-md bg-navy-850 border border-white/15 px-2 py-1 text-xs md:py-1.5 md:text-xs w-36 md:w-44"
                   placeholder={t("match.draft.searchPlaceholder")}
                 />
 
@@ -2999,14 +2988,14 @@ export default function ChampionDraft({
                   <button
                     type="button"
                     onClick={handleSkipDraftDebug}
-                    className="rounded-md border border-fuchsia-300/60 bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-100 px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-wide"
+                    className="rounded-md border border-fuchsia-300/60 bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-100 px-2 py-1 text-2xs font-heading font-bold uppercase tracking-wide"
                   >
                     Skip draft (debug)
                   </button>
                 </div>
               ) : null}
 
-              <div className="relative w-full h-1.5 rounded-full bg-[#121624] overflow-hidden">
+              <div className="relative w-full h-1.5 rounded-full bg-navy-900 overflow-hidden">
                 <div
                   className={`h-full transition-[width] duration-100 ease-linear ${currentStep?.side === "blue" ? "bg-cyan-400" : "bg-orange-500"}`}
                   style={{ width: `${Math.max(0, Math.min(100, (turnRemainingMs / Math.max(1, turnDurationMs)) * 100))}%` }}
@@ -3014,8 +3003,8 @@ export default function ChampionDraft({
               </div>
 
               {!finished && isUserTurn ? (
-                <div className="relative flex items-center justify-between gap-2 rounded-md border border-white/12 bg-[#0c1018] px-2 py-1.5">
-                  <p className="text-[11px] text-gray-300 truncate">
+                <div className="relative flex items-center justify-between gap-2 rounded-md border border-white/12 bg-navy-900 px-2 py-1.5">
+                  <p className="text-xs text-gray-300 truncate">
                     {pendingChampionId
                       ? `${t("match.draft.selected")}: ${championById.get(pendingChampionId)?.name ?? pendingChampionId}`
                       : t("match.draft.selectThenConfirm")}
@@ -3024,7 +3013,7 @@ export default function ChampionDraft({
                     type="button"
                     onClick={handleConfirmPendingAction}
                     disabled={!pendingChampionId}
-                    className="rounded-md bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-navy-900 px-3 py-1 text-[11px] font-heading font-bold uppercase tracking-wide"
+                    className="rounded-md bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-navy-900 px-3 py-1 text-xs font-heading font-bold uppercase tracking-wide"
                   >
                     {currentStep?.type === "ban"
                       ? t("match.draft.actions.ban")
@@ -3043,7 +3032,7 @@ export default function ChampionDraft({
                 ) : visibleChampions.length === 0 ? (
                   <p className="relative text-sm text-gray-300">{t("match.draft.noChampionsForFilters")}</p>
                 ) : (
-                  <div className="relative grid grid-cols-5 sm:grid-cols-8 md:grid-cols-12 xl:grid-cols-16 gap-1">
+                  <div className="relative grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-20 gap-1">
                     {visibleChampions.map((champion) => {
                       const isUsed = usedChampionIds.has(champion.id);
                       const showMastery = roleFilter !== "ALL";
@@ -3059,7 +3048,7 @@ export default function ChampionDraft({
                           key={champion.id}
                           onClick={() => handleChampionTileClick(champion)}
                           disabled={finished || !isUserTurn || isUsed}
-                          className={`rounded-sm border transition-colors p-0.5 text-left overflow-hidden ${isUsed ? "border-white/10 bg-[#0d0f13]" : pendingChampionId === champion.id ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-[#111318] hover:border-orange-400"}`}
+                          className={`rounded-sm border transition-colors p-0.5 text-left overflow-hidden ${isUsed ? "border-white/10 bg-navy-950" : pendingChampionId === champion.id ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-navy-850 hover:border-orange-400"}`}
                         >
                           <img
                             src={champion.image}
@@ -3068,12 +3057,12 @@ export default function ChampionDraft({
                             loading="lazy"
                           />
                           <p
-                            className={`px-1 py-0.5 text-[10px] font-semibold truncate border-t ${isUsed ? "bg-[#090a0d] border-white/5 text-gray-500" : "bg-[#0a0b0f] border-white/10"}`}
+                            className={`px-1 py-0.5 text-2xs font-semibold truncate border-t ${isUsed ? "bg-navy-950 border-white/5 text-gray-500" : "bg-navy-950 border-white/10"}`}
                           >
                             {champion.name}
                           </p>
                           <div className="px-1 pb-1">
-                            <div className="flex items-center justify-between text-[9px] font-bold">
+                            <div className="flex items-center justify-between text-2xs font-bold">
                               <span className={metaTier === "?" ? "text-gray-500" : metaTier === "S" ? "text-red-400" : metaTier === "A" ? "text-orange-300" : "text-slate-300"}>{metaTier}</span>
                               {showMastery ? <span className="text-gray-400">{mastery}</span> : null}
                             </div>
@@ -3094,16 +3083,16 @@ export default function ChampionDraft({
               </div>
             </div>
 
-            <aside className={`${isCompactLayout ? "flex" : "hidden xl:flex"} h-full flex-col rounded-md border border-cyan-400/25 bg-[#0a0b0f] p-2 min-h-0 overflow-y-auto scrollbar-draft pr-1`}>
+            <aside className={`${isCompactLayout ? "flex" : "hidden xl:flex"} lg:w-[280px] xl:w-[300px] h-full flex-col rounded-md border border-cyan-400/25 bg-navy-950 p-2 min-h-0 overflow-y-auto scrollbar-draft pr-1`}>
               {selectedChampionCounterIntel ? (
                 <>
-                  <p className="text-[11px] font-heading uppercase tracking-wide text-gray-200 mb-2 text-right">
+                  <p className="text-xs font-heading uppercase tracking-wide text-gray-200 mb-2 text-right">
                     {t("match.draft.counterIntelTitle", {
                       defaultValue: "Counter intel · {{champion}}",
                       champion: selectedChampionCounterIntel.selectedChampion.name,
                     })}
                   </p>
-                  <p className="text-[10px] text-cyan-200/80 mb-2 text-right">
+                  <p className="text-2xs text-cyan-200/80 mb-2 text-right">
                     {selectedChampionCounterIntel.consulted
                       ? t("match.draft.counterIntelScaleFull", {
                         defaultValue: "Consulta aplicada: vista completa de counters",
@@ -3122,7 +3111,7 @@ export default function ChampionDraft({
                         || counterConsultUsesLeft <= 0
                         || consultedCounterChampionIds.has(pendingChampionId)
                       }
-                      className="rounded-md border border-cyan-300/40 bg-cyan-500/10 hover:bg-cyan-500/20 disabled:opacity-40 disabled:cursor-not-allowed text-cyan-100 px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-wide"
+                      className="rounded-md border border-cyan-300/40 bg-cyan-500/10 hover:bg-cyan-500/20 disabled:opacity-40 disabled:cursor-not-allowed text-cyan-100 px-2 py-1 text-2xs font-heading font-bold uppercase tracking-wide"
                     >
                       {t("match.draft.counterIntelConsult", { defaultValue: "Consulta al staff" })}
                       {` (${counterConsultUsesLeft})`}
@@ -3130,58 +3119,58 @@ export default function ChampionDraft({
                   </div>
 
                   <div className="space-y-1.5">
-                    <p className="text-[10px] font-heading uppercase tracking-wide text-cyan-200">
+                    <p className="text-2xs font-heading uppercase tracking-wide text-cyan-200">
                       {t("match.draft.counterIntelPros", { defaultValue: "In your favor" })}
                     </p>
                     {selectedChampionCounterIntel.favorable.length === 0 ? (
-                      <div className="rounded-sm border border-white/10 bg-[#111318] p-2 text-[10px] text-gray-500 text-center">
+                      <div className="rounded-sm border border-white/10 bg-navy-850 p-2 text-2xs text-gray-500 text-center">
                         {t("match.draft.counterIntelNoPros", { defaultValue: "No clear favorable counters detected." })}
                       </div>
                     ) : null}
                     {selectedChampionCounterIntel.favorable.map((row) => (
                       <div
                         key={`counter-pro-${row.champion.id}`}
-                        className={`rounded-sm border p-1 ${row.isPicked ? "border-cyan-300/70 bg-cyan-500/10" : "border-white/10 bg-[#111318]"}`}
+                        className={`rounded-sm border p-1 ${row.isPicked ? "border-cyan-300/70 bg-cyan-500/10" : "border-white/10 bg-navy-850"}`}
                       >
                         <div className="flex items-center gap-2">
                           <img src={row.champion.image} alt={row.champion.name} className="w-9 h-9 object-cover rounded-sm" loading="lazy" />
                           <div className="min-w-0 flex-1">
-                            <p className="text-[11px] truncate">{row.champion.name}</p>
-                            <p className={`text-[9px] uppercase tracking-wide ${row.isPicked ? "text-cyan-200" : "text-gray-400"}`}>
+                            <p className="text-xs truncate">{row.champion.name}</p>
+                            <p className={`text-2xs uppercase tracking-wide ${row.isPicked ? "text-cyan-200" : "text-gray-400"}`}>
                               {row.isPicked
                                 ? t("match.draft.counterIntelPicked", { defaultValue: "Already picked by rival" })
                                 : t("match.draft.counterIntelPotential", { defaultValue: "Potential rival pick" })}
                             </p>
                           </div>
-                          <p className="text-[11px] text-cyan-300 font-semibold">+{row.value}</p>
+                          <p className="text-xs text-cyan-300 font-semibold">+{row.value}</p>
                         </div>
                       </div>
                     ))}
 
-                    <p className="pt-1 text-[10px] font-heading uppercase tracking-wide text-orange-200">
+                    <p className="pt-1 text-2xs font-heading uppercase tracking-wide text-orange-200">
                       {t("match.draft.counterIntelCons", { defaultValue: "Against your pick" })}
                     </p>
                     {selectedChampionCounterIntel.risky.length === 0 ? (
-                      <div className="rounded-sm border border-white/10 bg-[#111318] p-2 text-[10px] text-gray-500 text-center">
+                      <div className="rounded-sm border border-white/10 bg-navy-850 p-2 text-2xs text-gray-500 text-center">
                         {t("match.draft.counterIntelNoCons", { defaultValue: "No immediate hard counters found." })}
                       </div>
                     ) : null}
                     {selectedChampionCounterIntel.risky.map((row) => (
                       <div
                         key={`counter-con-${row.champion.id}`}
-                        className={`rounded-sm border p-1 ${row.isPicked ? "border-orange-300/75 bg-orange-500/10" : "border-white/10 bg-[#111318]"}`}
+                        className={`rounded-sm border p-1 ${row.isPicked ? "border-orange-300/75 bg-orange-500/10" : "border-white/10 bg-navy-850"}`}
                       >
                         <div className="flex items-center gap-2">
                           <img src={row.champion.image} alt={row.champion.name} className="w-9 h-9 object-cover rounded-sm" loading="lazy" />
                           <div className="min-w-0 flex-1">
-                            <p className="text-[11px] truncate">{row.champion.name}</p>
-                            <p className={`text-[9px] uppercase tracking-wide ${row.isPicked ? "text-orange-200" : "text-gray-400"}`}>
+                            <p className="text-xs truncate">{row.champion.name}</p>
+                            <p className={`text-2xs uppercase tracking-wide ${row.isPicked ? "text-orange-200" : "text-gray-400"}`}>
                               {row.isPicked
                                 ? t("match.draft.counterIntelPicked", { defaultValue: "Already picked by rival" })
                                 : t("match.draft.counterIntelPotential", { defaultValue: "Potential rival pick" })}
                             </p>
                           </div>
-                          <p className="text-[11px] text-orange-300 font-semibold">-{row.value}</p>
+                          <p className="text-xs text-orange-300 font-semibold">-{row.value}</p>
                         </div>
                       </div>
                     ))}
@@ -3189,17 +3178,17 @@ export default function ChampionDraft({
                 </>
               ) : (
                 <>
-                  <p className="text-[11px] font-heading uppercase tracking-wide text-gray-200 mb-2 text-right">
+                  <p className="text-xs font-heading uppercase tracking-wide text-gray-200 mb-2 text-right">
                     {t("match.draft.enemyComfortTitle")}
                   </p>
                   <div className="space-y-1">
                     {rivalMasteryDisplay.length === 0 ? (
-                      <div className="rounded-sm border border-white/10 bg-[#111318] p-2 text-[10px] text-gray-500 text-center">
+                      <div className="rounded-sm border border-white/10 bg-navy-850 p-2 text-2xs text-gray-500 text-center">
                         {t("match.draft.enemyComfortUnknown")}
                       </div>
                     ) : null}
                     {rivalMasteryDisplay.map(({ champion, mastery, playerName, source }) => (
-                      <div key={`rival-row-${champion.id}-${playerName}-${source}`} className="rounded-sm border border-white/10 bg-[#111318] p-1">
+                      <div key={`rival-row-${champion.id}-${playerName}-${source}`} className="rounded-sm border border-white/10 bg-navy-850 p-1">
                         <div className="flex items-center gap-2">
                           <img
                             src={champion.image}
@@ -3208,9 +3197,9 @@ export default function ChampionDraft({
                             loading="lazy"
                           />
                           <div className="min-w-0 flex-1">
-                            <p className="text-[11px] truncate">{champion.name}</p>
-                            <p className="text-[10px] text-gray-400 truncate">{playerName}</p>
-                            <p className="text-[9px] uppercase tracking-wide text-cyan-200/70 truncate">
+                            <p className="text-xs truncate">{champion.name}</p>
+                            <p className="text-2xs text-gray-400 truncate">{playerName}</p>
+                            <p className="text-2xs uppercase tracking-wide text-cyan-200/70 truncate">
                               {source === "insignia"
                                 ? t("match.draft.masterySourceSignature")
                                 : source === "scouting"
@@ -3221,7 +3210,7 @@ export default function ChampionDraft({
                               <div className="h-full bg-cyan-400" style={{ width: `${Math.min(100, mastery)}%` }} />
                             </div>
                           </div>
-                          <p className="text-[11px] text-cyan-300 font-semibold">{mastery}</p>
+                          <p className="text-xs text-cyan-300 font-semibold">{mastery}</p>
                         </div>
                       </div>
                     ))}
@@ -3312,7 +3301,7 @@ function DraftSlot({
         className={`absolute inset-y-0 ${side === "blue" ? "left-0 border-r border-r-cyan-300/40" : "right-0 border-l border-l-orange-400/45"} ${compact ? "w-5" : "w-8"} bg-black/65 border-white/25 z-20 flex items-center justify-center`}
       >
         <span
-          className={`${compact ? "text-[9px] tracking-[0.04em]" : "text-[13px] tracking-[0.09em]"} font-black uppercase text-white z-30 leading-none [writing-mode:vertical-rl] [text-shadow:0_0_10px_rgba(0,0,0,0.95)] ${side === "blue" ? "rotate-180" : ""}`}
+          className={`${compact ? "text-2xs tracking-[0.04em]" : "text-sm tracking-[0.09em]"} font-black uppercase text-white z-30 leading-none [writing-mode:vertical-rl] [text-shadow:0_0_10px_rgba(0,0,0,0.95)] ${side === "blue" ? "rotate-180" : ""}`}
         >
           {playerName}
         </span>
@@ -3332,7 +3321,7 @@ function DraftSlot({
               event.stopPropagation();
               onSwapArm();
             }}
-            className={`w-5 h-5 rounded border text-[10px] leading-none text-white ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-black/65 border-white/25"}`}
+            className={`w-5 h-5 rounded border text-2xs leading-none text-white ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-black/65 border-white/25"}`}
             title={t("match.draft.swapTargetTitle")}
           >
             ▲
@@ -3343,7 +3332,7 @@ function DraftSlot({
               event.stopPropagation();
               onSwapArm();
             }}
-            className={`w-5 h-5 rounded border text-[10px] leading-none text-white ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-black/65 border-white/25"}`}
+            className={`w-5 h-5 rounded border text-2xs leading-none text-white ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-black/65 border-white/25"}`}
             title={t("match.draft.swapTargetTitle")}
           >
             ▼

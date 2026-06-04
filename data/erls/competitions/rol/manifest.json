@@ -1,0 +1,18 @@
+{
+  "id": "rol",
+  "name": "ROL",
+  "full_name": "Road of Legends",
+  "region": "ROL",
+  "country": "LU",
+  "tier": 2,
+  "logo": "/competition-icons/1779542097501_d4nvj98rhl.webp",
+  "teams_file": "erls/teams/rol_teams.json",
+  "players_file": "erls/players/rol_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

@@ -32,8 +32,8 @@ interface EndOfSeasonScreenProps {
 }
 
 function resolvePlayoffChampionTeamId(gameState: GameStateData): string | null {
-  const playoffFixtures = (gameState.league?.fixtures ?? [])
-    .filter((fixture) => fixture.competition === "Playoffs" && fixture.status === "Completed" && fixture.result)
+  const playoffFixtures = (gameState.leagues[0]?.fixtures ?? [])
+    .filter((fixture) => fixture.match_type === "Playoffs" && fixture.status === "Completed" && fixture.result)
     .sort((left, right) => right.matchday - left.matchday);
 
   const final = playoffFixtures[0];
@@ -51,13 +51,13 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const [summary, setSummary] = useState<EndOfSeasonSummary | null>(null);
   const [step, setStep] = useState<"review" | "done">("review");
 
-  const league = gameState.league;
+  const league = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
   const userTeam = gameState.teams.find(t => t.id === userTeamId);
 
   // Compute standings for display
   const standings = league
-    ? [...league.standings].sort(compareStandingsByLolScore)
+    ? [...playerLeague.standings].sort(compareStandingsByLolScore)
     : [];
 
   const userStandingIdx = standings.findIndex(s => s.team_id === userTeamId);
@@ -66,7 +66,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   const standingsChampionId = standings[0]?.team_id ?? null;
   const playoffChampionId = resolvePlayoffChampionTeamId(gameState);
   const championTeamId = playoffChampionId ?? standingsChampionId;
-  const hasPlayoffs = (league?.fixtures ?? []).some((fixture) => fixture.competition === "Playoffs");
+  const hasPlayoffs = (league?.fixtures ?? []).some((fixture) => fixture.match_type === "Playoffs");
   const championName = gameState.teams.find(t => t.id === championTeamId)?.name || "";
   const isChampion = championTeamId === userTeamId;
 
@@ -98,7 +98,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
+    <div className="w-[92%] max-w-[2000px] mx-auto py-8 px-4">
       {step === "review" && (
         <>
           {/* Hero */}
@@ -113,7 +113,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
               {t('endOfSeason.seasonComplete')}
             </h1>
             <p className="text-lg text-gray-500 dark:text-gray-400 mt-1">
-              {league?.name} — Season {league?.season}
+              {playerLeague?.name} — Season {playerLeague?.season}
             </p>
             {isChampion && (
               <p className="text-xl font-heading font-bold text-accent-500 mt-2 uppercase tracking-wider animate-pulse">
@@ -129,7 +129,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
                 <p className="text-xs font-heading font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-1">
                   {userTeam?.name}
                 </p>
-                <p className="text-[11px] font-heading font-bold uppercase tracking-widest text-primary-500 mb-4">
+                <p className="text-xs font-heading font-bold uppercase tracking-widest text-primary-500 mb-4">
                   {t("endOfSeason.regularPhaseSummary")}
                 </p>
                 <div className="flex items-center justify-center gap-6 mb-4">
@@ -155,7 +155,7 @@ export default function EndOfSeasonScreen({ gameState, onGameUpdate }: EndOfSeas
           {hasPlayoffs ? (
             <div className="mb-6">
               <PlayoffBracketBoard
-                league={league!}
+                league={playerLeague!}
                 teams={gameState.teams}
                 title={`${t("schedule.playoffs")} · Bracket`}
               />

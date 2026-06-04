@@ -26,6 +26,26 @@ function parseDateInput(dateStr: string): Date | null {
     return value;
 }
 
+export function parseUtcDate(input: string | null | undefined): Date | null {
+  if (!input) {
+    return null;
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
+    const parsed = new Date(`${input}T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+
+  const parsed = new Date(input);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return new Date(
+    Date.UTC(parsed.getUTCFullYear(), parsed.getUTCMonth(), parsed.getUTCDate()),
+  );
+}
+
 export function formatMatchDate(dateStr: string, locale?: string): string {
     const date = parseDateInput(dateStr);
     if (!date) {

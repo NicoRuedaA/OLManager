@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GameStateData, StaffData } from "../../store/gameStore";
-import { Card, CardBody, Badge, CountryFlag, ProgressBar } from "../ui";
+import { Card, CardBody, Badge, CountryFlag, ProgressBar, Select } from "../ui";
 import {
   UserCog,
   Search,
@@ -15,8 +15,6 @@ import {
 import {
   getTeamName,
   calcAge,
-  formatVal,
-  formatWeeklyAmount,
 } from "../../lib/helpers";
 import { countryName } from "../../lib/countries";
 import { useTranslation } from "react-i18next";
@@ -37,12 +35,14 @@ const ROLE_ICONS: Record<string, React.ReactNode> = {
   Coach: <GraduationCap className="w-4 h-4" />,
   Scout: <Eye className="w-4 h-4" />,
   Physio: <Stethoscope className="w-4 h-4" />,
+  Owner: <Star className="w-4 h-4" />,
 };
 const ROLE_COLORS: Record<string, string> = {
   AssistantManager: "text-blue-500",
   Coach: "text-primary-500",
   Scout: "text-accent-500",
   Physio: "text-red-400",
+  Owner: "text-yellow-500",
 };
 
 const ATTR_LABEL_KEYS = {
@@ -150,15 +150,20 @@ function getStaffImpactRows(s: StaffData): ImpactRow[] {
 
 export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix");
   const userTeamId = gameState.manager.team_id;
   const [view, setView] = useState<"mystaff" | "available">("mystaff");
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<string | null>(null);
+  const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
+  console.log("[StaffTab] gameState.staff count:", gameState.staff?.length);
+  console.log("[StaffTab] userTeamId:", userTeamId);
+  console.log("[StaffTab] staff team_ids:", gameState.staff?.map(s => `${s.first_name} ${s.last_name}: team_id=${s.team_id}`));
   const myStaff = gameState.staff.filter((s) => s.team_id === userTeamId);
   const availableStaff = gameState.staff.filter((s) => !s.team_id);
+  console.log("[StaffTab] myStaff count:", myStaff.length);
+  console.log("[StaffTab] availableStaff count:", availableStaff.length);
 
   const handleHire = async (staffId: string) => {
     setActionLoading(staffId);
@@ -184,10 +189,20 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
     }
   };
 
+  const competitionTeamIds = useMemo(() => {
+    if (!competitionFilter) return null;
+    return new Set(gameState.teams.filter(t => t.competition_id === competitionFilter).map(t => t.id));
+  }, [gameState.teams, competitionFilter]);
+
+  const leagueOptions = useMemo(() => {
+    return gameState.leagues.map(l => ({ id: l.competition_id ?? l.id, name: l.name }));
+  }, [gameState.leagues]);
+
   const displayStaff = view === "mystaff" ? myStaff : availableStaff;
 
   const filtered = displayStaff.filter((s) => {
     if (roleFilter && s.role !== roleFilter) return false;
+    if (competitionTeamIds && (!s.team_id || !competitionTeamIds.has(s.team_id))) return false;
     if (search.length >= 2) {
       const q = search.toLowerCase();
       const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
@@ -196,7 +211,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
     return true;
   });
 
-  const roles = ["AssistantManager", "Coach", "Scout", "Physio"];
+  const roles = ["AssistantManager", "Coach", "Scout", "Physio", "Owner"];
   const teamEffects = getLolStaffEffectsForTeam(gameState, userTeamId);
   const attrLabel = (key: StaffAttrKey) => t(ATTR_LABEL_KEYS[key]);
 
@@ -240,6 +255,17 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
           />
         </div>
 
+        <Select
+          value={competitionFilter ?? ""}
+          onChange={(e) => setCompetitionFilter(e.target.value || null)}
+          selectSize="sm"
+          className="min-w-32 font-heading font-bold uppercase tracking-wider"
+        >
+          <option value="">{t("common.all")}</option>
+          {leagueOptions.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </Select>
         <div className="flex gap-1.5">
           <button
             onClick={() => setRoleFilter(null)}
@@ -277,7 +303,7 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
               {TEAM_IMPACT_ROWS.map((row) => (
                 <span
                   key={row.key}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 dark:bg-primary-500/10 px-2 py-1 text-[11px] font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 dark:bg-primary-500/10 px-2 py-1 text-xs font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300"
                 >
                     <span>{t(row.labelKey)}</span>
                   <span className="font-bold tabular-nums">
@@ -360,17 +386,14 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
                       {/* Specialization + Wage */}
                       <div className="flex flex-wrap gap-1.5 mt-1.5">
                         {staff.specialization && (
-                          <span className="inline-flex items-center gap-1 text-[10px] bg-accent-50 dark:bg-accent-500/10 text-accent-600 dark:text-accent-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
+                          <span className="inline-flex items-center gap-1 text-2xs bg-accent-50 dark:bg-accent-500/10 text-accent-600 dark:text-accent-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
                             <Star className="w-3 h-3" />{" "}
                             {t(`staff.specializations.${staff.specialization}`)}
                           </span>
                         )}
                         {staff.wage > 0 && (
                           <span className="text-[10px] bg-gray-100 dark:bg-navy-700 text-gray-500 dark:text-gray-400 px-1.5 py-0.5 rounded font-heading uppercase tracking-wider">
-                            {formatWeeklyAmount(
-                              formatVal(staff.wage),
-                              weeklySuffix,
-                            )}
+                            €{staff.wage.toLocaleString()}/año
                           </span>
                         )}
                       </div>
@@ -396,14 +419,14 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
                       </div>
 
                       <div className="mt-3">
-                        <p className="text-[10px] font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
+                        <p className="text-2xs font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-1.5">
                           {t("staff.lolImpactTitle")}
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {impactRows.map((row) => (
                             <span
                               key={row.labelKey}
-                              className="inline-flex items-center gap-1 rounded bg-navy-50 dark:bg-navy-700/70 px-1.5 py-0.5 text-[10px] font-heading uppercase tracking-wider text-gray-600 dark:text-gray-300"
+                              className="inline-flex items-center gap-1 rounded bg-navy-50 dark:bg-navy-700/70 px-1.5 py-0.5 text-2xs font-heading uppercase tracking-wider text-gray-600 dark:text-gray-300"
                             >
                               <span>{t(row.labelKey)}</span>
                               <span className="font-bold tabular-nums text-primary-500">

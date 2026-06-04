@@ -8,3 +8,6 @@ export { ThemeToggle } from "./ThemeToggle";
 export { DatePicker } from "./DatePicker";
 export { Select } from "./Select";
 export { RoleBadge } from "./RoleBadge";
+export { Input } from "./Input";
+export { Textarea } from "./Textarea";
+export { Modal } from "./Modal";

@@ -1,0 +1,140 @@
+{
+  "name": "LRN Teams",
+  "description": "LRN - 2026 Season",
+  "teams": [
+    {
+      "id": "lrn-fuego",
+      "colors": {
+        "primary": "#ff6d1c",
+        "secondary": "#310d00"
+      },
+      "country": "",
+      "logo_url": "/teams-icons/fuego.webp",
+      "data.country": "Colombia",
+      "data.team_kind": "Main",
+      "name": "Fuego",
+      "short_name": "FUE",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-polar-squad-esport",
+      "logo_url": "/teams-icons/polar-squad-esport.webp",
+      "data.country": "MX",
+      "name": "Polar Squad Esport",
+      "short_name": "PLS",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-ncg-esports",
+      "colors": {
+        "secondary": "#ff0002"
+      },
+      "logo_url": "/teams-icons/ncg-esports.webp",
+      "data.country": "Mexico",
+      "name": "NCG Esports",
+      "short_name": "NCG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-sdm-tigres",
+      "colors": {
+        "primary": "#ffb400",
+        "secondary": "#2402ff"
+      },
+      "country": "",
+      "logo_url": "/teams-icons/sdm-tigres.webp",
+      "data.country": "MX",
+      "name": "SDM Tigres",
+      "short_name": "SDM",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-zeu5-esport",
+      "country": "",
+      "logo_url": "/teams-icons/zeu5-esport.webp",
+      "data.country": "Colombia",
+      "name": "Zeu5 Esport",
+      "short_name": "Z5",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-lyon-academy",
+      "colors": {
+        "primary": "#deac7f"
+      },
+      "logo_url": "/teams-icons/lyon-academy.webp",
+      "data.country": "Mexico",
+      "name": "LYON Academy",
+      "short_name": "LYON",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-g3v-e-sports",
+      "colors": {
+        "secondary": "#792ddb"
+      },
+      "country": "",
+      "logo_url": "/teams-icons/g3v-e-sports.webp",
+      "data.country": "Colombia",
+      "name": "G3V E-sports",
+      "short_name": "G3V",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lrn-icon-esports",
+      "country": "",
+      "logo_url": "/teams-icons/icon-esports.webp",
+      "data.country": "MX",
+      "name": "Icon Esports",
+      "short_name": "ICON",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    }
+  ]
+}

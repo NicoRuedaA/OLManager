@@ -151,7 +151,7 @@ export default function HomeTodayPlanCard({
     [gameState, team],
   );
   const scrimContext = remoteScrimContext?.today ?? fallbackScrimContext;
-  const todayFixture = gameState.league?.fixtures.find((fixture) => {
+  const todayFixture = gameState.leagues?.[0]?.fixtures.find((fixture) => {
     if (fixture.status !== "Scheduled") return false;
     if (dateKey(fixture.date) !== todayKey) return false;
     return fixture.home_team_id === team.id || fixture.away_team_id === team.id;
@@ -224,7 +224,7 @@ export default function HomeTodayPlanCard({
     ? {
         icon: <Trophy className="h-6 w-6" />,
         title: t("home.todayMatch"),
-        detail: todayFixture.competition,
+        detail: todayFixture.match_type,
         accent: "text-primary-500",
         actionLabel: t("dashboard.schedule"),
         actionTab: "Schedule",
@@ -432,7 +432,7 @@ export default function HomeTodayPlanCard({
                             : option.label}
                     </span>
                     {suggestedDecision === option.id ? (
-                      <span className="mt-1 inline-block text-[10px] font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300">
+                      <span className="mt-1 inline-block text-2xs font-heading uppercase tracking-wider text-primary-600 dark:text-primary-300">
                         {t("home.recommendedNow")}
                       </span>
                     ) : null}
@@ -443,7 +443,7 @@ export default function HomeTodayPlanCard({
                       {decisionImpactTags[option.id].map((tag) => (
                         <span
                           key={tag}
-                          className="text-[10px] font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                          className="text-2xs font-heading uppercase tracking-wider text-gray-500 dark:text-gray-400"
                         >
                           {tag}
                         </span>

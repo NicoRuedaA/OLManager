@@ -9,6 +9,7 @@ import {
 import { Card, CardHeader, CardBody, Badge, ProgressBar, Button, RoleBadge } from "../ui";
 import { User, ArrowUpDown, ArrowUp, ArrowDown, Check, Lock, AlertTriangle } from "lucide-react";
 import {
+  currencySymbol,
   formatVal,
   formatWeeklyAmount,
   getContractRiskBadgeVariant,
@@ -16,7 +17,7 @@ import {
   getContractYearsRemaining,
 } from "../../lib/helpers";
 import {
-  annualAmountToWeeklyCommitment,
+  annualAmountToMonthlyCommitment,
   getTeamFinanceSnapshot,
 } from "../../lib/finance";
 import type { FacilityUpgradeId } from "../../lib/lolFinanceContracts";
@@ -27,7 +28,6 @@ import {
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
 import { getLolRoleForPlayer } from "../squad/SquadTab.helpers";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
 import { resolveMessage } from "../../utils/backendI18n";
 
 function getFacilityUpgradeCost(level: number): number {
@@ -44,7 +44,7 @@ function formatSignedAmount(value: number): string {
 }
 
 function formatCurrencyAmountParam(value: number): string {
-  return formatVal(value).replace(/^€/, "");
+  return `${currencySymbol("EUR")}${value.toLocaleString()}`;
 }
 
 interface ResolveMessageActionResult {
@@ -95,6 +95,7 @@ export default function FinancesTab({
   onSelectPlayer,
 }: FinancesTabProps) {
   const { t } = useTranslation();
+  const annualSuffix = t("finances.perYearSuffix", "/yr");
   const myTeam = gameState.teams.find(
     (tm) => tm.id === gameState.manager.team_id,
   );
@@ -102,7 +103,6 @@ export default function FinancesTab({
     return (
       <p className="text-gray-500 dark:text-gray-400">{t("common.noTeam")}</p>
     );
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [delegatedRenewalsSummary, setDelegatedRenewalsSummary] = useState<
     string | null
@@ -129,7 +129,7 @@ export default function FinancesTab({
     (staffMember) => staffMember.team_id === myTeam.id,
   );
   const financeSnapshot = getTeamFinanceSnapshot(myTeam, roster, teamStaff);
-  const totalWages = financeSnapshot.weeklyWageSpend;
+  const totalWages = financeSnapshot.annualWageBill;
   const totalValue = roster.reduce((s, p) => s + p.market_value, 0);
   const installationContract = getClubInstallationContract(myTeam);
   const mainHubLevel = installationContract.reduce(
@@ -139,20 +139,21 @@ export default function FinancesTab({
   const nextHubExpansionCost = getMainHubExpansionCost(mainHubLevel);
   const canExpandMainHub = myTeam.finance >= nextHubExpansionCost;
   const activeSponsorship = getSponsorshipContractView(myTeam.sponsorship);
-  const weeklySponsorIncome = financeSnapshot.weeklySponsorIncome;
-  const projectedWeeklyNet = financeSnapshot.projectedWeeklyNet;
-  const cashRunwayWeeks = financeSnapshot.cashRunwayWeeks;
+  const annualSponsorIncome = financeSnapshot.annualSponsorIncome;
+  const projectedAnnualNet = financeSnapshot.projectedAnnualNet;
+  const cashRunwayMonths = financeSnapshot.cashRunwayMonths;
   const wageBudgetUsagePercent = financeSnapshot.wageBudgetUsagePercent;
   const weeklyWageBudget = financeSnapshot.weeklyWageBudget;
   const playerWeeklyWages = roster.reduce(
-    (sum, p) => sum + annualAmountToWeeklyCommitment(p.wage),
+    (sum, p) => sum + annualAmountToMonthlyCommitment(p.wage),
     0,
   );
   const staffWeeklyWages = teamStaff.reduce(
-    (sum, s) => sum + annualAmountToWeeklyCommitment(s.wage),
+    (sum, s) => sum + annualAmountToMonthlyCommitment(s.wage),
     0,
   );
   const unusedWeeklyBudget = Math.max(0, weeklyWageBudget - playerWeeklyWages - staffWeeklyWages);
+  const annualWageBudget = financeSnapshot.annualWageBudget;
   const sponsorOffers = gameState.messages
     .filter(isPendingSponsorOffer)
     .map(resolveMessage);
@@ -177,7 +178,7 @@ export default function FinancesTab({
       return leftDate.localeCompare(rightDate);
     });
   const atRiskWages = contractRiskPlayers.reduce(
-    (sum, { player }) => sum + annualAmountToWeeklyCommitment(player.wage),
+    (sum, { player }) => sum + player.wage,
     0,
   );
   const selectedRiskPlayers = contractRiskPlayers.filter(({ player }) =>
@@ -332,7 +333,7 @@ export default function FinancesTab({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
       {/* Financial overview */}
       <Card accent="accent" className="lg:col-span-2">
         <CardHeader>{t("finances.overview")}</CardHeader>
@@ -377,18 +378,18 @@ export default function FinancesTab({
         <CardBody>
           <div className="text-center mb-4">
             <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-              {t("finances.weeklyTotal")}
+              {t("finances.annualTotal")}
             </p>
             <p className="font-heading font-bold text-2xl text-gray-800 dark:text-gray-100 mt-1">
-              {formatWeeklyAmount(formatVal(totalWages), weeklySuffix)}
+              €{totalWages.toLocaleString()}{annualSuffix}
             </p>
             <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
               {t("finances.budget")}:{" "}
-              {formatWeeklyAmount(formatVal(weeklyWageBudget), weeklySuffix)}{" "}
+              €{annualWageBudget.toLocaleString()}{annualSuffix}{" "}
               —{" "}
-              {totalWages <= weeklyWageBudget ? (
-                <span className="inline-flex items-center gap-1 font-heading font-bold uppercase tracking-wider rounded-md bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 px-2 py-0.5 text-xs">
-                  <Check className="w-3 h-3" /> {t("finances.underBudget")}
+              {totalWages <= annualWageBudget ? (
+                <span className="text-primary-500">
+                  {t("finances.underBudget")}
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-1 font-heading font-bold uppercase tracking-wider rounded-md bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 px-2 py-0.5 text-xs">
@@ -400,9 +401,9 @@ export default function FinancesTab({
           <ProgressBar
             value={Math.min(
               100,
-              Math.round((totalWages / Math.max(1, weeklyWageBudget)) * 100),
+              Math.round((totalWages / Math.max(1, annualWageBudget)) * 100),
             )}
-            variant={totalWages <= weeklyWageBudget ? "success" : "danger"}
+            variant={totalWages <= annualWageBudget ? "success" : "danger"}
             size="md"
             showLabel
           />
@@ -415,53 +416,44 @@ export default function FinancesTab({
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.weeklyWageSpend")}
+                {t("finances.annualWageSpend")}
               </p>
               <p className="font-heading font-bold text-xl text-red-500">
-                {formatWeeklyAmount(
-                  formatSignedAmount(-totalWages),
-                  weeklySuffix,
-                )}
+                €{totalWages.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.weeklySponsorIncome")}
+                {t("finances.annualSponsorIncome")}
               </p>
               <p className="font-heading font-bold text-xl text-primary-500">
-                {formatWeeklyAmount(
-                  formatSignedAmount(weeklySponsorIncome),
-                  weeklySuffix,
-                )}
+                €{annualSponsorIncome.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
-                {t("finances.projectedWeeklyNet")}
+                {t("finances.projectedAnnualNet")}
               </p>
               <p
-                className={`font-heading font-bold text-xl ${projectedWeeklyNet >= 0 ? "text-primary-500" : "text-red-500"}`}
+                className={`font-heading font-bold text-xl ${projectedAnnualNet >= 0 ? "text-primary-500" : "text-red-500"}`}
               >
-                {formatWeeklyAmount(
-                  formatSignedAmount(projectedWeeklyNet),
-                  weeklySuffix,
-                )}
+                €{projectedAnnualNet.toLocaleString()}{annualSuffix}
               </p>
             </div>
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 text-center">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1">
                 {t("finances.cashRunway")}
               </p>
-              <p className={`font-heading font-bold text-base ${cashRunwayWeeks !== null && cashRunwayWeeks < 52 ? "text-red-500" : "text-gray-800 dark:text-gray-100"}`}>
-                {cashRunwayWeeks === null
+              <p className={`font-heading font-bold text-base ${cashRunwayMonths !== null && cashRunwayMonths < 52 ? "text-red-500" : "text-gray-800 dark:text-gray-100"}`}>
+                {cashRunwayMonths === null
                   ? t("finances.runwayStable")
-                  : t("finances.runwayWeeks", { count: cashRunwayWeeks })}
+                  : t("finances.runwayMonths", { count: cashRunwayMonths })}
               </p>
-              {cashRunwayWeeks !== null && (
+              {cashRunwayMonths !== null && (
                 <div className="w-full max-w-[120px] mx-auto mt-2 h-1.5 rounded-full bg-gray-200 dark:bg-navy-600 overflow-hidden">
                   <div
-                    className={`h-full rounded-full ${cashRunwayWeeks >= 104 ? "bg-success-400" : cashRunwayWeeks >= 52 ? "bg-yellow-500" : "bg-red-500"}`}
-                    style={{ width: `${Math.min(100, (cashRunwayWeeks / 260) * 100)}%` }}
+                    className={`h-full rounded-full ${cashRunwayMonths >= 104 ? "bg-success-400" : cashRunwayMonths >= 52 ? "bg-yellow-500" : "bg-red-500"}`}
+                    style={{ width: `${Math.min(100, (cashRunwayMonths / 260) * 100)}%` }}
                   />
                 </div>
               )}
@@ -480,61 +472,14 @@ export default function FinancesTab({
                   percent: wageBudgetUsagePercent,
                 })}
               </p>
-
-              {/* Budget breakdown donut */}
-              {(() => {
-                const slices = [
-                  { label: t("finances.players", "Jugadores"), value: playerWeeklyWages, color: "#3b82f6" },
-                  { label: t("finances.staff", "Staff"), value: staffWeeklyWages, color: "#8b5cf6" },
-                  { label: t("finances.unused", "Sin usar"), value: unusedWeeklyBudget, color: "#6b7280" },
-                ].filter((s) => s.value > 0);
-                const total = slices.reduce((s, s2) => s + s2.value, 0);
-                if (total <= 0) return null;
-                const size = 100;
-                const strokeWidth = 14;
-                const radius = (size - strokeWidth) / 2;
-                const circ = 2 * Math.PI * radius;
-                const cx = size / 2;
-                const cy = size / 2;
-                let cumPct = 0;
-                return (
-                  <div className="flex flex-col items-center gap-4 pt-2 w-full">
-                    <svg viewBox={`0 0 ${size} ${size}`} className="w-full max-w-[200px] h-auto">
-                      <circle cx={cx} cy={cy} r={radius} fill="none" strokeWidth={strokeWidth} className="stroke-gray-200 dark:stroke-navy-600" />
-                      {slices.map((slice, i) => {
-                        const pct = slice.value / total;
-                        const offset = cumPct * circ;
-                        const len = pct * circ;
-                        cumPct += pct;
-                        return (
-                          <circle
-                            key={i}
-                            cx={cx} cy={cy} r={radius}
-                            fill="none"
-                            stroke={slice.color}
-                            strokeWidth={strokeWidth}
-                            strokeDasharray={`${len} ${circ - len}`}
-                            strokeDashoffset={-offset}
-                            transform={`rotate(-90 ${cx} ${cy})`}
-                            className="transition-all duration-500"
-                          />
-                        );
-                      })}
-                    </svg>
-                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-xs">
-                      {slices.map((slice, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ backgroundColor: slice.color }} />
-                          <span className="text-gray-600 dark:text-gray-400 whitespace-nowrap">{slice.label}</span>
-                          <span className="font-heading font-bold tabular-nums text-gray-800 dark:text-gray-200">
-                            {Math.round((slice.value / total) * 100)}%
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })()}
+              <ProgressBar
+                value={Math.min(100, wageBudgetUsagePercent)}
+                variant={
+                  totalWages <= annualWageBudget ? "success" : "danger"
+                }
+                size="md"
+                showLabel
+              />
             </div>
 
             <div className="rounded-xl border border-gray-200 dark:border-navy-600 bg-gray-50 dark:bg-navy-800 p-4 space-y-3">
@@ -590,12 +535,12 @@ export default function FinancesTab({
                           type="checkbox"
                           checked={selectedRiskPlayerIds.includes(player.id)}
                           onChange={() => handleToggleRiskPlayer(player.id)}
-                          aria-label={`Select ${player.full_name}`}
+                          aria-label={`Select ${player.match_name}`}
                           className="mt-1 h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-primary-500/30"
                         />
                         <div className="space-y-1">
                           <p className="font-semibold text-sm text-gray-900 dark:text-gray-100">
-                            {player.full_name}
+                            {player.match_name}
                           </p>
                           <p className="text-xs text-gray-600 dark:text-gray-400">
                             {t("finances.contractExpiresOn", {
@@ -626,7 +571,7 @@ export default function FinancesTab({
                             : t("finances.contractRiskWarning")}
                         </Badge>
                         <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">
-                          €{annualAmountToWeeklyCommitment(player.wage).toLocaleString()}/wk
+                          €{player.wage.toLocaleString()}{annualSuffix}
                         </span>
                         {onSelectPlayer ? (
                           <Button
@@ -671,12 +616,12 @@ export default function FinancesTab({
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {t("finances.sponsorWeeklyValue", {
-                      amount: activeSponsorship.baseValue,
+                      amount: Math.round(activeSponsorship.baseValue / 12),
                     })}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t("finances.sponsorRemainingWeeks", {
-                      count: activeSponsorship.remainingWeeks,
+                    {t("finances.sponsorRemainingMonths", {
+                      count: activeSponsorship.remainingMonths,
                     })}
                   </p>
                   <Badge variant={activeSponsorship.theme === "esports" ? "accent" : "neutral"}>
@@ -946,7 +891,7 @@ export default function FinancesTab({
                     const dir = sortDir === "asc" ? 1 : -1;
                     switch (sortKey) {
                       case "name":
-                        return dir * a.full_name.localeCompare(b.full_name);
+                        return dir * a.match_name.localeCompare(b.match_name);
                       case "position":
                         return dir * (getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b)));
                       case "wage":
@@ -961,7 +906,7 @@ export default function FinancesTab({
                   })
                   .map((p) => {
                     const lolRole = getLolRoleForPlayer(p);
-                    const photo = resolvePlayerPhoto(p.id, p.full_name);
+                    const photo = p.profile_image_url ?? "/default/defaultplayer.webp";
                     const contextItems = onSelectPlayer
                       ? [
                           {
@@ -982,7 +927,7 @@ export default function FinancesTab({
                           {photo ? (
                             <img
                               src={photo}
-                              alt={p.full_name}
+                              alt={p.match_name}
                               className="w-8 h-8 rounded-full object-cover"
                               loading="lazy"
                             />
@@ -994,14 +939,14 @@ export default function FinancesTab({
                         </td>
                         <td className="py-3 px-5 font-semibold text-sm text-gray-800 dark:text-gray-200">
                           <span className="group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                            {p.full_name}
+                            {p.match_name}
                           </span>
                         </td>
                         <td className="py-3 px-5">
                           <RoleBadge role={lolRole} size="sm" />
                         </td>
                         <td className="py-3 px-5 text-sm font-medium text-gray-700 dark:text-gray-300">
-                          €{annualAmountToWeeklyCommitment(p.wage).toLocaleString()}
+                          €{p.wage.toLocaleString()}
                         </td>
                         <td className="py-3 px-5 text-sm text-gray-600 dark:text-gray-400">
                           {formatVal(p.market_value)}

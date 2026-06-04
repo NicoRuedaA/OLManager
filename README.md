@@ -8,10 +8,10 @@
     <img src="https://img.shields.io/badge/Rust-1.80+-orange?logo=rust" />
   </a>
   <a href="https://react.dev/">
-    <img src="https://img.shields.io/badge/React-18+-blue?logo=react" />
+    <img src="https://img.shields.io/badge/React-19+-blue?logo=react" />
   </a>
   <a href="https://www.typescriptlang.org/">
-    <img src="https://img.shields.io/badge/TypeScript-5.4+-3178C6?logo=typescript&logoColor=white" />
+    <img src="https://img.shields.io/badge/TypeScript-6.0+-3178C6?logo=typescript&logoColor=white" />
   </a>
   <a href="https://www.gnu.org/licenses/gpl-3.0">
     <img src="https://img.shields.io/badge/License-GPL--3.0-brightgreen" />
@@ -24,7 +24,7 @@
 ---
 
 > **Current Status:** Pre-alpha — expect incomplete gameplay systems, evolving save formats, and frequent documentation updates.  
-> **Last Updated:** 02-MAY-2026
+> **Last Updated:** 22-MAY-2026
 
 ---
 
@@ -88,12 +88,12 @@ The full system overview is documented at [`docs/ARCHITECTURE.md`](docs/ARCHITEC
 # Rust crates (Cargo.toml)
 tauri = "2"
 serde = "1"       # Serialization
-rusqlite = "0.31" # SQLite persistence
+rusqlite = "0.32.1" # SQLite persistence
 
 # Frontend (package.json)
-react = "^18"
-typescript = "^5.4"
-@tauri-apps/api = "^2"
+react = "^19"
+typescript = "^6.0"
+@tauri-apps/api = "^2.11"
 ```
 
 ---
@@ -206,6 +206,7 @@ Contributions are **issue-first**:
 
 Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), then review:
 
+- [`docs/STATUS.md`](docs/STATUS.md) — project health overview: what's broken, technical debt (53 football remnants), risks, and roadmap.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system overview, React/Tauri boundary, Rust crates, persistence, testing, and feature-extension rules.
 - [`docs/GOVERNANCE.md`](docs/GOVERNANCE.md) — branch model, labels, review gates, and repository settings.
 - [`docs/RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md) — release PRs, version sync, tags, artifacts, and unsigned status rules.
@@ -217,40 +218,8 @@ Start with [`CONTRIBUTING.md`](CONTRIBUTING.md), then review:
 
 ## 9. Resources
 
-## Rama `QoL-UI-2` — Resumen de cambios
-
-### 🎨 Sidebar (Dashboard)
-- **Escudo del equipo**: reemplazado el logo genérico de la LEC por el escudo del equipo que gestionás
-- **Sin saltos al expandir/colapsar**: altura fija (`h-8 overflow-visible`), texto y botón toggle siempre en DOM ocultos con `max-w-0/max-h-0` y `delay-150`
-- **Cursor pointer** en el escudo cuando el sidebar está colapsado
-- **Botón toggle oculto** en colapsado (el logo funciona como botón para expandir)
-
-### 📸 Fotos de jugadores
-- **ScoutingPlayerSearchCard**: nueva columna Foto con `resolvePlayerPhoto` (soporta IDs `lec-player-{id}`)
-- **YouthAcademyTab**: misma columna de foto agregada
-- **TeamProfileRosterCard**: misma columna de foto agregada
-
-### 🏷️ Iconos de rol (Community Dragon)
-Reemplazados los badges de texto (`SUPPORT`, `MID`, etc.) por iconos Community Dragon en:
-- `ScoutingPlayerSearchCard`
-- `YouthAcademyTab`
-- `TeamProfileRosterCard`
-
-### 🔄 Ordenación por columnas
-- **PlayersListTab**: ordenación por Nacionalidad; eliminada ordenación por Foto
-- **ScoutingPlayerSearchCard**: ordenable por Jugador, Posición, Edad, Equipo, Valor
-- **TransfersTab**: agregadas ordenaciones por Nombre, Posición, Edad, Equipo, Estado
-- **PlayersListTab**: columna Estado ordenable (préstamo > fichaje > lesionado > normal)
-
-### 🏟️ Modal de confirmación de partido
-- **DashboardMatchConfirmModal**: muestra escudos de los equipos junto a los nombres
-
-### 🔧 Fixes
-- **V43 migration** (`bans_json` column) sincronizada de `feat/champion-stats` a `develop`
-- **Football→LoL position mapping**: corregido en TacticsTab, TeamSelection, NextMatchDisplay, draftResultSimulator
-
 ---
-- **Repository:** [github.com/NicoRuedaA/OLManager](https://github.com/OpenLeagueManager/OLManager)
+- **Repository:** [github.com/OpenLeagueManager/OLManager](https://github.com/OpenLeagueManager/OLManager)
 - **Documentation index:** [`docs/README.md`](docs/README.md)
 - **Tauri v2 Docs:** [https://v2.tauri.app/](https://v2.tauri.app/)
 - **Rust Docs:** [https://doc.rust-lang.org/](https://doc.rust-lang.org/)

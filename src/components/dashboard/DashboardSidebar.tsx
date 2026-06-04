@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/core";
 import { useTranslation } from "react-i18next";
 import type { JSX, ReactNode } from "react";
 import {
@@ -22,7 +23,9 @@ import {
   PanelLeftClose,
   User,
   Gamepad2,
+  Globe,
   Swords,
+  Store
 } from "lucide-react";
 
 interface DashboardSidebarProps {
@@ -34,6 +37,7 @@ interface DashboardSidebarProps {
   managerName: string | null;
   teamName: string | null;
   teamLogo: string | null;
+  managerAvatar: string | null;
   onNavigateSettings: () => void;
   onExitClick: () => void;
   isUnemployed: boolean;
@@ -56,7 +60,7 @@ function NavItem({
   label,
   onClick,
 }: NavItemProps): JSX.Element {
-  const buttonClassName = `relative flex w-full items-center justify-start rounded-lg p-3 transition-all duration-200 gap-3 ${
+  const buttonClassName = `relative flex w-full items-center justify-start rounded-lg p-3 gap-3 ${
     active
       ? "bg-linear-to-r from-primary-500 to-primary-600 text-white shadow-md shadow-primary-500/20"
       : "text-gray-400 hover:bg-white/5 hover:text-white"
@@ -71,10 +75,10 @@ function NavItem({
     >
       <div className="[&>svg]:w-5 [&>svg]:h-5 shrink-0">{icon}</div>
       <span
-        className={`min-w-0 min-h-0 overflow-hidden whitespace-nowrap transition-all duration-200 ${
+        className={`min-w-0 min-h-0 overflow-hidden whitespace-nowrap ${
           collapsed
             ? "max-w-0 max-h-0 opacity-0"
-            : "max-w-40 max-h-6 opacity-100 delay-150"
+            : "max-w-40 max-h-6 opacity-100"
         } font-heading font-semibold text-sm uppercase tracking-wider`}
       >
         {label}
@@ -83,7 +87,7 @@ function NavItem({
         <span
           className={
             collapsed
-              ? "absolute right-1.5 top-1.5 min-w-[1.1rem] rounded-full bg-primary-500 px-1.5 py-0.5 text-center text-[10px] font-bold text-white"
+              ? "absolute right-1.5 top-1.5 min-w-[1.1rem] rounded-full bg-primary-500 px-1.5 py-0.5 text-center text-2xs font-bold text-white"
               : "min-w-5 rounded-full bg-primary-500 px-2 py-0.5 text-center text-xs font-bold text-white"
           }
         >
@@ -103,11 +107,13 @@ export default function DashboardSidebar({
   managerName,
   teamName,
   teamLogo,
+  managerAvatar,
   onNavigateSettings,
   onExitClick,
   isUnemployed,
 }: DashboardSidebarProps): JSX.Element {
   const { t } = useTranslation();
+  invoke("debug_log", { message: `[sidebar] teamName=${teamName} | teamLogo=${teamLogo} | collapsed=${collapsed}` });
 
   const clubItems: Array<{ icon: JSX.Element; label: string; tab: string }> = [
     { icon: <Users />, label: t("dashboard.squad"), tab: "Squad" },
@@ -133,7 +139,13 @@ export default function DashboardSidebar({
       label: t("dashboard.tournaments"),
       tab: "Tournaments",
     },
+    {
+      icon: <Globe />,
+      label: t("dashboard.competitions", "Competiciones"),
+      tab: "Competitions",
+    },
     { icon: <Gamepad2 />, label: t("dashboard.champions_world"), tab: "ChampionsWorld" },
+    { icon: <Store />, label: t("dashboard.market"), tab: "Market" },
   ];
   const toggleSidebarLabel = collapsed
     ? t("dashboard.expandSidebar")
@@ -141,7 +153,7 @@ export default function DashboardSidebar({
 
   return (
     <aside
-      className={`bg-navy-800 dark:bg-navy-800 border-r border-navy-700 text-white flex h-screen sticky top-0 shrink-0 flex-col transition-[width] duration-200 ${
+      className={`bg-navy-800 dark:bg-navy-800 bg-panel-dark border-r border-navy-700 text-white flex h-screen sticky top-0 shrink-0 flex-col transition-[width] duration-200 ${
         collapsed ? "w-20" : "w-64"
       }`}
     >
@@ -214,7 +226,15 @@ export default function DashboardSidebar({
             collapsed ? "text-gray-300" : "text-left"
           }`}
         >
-          <User className="h-5 w-5 shrink-0" />
+          {managerAvatar ? (
+            <img
+              src={managerAvatar}
+              alt=""
+              className="w-5 h-5 rounded-full object-cover shrink-0"
+            />
+          ) : (
+            <User className="h-5 w-5 shrink-0" />
+          )}
           <div
             className={`min-w-0 min-h-0 overflow-hidden transition-all duration-200 ${
               collapsed
@@ -228,9 +248,6 @@ export default function DashboardSidebar({
             <p className="text-sm font-semibold text-white mt-0.5">
               {managerName}
             </p>
-            {teamName && (
-              <p className="text-xs text-primary-400 mt-0.5">{teamName}</p>
-            )}
           </div>
         </button>
       </div>
@@ -282,7 +299,7 @@ export default function DashboardSidebar({
         {!isUnemployed && (
           <>
             {collapsed ? null : (
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest font-heading px-3 pt-3 pb-1">
+              <p className="text-2xs text-gray-500 uppercase tracking-widest font-heading px-3 pt-3 pb-1">
                 {t("dashboard.sectionClub")}
               </p>
             )}
@@ -300,7 +317,7 @@ export default function DashboardSidebar({
         )}
 
         {collapsed ? null : (
-          <p className="text-[10px] text-gray-500 uppercase tracking-widest font-heading px-3 pt-3 pb-1">
+          <p className="text-2xs text-gray-500 uppercase tracking-widest font-heading px-3 pt-3 pb-1">
             {t("dashboard.sectionWorld")}
           </p>
         )}

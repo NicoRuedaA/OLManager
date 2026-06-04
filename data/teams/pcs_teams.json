@@ -1,0 +1,166 @@
+{
+  "name": "PCS Teams",
+  "description": "PCS - 2026 Season",
+  "teams": [
+    {
+      "id": "team-33bed81a",
+      "name": "Viper Night Raider",
+      "short_name": "VIP",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-c4a0b95f",
+      "name": "Xu Ji Basalt",
+      "short_name": "XJB",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-3696f88a",
+      "name": "Ground Zero Academy",
+      "short_name": "ZERO",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-74d3c7fe",
+      "name": "One Round Specialists",
+      "short_name": "ONS",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-4b825a93",
+      "name": "Shadow Keepers",
+      "short_name": "SHA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-0df06611",
+      "name": "SillySilly Gaming",
+      "short_name": "SSG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-9c289ca5",
+      "name": "wangting",
+      "short_name": "WAN",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-94671303",
+      "name": "CFO Academy",
+      "short_name": "CFOA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-f8c7a360",
+      "name": "Frank Esports",
+      "short_name": "FESP",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "team-86604284",
+      "name": "Equinox Core",
+      "short_name": "EQU",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "logo_url": null,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    }
+  ]
+}

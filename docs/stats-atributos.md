@@ -2,6 +2,16 @@
 
 ## 1. EQUIPO (`Team`)
 
+### Metadata
+
+| Campo | Tipo | ¿Qué hace? |
+|-------|------|------------|
+| `id` | `String` | Identificador único del equipo. |
+| `name` / `short_name` | `String` | Nombre completo y abreviado. |
+| `logo_url` | `Option<String>` | URL del logo del equipo. Mismo patrón que `Player.profile_image_url` y `Staff.profile_image_url`. |
+| `country` | `String` | País del equipo. |
+| `colors` | `Object` | Paleta de colores (`primary`, `secondary`). |
+
 ### Finanzas
 
 | Atributo | Tipo | ¿Qué hace? |
@@ -129,15 +139,6 @@ Estos 9 atributos son los que usa el **motor de simulación** (`engine`). Se map
 | `loan_listed` | El jugador está disponible para cesión. |
 | `transfer_offers` | Lista de ofertas recibidas de otros clubes. |
 
-### Imágenes
-
-| Entidad | Campo | Cómo se resuelve |
-|---------|-------|------------------|
-| **Team** | No tiene campo de imagen. | El frontend resuelve el logo mediante `teamLogoMapping.ts` (mapping por slug del nombre del equipo). |
-| **Player** | `profile_image_url: Option<String>` | Campo opcional. Si es `None`, el frontend usa `playerPhotoMapping.ts` por `match_name`. |
-| **Staff** | `profile_image_url: Option<String>` | Campo opcional. Si es `None`, el frontend usa `staffPhotoMapping.ts` por nombre. |
-| **Academia** | `AcademyMetadata.original_logo_url` / `current_logo_url` | Guardan el logo del equipo academy (puede diferir del main team). |
-
 ---
 
 ## 3. STAFF (`Staff`)
@@ -174,6 +175,8 @@ Game
 ```
 
 **Team no tiene `staff_ids`** ni vector propio. La relación se resuelve dinámicamente filtrando `game.staff.iter().filter(|s| s.team_id == team_id)`. Es el mismo patrón que con los players. Como cada equipo tiene ~4 staff, no es un cuello de botella.
+
+> **See also:** `architecture-graph.md` documents why `game.staff` is global (not per-competition) and how the data-loading pipeline populates it from manifest `staff_file` entries.
 
 ### Outputs del sistema (`LolStaffEffects`)
 

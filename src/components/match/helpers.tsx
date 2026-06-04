@@ -252,7 +252,7 @@ export function resolveMatchFixture(
   snapshot: MatchSnapshot | null,
   fixtureIndex?: number,
 ): FixtureData | null {
-  const fixtures = gameState?.league?.fixtures;
+  const fixtures = gameState?.leagues?.[0]?.fixtures;
   if (!fixtures || !snapshot) return null;
 
   if (

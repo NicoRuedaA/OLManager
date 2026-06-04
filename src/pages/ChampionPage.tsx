@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useGameStore } from "../store/gameStore";
 import { ROLE_ICON_PATHS } from "../lib/roleIcons";
 import { Card, CardBody, CardHeader } from "../components/ui";
+import { resolveChampionTile, resolveChampionSplash } from "../lib/championImages";
 
 export interface ChampionPageProps {
   championKey: string;
@@ -23,20 +24,6 @@ function mapRoleToIconPath(role: string): string | undefined {
   if (normalized === "ADC" || normalized === "BOT") return ROLE_ICON_PATHS.ADC;
   if (normalized === "SUPPORT") return ROLE_ICON_PATHS.SUPPORT;
   return undefined;
-}
-
-/**
- * Fallback champion tile URL from Data Dragon
- */
-function fallbackTileUrl(championKey: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championKey}_0.jpg`;
-}
-
-/**
- * Fallback champion splash URL from Data Dragon
- */
-function fallbackSplashUrl(championKey: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championKey}_0.jpg`;
 }
 
 function parseJsonField<T>(json: string | null, fallback: T): T {
@@ -212,11 +199,15 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
     [],
   );
 
-  // Determine image URLs
+  // Determine image URLs — local webp only
   const splashUrl =
-    champion.image_splash_url || fallbackSplashUrl(champion.champion_key);
+    champion.image_splash_url
+    || resolveChampionSplash(champion.champion_key)
+    || "";
   const tileUrl =
-    champion.image_tile_url || fallbackTileUrl(champion.champion_key);
+    champion.image_tile_url
+    || resolveChampionTile(champion.champion_key)
+    || "";
 
   return (
     <div className="min-h-screen bg-navy-900">
@@ -350,7 +341,9 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                 <div className="flex flex-col gap-2">
                   {counterpicks.map((item, idx) => {
                     const champKey = extractOpponentKey(item, champion.champion_key);
-                    const imgUrl = champKey ? fallbackTileUrl(champKey) : "";
+                    const imgUrl = champKey
+                      ? (resolveChampionTile(champKey) ?? "")
+                      : "";
                     return (
                       <div
                         key={`cp-${idx}`}
@@ -361,11 +354,6 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                             src={imgUrl}
                             alt={champKey}
                             className="h-10 w-10 rounded object-cover"
-                            onError={(e) => {
-                              const img = e.currentTarget;
-                              img.onerror = null;
-                              img.src = champKey ? fallbackTileUrl(champKey) : "";
-                            }}
                           />
                         ) : (
                           <div className="h-10 w-10 rounded bg-navy-700" />
@@ -406,7 +394,9 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                     {synergies.map((item, idx) => {
                       const champKey = extractOpponentKey(item, champion.champion_key);
-                      const imgUrl = champKey ? fallbackTileUrl(champKey) : "";
+                      const imgUrl = champKey
+                        ? (resolveChampionTile(champKey) ?? "")
+                        : "";
                       return (
                         <div
                           key={`syn-${idx}`}
@@ -417,11 +407,6 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                               src={imgUrl}
                               alt={champKey}
                               className="h-10 w-10 rounded object-cover"
-                              onError={(e) => {
-                                const img = e.currentTarget;
-                                img.onerror = null;
-                                img.src = champKey ? fallbackTileUrl(champKey) : "";
-                              }}
                             />
                           ) : (
                             <div className="h-10 w-10 rounded bg-navy-700" />
@@ -431,7 +416,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                               {champKey}
                             </p>
                             {item.value !== undefined && (
-                              <p className="text-[10px] text-gray-400">
+                              <p className="text-2xs text-gray-400">
                                 {item.value} {item.value === 1 ? "game" : "games"}
                               </p>
                             )}
@@ -519,7 +504,11 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {stats.best_against.map((m, idx) => (
                         <div key={`bm-${idx}`} className="flex items-center gap-2 rounded-lg border border-green-400/20 bg-navy-800/50 p-2">
-                          <img src={fallbackTileUrl(m.vs_champion_key)} alt={m.vs_champion_name} className="h-10 w-10 rounded object-cover" />
+                          <img
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
+                            alt={m.vs_champion_name}
+                            className="h-10 w-10 rounded object-cover"
+                          />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-heading font-semibold text-gray-100 truncate">{m.vs_champion_name}</p>
                             <p className="text-xs text-green-400">{m.win_rate.toFixed(0)}% WR ({m.games}g)</p>
@@ -542,7 +531,11 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {stats.worst_against.map((m, idx) => (
                         <div key={`wm-${idx}`} className="flex items-center gap-2 rounded-lg border border-red-400/20 bg-navy-800/50 p-2">
-                          <img src={fallbackTileUrl(m.vs_champion_key)} alt={m.vs_champion_name} className="h-10 w-10 rounded object-cover" />
+                          <img
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
+                            alt={m.vs_champion_name}
+                            className="h-10 w-10 rounded object-cover"
+                          />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-heading font-semibold text-gray-100 truncate">{m.vs_champion_name}</p>
                             <p className="text-xs text-red-400">{m.win_rate.toFixed(0)}% WR ({m.games}g)</p>

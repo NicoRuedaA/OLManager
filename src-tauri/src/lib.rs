@@ -13,6 +13,7 @@ pub struct SaveManagerState(pub Mutex<SaveManager>);
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    eprintln!("[OLManager] BUILD: staff-fix-v2");
     // Workaround for WebKitGTK DMABuf rendering issues on Wayland (Linux)
     #[cfg(target_os = "linux")]
     {
@@ -89,6 +90,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             list_world_databases,
             start_new_game,
+            start_new_game_lightweight,
             export_world_database,
             write_temp_database,
             load_world_editor_database,
@@ -98,6 +100,7 @@ pub fn run() {
             load_game,
             get_active_game,
             get_team_selection_data,
+            get_league_selection_data,
             get_academy_acquisition_options,
             acquire_academy_team,
             promote_academy_player,
@@ -151,6 +154,8 @@ pub fn run() {
             preview_transfer_bid_financial_impact,
             respond_to_offer,
             counter_offer,
+            negotiate_player_wage,
+            get_transfer_history_cmd,
             release_player_contract,
             send_scout,
             check_season_complete,
@@ -171,6 +176,7 @@ pub fn run() {
             delete_save,
             skip_to_match_day,
             check_blocking_actions,
+            export_bug_report,
             apply_team_talk,
             submit_press_conference,
             exit_to_menu,
@@ -199,7 +205,8 @@ pub fn run() {
             get_champion_by_id,
             seed_champions_from_json,
             get_champion_stats,
-            get_top_champions
+            get_top_champions,
+            debug_log
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,0 +1,7032 @@
+{
+  "name": "NACL Players",
+  "description": "NACL - 2026 Season",
+  "players": [
+    {
+      "id": "player-0b449f07",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Spawn",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 68,
+        "discipline": 68,
+        "macro_play": 69,
+        "consistency": 69,
+        "shotcalling": 70,
+        "teamfighting": 72,
+        "champion_pool": 71,
+        "mental_resilience": 68
+      },
+      "match_name": "Trevor Kerr-Taylor",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1998-05-18",
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779732635664_c38ojq2mban.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-99f3b280",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-0c6004b3",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "BEAGLE BROTHERS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Sea Dogs",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Nameless",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cupid Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Hub",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 73,
+        "macro_play": 72,
+        "consistency": 72,
+        "shotcalling": 70,
+        "teamfighting": 71,
+        "champion_pool": 71,
+        "mental_resilience": 72
+      },
+      "match_name": "Max Munday",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2003-08-05",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-10540476",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-0d623441",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Cody Sun",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 71,
+        "discipline": 68,
+        "macro_play": 71,
+        "consistency": 71,
+        "shotcalling": 70,
+        "teamfighting": 70,
+        "champion_pool": 71,
+        "mental_resilience": 69
+      },
+      "match_name": "Liyu Sun",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1997-04-24",
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779737301330_zqu0docvtjf.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-e21b9ba3",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WC Developmental",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Black",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Here For T-Shirt",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Aces",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lotus",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Miracle",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WANG DYNASTY",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Chaotic Solar",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Clown Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WANG TOWN",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wang's Revenge",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-10bfcfdd",
+      "match_name": "Donnie Stauffer",
+      "full_name": "Rapid",
+      "date_of_birth": "1998-09-21",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779824884330_Rapid__Donnie_Stauffer_.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-11220bf4",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Keel",
+      "attributes": {
+        "laning": 72,
+        "mechanics": 70,
+        "discipline": 72,
+        "macro_play": 66,
+        "consistency": 70,
+        "shotcalling": 71,
+        "teamfighting": 70,
+        "champion_pool": 69,
+        "mental_resilience": 70
+      },
+      "match_name": "Ryan Keel",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2001-05-29",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779776119288_4chg3uif51c.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-ba8042f7",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-112c511f",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Dardoch",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 69,
+        "discipline": 70,
+        "macro_play": 72,
+        "consistency": 70,
+        "shotcalling": 71,
+        "teamfighting": 71,
+        "champion_pool": 70,
+        "mental_resilience": 70
+      },
+      "match_name": "Joshua Hartnett",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1998-04-10",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779737339761_0ezuyn21puk.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-e21b9ba3",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-1256560d",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dawn Blaze",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "SN Sentinels",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "First Blood Crusade",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Dinka LFGF",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Dream",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Glorp",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ember Foxes",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DarkZero Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Zyko",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 67,
+        "discipline": 73,
+        "macro_play": 69,
+        "consistency": 66,
+        "shotcalling": 71,
+        "teamfighting": 67,
+        "champion_pool": 69,
+        "mental_resilience": 70
+      },
+      "match_name": "Ryan Jung",
+      "date_of_birth": "2000-06-02",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779824848789_Zyko.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-fa242f1f",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-13e6c8c4",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Scouting4ProScene",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Vexo eSports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Keep Pathing Bot",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "LiT Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Clown Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ReluminateGG",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "U4RIA Nerium",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "WANG TOWN",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Zach",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Zachary Papanicolas",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2004-02-12",
+      "nationality": "US",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-14cf5e0e",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ANEW Dawn",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Charlotte Phoenix",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Louisiana State",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Front",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Not Zoos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Radiance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cincinnati Fear",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals AOE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "IMT Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Taco Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cincinnati Fear",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Respawned Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Shochi",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Chase Capello",
+      "date_of_birth": "2002-01-25",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779824834908_Shochi.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-fa242f1f",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-18ecef90",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Converse",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenigma Eclipse",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Converse",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "University of NA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenigma Eclipse",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Glorp",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Disguised",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Disguised",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "ScaryJerry",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 73,
+        "consistency": 73,
+        "shotcalling": 70,
+        "teamfighting": 74,
+        "champion_pool": 70,
+        "mental_resilience": 74
+      },
+      "match_name": "Jeremiah Leathe",
+      "date_of_birth": "2002-03-16",
+      "nationality": "AR",
+      "profile_image_url": "/player-photos/1779824851003_ScaryJerry.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-38fb3072",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Futures",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Glorp",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zen Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Whole Milk",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NRG",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "PhyMini",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 72,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 73,
+        "champion_pool": 70,
+        "mental_resilience": 73
+      },
+      "match_name": "Kolby J. Ashby",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2006-04-06",
+      "nationality": "US",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-3d0db88b",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Stray",
+      "attributes": {
+        "laning": 68,
+        "mechanics": 71,
+        "discipline": 71,
+        "macro_play": 70,
+        "consistency": 70,
+        "shotcalling": 66,
+        "teamfighting": 71,
+        "champion_pool": 69,
+        "mental_resilience": 71
+      },
+      "match_name": "Roberto Guallichico",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1999-10-14",
+      "nationality": "EC",
+      "profile_image_url": "/player-photos/1779776472171_windsamag2.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-ba8042f7",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-3d50fcaf",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Griffin",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 71,
+        "discipline": 72,
+        "macro_play": 70,
+        "consistency": 71,
+        "shotcalling": 71,
+        "teamfighting": 72,
+        "champion_pool": 70,
+        "mental_resilience": 69
+      },
+      "match_name": "Raymond Griffin",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1999-09-11",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779776197848_az1wi4swtxa.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-ba8042f7",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-3e2841d9",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Liquid",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Liquid",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Tactical",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 72,
+        "discipline": 70,
+        "macro_play": 71,
+        "consistency": 71,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 69,
+        "mental_resilience": 71
+      },
+      "match_name": "Edward Ra",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-08-18",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779777811398_vte9006c64f.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-31b92c52",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Chilly Chipmunks",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Chilly Chipmunks",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Akuma Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "K9",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pee N W's",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Krusty Crew",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Novasphere Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-42d63c68",
+      "match_name": "Marc Jackson Jr.",
+      "full_name": "Beep",
+      "date_of_birth": "2005-07-01",
+      "nationality": "",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-451540eb",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Southern California",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Douyin Tony Top",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gödel Gamers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Dev.",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Tony Top",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tiktok Tony Top",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Southern California",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Fish Taco",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Southern California",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Whole Milk",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Southern California",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Levitate",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Ha-Lim&#160;\"Joseph\" Hong",
+      "date_of_birth": null,
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779824839047_Levitate.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-fa242f1f",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ShadowZ Fan Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "5 Seasons",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Matter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ReluminateGG",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "U4RIA Nerium",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DarkZero Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gravity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Vancouver Impact",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Vancouver Impact",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Whole Milk",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-46007dbb",
+      "match_name": "Kaan Tomak",
+      "full_name": "Shimmer",
+      "date_of_birth": "2002-04-13",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779824831252_Shimmer__Kaan_Tomak_.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-4b331429",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Frank Fang Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "IMT Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Next",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Immortals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Next",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DIG Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Shopify Rebellion",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Shopify Rebellion",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Insanity",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 72,
+        "discipline": 71,
+        "macro_play": 70,
+        "consistency": 71,
+        "shotcalling": 71,
+        "teamfighting": 73,
+        "champion_pool": 70,
+        "mental_resilience": 70
+      },
+      "match_name": "David Challe",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "1999-09-22",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779777818523_4ab9zs7zzmv.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-31b92c52",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-5018a096",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Sniper",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 73,
+        "discipline": 71,
+        "macro_play": 70,
+        "consistency": 70,
+        "shotcalling": 70,
+        "teamfighting": 72,
+        "champion_pool": 70,
+        "mental_resilience": 71
+      },
+      "match_name": "Rayan Shoura",
+      "loan_listed": false,
+      "contract_end": "2006-11-19",
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779777239619_rpupvhafexk.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-31b92c52",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-53678b03",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Radiance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Fish Taco",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cincinnati Fear",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Crimson",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 71,
+        "macro_play": 72,
+        "consistency": 74,
+        "shotcalling": 70,
+        "teamfighting": 73,
+        "champion_pool": 69,
+        "mental_resilience": 72
+      },
+      "match_name": "Bilal Shoura",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2006-11-10",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Next",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TSM Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Next",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "St. Thomas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FLY FAM",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-5b187146",
+      "match_name": "Rico Chen",
+      "full_name": "Sword",
+      "date_of_birth": "2002-09-18",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779824852139_Sword__Rico_Chen_.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-5bd2e851",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Spirituals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Spirituals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zeu5 Bogota",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Spirituals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zeu5 Bogota",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fuego",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Spirituals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fuego",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tomorrow Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DarkZero Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zeu5 Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Keii",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 72,
+        "discipline": 74,
+        "macro_play": 72,
+        "consistency": 73,
+        "shotcalling": 66,
+        "teamfighting": 72,
+        "champion_pool": 70,
+        "mental_resilience": 74
+      },
+      "match_name": "Víctor&#160;Leandro Durango García",
+      "date_of_birth": "2002-06-26",
+      "nationality": "CO",
+      "profile_image_url": "/player-photos/1779824822249_Keii.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-6217144c",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Oyun Hizmetleri",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Turquality",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Macro Maniacs",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fenerbahçe Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Absolved",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dusty",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Singularity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bifrost",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team AURORA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Beşiktaş Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Iron Wolves",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Iron Wolves",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Phantasma",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GLORE.FIFINE",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "İstanbul Wildcats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Only Heroes Academia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Weber State",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Weber State",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Only35",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 68,
+        "discipline": 70,
+        "macro_play": 68,
+        "consistency": 72,
+        "shotcalling": 65,
+        "teamfighting": 66,
+        "champion_pool": 69,
+        "mental_resilience": 70
+      },
+      "match_name": "Mehmet Emin Aydın",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-04-30",
+      "nationality": "TR",
+      "profile_image_url": "/player-photos/1779824876734_Only35.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-62333fb6",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Fiji",
+      "attributes": {
+        "laning": 66,
+        "mechanics": 68,
+        "discipline": 68,
+        "macro_play": 66,
+        "consistency": 66,
+        "shotcalling": 65,
+        "teamfighting": 69,
+        "champion_pool": 69,
+        "mental_resilience": 68
+      },
+      "match_name": "James Thomas Carlisle",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2001-07-30",
+      "nationality": "US",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-e21b9ba3",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-6803e307",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Ariana",
+      "attributes": {
+        "laning": 66,
+        "mechanics": 66,
+        "discipline": 70,
+        "macro_play": 64,
+        "consistency": 65,
+        "shotcalling": 65,
+        "teamfighting": 68,
+        "champion_pool": 70,
+        "mental_resilience": 69
+      },
+      "match_name": "Jakub Śliwonik",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2003-12-08",
+      "nationality": "PL",
+      "profile_image_url": "/player-photos/1779733434840_34vq9xfplhl.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-99f3b280",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-688e7497",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Bradley",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 69,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 73,
+        "champion_pool": 69,
+        "mental_resilience": 72
+      },
+      "match_name": "Bradley Benneyworth",
+      "loan_listed": false,
+      "contract_end": "2001-05-03",
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779776145682_l097v72bn6f.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-ba8042f7",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-6c3a0a2b",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bethany Lutheran",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FLY Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DarkZero Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Liquid",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Yuuji",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 72,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 66,
+        "teamfighting": 73,
+        "champion_pool": 71,
+        "mental_resilience": 73
+      },
+      "match_name": "Ganbat Ulziidelger",
+      "date_of_birth": "2002-11-13",
+      "nationality": "MN",
+      "profile_image_url": "/player-photos/1779824835452_Yuuji.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-72068cec",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Munchy",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 69,
+        "discipline": 74,
+        "macro_play": 68,
+        "consistency": 68,
+        "shotcalling": 70,
+        "teamfighting": 68,
+        "champion_pool": 70,
+        "mental_resilience": 69
+      },
+      "match_name": "Janan Chen",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2004-10-08",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-99f3b280",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-77039b65",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Samikin",
+      "attributes": {
+        "laning": 70,
+        "mechanics": 64,
+        "discipline": 68,
+        "macro_play": 69,
+        "consistency": 67,
+        "shotcalling": 66,
+        "teamfighting": 68,
+        "champion_pool": 71,
+        "mental_resilience": 67
+      },
+      "match_name": "Samrith Loeung",
+      "loan_listed": false,
+      "contract_end": "",
+      "transfer_listed": false,
+      "date_of_birth": "2003-10-14",
+      "nationality": "KH",
+      "profile_image_url": "/player-photos/1779732672790_msx62ubvx8r.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-99f3b280",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-77b3e7f6",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Rovex",
+      "attributes": {
+        "laning": 69,
+        "mechanics": 68,
+        "discipline": 72,
+        "macro_play": 68,
+        "consistency": 68,
+        "shotcalling": 70,
+        "teamfighting": 70,
+        "champion_pool": 69,
+        "mental_resilience": 71
+      },
+      "match_name": "David Sin-Keo",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2007-01-01",
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779735480359_sh5dz8zy3mt.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-99f3b280",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-7b2bff6a",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rex Regalis",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mercenaries",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Pending",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "UC Irvine",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenigma",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Peach Cats",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Straw Hat Crew",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Galaxy Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenshi Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenshi Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Kim Down",
+      "attributes": {
+        "laning": 68,
+        "mechanics": 68,
+        "discipline": 68,
+        "macro_play": 68,
+        "consistency": 68,
+        "shotcalling": 66,
+        "teamfighting": 68,
+        "champion_pool": 68,
+        "mental_resilience": 68
+      },
+      "match_name": "Ethan Song",
+      "loan_listed": false,
+      "potential_base": 75,
+      "transfer_listed": false,
+      "date_of_birth": "1999-12-19",
+      "nationality": "KR",
+      "profile_image_url": "/player-photos/1779824871381_Kim_Down.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-843f2f97",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Soupy Time",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Des Moines DMG",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Single Target Healing",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Abandoned Kittens",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Baguette",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Lojaz",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 73,
+        "macro_play": 70,
+        "consistency": 70,
+        "shotcalling": 71,
+        "teamfighting": 71,
+        "champion_pool": 70,
+        "mental_resilience": 72
+      },
+      "match_name": "Ben Okun",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-10-04",
+      "nationality": "US",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-10540476",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-86fca7ec",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Array",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 72,
+        "macro_play": 69,
+        "consistency": 69,
+        "shotcalling": 71,
+        "teamfighting": 68,
+        "champion_pool": 71,
+        "mental_resilience": 72
+      },
+      "match_name": "Jackson Moldenhauer",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-11-28",
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779776039910_7olo4ki9qdh.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-ba8042f7",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-9206cedf",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dare White",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Scouting4ProScene",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fugitive Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Chaotic Fusion",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gödel Gamers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Dev.",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Northern Front",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Black Rock Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Baguette",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Apex MI",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Dec0y",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 74,
+        "macro_play": 70,
+        "consistency": 70,
+        "shotcalling": 70,
+        "teamfighting": 70,
+        "champion_pool": 71,
+        "mental_resilience": 72
+      },
+      "match_name": "Noah D'Addario",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-04-27",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-10540476",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-999f2511",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cosmic Wolf",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Middlesticks",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Dev.",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Fish Taco",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tempest Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Milk Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NRG",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Horder",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 70,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Chris Feng",
+      "date_of_birth": null,
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779824828744_Horder.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-fa242f1f",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-9ded71d4",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance Baguette",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "PepeTinkyWinky",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "The Nameless",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cupid Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cupid Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Aadam",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 70,
+        "discipline": 71,
+        "macro_play": 71,
+        "consistency": 71,
+        "shotcalling": 70,
+        "teamfighting": 72,
+        "champion_pool": 71,
+        "mental_resilience": 71
+      },
+      "match_name": "Aadam Durgahed",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2005-10-28",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-10540476",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-a331c296",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EG Prodigies",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenith Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EG Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EG Prodigies",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EG Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Disguised",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Shopify Rebellion",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Shopify Rebellion",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Luminosity Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Conviction",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Tomio",
+      "attributes": {
+        "laning": 72,
+        "mechanics": 71,
+        "discipline": 72,
+        "macro_play": 72,
+        "consistency": 72,
+        "shotcalling": 70,
+        "teamfighting": 70,
+        "champion_pool": 70,
+        "mental_resilience": 71
+      },
+      "match_name": "Phanlith Chan",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2003-06-15",
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779777823620_1gii2j9jolv.webp",
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-31b92c52",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-a526b14b",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Ambition",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tempest Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EG Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Star",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Mobility",
+      "attributes": {
+        "laning": 70,
+        "mechanics": 64,
+        "discipline": 74,
+        "macro_play": 71,
+        "consistency": 67,
+        "shotcalling": 71,
+        "teamfighting": 65,
+        "champion_pool": 71,
+        "mental_resilience": 69
+      },
+      "match_name": "David Rigley",
+      "date_of_birth": null,
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779824859839_Mobility.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "To The Arena",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cosa Gamers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Next Level Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ShaBoingBoing",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Novasphere Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-ac940528",
+      "match_name": "Samuel Henkin",
+      "full_name": "Souldier",
+      "date_of_birth": null,
+      "nationality": "",
+      "profile_image_url": null,
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-bca52c30",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Bounty",
+      "attributes": {
+        "laning": 71,
+        "mechanics": 72,
+        "discipline": 70,
+        "macro_play": 70,
+        "consistency": 72,
+        "shotcalling": 70,
+        "teamfighting": 72,
+        "champion_pool": 69,
+        "mental_resilience": 71
+      },
+      "match_name": "Gabriel Vieira Donner",
+      "loan_listed": false,
+      "contract_end": "2003-02-04",
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "BR",
+      "profile_image_url": "/player-photos/1779777314616_to5sjp66nmq.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-31b92c52",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2013,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "vVv Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "COGnitive Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Robert Morris",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "vVv Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2014,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "vVv Gaming White",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Also Known As",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Robert Morris",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2015,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TL Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Also Known As",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Big Gods Jackals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Big Gods Jackals",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "British Columbia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wind and Rain NA",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "MLGB E-SPORTS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Amateur",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Amateur",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cloud9",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cloud9",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Coachify",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Respawned Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "id": "player-bf4007f8",
+      "match_name": "Zixing Jie",
+      "full_name": "Tails",
+      "date_of_birth": "1994-10-02",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779824889332_Tails.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-c4086fe1",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "EGN Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "cowana Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "NVision Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ahg Gentlemen's Club",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Bifrost",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Flayn eSports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "mYinsanity",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GGEsports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Olympiacos Alimou",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Black Rock Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Futures",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rock Bottom",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Aporia",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Illinois State",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Blue Otter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Illinois State",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CCG Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Music",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 66,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Sean Wishko",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2000-02-03",
+      "nationality": "IL",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-fa242f1f",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-c5ca7ff6",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Will's Kittens",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Wildcard Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Cincinnati Fear",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Taco Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Team Fish Taco",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Gödel Gamers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Ottawa",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AOE Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Komodo",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pulse Gooners",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Wilson",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 70,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "William Benoit",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Jungle",
+      "natural_position": "Jungle",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-c73c70b1",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dark Matter",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FLY Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DarkZero Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dragonsteel",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Spirax",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 73,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 70,
+        "teamfighting": 72,
+        "champion_pool": 71,
+        "mental_resilience": 73
+      },
+      "match_name": "Djalal Djiar",
+      "date_of_birth": null,
+      "nationality": "CA",
+      "profile_image_url": "/player-photos/1779824846432_Spirax.webp",
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-ca76ba82",
+      "career": [],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Aojune",
+      "attributes": {
+        "laning": 68,
+        "mechanics": 68,
+        "discipline": 72,
+        "macro_play": 68,
+        "consistency": 66,
+        "shotcalling": 65,
+        "teamfighting": 70,
+        "champion_pool": 69,
+        "mental_resilience": 71
+      },
+      "match_name": "Jun-Hao \"Jonny\" Chen",
+      "loan_listed": false,
+      "contract_end": "2007-01-01",
+      "transfer_listed": false,
+      "date_of_birth": null,
+      "nationality": "CN",
+      "profile_image_url": null,
+      "position": "Mid",
+      "natural_position": "Mid",
+      "alternate_positions": [],
+      "team_id": "team-e21b9ba3",
+      "traits": [],
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-dea284e5",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Tempest Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Alliance",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Denathor",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 74,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 71,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 74
+      },
+      "match_name": "Noah Erikson",
+      "date_of_birth": null,
+      "nationality": "US",
+      "profile_image_url": "/player-photos/1779824828368_Denathor.webp",
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Fruition Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Hoon's Doggos",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lucky Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Mirage Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Polar Ace",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Zenith Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "C9 Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Harrisburg",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "FlyQuest Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DIG Challengers",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "100 Thieves",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Disguised",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "id": "player-e16a590e",
+      "match_name": "Frank Lam",
+      "full_name": "Tomo",
+      "date_of_birth": "2001-01-19",
+      "nationality": "",
+      "profile_image_url": "/player-photos/1779824866800_Tomo.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-eaf8e5f5",
+      "wage": 0,
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2016,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Columbia College",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Columbia College",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2017,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Supernova",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "AZIO White",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Clutch Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GG Esports Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2018,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lourdes",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Clutch Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Clutch Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dignitas",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Evil Geniuses",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "injury": null,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "condition": 100,
+      "full_name": "Artemis",
+      "attributes": {
+        "laning": 74,
+        "mechanics": 75,
+        "discipline": 74,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 74,
+        "teamfighting": 75,
+        "champion_pool": 73,
+        "mental_resilience": 75
+      },
+      "match_name": "Connor Doyle",
+      "loan_listed": false,
+      "morale_core": {},
+      "contract_end": "",
+      "market_value": 0,
+      "potential_base": 80,
+      "transfer_listed": false,
+      "transfer_offers": [],
+      "champion_mastery": [],
+      "alternate_positions": [],
+      "date_of_birth": "1994-11-13",
+      "nationality": "VN",
+      "profile_image_url": "/player-photos/1779824900406_Artemis__Connor_Doyle_.webp",
+      "position": "ADC",
+      "natural_position": "ADC",
+      "traits": [],
+      "stats": {
+        "appearances": 0
+      },
+      "training_focus": null,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lourdes",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lourdes",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Lourdes",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Winthrop",
+          "appearances": 0
+        }
+      ],
+      "loan_listed": false,
+      "transfer_listed": false,
+      "id": "player-fa25e8e1",
+      "match_name": "Jacob Brayboy",
+      "full_name": "Blight",
+      "date_of_birth": "2000-01-08",
+      "nationality": "",
+      "profile_image_url": null,
+      "position": "Top",
+      "natural_position": "Top",
+      "alternate_positions": [],
+      "attributes": {
+        "laning": 75,
+        "mechanics": 75,
+        "discipline": 75,
+        "macro_play": 75,
+        "consistency": 75,
+        "shotcalling": 75,
+        "teamfighting": 75,
+        "champion_pool": 75,
+        "mental_resilience": 75
+      },
+      "condition": 100,
+      "morale": 100,
+      "fitness": 100,
+      "team_id": "team-f1da75bb",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-fbf36012",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ANON",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CB Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Next Level Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "DUCKIE GETTERS",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Dorado Gaming",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Redemption",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 72,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 70,
+        "teamfighting": 73,
+        "champion_pool": 70,
+        "mental_resilience": 73
+      },
+      "match_name": "Jason Zhi",
+      "loan_listed": false,
+      "transfer_listed": false,
+      "date_of_birth": "2004-10-19",
+      "nationality": "CA",
+      "profile_image_url": null,
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-10540476",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    },
+    {
+      "id": "player-fd8a94d1",
+      "career": [
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2019,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Boavista FC",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Boavista FC",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2020,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "GTZ Bulls",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "CBI Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "ERN ROAR",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Goskilla",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Karma Clan Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "OFFSET Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2021,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Pawn Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2022,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "TP Adéquat Academy",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Rebels Gaming",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2023,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "UCAM Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2024,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "UCAM Esports",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2025,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Verdant",
+          "appearances": 0
+        },
+        {
+          "kills": 0,
+          "deaths": 0,
+          "season": 2026,
+          "assists": 0,
+          "team_id": null,
+          "team_name": "Maryville",
+          "appearances": 0
+        }
+      ],
+      "morale": 100,
+      "fitness": 100,
+      "condition": 100,
+      "full_name": "Obstinatus",
+      "attributes": {
+        "laning": 73,
+        "mechanics": 74,
+        "discipline": 72,
+        "macro_play": 74,
+        "consistency": 74,
+        "shotcalling": 66,
+        "teamfighting": 74,
+        "champion_pool": 71,
+        "mental_resilience": 73
+      },
+      "match_name": "Guilherme&#160;Jose Fernandes Morais Sousa Da Cruz",
+      "date_of_birth": "2002-12-13",
+      "nationality": "PT",
+      "profile_image_url": "/player-photos/1779824855456_Obstinatus.webp",
+      "position": "Support",
+      "natural_position": "Support",
+      "alternate_positions": [],
+      "team_id": "team-73a32fd5",
+      "traits": [],
+      "contract_end": "",
+      "wage": 0,
+      "market_value": 0,
+      "stats": {
+        "appearances": 0
+      },
+      "champion_mastery": [],
+      "training_focus": null,
+      "transfer_listed": false,
+      "loan_listed": false,
+      "transfer_offers": [],
+      "morale_core": {},
+      "potential_base": 0,
+      "potential_revealed": null,
+      "potential_research_started_on": null,
+      "potential_research_eta_days": null,
+      "champion_training_targets": [],
+      "can_be_transferred_until": null
+    }
+  ]
+}

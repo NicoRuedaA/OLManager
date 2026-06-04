@@ -140,13 +140,13 @@ function createGameState(players: PlayerData[]): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "Premier Division",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -263,11 +263,11 @@ describe("TransfersTab.model", () => {
       }),
     ];
 
-    expect(filterTransferPlayers(players, "", "SUPPORT")).toHaveLength(1);
-    expect(filterTransferPlayers(players, "bra", null).map((player) => player.id)).toEqual([
+    expect(filterTransferPlayers(players, "", "SUPPORT", null)).toHaveLength(1);
+    expect(filterTransferPlayers(players, "bra", null, null).map((player) => player.id)).toEqual([
       "forward",
     ]);
-    expect(filterTransferPlayers(players, "carx", "ADC").map((player) => player.id)).toEqual([
+    expect(filterTransferPlayers(players, "carx", "ADC", null).map((player) => player.id)).toEqual([
       "forward",
     ]);
   });

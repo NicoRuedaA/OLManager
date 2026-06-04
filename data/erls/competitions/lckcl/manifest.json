@@ -1,0 +1,18 @@
+{
+  "id": "lckcl",
+  "name": "LCKCL",
+  "full_name": "LCK Challenger League Series",
+  "region": "LCKCL",
+  "country": "KR",
+  "tier": 2,
+  "logo": "/competition-icons/1779539671530_y82tn3z9us.webp",
+  "teams_file": "erls/teams/lckcl_teams.json",
+  "players_file": "erls/players/lckcl_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 10,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

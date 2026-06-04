@@ -22,7 +22,7 @@ import {
 } from "../../lib/trainingFocus";
 import { formatStaffEffectPercent, getLolStaffEffectsForTeam } from "../../lib/lolStaffEffects";
 import { resolvePlayerCurrentLolRole } from "../../lib/lolIdentity";
-import { resolvePlayerPhoto } from "../../lib/playerPhotos";
+
 import { ROLE_ICON_PATHS } from "../../lib/roleIcons";
 import type { GameStateData } from "../../store/gameStore";
 import { setTraining, setTrainingSchedule } from "../../services/trainingService";
@@ -304,7 +304,7 @@ export default function TrainingTab({
   ];
 
   return (
-    <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+    <div className="w-[92%] max-w-[2000px] mx-auto grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
       <div className="lg:col-span-2 flex flex-col gap-5">
         {staffAdvice ? (
           <div
@@ -376,7 +376,12 @@ export default function TrainingTab({
             <div className="space-y-2">
               {roster
                 .slice()
-                .sort((a, b) => a.match_name.localeCompare(b.match_name))
+                .sort((a, b) => {
+                  const ROLE_SORT_ORDER: Record<string, number> = { TOP: 0, JUNGLE: 1, MID: 2, ADC: 3, SUPPORT: 4 };
+                  const roleA = resolvePlayerCurrentLolRole(a, myTeam);
+                  const roleB = resolvePlayerCurrentLolRole(b, myTeam);
+                  return (ROLE_SORT_ORDER[roleA] ?? 99) - (ROLE_SORT_ORDER[roleB] ?? 99);
+                })
                 .map((player) => {
                   const playerFocus = normalizeTrainingFocus(player.training_focus ?? currentFocus);
                   const soloQ = computeSoloQ(
@@ -394,7 +399,7 @@ export default function TrainingTab({
                       <div className="flex min-w-0 items-center gap-2">
                         <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-navy-900/60 dark:border-navy-600">
                           <img
-                            src={resolvePlayerPhoto(player.id) ?? undefined}
+                            src={player.profile_image_url ?? "/default/defaultplayer.webp"}
                             alt={player.match_name}
                             className="h-full w-full object-cover"
                             loading="lazy"
@@ -412,7 +417,7 @@ export default function TrainingTab({
                         <p className="truncate text-sm font-heading font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
                           {player.match_name}
                         </p>
-                        <p className={`text-[11px] font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
+                        <p className={`text-xs font-heading uppercase tracking-wide ${soloQTierClass(soloQ.tier)}`}>
                           {soloQTierLabel} · {soloQ.lp} LP
                           <span className={`ml-1 ${soloQ.delta >= 0 ? "text-emerald-300" : "text-rose-300"}`}>
                             {soloQ.delta >= 0 ? `+${soloQ.delta}` : soloQ.delta}

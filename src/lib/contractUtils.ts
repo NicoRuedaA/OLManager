@@ -1,12 +1,15 @@
 import { CONTRACT_RISK_DAYS } from "./domainConstants";
+import { parseUtcDate } from "./dateFormatting";
 
 export type ContractRiskLevel = "critical" | "warning" | "stable";
 
 export function getDaysUntil(targetDate: string, currentDate: string): number {
     const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const target = parseUtcDate(targetDate);
+    const current = parseUtcDate(currentDate);
+    if (!target || !current) return 0;
     return Math.ceil(
-        (new Date(targetDate).getTime() - new Date(currentDate).getTime()) /
-        millisecondsPerDay,
+        (target.getTime() - current.getTime()) / millisecondsPerDay,
     );
 }
 

@@ -1,0 +1,270 @@
+{
+  "name": "LCP Staff",
+  "description": "LCP - 2026 Season",
+  "staff": [
+    {
+      "id": "staff-3484b825",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-83d3342f",
+      "last_name": "Lei",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Wong Xing Lei",
+      "nationality": "Singapore",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": null,
+      "nickname": "Chawy",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-6a8007dd",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-709031e2",
+      "last_name": "Tài",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Đặng Ngọc Tài",
+      "nationality": "Vietnam",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": null,
+      "nickname": "Bigkoro",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-57528e27",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-dcg2025",
+      "last_name": "Liang-Jung",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Chiu Liang-Jung",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": null,
+      "nickname": "Lxz",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-8a39f2d1",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-d13da18a",
+      "last_name": "Ju-Chih",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Chen Ju-Chih",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/374296cb.webp",
+      "nickname": "WarHorse",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-d1b8a592",
+      "role": "Analyst",
+      "wage": 30000,
+      "team_id": "team-cbc2ec83",
+      "last_name": "Aoki",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Haruhiko Aoki",
+      "nationality": "",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/75dc74d2.webp",
+      "nickname": "Gismo",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-4a8f3e95",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-cbc2ec83",
+      "last_name": "Sang-wook",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Lee Sang-wook",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/0a60e480.webp",
+      "nickname": "Tana",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-71781ec7",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-83d3342f",
+      "last_name": "Sheng-Wei",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Liu Sheng-Wei",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/1bc04c9b.webp",
+      "nickname": "Wulala",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-179c8711",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-dcg2025",
+      "last_name": "Kuan-Ting",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Chen Kuan-Ting",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/3c1af869.webp",
+      "nickname": "REFRA1N",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-924ab434",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-f4306bce",
+      "last_name": "Pin-Lun",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Cheng Pin-Lun",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/4bafee16.webp",
+      "nickname": "CorGi",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-ce47e65c",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-494fc51a",
+      "last_name": "Luân",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Võ Thành Luân",
+      "nationality": "Vietnam",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": null,
+      "nickname": "Naul",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-21c6bfa1",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-gzg2025",
+      "last_name": "Yu-Fan",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Wong Yu-Fan",
+      "nationality": "Taiwan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/5f473b84.webp",
+      "nickname": "Ratis",
+      "team_id_2": null
+    },
+    {
+      "id": "staff-9daa012f",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-cbc2ec83",
+      "last_name": "Sasaki",
+      "attributes": {
+        "coaching": 50,
+        "physiotherapy": 50,
+        "judging_ability": 50,
+        "judging_potential": 50
+      },
+      "first_name": "Shirou Sasaki",
+      "nationality": "Japan",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/296c58fb.webp",
+      "nickname": "Paz",
+      "team_id_2": null
+    }
+  ]
+}

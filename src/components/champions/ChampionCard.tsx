@@ -1,4 +1,5 @@
 import { memo, useState, useEffect, useRef } from "react";
+import { resolveChampionTile } from "../../lib/championImages";
 
 export interface ChampionCardProps {
   id: number;
@@ -10,30 +11,21 @@ export interface ChampionCardProps {
 }
 
 /**
- * Fallback champion tile URL from Data Dragon
- */
-function fallbackTileUrl(championKey: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championKey}_0.jpg`;
-}
-
-/**
  * LazyImage component handles intersection observer for lazy loading
  */
 const LazyImage = memo(function LazyImage({
   src,
   alt,
-  fallbackSrc,
   className,
 }: {
   src: string;
   alt: string;
-  fallbackSrc: string;
   className: string;
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(src);
   const imgRef = useRef<HTMLImageElement>(null);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,10 +50,6 @@ const LazyImage = memo(function LazyImage({
     return () => observer.disconnect();
   }, []);
 
-  const handleError = () => {
-    setCurrentSrc(fallbackSrc);
-  };
-
   const handleLoad = () => {
     setIsLoaded(true);
   };
@@ -76,11 +64,10 @@ const LazyImage = memo(function LazyImage({
       />
       <img
         ref={imgRef}
-        src={isVisible ? currentSrc : undefined}
+        src={isVisible ? src : undefined}
         alt={alt}
         loading="lazy"
         onLoad={handleLoad}
-        onError={handleError}
         className={`${className} transition-opacity duration-300 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
@@ -95,8 +82,7 @@ export const ChampionCard = memo(function ChampionCard({
   imageTileUrl,
   onClick,
 }: ChampionCardProps) {
-  const displayImage = imageTileUrl || fallbackTileUrl(championKey);
-  const fallback = fallbackTileUrl(championKey);
+  const displayImage = imageTileUrl || resolveChampionTile(championKey) || "";
 
   return (
     <button
@@ -108,7 +94,6 @@ export const ChampionCard = memo(function ChampionCard({
         <LazyImage
           src={displayImage}
           alt={championKey}
-          fallbackSrc={fallback}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent transition-opacity duration-300" />

@@ -9,6 +9,7 @@ import {
   skipToMatchDay,
 } from "../services/advanceTimeService";
 import { autoConfigureWeeklyScrimSetup, delegateScrimDecision } from "../services/trainingService";
+import { effectiveWeeklyScrimSlots, scrimSlotWeekdays, weekdayMondayBased } from "../lib/scrimContext";
 
 export type MatchModeType = "live" | "spectator" | "delegate";
 
@@ -47,12 +48,10 @@ export function useAdvanceTime(
     if (!teamId) return false;
     const team = game.teams.find((candidate) => candidate.id === teamId);
     if (!team) return false;
-    const date = new Date(game.clock.current_date);
-    const weekday = (date.getUTCDay() + 6) % 7;
-    const weeklySlots = team.scrim_weekly_slots ?? 2;
-    const slots = weeklySlots <= 2 ? 2 : weeklySlots <= 4 ? 4 : 6;
-    const slotDays = slots <= 2 ? [2, 2] : slots <= 4 ? [2, 2, 3, 3] : [2, 2, 3, 3, 4, 4];
-    return slotDays.some((d) => d === weekday);
+    const slots = effectiveWeeklyScrimSlots(team);
+    const weekdays = scrimSlotWeekdays(slots);
+    const todayWeekday = weekdayMondayBased(game.clock.current_date);
+    return weekdays.some((d) => d === todayWeekday);
   }
 
   function shouldFastForwardDay(game: GameStateData): boolean {
@@ -341,6 +340,123 @@ export function useAdvanceTime(
     doSkipToMatchDay();
   };
 
+  const handleSkipToNextDay = async () => {
+    if (isAdvancing) return;
+    console.info("[useAdvanceTime] handleSkipToNextDay:start");
+    const blockers = await checkBlockingActions("handleSkipToNextDay");
+    if (blockers.length > 0) {
+      if (shouldBypassBlockersForAssistant(blockers)) {
+        doSkipToNextDay();
+        return;
+      }
+      setBlockerModal({ blockers, pendingAction: doSkipToNextDay });
+      return;
+    }
+    doSkipToNextDay();
+  };
+
+  const doSkipToNextDay = async () => {
+    console.info("[useAdvanceTime] doSkipToNextDay:start");
+    setIsAdvancing(true);
+    resetTransientUi();
+    try {
+      let baselineDate: string | null = null;
+      for (let attempt = 0; attempt < 12; attempt += 1) {
+        const result = await advanceTimeWithMode(matchMode);
+        console.info("[useAdvanceTime] doSkipToNextDay:attempt", {
+          attempt,
+          action: result.action,
+          date: result.game?.clock?.current_date,
+        });
+
+        if (result.action === "fired") {
+          if (result.game) setGameState(result.game as GameStateData);
+          setShowFiredModal(true);
+          return;
+        }
+
+        if (result.action === "live_match") {
+          navigate("/match", {
+            state: {
+              fixtureIndex: result.fixture_index,
+              mode: result.mode || matchMode,
+              snapshot: result.snapshot,
+            },
+          });
+          return;
+        }
+
+        if ((result.action === "advanced" || result.action === "phase_advanced") && result.game) {
+          const game = result.game as GameStateData;
+          setGameState(game);
+          if (!baselineDate) {
+            baselineDate = String(game.clock.current_date);
+          }
+          if (String(game.clock.current_date) !== baselineDate) {
+            return;
+          }
+          continue;
+        }
+
+        if (result.action === "blocked_scrim_setup" && result.game) {
+          setGameState(result.game as GameStateData);
+          if (isAssistantReviewMode()) {
+            const configured = await autoConfigureWeeklyScrimSetup();
+            setGameState(configured);
+            if (!baselineDate) baselineDate = String(configured.clock.current_date);
+            continue;
+          }
+          setBlockerModal({
+            blockers: [{
+              id: "scrim_setup_required",
+              severity: "warn",
+              tab: "Scrims",
+              text: "Define el setup semanal de scrims o delega el avance para continuar.",
+            }],
+          });
+          return;
+        }
+
+        if (result.action === "blocked_scrim_decision" && result.game) {
+          setGameState(result.game as GameStateData);
+          if (isAssistantReviewMode()) {
+            const delegated = await delegateScrimDecision();
+            setGameState(delegated);
+            if (!baselineDate) baselineDate = String(delegated.clock.current_date);
+            continue;
+          }
+          setBlockerModal({
+            blockers: [{
+              id: "scrim_decision_required",
+              severity: "warn",
+              tab: "Scrims",
+              text: "Debes tomar una decisión de scrims antes de continuar.",
+            }],
+          });
+          return;
+        }
+
+        if (result.game) setGameState(result.game as GameStateData);
+        if (result.action.startsWith("blocked_")) {
+          setBlockerModal({
+            blockers: [{
+              id: "advance_blocked",
+              severity: "warn",
+              tab: "Inicio",
+              text: "No se pudo avanzar automáticamente. Revisá los bloqueos pendientes.",
+            }],
+          });
+        }
+        return;
+      }
+    } catch (err) {
+      console.error("Failed to skip to next day:", err);
+    } finally {
+      console.info("[useAdvanceTime] doSkipToNextDay:complete");
+      setIsAdvancing(false);
+    }
+  };
+
   const doSkipToMatchDay = async () => {
     console.info("[useAdvanceTime] doSkipToMatchDay:start");
     setIsAdvancing(true);
@@ -401,5 +517,6 @@ export function useAdvanceTime(
     handleContinue,
     handleConfirmMatch,
     handleSkipToMatchDay,
+    handleSkipToNextDay,
   };
 }

@@ -1,0 +1,18 @@
+{
+  "id": "rl",
+  "name": "RL",
+  "full_name": "Rift Legends",
+  "region": "RL",
+  "country": "PL",
+  "tier": 2,
+  "logo": "/competition-icons/1779542206016_zl57sqzb5c.webp",
+  "teams_file": "erls/teams/rl_teams.json",
+  "players_file": "erls/players/rl_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "vcs",
+  "name": "VCS",
+  "full_name": "Vietnam Championship Series",
+  "region": "VCS",
+  "country": "VN",
+  "tier": 2,
+  "logo": "/competition-icons/1779540930809_b1jltztgvyr.webp",
+  "teams_file": "erls/teams/vcs_teams.json",
+  "players_file": "erls/players/vcs_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 6,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

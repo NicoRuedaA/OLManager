@@ -33,7 +33,7 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "Premier Division",
       season: 2026,
@@ -44,7 +44,7 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
           date: "2026-08-01",
           home_team_id: "team-1",
           away_team_id: "team-2",
-          competition: "League",
+          match_type: "League",
           status: "Scheduled",
           result: null,
         },
@@ -69,7 +69,7 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
           points: 0,
         },
       ],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,
@@ -113,7 +113,7 @@ describe("seasonContext", function (): void {
 
   it("ignores preseason friendlies when deriving the competitive season start", function (): void {
     const gameState = createGameState({
-      league: {
+      leagues: [{
         id: "league-1",
         name: "Premier Division",
         season: 2026,
@@ -124,7 +124,7 @@ describe("seasonContext", function (): void {
             date: "2026-07-15",
             home_team_id: "team-1",
             away_team_id: "team-3",
-            competition: "Friendly",
+            match_type: "Friendly",
             status: "Scheduled",
             result: null,
           },
@@ -134,7 +134,7 @@ describe("seasonContext", function (): void {
             date: "2026-08-01",
             home_team_id: "team-1",
             away_team_id: "team-2",
-            competition: "League",
+            match_type: "League",
             status: "Scheduled",
             result: null,
           },
@@ -159,7 +159,7 @@ describe("seasonContext", function (): void {
             points: 0,
           },
         ],
-      },
+      }],
     });
 
     const context = resolveSeasonContext(gameState);

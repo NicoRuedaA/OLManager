@@ -1,6 +1,7 @@
 import { findNextFixture } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { hasCompetitiveStandings } from "../../lib/seasonContext";
+import { parseUtcDate } from "../../lib/dateFormatting";
 import type {
   FixtureData,
   GameStateData,
@@ -44,7 +45,6 @@ export interface HomeRosterOverview {
   coldPlayers: PlayerData[];
   exhaustedCount: number;
   hotPlayers: PlayerData[];
-  unavailablePlayers: PlayerData[];
 }
 
 export interface HomeRecentResult {
@@ -62,13 +62,13 @@ function getStandingPosition(
   gameState: GameStateData,
   teamId: string,
 ): number | null {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
-  if (!league) {
+  if (!playerLeague) {
     return null;
   }
 
-  const sortedStandings = [...league.standings].sort(compareStandingsByLolScore);
+  const sortedStandings = [...playerLeague.standings].sort(compareStandingsByLolScore);
   const standingIndex = sortedStandings.findIndex(
     (entry) => entry.team_id === teamId,
   );
@@ -83,14 +83,14 @@ function getStandingPosition(
 export function getNextOpponentWidgetData(
   gameState: GameStateData,
 ): NextOpponentWidgetData | null {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
 
-  if (!league || !userTeamId) {
+  if (!playerLeague || !userTeamId) {
     return null;
   }
 
-  const nextFixture = findNextFixture(league.fixtures, userTeamId);
+  const nextFixture = findNextFixture(playerLeague.fixtures, userTeamId);
 
   if (!nextFixture) {
     return null;
@@ -105,9 +105,9 @@ export function getNextOpponentWidgetData(
   }
 
   const canShowStandings =
-    hasCompetitiveStandings(gameState) && nextFixture.competition === "League";
+    hasCompetitiveStandings(gameState) && nextFixture.match_type === "League";
   const standingEntry = canShowStandings
-    ? league.standings.find((entry) => entry.team_id === opponentId)
+    ? playerLeague.standings.find((entry) => entry.team_id === opponentId)
     : null;
 
   return {
@@ -158,17 +158,8 @@ export function getHomeRosterOverview(
         )
       : 0;
   const exhaustedCount = roster.filter((player) => player.condition < 40).length;
-  const unavailablePlayers = roster
-    .filter((player) => player.injury != null)
-    .sort((leftPlayer, rightPlayer) => {
-      return (
-        (rightPlayer.injury?.days_remaining ?? 0) -
-          (leftPlayer.injury?.days_remaining ?? 0) ||
-        leftPlayer.full_name.localeCompare(rightPlayer.full_name)
-      );
-    });
   const hotPlayers = roster
-    .filter((player) => player.morale >= 80 && !player.injury)
+    .filter((player) => player.morale >= 80)
     .sort((leftPlayer, rightPlayer) => rightPlayer.morale - leftPlayer.morale)
     .slice(0, 3);
   const coldPlayers = roster
@@ -182,7 +173,6 @@ export function getHomeRosterOverview(
     coldPlayers,
     exhaustedCount,
     hotPlayers,
-    unavailablePlayers,
   };
 }
 
@@ -191,15 +181,15 @@ export function getRecentResultsForTeam(
   teamId: string | null,
   limit = 5,
 ): HomeRecentResult[] {
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
-  if (!league || !teamId) {
+  if (!playerLeague || !teamId) {
     return [];
   }
 
   const recentResults: HomeRecentResult[] = [];
 
-  for (const fixture of [...league.fixtures].reverse()) {
+  for (const fixture of [...playerLeague.fixtures].reverse()) {
     if (
       fixture.status !== "Completed" ||
       !fixture.result ||
@@ -303,8 +293,10 @@ export function getOnboardingCompletionState(
   gameState: GameStateData,
   visitedTabs: ReadonlySet<string> = new Set<string>(),
 ): OnboardingCompletionState {
-  const currentDate = new Date(gameState.clock.current_date);
-  const startDate = new Date(gameState.clock.start_date);
+  const currentDate = parseUtcDate(gameState.clock.current_date);
+  const startDate = parseUtcDate(gameState.clock.start_date);
+  if (!currentDate || !startDate) return { showOnboarding: false, completedSteps: 0, hasReadInbox: false, hasVisitedSquadPage: false, hasVisitedStaffPage: false, hasVisitedTacticsPage: false, hasVisitedTrainingPage: false };
+
   const daysSinceStart = Math.floor(
     (currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24),
   );

@@ -32,7 +32,7 @@ type DashboardAlertTranslator = (
 ) => string;
 
 export function getTodayMatchFixture(gameState: GameStateData): FixtureData | null {
-  const fixtures = gameState.league?.fixtures;
+  const fixtures = gameState.leagues?.[0]?.fixtures;
 
   if (!fixtures) {
     return null;
@@ -143,20 +143,13 @@ export function getDashboardAlerts(
     return !message.read && message.priority === "Urgent";
   }).length;
   const savedLineupIds = myTeam?.active_lineup_ids ?? myTeam?.starting_xi_ids ?? [];
-  const availableRoster = roster.filter((player) => !player.injury);
   const effectiveLineupIds = myTeam
-    ? buildActiveLineupIds(availableRoster, savedLineupIds)
+    ? buildActiveLineupIds(roster, savedLineupIds)
     : [];
   const activeLineupRoleCount = effectiveLineupIds.filter(Boolean).length;
-  const healthyRosterRoleCount = new Set(
-    buildActiveLineupIds(availableRoster, []).filter(Boolean),
+  const rosterRoleCount = new Set(
+    buildActiveLineupIds(roster, []).filter(Boolean),
   ).size;
-  const savedLineupPlayersOnRoster = savedLineupIds.filter((playerId) => {
-    return roster.some((player) => player.id === playerId);
-  });
-  const injuredInLineupCount = savedLineupPlayersOnRoster.filter((playerId) => {
-    return roster.find((player) => player.id === playerId)?.injury;
-  }).length;
 
   if (exhaustedCount >= 3) {
     alerts.push({
@@ -168,21 +161,9 @@ export function getDashboardAlerts(
   }
 
   if (savedLineupIds.length > 0) {
-    if (injuredInLineupCount > 0) {
-      alerts.push({
-        id: "injured_lineup",
-        text: t("dashboard.alerts.injuredStartingXi", {
-          count: injuredInLineupCount,
-        }),
-        tab: "Squad",
-        severity: "warn",
-      });
-    }
-
     if (
       activeLineupRoleCount < LOL_ACTIVE_ROLES.length &&
-      injuredInLineupCount === 0 &&
-      healthyRosterRoleCount >= LOL_ACTIVE_ROLES.length
+      rosterRoleCount >= LOL_ACTIVE_ROLES.length
     ) {
       alerts.push({
         id: "incomplete_lineup",
@@ -210,7 +191,7 @@ export function getDashboardAlerts(
         id: "finance_crisis",
         text: t("dashboard.alerts.financeCrisis", {
           balance: formatVal(myTeam.finance),
-          weeks: financeSnapshot.cashRunwayWeeks ?? 0,
+          weeks: financeSnapshot.cashRunwayMonths ?? 0,
           defaultValue:
             "Finances critical — balance {{balance}}, runway {{weeks}} week(s)",
         }),
@@ -221,7 +202,7 @@ export function getDashboardAlerts(
       alerts.push({
         id: "finance_runway",
         text: t("dashboard.alerts.financeRunway", {
-          count: financeSnapshot.cashRunwayWeeks,
+          count: financeSnapshot.cashRunwayMonths,
           defaultValue: "Cash runway down to {{count}} week(s)",
         }),
         tab: "Finances",

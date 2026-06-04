@@ -9,6 +9,7 @@ import {
   formatVal,
   getTeamName,
   positionBadgeVariant,
+  calcAge,
 } from "../../lib/helpers";
 import type {
   TransferDestinationData,
@@ -25,6 +26,7 @@ import TransferNegotiationHistory from "./TransferNegotiationHistory";
 interface TransferBidModalProps {
   bidTarget: PlayerData;
   teams: TeamData[];
+  currentDate: string;
   bidAmount: string;
   onBidAmountChange: (value: string) => void;
   destination: TransferDestinationData;
@@ -36,16 +38,21 @@ interface TransferBidModalProps {
   bidFeedback: NegotiationFeedbackPanelData | null;
   activeBidOffer: TransferOfferData | null;
   hasExistingOffer: boolean;
+  userPlayers: PlayerData[];
+  selectedPlayerIds: string[];
+  onSelectedPlayersChange: (ids: string[]) => void;
   bidResult: TransferNegotiationResponseData["decision"] | "error" | null;
   bidLoading: boolean;
   bidSubmitDisabled: boolean;
   onSubmit: () => void;
   onClose: () => void;
+  isFreeAgent: boolean;
 }
 
 export default function TransferBidModal({
   bidTarget,
   teams,
+  currentDate,
   bidAmount,
   onBidAmountChange,
   destination,
@@ -57,14 +64,26 @@ export default function TransferBidModal({
   bidFeedback,
   activeBidOffer,
   hasExistingOffer,
+  userPlayers,
+  selectedPlayerIds,
+  onSelectedPlayersChange,
   bidResult,
   bidLoading,
   bidSubmitDisabled,
   onSubmit,
   onClose,
+  isFreeAgent,
 }: TransferBidModalProps) {
   const { t } = useTranslation();
   const lolRole = getLolRoleForPlayer(bidTarget);
+
+  const togglePlayer = (playerId: string) => {
+    if (selectedPlayerIds.includes(playerId)) {
+      onSelectedPlayersChange(selectedPlayerIds.filter((id) => id !== playerId));
+    } else if (selectedPlayerIds.length < 2) {
+      onSelectedPlayersChange([...selectedPlayerIds, playerId]);
+    }
+  };
 
   return (
     <div
@@ -72,7 +91,7 @@ export default function TransferBidModal({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-navy-800 rounded-xl shadow-2xl border border-gray-200 dark:border-navy-600 p-6 w-full max-w-sm"
+        className="bg-white dark:bg-navy-800 rounded-xl shadow-2xl border border-gray-200 dark:border-navy-600 p-6 w-full max-w-md max-h-[90vh] overflow-y-auto"
         onClick={(event) => event.stopPropagation()}
       >
         <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
@@ -127,64 +146,116 @@ export default function TransferBidModal({
             </option>
           ) : null}
         </select>
-        <label
-          htmlFor="bid-amount"
-          className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block"
-        >
-          {t("transfers.bidAmount")}
-        </label>
-        <input
-          id="bid-amount"
-          type="number"
-          step="1000"
-          min="0"
-          value={bidAmount}
-          onChange={(event) => onBidAmountChange(event.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 mb-3 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
-        />
-        {myTeam && bidFee !== null && bidProjection ? (
-          <div className="rounded-lg border border-gray-200 dark:border-navy-700 bg-white/70 dark:bg-navy-900/40 p-3 mb-3 space-y-2">
-            <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              {t("transfers.bidImpactTitle", {
-                defaultValue: "Projected impact",
-              })}
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-300">
-              {t("transfers.bidImpactTransferBudget", {
-                before: formatVal(bidProjection.transfer_budget_before),
-                after: formatVal(bidProjection.transfer_budget_after),
-                defaultValue: "Transfer budget {{before}} -> {{after}}",
-              })}
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-300">
-              {t("transfers.bidImpactBalance", {
-                before: formatVal(bidProjection.finance_before),
-                after: formatVal(bidProjection.finance_after),
-                defaultValue: "Club balance {{before}} -> {{after}}",
-              })}
-            </p>
-            <p className="text-xs text-gray-600 dark:text-gray-300">
-              {t("transfers.bidImpactWagePressure", {
-                percent: bidProjection.projected_wage_budget_usage_pct,
-                defaultValue: "Projected wage budget usage {{percent}}%",
-              })}
-            </p>
-            {bidProjection.exceeds_transfer_budget ? (
-              <p className="text-xs text-red-500">
-                {t("transfers.bidImpactOverTransferBudget", {
-                  defaultValue: "This bid exceeds your transfer budget",
+        {!isFreeAgent && (
+          <>
+            <label
+              htmlFor="bid-amount"
+              className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1 block"
+            >
+              {t("transfers.bidAmount")}
+            </label>
+            <input
+              id="bid-amount"
+              type="number"
+              step="1000"
+              min="0"
+              value={bidAmount}
+              onChange={(event) => onBidAmountChange(event.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-gray-50 dark:bg-navy-700 border border-gray-200 dark:border-navy-600 text-sm text-gray-800 dark:text-gray-200 mb-3 focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+            />
+
+            <div className="mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("transfers.includePlayers")}
+                </label>
+                <span className="text-xs text-gray-400">
+                  {selectedPlayerIds.length}/2 {t("transfers.playersSelected")}
+                </span>
+              </div>
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {userPlayers.map((p) => {
+                  const isSelected = selectedPlayerIds.includes(p.id);
+                  const age = calcAge(p.date_of_birth, currentDate);
+                  const role = getLolRoleForPlayer(p);
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      disabled={!isSelected && selectedPlayerIds.length >= 2}
+                      onClick={() => togglePlayer(p.id)}
+                      className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs transition-colors ${
+                        isSelected
+                          ? "bg-primary-500/20 border border-primary-500/50"
+                          : "bg-gray-50 dark:bg-navy-700 border border-transparent hover:border-gray-300 dark:hover:border-navy-500 disabled:opacity-40"
+                      }`}
+                    >
+                      <Badge variant={positionBadgeVariant(p.position)} size="sm">
+                        {role === "JUNGLE" ? "JG" : role}
+                      </Badge>
+                      <span className="flex-1 text-left text-gray-800 dark:text-gray-200 truncate">
+                        {p.match_name || p.full_name}
+                      </span>
+                      <span className="text-gray-400">{age}yo</span>
+                      <span className="font-semibold text-gray-600 dark:text-gray-300">
+                        {formatVal(p.market_value)}
+                      </span>
+                    </button>
+                  );
                 })}
-              </p>
+                {userPlayers.length === 0 && (
+                  <p className="text-xs text-gray-400 text-center py-2">
+                    {t("transfers.noPlayersAvailable")}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {myTeam && bidFee !== null && bidProjection ? (
+              <div className="rounded-lg border border-gray-200 dark:border-navy-700 bg-white/70 dark:bg-navy-900/40 p-3 mb-3 space-y-2">
+                <p className="text-[11px] font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                  {t("transfers.bidImpactTitle", {
+                    defaultValue: "Projected impact",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactTransferBudget", {
+                    before: formatVal(bidProjection.transfer_budget_before),
+                    after: formatVal(bidProjection.transfer_budget_after),
+                    defaultValue: "Transfer budget {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactBalance", {
+                    before: formatVal(bidProjection.finance_before),
+                    after: formatVal(bidProjection.finance_after),
+                    defaultValue: "Club balance {{before}} -> {{after}}",
+                  })}
+                </p>
+                <p className="text-xs text-gray-600 dark:text-gray-300">
+                  {t("transfers.bidImpactWagePressure", {
+                    percent: bidProjection.projected_wage_budget_usage_pct,
+                    defaultValue: "Projected wage budget usage {{percent}}%",
+                  })}
+                </p>
+                {bidProjection.exceeds_transfer_budget ? (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverTransferBudget", {
+                      defaultValue: "This bid exceeds your transfer budget",
+                    })}
+                  </p>
+                ) : null}
+                {bidProjection.exceeds_finance ? (
+                  <p className="text-xs text-red-500">
+                    {t("transfers.bidImpactOverBalance", {
+                      defaultValue: "This bid would push the club into debt",
+                    })}
+                  </p>
+                ) : null}
+              </div>
             ) : null}
-            {bidProjection.exceeds_finance ? (
-              <p className="text-xs text-red-500">
-                {t("transfers.bidImpactOverBalance", {
-                  defaultValue: "This bid would push the club into debt",
-                })}
-              </p>
-            ) : null}
-          </div>
-        ) : null}
+          </>
+        )}
         <NegotiationFeedbackPanel
           feedback={bidFeedback}
           titleKey="transfers.negotiationPulse"

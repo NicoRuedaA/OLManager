@@ -1,0 +1,62 @@
+{
+  "name": "PRM-L Teams",
+  "description": "PRM-L - 2026 Season",
+  "teams": [
+    {
+      "id": "team-1cba5c67",
+      "city": "",
+      "form": [],
+      "name": "A One Man Army",
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#FFFFFF"
+      },
+      "academy": null,
+      "country": "DE",
+      "finance": 2377650,
+      "history": [],
+      "logo_url": "/teams-icons/a-one-man-army.webp",
+      "team_kind": "Main",
+      "facilities": {
+        "medical": 1,
+        "scouting": 1,
+        "training": 1,
+        "main_hub_level": 1,
+        "scrims_room_level": 0,
+        "scouting_lab_level": 0,
+        "analysis_room_level": 0,
+        "bootcamp_area_level": 0,
+        "content_studio_level": 0,
+        "recovery_suite_level": 0
+      },
+      "manager_id": null,
+      "reputation": 229,
+      "short_name": "AOMA",
+      "lol_tactics": {
+        "fight_plan": "FrontToBack",
+        "strong_side": "Top",
+        "jungle_style": "Enabler",
+        "draft_strategy": "Balanced",
+        "support_roaming": "Lane"
+      },
+      "sponsorship": null,
+      "wage_budget": 1188825,
+      "scrim_results": [],
+      "season_income": 0,
+      "parent_team_id": null,
+      "training_focus": "Scrims",
+      "academy_team_id": null,
+      "season_expenses": 0,
+      "training_groups": [],
+      "transfer_budget": 475530,
+      "financial_ledger": [],
+      "scrim_reputation": 22,
+      "academy_lifecycle": null,
+      "training_schedule": "Balanced",
+      "scrim_weekly_slots": 5,
+      "training_intensity": "Medium",
+      "stadium_name": "A One Man Army Arena",
+      "stadium_capacity": 1500
+    }
+  ]
+}

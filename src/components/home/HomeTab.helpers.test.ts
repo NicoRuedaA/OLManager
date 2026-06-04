@@ -61,7 +61,7 @@ function createFixture(overrides: Partial<FixtureData> = {}): FixtureData {
     date: "2025-01-10",
     home_team_id: "team-1",
     away_team_id: "team-2",
-    competition: "League",
+    match_type: "League",
     status: "Scheduled",
     result: null,
     ...overrides,
@@ -194,13 +194,13 @@ function createGameState(overrides: Partial<GameStateData> = {}): GameStateData 
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,
@@ -219,7 +219,7 @@ describe("HomeTab.helpers", function (): void {
           form: ["W", "D", "W"],
         }),
       ],
-      league: {
+      leagues: [{
         id: "league-1",
         name: "League",
         season: 1,
@@ -263,7 +263,7 @@ describe("HomeTab.helpers", function (): void {
             points: 0,
           },
         ],
-      },
+      }],
     });
 
     const result = getNextOpponentWidgetData(gameState);
@@ -306,7 +306,7 @@ describe("HomeTab.helpers", function (): void {
     ]);
   });
 
-  it("builds roster overview metrics, unavailable players, and momentum groups", function (): void {
+  it("builds roster overview metrics and momentum groups", function (): void {
     const roster = [
       createPlayer({
         id: "player-hot",
@@ -337,9 +337,6 @@ describe("HomeTab.helpers", function (): void {
     expect(result.avgCondition).toBe(61);
     expect(result.avgOvr).toBeGreaterThan(0);
     expect(result.exhaustedCount).toBe(1);
-    expect(result.unavailablePlayers.map((player) => player.id)).toEqual([
-      "player-injured",
-    ]);
     expect(result.hotPlayers.map((player) => player.id)).toEqual(["player-hot"]);
     expect(result.coldPlayers.map((player) => player.id)).toEqual([
       "player-cold",
@@ -353,7 +350,7 @@ describe("HomeTab.helpers", function (): void {
         createTeam({ id: "team-2", name: "Beta FC" }),
         createTeam({ id: "team-3", name: "Gamma FC" }),
       ],
-      league: {
+      leagues: [{
         id: "league-1",
         name: "League",
         season: 1,
@@ -389,7 +386,7 @@ describe("HomeTab.helpers", function (): void {
             status: "Scheduled",
           }),
         ],
-      },
+      }],
     });
 
     const result = getRecentResultsForTeam(gameState, "team-1");

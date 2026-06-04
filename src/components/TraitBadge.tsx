@@ -47,8 +47,8 @@ export function TraitBadge({ trait: traitName, size = "sm" }: { trait: string; s
   if (!meta) return null;
 
   const sizeClasses = size === "xs"
-    ? "text-[9px] px-1.5 py-0.5 gap-0.5"
-    : "text-[10px] px-2 py-0.5 gap-1";
+    ? "text-2xs px-1.5 py-0.5 gap-0.5"
+    : "text-2xs px-2 py-0.5 gap-1";
 
   return (
     <span
@@ -70,7 +70,7 @@ export function TraitList({ traits, size = "sm", max }: { traits: string[]; size
     <div className="flex flex-wrap gap-1">
       {displayed.map(t => <TraitBadge key={t} trait={t} size={size} />)}
       {remaining > 0 && (
-        <span className="text-[10px] text-gray-500 font-heading self-center">+{remaining}</span>
+        <span className="text-2xs text-gray-500 font-heading self-center">+{remaining}</span>
       )}
     </div>
   );

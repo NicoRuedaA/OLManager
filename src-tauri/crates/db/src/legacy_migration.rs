@@ -201,7 +201,8 @@ mod tests {
     /// Generate a minimal valid Game JSON.
     fn minimal_game_json() -> String {
         use chrono::{TimeZone, Utc};
-        use domain::player::{PlayerAttributes, Position};
+        use domain::player::PlayerAttributes;
+        use domain::stats::LolRole;
         use domain::staff::{StaffAttributes, StaffRole};
         use ofm_core::clock::GameClock;
         use ofm_core::game::Game;
@@ -230,7 +231,7 @@ mod tests {
             "John Test".to_string(),
             "2000-01-01".to_string(),
             "GB".to_string(),
-            Position::Midfielder,
+            LolRole::Mid,
             PlayerAttributes {
                 mechanics: 50,
                 laning: 50,
@@ -725,7 +726,7 @@ mod tests {
 
         assert_eq!(sponsorship.sponsor_name, "Acme Corp");
         assert_eq!(sponsorship.base_value, 0);
-        assert_eq!(sponsorship.remaining_weeks, 0);
+        assert_eq!(sponsorship.remaining_months, 0);
         assert!(sponsorship.bonus_criteria.is_empty());
     }
 
@@ -879,8 +880,8 @@ mod tests {
             .unwrap();
         let starting_xi_ids: Vec<String> = serde_json::from_str(&starting_xi_json).unwrap();
 
-        // Input was swapped order ["sup","jng","mid","top","adc"];
-        // canonicalization reorders to match position_slots fit
+        // Input was ["sup","jng","mid","top","adc"];
+        // canonicalization uses in-game role order: top, jungle, mid, adc, support
         assert_eq!(
             starting_xi_ids,
             vec!["top", "jng", "mid", "adc", "sup"]

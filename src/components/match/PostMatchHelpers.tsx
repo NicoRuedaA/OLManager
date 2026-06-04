@@ -31,7 +31,7 @@ export function QuickStat({
         <span className="font-heading font-bold text-primary-400 tabular-nums">
           {home}
         </span>
-        <span className="text-gray-600 dark:text-gray-500 font-heading uppercase tracking-wider text-[10px]">
+        <span className="text-gray-600 dark:text-gray-500 font-heading uppercase tracking-wider text-2xs">
           {label}
         </span>
         <span className="font-heading font-bold text-indigo-400 tabular-nums">
@@ -69,7 +69,7 @@ export function renderScorers(
   return (
     <div className="mb-3 last:mb-0">
       <p
-        className={`text-[10px] font-heading uppercase tracking-widest mb-1 ${
+        className={`text-2xs font-heading uppercase tracking-widest mb-1 ${
           side === "Home" ? "text-primary-400" : "text-indigo-400"
         }`}
       >
@@ -213,7 +213,7 @@ export function PlayerRatingsPanel({
               {p.rating.toFixed(1)}
             </span>
             <span className="text-gray-600 dark:text-gray-400 truncate flex-1">{p.name}</span>
-            <span className="text-gray-600 dark:text-gray-500 text-[10px] font-heading uppercase">
+            <span className="text-gray-600 dark:text-gray-500 text-2xs font-heading uppercase">
               {translatePositionAbbreviation(t, p.role ?? "")}
             </span>
           </div>

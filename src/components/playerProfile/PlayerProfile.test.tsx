@@ -6,9 +6,9 @@ import { invoke } from "@tauri-apps/api/core";
 import type { GameStateData, PlayerData, TeamData } from "../../store/gameStore";
 import PlayerProfile from "./PlayerProfile";
 
-function hasWeeklyWage(text: string, amount: number): boolean {
+function hasAnnualWage(text: string, amount: number): boolean {
   const numberPortion = amount.toLocaleString();
-  return text.replace(/\s+/g, "").includes(`€${numberPortion}/wk`);
+  return text.replace(/\s+/g, "").includes(`€${numberPortion}/yr`);
 }
 
 vi.mock("@tauri-apps/api/core", () => ({
@@ -36,6 +36,7 @@ vi.mock("react-i18next", () => ({
       if (key === "common.freeAgent") return "Free Agent";
       if (key === "common.unknown") return "Unknown";
       if (key === "finances.perWeekSuffix") return "/wk";
+      if (key === "finances.perYearSuffix") return "/yr";
       if (key === "finances.marketValue") return "Market Value";
       if (key === "finances.contractRiskCritical") return "Critical";
       if (key === "finances.contractRiskWarning") return "Warning";
@@ -44,7 +45,7 @@ vi.mock("react-i18next", () => ({
         return `Expires ${params?.date}`;
       if (key === "playerProfile.contractInfo") return "Contract Info";
       if (key === "playerProfile.dateOfBirth") return "Date of Birth";
-      if (key === "playerProfile.weeklyWage") return "Weekly Wage";
+      if (key === "playerProfile.annualWage") return "Annual Wage";
       if (key === "playerProfile.noContract") return "No Contract";
       if (key === "playerProfile.yearsRemaining") return "Years Remaining";
       if (key === "playerProfile.contractRisk") return "Contract Risk";
@@ -66,7 +67,7 @@ vi.mock("react-i18next", () => ({
       if (key === "playerProfile.renewalBudgetWarning")
         return "Exceeds wage budget";
       if (key === "playerProfile.renewalInvalidWage")
-        return "Enter a valid weekly wage";
+        return "Enter a valid annual wage";
       if (key === "playerProfile.renewalAccepted") return "Offer accepted";
       if (key === "playerProfile.renewalRejected") return "Offer rejected";
       if (key === "playerProfile.renewalCounter")
@@ -249,13 +250,13 @@ function createGameState(player: PlayerData): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -309,7 +310,7 @@ describe("PlayerProfile contract surfaces", () => {
     expect(screen.getByText("Critical")).toBeInTheDocument();
     expect(
       screen.getAllByText((_, element) =>
-        hasWeeklyWage(element?.textContent ?? "", 230),
+        hasAnnualWage(element?.textContent ?? "", 12000),
       ).length,
     ).toBeGreaterThan(0);
   });
@@ -473,7 +474,7 @@ describe("PlayerProfile contract surfaces", () => {
     vi.mocked(invoke).mockImplementation(
       async (command: string, payload?: any) => {
         if (command === "preview_renewal_financial_impact") {
-          const offered = Number(payload?.weeklyWage ?? 0);
+          const offered = Number(payload?.annualWage ?? 0);
           return {
             projection: {
               current_annual_wage_bill: 24000,
@@ -504,7 +505,7 @@ describe("PlayerProfile contract surfaces", () => {
       target: { value: "0" },
     });
 
-    expect(screen.getByText("Enter a valid weekly wage")).toBeInTheDocument();
+    expect(screen.getByText("Enter a valid annual wage")).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Offered Wage"), {
       target: { value: "60000" },
@@ -555,7 +556,7 @@ describe("PlayerProfile contract surfaces", () => {
     await waitFor(() => {
       expect(invoke).toHaveBeenCalledWith("propose_renewal", {
         playerId: "player-1",
-        weeklyWage: 15000,
+        annualWage: 15000,
         contractYears: 3,
       });
     });
@@ -565,7 +566,7 @@ describe("PlayerProfile contract surfaces", () => {
       expect(screen.getByText("Expires 2029-08-01")).toBeInTheDocument();
       expect(
         screen.getAllByText((_, element) =>
-          hasWeeklyWage(element?.textContent ?? "", 288),
+          hasAnnualWage(element?.textContent ?? "", 15000),
         ).length,
       ).toBeGreaterThan(0);
       expect(screen.getByText("Stable")).toBeInTheDocument();

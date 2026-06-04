@@ -209,10 +209,10 @@ export default function ScoutingPlayerSearchCard({
                       >
                         {player.match_name}
                       </button>
-                      <div className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5 truncate">
+                      <div className="text-2xs text-gray-500 dark:text-gray-500 mt-0.5 truncate">
                         {player.full_name}
                       </div>
-                      <div className="text-[10px] text-gray-400 mt-0.5 flex items-center gap-1">
+                      <div className="text-2xs text-gray-400 mt-0.5 flex items-center gap-1">
                         <CountryFlag
                           code={player.nationality}
                           locale={i18n.language}

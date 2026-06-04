@@ -31,6 +31,7 @@ export {
 export type { ContractRiskLevel } from "./contractUtils";
 export {
   calcAge,
+  currencySymbol,
   formatVal,
   formatWeeklyAmount,
 } from "./valueFormatting";

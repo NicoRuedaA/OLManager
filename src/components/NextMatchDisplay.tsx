@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
-import playersSeed from "../../data/lec/draft/players.json";
+import playersSeed from "../../data/draft/players.json";
 
 import { GameStateData } from "../store/gameStore";
 import { Badge } from "./ui";
+import { parseUtcDate } from "../lib/dateFormatting";
 import {
   findNextFixture,
   formatMatchDate,
@@ -59,13 +60,15 @@ function seedRoleToDraftRole(role: string): DraftRole | null {
 function playerPhotoUrl(playerId: string): string | null {
   const match = playerId.match(/^lec-player-(.+)$/);
   if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
+  return `/player-photos/${match[1]}.webp`;
 }
 
 function daysUntil(dateIso: string): number {
   const now = new Date();
-  const target = new Date(dateIso);
-  const diffMs = target.getTime() - now.getTime();
+  const nowUtc = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+  const target = parseUtcDate(dateIso);
+  if (!target) return 0;
+  const diffMs = target.getTime() - nowUtc.getTime();
   return Math.max(0, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
 }
 
@@ -106,9 +109,9 @@ export default function NextMatchDisplay({
 }) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
-  const league = gameState.league;
+  const playerLeague = gameState.leagues[0];
 
-  if (!userTeamId || !league) {
+  if (!userTeamId || !playerLeague) {
     return (
       <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
         {t("home.noLeagueSchedule")}
@@ -116,12 +119,12 @@ export default function NextMatchDisplay({
     );
   }
 
-  const nextFixture = findNextFixture(league.fixtures, userTeamId);
+  const nextFixture = findNextFixture(playerLeague.fixtures, userTeamId);
   if (!nextFixture) {
     return (
       <p className="text-gray-500 dark:text-gray-400 text-sm text-center py-4">
         {t(
-          isSeasonComplete(league)
+          isSeasonComplete(playerLeague)
             ? "home.seasonComplete"
             : "home.noUpcomingOpponent",
         )}
@@ -134,9 +137,9 @@ export default function NextMatchDisplay({
     ? nextFixture.away_team_id
     : nextFixture.home_team_id;
   const fixtureLabel =
-    nextFixture.competition === "League"
+    nextFixture.match_type === "League"
       ? t("home.matchdayN", { n: nextFixture.matchday })
-      : nextFixture.competition === "PreseasonTournament"
+      : nextFixture.match_type === "PreseasonTournament"
         ? t("season.preseasonTournament")
         : t("season.friendly");
 
@@ -233,7 +236,7 @@ export default function NextMatchDisplay({
       <div className="flex items-center justify-end">
         <div className="px-2.5 py-1 rounded-md bg-navy-900/70 border border-navy-600 text-right">
           <p className="font-heading font-bold text-gray-100 text-base leading-none">{countdown}d</p>
-          <p className="text-[10px] text-gray-400 leading-none mt-1">
+          <p className="text-2xs text-gray-400 leading-none mt-1">
             {t("home.daysUntilMatch")}
           </p>
         </div>

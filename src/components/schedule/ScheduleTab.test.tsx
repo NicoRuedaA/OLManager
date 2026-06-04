@@ -76,7 +76,7 @@ function createFixture(overrides: Partial<FixtureData> = {}): FixtureData {
     date: "2026-08-01",
     home_team_id: "team-1",
     away_team_id: "team-2",
-    competition: "League",
+    match_type: "League",
     status: "Completed",
     result: {
       home_goals: 2,
@@ -121,8 +121,8 @@ function createGameState(withLeague: boolean): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: withLeague
-      ? {
+    leagues: withLeague
+      ? [{
           id: "league-1",
           name: "Premier League",
           season: 1,
@@ -147,8 +147,8 @@ function createGameState(withLeague: boolean): GameStateData {
               points: 0,
             },
           ],
-        }
-      : null,
+        }]
+      : [],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -178,7 +178,7 @@ describe("ScheduleTab", () => {
 
   it("renders playoff series score from home_wins and away_wins", () => {
     const playoffFixture = createFixture({
-      competition: "Playoffs",
+      match_type: "Playoffs",
       matchday: 12,
       result: {
         home_wins: 2,
@@ -190,10 +190,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).league!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -205,7 +205,7 @@ describe("ScheduleTab", () => {
   it("uses stored fixture series wins when available", () => {
     const playoffFixture = createFixture({
       id: "fixture-playoff-1",
-      competition: "Playoffs",
+      match_type: "Playoffs",
       matchday: 12,
       result: {
         home_goals: 0,
@@ -231,10 +231,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).league!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -246,14 +246,14 @@ describe("ScheduleTab", () => {
   it("applies Bo3 to first playoff round and Bo5 to second", () => {
     const playoffRoundOne = createFixture({
       id: "playoff-r1",
-      competition: "Playoffs",
+      match_type: "Playoffs",
       matchday: 10,
       status: "Scheduled",
       result: undefined,
     });
     const playoffRoundTwo = createFixture({
       id: "playoff-r2",
-      competition: "Playoffs",
+      match_type: "Playoffs",
       matchday: 11,
       date: "2026-08-08",
       status: "Scheduled",
@@ -264,10 +264,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).league!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffRoundOne, playoffRoundTwo],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -280,7 +280,7 @@ describe("ScheduleTab", () => {
   it("shows Bo3 and Bo5 on the first two preseason friendlies", () => {
     const friendlyOne = createFixture({
       id: "friendly-1",
-      competition: "Friendly",
+      match_type: "Friendly",
       matchday: 0,
       date: "2026-01-04",
       status: "Scheduled",
@@ -288,7 +288,7 @@ describe("ScheduleTab", () => {
     });
     const friendlyTwo = createFixture({
       id: "friendly-2",
-      competition: "Friendly",
+      match_type: "Friendly",
       matchday: 0,
       date: "2026-01-11",
       status: "Scheduled",
@@ -299,10 +299,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).league!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [friendlyOne, friendlyTwo],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,
@@ -315,7 +315,7 @@ describe("ScheduleTab", () => {
   it("passes stored series games to calendar draft result view", () => {
     const playoffFixture = createFixture({
       id: "fixture-playoff-1",
-      competition: "Playoffs",
+      match_type: "Playoffs",
       matchday: 12,
     });
 
@@ -339,10 +339,10 @@ describe("ScheduleTab", () => {
       <ScheduleTab
         gameState={{
           ...createGameState(true),
-          league: {
-            ...createGameState(true).league!,
+          leagues: [{
+            ...createGameState(true).leagues[0]!,
             fixtures: [playoffFixture],
-          },
+          }],
         }}
         onSelectTeam={vi.fn()}
       />,

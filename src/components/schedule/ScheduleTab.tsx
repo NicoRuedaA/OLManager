@@ -57,31 +57,34 @@ export default function ScheduleTab({
     }
   }, [isDesktop, view]);
   const [fixtureResultView, setFixtureResultView] = useState<StoredFixtureDraftResult | null>(null);
-  const league = gameState.league;
+  const league = gameState.user_competition_id
+    ? gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id)
+    : gameState.leagues[0];
   const userTeamId = gameState.manager.team_id;
+
   const seasonContext = resolveSeasonContext(gameState);
   const isPreseason = seasonContext.phase === "Preseason";
 
   const getFixtureGroupKey = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `league-${fixture.matchday}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       return `playoffs-${fixture.matchday}`;
     }
 
-    return `${fixture.competition}-${fixture.date}`;
+    return `${fixture.match_type}-${fixture.date}`;
   };
 
   const getFixtureGroupLabel = (fixture: FixtureData): string => {
-    if (fixture.competition === "League") {
+    if (fixture.match_type === "League") {
       return `${t("schedule.matchday", { number: fixture.matchday })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "Playoffs") {
+    if (fixture.match_type === "Playoffs") {
       const playoffStart = league?.fixtures
-        ?.filter((candidate) => candidate.competition === "Playoffs")
+        ?.filter((candidate) => candidate.match_type === "Playoffs")
         .map((candidate) => candidate.matchday)
         .reduce((min, value) => Math.min(min, value), Number.POSITIVE_INFINITY);
       const round = Number.isFinite(playoffStart)
@@ -90,7 +93,7 @@ export default function ScheduleTab({
       return `${t("schedule.playoffs")} · ${t("schedule.round", { number: round })} — ${formatMatchDate(fixture.date)}`;
     }
 
-    if (fixture.competition === "PreseasonTournament") {
+    if (fixture.match_type === "PreseasonTournament") {
       return `${t("season.preseasonTournament")} — ${formatMatchDate(fixture.date)}`;
     }
 
@@ -117,13 +120,21 @@ export default function ScheduleTab({
         userSeriesWins={fixtureResultView.userSeriesWins}
         opponentSeriesWins={fixtureResultView.opponentSeriesWins}
         onContinue={() => setFixtureResultView(null)}
+        teams={gameState.teams}
       />
     );
   }
 
+  // Fixtures for the player's league (list view + standings)
   const fixturesForDisplay = league.fixtures;
-  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.competition === "Playoffs");
+  const playoffFixtures = fixturesForDisplay.filter((fixture) => fixture.match_type === "Playoffs");
   const bestOfContext = buildBestOfContext(fixturesForDisplay);
+
+  // Map fixture_id -> competition name for display
+  const competitionLabelMap = new Map<string, string>();
+  gameState.leagues.forEach((l) => {
+    l.fixtures.forEach((f) => competitionLabelMap.set(f.id, l.name));
+  });
 
   // Group fixtures by matchday
   const matchdays = new Map<string, FixtureData[]>();
@@ -146,7 +157,7 @@ export default function ScheduleTab({
   const standings = [...league.standings].sort(compareStandingsByLolScore);
 
   return (
-    <div className={view === "calendar" ? "w-full" : "max-w-6xl mx-auto"}>
+    <div className={view === "calendar" ? "w-full" : "w-[92%] max-w-[2000px] mx-auto"}>
       {isPreseason && (
         <Card accent="accent" className="mb-5">
           <CardBody>
@@ -211,7 +222,8 @@ export default function ScheduleTab({
       {view === "calendar" && (
         <ScheduleCalendarView
           gameState={gameState}
-          fixtures={fixturesForDisplay}
+          fixtures={allFixtures}
+          competitionLabelMap={competitionLabelMap}
           onOpenFixtureResult={(stored) => setFixtureResultView(stored)}
         />
       )}
@@ -220,7 +232,7 @@ export default function ScheduleTab({
         <div className="flex flex-col gap-4">
           {playoffFixtures.length > 0 ? (
             <PlayoffBracketBoard
-              league={league}
+               league={league}
               teams={gameState.teams}
               onSelectTeam={onSelectTeam}
               title={`${t("schedule.playoffs")} · Bracket`}

@@ -1,8 +1,9 @@
 import { useEffect, lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useSettingsStore } from "./store/settingsStore";
 import { useUpdater } from "./hooks/useUpdater";
 import UpdateModal from "./components/updater/UpdateModal";
+import FloatingBugButton from "./components/dashboard/FloatingBugButton";
 import i18n from "./i18n";
 import "./App.css";
 
@@ -67,18 +68,58 @@ function App() {
   }, [loaded, settings.language]);
 
   useEffect(() => {
-    const blockHistoryNavigation = () => {
-      window.history.go(1);
-    };
+    const isAndroid = /Android/i.test(window.navigator.userAgent);
+    if (!isAndroid) return;
 
-    const blockMouseBackForward = (event: MouseEvent) => {
-      if (event.button === 3 || event.button === 4) {
-        event.preventDefault();
-        event.stopPropagation();
+    let cancelled = false;
+
+    const applyAndroidImmersive = async () => {
+      if (cancelled) return;
+
+      try {
+        const { getCurrentWindow } = await import("@tauri-apps/api/window");
+        await getCurrentWindow().setFullscreen(true);
+      } catch {
+        // Ignore when not running inside Tauri window context
+      }
+
+      try {
+        if (document.fullscreenElement == null && document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+        }
+      } catch {
+        // Fullscreen API may require user gesture depending on WebView version
+      }
+
+      try {
+        if (screen.orientation?.lock) {
+          await screen.orientation.lock("landscape");
+        }
+      } catch {
+        // Some Android versions/devices block orientation lock silently
       }
     };
 
-    const blockAuxClickBackForward = (event: MouseEvent) => {
+    void applyAndroidImmersive();
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        void applyAndroidImmersive();
+      }
+    };
+
+    window.addEventListener("focus", onVisible);
+    document.addEventListener("visibilitychange", onVisible);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("focus", onVisible);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, []);
+
+  useEffect(() => {
+    const blockMouseBackForward = (event: MouseEvent) => {
       if (event.button === 3 || event.button === 4) {
         event.preventDefault();
         event.stopPropagation();
@@ -103,24 +144,57 @@ function App() {
       }
     };
 
-    window.history.pushState({ navigationGuard: true }, "", window.location.href);
-    window.addEventListener("popstate", blockHistoryNavigation);
     window.addEventListener("mousedown", blockMouseBackForward, { capture: true });
     window.addEventListener("mouseup", blockMouseBackForward, { capture: true });
-    window.addEventListener("auxclick", blockAuxClickBackForward, { capture: true });
     window.addEventListener("keydown", blockKeyboardHistoryShortcuts, { capture: true });
 
     return () => {
-      window.removeEventListener("popstate", blockHistoryNavigation);
       window.removeEventListener("mousedown", blockMouseBackForward, { capture: true });
       window.removeEventListener("mouseup", blockMouseBackForward, { capture: true });
-      window.removeEventListener("auxclick", blockAuxClickBackForward, { capture: true });
       window.removeEventListener("keydown", blockKeyboardHistoryShortcuts, { capture: true });
     };
   }, []);
 
   return (
     <BrowserRouter>
+      <AppContent
+        updateAvailable={updateAvailable}
+        dismissed={dismissed}
+        updateInfo={updateInfo}
+        downloading={downloading}
+        progress={progress}
+        error={error}
+        install={install}
+        dismiss={dismiss}
+      />
+    </BrowserRouter>
+  );
+}
+
+function AppContent({
+  updateAvailable,
+  dismissed,
+  updateInfo,
+  downloading,
+  progress,
+  error,
+  install,
+  dismiss,
+}: {
+  updateAvailable: boolean;
+  dismissed: boolean;
+  updateInfo: object | null;
+  downloading: boolean;
+  progress: number;
+  error: string | null;
+  install: () => void;
+  dismiss: () => void;
+}) {
+  const location = useLocation();
+  const showBugButton = ["/dashboard", "/match", "/select-team"].includes(location.pathname);
+
+  return (
+    <>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<MainMenu />} />
@@ -130,6 +204,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </Suspense>
+      {showBugButton && <FloatingBugButton />}
       {updateAvailable && !dismissed && updateInfo && (
         <UpdateModal
           updateInfo={updateInfo}
@@ -140,7 +215,7 @@ function App() {
           onDismiss={dismiss}
         />
       )}
-    </BrowserRouter>
+    </>
   );
 }
 

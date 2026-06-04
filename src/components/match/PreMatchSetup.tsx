@@ -11,33 +11,9 @@ import MatchScreenLayout from "./MatchScreenLayout";
 import { ChevronRight } from "lucide-react";
 import OpponentIntelCard from "./OpponentIntelCard";
 import { buildOpponentIntel } from "./opponentIntelService";
-import teamsSeed from "../../../data/lec/draft/teams.json";
-import playersSeed from "../../../data/lec/draft/players.json";
-import championsSeed from "../../../data/lec/draft/champions.json";
-function normalizeKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-const TEAM_LOGO_BY_NAME: Record<string, string> = {
-  g2esports: "/team-logos/g2-esports.png",
-  fnatic: "/team-logos/fnatic.png",
-  giantx: "/team-logos/giantx-lec.png",
-  karminecorp: "/team-logos/karmine-corp.png",
-  movistarkoi: "/team-logos/mad-lions.png",
-  mkoi: "/team-logos/mad-lions.png",
-  koi: "/team-logos/mad-lions.png",
-  madlionskoi: "/team-logos/mad-lions.png",
-  natusvincere: "/team-logos/natus-vincere.png",
-  skgaming: "/team-logos/sk-gaming.png",
-  teamheretics: "/team-logos/team-heretics-lec.png",
-  teamvitality: "/team-logos/team-vitality.png",
-  teambds: "/team-logos/team-bds.png",
-  shifters: "/team-logos/team-bds.png",
-};
-
-function resolveTeamLogo(teamName: string): string | null {
-  return TEAM_LOGO_BY_NAME[normalizeKey(teamName)] ?? null;
-}
+import teamsSeed from "../../../data/draft/teams.json";
+import playersSeed from "../../../data/draft/players.json";
+import championsSeed from "../../../data/draft/champions.json";
 
 interface PreMatchSetupProps {
   snapshot: MatchSnapshot;
@@ -78,8 +54,10 @@ export default function PreMatchSetup({
   const fixtureLabel = currentFixture
     ? getFixtureDisplayLabel(t, currentFixture)
     : t("match.matchDay");
-  const homeLogo = resolveTeamLogo(snapshot.home_team.name);
-  const awayLogo = resolveTeamLogo(snapshot.away_team.name);
+  const homeTeamData = gameState.teams.find((t) => t.id === snapshot.home_team.id);
+  const awayTeamData = gameState.teams.find((t) => t.id === snapshot.away_team.id);
+  const homeLogo = homeTeamData?.logo_url ?? null;
+  const awayLogo = awayTeamData?.logo_url ?? null;
 
   // Use snapshot bench data (updated after swaps)
   const userBench =
@@ -272,7 +250,7 @@ export default function PreMatchSetup({
         </>
       }
     >
-      <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col gap-6">
+      <div className="w-[92%] max-w-[2000px] mx-auto px-6 py-6 flex flex-col gap-6">
         <PreMatchLineup
           homeTeam={snapshot.home_team}
           homeBench={snapshot.home_bench || []}

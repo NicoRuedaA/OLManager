@@ -27,7 +27,6 @@ vi.mock("react-i18next", () => ({
       if (key === "common.status") return "Status";
       if (key === "transfers.transfer") return "Transfer";
       if (key === "transfers.loan") return "Loan";
-      if (key === "common.injured") return "Injured";
       if (key.startsWith("common.posAbbr.")) {
         return key.replace("common.posAbbr.", "");
       }
@@ -175,7 +174,7 @@ function createGameState(): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: [],
     board_objectives: [],
   };

@@ -85,7 +85,7 @@ function defaultTeamLogoSrc(teamId: string): string {
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
-  return `/team-logos/${slug}.png`;
+  return `/teams-icons/${slug}.webp`;
 }
 
 function academyLogoFromMetadata(team: TeamData): string | null {
@@ -365,7 +365,7 @@ export default function SocialTab({ gameState, onGameUpdate }: SocialTabProps) {
               </span>
             </div>
 
-            <p className="mt-1 whitespace-pre-line text-[15px] leading-normal text-gray-900 dark:text-gray-100">
+            <p className="mt-1 whitespace-pre-line text-sm leading-normal text-gray-900 dark:text-gray-100">
               {post.body}
             </p>
 

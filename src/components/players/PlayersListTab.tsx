@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import { GameStateData, PlayerSelectionOptions } from "../../store/gameStore";
 import { Card, CardBody, Badge, Select, CountryFlag, RoleBadge } from "../ui";
 import {
@@ -46,11 +47,13 @@ export default function PlayersListTab({
   onSelectTeam,
 }: PlayersListTabProps) {
   const { t } = useTranslation();
+  invoke("debug_log", { message: "PlayersListTab render" });
   const [search, setSearch] = useState("");
   const [posFilter, setPosFilter] = useState<LolRole | null>(null);
   const [teamFilter, setTeamFilter] = useState<string | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("ovr");
   const [sortAsc, setSortAsc] = useState(false);
+  const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<"all" | "transfer" | "loan">(
     "all",
   );
@@ -92,6 +95,21 @@ export default function PlayersListTab({
     return [...byNick.values()];
   }, [gameState.players]);
 
+  const competitionTeamIds = useMemo(() => {
+    if (!competitionFilter) return null;
+    const ids = gameState.teams
+      .filter(t => t.competition_id === competitionFilter)
+      .map(t => t.id);
+    return new Set(ids);
+  }, [gameState.teams, competitionFilter]);
+
+  const leagues = useMemo(() => {
+    return gameState.leagues.map(l => ({
+      id: l.competition_id ?? l.id,
+      name: l.name,
+    }));
+  }, [gameState.leagues]);
+
   let filtered = dedupedPlayers.filter((p) => {
     if (search.length >= 2) {
       const q = search.toLowerCase();
@@ -107,6 +125,7 @@ export default function PlayersListTab({
     }
     if (posFilter && getLolRoleForPlayer(p) !== posFilter) return false;
     if (teamFilter && p.team_id !== teamFilter) return false;
+    if (competitionTeamIds && (!p.team_id || !competitionTeamIds.has(p.team_id))) return false;
     if (statusFilter === "transfer" && !p.transfer_listed) return false;
     if (statusFilter === "loan" && !p.loan_listed) return false;
     return true;
@@ -147,7 +166,6 @@ export default function PlayersListTab({
         const statusVal = (p: typeof a) => {
           if (p.loan_listed) return 3;
           if (p.transfer_listed) return 2;
-          if (p.injury) return 1;
           return 0;
         };
         cmp = statusVal(b) - statusVal(a);
@@ -163,7 +181,7 @@ export default function PlayersListTab({
   const positions: LolRole[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4 items-center">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
@@ -187,7 +205,7 @@ export default function PlayersListTab({
             }`}
             title="All roles"
           >
-            <img src="/role-icons/allroles.png" alt="All roles" className="h-3.5 w-3.5" />
+            <img src="/role-icons/allroles.webp" alt="All roles" className="h-3.5 w-3.5" />
           </button>
           {positions.map((pos) => (
             <button
@@ -225,6 +243,18 @@ export default function PlayersListTab({
             {t("transfers.loan")}
           </button>
         </div>
+
+        <Select
+          value={competitionFilter ?? ""}
+          onChange={(e) => setCompetitionFilter(e.target.value || null)}
+          selectSize="sm"
+          className="min-w-32 font-heading font-bold uppercase tracking-wider"
+        >
+          <option value="">{t("common.all")}</option>
+          {leagues.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </Select>
 
         <Select
           value={teamFilter || ""}
@@ -318,20 +348,39 @@ export default function PlayersListTab({
                   .map((player) => {
                     const ovr = calculateLolOvr(player);
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
+                    // debug: log photoSrc for first 3 visible players
+                    try {
+                      if (player.match_name === "Gabriel Dzelme" || player.match_name === "Jeong Seong-hoon" || player.match_name === "Brian Alejo Distefano") {
+                        invoke("debug_log", { message: `[${player.match_name}] photoSrc: ${photoSrc} | clock: ${gameState.clock.current_date}` });
+                      }
+                    } catch (_e) { /* ignore */ }
                     return (
                       <tr
                         key={player.id}
                         onClick={() => onSelectPlayer(player.id)}
-                        className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
+                        className="cursor-pointer"
                       >
                         <td className="py-2.5 px-4">
                           <img
-                            src={photoSrc ?? "/player-photos/107455908655055017.png"}
+                            src={photoSrc ?? "/default/defaultplayer.webp"}
                             alt={player.match_name}
+                            data-debug-player={player.match_name}
                             className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.png";
+                              const target = e.target as HTMLImageElement;
+                              const FALLBACK = "/default/defaultplayer.webp";
+                              if (target.src.endsWith("defaultplayer.webp")) {
+                                return;
+                              }
+                              invoke("debug_log", { message: `IMG ERROR: ${player.match_name} | src: ${target.src}` });
+                              target.src = FALLBACK;
+                            }}
+                            ref={(el) => {
+                              if (el && el.getAttribute("data-first-mount") !== "true") {
+                                invoke("debug_log", { message: `IMG MOUNTED: ${player.match_name}` });
+                                el.setAttribute("data-first-mount", "true");
+                              }
                             }}
                           />
                         </td>
@@ -340,10 +389,10 @@ export default function PlayersListTab({
                         </td>
                         <td className="py-2.5 px-4">
                           <div className="min-w-0">
-                            <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
+                            <p className="font-semibold text-sm text-gray-800 dark:text-gray-200 truncate">
                               {player.match_name}
                             </p>
-                            <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                               {player.full_name}
                             </p>
                           </div>
@@ -402,11 +451,6 @@ export default function PlayersListTab({
                           {player.loan_listed && (
                             <Badge variant="primary" size="sm">
                               {t("transfers.loan")}
-                            </Badge>
-                          )}
-                          {player.injury && (
-                            <Badge variant="danger" size="sm">
-                              {t("common.injured")}
                             </Badge>
                           )}
                         </td>

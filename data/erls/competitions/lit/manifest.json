@@ -1,0 +1,18 @@
+{
+  "id": "lit",
+  "name": "LIT",
+  "full_name": "League of Legends Italian Tournament",
+  "region": "LIT",
+  "country": "IT",
+  "tier": 2,
+  "logo": "/competition-icons/1779541327806_xgz637t92m.webp",
+  "teams_file": "erls/teams/lit_teams.json",
+  "players_file": "erls/players/lit_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

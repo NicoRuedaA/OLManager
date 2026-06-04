@@ -10,7 +10,6 @@ import { AlertTriangle, ChevronRight, Repeat, ShoppingCart, User } from "lucide-
 import { calcAge, formatVal } from "../../lib/helpers";
 import { useTranslation } from "react-i18next";
 import ContextMenu from "../ContextMenu";
-import playersSeed from "../../../data/lec/draft/players.json";
 import {
   buildActiveLineupIds,
   buildActiveLineupSlots,
@@ -20,10 +19,10 @@ import {
 } from "./SquadTab.helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
-import { fallbackChampionForRole, resolvePlayerLolRole } from "../../lib/lolIdentity";
+import { resolvePlayerLolRole } from "../../lib/lolIdentity";
 
 type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
-type SortKey = "pos" | "ovr" | "condition" | "morale" | "age";
+type SortKey = "pos" | "ovr" | "condition" | "fitness" | "morale" | "age";
 
 const LOL_ROLE_ORDER: Record<LolRole, number> = {
   TOP: 1,
@@ -51,69 +50,8 @@ const ROLE_ICON_URLS: Record<LolRole, string> = {
     "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
 };
 
-interface PlayerSeed {
-  ign: string;
-  role: string;
-  champions: Array<Array<string | number>>;
-}
-
-const PLAYER_SEEDS: PlayerSeed[] = [
-  ...(((playersSeed as { data?: { rostered_seeds?: PlayerSeed[] } }).data?.rostered_seeds ?? []) as PlayerSeed[]),
-  ...(((playersSeed as { data?: { free_agent_seeds?: PlayerSeed[] } }).data?.free_agent_seeds ?? []) as PlayerSeed[]),
-];
-
-function normalizeKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
-const TOP_3_CHAMPIONS_BY_IGN = new Map(
-  PLAYER_SEEDS.map((player) => {
-    const top = [...(player.champions ?? [])]
-      .map((entry) => ({ name: String(entry[0] ?? ""), mastery: Number(entry[1] ?? 0) }))
-      .filter((entry) => entry.name.length > 0)
-      .sort((a, b) => b.mastery - a.mastery)
-      .slice(0, 3)
-      .map((entry) => entry.name);
-    return [normalizeKey(player.ign), top] as const;
-  }),
-);
-
 function resolveRole(player: PlayerData): LolRole {
   return resolvePlayerLolRole(player);
-}
-
-function championIdFromName(name: string): string | null {
-  const normalized = normalizeKey(name);
-  if (!normalized) return null;
-
-  const overrides: Record<string, string> = {
-    aurelionsol: "AurelionSol",
-    belveth: "Belveth",
-    chogath: "Chogath",
-    drmundo: "DrMundo",
-    jarvaniv: "JarvanIV",
-    ksante: "KSante",
-    kaisa: "Kaisa",
-    khazix: "Khazix",
-    kogmaw: "KogMaw",
-    leblanc: "Leblanc",
-    leesin: "LeeSin",
-    monkeyking: "MonkeyKing",
-    nunuandwillump: "Nunu",
-    reksai: "RekSai",
-    tahmkench: "TahmKench",
-    twistedfate: "TwistedFate",
-    velkoz: "Velkoz",
-  };
-
-  if (overrides[normalized]) return overrides[normalized];
-  return normalized.charAt(0).toUpperCase() + normalized.slice(1);
-}
-
-function championPortraitUrl(championId: string | null): string | null {
-  if (!championId) return null;
-  // Tile art se parece más al "rostro" que el splash completo.
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championId}_0.jpg`;
 }
 
 function clampBar(value: number): number {
@@ -152,8 +90,7 @@ export default function SquadRosterView({
   }
 
   const roster = gameState.players.filter((player) => player.team_id === myTeam.id);
-  const available = roster.filter((player) => !player.injury);
-  const activeLineupIds = buildActiveLineupIds(available, myTeam.active_lineup_ids ?? myTeam.starting_xi_ids ?? []);
+  const activeLineupIds = buildActiveLineupIds(roster, myTeam.active_lineup_ids ?? myTeam.starting_xi_ids ?? []);
   const activeIds = new Set(activeLineupIds);
   const playersById = useMemo(
     () => new Map(roster.map((player) => [player.id, player])),
@@ -173,6 +110,8 @@ export default function SquadRosterView({
           return calculateLolOvr(a) - calculateLolOvr(b);
         case "condition":
           return a.condition - b.condition;
+        case "fitness":
+          return (a.fitness ?? 75) - (b.fitness ?? 75);
         case "morale":
           return a.morale - b.morale;
         case "age":
@@ -184,28 +123,6 @@ export default function SquadRosterView({
     return sortDir === "desc" ? sorted.reverse() : sorted;
   }, [gameState.clock.current_date, roster, sortDir, sortKey]);
 
-  const masteryTopChampionsByPlayer = useMemo(() => {
-    const grouped = new Map<string, Array<{ champion: string; mastery: number }>>();
-    (gameState.champion_masteries ?? []).forEach((entry) => {
-      const list = grouped.get(entry.player_id) ?? [];
-      list.push({ champion: entry.champion_id, mastery: Number(entry.mastery ?? 0) });
-      grouped.set(entry.player_id, list);
-    });
-
-    const topByPlayer = new Map<string, string[]>();
-    grouped.forEach((entries, playerId) => {
-      const top = entries
-        .sort((a, b) => b.mastery - a.mastery)
-        .map((item) => item.champion)
-        .filter((champion, index, arr) => arr.indexOf(champion) === index)
-        .slice(0, 3);
-      if (top.length > 0) {
-        topByPlayer.set(playerId, top);
-      }
-    });
-    return topByPlayer;
-  }, [gameState.champion_masteries]);
-
   const toggleSort = (nextKey: SortKey): void => {
     if (sortKey === nextKey) {
       setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -216,9 +133,9 @@ export default function SquadRosterView({
   };
 
   return (
-    <div className="max-w-7xl mx-auto flex flex-col gap-4">
+    <div className="w-[92%] max-w-[2000px] mx-auto flex flex-col gap-4">
       <Card>
-        <div className="p-4 border-b border-[#22345d] bg-[#08132a] rounded-t-xl">
+        <div className="p-4 border-b border-navy-600 bg-navy-900 rounded-t-xl">
           <h3 className="text-sm font-heading font-bold text-blue-100 uppercase tracking-wide">
             {t("squad.activeLineup", { defaultValue: "Active Lineup" })}
           </h3>
@@ -228,7 +145,7 @@ export default function SquadRosterView({
         </div>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 md:p-4 bg-[#061027] rounded-b-xl"
+          className="grid grid-cols-1 md:grid-cols-5 gap-3 p-3 md:p-4 bg-navy-950 rounded-b-xl"
           data-testid="active-lineup"
         >
           {activeLineupSlots.map((slot) => {
@@ -240,7 +157,7 @@ export default function SquadRosterView({
             return (
               <button
                 key={slot.role}
-                className="min-h-32 rounded-xl border border-[#21365f] bg-[#13274a] px-3 py-3 text-left hover:bg-[#17305a] transition-colors disabled:cursor-default disabled:hover:bg-[#13274a]"
+                className="min-h-32 rounded-xl border border-navy-600 bg-navy-800 px-3 py-3 text-left hover:bg-navy-750 transition-colors disabled:cursor-default disabled:hover:bg-navy-800"
                 data-testid={`active-lineup-role-${slot.role}`}
                 disabled={!player}
                 onClick={() => {
@@ -257,11 +174,11 @@ export default function SquadRosterView({
                     {photo ? (
                       <img src={photo} alt={player.match_name} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-[#0f213f] border border-white/10 shrink-0" />
+                      <div className="w-10 h-10 rounded-full bg-navy-850 border border-white/10 shrink-0" />
                     )}
                     <div className="min-w-0">
                       <p className="text-lg leading-none font-heading font-bold text-white truncate">{player.match_name}</p>
-                      <p className="mt-1 text-[11px] text-blue-200/70">{t("common.ovr", { defaultValue: "OVR" })} {ovr}</p>
+                      <p className="mt-1 text-xs text-blue-200/70">{t("common.ovr", { defaultValue: "OVR" })} {ovr}</p>
                     </div>
                   </div>
                 ) : (
@@ -269,7 +186,7 @@ export default function SquadRosterView({
                     <p className="text-xs font-heading font-bold uppercase tracking-wide text-amber-300">
                       {t("squad.missingRoleCoverage", { defaultValue: "Missing role coverage" })}
                     </p>
-                    <p className="mt-1 text-[11px] text-amber-100/80">
+                    <p className="mt-1 text-xs text-amber-100/80">
                       {t("squad.noRoleAvailable", { defaultValue: `No ${roleLabel} available` })}
                     </p>
                   </div>
@@ -281,7 +198,7 @@ export default function SquadRosterView({
       </Card>
 
       <Card>
-        <div className="p-4 border-b border-[#22345d] bg-[#08132a] rounded-t-xl">
+        <div className="p-4 border-b border-navy-600 bg-navy-900 rounded-t-xl">
           <h3 className="text-sm font-heading font-bold text-blue-100 uppercase tracking-wide">
             {t("squad.benchSubstitutes", { defaultValue: "Bench / Substitutes" })}
           </h3>
@@ -290,6 +207,7 @@ export default function SquadRosterView({
               ["pos", t("squad.pos", { defaultValue: "Posición" })],
               ["ovr", t("common.ovr", { defaultValue: "OVR" })],
               ["condition", t("common.condition", { defaultValue: "Energía" })],
+              ["fitness", t("common.fitness", { defaultValue: "Fitness" })],
               ["morale", t("common.morale", { defaultValue: "Moral" })],
               ["age", t("common.age", { defaultValue: "Edad" })],
             ] as Array<[SortKey, string]>).map(([key, label]) => (
@@ -298,7 +216,7 @@ export default function SquadRosterView({
                 className={`px-2.5 py-1 rounded-md text-xs font-heading font-bold uppercase tracking-wide border transition-colors ${
                   sortKey === key
                     ? "bg-primary-500/15 border-primary-400 text-primary-300"
-                    : "bg-[#0f1e3c] border-[#2a3f6f] text-blue-200/80 hover:border-primary-400"
+                    : "bg-navy-850 border-navy-500 text-blue-200/80 hover:border-primary-400"
                 }`}
                 onClick={() => toggleSort(key)}
               >
@@ -308,17 +226,13 @@ export default function SquadRosterView({
           </div>
         </div>
 
-        <div className="p-3 md:p-4 space-y-2 bg-[#061027] rounded-b-xl">
+        <div className="p-3 md:p-4 space-y-2 bg-navy-950 rounded-b-xl">
           {sortedRoster.map((player) => {
             const role = resolveRole(player);
             const ovr = calculateLolOvr(player);
             const photo = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
-            const fallbackChampion = fallbackChampionForRole(player.id, role);
-            const championNames = masteryTopChampionsByPlayer.get(player.id)
-              ?? TOP_3_CHAMPIONS_BY_IGN.get(normalizeKey(player.match_name))
-              ?? (fallbackChampion ? [fallbackChampion] : []);
             const inXI = activeIds.has(player.id);
-            const currentPos = player.natural_position || player.position;
+            const currentPos = player.position;
             const wrongPos = inXI && isPlayerOutOfPosition(player, currentPos);
             const annualWage = player.wage;
 
@@ -367,26 +281,26 @@ export default function SquadRosterView({
             return (
               <ContextMenu items={contextItems} key={player.id}>
                 <button
-                  className="w-full text-left rounded-xl border border-[#21365f] bg-[#13274a] hover:bg-[#17305a] transition-colors px-3 py-2.5"
+                  className="w-full text-left rounded-xl border border-navy-600 bg-navy-800 hover:bg-navy-750 transition-colors px-3 py-2.5"
                   onClick={() => onSelectPlayer(player.id)}
                 >
-                  <div className="grid grid-cols-1 xl:grid-cols-[34px_44px_minmax(220px,1fr)_72px_130px_170px_170px_110px_90px] items-center gap-3">
-                    <div className="w-8 h-8 rounded-md bg-[#0f213f] border border-white/10 flex items-center justify-center">
+                  <div className="grid grid-cols-1 xl:grid-cols-[34px_44px_minmax(220px,1fr)_72px_72px_170px_170px_170px_110px_90px] items-center gap-3">
+                    <div className="w-8 h-8 rounded-md bg-navy-850 border border-white/10 flex items-center justify-center">
                       <img src={ROLE_ICON_URLS[role]} alt={ROLE_LABEL[role]} className="w-4 h-4 object-contain opacity-90" />
                     </div>
 
                     {photo ? (
                       <img src={photo} alt={player.match_name} className="w-10 h-10 object-cover rounded-full shrink-0" loading="lazy" />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-[#0f213f] border border-white/10 shrink-0" />
+                      <div className="w-10 h-10 rounded-full bg-navy-850 border border-white/10 shrink-0" />
                     )}
 
                     <div className="min-w-0 flex items-center gap-2">
                       <div className="min-w-0">
-                        <p className="text-[28px] leading-none font-heading font-black text-amber-300 xl:hidden">{ovr}</p>
+                        <p className="text-3xl leading-none font-heading font-black text-amber-300 xl:hidden">{ovr}</p>
                         <p className="text-xl leading-none font-heading font-bold text-white truncate">{player.match_name}</p>
-                        <p className="text-[12px] text-blue-200/70 truncate">{player.full_name}</p>
-                        <p className="text-[11px] uppercase tracking-wide text-blue-200/70 xl:hidden">{ROLE_LABEL[role]}</p>
+                        <p className="text-xs text-blue-200/70 truncate">{player.full_name}</p>
+                        <p className="text-xs uppercase tracking-wide text-blue-200/70 xl:hidden">{ROLE_LABEL[role]}</p>
                       </div>
                       {wrongPos ? (
                         <span className="text-amber-400 shrink-0" title={t("squad.outOfPositionTooltip", { defaultValue: "Fuera de rol" })}>
@@ -396,70 +310,84 @@ export default function SquadRosterView({
                     </div>
 
                     <div className="hidden xl:block text-center">
-                      <p className="text-[30px] leading-none font-heading font-black text-amber-300">{ovr}</p>
-                      <p className="text-[11px] uppercase tracking-wide text-blue-200/65">{t("common.ovr")}</p>
+                      <p className="text-3xl leading-none font-heading font-black text-amber-300">{ovr}</p>
+                      <p className="text-xs uppercase tracking-wide text-blue-200/65">{t("common.ovr")}</p>
                     </div>
 
-                    <div className="hidden xl:flex items-center gap-1.5 justify-start">
-                      {championNames.map((name) => {
-                        const portrait = championPortraitUrl(championIdFromName(name));
-                        return (
-                          <div key={name} className="w-6 h-6 rounded-sm bg-[#0d1d39] overflow-hidden border border-white/10" title={name}>
-                            {portrait ? (
-                              <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${portrait})` }} />
-                            ) : null}
-                          </div>
-                        );
-                      })}
+                    <div className="hidden xl:flex items-center justify-center">
+                      <img
+                        src={ROLE_ICON_URLS[role]}
+                        alt={ROLE_LABEL[role]}
+                        className="w-8 h-8 object-contain opacity-90"
+                      />
                     </div>
 
-                    <div className="hidden xl:block min-w-[150px]">
+                    <div className="hidden xl:block min-w-36">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.morale")}</p>
                         <p className="text-[11px] font-heading font-bold text-emerald-300">{player.morale}</p>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                      <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
                         <div className="h-full bg-emerald-400" style={{ width: `${clampBar(player.morale)}%` }} />
                       </div>
                     </div>
 
-                    <div className="hidden xl:block min-w-[150px]">
+                    <div className="hidden xl:block min-w-36">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.condition")}</p>
                         <p className="text-[11px] font-heading font-bold text-amber-300">{player.condition}</p>
                       </div>
-                      <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                      <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
                         <div className="h-full bg-amber-400" style={{ width: `${clampBar(player.condition)}%` }} />
                       </div>
                     </div>
 
-                    <div className="hidden xl:block text-right min-w-[88px]">
+                    <div className="hidden xl:block min-w-36">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.fitness")}</p>
+                        <p className="text-[11px] font-heading font-bold text-green-300">{player.fitness ?? 75}</p>
+                      </div>
+                      <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
+                        <div className="h-full bg-green-400" style={{ width: `${clampBar(player.fitness ?? 75)}%` }} />
+                      </div>
+                    </div>
+
+                    <div className="hidden xl:block text-right min-w-24">
                       <p className="text-sm font-heading font-bold text-white">{formatVal(annualWage)}</p>
                       <p className="text-[11px] text-blue-200/60">{t("common.per_year_with_slash")}</p>
                     </div>
 
-                    <div className="hidden xl:flex items-center justify-end gap-2 min-w-[100px] text-blue-200/70">
+                    <div className="hidden xl:flex items-center justify-end gap-2 min-w-24 text-blue-200/70">
                       <span className="text-sm">{formatContractMonth(player.contract_end)}</span>
                       <ChevronRight className="w-4 h-4" />
                     </div>
 
-                    <div className="xl:hidden mt-2 grid grid-cols-2 gap-3">
+                    <div className="xl:hidden mt-2 grid grid-cols-3 gap-3">
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.morale")}</p>
-                          <p className="text-[11px] font-heading font-bold text-emerald-300">{player.morale}</p>
+                          <p className="text-2xs uppercase tracking-wide text-blue-200/60">{t("common.morale")}</p>
+                          <p className="text-xs font-heading font-bold text-emerald-300">{player.morale}</p>
                         </div>
-                        <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                        <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
                           <div className="h-full bg-emerald-400" style={{ width: `${clampBar(player.morale)}%` }} />
                         </div>
                       </div>
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <p className="text-[10px] uppercase tracking-wide text-blue-200/60">{t("common.condition")}</p>
-                          <p className="text-[11px] font-heading font-bold text-amber-300">{player.condition}</p>
+                          <p className="text-2xs uppercase tracking-wide text-blue-200/60">{t("common.condition")}</p>
+                          <p className="text-xs font-heading font-bold text-amber-300">{player.condition}</p>
                         </div>
-                        <div className="w-full h-1.5 rounded-full bg-[#0a1b37] overflow-hidden">
+                        <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
                           <div className="h-full bg-amber-400" style={{ width: `${clampBar(player.condition)}%` }} />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="text-2xs uppercase tracking-wide text-blue-200/60">{t("common.fitness")}</p>
+                          <p className="text-xs font-heading font-bold text-green-300">{player.fitness ?? 75}</p>
+                        </div>
+                        <div className="w-full h-1.5 rounded-full bg-navy-950 overflow-hidden">
+                          <div className="h-full bg-green-400" style={{ width: `${clampBar(player.fitness ?? 75)}%` }} />
                         </div>
                       </div>
                     </div>

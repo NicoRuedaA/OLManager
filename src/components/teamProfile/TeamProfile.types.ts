@@ -12,7 +12,7 @@ export interface TeamProfileProps {
 
 export type TeamProfileTranslate = TFunction;
 
-export type LeagueStanding = NonNullable<GameStateData["league"]>["standings"][number];
+export type LeagueStanding = GameStateData["leagues"][number]["standings"][number];
 
 export interface TeamProfileViewModel {
   roster: PlayerData[];

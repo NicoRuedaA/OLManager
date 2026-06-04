@@ -139,7 +139,7 @@ export function MatchStats({ snapshot }: { snapshot: MatchSnapshot }) {
               <span className="font-heading font-bold text-primary-400 tabular-nums">
                 {stat.home}
               </span>
-                <span className="text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider text-[10px]">
+                <span className="text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider text-2xs">
                 {stat.label}
               </span>
               <span className="font-heading font-bold text-indigo-400 tabular-nums">
@@ -195,7 +195,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
           if (players.length === 0) return null;
           return (
             <div key={pos} className="mb-3">
-              <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
+              <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
                 {pos}s
               </p>
               {players.map((p) => {
@@ -214,7 +214,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                     className={`flex items-center gap-2 py-1 px-2 rounded text-xs ${isOff ? "opacity-40" : ""}`}
                   >
                     {isSubOn && (
-                      <span className="text-green-400 text-[10px]">▲</span>
+                      <span className="text-green-400 text-2xs">▲</span>
                     )}
                     <span
                        className={`font-medium flex-1 truncate ${isOff ? "line-through text-gray-600 dark:text-gray-500" : "text-gray-700 dark:text-gray-300"}`}
@@ -222,7 +222,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                       {p.name}
                     </span>
                     {yc > 0 && (
-                      <span className="w-3 h-4 rounded-sm bg-yellow-400 text-navy-900 text-[8px] flex items-center justify-center font-bold">
+                      <span className="w-3 h-4 rounded-sm bg-yellow-400 text-navy-900 text-2xs flex items-center justify-center font-bold">
                         {yc > 1 ? yc : ""}
                       </span>
                     )}
@@ -236,7 +236,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                           style={{ width: `${p.condition}%` }}
                         />
                       </div>
-                       <span className="text-gray-500 dark:text-gray-400 tabular-nums text-[10px] w-6 text-right">
+                       <span className="text-gray-500 dark:text-gray-400 tabular-nums text-2xs w-6 text-right">
                         {Math.round(p.condition)}
                       </span>
                     </div>
@@ -250,7 +250,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
         {/* Bench */}
         {bench.length > 0 && (
            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-navy-700">
-             <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
+             <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
               {t("match.bench")}
             </p>
             {bench.map((p) => {
@@ -261,7 +261,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                   className={`flex items-center gap-2 py-1 px-2 rounded text-xs ${wasSubbedOff ? "opacity-50" : ""}`}
                 >
                   {wasSubbedOff && (
-                    <span className="text-red-400 text-[10px]">▼</span>
+                    <span className="text-red-400 text-2xs">▼</span>
                   )}
                    <span className="text-gray-600 dark:text-gray-400 font-medium flex-1 truncate">
                     {p.name}
@@ -269,7 +269,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
                   <Badge variant="neutral" size="sm">
                     {translatePositionAbbreviation(t, p.role ?? "")}
                   </Badge>
-                   <span className="text-gray-500 dark:text-gray-400 tabular-nums text-[10px] w-6 text-right">
+                   <span className="text-gray-500 dark:text-gray-400 tabular-nums text-2xs w-6 text-right">
                     {Math.round(p.condition)}
                   </span>
                 </div>
@@ -281,7 +281,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
         {/* Sub History */}
         {snapshot.substitutions.filter((s) => s.side === side).length > 0 && (
            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-navy-700">
-             <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
+             <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1">
               {t("match.substitutions")}
             </p>
             {snapshot.substitutions
@@ -289,7 +289,7 @@ export function Lineups({ snapshot }: { snapshot: MatchSnapshot }) {
               .map((sub, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-1.5 py-0.5 text-[11px]"
+                  className="flex items-center gap-1.5 py-0.5 text-xs"
                 >
                    <span className="text-gray-600 dark:text-gray-500 tabular-nums w-5 text-right font-heading">
                     {sub.minute}'

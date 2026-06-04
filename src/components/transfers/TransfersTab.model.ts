@@ -171,9 +171,13 @@ export function filterTransferPlayers(
   players: PlayerData[],
   search: string,
   posFilter: string | null,
+  competitionTeamIds: Set<string> | null,
 ): PlayerData[] {
   return players.filter((player) => {
     if (posFilter && getLolRoleForPlayer(player) !== posFilter) {
+      return false;
+    }
+    if (competitionTeamIds && (!player.team_id || !competitionTeamIds.has(player.team_id))) {
       return false;
     }
 
@@ -236,7 +240,6 @@ export function sortTransferPlayers(
         const statusVal = (p: typeof a) => {
           if (p.loan_listed) return 3;
           if (p.transfer_listed) return 2;
-          if (p.injury) return 1;
           return 0;
         };
         return (statusVal(b) - statusVal(a)) * factor;

@@ -144,7 +144,7 @@ function createFixture(overrides: Partial<FixtureData> = {}): FixtureData {
     date: "2025-01-12",
     home_team_id: "team-1",
     away_team_id: "team-2",
-    competition: "League",
+    match_type: "League",
     status: "Scheduled",
     result: null,
     ...overrides,
@@ -207,7 +207,7 @@ function createGameState(
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
@@ -232,7 +232,7 @@ function createGameState(
           points: 0,
         },
       ],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
     ...overrides,
@@ -267,13 +267,13 @@ describe("HomeTab", function (): void {
     render(
       <HomeTab
         gameState={createGameState({
-          league: {
+          leagues: [{
             id: "league-1",
             name: "League",
             season: 1,
             fixtures: [],
             standings: [],
-          },
+          }],
           news: [],
         })}
         visitedOnboardingTabs={new Set<string>()}

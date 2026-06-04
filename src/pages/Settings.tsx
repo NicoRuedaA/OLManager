@@ -262,7 +262,7 @@ export default function Settings() {
                 }}
               />
               {isAndroid ? (
-                <span className="text-[10px] font-heading uppercase tracking-wide text-gray-400">
+                <span className="text-2xs font-heading uppercase tracking-wide text-gray-400">
                   {t("settings.uiScaleAndroidLocked", "Bloqueado en XS en Android")}
                 </span>
               ) : null}
@@ -524,7 +524,7 @@ export default function Settings() {
                 {APP_VERSION}
               </p>
             </div>
-            <span className="text-[10px] font-heading uppercase tracking-widest text-gray-400 dark:text-gray-600">
+            <span className="text-2xs font-heading uppercase tracking-widest text-gray-400 dark:text-gray-600">
               Open League Manager Community
             </span>
           </div>

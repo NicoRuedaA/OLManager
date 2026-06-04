@@ -185,8 +185,10 @@ export function deriveTodayScrimContext(gameState: GameStateData, team: TeamData
   const slots = effectiveWeeklyScrimSlots(team);
   const weekdays = scrimSlotWeekdays(slots);
   const todayWeekday = weekdayMondayBased(gameState.clock.current_date);
-  const slotIndex = weekdays.findIndex((weekday) => weekday === todayWeekday);
-  const hasOfficialMatch = Boolean(gameState.league?.fixtures.find((fixture) => {
+  const todaySlotIndices = weekdays
+    .map((weekday, idx) => (weekday === todayWeekday ? idx : -1))
+    .filter((idx) => idx >= 0);
+  const hasOfficialMatch = Boolean(gameState.leagues?.[0]?.fixtures.find((fixture) => {
     if (fixture.status !== "Scheduled") return false;
     if (dateKey(fixture.date) !== today) return false;
     return fixture.home_team_id === team.id || fixture.away_team_id === team.id;
@@ -198,7 +200,7 @@ export function deriveTodayScrimContext(gameState: GameStateData, team: TeamData
   const unresolvedReport = todayReports.find((report) => report.post_decision == null) ?? null;
 
   if (unresolvedReport) {
-    const reviewPhaseActive = dayPhase === "ScrimBlock";
+    const reviewPhaseActive = dayPhase === "ReviewBlock";
     return {
       state: "PlayedNeedsReview",
       slotIndex: unresolvedReport.slot_index,
@@ -235,7 +237,7 @@ export function deriveTodayScrimContext(gameState: GameStateData, team: TeamData
     };
   }
 
-  if (slotIndex < 0) {
+  if (todaySlotIndices.length === 0) {
     return {
       state: "NoScrimToday",
       slotIndex: null,
@@ -253,14 +255,15 @@ export function deriveTodayScrimContext(gameState: GameStateData, team: TeamData
     };
   }
 
-  const plan = team.weekly_scrim_plan_team_ids?.[slotIndex] ?? [];
-  const opponentTeamId = plan.find(Boolean) ?? team.weekly_scrim_opponent_ids?.[slotIndex] ?? null;
+  const firstSlotIndex = todaySlotIndices[0];
+  const plan = team.weekly_scrim_plan_team_ids?.[firstSlotIndex] ?? [];
+  const opponentTeamId = plan.find(Boolean) ?? team.weekly_scrim_opponent_ids?.[firstSlotIndex] ?? null;
   const state: ScrimDayState = opponentTeamId || dayPhase === "Morning" ? "Planned" : "Cancelled";
   const canCancel = state === "Planned" && dayPhase === "Morning";
 
   return {
     state,
-    slotIndex,
+    slotIndex: firstSlotIndex,
     opponentTeamId,
     resolvedOpponentTeamId: null,
     objective: team.scrim_weekly_objective ?? null,
@@ -326,7 +329,14 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
       counts[issue] = (counts[issue] ?? 0) + 1;
       return counts;
     }, {});
-  const nextOfficialFixture = (gameState.league?.fixtures ?? [])
+  const recurringFocus = playedReports
+    .map((report) => report.focus)
+    .filter((focus): focus is NonNullable<typeof focus> => Boolean(focus))
+    .reduce<Record<string, number>>((counts, focus) => {
+      counts[focus] = (counts[focus] ?? 0) + 1;
+      return counts;
+    }, {});
+  const nextOfficialFixture = (gameState.leagues?.[0]?.fixtures ?? [])
     .filter((fixture) => {
       if (fixture.status !== "Scheduled") return false;
       if (fixture.home_team_id !== team.id && fixture.away_team_id !== team.id) return false;
@@ -353,10 +363,10 @@ export function deriveWeeklyScrimContext(gameState: GameStateData, team: TeamDat
     avgQuality: playedReports.length > 0
       ? Math.round(playedReports.reduce((sum, report) => sum + report.quality, 0) / playedReports.length)
       : 0,
-    topFocus: playedReports[0]?.focus ?? null,
+    topFocus: Object.entries(recurringFocus).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null,
     topIssue: Object.entries(recurringIssue).sort((a, b) => b[1] - a[1])[0]?.[0] ?? null,
     nextOfficialRivalTeamId,
-    nextOfficialRivalCompetition: nextOfficialFixture?.competition ?? null,
+    nextOfficialRivalCompetition: nextOfficialFixture?.match_type ?? null,
     setupLocked: false,
     setupLockedReason: null,
     canFinalizeSetup: true,

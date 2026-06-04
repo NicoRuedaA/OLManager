@@ -50,6 +50,7 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
         .transpose()
         .map_err(|e| format!("JSON error: {}", e))?;
 
+    log::debug!("[team_repo] upsert_team: {} | logo_url: {:?} | competition_id: {:?}", t.name, t.logo_url, t.competition_id);
     conn.execute(
          "INSERT OR REPLACE INTO teams
           (id, name, short_name, country, city, stadium_name, stadium_capacity,
@@ -58,8 +59,9 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
           training_focus, training_intensity, training_schedule,
           founded_year, colors_primary, colors_secondary,
           starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, weekly_scrim_plan_team_ids, scrim_weekly_objective, scrim_weekly_slots, scrim_setup_locked_week_key, scrim_reputation, scrim_weekly_cancellations, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, scrim_reports, financial_ledger, sponsorship, facilities,
-            team_kind, parent_team_id, academy_team_id, academy_metadata)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46)",
+            team_kind, parent_team_id, academy_team_id, academy_metadata,
+            logo_url, competition_id)
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32, ?33, ?34, ?35, ?36, ?37, ?38, ?39, ?40, ?41, ?42, ?43, ?44, ?45, ?46, ?47, ?48)",
         params![
             t.id,
             t.name,
@@ -107,6 +109,8 @@ pub fn upsert_team(conn: &Connection, t: &Team) -> Result<(), String> {
             t.parent_team_id,
             t.academy_team_id,
             academy_metadata_json,
+            t.logo_url,
+            t.competition_id,
         ],
     )
     .map_err(|e| format!("Failed to upsert team: {}", e))?;
@@ -264,7 +268,8 @@ fn row_to_team(row: &rusqlite::Row) -> rusqlite::Result<Team> {
         parent_team_id,
         academy_team_id,
         academy: parse_academy_metadata(academy_metadata_json),
-        logo_url: None,
+        logo_url: row.get("logo_url")?,
+        competition_id: row.get("competition_id")?,
         financial_ledger: serde_json::from_str(&financial_ledger_json).unwrap_or_default(),
         sponsorship: serde_json::from_str(&sponsorship_json).unwrap_or_default(),
         facilities: Facilities::from_persisted_json(&facilities_json),
@@ -280,12 +285,13 @@ pub fn load_all_teams(conn: &Connection) -> Result<Vec<Team>, String> {
                     training_focus, training_intensity, training_schedule,
                     founded_year, colors_primary, colors_secondary,
                     starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, weekly_scrim_plan_team_ids, scrim_weekly_objective, scrim_weekly_slots, scrim_setup_locked_week_key, scrim_reputation, scrim_weekly_cancellations, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, scrim_reports, financial_ledger, sponsorship, facilities,
-                    team_kind, parent_team_id, academy_team_id, academy_metadata
+                    team_kind, parent_team_id, academy_team_id, academy_metadata,
+                    logo_url, competition_id
              FROM teams";
 
     log::info!(
         "[team_repo] load_all_teams: executing query on {} columns...",
-        40
+        42
     );
 
     let mut stmt = match conn.prepare(query) {
@@ -339,9 +345,11 @@ pub fn load_all_teams(conn: &Connection) -> Result<Vec<Team>, String> {
         match row {
             Ok(team) => {
                 log::info!(
-                    "[team_repo] load_all_teams: loaded team {} ({})",
+                    "[team_repo] load_all_teams: loaded team {} ({}) | logo_url: {:?} | competition_id: {:?}",
                     team.name,
-                    team.id
+                    team.id,
+                    team.logo_url,
+                    team.competition_id
                 );
                 teams.push(team);
             }
@@ -372,7 +380,8 @@ pub fn load_team(conn: &Connection, id: &str) -> Result<Option<Team>, String> {
                     training_focus, training_intensity, training_schedule,
                     founded_year, colors_primary, colors_secondary,
                     starting_xi_ids, team_roles, form, history, training_groups, weekly_scrim_opponent_ids, weekly_scrim_plan_team_ids, scrim_weekly_objective, scrim_weekly_slots, scrim_setup_locked_week_key, scrim_reputation, scrim_weekly_cancellations, scrim_loss_streak, scrim_weekly_played, scrim_weekly_wins, scrim_weekly_losses, scrim_slot_results, scrim_reports, financial_ledger, sponsorship, facilities,
-                    team_kind, parent_team_id, academy_team_id, academy_metadata
+                    team_kind, parent_team_id, academy_team_id, academy_metadata,
+                    logo_url, competition_id
              FROM teams WHERE id = ?1",
         )
         .map_err(|e| format!("Failed to prepare team query: {}", e))?;
@@ -661,7 +670,7 @@ mod tests {
         team.sponsorship = Some(Sponsorship {
             sponsor_name: "Acme Corp".to_string(),
             base_value: 100_000,
-            remaining_weeks: 12,
+            remaining_months: 12,
             bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
                 required_matches: 3,
                 bonus_amount: 25_000,
@@ -676,7 +685,7 @@ mod tests {
             .expect("sponsorship should roundtrip through DB");
         assert_eq!(sponsorship.sponsor_name, "Acme Corp");
         assert_eq!(sponsorship.base_value, 100_000);
-        assert_eq!(sponsorship.remaining_weeks, 12);
+        assert_eq!(sponsorship.remaining_months, 12);
         assert!(matches!(
             sponsorship.bonus_criteria.as_slice(),
             [SponsorshipBonusCriterion::UnbeatenRun {

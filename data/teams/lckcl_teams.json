@@ -1,0 +1,175 @@
+{
+  "name": "LCKCL Teams",
+  "description": "LCKCL - 2026 Season",
+  "teams": [
+    {
+      "id": "lck-cl-bnk-fearx-youth",
+      "logo_url": "/teams-icons/bnk-fearx-youth.webp",
+      "data.country": "KR",
+      "name": "BNK FEARX Youth",
+      "short_name": "BNK.Y",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-gen-g-global-academy",
+      "logo_url": "/teams-icons/gen-g-global-academy.webp",
+      "data.country": "KR",
+      "name": "Gen.G Global Academy",
+      "short_name": "GEN.GA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-kt-rolster-challengers",
+      "logo_url": "/teams-icons/kt-rolster-challengers.webp",
+      "data.country": "KR",
+      "name": "KT Rolster Challengers",
+      "short_name": "KT.C",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-hanjin-brion-challengers",
+      "country": "",
+      "logo_url": "/teams-icons/hanjin-brion-challengers.webp",
+      "name": "HANJIN BRION CHALLENGERS",
+      "short_name": "BRO.C",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-dn-soopers-challengers",
+      "logo_url": "/teams-icons/dn-soopers-challengers.webp",
+      "data.country": "KR",
+      "name": "DN SOOpers Challengers",
+      "short_name": "DNS.C",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-dplus-kia-challengers",
+      "logo_url": "/teams-icons/dplus-kia-challengers.webp",
+      "data.country": "KR",
+      "name": "Dplus KIA Challengers",
+      "short_name": "DK.C",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-ns-esports-academy",
+      "logo_url": "/teams-icons/ns-esports-academy.webp",
+      "data.country": "KR",
+      "name": "NS Esports Academy",
+      "short_name": "NS.EA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-hle-challengers",
+      "logo_url": "/teams-icons/hle-challengers.webp",
+      "data.country": "KR",
+      "name": "HLE Challengers",
+      "short_name": "HLE.C",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-kiwoon-drx-challengers",
+      "logo_url": "/teams-icons/kiwoon-drx-challengers.webp",
+      "data.country": "KR",
+      "name": "Kiwoon DRX Challengers",
+      "short_name": "KRX.C",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    },
+    {
+      "id": "lck-cl-t1-esports-academy",
+      "logo_url": "/teams-icons/t1-esports-academy.webp",
+      "data.country": "KR",
+      "name": "T1 Esports Academy",
+      "short_name": "T1.EA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#10b981",
+        "secondary": "#ffffff"
+      },
+      "facilities": {},
+      "history": []
+    }
+  ]
+}

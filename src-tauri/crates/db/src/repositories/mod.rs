@@ -1,6 +1,7 @@
 pub mod champion_progression_repo;
 pub mod champion_repo;
 pub mod champion_stats_repo;
+pub mod competition_repo;
 pub mod league_repo;
 pub mod manager_repo;
 pub mod message_repo;
@@ -13,3 +14,4 @@ pub mod social_repo;
 pub mod staff_repo;
 pub mod stats_repo;
 pub mod team_repo;
+pub mod transfer_history_repo;

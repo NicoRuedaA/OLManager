@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GameStateData,
   PlayerData,
   PlayerSelectionOptions,
   TransferOfferData,
 } from "../../store/gameStore";
-import { Card, CardBody, Badge, CountryFlag, RoleBadge } from "../ui";
+import { Card, CardBody, Badge, CountryFlag, RoleBadge, Select } from "../ui";
 import {
   Search,
   TrendingUp,
@@ -24,13 +24,9 @@ import {
   getTeamName,
   calcAge,
   formatVal,
-  formatWeeklyAmount,
 } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { resolvePlayerPhoto } from "../../lib/playerPhotos";
-import {
-  annualAmountToWeeklyCommitment,
-} from "../../lib/finance";
 import { useTranslation } from "react-i18next";
 import { countryName } from "../../lib/countries";
 import {
@@ -40,14 +36,17 @@ import { resolveSeasonContext } from "../../lib/seasonContext";
 import { type NegotiationFeedbackPanelData } from "../NegotiationFeedbackPanel";
 import TransferBidModal from "./TransferBidModal";
 import TransferCounterOfferModal from "./TransferCounterOfferModal";
+import WageNegotiationModal from "./WageNegotiationModal";
 import {
   counterOffer,
   makeTransferBid,
   previewTransferBidFinancialImpact,
   respondToOffer,
+  negotiatePlayerWage,
   type TransferDestinationData,
   type TransferBidProjectionData,
   type TransferNegotiationResponseData,
+  type WageNegotiationResponseData,
 } from "../../services/transfersService";
 import {
   buildResumedBidFeedback,
@@ -66,6 +65,7 @@ import {
   type TransferSortState,
   type TransferTabView,
 } from "./TransfersTab.model";
+import { annualAmountToMonthlyCommitment } from "../../lib/finance";
 
 interface TransfersTabProps {
   gameState: GameStateData;
@@ -81,6 +81,14 @@ type CounterTarget = {
   fee: number;
 };
 
+type WageNegotiationTarget = {
+  player: PlayerData;
+  offerId: string;
+  fromTeamId: string | null;
+  fee: number;
+  destinationTeamId: string;
+};
+
 type TransferNegotiationFeedbackData = NegotiationFeedbackPanelData;
 
 export default function TransfersTab({
@@ -90,10 +98,10 @@ export default function TransfersTab({
   onGameUpdate,
 }: TransfersTabProps) {
   const { t, i18n } = useTranslation();
-  const weeklySuffix = t("finances.perWeekSuffix", "/wk");
   const userTeamId = gameState.manager.team_id;
   const [view, setView] = useState<TransferTabView>("my_list");
   const [search, setSearch] = useState("");
+  const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
   const [posFilter, setPosFilter] = useState<string | null>(null);
   const [sort, setSort] = useState<TransferSortState | null>(null);
 
@@ -112,7 +120,7 @@ export default function TransfersTab({
   const renderSortIcon = (key: TransferSortKey) => {
     if (!sort || sort.key !== key) {
       return (
-        <ArrowUpDown className="w-3 h-3 text-gray-400 dark:text-gray-500 opacity-60 group-hover/sort:opacity-100 transition-opacity" />
+        <ArrowUpDown className="w-3 h-3 text-gray-400 dark:text-gray-500 opacity-60" />
       );
     }
     return sort.direction === "desc" ? (
@@ -143,6 +151,19 @@ export default function TransfersTab({
     TransferNegotiationResponseData["decision"] | "error" | null
   >(null);
   const [counterFeedback, setCounterFeedback] =
+    useState<TransferNegotiationFeedbackData | null>(null);
+  const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([]);
+  const [bidSelectedPlayerIds, setBidSelectedPlayerIds] = useState<string[]>([]);
+
+  const [wageTarget, setWageTarget] = useState<WageNegotiationTarget | null>(null);
+  const [wageAmount, setWageAmount] = useState("");
+  const [contractYears, setContractYears] = useState(3);
+  const [wageLoading, setWageLoading] = useState(false);
+  const [wageError, setWageError] = useState<string | null>(null);
+  const [wageResult, setWageResult] = useState<
+    WageNegotiationResponseData["decision"] | "error" | null
+  >(null);
+  const [wageFeedback, setWageFeedback] =
     useState<TransferNegotiationFeedbackData | null>(null);
 
   const openBidNegotiation = (player: PlayerData) => {
@@ -196,18 +217,41 @@ export default function TransfersTab({
     setBidFeedback(null);
     try {
       const fee = Math.round(parseFloat(bidAmount));
-      const res = await makeTransferBid(bidTarget.id, fee, bidDestination);
+      const res = await makeTransferBid(bidTarget.id, fee, bidDestination, bidSelectedPlayerIds);
       setBidResult(res.decision);
       setBidFeedback(res.feedback);
       if (onGameUpdate) onGameUpdate(res.game);
       if (res.suggested_fee !== null) {
         setBidAmount(String(Math.round(res.suggested_fee)));
       }
-      if (res.decision === "accepted") {
+      if (res.decision === "accepted" && !res.is_terminal) {
+        const updatedPlayer = res.game.players.find((p: PlayerData) => p.id === bidTarget.id);
+        const acceptedOffer = updatedPlayer
+          ?.transfer_offers.find((o) => o.status === "Accepted" && o.destination_team_id);
+        if (updatedPlayer && acceptedOffer && acceptedOffer.destination_team_id) {
+          setWageTarget({
+            player: updatedPlayer,
+            offerId: acceptedOffer.id,
+            fromTeamId: updatedPlayer.team_id ?? null,
+            fee,
+            destinationTeamId: acceptedOffer.destination_team_id,
+          });
+          setWageAmount(String(Math.round(updatedPlayer.wage * 1.5)));
+          setContractYears(acceptedOffer.suggested_counter_years ?? 3);
+          setWageResult(null);
+          setWageFeedback(null);
+          setWageError(null);
+        }
+        setBidTarget(null);
+        setBidResult(null);
+        setBidFeedback(null);
+        setBidSelectedPlayerIds([]);
+      } else if (res.decision === "accepted") {
         setTimeout(() => {
           setBidTarget(null);
           setBidResult(null);
           setBidFeedback(null);
+          setBidSelectedPlayerIds([]);
         }, 2000);
       }
     } catch (err: any) {
@@ -245,6 +289,7 @@ export default function TransfersTab({
         counterTarget.player.id,
         counterTarget.offerId,
         requestedFee,
+        selectedPlayerIds,
       );
 
       if (onGameUpdate) onGameUpdate(response.game);
@@ -253,12 +298,36 @@ export default function TransfersTab({
       if (response.suggested_fee !== null) {
         setCounterAmount(String(Math.round(response.suggested_fee)));
       }
-      if (response.decision === "accepted") {
+      if (response.decision === "accepted" && !response.is_terminal) {
+        const updatedPlayer = response.game.players.find((p: PlayerData) => p.id === counterTarget.player.id);
+        const acceptedOffer = updatedPlayer
+          ?.transfer_offers.find((o) => o.status === "Accepted" && o.destination_team_id);
+        if (updatedPlayer && acceptedOffer && acceptedOffer.destination_team_id) {
+          setWageTarget({
+            player: updatedPlayer,
+            offerId: acceptedOffer.id,
+            fromTeamId: counterTarget.fromTeamId,
+            fee: requestedFee,
+            destinationTeamId: acceptedOffer.destination_team_id,
+          });
+          setWageAmount(String(Math.round(updatedPlayer.wage * 1.5)));
+          setContractYears(acceptedOffer.suggested_counter_years ?? 3);
+          setWageResult(null);
+          setWageFeedback(null);
+          setWageError(null);
+        }
+        setCounterTarget(null);
+        setCounterAmount("");
+        setCounterResult(null);
+        setCounterFeedback(null);
+        setSelectedPlayerIds([]);
+      } else if (response.decision === "accepted") {
         setTimeout(() => {
           setCounterTarget(null);
           setCounterAmount("");
           setCounterResult(null);
           setCounterFeedback(null);
+          setSelectedPlayerIds([]);
         }, 1500);
       }
     } catch (err: any) {
@@ -270,22 +339,89 @@ export default function TransfersTab({
     }
   };
 
+  const handleWageNegotiation = async () => {
+    if (!wageTarget || !wageAmount) return;
+
+    setWageLoading(true);
+    setWageError(null);
+    setWageResult(null);
+    setWageFeedback(null);
+
+    try {
+      const annualWage = Math.round(parseFloat(wageAmount));
+      const response = await negotiatePlayerWage(
+        wageTarget.player.id,
+        wageTarget.offerId,
+        annualWage,
+        contractYears,
+      );
+
+      if (onGameUpdate) onGameUpdate(response.game);
+      setWageResult(response.decision);
+      setWageFeedback(response.feedback);
+      if (response.suggested_wage !== null) {
+        setWageAmount(String(Math.round(response.suggested_wage)));
+      }
+      if (response.is_terminal) {
+        if (response.decision === "accepted") {
+          setTimeout(() => {
+            setWageTarget(null);
+            setWageAmount("");
+            setWageResult(null);
+            setWageFeedback(null);
+            setWageError(null);
+          }, 2000);
+        }
+      }
+    } catch (err: any) {
+      setWageError(
+        mapTransferNegotiationError(t, err?.toString() || "error"),
+      );
+    } finally {
+      setWageLoading(false);
+    }
+  };
+
   const myTeam = gameState.teams.find(
     (team) => team.id === gameState.manager.team_id,
   );
   const myRoster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
-  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToWeeklyCommitment(p.wage), 0);
+  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToMonthlyCommitment(p.wage), 0);
   const academyTeam = gameState.teams.find(
     (team) => team.id === myTeam?.academy_team_id,
   ) ?? gameState.teams.find(
     (team) => team.team_kind === "Academy" && team.parent_team_id === myTeam?.id,
   ) ?? null;
+
+  const managedTeamIds = [myTeam?.id, academyTeam?.id].filter(Boolean) as string[];
+  const userPlayersForBid = bidTarget
+    ? gameState.players.filter(
+        (p) =>
+          managedTeamIds.includes(p.team_id ?? "") &&
+          p.id !== bidTarget.id &&
+          p.transfer_offers.every((o) => o.status !== "Pending"),
+      )
+    : [];
+  const userPlayersForCounter = counterTarget
+    ? gameState.players.filter(
+        (p) =>
+          managedTeamIds.includes(p.team_id ?? "") &&
+          p.id !== counterTarget?.player.id &&
+          p.transfer_offers.every((o) => o.status !== "Pending"),
+      )
+    : [];
+
   const activeBidOffer = bidTarget
     ? getOutgoingNegotiationOffer(bidTarget, userTeamId)
     : null;
   const activeCounterOffer = counterTarget
     ? counterTarget.player.transfer_offers.find(
       (offer) => offer.id === counterTarget.offerId,
+    ) ?? null
+    : null;
+  const activeWageOffer = wageTarget
+    ? wageTarget.player.transfer_offers.find(
+      (offer) => offer.id === wageTarget.offerId,
     ) ?? null
     : null;
   const seasonContext = resolveSeasonContext(gameState);
@@ -361,14 +497,22 @@ export default function TransfersTab({
       },
     ];
 
+  const competitionTeamIds = useMemo(() => {
+    if (!competitionFilter) return null;
+    return new Set(gameState.teams.filter(t => t.competition_id === competitionFilter).map(t => t.id));
+  }, [gameState.teams, competitionFilter]);
+
+  const leagueOptions = useMemo(() => {
+    return gameState.leagues.map(l => ({ id: l.competition_id ?? l.id, name: l.name }));
+  }, [gameState.leagues]);
+
   const currentList = getCurrentTransferList(view, transferCollections);
   const filteredList = sortTransferPlayers(
-    filterTransferPlayers(currentList, search, posFilter),
+    filterTransferPlayers(currentList, search, posFilter, competitionTeamIds),
     sort,
   );
-  const weeklyWageBudget = myTeam
-    ? annualAmountToWeeklyCommitment(myTeam.wage_budget)
-    : 0;
+  const annualWageBudget = myTeam ? myTeam.wage_budget : 0;
+  const weeklyWageBudget = annualAmountToMonthlyCommitment(annualWageBudget);
   const bidAmountValue = Number.parseFloat(bidAmount);
   const bidFee = Number.isFinite(bidAmountValue)
     ? Math.round(bidAmountValue)
@@ -417,7 +561,7 @@ export default function TransfersTab({
     bidProjection.exceeds_finance;
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-[92%] max-w-[2000px] mx-auto">
       {/* Budget header */}
       {myTeam && (
         <Card accent="primary" className="mb-5">
@@ -465,7 +609,7 @@ export default function TransfersTab({
                   {t("finances.wageBudget")}
                 </p>
                 <p className="font-heading font-bold text-lg text-white">
-                  {formatWeeklyAmount(formatVal(weeklyWageBudget), weeklySuffix)}
+                  €{formatVal(annualWageBudget)}
                 </p>
                 {totalWages > 0 && (
                   <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-1">
@@ -517,13 +661,24 @@ export default function TransfersTab({
             {filteredList.length}
           </span>
         </div>
+        <Select
+          value={competitionFilter ?? ""}
+          onChange={(e) => setCompetitionFilter(e.target.value || null)}
+          selectSize="sm"
+          className="min-w-32 font-heading font-bold uppercase tracking-wider"
+        >
+          <option value="">{t("common.all")}</option>
+          {leagueOptions.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </Select>
         <div className="flex gap-1.5">
           <button
             onClick={() => setPosFilter(null)}
             className={`px-3 py-1.5 rounded-lg text-xs font-heading font-bold uppercase tracking-wider transition-all ${!posFilter ? "bg-primary-500 text-white shadow-sm" : "bg-white dark:bg-navy-800 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-navy-600"}`}
             title="All roles"
           >
-            <img src="/role-icons/allroles.png" alt="All roles" className="h-3.5 w-3.5" />
+            <img src="/role-icons/allroles.webp" alt="All roles" className="h-3.5 w-3.5" />
           </button>
           {positions.map((pos) => (
             <button
@@ -588,7 +743,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("position")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByPosition", "Ordenar por posición")}
                       >
                         {t("common.position")}
@@ -599,7 +754,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("name")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByName", "Ordenar por nombre")}
                       >
                         {t("common.player")}
@@ -610,7 +765,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("age")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByAge", "Ordenar por edad")}
                       >
                         {t("common.age")}
@@ -621,7 +776,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("team")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByTeam", "Ordenar por equipo")}
                       >
                         {t("common.team")}
@@ -632,7 +787,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("value")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByValue", "Ordenar por valor")}
                       >
                         {t("common.value")}
@@ -643,7 +798,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("wage")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByWage", "Ordenar por salario")}
                       >
                         {t("common.wage")}
@@ -654,7 +809,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("ovr")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByOvr", "Ordenar por OVR")}
                       >
                         {t("common.ovr")}
@@ -665,7 +820,7 @@ export default function TransfersTab({
                       <button
                         type="button"
                         onClick={() => toggleSort("status")}
-                        className="group/sort inline-flex items-center gap-1.5 hover:text-primary-500 transition-colors"
+                        className="group/sort inline-flex items-center gap-1.5"
                         aria-label={t("transfers.sortByStatus", "Ordenar por estado")}
                       >
                         {t("common.status")}
@@ -690,20 +845,22 @@ export default function TransfersTab({
                     const age = calcAge(player.date_of_birth, gameState.clock.current_date);
                     const offersForThisPlayer = player.transfer_offers;
                     const lolRole = getLolRoleForPlayer(player);
-                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name);
+                    const photoSrc = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
                     return (
                       <tr
                         key={player.id}
-                        className="hover:bg-gray-50 dark:hover:bg-navy-700/50 transition-colors cursor-pointer group"
+                        className="cursor-pointer"
                         onClick={() => onSelectPlayer(player.id)}
                       >
                         <td className="py-2.5 px-4">
                           <img
-                            src={photoSrc ?? "/player-photos/107455908655055017.png"}
+                            src={photoSrc ?? "/default/defaultplayer.webp"}
                             alt={player.match_name}
                             className="w-8 h-8 rounded-full object-cover bg-gray-200 dark:bg-navy-600"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = "/player-photos/107455908655055017.png";
+                              const target = e.target as HTMLImageElement;
+                              if (target.src.endsWith("defaultplayer.webp")) return;
+                              target.src = "/default/defaultplayer.webp";
                             }}
                           />
                         </td>
@@ -711,7 +868,7 @@ export default function TransfersTab({
                           <RoleBadge role={lolRole} size="sm" />
                         </td>
                         <td className="py-2.5 px-4">
-                          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200">
                             {player.match_name || player.full_name}
                           </span>
                           <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
@@ -894,6 +1051,7 @@ export default function TransfersTab({
         <TransferBidModal
           bidTarget={bidTarget}
           teams={gameState.teams}
+          currentDate={gameState.clock.current_date}
           bidAmount={bidAmount}
           onBidAmountChange={setBidAmount}
           destination={bidDestination}
@@ -905,6 +1063,9 @@ export default function TransfersTab({
           bidFeedback={bidFeedback}
           activeBidOffer={activeBidOffer}
           hasExistingOffer={activeBidOffer !== null}
+          userPlayers={userPlayersForBid}
+          selectedPlayerIds={bidSelectedPlayerIds}
+          onSelectedPlayersChange={setBidSelectedPlayerIds}
           bidResult={bidResult}
           bidLoading={bidLoading}
           bidSubmitDisabled={bidSubmitDisabled}
@@ -914,7 +1075,9 @@ export default function TransfersTab({
             setBidFeedback(null);
             setBidResult(null);
             setBidProjection(null);
+            setBidSelectedPlayerIds([]);
           }}
+          isFreeAgent={!bidTarget.team_id}
         />
       )}
       {counterTarget && (
@@ -928,6 +1091,9 @@ export default function TransfersTab({
           counterResult={counterResult}
           counterError={counterError}
           counterLoading={counterLoading}
+          userPlayers={userPlayersForCounter}
+          selectedPlayerIds={selectedPlayerIds}
+          onSelectedPlayersChange={setSelectedPlayerIds}
           onSubmit={handleCounterOffer}
           onClose={() => {
             setCounterTarget(null);
@@ -935,7 +1101,32 @@ export default function TransfersTab({
             setCounterError(null);
             setCounterResult(null);
             setCounterFeedback(null);
+            setSelectedPlayerIds([]);
           }}
+        />
+      )}
+      {wageTarget && (
+        <WageNegotiationModal
+          target={wageTarget}
+          teams={gameState.teams}
+          wageAmount={wageAmount}
+          onWageAmountChange={setWageAmount}
+          contractYears={contractYears}
+          onContractYearsChange={setContractYears}
+          feedback={wageFeedback}
+          activeOffer={activeWageOffer}
+          result={wageResult}
+          error={wageError}
+          loading={wageLoading}
+          onSubmit={handleWageNegotiation}
+          onClose={() => {
+            setWageTarget(null);
+            setWageAmount("");
+            setWageResult(null);
+            setWageFeedback(null);
+            setWageError(null);
+          }}
+          annualWageBudget={myTeam ? myTeam.wage_budget : 0}
         />
       )}
     </div>

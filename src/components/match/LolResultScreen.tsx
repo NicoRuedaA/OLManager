@@ -250,7 +250,7 @@ export default function LolResultScreen({
 
   return (
     <div className="min-h-screen bg-[#0b1631] text-white p-4 md:p-6" style={{ backgroundImage: "radial-gradient(circle at 20% 15%, rgba(59,130,246,0.12), transparent 35%), radial-gradient(circle at 85% 15%, rgba(236,72,153,0.12), transparent 35%)" }}>
-      <div className="max-w-6xl mx-auto space-y-4">
+      <div className="w-[92%] max-w-[2000px] mx-auto space-y-4">
         <header className="rounded-2xl border border-cyan-400/20 bg-[#12274c]/95 px-6 py-5 text-center shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
           <p className="text-xs uppercase tracking-[0.28em] text-slate-400">{t("match.matchOver")}</p>
           <h1 className={`mt-1 text-5xl font-heading uppercase ${userWon ? "text-emerald-400" : "text-rose-400"}`}>
@@ -303,7 +303,7 @@ export default function LolResultScreen({
 
         <section className="grid grid-cols-1 xl:grid-cols-[1.25fr_0.9fr] gap-4">
           <div className="rounded-2xl border border-cyan-400/15 bg-[#12274c]/90 p-4">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-3">
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-3">
               {t("match.lolResult.performanceHeader")}
             </p>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -335,7 +335,7 @@ export default function LolResultScreen({
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-[#12274c]/90 p-4">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-3">
+            <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-3">
               {t("match.lolResult.teamStats")}
             </p>
             <div className="space-y-2 text-sm">
@@ -353,7 +353,7 @@ export default function LolResultScreen({
         </section>
 
         <section className="rounded-2xl border border-white/10 bg-[#12274c]/90 p-4">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-3">
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-3">
             {t("match.lolResult.goldDiffOverTime")}
           </p>
           <div className="h-40 rounded-xl border border-white/10 bg-[#0b1835] p-3">
@@ -389,7 +389,7 @@ export default function LolResultScreen({
         </section>
 
         <section className="rounded-2xl border border-white/10 bg-[#12274c]/90 p-4">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-2">
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-400 mb-2">
             {t("match.lolResult.keyTimeline")}
           </p>
           <div className="space-y-1 max-h-52 overflow-auto pr-1">

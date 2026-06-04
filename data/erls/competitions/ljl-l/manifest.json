@@ -1,0 +1,18 @@
+{
+  "id": "ljl-l",
+  "name": "LJL-L",
+  "full_name": "LJL Legacy",
+  "region": "LJL-L",
+  "country": "JP",
+  "tier": 2,
+  "logo": null,
+  "teams_file": "erls/teams/ljl-l_teams.json",
+  "players_file": "erls/players/ljl-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

@@ -1,6 +1,7 @@
 import { Crown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Card, CardBody, CardHeader } from "../ui";
+import { resolveChampionTile } from "../../lib/championImages";
 
 interface ChampionMasteryItem {
   championId: string;
@@ -14,10 +15,6 @@ interface ChampionMasteryItem {
 interface PlayerProfileChampionsCardProps {
   champions: ChampionMasteryItem[];
   onViewChampion?: (championKey: string) => void;
-}
-
-function championPortraitUrl(championId: string): string {
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/tiles/${championId}_0.jpg`;
 }
 
 export default function PlayerProfileChampionsCard({ champions, onViewChampion }: PlayerProfileChampionsCardProps) {
@@ -37,22 +34,22 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
               type="button"
               key={`${item.rank}-${item.championId}`}
               onClick={() => handleChampionClick(item.championId)}
-              className="relative rounded-xl overflow-hidden border border-[#22345d] min-h-[192px] bg-[#111f3d] text-left cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(251,191,36,0.2)] hover:border-yellow-400"
+              className="relative rounded-xl overflow-hidden border border-navy-600 min-h-[192px] bg-navy-850 text-left cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(251,191,36,0.2)] hover:border-yellow-400"
             >
               <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${championPortraitUrl(item.championId)})` }}
+                style={{ backgroundImage: `url(${resolveChampionTile(item.championId) ?? ""})` }}
               />
               <div className="absolute inset-0 bg-linear-to-b from-black/45 via-black/45 to-black/75" />
 
               <div className="relative z-10 p-2.5 h-full flex flex-col">
                 <div className="flex items-start justify-between">
                   {item.rank === "insignia" ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-heading font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-300/35">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-2xs font-heading font-bold uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-300/35">
                       <Crown className="w-3 h-3" /> {t("playerProfile.championInsignia")}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-heading font-bold uppercase tracking-wide bg-white/20 text-white border border-white/35">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded-md text-2xs font-heading font-bold uppercase tracking-wide bg-white/20 text-white border border-white/35">
                       #{item.rank}
                     </span>
                   )}

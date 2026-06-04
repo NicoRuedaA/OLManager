@@ -7,8 +7,7 @@
 
 use engine::LolRole;
 use engine::{
-    DraftStrategy, EventType, MatchConfig, MatchEvent, PlayerData, Side, TeamData, Zone,
-    simulate_lol,
+    DraftStrategy, EventType, MatchConfig, MatchEvent, PlayerData, Side, TeamData, Zone, simulate_lol,
 };
 use rand::SeedableRng;
 use rand::rngs::StdRng;
@@ -85,14 +84,6 @@ fn seeded_rng(seed: u64) -> StdRng {
 fn player_overall_rating() {
     let p = make_player("p1", "Test", "Forward", 70);
     assert!((p.overall() - 70.0).abs() < 0.01);
-}
-
-#[test]
-fn player_effective_overall_accounts_for_condition() {
-    let mut p = make_player("p1", "Test", "Forward", 80);
-    p.condition = 50;
-    let eff = p.effective_overall();
-    assert!((eff - 40.0).abs() < 0.01, "Expected ~40.0, got {eff}");
 }
 
 #[test]

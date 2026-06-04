@@ -118,9 +118,11 @@ pub fn eligible_academy_creation_options(
     catalog
         .iter()
         .filter(|erl| {
-            erl.nearby_country_codes
-                .iter()
-                .any(|country| country_matches(country, team_country_code))
+            // Empty nearby_country_codes = available to all countries as fallback
+            erl.nearby_country_codes.is_empty()
+                || erl.nearby_country_codes
+                    .iter()
+                    .any(|country| country_matches(country, team_country_code))
         })
         .map(|erl| {
             acquisition_option_from_league(

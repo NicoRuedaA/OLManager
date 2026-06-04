@@ -47,10 +47,7 @@ function structureAlive(snapshot: MatchSnapshot, id: string): boolean {
 
 function championIconUrl(championId: string | undefined): string | null {
   if (!championId) return null;
-  if (championId.toLowerCase().replace(/[^a-z0-9]/g, "") === "yunara") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/804.png";
-  }
-  return `https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/${championId}.png`;
+  return `/champion-tiles/${championId}.webp`;
 }
 
 function initials(name: string): string {
@@ -166,7 +163,7 @@ export default function LolLiveMap({ snapshot, championSelections }: LolLiveMapP
                 title={`${label} · ${unit.role} · ${unit.task}`}
               >
                 <div
-                  className={`relative w-7 h-7 rounded-full border-2 text-[9px] font-heading font-bold flex items-center justify-center text-white ${
+                  className={`relative w-7 h-7 rounded-full border-2 text-2xs font-heading font-bold flex items-center justify-center text-white ${
                     isBlue
                       ? "bg-cyan-600 border-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.65)]"
                       : "bg-rose-600 border-rose-300 shadow-[0_0_10px_rgba(251,113,133,0.65)]"
@@ -179,7 +176,7 @@ export default function LolLiveMap({ snapshot, championSelections }: LolLiveMapP
                   )}
 
                   {!unit.alive ? (
-                    <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-black/85 border border-white/20 text-[9px] leading-4 text-center text-white">
+                    <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-black/85 border border-white/20 text-2xs leading-4 text-center text-white">
                       {respawnLeft ?? "X"}
                     </span>
                   ) : null}
@@ -190,9 +187,9 @@ export default function LolLiveMap({ snapshot, championSelections }: LolLiveMapP
         </div>
 
         {snapshot.lol_map ? (
-          <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] text-gray-700 dark:text-gray-300">
+          <div className="mt-2 grid grid-cols-2 gap-2 text-xs text-gray-700 dark:text-gray-300">
             <div className="rounded border border-gray-200 px-2 py-1 dark:border-navy-600">
-              <p className="font-heading uppercase tracking-wider text-[10px] text-gray-500 dark:text-gray-400">{t("match.liveMap.dragon")}</p>
+              <p className="font-heading uppercase tracking-wider text-2xs text-gray-500 dark:text-gray-400">{t("match.liveMap.dragon")}</p>
               <p>
                 {snapshot.lol_map.objectives.dragon.alive
                   ? t("match.liveMap.aliveWithKind", {
@@ -204,7 +201,7 @@ export default function LolLiveMap({ snapshot, championSelections }: LolLiveMapP
               </p>
             </div>
             <div className="rounded border border-gray-200 px-2 py-1 dark:border-navy-600">
-              <p className="font-heading uppercase tracking-wider text-[10px] text-gray-500 dark:text-gray-400">{t("match.liveMap.baron")}</p>
+              <p className="font-heading uppercase tracking-wider text-2xs text-gray-500 dark:text-gray-400">{t("match.liveMap.baron")}</p>
               <p>
                 {snapshot.lol_map.objectives.baron.alive
                   ? t("match.liveMap.alive")

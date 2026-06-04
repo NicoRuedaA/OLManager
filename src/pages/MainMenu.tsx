@@ -283,23 +283,19 @@ export default function MainMenu() {
         );
       }
 
-      const worldSource = "default";
-
-      await invoke<string>("start_new_game", {
-        nickname: formData.nickname,
+      await invoke<string>("start_new_game_lightweight", {
+        nickname: formData.nickname || null,
         firstName: formData.firstName,
         lastName: formData.lastName,
         dob: formData.dob,
         nationality: formData.nationality,
-        worldSource,
-        avatarPath: null,
       });
 
       const displayName =
         formData.nickname?.trim() || `${formData.firstName} ${formData.lastName}`;
       setGameActive(true, displayName.trim());
       console.debug(
-        "[MainMenu] start_new_game completed, navigating to /select-team",
+        "[MainMenu] start_new_game_lightweight completed, navigating to /select-team",
       );
       navigate("/select-team");
     } catch (error) {
@@ -639,6 +635,13 @@ export default function MainMenu() {
                         toggleNationalityDropdown();
                       }
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Tab" && !e.shiftKey) {
+                        e.preventDefault();
+                        if (nationalityOpen) setNationalityOpen(false);
+                        document.getElementById("create-manager-submit")?.focus();
+                      }
+                    }}
                     className={`w-full flex items-center justify-between bg-gray-50 dark:bg-navy-900 border text-left rounded-lg p-3 outline-none transition-all ${formErrors.nationality
                         ? "border-red-400 dark:border-red-500"
                         : nationalityOpen
@@ -683,6 +686,14 @@ export default function MainMenu() {
                       onMouseDown={(event) => {
                         event.stopPropagation();
                         logNationalityDebug("dropdown panel mousedown");
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Tab") {
+                          e.preventDefault();
+                          setNationalityOpen(false);
+                          setNationalitySearch("");
+                          document.getElementById("create-manager-submit")?.focus();
+                        }
                       }}
                     >
                       <div className="p-2 border-b border-gray-100 dark:border-navy-600">
@@ -755,6 +766,7 @@ export default function MainMenu() {
               </div>
 
               <Button
+                id="create-manager-submit"
                 type="submit"
                 variant="primary"
                 size="lg"

@@ -96,7 +96,7 @@ describe("PlayerProfileHeroCard potential UX", () => {
         primaryPosition="Midfielder"
         age={24}
         teamName="Team"
-        weeklySuffix="/wk"
+        annualSuffix="/año"
         language="es"
         isOwnClub
         scoutAvailability={{
@@ -129,7 +129,7 @@ describe("PlayerProfileHeroCard potential UX", () => {
         primaryPosition="Midfielder"
         age={24}
         teamName="Team"
-        weeklySuffix="/wk"
+        annualSuffix="/año"
         language="es"
         isOwnClub
         scoutAvailability={{
@@ -159,7 +159,7 @@ describe("PlayerProfileHeroCard potential UX", () => {
         primaryPosition="Midfielder"
         age={24}
         teamName="Team"
-        weeklySuffix="/wk"
+        annualSuffix="/año"
         language="es"
         isOwnClub
         scoutAvailability={{

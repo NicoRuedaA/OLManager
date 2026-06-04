@@ -98,7 +98,7 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
 
         let today = game.clock.current_date.format("%Y-%m-%d").to_string();
 
-        let has_match = game.league.as_ref().is_some_and(|league| {
+        let has_match = game.active_league().is_some_and(|league| {
             league.fixtures.iter().any(|fixture| {
                 fixture.date == today
                     && fixture.status == domain::league::FixtureStatus::Scheduled
@@ -176,10 +176,10 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
 mod tests {
     use super::{advance_time_with_mode_internal, compute_blocking_actions};
     use chrono::{TimeZone, Utc};
-    use domain::league::{Fixture, FixtureCompetition, FixtureStatus};
+    use domain::league::{Fixture, FixtureStatus, MatchType};
     use domain::manager::Manager;
     use domain::message::{InboxMessage, MessagePriority};
-    use domain::player::{Injury, LolRole, Player, PlayerAttributes};
+    use domain::player::{LolRole, Player, PlayerAttributes};
     use domain::stats::StatsState;
     use domain::team::Team;
     use ofm_core::clock::GameClock;
@@ -294,17 +294,18 @@ mod tests {
 
         game.teams[0].active_lineup_ids =
             game.players.iter().take(11).map(|p| p.id.clone()).collect();
-        game.league = Some(domain::league::League {
+        game.leagues = vec![domain::league::League {
             id: "league-1".to_string(),
             name: "League".to_string(),
             season: 2025,
+            competition_id: None,
             fixtures: vec![Fixture {
                 id: "fixture-1".to_string(),
                 matchday: 1,
                 date: today,
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Scheduled,
                 result: None,
@@ -313,7 +314,7 @@ mod tests {
                 domain::league::StandingEntry::new("team1".to_string()),
                 domain::league::StandingEntry::new("team2".to_string()),
             ],
-        });
+        }];
         game
     }
 
@@ -369,65 +370,6 @@ mod tests {
     }
 
     #[test]
-    fn injured_starters_trigger_injury_and_incomplete_lineup_blockers() {
-        let mut game = make_game(11);
-        for player_id in ["p2", "p5"] {
-            let player = game
-                .players
-                .iter_mut()
-                .find(|player| player.id == player_id)
-                .unwrap();
-            player.injury = Some(Injury {
-                name: "Hamstring".to_string(),
-                days_remaining: 7,
-            });
-        }
-
-        let blockers = compute_blocking_actions(&game);
-
-        let injured = blocker_by_id(&blockers, "injured_lineup").unwrap();
-        assert_eq!(
-            injured.get("severity").and_then(Value::as_str),
-            Some("warn")
-        );
-        assert_eq!(injured.get("tab").and_then(Value::as_str), Some("Squad"));
-        let injured_text = injured.get("text").and_then(Value::as_str).unwrap();
-        assert!(injured_text.contains("2 injured player(s)"));
-        assert!(injured_text.contains("Player 2"));
-        assert!(injured_text.contains("Player 5"));
-
-        let incomplete = blocker_by_id(&blockers, "incomplete_lineup").unwrap();
-        assert_eq!(
-            incomplete.get("severity").and_then(Value::as_str),
-            Some("warn")
-        );
-        assert_eq!(incomplete.get("tab").and_then(Value::as_str), Some("Squad"));
-        assert_eq!(
-            incomplete.get("text").and_then(Value::as_str),
-            Some("Active lineup has only 9 healthy players — set your lineup")
-        );
-    }
-
-    #[test]
-    fn incomplete_lineup_is_not_reported_when_roster_has_fewer_than_eleven_players() {
-        let mut game = make_game(10);
-        let player = game
-            .players
-            .iter_mut()
-            .find(|player| player.id == "p3")
-            .unwrap();
-        player.injury = Some(Injury {
-            name: "Knee".to_string(),
-            days_remaining: 14,
-        });
-
-        let blockers = compute_blocking_actions(&game);
-
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_some());
-        assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
-    }
-
-    #[test]
     fn missing_lol_roles_trigger_main_role_coverage_blocker() {
         let mut game = make_game(5);
         game.players.truncate(5);
@@ -472,7 +414,6 @@ mod tests {
 
         let blockers = compute_blocking_actions(&game);
 
-        assert!(blocker_by_id(&blockers, "injured_lineup").is_none());
         assert!(blocker_by_id(&blockers, "incomplete_lineup").is_none());
     }
 
@@ -673,6 +614,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![
                 domain::league::Fixture {
                     id: "fix1".to_string(),
@@ -680,7 +622,7 @@ mod tests {
                     date: "2025-06-15".to_string(),
                     home_team_id: "team1".to_string(),
                     away_team_id: "team2".to_string(),
-                    competition: FixtureCompetition::League,
+                    match_type: MatchType::League,
                     best_of: 1,
                     status: FixtureStatus::Scheduled,
                     result: None,
@@ -691,7 +633,7 @@ mod tests {
                     date: "2025-06-15".to_string(),
                     home_team_id: "team3".to_string(),
                     away_team_id: "team4".to_string(),
-                    competition: FixtureCompetition::League,
+                    match_type: MatchType::League,
                     best_of: 1,
                     status: domain::league::FixtureStatus::Scheduled,
                     result: None,
@@ -706,7 +648,7 @@ mod tests {
         };
 
         let mut game = Game::new(clock, manager, teams, players, vec![], vec![]);
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 

@@ -111,7 +111,7 @@ pub struct WeeklyScrimContextResponse {
     pub top_focus: Option<domain::team::ScrimFocus>,
     pub top_issue: Option<domain::team::ScrimIssue>,
     pub next_official_rival_team_id: Option<String>,
-    pub next_official_rival_competition: Option<domain::league::FixtureCompetition>,
+    pub next_official_rival_competition: Option<domain::league::MatchType>,
     pub setup_locked: bool,
     pub setup_locked_reason: Option<String>,
     pub can_finalize_setup: bool,
@@ -1353,8 +1353,8 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
     );
 
     let has_official_match = game
-        .league
-        .as_ref()
+        .leagues
+        .first()
         .map(|league| {
             league.fixtures.iter().any(|fixture| {
                 fixture.status == domain::league::FixtureStatus::Scheduled
@@ -1617,7 +1617,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         .max_by_key(|(_, count)| *count)
         .map(|(issue, _)| issue);
 
-    let next_official_fixture = game.league.as_ref().and_then(|league| {
+    let next_official_fixture = game.active_league().and_then(|league| {
         let mut fixtures: Vec<&domain::league::Fixture> = league
             .fixtures
             .iter()
@@ -1664,7 +1664,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
             }
         }),
         next_official_rival_competition: next_official_fixture
-            .map(|fixture| fixture.competition.clone()),
+            .map(|fixture| fixture.match_type.clone()),
         setup_locked,
         setup_locked_reason,
         can_finalize_setup: !setup_locked,
@@ -1848,7 +1848,7 @@ pub fn auto_select_team_roles(
 mod tests {
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes};
+    use domain::player::{Player, PlayerAttributes, LolRole};
     use domain::staff::{Staff, StaffAttributes, StaffRole};
     use domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
     use ofm_core::clock::GameClock;

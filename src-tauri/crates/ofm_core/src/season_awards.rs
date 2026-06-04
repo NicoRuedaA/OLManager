@@ -20,6 +20,7 @@ pub struct SeasonAwards {
     pub golden_boot: Vec<AwardEntry>,    // Top scorers
     pub assist_king: Vec<AwardEntry>,    // Top assists
     pub player_of_year: Vec<AwardEntry>, // Best avg rating (min 5 apps)
+
     pub most_appearances: Vec<AwardEntry>,
     pub young_player: Vec<AwardEntry>, // Best avg rating, age <= 21
 }
@@ -165,7 +166,7 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use domain::manager::Manager;
     use domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
-    use domain::stats::LolRole;
+
     use domain::team::Team;
 
     use crate::clock::GameClock;
@@ -424,4 +425,6 @@ mod tests {
             .collect();
         assert_eq!(young_player_ids, vec!["young-four-apps", "young-eligible"]);
     }
+
+
 }

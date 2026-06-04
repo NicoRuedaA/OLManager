@@ -252,12 +252,6 @@ function positionToRole(position: string): DraftRole | null {
   return null;
 }
 
-function playerPhotoUrl(playerId: string): string | null {
-  const match = playerId.match(/^lec-player-(.+)$/);
-  if (!match) return null;
-  return `/player-photos/${match[1]}.png`;
-}
-
 function Section<T extends string>({
   title,
   options,
@@ -290,7 +284,7 @@ function Section<T extends string>({
                 <span className="block font-heading text-sm font-bold uppercase tracking-wider text-gray-800 dark:text-gray-100">
                   {option.label}
                 </span>
-                <span className="mt-1 block text-[11px] leading-tight text-gray-500 dark:text-gray-400">
+                <span className="mt-1 block text-xs leading-tight text-gray-500 dark:text-gray-400">
                   {option.description}
                 </span>
               </button>
@@ -391,6 +385,7 @@ export default function TacticsTab({
         role,
         playerId: player?.id ?? null,
         playerName: player?.match_name ?? t("tactics.lol.noStarter"),
+        profileImageUrl: player?.profile_image_url ?? null,
         base,
         modifier,
         variance,
@@ -649,7 +644,7 @@ export default function TacticsTab({
 
                       {row.playerId ? (
                         <img
-                          src={playerPhotoUrl(row.playerId) ?? ""}
+                          src={row.profileImageUrl ?? "/default/defaultplayer.webp"}
                           alt={row.playerName}
                           className="h-10 w-10 shrink-0 rounded object-cover"
                           loading="lazy"
@@ -662,7 +657,7 @@ export default function TacticsTab({
                         <p className="truncate text-sm font-heading font-bold text-gray-900 dark:text-gray-100">
                           {row.playerName}
                         </p>
-                        <p className="text-[11px] text-gray-500 dark:text-gray-300">
+                        <p className="text-xs text-gray-500 dark:text-gray-300">
                           {Math.round(row.base)} OVR · {roleMetaLabels[row.role]}
                         </p>
                       </div>
@@ -701,7 +696,7 @@ export default function TacticsTab({
                           {row.modifier.toFixed(1)}
                         </p>
                       </div>
-                      <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                      <p className="text-2xs text-gray-500 dark:text-gray-400">
                         ±{row.variance.toFixed(1)} {t("tactics.lol.variance")}
                       </p>
                     </div>

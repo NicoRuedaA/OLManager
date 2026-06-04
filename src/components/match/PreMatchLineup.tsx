@@ -355,8 +355,8 @@ export default function PreMatchLineup({
       {/* Formation fit bar */}
       <div className="bg-white dark:bg-navy-800 rounded-xl border border-gray-200 dark:border-navy-700 shadow-sm p-3 flex items-center justify-between transition-colors duration-300">
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-heading uppercase tracking-widest text-gray-700 dark:text-gray-500">
-            {t("match.roleCoverage")}
+          <span className="text-2xs font-heading uppercase tracking-widest text-gray-700 dark:text-gray-500">
+            {t("match.formationFit")}
           </span>
           {LOL_ROLE_ORDER.map((role) => {
             const homeCount = homeTeam.players.filter((p) => getPlayerLolRole(p) === role).length;
@@ -365,7 +365,7 @@ export default function PreMatchLineup({
             const ok = actual === 1;
             return (
               <div key={role} className="flex items-center gap-1">
-                <span className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-400">
+                <span className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-400">
                   {role === "JUNGLE" ? "JG" : role}
                 </span>
                 <span

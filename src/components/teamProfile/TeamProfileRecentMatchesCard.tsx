@@ -49,7 +49,7 @@ export default function TeamProfileRecentMatchesCard({
               </div>
 
               <div className="text-center">
-                <p className="text-[11px] uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                <p className="text-xs uppercase tracking-wider text-gray-400 dark:text-gray-500">
                   {sideLabel}
                 </p>
                 <p className="font-heading font-bold text-base text-gray-700 dark:text-gray-200 tabular-nums">
@@ -58,7 +58,7 @@ export default function TeamProfileRecentMatchesCard({
               </div>
 
               <div className="text-center">
-                <p className="text-[11px] uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                <p className="text-xs uppercase tracking-wider text-gray-400 dark:text-gray-500">
                   {scoreLabel}
                 </p>
                 <p className="font-heading font-bold text-base text-gray-700 dark:text-gray-200 tabular-nums">
@@ -67,7 +67,7 @@ export default function TeamProfileRecentMatchesCard({
               </div>
 
               <div className="text-center">
-                <p className="text-[11px] uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                <p className="text-xs uppercase tracking-wider text-gray-400 dark:text-gray-500">
                   {economyLabel}
                 </p>
                 <p className="font-heading font-bold text-base text-gray-700 dark:text-gray-200 tabular-nums">

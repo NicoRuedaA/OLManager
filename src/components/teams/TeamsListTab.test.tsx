@@ -164,7 +164,7 @@ function createGameState(): GameStateData {
     staff: [],
     messages: [],
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
@@ -189,7 +189,7 @@ function createGameState(): GameStateData {
           points: 1,
         },
       ],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
   };

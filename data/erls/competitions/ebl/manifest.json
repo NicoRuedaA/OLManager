@@ -1,0 +1,18 @@
+{
+  "id": "ebl",
+  "name": "EBL",
+  "full_name": "Esports Balkan League ",
+  "region": "EBL",
+  "country": "RS",
+  "tier": 2,
+  "logo": "/competition-icons/1779542124846_s6opuwdw4pn.webp",
+  "teams_file": "erls/teams/ebl_teams.json",
+  "players_file": "erls/players/ebl_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

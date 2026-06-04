@@ -142,7 +142,7 @@ export function SubPanel({
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-navy-800 rounded-2xl border border-gray-200 dark:border-navy-600 shadow-2xl w-[1100px] max-h-[90vh] flex flex-col overflow-hidden transition-colors duration-300"
+        className="bg-white dark:bg-navy-800 rounded-2xl border border-gray-200 dark:border-navy-600 shadow-2xl max-w-[1100px] w-[95vw] max-h-[90vh] flex flex-col overflow-hidden transition-colors duration-300"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -214,7 +214,7 @@ export function SubPanel({
                             className={`flex flex-col items-center gap-0.5 transition-all cursor-pointer hover:scale-110 ${isSelected ? "scale-110" : ""}`}
                           >
                             <div
-                              className={`w-8 h-8 rounded-full flex items-center justify-center text-[9px] font-heading font-bold border-2 transition-all ${
+                              className={`w-8 h-8 rounded-full flex items-center justify-center text-2xs font-heading font-bold border-2 transition-all ${
                                 isSelected
                                   ? "bg-red-500/80 border-red-300 text-white ring-2 ring-red-500/50"
                                   : p.condition < 50
@@ -224,7 +224,7 @@ export function SubPanel({
                             >
                               {Math.round(p.condition)}
                             </div>
-                             <span className="text-[9px] text-gray-700 dark:text-white/70 font-medium truncate max-w-[56px]">
+                             <span className="text-2xs text-gray-700 dark:text-white/70 font-medium truncate max-w-[56px]">
                               {p.name.split(" ").pop()}
                             </span>
                           </button>
@@ -237,98 +237,99 @@ export function SubPanel({
 
               {/* On-field player table */}
               <div className="flex-1 overflow-auto px-4 py-2">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 border-b border-gray-200 dark:border-navy-700">
-                      <th className="py-2 pr-2">{t("match.player")}</th>
-                      <th className="py-2 w-12 text-center">
-                        {t("common.position")}
-                      </th>
-                      <th className="py-2 w-12 text-center">
-                        {t("common.ovr")}
-                      </th>
-                      <th className="py-2 w-24">{t("match.fitness")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {team.players
-                      .filter((p) => !snapshot.sent_off.includes(p.id))
-                      .sort((a, b) => {
-                        const posOrd: Record<string, number> = {
-                          Goalkeeper: 1,
-                          Defender: 2,
-                          Midfielder: 3,
-                          Forward: 4,
-                        };
-                        return (
-                          (posOrd[a.role ?? ""] || 99) -
-                            (posOrd[b.role ?? ""] || 99) ||
-                          a.name.localeCompare(b.name)
-                        );
-                      })
-                      .map((p) => {
-                        const isSelected = selectedOff === p.id;
-                        const isSubOn = subbedOnIds.has(p.id);
-                        const ovr = getOvr(p);
-                        return (
-                          <tr
-                            key={p.id}
-                            onClick={() => {
-                              handleSelectOffPlayer(p.id);
-                            }}
-                            className={`cursor-pointer transition-colors text-sm ${
-                              isSelected
-                                ? "bg-red-500/10"
-                                 : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
-                            }`}
-                          >
-                            <td className="py-2 pr-2">
-                              <div className="flex items-center gap-1.5">
-                                {isSelected && (
-                                  <UserMinus className="w-3.5 h-3.5 text-red-400 shrink-0" />
-                                )}
-                                {isSubOn && (
-                                  <span className="text-green-400 text-[10px]">
-                                    ▲
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 border-b border-gray-200 dark:border-navy-700">
+                        <th className="py-2 pr-2">{t("match.player")}</th>
+                        <th className="py-2 w-12 text-center">
+                          {t("common.position")}
+                        </th>
+                        <th className="py-2 w-12 text-center">
+                          {t("common.ovr")}
+                        </th>
+                        <th className="py-2 w-24">{t("match.condition")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {team.players
+                        .filter((p) => !snapshot.sent_off.includes(p.id))
+                        .sort((a, b) => {
+                          const posOrd: Record<string, number> = {
+                            Goalkeeper: 1,
+                            Defender: 2,
+                            Midfielder: 3,
+                            Forward: 4,
+                          };
+                          return (
+                            (posOrd[a.role ?? ""] || 99) -
+                              (posOrd[b.role ?? ""] || 99) ||
+                            a.name.localeCompare(b.name)
+                          );
+                        })
+                        .map((p) => {
+                          const isSelected = selectedOff === p.id;
+                          const isSubOn = subbedOnIds.has(p.id);
+                          const ovr = getOvr(p);
+                          return (
+                            <tr
+                              key={p.id}
+                              onClick={() => {
+                                handleSelectOffPlayer(p.id);
+                              }}
+                              className={`cursor-pointer transition-colors text-sm ${
+                                isSelected
+                                  ? "bg-red-500/10"
+                                   : "hover:bg-gray-100 dark:hover:bg-navy-700/50"
+                              }`}
+                            >
+                              <td className="py-2 pr-2">
+                                <div className="flex items-center gap-1.5">
+                                  {isSelected && (
+                                    <UserMinus className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                                  )}
+                                  {isSubOn && (
+                                    <span className="text-green-400 text-[10px]">
+                                      ▲
+                                    </span>
+                                  )}
+                                  <span
+                                     className={`font-medium truncate ${isSelected ? "text-red-400" : "text-gray-700 dark:text-gray-300"}`}
+                                  >
+                                    {p.name}
                                   </span>
-                                )}
-                                <span
-                                   className={`font-medium truncate ${isSelected ? "text-red-400" : "text-gray-700 dark:text-gray-300"}`}
-                                >
-                                  {p.name}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="py-2 w-12 text-center">
-                               <span className="text-xs font-heading text-gray-500 dark:text-gray-400">
-                                {translatePositionAbbreviation(t, p.role ?? "")}
-                              </span>
-                            </td>
-                             <td className="py-2 w-12 text-center font-heading font-bold text-gray-500 dark:text-gray-400">
-                              {ovr}
-                            </td>
-                            <td className="py-2 w-24">
-                              <div className="flex items-center gap-1.5">
-                                 <div className="flex-1 h-2 bg-gray-300 dark:bg-navy-600 rounded-full overflow-hidden transition-colors duration-300">
-                                  <div
-                                    className={`h-full ${condColor(p.condition)} rounded-full`}
-                                    style={{ width: `${p.condition}%` }}
-                                  />
                                 </div>
-                                <span
-                                  className={`text-xs tabular-nums font-heading w-7 text-right ${condText(p.condition)}`}
-                                >
-                                  {Math.round(p.condition)}
+                              </td>
+                              <td className="py-2 w-12 text-center">
+                                 <span className="text-xs font-heading text-gray-500 dark:text-gray-400">
+                                  {translatePositionAbbreviation(t, p.role ?? "")}
                                 </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
+                              </td>
+                               <td className="py-2 w-12 text-center font-heading font-bold text-gray-500 dark:text-gray-400">
+                                {ovr}
+                              </td>
+                              <td className="py-2 w-24">
+                                <div className="flex items-center gap-1.5">
+                                   <div className="flex-1 h-2 bg-gray-300 dark:bg-navy-600 rounded-full overflow-hidden transition-colors duration-300">
+                                    <div
+                                      className={`h-full ${condColor(p.condition)} rounded-full`}
+                                      style={{ width: `${p.condition}%` }}
+                                    />
+                                  </div>
+                                  <span
+                                    className={`text-xs tabular-nums font-heading w-7 text-right ${condText(p.condition)}`}
+                                  >
+                                    {Math.round(p.condition)}
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
 
             {/* Right: Bench Players + Comparison */}
             <div className="flex-1 flex flex-col">
@@ -346,15 +347,15 @@ export function SubPanel({
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-1.5">
                       <UserMinus className="w-3 h-3 text-red-400" />
-                      <span className="text-[10px] text-red-300 font-heading font-bold truncate max-w-[100px]">
+                      <span className="text-2xs text-red-300 font-heading font-bold truncate max-w-[100px]">
                         {selectedPlayer.name}
                       </span>
                     </div>
-                     <span className="text-[9px] text-gray-500 dark:text-gray-400 font-heading uppercase">
+                     <span className="text-2xs text-gray-500 dark:text-gray-400 font-heading uppercase">
                       {t("common.vs")}
                     </span>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] text-green-300 font-heading font-bold truncate max-w-[100px]">
+                      <span className="text-2xs text-green-300 font-heading font-bold truncate max-w-[100px]">
                         {comparedPlayer.name}
                       </span>
                       <UserPlus className="w-3 h-3 text-green-400" />
@@ -430,89 +431,92 @@ export function SubPanel({
                     {t("match.noBenchAvailable")}
                   </div>
                 ) : (
-                  <table className="w-full text-left">
-                    <thead>
-                       <tr className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 border-b border-gray-200 dark:border-navy-700">
-                        <th className="py-2 pr-2">{t("match.player")}</th>
-                        <th className="py-2 w-12 text-center">
-                          {t("common.position")}
-                        </th>
-                        <th className="py-2 w-12 text-center">
-                          {t("common.ovr")}
-                        </th>
-                        <th className="py-2 w-24">{t("match.fitness")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {availableBench.map((p) => {
-                        const ovr = getOvr(p);
-                        // Off-position indicator: compare with selected player's position
-                        const posMatch = selectedPlayer
-                          ? (p.role ?? "") === (selectedPlayer.role ?? "")
-                          : true;
-                        return (
-                          <tr
-                            key={p.id}
-                            onClick={() => {
-                              handleSelectBenchPlayer(p.id);
-                            }}
-                            className={`transition-colors text-sm ${
-                              selectedOff
-                                ? selectedBench === p.id
-                                  ? "cursor-pointer bg-green-500/15 ring-1 ring-green-500/30"
-                                  : "cursor-pointer hover:bg-green-500/10"
-                                : "opacity-60"
-                            }`}
-                          >
-                            <td className="py-2 pr-2">
-                              <div className="flex items-center gap-1.5">
-                                {selectedOff && (
-                                  <UserPlus className="w-3.5 h-3.5 text-green-400/50 shrink-0" />
-                                )}
-                                 <span className="font-medium truncate text-gray-700 dark:text-gray-300">
-                                  {p.name}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="py-2 w-12 text-center">
-                              <span
-                                   className={`text-xs font-heading ${!posMatch && selectedOff ? "text-yellow-400" : "text-gray-500 dark:text-gray-400"}`}
-                              >
-                                {translatePositionAbbreviation(t, p.role ?? "")}
-                                {!posMatch && selectedOff && " !"}
-                              </span>
-                            </td>
-                             <td className="py-2 w-12 text-center font-heading font-bold text-gray-500 dark:text-gray-400">
-                              {ovr}
-                            </td>
-                            <td className="py-2 w-24">
-                              <div className="flex items-center gap-1.5">
-                                 <div className="flex-1 h-2 bg-gray-300 dark:bg-navy-600 rounded-full overflow-hidden transition-colors duration-300">
-                                  <div
-                                    className={`h-full ${condColor(p.condition)} rounded-full`}
-                                    style={{ width: `${p.condition}%` }}
-                                  />
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                         <tr className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 border-b border-gray-200 dark:border-navy-700">
+                          <th className="py-2 pr-2">{t("match.player")}</th>
+                          <th className="py-2 w-12 text-center">
+                            {t("common.position")}
+                          </th>
+                          <th className="py-2 w-12 text-center">
+                            {t("common.ovr")}
+                          </th>
+                          <th className="py-2 w-24">{t("match.condition")}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {availableBench.map((p) => {
+                          const ovr = getOvr(p);
+                          // Off-position indicator: compare with selected player's position
+                          const posMatch = selectedPlayer
+                            ? (p.role ?? "") === (selectedPlayer.role ?? "")
+                            : true;
+                          return (
+                            <tr
+                              key={p.id}
+                              onClick={() => {
+                                handleSelectBenchPlayer(p.id);
+                              }}
+                              className={`transition-colors text-sm ${
+                                selectedOff
+                                  ? selectedBench === p.id
+                                    ? "cursor-pointer bg-green-500/15 ring-1 ring-green-500/30"
+                                    : "cursor-pointer hover:bg-green-500/10"
+                                  : "opacity-60"
+                              }`}
+                            >
+                              <td className="py-2 pr-2">
+                                <div className="flex items-center gap-1.5">
+                                  {selectedOff && (
+                                    <UserPlus className="w-3.5 h-3.5 text-green-400/50 shrink-0" />
+                                  )}
+                                   <span className="font-medium truncate text-gray-700 dark:text-gray-300">
+                                    {p.name}
+                                  </span>
                                 </div>
+                              </td>
+                              <td className="py-2 w-12 text-center">
                                 <span
-                                  className={`text-xs tabular-nums font-heading w-7 text-right ${condText(p.condition)}`}
+                                     className={`text-xs font-heading ${!posMatch && selectedOff ? "text-yellow-400" : "text-gray-500 dark:text-gray-400"}`}
                                 >
-                                  {Math.round(p.condition)}
+                                  {translatePositionAbbreviation(t, p.role ?? "")}
+                                  {!posMatch && selectedOff && " !"}
                                 </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              </td>
+                               <td className="py-2 w-12 text-center font-heading font-bold text-gray-500 dark:text-gray-400">
+                                {ovr}
+                              </td>
+                              <td className="py-2 w-24">
+                                <div className="flex items-center gap-1.5">
+                                   <div className="flex-1 h-2 bg-gray-300 dark:bg-navy-600 rounded-full overflow-hidden transition-colors duration-300">
+                                    <div
+                                      className={`h-full ${condColor(p.condition)} rounded-full`}
+                                      style={{ width: `${p.condition}%` }}
+                                    />
+                                  </div>
+                                  <span
+                                    className={`text-xs tabular-nums font-heading w-7 text-right ${condText(p.condition)}`}
+                                  >
+                                    {Math.round(p.condition)}
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
+              </div>
               </div>
 
               {/* Sub History */}
               {snapshot.substitutions.filter((s) => s.side === side).length >
                 0 && (
                  <div className="px-4 py-3 border-t border-gray-200 dark:border-navy-700">
-                   <p className="text-[10px] font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1.5">
+                   <p className="text-2xs font-heading uppercase tracking-widest text-gray-600 dark:text-gray-500 mb-1.5">
                     {t("match.history")}
                   </p>
                   {snapshot.substitutions
@@ -520,7 +524,7 @@ export function SubPanel({
                     .map((sub, i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-1.5 py-0.5 text-[11px]"
+                        className="flex items-center gap-1.5 py-0.5 text-xs"
                       >
                          <span className="text-gray-600 dark:text-gray-500 tabular-nums w-5 text-right font-heading">
                           {sub.minute}'

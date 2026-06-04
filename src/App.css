@@ -7,11 +7,10 @@
 @import "@fontsource/inter/600.css";
 @import "@fontsource/inter/700.css";
 @import "@fontsource/inter/800.css";
-@import "@fontsource/barlow-condensed/400.css";
-@import "@fontsource/barlow-condensed/500.css";
-@import "@fontsource/barlow-condensed/600.css";
-@import "@fontsource/barlow-condensed/700.css";
-@import "@fontsource/barlow-condensed/800.css";
+@import "@fontsource/oswald/400.css";
+@import "@fontsource/oswald/500.css";
+@import "@fontsource/oswald/600.css";
+@import "@fontsource/oswald/700.css";
 
 /* Custom fonts */
 @font-face {
@@ -27,7 +26,8 @@
 @theme {
   /* Typography */
   --font-sans: "Inter", "Avenir", "Helvetica", "Arial", sans-serif;
-  --font-heading: "Barlow Condensed", "Inter", "Arial Narrow", sans-serif;
+  --font-heading: "Oswald", "Impact", "Arial Narrow", sans-serif;
+  --text-2xs: 0.625rem;
 
   /* Primary: Emerald Green */
   --color-primary-50: #ecfdf5;
@@ -53,16 +53,57 @@
   --color-accent-800: #854d0e;
   --color-accent-900: #713f12;
 
-  /* Success: Green */
+  /* Success: Teal-Green */
+  --color-success-50: #e6fcf5;
+  --color-success-100: #b3f0dd;
+  --color-success-200: #80e5c5;
+  --color-success-300: #4dd9ad;
   --color-success-400: #06d6a0;
   --color-success-500: #05a87d;
   --color-success-600: #059669;
+  --color-success-700: #047854;
+  --color-success-800: #035a3f;
+  --color-success-900: #023c2a;
 
-  /* Navy (dark mode backgrounds) */
+  /* Danger: Red */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* Navy (dark mode backgrounds) — complete scale */
+  --color-navy-950: #060d1a;
   --color-navy-900: #0a1128;
+  --color-navy-850: #0f1a30;
   --color-navy-800: #131b33;
+  --color-navy-750: #16203e;
   --color-navy-700: #1a2340;
+  --color-navy-650: #1e2a4a;
   --color-navy-600: #243054;
+  --color-navy-500: #3b4a6b;
+  --color-navy-400: #5a6d8a;
+  --color-navy-300: #7e8fa8;
+  --color-navy-200: #a8b4c8;
+  --color-navy-100: #d0d7e4;
+  --color-navy-50: #e8ecf3;
+
+  /* Surface (light mode cards) */
+  --color-surface-50: #fafafa;
+  --color-surface-100: #f5f5f5;
+  --color-surface-200: #e5e5e5;
+
+  /* Shadow tokens */
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+  --shadow-card-hover: 0 4px 12px 0 rgb(0 0 0 / 0.1);
+  --shadow-dropdown: 0 10px 25px -5px rgb(0 0 0 / 0.15), 0 4px 10px -5px rgb(0 0 0 / 0.1);
+  --shadow-button: 0 2px 4px 0 rgb(0 0 0 / 0.06);
+  --shadow-panel: 0 0 0 1px rgb(255 255 255 / 0.03), 0 4px 16px rgb(0 0 0 / 0.2);
 }
 
 @layer base {
@@ -97,6 +138,64 @@
     font-family: "Compacta", var(--font-heading), sans-serif;
   }
 
+  /* Gradient utilities */
+  .gradient-primary {
+    background-image: linear-gradient(to right, var(--color-primary-500), var(--color-primary-600));
+  }
+  .gradient-primary:hover {
+    background-image: linear-gradient(to right, var(--color-primary-600), var(--color-primary-700));
+  }
+  .gradient-navy-panel {
+    background-image: linear-gradient(to bottom, var(--color-navy-800), var(--color-navy-900));
+  }
+  .gradient-navy-card {
+    background-image: linear-gradient(to bottom, var(--color-navy-700), var(--color-navy-800));
+  }
+  .gradient-accent {
+    background-image: linear-gradient(to right, var(--color-accent-400), var(--color-accent-500));
+  }
+
+  /* Background atmosphere utilities */
+  .bg-navy-noise {
+    position: relative;
+  }
+  .bg-navy-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-navy-noise > * {
+    position: relative;
+  }
+
+  .bg-navy-mesh {
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(16, 185, 129, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(255, 214, 10, 0.03) 0%, transparent 50%);
+  }
+
+  .bg-navy-mesh-subtle {
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
+  }
+
+  .bg-panel-light {
+    background-image: linear-gradient(to bottom, var(--color-navy-700), var(--color-navy-800));
+  }
+  .bg-panel-dark {
+    background-image: linear-gradient(to bottom, var(--color-navy-800), var(--color-navy-900));
+  }
+  .bg-panel-card {
+    background-image: linear-gradient(to bottom, var(--color-navy-750), var(--color-navy-800));
+  }
+
+  /* Unified scrollbar utility */
   .scrollbar-thin {
     scrollbar-width: thin;
     scrollbar-color: var(--color-navy-600) transparent;
@@ -114,19 +213,19 @@
 
   .scrollbar-draft {
     scrollbar-width: thin;
-    scrollbar-color: #243054 #0a0b0f;
+    scrollbar-color: var(--color-navy-600) var(--color-navy-950);
   }
   .scrollbar-draft::-webkit-scrollbar {
     width: 6px;
   }
   .scrollbar-draft::-webkit-scrollbar-track {
-    background: #0a0b0f;
+    background: var(--color-navy-950);
     border-radius: 9999px;
   }
   .scrollbar-draft::-webkit-scrollbar-thumb {
-    background-color: #243054;
+    background-color: var(--color-navy-600);
     border-radius: 9999px;
-    border: 1px solid #0a0b0f;
+    border: 1px solid var(--color-navy-950);
   }
 }
 
@@ -157,3 +256,56 @@
 .high-contrast.dark .text-gray-600 {
   color: #90a4ae;
 }
+
+/* ── Animations ────────────────────────────────── */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out both;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.25s ease-out both;
+}
+
+/* Staggered delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }

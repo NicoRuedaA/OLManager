@@ -24,39 +24,6 @@ pub fn effective_rating_for_assignment(player: &Player, slot_role: &LolRole) -> 
     base - compat - foot
 }
 
-fn defender_line(count: usize) -> Vec<LolRole> {
-    match count {
-        1 => vec![LolRole::Top],
-        2 => vec![LolRole::Top, LolRole::Top],
-        3 => vec![LolRole::Top, LolRole::Top, LolRole::Top],
-        4 => vec![LolRole::Top, LolRole::Top, LolRole::Top, LolRole::Top],
-        _ => vec![LolRole::Top; count],
-    }
-}
-
-fn midfield_line(count: usize) -> Vec<LolRole> {
-    match count {
-        1 => vec![LolRole::Jungle],
-        2 => vec![LolRole::Jungle, LolRole::Mid],
-        3 => vec![LolRole::Jungle, LolRole::Mid, LolRole::Adc],
-        4 => vec![
-            LolRole::Jungle,
-            LolRole::Mid,
-            LolRole::Adc,
-            LolRole::Support,
-        ],
-        _ => vec![LolRole::Jungle; count],
-    }
-}
-
-fn forward_line(count: usize) -> Vec<LolRole> {
-    match count {
-        1 => vec![LolRole::Adc],
-        2 => vec![LolRole::Adc, LolRole::Support],
-        _ => vec![LolRole::Adc; count],
-    }
-}
-
 pub fn natural_ovr(player: &Player) -> f64 {
     let attrs = &player.attributes;
     // Unified OVR: average of 9 visible LoL stats (matches calculate_lol_ovr in potential.rs)
@@ -74,11 +41,6 @@ pub fn natural_ovr(player: &Player) -> f64 {
 
 fn primary_position(player: &Player) -> LolRole {
     player.natural_position
-}
-
-fn canonical_position(position: &LolRole) -> LolRole {
-    // LolRole is already canonical - no conversion needed
-    *position
 }
 
 fn compatibility_penalty(player: &Player, slot_role: &LolRole) -> f64 {
@@ -124,36 +86,6 @@ fn footedness_penalty(_player: &Player, _slot_role: &LolRole) -> f64 {
     0.0
 }
 
-fn weighted_score(player: &Player, _role: &LolRole) -> f64 {
-    natural_ovr(player)
-}
-
-fn weighted_average(scores: &[(u8, f64)]) -> f64 {
-    let total_weight: f64 = scores.iter().map(|(_, w)| w).sum();
-    let weighted_sum: f64 = scores.iter().map(|(s, w)| (*s as f64) * w).sum();
-    weighted_sum / total_weight
-}
-
-fn weighted_sum(weights: &[(u8, i32)]) -> i32 {
-    weights.iter().map(|(v, w)| (*v as i32) * w).sum()
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Side {
-    Left,
-    Right,
-}
-
-fn slot_side(_role: &LolRole) -> Option<Side> {
-    // In LoL, there's no left/right distinction (unlike traditional sports)
-    None
-}
-
-fn critical_penalty(player: &Player, _role: &LolRole) -> f64 {
-    let _attrs = &player.attributes;
-    // No critical position penalty in LoL
-    0.0
-}
 
 #[cfg(test)]
 mod tests {

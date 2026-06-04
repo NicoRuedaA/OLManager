@@ -100,6 +100,8 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
   
   const [monthOpen, setMonthOpen] = useState(false);
   const monthRef = useRef<HTMLDivElement>(null);
+  const dayRef = useRef<HTMLInputElement>(null);
+  const yearRef = useRef<HTMLInputElement>(null);
 
   // Initialize from value prop
   useEffect(() => {
@@ -174,12 +176,20 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
       {/* Day */}
       <div className="flex-1">
         <input
+          ref={dayRef}
           type="text"
           inputMode="numeric"
           placeholder={t('date.day', 'DD')}
           value={day}
           onChange={handleDayChange}
           onBlur={() => setDay(normaliseDayOnBlur(day))}
+          onKeyDown={(e) => {
+            if (e.key === "Tab" && !e.shiftKey && dayRef.current) {
+              e.preventDefault();
+              const monthBtn = monthRef.current?.querySelector("button");
+              monthBtn?.focus();
+            }
+          }}
           className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 text-center ${
             error
               ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
@@ -193,6 +203,18 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
         <button
           type="button"
           onClick={() => setMonthOpen(!monthOpen)}
+          onKeyDown={(e) => {
+            if (e.key === "Tab" && !e.shiftKey) {
+              e.preventDefault();
+              if (monthOpen) setMonthOpen(false);
+              yearRef.current?.focus();
+            }
+            if (e.key === "Tab" && e.shiftKey) {
+              e.preventDefault();
+              if (monthOpen) setMonthOpen(false);
+              dayRef.current?.focus();
+            }
+          }}
           className={`w-full flex items-center justify-between bg-gray-50 dark:bg-navy-900 border text-left rounded-lg p-3 outline-none transition-all ${
             error
               ? "border-red-400 dark:border-red-500"
@@ -208,7 +230,20 @@ export function DatePicker({ value, onChange, error }: DatePickerProps) {
         </button>
 
         {monthOpen && (
-          <div className="absolute z-50 top-full mt-1 left-0 right-0 bg-white dark:bg-navy-700 rounded-lg shadow-xl border border-gray-200 dark:border-navy-600 overflow-hidden">
+          <div
+            className="absolute z-50 top-full mt-1 left-0 right-0 bg-white dark:bg-navy-700 rounded-lg shadow-xl border border-gray-200 dark:border-navy-600 overflow-hidden"
+            onKeyDown={(e) => {
+              if (e.key === "Tab") {
+                e.preventDefault();
+                setMonthOpen(false);
+                if (e.shiftKey) {
+                  dayRef.current?.focus();
+                } else {
+                  yearRef.current?.focus();
+                }
+              }
+            }}
+          >
             <div className="max-h-48 overflow-y-auto">
               {months.map(m => (
                 <button

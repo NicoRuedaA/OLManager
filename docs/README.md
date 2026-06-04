@@ -6,6 +6,10 @@ This directory contains the technical and governance documentation for Open Leag
 
 ## Documents
 
+### [STATUS.md](STATUS.md)
+
+Current project health overview. Tech stack versions, what's working/broken, technical debt, risks, roadmap, and contributor quick-start.
+
 ### [ARCHITECTURE.md](ARCHITECTURE.md)
 
 Contributor-facing architecture map. Explains the React/Tauri boundary, frontend structure, Rust workspace crates, persistence model, testing approach, dependency direction, and how to add features without breaking architectural boundaries.

@@ -1,6 +1,6 @@
 use chrono::{TimeZone, Utc};
 use domain::league::{
-    Fixture, FixtureCompetition, FixtureStatus, League, MatchResult, StandingEntry,
+    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
 };
 use domain::manager::Manager;
 use domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
@@ -60,7 +60,7 @@ fn make_completed_fixture(id: &str, home: &str, away: &str, hg: u8, ag: u8) -> F
         date: "2025-06-01".to_string(),
         home_team_id: home.to_string(),
         away_team_id: away.to_string(),
-        competition: FixtureCompetition::League,
+        match_type: MatchType::League,
         best_of: 1,
         status: FixtureStatus::Completed,
         result: Some(MatchResult {
@@ -143,6 +143,7 @@ fn make_completed_season_game() -> Game {
         id: "league1".to_string(),
         name: "Test League".to_string(),
         season: 1,
+                competition_id: None,
         fixtures,
         standings,
     };
@@ -155,7 +156,7 @@ fn make_completed_season_game() -> Game {
         vec![],
         vec![],
     );
-    game.league = Some(league);
+    game.leagues = vec![league];
     game
 }
 
@@ -174,7 +175,7 @@ fn season_not_complete_with_scheduled_fixtures() {
     // One of the two league fixtures is still Scheduled.
     // has_full_schedule returns true (2 == 2), but .all(Completed) returns false.
     let mut game = make_completed_season_game();
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.fixtures[1].status = FixtureStatus::Scheduled;
         league.fixtures[1].result = None;
     }
@@ -184,14 +185,14 @@ fn season_not_complete_with_scheduled_fixtures() {
 #[test]
 fn season_not_complete_with_no_league() {
     let mut game = make_completed_season_game();
-    game.league = None;
+    game.leagues.clear();
     assert!(!is_season_complete(&game));
 }
 
 #[test]
 fn season_not_complete_with_empty_fixtures() {
     let mut game = make_completed_season_game();
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.fixtures.clear();
     }
     assert!(!is_season_complete(&game));
@@ -203,7 +204,7 @@ fn season_not_complete_with_truncated_completed_fixture_list() {
     game.teams.push(make_team("team3", "Third FC"));
     game.teams.push(make_team("team4", "Fourth FC"));
 
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team1", 1, 0, 2, 0),
             make_standing("team4", 1, 0, 1, 0),
@@ -217,7 +218,7 @@ fn season_not_complete_with_truncated_completed_fixture_list() {
                 date: "2026-08-01".to_string(),
                 home_team_id: "team1".to_string(),
                 away_team_id: "team2".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -234,7 +235,7 @@ fn season_not_complete_with_truncated_completed_fixture_list() {
                 date: "2026-08-01".to_string(),
                 home_team_id: "team3".to_string(),
                 away_team_id: "team4".to_string(),
-                competition: FixtureCompetition::League,
+                match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
                 result: Some(MatchResult {
@@ -405,7 +406,7 @@ fn manager_trophy_awarded_for_first_place() {
 fn manager_no_trophy_for_non_first() {
     let mut game = make_completed_season_game();
     // Swap standings so team2 is first
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team2", 2, 0, 3, 1),
             make_standing("team1", 0, 2, 1, 3),
@@ -471,7 +472,7 @@ fn new_league_generated() {
     let mut game = make_completed_season_game();
     process_end_of_season(&mut game);
 
-    let league = game.league.as_ref().unwrap();
+    let league = game.leagues.first().unwrap();
     assert_eq!(league.season, 2, "Should be season 2");
     assert!(
         !league.fixtures.is_empty(),
@@ -673,7 +674,7 @@ fn top_half_finish_receives_expected_prize_money() {
     game.teams.push(make_team("team3", "Third FC"));
     game.teams.push(make_team("team4", "Fourth FC"));
 
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team2", 6, 0, 12, 2),
             make_standing("team1", 4, 2, 8, 5),
@@ -705,7 +706,7 @@ fn lower_table_finish_receives_expected_prize_money() {
             .push(make_team(&team_id, &format!("Team{} FC", i)));
     }
 
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         let mut standings = Vec::new();
 
         for i in 2..=10 {
@@ -844,7 +845,7 @@ fn mid_table_gets_appropriate_message() {
     game.teams.push(team3);
     game.teams.push(team4);
 
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team2", 6, 0, 12, 2),
             make_standing("team3", 4, 2, 8, 5),
@@ -868,7 +869,7 @@ fn bottom_half_gets_concerned_message() {
         let tid = format!("team{}", i);
         game.teams.push(make_team(&tid, &format!("Team{} FC", i)));
     }
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         let mut standings = Vec::new();
         for i in 2..=10 {
             standings.push(make_standing(&format!("team{}", i), 10, 6, 20, 15));
@@ -906,7 +907,7 @@ fn next_season_generation_ignores_academy_team_ids() {
     academy.parent_team_id = Some("team1".to_string());
     game.teams.push(academy);
 
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team1", 14, 2, 36, 18),
             make_standing("team2", 13, 3, 34, 19),
@@ -923,7 +924,7 @@ fn next_season_generation_ignores_academy_team_ids() {
 
     process_end_of_season(&mut game);
 
-    let next_league = game.league.as_ref().expect("next league should exist");
+    let next_league = game.leagues.first().expect("next league should exist");
     assert_eq!(next_league.standings.len(), 10);
     assert!(
         !next_league
@@ -980,7 +981,7 @@ fn season_not_complete_when_no_matches_played() {
     // is_season_complete must return false — we must not trigger end-of-season
     // processing before the campaign has even begun.
     let mut game = make_completed_season_game();
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         for fixture in &mut league.fixtures {
             fixture.status = FixtureStatus::Scheduled;
             fixture.result = None;
@@ -1149,7 +1150,7 @@ fn season_end_new_schedule_message_has_i18n_keys() {
 fn season_end_board_message_top_four_uses_correct_body_key() {
     let mut game = make_completed_season_game();
     // Make team1 finish 2nd (top-4 branch)
-    if let Some(league) = &mut game.league {
+    if let Some(league) = game.leagues.first_mut() {
         league.standings = vec![
             make_standing("team2", 2, 0, 3, 1),
             make_standing("team1", 0, 2, 1, 3),

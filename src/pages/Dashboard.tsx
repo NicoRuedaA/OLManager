@@ -46,6 +46,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSettingsStore } from "../store/settingsStore";
 import { resolveTeamLogo } from "../lib/teamLogos";
+import { resolveStaffPhoto } from "../lib/playerPhotos";
 
 const CLUB_TABS = new Set(["Squad", "Tactics", "Training", "Meta", "Scrims", "Staff", "Scouting", "Youth", "Finances", "Transfers"]);
 
@@ -70,6 +71,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Social: "dashboard.social",
   Scouting: "dashboard.scouting",
   Youth: "dashboard.youthAcademy",
+  Market: "dashboard.market",
 };
 
 export default function Dashboard(): JSX.Element {
@@ -221,7 +223,7 @@ export default function Dashboard(): JSX.Element {
     }
   }, [isUnemployed, profileNavigation.activeTab]);
 
-  const seasonComplete = isLeagueSeasonComplete(gameState?.league);
+  const seasonComplete = isLeagueSeasonComplete(gameState?.leagues[0]);
 
   // Advance-time hook
   const {
@@ -238,6 +240,7 @@ export default function Dashboard(): JSX.Element {
     handleContinue,
     handleConfirmMatch,
     handleSkipToMatchDay,
+    handleSkipToNextDay,
   } = useAdvanceTime(
     setGameState,
     hasMatchToday,
@@ -289,7 +292,10 @@ export default function Dashboard(): JSX.Element {
         console.error("Auto-save on close failed:", err);
       }
     }
-    await getCurrentWindow().destroy();
+    // Go to menu instead of closing the app
+    await invoke("exit_to_menu").catch(() => {});
+    clearGame();
+    navigate("/");
   };
 
   const MODE_META: Record<MatchModeType, DashboardMatchModeMeta> = {
@@ -417,13 +423,27 @@ export default function Dashboard(): JSX.Element {
     : "";
   const unreadMessagesCount = gameState ? getUnreadMessagesCount(gameState) : 0;
   const myTeamName = gameState ? getManagerTeamName(gameState) : null;
-  const liveManagerName = gameState
-    ? (gameState.manager.nickname?.trim() || `${gameState.manager.first_name} ${gameState.manager.last_name}`)
-    : managerName;
 
+  // Use the team's logo_url from backend (already mapped to /teams-icons/) instead of
+  // the hardcoded resolveTeamLogo map (which only covers LEC teams).
   const teamLogo = useMemo(() => {
-    return resolveTeamLogo(myTeamName);
-  }, [myTeamName]);
+    if (!gameState || !gameState.manager.team_id) {
+      invoke("debug_log", { message: `[dash] teamLogo: null (no gameState or team_id)` });
+      return null;
+    }
+    const myTeam = gameState.teams.find((t) => t.id === gameState.manager.team_id);
+    if (myTeam?.logo_url) {
+      invoke("debug_log", { message: `[dash] teamLogo: using myTeam.logo_url=${myTeam.logo_url} for ${myTeam.name}` });
+      return myTeam.logo_url;
+    }
+    const fallback = resolveTeamLogo(myTeamName);
+    invoke("debug_log", { message: `[dash] teamLogo: myTeam.logo_url missing for ${myTeam?.name}, resolveTeamLogo(${myTeamName}) => ${fallback}` });
+    return fallback;
+  }, [gameState, myTeamName]);
+
+  const managerAvatar = useMemo(() => {
+    return resolveStaffPhoto(gameState?.manager?.avatar_path);
+  }, [gameState?.manager?.avatar_path]);
 
   const searchResults = gameState
     ? getDashboardSearchResults(gameState, searchQuery)
@@ -476,7 +496,7 @@ export default function Dashboard(): JSX.Element {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-gray-100 dark:bg-navy-900 flex transition-colors duration-300">
+    <div className="h-screen overflow-hidden bg-gray-100 dark:bg-navy-900 dark:bg-navy-mesh flex transition-colors duration-300">
       <DashboardSidebar
         activeTab={profileNavigation.activeTab}
         collapsed={isSidebarCollapsed}
@@ -485,9 +505,10 @@ export default function Dashboard(): JSX.Element {
           setIsSidebarCollapsed((currentValue) => !currentValue);
         }}
         unreadMessagesCount={unreadMessagesCount}
-        managerName={liveManagerName}
+        managerName={managerName}
         teamName={myTeamName}
         teamLogo={teamLogo}
+        managerAvatar={managerAvatar}
         onNavigateSettings={handleNavigateSettings}
         isUnemployed={isUnemployed ?? false}
         onExitClick={() => {
@@ -519,7 +540,7 @@ export default function Dashboard(): JSX.Element {
       <FiredModal />
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
+      <main className="flex-1 flex flex-col h-screen overflow-hidden bg-navy-noise">
         <DashboardHeader
           activeTabLabel={activeTabLabel}
           currentDate={currentDate}
@@ -543,6 +564,7 @@ export default function Dashboard(): JSX.Element {
           onSelectSearchTeam={handleSelectSearchTeam}
           onSelectSearchChampion={(championKey: string) => setViewingChampionKey(championKey)}
           onSkipToMatchDay={handleSkipToMatchDay}
+          onSkipToNextDay={handleSkipToNextDay}
           onToggleContinueMenu={handleToggleContinueMenu}
           saveFlash={saveFlash}
           searchOpen={searchOpen}
@@ -551,6 +573,7 @@ export default function Dashboard(): JSX.Element {
           showContinueMenu={showContinueMenu}
           isUnemployed={isUnemployed ?? false}
           teams={gameState.teams}
+          dayPhase={gameState.day_phase}
         />
 
         <DashboardWorkspaceContent

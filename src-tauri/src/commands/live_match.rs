@@ -167,8 +167,8 @@ pub fn record_fixture_champion_picks(
         .ok_or("No active game session".to_string())?;
 
     let league = game
-        .league
-        .as_mut()
+        .leagues
+        .first_mut()
         .ok_or("No active league in game state".to_string())?;
     let fixture = league
         .fixtures
@@ -434,9 +434,9 @@ mod tests {
         apply_press_conference_effects, apply_team_talk_internal, finish_live_match_internal,
     };
     use chrono::{TimeZone, Utc};
-    use domain::league::{Fixture, FixtureCompetition, FixtureStatus, League, StandingEntry};
+    use domain::league::{Fixture, FixtureStatus, League, MatchType, StandingEntry};
     use domain::manager::Manager;
-    use domain::player::{LolRole, Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory};
+    use domain::player::{Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, LolRole};
     use domain::team::Team;
     use ofm_core::clock::GameClock;
     use ofm_core::game::Game;
@@ -548,6 +548,7 @@ mod tests {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
+            competition_id: None,
             fixtures: vec![
                 Fixture {
                     id: "fix1".to_string(),
@@ -555,18 +556,9 @@ mod tests {
                     date: "2025-06-15".to_string(),
                     home_team_id: "team1".to_string(),
                     away_team_id: "team2".to_string(),
-                    competition: FixtureCompetition::League,
-                    best_of: 1,
-                    status: FixtureStatus::Scheduled,
-                    result: None,
-                },
-                Fixture {
-                    id: "fix2".to_string(),
-                    matchday: 1,
-                    date: "2025-06-15".to_string(),
-                    home_team_id: "team3".to_string(),
-                    away_team_id: "team4".to_string(),
-                    competition: FixtureCompetition::League,
+                    match_type: MatchType::League,
+
+                    match_type: MatchType::League,
                     best_of: 1,
                     status: FixtureStatus::Scheduled,
                     result: None,
@@ -581,7 +573,7 @@ mod tests {
         };
 
         let mut game = Game::new(clock, manager, teams, players, vec![], vec![]);
-        game.league = Some(league);
+        game.leagues = vec![league];
         game
     }
 

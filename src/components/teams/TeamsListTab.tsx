@@ -1,17 +1,19 @@
+import { useState, useMemo } from "react";
 import { compareStandingsByLolScore, type GameStateData } from "../../store/gameStore";
-import { Card, CardBody, Badge, TeamLocation } from "../ui";
+import { Card, CardBody, Badge, TeamLocation, Select } from "../ui";
 import { Building2, Trophy } from "lucide-react";
 import { formatVal } from "../../lib/helpers";
 import { calculateLolOvr } from "../../lib/lolPlayerStats";
 import { useTranslation } from "react-i18next";
 import { getMainTeams } from "../../store/academySelectors";
 
-function teamLogoSrc(teamId: string): string {
-  const slug = teamId.replace(/^lec-/, "");
+function teamLogoSrc(teamId: string, logoUrl?: string | null): string {
+  if (logoUrl) return logoUrl;
+  const slug = teamId.replace(/^[a-z0-9]+-/i, "");
   if (slug === "shifters") {
     return "https://static.lolesports.com/teams/1765897071435_600px-Shifters_allmode.png";
   }
-  return `/team-logos/${slug}.png`;
+  return `/teams-icons/${slug}.webp`;
 }
 
 interface TeamsListTabProps {
@@ -23,24 +25,65 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
   const { t, i18n } = useTranslation();
   const userTeamId = gameState.manager.team_id;
 
-  const allStandings = gameState.league?.standings
-    ? [...gameState.league.standings].sort(compareStandingsByLolScore)
+  const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
+
+  const allStandings = gameState.leagues?.[0]?.standings
+    ? [...gameState.leagues[0].standings].sort(compareStandingsByLolScore)
     : [];
 
-  const teamsData = getMainTeams(gameState.teams).map(team => {
-    const roster = gameState.players.filter(p => p.team_id === team.id);
-    const avgOvr = roster.length > 0
-      ? Math.round(roster.reduce((s, p) => s + calculateLolOvr(p), 0) / roster.length)
-      : 0;
-    const totalValue = roster.reduce((s, p) => s + p.market_value, 0);
-    const leaguePos = allStandings.findIndex(s => s.team_id === team.id) + 1;
-    const standing = allStandings.find(s => s.team_id === team.id);
+  const teamsData = useMemo(() => {
+    const mainTeams = getMainTeams(gameState.teams);
 
-    return { team, roster, avgOvr, totalValue, leaguePos, standing };
-  }).sort((a, b) => a.leaguePos - b.leaguePos);
+    const filtered = competitionFilter
+      ? mainTeams.filter(team => team.competition_id === competitionFilter)
+      : mainTeams;
+
+    return filtered.map(team => {
+      const roster = gameState.players.filter(p => p.team_id === team.id);
+      const avgOvr = roster.length > 0
+        ? Math.round(roster.reduce((s, p) => s + calculateLolOvr(p), 0) / roster.length)
+        : 0;
+      const totalValue = roster.reduce((s, p) => s + p.market_value, 0);
+      const leaguePos = allStandings.findIndex(s => s.team_id === team.id) + 1;
+      const standing = allStandings.find(s => s.team_id === team.id);
+
+      return { team, roster, avgOvr, totalValue, leaguePos, standing };
+    }).sort((a, b) => a.leaguePos - b.leaguePos);
+  }, [gameState.teams, gameState.players, allStandings, competitionFilter]);
+
+  const leagues = useMemo(() => {
+    return gameState.leagues.map(l => ({
+      id: l.id,
+      name: l.name,
+    }));
+  }, [gameState.leagues]);
+
+  const activeLeagueName = competitionFilter
+    ? leagues.find(l => l.id === competitionFilter)?.name ?? competitionFilter
+    : null;
 
   return (
     <div className="max-w-6xl mx-auto">
+      {/* Filter bar */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-64">
+          <Select
+            value={competitionFilter ?? ""}
+            onChange={e => setCompetitionFilter(e.target.value || null)}
+          >
+            <option value="">{t('common.all')}</option>
+            {leagues.map(l => (
+              <option key={l.id} value={l.id}>{l.name}</option>
+            ))}
+          </Select>
+        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          {activeLeagueName
+            ? t('teams.nTeamsInLeague', { league: activeLeagueName, count: teamsData.length })
+            : t('teams.nTeams', { count: teamsData.length })}
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {teamsData.map(({ team, roster, avgOvr, totalValue, leaguePos, standing }) => {
           const isUser = team.id === userTeamId;
@@ -66,7 +109,7 @@ export default function TeamsListTab({ gameState, onSelectTeam }: TeamsListTabPr
                     style={{ backgroundColor: team.colors.primary }}
                   >
                     <img
-                      src={teamLogoSrc(team.id)}
+                      src={teamLogoSrc(team.id, team.logo_url)}
                       alt={`${team.name} logo`}
                       className="w-10 h-10 object-contain"
                       loading="lazy"

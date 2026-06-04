@@ -1,0 +1,18 @@
+{
+  "id": "lrs",
+  "name": "LRS",
+  "full_name": "Liga Regional Sur",
+  "region": "LRS",
+  "country": "LATAM",
+  "tier": 2,
+  "logo": "/competition-icons/1778504909719_s5n2owy52q9.png",
+  "teams_file": "erls/teams/lrs_teams.json",
+  "players_file": "erls/players/lrs_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

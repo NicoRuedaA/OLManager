@@ -124,7 +124,7 @@ describe("HomeLeaguePositionCard", () => {
           date: "2025-03-20",
           home_team_id: "lec-team-1",
           away_team_id: "lec-team-2",
-          competition: "Playoffs",
+          match_type: "Playoffs",
           status: "Scheduled",
           best_of: 3,
           result: null,

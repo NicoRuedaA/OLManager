@@ -1,7 +1,9 @@
 pub mod academy;
+pub mod bug_report;
 pub mod champion;
 pub mod champion_stats;
 pub mod club;
+pub mod competitions;
 pub mod contracts;
 pub mod game;
 pub mod jobs;
@@ -20,9 +22,11 @@ pub mod transfers;
 pub mod world;
 
 pub use academy::*;
+pub use bug_report::*;
 pub use champion::*;
 pub use champion_stats::*;
 pub use club::*;
+pub use competitions::*;
 pub use contracts::*;
 pub use game::*;
 pub use jobs::*;
@@ -38,3 +42,8 @@ pub use stats::*;
 pub use time::*;
 pub use transfers::*;
 pub use world::*;
+
+#[tauri::command]
+pub fn debug_log(message: String) {
+    println!("[JS DEBUG] {}", message);
+}

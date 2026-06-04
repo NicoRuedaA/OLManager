@@ -37,6 +37,8 @@ db = { path = "crates/db" }
 chrono = "0.4.44"
 rand = "0.10"
 base64 = "0.22"
+zip = "2"
+dirs = "6"
 thiserror = "2"
 validator = { version = "0.19", features = ["derive"] }
 ts-rs = { version = "10", optional = true, features = ["serde-compat"] }

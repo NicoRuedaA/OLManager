@@ -1,0 +1,18 @@
+{
+  "id": "hm",
+  "name": "HM",
+  "full_name": "Hitpoint Masters",
+  "region": "HM",
+  "country": "CZ",
+  "tier": 2,
+  "logo": "/competition-icons/1779541585563_ryiy8j06zh.png",
+  "teams_file": "erls/teams/hm_teams.json",
+  "players_file": "erls/players/hm_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

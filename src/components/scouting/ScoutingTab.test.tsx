@@ -205,7 +205,7 @@ function createGameState(options?: {
     staff: options?.scouts ?? [],
     messages: [],
     news: [],
-    league: null,
+    leagues: [],
     scouting_assignments: options?.assignments ?? [],
     board_objectives: [],
   };

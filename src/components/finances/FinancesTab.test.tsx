@@ -27,18 +27,18 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.esportsSponsor") return "Esports sponsor";
       if (key === "finances.sponsorWeeklyValue")
         return `Weekly value: €${params?.amount}`;
-      if (key === "finances.sponsorRemainingWeeks")
-        return `${params?.count} weeks remaining`;
+      if (key === "finances.sponsorRemainingMonths")
+        return `${params?.count} months remaining`;
       if (key === "finances.pendingSponsorOffers") return "Pending Offers";
       if (key === "finances.noPendingSponsorOffers")
         return "No pending sponsor offers";
       if (key === "finances.cashFlow") return "Cash Flow";
-      if (key === "finances.weeklyWageSpend") return "Weekly Wage Spend";
-      if (key === "finances.weeklySponsorIncome")
-        return "Weekly Sponsor Income";
-      if (key === "finances.projectedWeeklyNet") return "Projected Weekly Net";
+      if (key === "finances.annualWageSpend") return "Annual Wage Bill";
+      if (key === "finances.annualSponsorIncome")
+        return "Annual Sponsor Income";
+      if (key === "finances.projectedAnnualNet") return "Projected Annual Net";
       if (key === "finances.cashRunway") return "Cash Runway";
-      if (key === "finances.runwayWeeks")
+      if (key === "finances.runwayMonths")
         return `${params?.count} weeks at current pace`;
       if (key === "finances.runwayStable") return "Stable at current pace";
       if (key === "finances.wagePressure") return "Wage Pressure";
@@ -58,7 +58,7 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.contractExpiresOn")
         return `Expires ${params?.date}`;
       if (key === "finances.atRiskWages")
-        return `€${params?.amount}/wk at risk`;
+        return `€${params?.amount}/yr at risk`;
       if (key === "finances.noContractRisks")
         return "No imminent contract risks";
       if (key === "common.renewContract") return "Renew Contract";
@@ -92,7 +92,7 @@ vi.mock("react-i18next", () => ({
         return "Improves scouting reports";
       if (key === "finances.overview") return "Overview";
       if (key === "finances.wageBill") return "Wage Bill";
-      if (key === "finances.weeklyTotal") return "Weekly Total";
+      if (key === "finances.weeklyTotal") return "Annual Total";
       if (key === "finances.budget") return "Budget";
       if (key === "finances.underBudget") return "Under budget";
       if (key === "finances.overBudget") return "Over budget";
@@ -104,6 +104,8 @@ vi.mock("react-i18next", () => ({
       if (key === "finances.seasonIncome") return "Season Income";
       if (key === "finances.seasonExpenses") return "Season Expenses";
       if (key === "finances.perWeekSuffix") return "/wk";
+      if (key === "finances.perYearSuffix") return "/yr";
+      if (key === "finances.annualTotal") return "Annual Total";
       if (key === "finances.wagePerWeek") return "Wage/wk";
       if (key === "finances.marketValue") return "Market Value";
       if (key === "finances.until") return `Until ${params?.year}`;
@@ -298,13 +300,13 @@ function createGameState(
     staff: [],
     messages,
     news: [],
-    league: {
+    leagues: [{
       id: "league-1",
       name: "League",
       season: 1,
       fixtures: [],
       standings: [],
-    },
+    }],
     scouting_assignments: [],
     board_objectives: [],
   };
@@ -371,7 +373,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "Acme eSports",
           base_value: 125000,
-          remaining_weeks: 8,
+          remaining_months: 8,
           bonus_criteria: [],
         },
       },
@@ -383,7 +385,7 @@ describe("FinancesTab facilities", () => {
     expect(screen.getByText("Sponsors")).toBeInTheDocument();
     expect(screen.getByText("Active Sponsor")).toBeInTheDocument();
     expect(screen.getByText("Acme eSports")).toBeInTheDocument();
-    expect(screen.getByText("Weekly value: €125000")).toBeInTheDocument();
+    expect(screen.getByText("Weekly value: €2404")).toBeInTheDocument();
     expect(screen.getByText("8 weeks remaining")).toBeInTheDocument();
     expect(screen.getByText("Esports sponsor")).toBeInTheDocument();
     expect(screen.getByText("Pending Offers")).toBeInTheDocument();
@@ -408,7 +410,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "GreenTech Industries",
           base_value: 100000,
-          remaining_weeks: 12,
+          remaining_months: 12,
           bonus_criteria: [],
         },
       },
@@ -445,7 +447,7 @@ describe("FinancesTab facilities", () => {
         sponsorship: {
           sponsor_name: "Acme Corp",
           base_value: 10000,
-          remaining_weeks: 8,
+          remaining_months: 8,
           bonus_criteria: [],
         },
       },
@@ -456,13 +458,11 @@ describe("FinancesTab facilities", () => {
     render(<FinancesTab gameState={gameState} />);
 
     expect(screen.getByText("Cash Flow")).toBeInTheDocument();
-    expect(screen.getByText("Weekly Wage Spend")).toBeInTheDocument();
-    expect(screen.getByText("Weekly Sponsor Income")).toBeInTheDocument();
-    expect(screen.getByText("Projected Weekly Net")).toBeInTheDocument();
+    expect(screen.getByText("Annual Wage Bill")).toBeInTheDocument();
+    expect(screen.getByText("Annual Sponsor Income")).toBeInTheDocument();
+    expect(screen.getByText("Projected Annual Net")).toBeInTheDocument();
     expect(screen.getByText("Cash Runway")).toBeInTheDocument();
-    expect(screen.getByText("€10K/wk")).toBeInTheDocument();
-    expect(screen.getByText("-€30K/wk")).toBeInTheDocument();
-    expect(screen.getByText("9 weeks at current pace")).toBeInTheDocument();
+    expect(screen.getByText("7 weeks at current pace")).toBeInTheDocument();
   });
 
   it("shows monthly upkeep on the installation cards", () => {
@@ -526,7 +526,7 @@ describe("FinancesTab facilities", () => {
     expect(screen.getByText("Warning")).toBeInTheDocument();
     expect(screen.getByText("Expires 2025-04-30")).toBeInTheDocument();
     expect(screen.getByText("Expires 2025-10-15")).toBeInTheDocument();
-    expect(screen.getByText("€1153/wk at risk")).toBeInTheDocument();
+    expect(screen.getByText("€60000/yr at risk")).toBeInTheDocument();
     expect(
       screen.getAllByRole("button", { name: "Renew Contract" }),
     ).toHaveLength(2);

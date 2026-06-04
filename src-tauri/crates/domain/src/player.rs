@@ -11,7 +11,9 @@ pub struct Player {
     pub id: String,
     pub match_name: String,
     pub full_name: String,
+    #[serde(default)]
     pub date_of_birth: String,
+    #[serde(default)]
     pub nationality: String,
     #[serde(default)]
     pub birth_country: Option<String>,
@@ -33,14 +35,15 @@ pub struct Player {
     pub attributes: PlayerAttributes,
 
     // Dynamic match/season values
+    #[serde(default = "default_condition")]
     pub condition: u8, // 0-100 (short-term energy; depletes during matches, recovers daily)
+    #[serde(default = "default_morale")]
     pub morale: u8,    // 0-100
     /// Long-term physical shape (0–100). Determines how fast condition depletes and
-    /// recovers, and modulates injury risk. Changes slowly over weeks.
+    /// recovers. Changes slowly over weeks.
     #[serde(default = "default_fitness")]
     pub fitness: u8,
 
-    pub injury: Option<Injury>,
     pub team_id: Option<String>,
 
     // Traits / flairs derived from attributes
@@ -49,13 +52,16 @@ pub struct Player {
 
     // Contract & value
     pub contract_end: Option<String>,
-    pub wage: u32, // weekly wage
+    #[serde(default = "default_wage")]
+    pub wage: u32, // annual wage
+    #[serde(default = "default_market_value")]
     pub market_value: u64,
 
-    // Season stats
+    // Season stats (required — all players need stats)
     pub stats: PlayerSeasonStats,
 
     // Career history
+    #[serde(default)]
     pub career: Vec<CareerEntry>,
 
     // Individual training focus override (takes priority over group and team default)
@@ -81,6 +87,8 @@ pub struct Player {
     pub potential_research_eta_days: Option<u8>,
     #[serde(default)]
     pub champion_training_targets: Vec<String>,
+    #[serde(default)]
+    pub can_be_transferred_until: Option<String>,
 }
 
 /// Footedness is deprecated - LoL roles are lane-agnostic
@@ -101,6 +109,7 @@ pub enum Footedness {
 pub struct PlayerAttributes {
     // These 9 attributes are used by the engine simulation.
     // Aliases provide backward compat with old save files (football-era names + removed fields).
+
     /// Mechanical skill — replaces reaction_speed
     #[serde(alias = "dribbling", alias = "reaction_speed")]
     pub mechanics: u8,
@@ -130,16 +139,27 @@ pub struct PlayerAttributes {
     pub champion_pool: u8,
 
     /// Discipline / composure — replaces positional_defense
-    #[serde(
-        default = "default_attr",
-        alias = "composure",
-        alias = "positional_defense"
-    )]
+    #[serde(default = "default_attr", alias = "composure", alias = "positional_defense")]
     pub discipline: u8,
 
     /// Mental resilience / stamina — replaces durability
     #[serde(alias = "stamina", alias = "durability")]
     pub mental_resilience: u8,
+}
+
+impl PlayerAttributes {
+    pub fn overall(&self) -> u8 {
+        ((u32::from(self.mechanics)
+            + u32::from(self.laning)
+            + u32::from(self.teamfighting)
+            + u32::from(self.macro_play)
+            + u32::from(self.consistency)
+            + u32::from(self.shotcalling)
+            + u32::from(self.champion_pool)
+            + u32::from(self.discipline)
+            + u32::from(self.mental_resilience))
+            / 9) as u8
+    }
 }
 
 fn default_attr() -> u8 {
@@ -150,16 +170,24 @@ fn default_fitness() -> u8 {
     75
 }
 
-fn default_potential_base() -> u8 {
-    99
+fn default_condition() -> u8 {
+    100
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[cfg_attr(feature = "typescript", derive(TS))]
-#[cfg_attr(feature = "typescript", ts(export))]
-pub struct Injury {
-    pub name: String,
-    pub days_remaining: u32,
+fn default_morale() -> u8 {
+    70
+}
+
+fn default_wage() -> u32 {
+    50_000
+}
+
+fn default_market_value() -> u64 {
+    750_000
+}
+
+fn default_potential_base() -> u8 {
+    99
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -311,16 +339,27 @@ fn default_transfer_offer_destination_team_id() -> Option<String> {
 #[cfg_attr(feature = "typescript", ts(export))]
 #[serde(default)]
 pub struct PlayerSeasonStats {
+    #[serde(default)]
     pub appearances: u32,
+    #[serde(default)]
     pub kills: u32,
+    #[serde(default)]
     pub assists: u32,
+    #[serde(default)]
     pub avg_rating: f32,
+    #[serde(default)]
     pub minutes_played: u32,
+    #[serde(default)]
     pub shots: u32,
+    #[serde(default)]
     pub shots_on_target: u32,
+    #[serde(default)]
     pub passes_completed: u32,
+    #[serde(default)]
     pub passes_attempted: u32,
+    #[serde(default)]
     pub tackles_won: u32,
+    #[serde(default)]
     pub interceptions: u32,
 }
 
@@ -329,12 +368,17 @@ pub struct PlayerSeasonStats {
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CareerEntry {
     pub season: u32,
-    pub team_id: String,
+    pub team_id: Option<String>,
     pub team_name: String,
+    #[serde(default)]
     pub appearances: u32,
+    #[serde(default)]
     pub kills: u32,
+    #[serde(default)]
     pub deaths: u32,
+    #[serde(default)]
     pub assists: u32,
+    #[serde(default)]
     pub avg_rating: f32,
 }
 
@@ -354,10 +398,52 @@ pub struct TransferOffer {
     pub negotiation_round: u8,
     #[serde(default)]
     pub suggested_counter_fee: Option<u64>,
+    #[serde(default)]
+    pub players_included: Vec<PlayerOfferItem>,
     #[serde(default = "default_transfer_offer_status")]
     pub status: TransferOfferStatus,
     #[serde(default = "default_transfer_offer_date")]
     pub date: String,
+    #[serde(default = "default_wage_neg_status")]
+    pub wage_negotiation_status: WageNegotiationStatus,
+    #[serde(default)]
+    pub contract_years_offered: u8,
+    #[serde(default)]
+    pub suggested_counter_wage: Option<u32>,
+    #[serde(default)]
+    pub suggested_counter_years: Option<u8>,
+    #[serde(default = "default_wage_neg_round")]
+    pub wage_negotiation_round: u8,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct PlayerOfferItem {
+    pub player_id: String,
+    pub player_name: String,
+    pub valuation: u64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+#[serde(rename_all = "PascalCase")]
+pub enum WageNegotiationStatus {
+    NotStarted,
+    Pending,
+    Agreed,
+    Rejected,
+}
+
+fn default_wage_neg_status() -> WageNegotiationStatus {
+    WageNegotiationStatus::NotStarted
+}
+fn default_wage_years() -> u8 {
+    0
+}
+fn default_wage_neg_round() -> u8 {
+    0
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -511,7 +597,6 @@ impl Player {
             condition: 100,
             morale: 100,
             fitness: 75,
-            injury: None,
             team_id: None,
             traits,
             contract_end: None,
@@ -529,6 +614,7 @@ impl Player {
             potential_research_started_on: None,
             potential_research_eta_days: None,
             champion_training_targets: Vec::new(),
+            can_be_transferred_until: None,
         }
     }
 }
@@ -567,7 +653,6 @@ mod tests {
             "attributes": sample_attributes(),
             "condition": 100,
             "morale": 100,
-            "injury": null,
             "team_id": null,
             "traits": [],
             "contract_end": null,
@@ -603,7 +688,6 @@ mod tests {
             "attributes": sample_attributes(),
             "condition": 100,
             "morale": 100,
-            "injury": null,
             "team_id": null,
             "traits": [],
             "contract_end": null,

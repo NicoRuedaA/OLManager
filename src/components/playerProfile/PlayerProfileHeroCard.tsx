@@ -9,7 +9,7 @@ import type {
   ScoutAvailability,
 } from "./PlayerProfile.scouting";
 import PlayerProfileScoutAction from "./PlayerProfileScoutAction";
-import { RoleBadge, Card } from "../ui";
+import { CountryFlag, RoleBadge, Card } from "../ui";
 
 type TranslateFn = (
   key: string,
@@ -24,7 +24,7 @@ interface PlayerProfileHeroCardProps {
   primaryPosition?: string;
   age: number;
   teamName: string;
-  weeklySuffix: string;
+  annualSuffix: string;
   language: string;
   isOwnClub: boolean;
   scoutAvailability: ScoutAvailability;
@@ -42,6 +42,7 @@ interface PlayerProfileHeroCardProps {
   academyActionLoading?: boolean;
   onAcademyAction?: (() => void) | null;
   t: TranslateFn;
+  teamLogoUrl?: string | null;
 }
 
 export default function PlayerProfileHeroCard({
@@ -50,7 +51,7 @@ export default function PlayerProfileHeroCard({
   primaryRole = "MID",
   age,
   teamName,
-  weeklySuffix,
+  annualSuffix,
   isOwnClub,
   scoutAvailability,
   scoutStatus,
@@ -67,6 +68,8 @@ export default function PlayerProfileHeroCard({
   academyActionLoading = false,
   onAcademyAction = null,
   t,
+  language = "en",
+  teamLogoUrl,
 }: PlayerProfileHeroCardProps) {
   const role = primaryRole;
   const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
@@ -87,76 +90,14 @@ export default function PlayerProfileHeroCard({
     potentialRevealed !== null ? String(potentialRevealed) : "??";
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function resolveRandomSkin(): Promise<void> {
-      if (!insigniaChampionId) {
-        setInsigniaBackground(null);
-        return;
-      }
-
-      const fallbackBase = getChampionSplashPath(insigniaChampionId, 0);
-      if (fallbackBase) {
-        setInsigniaBackground(fallbackBase);
-      }
-
-      const cacheKey = buildSkinCacheKey(player.id, insigniaChampionId);
-      const cachedUrl = readCachedSkinUrl(cacheKey);
-      if (cachedUrl) {
-        if (await canLoadImage(cachedUrl)) {
-          setInsigniaBackground(cachedUrl);
-          return;
-        }
-        clearCachedSkinUrl(cacheKey);
-      }
-
-      try {
-        const versionsResponse = await fetch("https://ddragon.leagueoflegends.com/api/versions.json");
-        const versions = (await versionsResponse.json()) as string[];
-        const version = versions[0];
-        if (!version) {
-          if (!cancelled && fallbackBase) setInsigniaBackground(fallbackBase);
-          return;
-        }
-
-        const detailResponse = await fetch(
-          `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${insigniaChampionId}.json`,
-        );
-        const detailPayload = (await detailResponse.json()) as {
-          data?: Record<string, { skins?: Array<{ num: number }> }>;
-        };
-
-        const championEntry = detailPayload.data?.[insigniaChampionId];
-        const skinNums = (championEntry?.skins ?? [])
-          .map((skin) => Number(skin.num))
-          .filter((num) => Number.isFinite(num));
-
-        const shuffled = shuffleNumbers(skinNums.length > 0 ? skinNums : [0]);
-        const chosenSkinNum = shuffled[0] ?? 0;
-        const chosenUrl = getChampionSplashPath(insigniaChampionId, chosenSkinNum);
-
-        if (chosenUrl && !cancelled && (await canLoadImage(chosenUrl))) {
-          setInsigniaBackground(chosenUrl);
-          writeCachedSkinUrl(cacheKey, chosenUrl);
-          return;
-        }
-
-        if (!cancelled && fallbackBase) {
-          setInsigniaBackground(fallbackBase);
-        }
-      } catch {
-        if (!cancelled && fallbackBase) {
-          setInsigniaBackground(fallbackBase);
-        }
-      }
+    if (!insigniaChampionId) {
+      setInsigniaBackground(null);
+      return;
     }
 
-    void resolveRandomSkin();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [insigniaChampionId, player.id]);
+    // Always use skin 0 from local splash path
+    setInsigniaBackground(`/champion-splash/${insigniaChampionId}.webp`);
+  }, [insigniaChampionId]);
 
   return (
     <Card accent="primary" className="mb-5">
@@ -200,9 +141,18 @@ export default function PlayerProfileHeroCard({
           </div>
 
           <div className="flex-1">
-            <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
-              {player.match_name}
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-3xl font-heading font-bold text-white uppercase tracking-wide">
+                {player.match_name}
+              </h2>
+              {player.nationality && (
+                <CountryFlag
+                  code={player.nationality}
+                  locale={language}
+                  className="w-6 h-4 rounded-sm shadow-sm"
+                />
+              )}
+            </div>
             <div className="flex items-center gap-3 mt-2">
               <RoleBadge role={role} size="sm" />
               {isOwnClub && academyActionLabel && onAcademyAction ? (
@@ -236,7 +186,7 @@ export default function PlayerProfileHeroCard({
 
             {isOwnClub && editingRole ? (
               <div className="mt-3 rounded-lg border border-amber-300/30 bg-amber-500/10 p-3 max-w-xl">
-                <p className="text-[11px] text-amber-200 mb-2">
+                <p className="text-xs text-amber-200 mb-2">
                   {t("playerProfile.rerollWarning", {
                     defaultValue:
                       "Cambiar posición hace un reroll y puede modificar el OVR del jugador.",
@@ -267,7 +217,7 @@ export default function PlayerProfileHeroCard({
             ) : null}
             <p className="text-gray-400 text-sm mt-2 flex items-center gap-1.5">
               {(() => {
-                const logoUrl = resolveTeamLogo(teamName);
+                const logoUrl = teamLogoUrl || resolveTeamLogo(teamName);
                 return logoUrl ? (
                   <img src={logoUrl} alt={teamName} className="w-4 h-4 object-contain" />
                 ) : (
@@ -324,7 +274,7 @@ export default function PlayerProfileHeroCard({
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <div className="grid grid-cols-3 gap-3 flex-1">
+            <div className="grid grid-cols-4 gap-3 flex-1">
               <QuickStat
                 label={t("common.ovr")}
                 value={String(ovr)}
@@ -334,6 +284,11 @@ export default function PlayerProfileHeroCard({
                 label={t("common.condition", { defaultValue: "Condition" })}
                 value={`${player.condition}%`}
                 color={player.condition >= 70 ? "text-primary-400" : "text-red-400"}
+              />
+              <QuickStat
+                label={t("common.fitness")}
+                value={`${player.fitness ?? 75}%`}
+                color={player.fitness != null && player.fitness >= 70 ? "text-green-400" : "text-red-400"}
               />
               <QuickStat
                 label={t("common.morale")}
@@ -353,7 +308,7 @@ export default function PlayerProfileHeroCard({
               />
               <QuickStat
                 label={t("common.wage")}
-                value={formatPlayerWage(player.wage, weeklySuffix)}
+                value={formatPlayerWage(player.wage, annualSuffix)}
                 color="text-white"
               />
             </div>
@@ -373,6 +328,11 @@ export default function PlayerProfileHeroCard({
           color={player.condition >= 70 ? "text-primary-500" : "text-red-500"}
         />
         <MobileQuickStat
+          label={t("common.fitness")}
+          value={`${player.fitness ?? 75}%`}
+          color={player.fitness != null && player.fitness >= 70 ? "text-green-500" : "text-red-500"}
+        />
+        <MobileQuickStat
           label={t("common.morale")}
           value={`${player.morale}%`}
           color={player.morale >= 70 ? "text-primary-500" : "text-accent-500"}
@@ -390,7 +350,7 @@ export default function PlayerProfileHeroCard({
         />
         <MobileQuickStat
           label={t("common.wage")}
-          value={formatPlayerWage(player.wage, weeklySuffix)}
+          value={formatPlayerWage(player.wage, annualSuffix)}
           color="text-gray-700 dark:text-gray-200"
         />
       </div>
@@ -398,58 +358,8 @@ export default function PlayerProfileHeroCard({
   );
 }
 
-function getChampionSplashPath(championId: string | null | undefined, skinNum: number): string | null {
-  if (!championId) return null;
-  return `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championId}_${skinNum}.jpg`;
-}
-
-function buildSkinCacheKey(playerId: string, championId: string): string {
-  return `profile-hero-skin:${playerId}:${championId}`;
-}
-
-function readCachedSkinUrl(cacheKey: string): string | null {
-  try {
-    const raw = localStorage.getItem(cacheKey);
-    if (!raw) return null;
-    return raw;
-  } catch {
-    return null;
-  }
-}
-
-function writeCachedSkinUrl(cacheKey: string, url: string): void {
-  try {
-    localStorage.setItem(cacheKey, url);
-  } catch {
-    // ignore storage failures
-  }
-}
-
-function clearCachedSkinUrl(cacheKey: string): void {
-  try {
-    localStorage.removeItem(cacheKey);
-  } catch {
-    // ignore storage failures
-  }
-}
-
-function shuffleNumbers(values: number[]): number[] {
-  const copy = [...values];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
-function canLoadImage(url: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const image = new Image();
-    image.onload = () => resolve(true);
-    image.onerror = () => resolve(false);
-    image.src = url;
-  });
-}
+// NOTE: getChampionSplashPath was replaced by direct `/champion-splash/{id}.webp` path.
+// All skin randomization logic removed per design decision (skin 0 always).
 
 function QuickStat({
   label,

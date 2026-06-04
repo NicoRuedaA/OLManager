@@ -19,7 +19,7 @@ export interface FacilitiesData {
 export interface SponsorshipData {
   sponsor_name: string;
   base_value: number;
-  remaining_weeks: number;
+  remaining_months: number;
   bonus_criteria: unknown[];
 }
 
@@ -156,6 +156,8 @@ export interface TeamData {
   weekly_scrim_plan_team_ids?: string[][];
   scrim_weekly_objective?: ScrimFocus | null;
   logo_url?: string | null;
+  /** Competition/league this team belongs to (multi-league system). */
+  competition_id?: string | null;
   scrim_weekly_slots?: number;
   scrim_reputation?: number;
   scrim_weekly_cancellations?: number;
@@ -195,7 +197,7 @@ export type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT" | LegacyFootb
 
 export type MatchEndReason = "NexusDestroyed" | "Surrender";
 
-type LegacyCompatibilityValue = any;
+type LegacyCompatibilityValue = unknown;
 
 export interface PlayerSeasonStats {
   games_played?: number;
@@ -323,8 +325,8 @@ export interface PlayerData {
   training_focus: string | null;
   attributes: PlayerAttributes;
   condition: number;
+  fitness?: number;
   morale: number;
-  injury: null | { name: string; days_remaining: number };
   team_id: string | null;
   contract_end: string | null;
   wage: number;
@@ -435,6 +437,12 @@ export interface TransferOfferData {
   last_manager_fee: number | null;
   negotiation_round: number;
   suggested_counter_fee: number | null;
+  suggested_counter_wage?: number | null;
+  suggested_counter_years?: number | null;
+  wage_negotiation_status?: "NotStarted" | "Pending" | "Agreed" | "Rejected";
+  contract_years_offered?: number;
+  wage_negotiation_round?: number;
+  players_included?: { player_id: string }[];
   status: "Pending" | "Accepted" | "Rejected" | "Withdrawn";
   date: string;
 }
@@ -582,7 +590,7 @@ export interface FixtureData {
   date: string;
   home_team_id: string;
   away_team_id: string;
-  competition: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
+  match_type: "League" | "Friendly" | "PreseasonTournament" | "Playoffs";
   best_of?: number;
   status: "Scheduled" | "InProgress" | "Completed";
   result: MatchResult | null;
@@ -663,6 +671,39 @@ export function getStandingKillDiff(standing: StandingData): number {
   return getStandingMapsWon(standing) - getStandingMapsLost(standing);
 }
 
+// ---------------------------------------------------------------------------
+// League/Competition selection types (multi-league system)
+// ---------------------------------------------------------------------------
+
+export interface CompetitionSummary {
+  id: string;
+  name: string;
+  region: string;
+  logo: string | null;
+  team_count: number;
+  teams: TeamSummary[];
+}
+
+export interface TeamSummary {
+  id: string;
+  name: string;
+  short_name: string;
+  logo_url: string | null;
+  country: string;
+  city?: string | null;
+  finance?: number | null;
+  reputation?: number | null;
+  colors?: TeamColors | null;
+  ovr: number | null;
+  player_count?: number | null;
+}
+
+export interface LeagueSelectionData {
+  competitions: CompetitionSummary[];
+}
+
+// ---------------------------------------------------------------------------
+
 export function compareStandingsByLolScore(left: StandingData, right: StandingData): number {
   return (
     right.points - left.points ||
@@ -677,6 +718,9 @@ export interface LeagueData {
   season: number;
   fixtures: FixtureData[];
   standings: StandingData[];
+  competition_id?: string | null;
+  logo?: string | null;
+  league_kind?: "Main" | "Academy";
 }
 
 export type SeasonPhase = "Preseason" | "InSeason" | "PostSeason";
@@ -837,7 +881,9 @@ export interface GameStateData {
   social_posts?: SocialPostData[];
   social_accounts?: SocialAccountData[];
   social_templates?: SocialTemplateData[];
-  league: LeagueData | null;
+  /** Multi-league support. The first element is the player's active league. */
+  leagues: LeagueData[];
+  user_competition_id?: string | null;
   academy_league?: LeagueData | null;
   scouting_assignments: ScoutingAssignment[];
   board_objectives: BoardObjective[];

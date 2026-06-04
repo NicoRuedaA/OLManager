@@ -63,7 +63,7 @@ export default function ScoutingScoutDetailsCard({
                     <p className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100">
                       {scout.first_name} {scout.last_name}
                     </p>
-                    <div className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
+                    <div className="text-2xs text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1">
                       <CountryFlag
                         code={scout.nationality}
                         locale={i18n.language}
@@ -78,7 +78,7 @@ export default function ScoutingScoutDetailsCard({
                 </div>
                 <div className="mt-2 grid grid-cols-2 gap-2">
                   <div>
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase">
+                    <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase">
                       {t("scouting.judgingAbility")}
                     </p>
                     <ProgressBar
@@ -88,7 +88,7 @@ export default function ScoutingScoutDetailsCard({
                     />
                   </div>
                   <div>
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-heading uppercase">
+                    <p className="text-2xs text-gray-400 dark:text-gray-500 font-heading uppercase">
                       {t("scouting.judgingPotential")}
                     </p>
                     <ProgressBar

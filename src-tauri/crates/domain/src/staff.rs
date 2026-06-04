@@ -1,6 +1,13 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
+
+fn deserialize_null_to_empty<'de, D>(deserializer: D) -> Result<String, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    Option::<String>::deserialize(deserializer).map(|opt| opt.unwrap_or_default())
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "typescript", derive(TS))]
@@ -9,6 +16,7 @@ pub struct Staff {
     pub id: String,
     pub first_name: String,
     pub last_name: String,
+    #[serde(default, deserialize_with = "deserialize_null_to_empty")]
     pub date_of_birth: String,
     pub nationality: String,
     #[serde(default)]
@@ -32,7 +40,9 @@ pub struct Staff {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub enum StaffRole {
+    #[serde(alias = "Assistant")]
     AssistantManager,
+    #[serde(alias = "HeadCoach", alias = "Analyst", alias = "Performance Coach")]
     Coach,
     Scout,
     Physio,

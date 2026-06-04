@@ -318,6 +318,7 @@ fn select_from_base_language(
     None
 }
 
+#[allow(dead_code)]
 pub fn select_match_template(
     slot: MatchTemplateSlot,
     context: &MatchTemplateContext<'_>,

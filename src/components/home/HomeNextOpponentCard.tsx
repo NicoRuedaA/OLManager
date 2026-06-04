@@ -36,11 +36,11 @@ export default function HomeNextOpponentCard({
           <div className="flex flex-col gap-3">
             {(() => {
               const fixtureLabel =
-                nextOpponent.fixture.competition === "League"
+                nextOpponent.fixture.match_type === "League"
                   ? t("home.matchdayN", {
                       n: nextOpponent.fixture.matchday,
                     })
-                  : nextOpponent.fixture.competition === "PreseasonTournament"
+                  : nextOpponent.fixture.match_type === "PreseasonTournament"
                     ? t("season.preseasonTournament")
                     : t("season.friendly");
 
@@ -85,7 +85,7 @@ export default function HomeNextOpponentCard({
                 {nextOpponent.recentForm.map((result, index) => (
                   <span
                     key={`${nextOpponent.opponent.id}-${index}`}
-                    className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-heading font-bold text-white ${
+                    className={`w-6 h-6 rounded flex items-center justify-center text-2xs font-heading font-bold text-white ${
                       result === "W"
                         ? "bg-green-500"
                         : result === "L"

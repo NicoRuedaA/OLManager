@@ -1,4 +1,4 @@
-use domain::league::FixtureCompetition;
+use domain::league::MatchType;
 use domain::stats::{
     LolRole, MatchOutcome, PlayerMatchStatsRecord, StatsState, TeamMatchStatsRecord, TeamSide,
 };
@@ -7,21 +7,21 @@ use rusqlite::{Connection, OptionalExtension, params};
 const LOL_PLAYER_TABLE: &str = "lol_player_match_stats";
 const LOL_TEAM_TABLE: &str = "lol_team_match_stats";
 
-fn competition_to_string(competition: &FixtureCompetition) -> String {
-    match competition {
-        FixtureCompetition::League => "League".to_string(),
-        FixtureCompetition::Friendly => "Friendly".to_string(),
-        FixtureCompetition::PreseasonTournament => "PreseasonTournament".to_string(),
-        FixtureCompetition::Playoffs => "Playoffs".to_string(),
+fn match_type_to_string(match_type: &MatchType) -> String {
+    match match_type {
+        MatchType::League => "League".to_string(),
+        MatchType::Friendly => "Friendly".to_string(),
+        MatchType::PreseasonTournament => "PreseasonTournament".to_string(),
+        MatchType::Playoffs => "Playoffs".to_string(),
     }
 }
 
-fn parse_competition(value: &str) -> FixtureCompetition {
+fn parse_match_type(value: &str) -> MatchType {
     match value {
-        "Friendly" => FixtureCompetition::Friendly,
-        "PreseasonTournament" => FixtureCompetition::PreseasonTournament,
-        "Playoffs" => FixtureCompetition::Playoffs,
-        _ => FixtureCompetition::League,
+        "Friendly" => MatchType::Friendly,
+        "PreseasonTournament" => MatchType::PreseasonTournament,
+        "Playoffs" => MatchType::Playoffs,
+        _ => MatchType::League,
     }
 }
 
@@ -156,7 +156,7 @@ fn load_stats_state_from_lol_tables(conn: &Connection) -> Result<StatsState, Str
                 season: row.get(1)?,
                 matchday: row.get(2)?,
                 date: row.get(3)?,
-                competition: parse_competition(&row.get::<_, String>(4)?),
+                match_type: parse_match_type(&row.get::<_, String>(4)?),
                 player_id: row.get(5)?,
                 team_id: row.get(6)?,
                 opponent_team_id: row.get(7)?,
@@ -201,7 +201,7 @@ fn load_stats_state_from_lol_tables(conn: &Connection) -> Result<StatsState, Str
                 season: row.get(1)?,
                 matchday: row.get(2)?,
                 date: row.get(3)?,
-                competition: parse_competition(&row.get::<_, String>(4)?),
+                match_type: parse_match_type(&row.get::<_, String>(4)?),
                 team_id: row.get(5)?,
                 opponent_team_id: row.get(6)?,
                 side: parse_team_side(&row.get::<_, String>(7)?),
@@ -261,7 +261,7 @@ fn load_stats_state_from_legacy_tables(conn: &Connection) -> Result<StatsState, 
                 season: row.get(1)?,
                 matchday: row.get(2)?,
                 date: row.get(3)?,
-                competition: parse_competition(&row.get::<_, String>(4)?),
+                match_type: parse_match_type(&row.get::<_, String>(4)?),
                 player_id: row.get(5)?,
                 team_id: row.get(6)?,
                 opponent_team_id: row.get(7)?,
@@ -318,7 +318,7 @@ fn load_stats_state_from_legacy_tables(conn: &Connection) -> Result<StatsState, 
                 season: row.get(1)?,
                 matchday: row.get(2)?,
                 date: row.get(3)?,
-                competition: parse_competition(&row.get::<_, String>(4)?),
+                match_type: parse_match_type(&row.get::<_, String>(4)?),
                 team_id: row.get(5)?,
                 opponent_team_id: row.get(6)?,
                 side: parse_team_side(&row.get::<_, String>(7)?),
@@ -376,7 +376,7 @@ fn replace_lol_stats_state(conn: &Connection, stats: &StatsState) -> Result<(), 
                 record.season,
                 record.matchday,
                 record.date,
-                competition_to_string(&record.competition),
+                match_type_to_string(&record.match_type),
                 record.player_id,
                 record.team_id,
                 record.opponent_team_id,
@@ -411,7 +411,7 @@ fn replace_lol_stats_state(conn: &Connection, stats: &StatsState) -> Result<(), 
                 record.season,
                 record.matchday,
                 record.date,
-                competition_to_string(&record.competition),
+                match_type_to_string(&record.match_type),
                 record.team_id,
                 record.opponent_team_id,
                 team_side_to_string(record.side),
@@ -464,7 +464,7 @@ fn mirror_lol_stats_into_legacy_tables(
                 record.season,
                 record.matchday,
                 record.date,
-                competition_to_string(&record.competition),
+                match_type_to_string(&record.match_type),
                 record.player_id,
                 record.team_id,
                 record.opponent_team_id,
@@ -524,7 +524,7 @@ fn mirror_lol_stats_into_legacy_tables(
                 record.season,
                 record.matchday,
                 record.date,
-                competition_to_string(&record.competition),
+                match_type_to_string(&record.match_type),
                 record.team_id,
                 record.opponent_team_id,
                 legacy_projection.home_team_id,

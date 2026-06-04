@@ -11,6 +11,7 @@ use domain::team::{
     MainFacilityModuleKind, ScrimChampionPick, ScrimFocus, ScrimIssue, ScrimReport, ScrimStatus,
     TrainingFocus, TrainingIntensity, TrainingSchedule,
 };
+use rand::SeedableRng;
 use std::collections::HashMap;
 
 fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
@@ -980,15 +981,6 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
             let condition_rec = recovery_factor_from_condition(player.condition);
             let fitness_rec = recovery_factor_from_fitness(player.fitness);
 
-            // Injured players: half base recovery, scaled by age and morale.
-            // Fitness decays slowly during injury (inactive = losing sharpness).
-            if player.injury.is_some() {
-                let recovery = (recovery_base * 0.5 * age_rec * morale_rec * fitness_rec) as u8;
-                player.condition = (player.condition + recovery).min(100);
-                player.fitness = clamp_fitness(player.fitness as i16 - 1);
-                continue;
-            }
-
             // On rest days: only recovery, no attribute gains
             if !is_training_day {
                 let stamina_factor = player.attributes.mental_resilience as f64 / 100.0;
@@ -1099,6 +1091,9 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
     apply_scrim_outcomes(game, &scrim_outcome_by_team, &week_seed);
     apply_scrim_morale(game, &scrim_outcome_by_team);
 
+    crate::champions::ensure_patch_seed(&mut game.champion_patch);
+    let mut mastery_rng =
+        rand::rngs::StdRng::seed_from_u64(game.champion_patch.rng_seed);
     for (player_id, champion_id, gain, attempts) in mastery_training_ticks {
         let soloq_mult = crate::champions::mastery_gain_multiplier_for_player(game, &player_id);
         let effective_gain = gain * soloq_mult;
@@ -1108,6 +1103,7 @@ pub fn process_training(game: &mut Game, weekday_num: u32) {
                 &player_id,
                 &champion_id,
                 effective_gain,
+                &mut mastery_rng,
             );
         }
     }
@@ -1419,9 +1415,4 @@ fn recovery_factor_from_fitness(fitness: u8) -> f64 {
     } else {
         1.20
     }
-}
-
-/// Clamp a fitness value to 0–100.
-fn clamp_fitness(val: i16) -> u8 {
-    val.clamp(0, 100) as u8
 }
