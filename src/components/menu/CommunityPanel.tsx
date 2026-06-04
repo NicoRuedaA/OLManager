@@ -69,22 +69,22 @@ export default function CommunityPanel({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-heading font-bold uppercase tracking-wide text-white">
+      <div className="flex justify-between items-center pb-5">
+        <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
           {t("community.title", "Comunidad")}
         </h2>
         <button
           type="button"
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
+          className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      <p className="text-sm text-gray-300 leading-relaxed">
+      <p className="text-sm text-gray-300 leading-relaxed border-t border-white/10 py-4">
         {t(
           "community.blurb",
           "Open League Manager es un proyecto open source y gratuito, hecho por y para la comunidad. Únete, propón ideas o contribuye con código: cualquier ayuda suma.",
@@ -92,46 +92,52 @@ export default function CommunityPanel({ onClose }: { onClose: () => void }) {
       </p>
 
       {/* External links */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col border-t border-white/10">
         <button
           type="button"
           onClick={() => openExternal(DISCORD_URL)}
-          className="group flex items-center justify-between gap-3 w-full px-4 py-3 rounded-xl bg-[#5865F2] hover:bg-[#4752c4] text-white font-heading font-bold uppercase tracking-wide transition-colors"
+          className="group flex items-center justify-between gap-3 w-full py-4 text-white transition-colors border-b border-white/10 hover:bg-white/5"
         >
-          <span className="flex items-center gap-3">
-            <DiscordIcon className="w-5 h-5" />
-            Discord
+          <span className="flex items-center gap-3 min-w-0">
+            <DiscordIcon className="w-5 h-5 text-accent-400 shrink-0" />
+            <span className="font-heading font-bold uppercase tracking-wider">
+              Discord
+            </span>
           </span>
-          <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-accent-400 transition-colors" />
         </button>
 
         <button
           type="button"
           onClick={() => openExternal(GITHUB_URL)}
-          className="group flex items-center justify-between gap-3 w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-heading font-bold uppercase tracking-wide transition-colors"
+          className="group flex items-center justify-between gap-3 w-full py-4 text-white transition-colors border-b border-white/10 hover:bg-white/5"
         >
-          <span className="flex items-center gap-3">
-            <GithubIcon className="w-5 h-5" />
-            GitHub
+          <span className="flex items-center gap-3 min-w-0">
+            <GithubIcon className="w-5 h-5 text-gray-300 shrink-0 group-hover:text-white transition-colors" />
+            <span className="font-heading font-bold uppercase tracking-wider">
+              GitHub
+            </span>
           </span>
-          <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-accent-400 transition-colors" />
         </button>
 
         <button
           type="button"
           onClick={() => openExternal(TWITTER_URL)}
-          className="group flex items-center justify-between gap-3 w-full px-4 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-heading font-bold uppercase tracking-wide transition-colors"
+          className="group flex items-center justify-between gap-3 w-full py-4 text-white transition-colors border-b border-white/10 hover:bg-white/5"
         >
-          <span className="flex items-center gap-3">
-            <XIcon className="w-5 h-5" />
-            Twitter
+          <span className="flex items-center gap-3 min-w-0">
+            <XIcon className="w-5 h-5 text-gray-300 shrink-0 group-hover:text-white transition-colors" />
+            <span className="font-heading font-bold uppercase tracking-wider">
+              Twitter
+            </span>
           </span>
-          <ExternalLink className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+          <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-accent-400 transition-colors" />
         </button>
       </div>
 
       {/* Mentions */}
-      <div className="border-t border-white/10 pt-4">
+      <div className="border-t border-white/10 py-4">
         <div className="flex items-center gap-2 mb-1">
           <Heart className="w-4 h-4 text-accent-400" />
           <h3 className="text-sm font-heading font-bold uppercase tracking-wider text-white">

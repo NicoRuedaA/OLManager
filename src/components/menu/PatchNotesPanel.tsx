@@ -75,21 +75,45 @@ function groupStyle(
   const key = type.toLowerCase();
   switch (key) {
     case "added":
-      return { label: t("patchNotes.added", "Añadido"), className: "text-green-400" };
+      return {
+        label: t("patchNotes.added", "Añadido"),
+        className: "text-green-400",
+      };
     case "changed":
-      return { label: t("patchNotes.changed", "Cambiado"), className: "text-accent-400" };
+      return {
+        label: t("patchNotes.changed", "Cambiado"),
+        className: "text-accent-400",
+      };
     case "fixed":
-      return { label: t("patchNotes.fixed", "Arreglado"), className: "text-amber-400" };
+      return {
+        label: t("patchNotes.fixed", "Arreglado"),
+        className: "text-amber-400",
+      };
     case "removed":
-      return { label: t("patchNotes.removed", "Eliminado"), className: "text-red-400" };
+      return {
+        label: t("patchNotes.removed", "Eliminado"),
+        className: "text-red-400",
+      };
     case "security":
-      return { label: t("patchNotes.security", "Seguridad"), className: "text-purple-400" };
+      return {
+        label: t("patchNotes.security", "Seguridad"),
+        className: "text-purple-400",
+      };
     case "chores":
-      return { label: t("patchNotes.chores", "Mantenimiento"), className: "text-gray-400" };
+      return {
+        label: t("patchNotes.chores", "Mantenimiento"),
+        className: "text-gray-400",
+      };
     case "contributors":
-      return { label: t("patchNotes.contributors", "Colaboradores"), className: "text-sky-400" };
+      return {
+        label: t("patchNotes.contributors", "Colaboradores"),
+        className: "text-sky-400",
+      };
     case "notes":
-      return { label: t("patchNotes.notes", "Notas"), className: "text-gray-400" };
+      return {
+        label: t("patchNotes.notes", "Notas"),
+        className: "text-gray-400",
+      };
     default:
       return { label: type, className: "text-gray-300" };
   }
@@ -100,39 +124,44 @@ export default function PatchNotesPanel({ onClose }: { onClose: () => void }) {
   const releases = useMemo(() => parseChangelog(changelogRaw), []);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-heading font-bold uppercase tracking-wide text-white">
+      <div className="flex justify-between items-center pb-5">
+        <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
           {t("menu.patchNotes", "Novedades")}
         </h2>
         <button
           type="button"
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/10"
+          className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
         >
           <X className="w-5 h-5" />
         </button>
       </div>
 
-      <div className="max-h-[60vh] overflow-y-auto overscroll-contain pr-1 flex flex-col gap-6">
+      <div className="max-h-[60vh] overflow-y-auto overscroll-contain border-t border-white/10">
         {releases.length === 0 ? (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-400 py-4">
             {t("patchNotes.empty", "Todavía no hay notas de versión.")}
           </p>
         ) : (
           releases.map((release) => (
-            <div key={release.version}>
-              <div className="flex items-baseline gap-2 mb-2 pb-1 border-b border-white/10">
-                <h3 className="text-lg font-heading font-bold text-accent-400">
+            <div
+              key={release.version}
+              className="py-4 border-b border-white/10"
+            >
+              <div className="flex items-baseline gap-2 mb-3">
+                <h3 className="text-lg font-heading font-bold uppercase tracking-wider text-accent-400">
                   v{release.version}
                 </h3>
                 {release.date && (
-                  <span className="text-xs text-gray-500">{release.date}</span>
+                  <span className="text-xs text-gray-500 font-heading uppercase tracking-wide">
+                    {release.date}
+                  </span>
                 )}
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-4">
                 {release.groups.map((g, gi) => {
                   const style = g.type ? groupStyle(g.type, t) : null;
                   return (
@@ -148,7 +177,7 @@ export default function PatchNotesPanel({ onClose }: { onClose: () => void }) {
                         {g.items.map((item, ii) => (
                           <li
                             key={ii}
-                            className="text-sm text-gray-300 leading-snug pl-3 relative before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:rounded-full before:bg-gray-500"
+                            className="text-sm text-gray-300 leading-snug pl-3 relative before:absolute before:left-0 before:top-2 before:w-1 before:h-1 before:rounded-full before:bg-accent-400/70"
                           >
                             {item}
                           </li>

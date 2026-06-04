@@ -10,6 +10,7 @@ import SavesList from "../components/menu/SavesList";
 import MenuBackground from "../components/menu/MenuBackground";
 import CommunityPanel from "../components/menu/CommunityPanel";
 import PatchNotesPanel from "../components/menu/PatchNotesPanel";
+import { useAuth } from "../web/auth";
 import {
   FolderOpen,
   Settings,
@@ -23,6 +24,10 @@ import {
   Database,
   Users,
   Newspaper,
+  UserCircle,
+  LogOut,
+  Mail,
+  KeyRound,
 } from "lucide-react";
 import { countryName, allNationalities } from "../lib/countries";
 
@@ -30,8 +35,9 @@ const canUseTauriInvoke = () => {
   if (import.meta.env.MODE === "test") return true;
   if (import.meta.env.MODE === "web") return true;
   if (typeof window === "undefined") return false;
-  const internals = (window as unknown as { __TAURI_INTERNALS__?: { invoke?: unknown } })
-    .__TAURI_INTERNALS__;
+  const internals = (
+    window as unknown as { __TAURI_INTERNALS__?: { invoke?: unknown } }
+  ).__TAURI_INTERNALS__;
   return typeof internals?.invoke === "function";
 };
 
@@ -124,13 +130,21 @@ function logNationalityDebug(
 export default function MainMenu() {
   const navigate = useNavigate();
   const setGameActive = useGameStore((state) => state.setGameActive);
+  const { session, signOut } = useAuth();
   const debugToolsEnabled = useSettingsStore(
     (state) => state.settings.debug_tools_enabled,
   );
   const { t, i18n } = useTranslation();
+  const isWebSession = import.meta.env.MODE === "web" && !!session;
+  const userEmail = session?.user.email ?? "";
+  const userDisplayName =
+    (session?.user.user_metadata?.full_name as string | undefined) ||
+    (session?.user.user_metadata?.name as string | undefined) ||
+    userEmail.split("@")[0] ||
+    t("auth.user", "Usuario");
 
   const [menuState, setMenuState] = useState<
-    "main" | "create" | "load" | "community" | "patchnotes"
+    "main" | "create" | "load" | "community" | "patchnotes" | "profile"
   >("main");
   const [saves, setSaves] = useState<SaveEntry[]>([]);
   const [isLoadingSaves, setIsLoadingSaves] = useState(false);
@@ -298,7 +312,8 @@ export default function MainMenu() {
       });
 
       const displayName =
-        formData.nickname?.trim() || `${formData.firstName} ${formData.lastName}`;
+        formData.nickname?.trim() ||
+        `${formData.firstName} ${formData.lastName}`;
       setGameActive(true, displayName.trim());
       console.debug(
         "[MainMenu] start_new_game_lightweight completed, navigating to /select-team",
@@ -361,6 +376,12 @@ export default function MainMenu() {
     }
   };
 
+  const handleSignOut = async (): Promise<void> => {
+    setGameActive(false);
+    setMenuState("main");
+    await signOut();
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden font-sans text-white">
       <MenuBackground />
@@ -397,9 +418,20 @@ export default function MainMenu() {
                 tone="muted"
                 label={t("menu.settings")}
                 onClick={() =>
-                  navigate("/settings", { state: { from: "/", menuStyle: true } })
+                  navigate("/settings", {
+                    state: { from: "/", menuStyle: true },
+                  })
                 }
               />
+              {isWebSession && (
+                <MenuItem
+                  icon={<UserCircle />}
+                  tone="muted"
+                  label={t("auth.profile")}
+                  active={menuState === "profile"}
+                  onClick={() => setMenuState("profile")}
+                />
+              )}
               <MenuItem
                 icon={<Users />}
                 label={t("menu.community", "Comunidad")}
@@ -422,361 +454,439 @@ export default function MainMenu() {
                   onClick={() => navigate("/world-editor")}
                 />
               )}
-              <MenuItem
-                icon={<Power />}
-                tone="danger"
-                label={t("menu.exitGame")}
-                onClick={() => {
-                  void handleExitApp();
-                }}
-              />
+              {isWebSession ? (
+                <MenuItem
+                  icon={<LogOut />}
+                  tone="danger"
+                  label={t("auth.signOut")}
+                  onClick={() => {
+                    void handleSignOut();
+                  }}
+                />
+              ) : (
+                <MenuItem
+                  icon={<Power />}
+                  tone="danger"
+                  label={t("menu.exitGame")}
+                  onClick={() => {
+                    void handleExitApp();
+                  }}
+                />
+              )}
             </nav>
+
+            {isWebSession && (
+              <button
+                type="button"
+                onClick={() => setMenuState("profile")}
+                className="mt-8 flex w-full items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-left transition-colors hover:bg-white/10"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-400 text-navy-950">
+                  <UserCircle className="h-6 w-6" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block truncate font-heading text-sm font-bold uppercase tracking-wider text-white">
+                    {userDisplayName}
+                  </span>
+                  <span className="block truncate text-xs text-gray-400">
+                    {userEmail}
+                  </span>
+                </span>
+              </button>
+            )}
           </div>
         </div>
 
         {/* Right column — active panel opens beside the nav */}
         {menuState !== "main" && (
-          <div className="dark flex-1 min-w-0 flex flex-col overflow-y-auto p-6 lg:p-10">
+          <div className="dark flex-1 min-w-0 flex flex-col justify-center overflow-y-auto p-6 lg:p-10">
             <div
               key={menuState}
-              className="w-full max-w-lg mx-auto my-auto animate-fade-in-up rounded-2xl border border-white/10 shadow-2xl bg-navy-900/85 backdrop-blur-xl"
+              className="w-full max-w-2xl mx-auto animate-fade-in-up border-t border-white/10"
             >
-              <div className="h-1.5 rounded-t-2xl bg-gradient-to-r from-primary-500 via-accent-400 to-primary-500" />
-              <div className="p-6 sm:p-8">
+              <div className="pt-6">
+                {/* Step 1: Create Manager Form */}
+                {menuState === "create" && (
+                  <form onSubmit={handleStartCareer} className="flex flex-col">
+                    <div className="flex justify-between items-center pb-5">
+                      <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
+                        {t("createManager.title")}
+                      </h2>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuState("main");
+                          setFormErrors({});
+                        }}
+                        className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
 
-          {/* Step 1: Create Manager Form */}
-          {menuState === "create" && (
-            <form
-              onSubmit={handleStartCareer}
-              className="flex flex-col gap-4"
-            >
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-sans font-bold uppercase tracking-wide text-gray-900 dark:text-white transition-colors">
-                  {t("createManager.title")}
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMenuState("main");
-                    setFormErrors({});
-                  }}
-                  className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-navy-600"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Step indicator */}
-              <div className="flex items-center gap-2 mb-1">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-500 text-white text-xs font-bold">
-                  1
-                </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wide">
-                  {t("worldSelect.startCareer")}
-                </span>
-              </div>
-
-              {/* Nickname */}
-              <div id="create-manager-field-nickname">
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                  {t("createManager.nickname", "Nick")}
-                </label>
-                <input
-                  maxLength={20}
-                  className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.nickname
-                      ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                      : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
-                    }`}
-                  placeholder={t("createManager.placeholderNickname", "ej. Faker")}
-                  value={formData.nickname}
-                  onChange={(e) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      nickname: e.target.value,
-                    }));
-                    setFormErrors((prev) => ({ ...prev, nickname: "" }));
-                  }}
-                />
-                {formErrors.nickname && (
-                  <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                    <AlertCircle className="w-3 h-3" />
-                    {formErrors.nickname}
-                  </p>
-                )}
-              </div>
-
-              {/* Name fields with labels */}
-              <div className="flex gap-3">
-                <div className="flex-1" id="create-manager-field-firstName">
-                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                    {t("createManager.firstName")}
-                  </label>
-                  <input
-                    maxLength={30}
-                    className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.firstName
-                        ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                        : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
-                      }`}
-                    placeholder={t("createManager.placeholderFirst")}
-                    value={formData.firstName}
-                    onChange={(e) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        firstName: e.target.value,
-                      }));
-                      setFormErrors((prev) => ({ ...prev, firstName: "" }));
-                    }}
-                  />
-                  {formErrors.firstName && (
-                    <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {formErrors.firstName}
-                    </p>
-                  )}
-                </div>
-                <div className="flex-1" id="create-manager-field-lastName">
-                  <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                    {t("createManager.lastName")}
-                  </label>
-                  <input
-                    maxLength={30}
-                    className={`w-full bg-gray-50 dark:bg-navy-900 border text-gray-900 dark:text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500 ${formErrors.lastName
-                        ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
-                        : "border-gray-300 dark:border-navy-600 focus:border-primary-500 focus:ring-primary-500/20"
-                      }`}
-                    placeholder={t("createManager.placeholderLast")}
-                    value={formData.lastName}
-                    onChange={(e) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        lastName: e.target.value,
-                      }));
-                      setFormErrors((prev) => ({ ...prev, lastName: "" }));
-                    }}
-                  />
-                  {formErrors.lastName && (
-                    <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                      <AlertCircle className="w-3 h-3" />
-                      {formErrors.lastName}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Date of Birth with label */}
-              <div id="create-manager-field-dob">
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                  {t("createManager.dob")}
-                </label>
-                <DatePicker
-                  value={formData.dob}
-                  onChange={(date) => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      dob: date,
-                    }));
-                    setFormErrors((prev) => ({ ...prev, dob: "" }));
-                  }}
-                  error={!!dobDisplayedError}
-                />
-                {dobDisplayedError && (
-                  <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                    <AlertCircle className="w-3 h-3 shrink-0" />
-                    {dobDisplayedError}
-                  </p>
-                )}
-              </div>
-
-              {/* Country/Region combobox — elevate stacking when open so the menu paints above the submit button */}
-              <div
-                id="create-manager-field-nationality"
-                ref={nationalityRef}
-                className={nationalityOpen ? "relative z-50" : undefined}
-              >
-                <label className="block text-xs font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-1.5">
-                  {t(
-                    "createManager.countryOfOrigin",
-                    "Country/Region of Origin",
-                  )}
-                </label>
-                <div className="relative">
-                  <button
-                    type="button"
-                    onMouseDown={(event) => {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      toggleNationalityDropdown();
-                    }}
-                    onClick={(event) => {
-                      if (event.detail === 0) {
-                        toggleNationalityDropdown();
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Tab" && !e.shiftKey) {
-                        e.preventDefault();
-                        if (nationalityOpen) setNationalityOpen(false);
-                        document.getElementById("create-manager-submit")?.focus();
-                      }
-                    }}
-                    className={`w-full flex items-center justify-between bg-white/5 border text-left rounded-lg p-3 outline-none transition-all ${formErrors.nationality
-                        ? "border-red-400 dark:border-red-500"
-                        : nationalityOpen
-                          ? "border-accent-400 ring-2 ring-accent-400/20"
-                          : "border-white/15"
-                      }`}
-                  >
-                    <span
-                      className={
-                        formData.nationality ? "text-white" : "text-gray-400"
-                      }
-                    >
-                      {formData.nationality ? (
-                        <span className="flex items-center gap-2">
-                          <CountryFlag
-                            code={formData.nationality}
-                            locale={i18n.language}
-                            className="text-lg leading-none"
-                          />
-                          <span>
-                            {countryName(formData.nationality, i18n.language) ||
-                              formData.nationality}
-                          </span>
-                        </span>
-                      ) : (
-                        t(
-                          "createManager.selectCountry",
-                          "Select Country/Region",
-                        )
-                      )}
-                    </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-gray-400 transition-transform ${nationalityOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-
-                  {nationalityOpen && (
-                    <div
-                      className="absolute z-50 bottom-full mb-1 left-0 right-0 bg-navy-800 rounded-lg shadow-xl border border-white/10 overflow-hidden"
-                      onMouseDown={(event) => {
-                        event.stopPropagation();
-                        logNationalityDebug("dropdown panel mousedown");
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Tab") {
-                          e.preventDefault();
-                          setNationalityOpen(false);
-                          setNationalitySearch("");
-                          document.getElementById("create-manager-submit")?.focus();
-                        }
-                      }}
-                    >
-                      <div className="p-2 border-b border-white/10">
-                        <input
-                          type="text"
-                          autoFocus
-                          placeholder={t("createManager.searchNationalities")}
-                          value={nationalitySearch}
-                          onChange={(e) => setNationalitySearch(e.target.value)}
-                          className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-accent-400 transition-colors placeholder:text-gray-500"
-                        />
+                    {/* Step indicator */}
+                    <div className="flex items-center gap-3 py-4 border-y border-white/10">
+                      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-accent-400 text-navy-950 text-xs font-bold">
+                        1
                       </div>
-                      <div className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
-                        {filteredNationalities.length === 0 ? (
-                          <p className="px-3 py-2 text-xs text-gray-400">
-                            {t("menu.noResults")}
+                      <span className="text-sm text-gray-300 font-heading font-bold uppercase tracking-wider">
+                        {t("worldSelect.startCareer")}
+                      </span>
+                    </div>
+
+                    {/* Nickname */}
+                    <div
+                      id="create-manager-field-nickname"
+                      className="py-4 border-b border-white/10"
+                    >
+                      <label className="block text-sm font-heading font-bold uppercase tracking-wider text-white mb-1.5">
+                        {t("createManager.nickname", "Nick")}
+                      </label>
+                      <input
+                        maxLength={20}
+                        className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${
+                          formErrors.nickname
+                            ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                            : "border-white/15 focus:border-accent-400 focus:ring-accent-400/20"
+                        }`}
+                        placeholder={t(
+                          "createManager.placeholderNickname",
+                          "ej. Faker",
+                        )}
+                        value={formData.nickname}
+                        onChange={(e) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            nickname: e.target.value,
+                          }));
+                          setFormErrors((prev) => ({ ...prev, nickname: "" }));
+                        }}
+                      />
+                      {formErrors.nickname && (
+                        <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {formErrors.nickname}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Name fields with labels */}
+                    <div className="flex flex-col sm:flex-row gap-3 py-4 border-b border-white/10">
+                      <div
+                        className="flex-1"
+                        id="create-manager-field-firstName"
+                      >
+                        <label className="block text-sm font-heading font-bold uppercase tracking-wider text-white mb-1.5">
+                          {t("createManager.firstName")}
+                        </label>
+                        <input
+                          maxLength={30}
+                          className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${
+                            formErrors.firstName
+                              ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                              : "border-white/15 focus:border-accent-400 focus:ring-accent-400/20"
+                          }`}
+                          placeholder={t("createManager.placeholderFirst")}
+                          value={formData.firstName}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              firstName: e.target.value,
+                            }));
+                            setFormErrors((prev) => ({
+                              ...prev,
+                              firstName: "",
+                            }));
+                          }}
+                        />
+                        {formErrors.firstName && (
+                          <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                            <AlertCircle className="w-3 h-3" />
+                            {formErrors.firstName}
                           </p>
-                        ) : (
-                          filteredNationalities.map((nat) => (
-                            <button
-                              key={nat.code}
-                              type="button"
-                              onMouseDown={(event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                logNationalityDebug("option selected", {
-                                  code: nat.code,
-                                  name: nat.name,
-                                });
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  nationality: nat.code,
-                                }));
-                                setNationalityOpen(false);
-                                setNationalitySearch("");
-                                setFormErrors((prev) => ({
-                                  ...prev,
-                                  nationality: "",
-                                }));
-                              }}
-                              className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between transition-colors ${formData.nationality === nat.code
-                                  ? "bg-accent-400/10 text-accent-400"
-                                  : "text-gray-200 hover:bg-white/10"
-                                }`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <CountryFlag
-                                  code={nat.code}
-                                  locale={i18n.language}
-                                  className="text-lg leading-none"
-                                />
-                                <span>{nat.name}</span>
-                              </div>
-                              {formData.nationality === nat.code && (
-                                <Check className="w-4 h-4 text-accent-400" />
-                              )}
-                            </button>
-                          ))
+                        )}
+                      </div>
+                      <div
+                        className="flex-1"
+                        id="create-manager-field-lastName"
+                      >
+                        <label className="block text-sm font-heading font-bold uppercase tracking-wider text-white mb-1.5">
+                          {t("createManager.lastName")}
+                        </label>
+                        <input
+                          maxLength={30}
+                          className={`w-full bg-white/5 border text-white rounded-lg p-3 outline-none focus:ring-2 transition-all placeholder:text-gray-500 ${
+                            formErrors.lastName
+                              ? "border-red-400 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                              : "border-white/15 focus:border-accent-400 focus:ring-accent-400/20"
+                          }`}
+                          placeholder={t("createManager.placeholderLast")}
+                          value={formData.lastName}
+                          onChange={(e) => {
+                            setFormData((prev) => ({
+                              ...prev,
+                              lastName: e.target.value,
+                            }));
+                            setFormErrors((prev) => ({
+                              ...prev,
+                              lastName: "",
+                            }));
+                          }}
+                        />
+                        {formErrors.lastName && (
+                          <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                            <AlertCircle className="w-3 h-3" />
+                            {formErrors.lastName}
+                          </p>
                         )}
                       </div>
                     </div>
-                  )}
-                </div>
-                {formErrors.nationality && (
-                  <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
-                    <AlertCircle className="w-3 h-3" />
-                    {formErrors.nationality}
-                  </p>
+
+                    {/* Date of Birth with label */}
+                    <div
+                      id="create-manager-field-dob"
+                      className="py-4 border-b border-white/10"
+                    >
+                      <label className="block text-sm font-heading font-bold uppercase tracking-wider text-white mb-1.5">
+                        {t("createManager.dob")}
+                      </label>
+                      <DatePicker
+                        value={formData.dob}
+                        onChange={(date) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            dob: date,
+                          }));
+                          setFormErrors((prev) => ({ ...prev, dob: "" }));
+                        }}
+                        error={!!dobDisplayedError}
+                      />
+                      {dobDisplayedError && (
+                        <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                          <AlertCircle className="w-3 h-3 shrink-0" />
+                          {dobDisplayedError}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Country/Region combobox — elevate stacking when open so the menu paints above the submit button */}
+                    <div
+                      id="create-manager-field-nationality"
+                      ref={nationalityRef}
+                      className={`py-4 border-b border-white/10 ${nationalityOpen ? "relative z-50" : ""}`}
+                    >
+                      <label className="block text-sm font-heading font-bold uppercase tracking-wider text-white mb-1.5">
+                        {t(
+                          "createManager.countryOfOrigin",
+                          "Country/Region of Origin",
+                        )}
+                      </label>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onMouseDown={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            toggleNationalityDropdown();
+                          }}
+                          onClick={(event) => {
+                            if (event.detail === 0) {
+                              toggleNationalityDropdown();
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Tab" && !e.shiftKey) {
+                              e.preventDefault();
+                              if (nationalityOpen) setNationalityOpen(false);
+                              document
+                                .getElementById("create-manager-submit")
+                                ?.focus();
+                            }
+                          }}
+                          className={`w-full flex items-center justify-between bg-white/5 border text-left rounded-lg p-3 outline-none transition-all ${
+                            formErrors.nationality
+                              ? "border-red-400 dark:border-red-500"
+                              : nationalityOpen
+                                ? "border-accent-400 ring-2 ring-accent-400/20"
+                                : "border-white/15"
+                          }`}
+                        >
+                          <span
+                            className={
+                              formData.nationality
+                                ? "text-white"
+                                : "text-gray-400"
+                            }
+                          >
+                            {formData.nationality ? (
+                              <span className="flex items-center gap-2">
+                                <CountryFlag
+                                  code={formData.nationality}
+                                  locale={i18n.language}
+                                  className="text-lg leading-none"
+                                />
+                                <span>
+                                  {countryName(
+                                    formData.nationality,
+                                    i18n.language,
+                                  ) || formData.nationality}
+                                </span>
+                              </span>
+                            ) : (
+                              t(
+                                "createManager.selectCountry",
+                                "Select Country/Region",
+                              )
+                            )}
+                          </span>
+                          <ChevronDown
+                            className={`w-4 h-4 text-gray-400 transition-transform ${nationalityOpen ? "rotate-180" : ""}`}
+                          />
+                        </button>
+
+                        {nationalityOpen && (
+                          <div
+                            className="absolute z-50 bottom-full mb-1 left-0 right-0 bg-navy-900/95 backdrop-blur-xl rounded-lg shadow-xl border border-white/10 overflow-hidden"
+                            onMouseDown={(event) => {
+                              event.stopPropagation();
+                              logNationalityDebug("dropdown panel mousedown");
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Tab") {
+                                e.preventDefault();
+                                setNationalityOpen(false);
+                                setNationalitySearch("");
+                                document
+                                  .getElementById("create-manager-submit")
+                                  ?.focus();
+                              }
+                            }}
+                          >
+                            <div className="p-2 border-b border-white/10">
+                              <input
+                                type="text"
+                                autoFocus
+                                placeholder={t(
+                                  "createManager.searchNationalities",
+                                )}
+                                value={nationalitySearch}
+                                onChange={(e) =>
+                                  setNationalitySearch(e.target.value)
+                                }
+                                className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-accent-400 transition-colors placeholder:text-gray-500"
+                              />
+                            </div>
+                            <div className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
+                              {filteredNationalities.length === 0 ? (
+                                <p className="px-3 py-2 text-xs text-gray-400">
+                                  {t("menu.noResults")}
+                                </p>
+                              ) : (
+                                filteredNationalities.map((nat) => (
+                                  <button
+                                    key={nat.code}
+                                    type="button"
+                                    onMouseDown={(event) => {
+                                      event.preventDefault();
+                                      event.stopPropagation();
+                                      logNationalityDebug("option selected", {
+                                        code: nat.code,
+                                        name: nat.name,
+                                      });
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        nationality: nat.code,
+                                      }));
+                                      setNationalityOpen(false);
+                                      setNationalitySearch("");
+                                      setFormErrors((prev) => ({
+                                        ...prev,
+                                        nationality: "",
+                                      }));
+                                    }}
+                                    className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between transition-colors ${
+                                      formData.nationality === nat.code
+                                        ? "bg-accent-400/10 text-accent-400"
+                                        : "text-gray-200 hover:bg-white/10"
+                                    }`}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <CountryFlag
+                                        code={nat.code}
+                                        locale={i18n.language}
+                                        className="text-lg leading-none"
+                                      />
+                                      <span>{nat.name}</span>
+                                    </div>
+                                    {formData.nationality === nat.code && (
+                                      <Check className="w-4 h-4 text-accent-400" />
+                                    )}
+                                  </button>
+                                ))
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      {formErrors.nationality && (
+                        <p className="flex items-center gap-1 text-xs text-red-500 mt-1">
+                          <AlertCircle className="w-3 h-3" />
+                          {formErrors.nationality}
+                        </p>
+                      )}
+                    </div>
+
+                    <Button
+                      id="create-manager-submit"
+                      type="submit"
+                      variant="accent"
+                      size="lg"
+                      className="mt-6 w-full"
+                      iconRight={<ChevronRight />}
+                      disabled={isStarting}
+                    >
+                      {isStarting
+                        ? t("worldSelect.creatingWorld")
+                        : t("worldSelect.startCareer")}
+                    </Button>
+                  </form>
                 )}
-              </div>
 
-              <Button
-                id="create-manager-submit"
-                type="submit"
-                variant="primary"
-                size="lg"
-                className="mt-2 w-full"
-                iconRight={<ChevronRight />}
-                disabled={isStarting}
-              >
-                {isStarting ? t("worldSelect.creatingWorld") : t("worldSelect.startCareer")}
-              </Button>
-            </form>
-          )}
+                {/* Load Game List */}
+                {menuState === "load" && (
+                  <SavesList
+                    loadingSaveId={loadingSaveId}
+                    saves={saves}
+                    isLoading={isLoadingSaves}
+                    confirmDeleteId={confirmDeleteId}
+                    onLoad={handleLoadGame}
+                    onDelete={handleDeleteSave}
+                    onConfirmDelete={setConfirmDeleteId}
+                    onClose={() => setMenuState("main")}
+                  />
+                )}
 
-          {/* Load Game List */}
-          {menuState === "load" && (
-            <SavesList
-              loadingSaveId={loadingSaveId}
-              saves={saves}
-              isLoading={isLoadingSaves}
-              confirmDeleteId={confirmDeleteId}
-              onLoad={handleLoadGame}
-              onDelete={handleDeleteSave}
-              onConfirmDelete={setConfirmDeleteId}
-              onClose={() => setMenuState("main")}
-            />
-          )}
+                {/* Community */}
+                {menuState === "community" && (
+                  <CommunityPanel onClose={() => setMenuState("main")} />
+                )}
 
-          {/* Community */}
-          {menuState === "community" && (
-            <CommunityPanel onClose={() => setMenuState("main")} />
-          )}
+                {/* Patch notes */}
+                {menuState === "patchnotes" && (
+                  <PatchNotesPanel onClose={() => setMenuState("main")} />
+                )}
 
-          {/* Patch notes */}
-          {menuState === "patchnotes" && (
-            <PatchNotesPanel onClose={() => setMenuState("main")} />
-          )}
+                {/* User profile */}
+                {menuState === "profile" && session && (
+                  <UserProfilePanel
+                    email={userEmail}
+                    userId={session.user.id}
+                    displayName={userDisplayName}
+                    createdAt={session.user.created_at}
+                    onClose={() => setMenuState("main")}
+                    onSignOut={handleSignOut}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -787,6 +897,115 @@ export default function MainMenu() {
       <div className="absolute bottom-4 right-4 text-gray-300/70 text-xs font-heading uppercase tracking-widest drop-shadow z-20">
         {t("app.version")} {__APP_VERSION__}
       </div>
+    </div>
+  );
+}
+
+function UserProfilePanel({
+  email,
+  userId,
+  displayName,
+  createdAt,
+  onClose,
+  onSignOut,
+}: {
+  email: string;
+  userId: string;
+  displayName: string;
+  createdAt?: string;
+  onClose: () => void;
+  onSignOut: () => Promise<void>;
+}) {
+  const { t, i18n } = useTranslation();
+  const createdDate = createdAt
+    ? new Intl.DateTimeFormat(i18n.language, {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }).format(new Date(createdAt))
+    : null;
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex items-center justify-between pb-5">
+        <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
+          {t("auth.profile")}
+        </h2>
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
+      <div className="border-t border-white/10">
+        <div className="flex items-center gap-4 border-b border-white/10 py-5">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-400 text-navy-950">
+            <UserCircle className="h-8 w-8" />
+          </span>
+          <div className="min-w-0">
+            <p className="font-heading text-xl font-bold uppercase tracking-wider text-white">
+              {displayName}
+            </p>
+            <p className="truncate text-sm text-gray-400">{email}</p>
+          </div>
+        </div>
+
+        <ProfileRow
+          icon={<Mail />}
+          label={t("auth.email")}
+          value={email || t("auth.notAvailable")}
+        />
+        <ProfileRow
+          icon={<KeyRound />}
+          label={t("auth.userId")}
+          value={userId}
+        />
+        {createdDate && (
+          <ProfileRow
+            icon={<UserCircle />}
+            label={t("auth.createdAt")}
+            value={createdDate}
+          />
+        )}
+      </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          void onSignOut();
+        }}
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-red-500/50 px-4 py-3 font-heading text-lg font-bold uppercase tracking-wide text-red-300 transition-colors hover:border-red-500 hover:bg-red-500/10"
+      >
+        <LogOut className="h-5 w-5" />
+        {t("auth.signOut")}
+      </button>
+    </div>
+  );
+}
+
+function ProfileRow({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4 border-b border-white/10 py-4">
+      <div className="flex items-center gap-3 text-gray-300">
+        <span className="text-accent-400 [&>svg]:h-5 [&>svg]:w-5">{icon}</span>
+        <span className="font-heading text-sm font-bold uppercase tracking-wider text-white">
+          {label}
+        </span>
+      </div>
+      <span className="min-w-0 truncate text-right text-sm text-gray-400">
+        {value}
+      </span>
     </div>
   );
 }
@@ -822,7 +1041,8 @@ function MenuItem({
         : tone === "muted"
           ? "text-gray-300"
           : "text-accent-400";
-  const hoverBg = tone === "danger" ? "hover:bg-red-500/10" : "hover:bg-white/5";
+  const hoverBg =
+    tone === "danger" ? "hover:bg-red-500/10" : "hover:bg-white/5";
 
   return (
     <button

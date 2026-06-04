@@ -3,6 +3,25 @@
     "name": "Open League Manager",
     "version": "pre-alpha"
   },
+  "auth": {
+    "login": "Entrar",
+    "register": "Registro",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "enter": "Entrar",
+    "signingIn": "Entrando...",
+    "createAccount": "Crear cuenta",
+    "registering": "Creando cuenta...",
+    "registerSuccess": "Cuenta creada. Revisa tu email para confirmar el registro antes de entrar.",
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "profile": "Perfil",
+    "signOut": "Cerrar sesión",
+    "user": "Usuario",
+    "userId": "ID de usuario",
+    "createdAt": "Cuenta creada",
+    "notAvailable": "No disponible"
+  },
   "content": {
     "lol": {
       "social": {
