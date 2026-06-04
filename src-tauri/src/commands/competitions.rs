@@ -124,7 +124,7 @@ pub fn load_competition_manifest(
 }
 
 // ---------------------------------------------------------------------------
-// Team / Player data loading
+// Team / Player / Staff data loading
 // ---------------------------------------------------------------------------
 
 /// Resolve the base `data/` directory for runtime file reads.
@@ -215,6 +215,32 @@ pub fn load_competition_players(
     let data: PlayerDataFile = serde_json::from_str(&json)
         .map_err(|e| format!("Failed to parse players data: {}", e))?;
     Ok(data.players)
+}
+
+/// Load staff data for a competition from its manifest's `staff_file` path.
+/// Returns an empty vec if no staff_file is configured.
+pub fn load_competition_staff(
+    app_handle: &tauri::AppHandle,
+    manifest: &CompetitionManifest,
+) -> Result<Vec<Staff>, String> {
+    let data_base = resolve_data_base(app_handle)
+        .ok_or_else(|| "Data directory not found.".to_string())?;
+    let staff_path = match &manifest.staff_file {
+        Some(path) => data_base.join(path),
+        None => return Ok(Vec::new()),
+    };
+    info!("[competitions] loading staff for '{}' from {:?}", manifest.id, staff_path);
+    let json = std::fs::read_to_string(&staff_path).map_err(|e| {
+        format!(
+            "Failed to read staff file '{}' for '{}': {}",
+            manifest.staff_file.as_deref().unwrap_or("?"),
+            manifest.id,
+            e
+        )
+    })?;
+    let data: StaffDataFile = serde_json::from_str(&json)
+        .map_err(|e| format!("Failed to parse staff data: {}", e))?;
+    Ok(data.staff)
 }
 
 /// Load free agent staff from `data/staffs/free_agents.json`.

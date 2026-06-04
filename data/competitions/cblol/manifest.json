@@ -8,7 +8,7 @@
   "logo": "/competition-icons/1778444782039_bhxoln03s1k.webp",
   "teams_file": "teams/cblol_teams.json",
   "players_file": "players/cblol_players.json",
-  "staff_file": null,
+  "staff_file": "staffs/cblol_staffs.json",
   "schedule": {
     "format": "double_round_robin",
     "team_count": 8,

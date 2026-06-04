@@ -21,7 +21,7 @@ export function Card({ children, className = "", accent = "none" }: CardProps) {
         bg-white dark:bg-navy-700
         ${accent === "none" ? accentBorder : `border ${accentBorder} border-gray-200 dark:border-navy-600`}
         rounded-xl shadow-card dark:shadow-panel
-        transition-all duration-200 hover:shadow-card-hover hover:scale-[1.01]
+        transition-all duration-200
         ${className}
       `}
     >

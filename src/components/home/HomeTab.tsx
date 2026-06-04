@@ -71,7 +71,9 @@ export default function HomeTab({
   const myTeam = gameState.teams.find(
     (tm) => tm.id === gameState.manager.team_id,
   );
-  const playerLeague = gameState.leagues[0];
+  const playerLeague = gameState.user_competition_id
+    ? gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id)
+    : gameState.leagues[0] ?? null;
   const roster = myTeam
     ? gameState.players.filter((p) => p.team_id === myTeam.id)
     : [];

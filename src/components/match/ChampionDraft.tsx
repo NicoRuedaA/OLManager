@@ -2240,7 +2240,28 @@ export default function ChampionDraft({
         }
       }
 
-      if (!masteryMap) return;
+      if (!masteryMap) {
+        const runtimeMap = runtimeMasteryByPlayerId.get(player.id);
+        if (runtimeMap && runtimeMap.size > 0) {
+          masteryMap = runtimeMap;
+          matchedSeedPlayer = undefined;
+        } else {
+          const flexibleRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
+          const flexibleImage =
+            player.profile_image_url ??
+            playerSeedPhotoUrl(matchedSeedPlayer?.photo) ??
+            `/player-photos/${player.id}.webp`;
+          tips.push({
+            sourceType: "player",
+            sourceName: player.name,
+            sourceRole: flexibleRole,
+            sourceImage: flexibleImage,
+            type: "pick",
+            text: t("match.draft.phrases.playerFlexible", "No tengo prioridades para el pick. Me puedo adaptar al equipo."),
+          });
+          return;
+        }
+      }
 
       const sourceRole = mapSeedRoleToDraftRole(String(matchedSeedPlayer?.role ?? "")) ?? ROLE_ORDER[index];
       const sourceImage =
@@ -2276,6 +2297,7 @@ export default function ChampionDraft({
 
       for (const { champion, mastery } of masteredChampions) {
         if (usedChampionIds.has(champion.id)) continue;
+        if (sourceRole && !champion.roleHints.includes(sourceRole)) continue;
         if (mastery > bestMastery) {
           bestMastery = mastery;
           resolvedBestChampion = champion;
@@ -2372,26 +2394,21 @@ export default function ChampionDraft({
       });
       const fallbackPlayer =
         fallbackPlayerIndex >= 0 ? ownPlayers[fallbackPlayerIndex] : ownPlayers[0];
-      const fallbackChampion = availableChampions[0];
       const fallbackSeedPlayer =
         fallbackPlayerIndex >= 0 ? ownTeamSeedPlayers[fallbackPlayerIndex] : ownTeamSeedPlayers[0];
-      if (fallbackPlayer && fallbackChampion) {
+      const fallbackPlayerRole =
+        mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[Math.max(0, fallbackPlayerIndex)] ?? null;
+      if (fallbackPlayer) {
         tips.push({
           sourceType: "player",
           sourceName: fallbackPlayer.name,
-          sourceRole: mapSeedRoleToDraftRole(String(fallbackSeedPlayer?.role ?? "")) ?? ROLE_ORDER[0],
+          sourceRole: fallbackPlayerRole ?? ROLE_ORDER[0],
           sourceImage:
             fallbackPlayer.profile_image_url ??
             playerSeedPhotoUrl(fallbackSeedPlayer?.photo) ??
             `/player-photos/${fallbackPlayer.id}.webp`,
           type: "pick",
-          text: uniquePhrase(
-            "match.draft.phrases.playerComfortPick",
-            PLAYER_COMFORT_PICK_PHRASES,
-            `player-fallback-pick-${fallbackPlayer.id}-${fallbackChampion.id}-${stepIndex}`,
-            { champion: fallbackChampion.name, mastery: 60 },
-          ),
-          champion: fallbackChampion,
+          text: t("match.draft.phrases.playerFlexible", "Sin información de draft. Sugerencia: podemos priorizar picks seguros o adaptarnos al draft enemigo."),
         });
       }
     }

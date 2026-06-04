@@ -37,7 +37,7 @@ export function getCashRunwayMonths(
   balance: number,
   projectedAnnualNet: number,
 ): number | null {
-  const projectedMonthlyNet = projectedAnnualNet / 12;
+  const projectedWeeklyNet = projectedAnnualNet / 52;
   if (projectedWeeklyNet >= 0) {
     return null;
   }
@@ -104,7 +104,7 @@ export function getTeamFinanceSnapshot(
   const annualWageBudget = team.wage_budget;
   const annualSponsorIncome = team.sponsorship?.base_value ?? 0;
   const projectedAnnualNet = annualSponsorIncome - annualWageBill;
-  const cashRunwayMonths = getcashRunwayMonths(team.finance, projectedAnnualNet);
+  const cashRunwayMonths = getCashRunwayMonths(team.finance, projectedAnnualNet);
   const wageBudgetUsagePercent = Math.round(
     (annualWageBill / Math.max(1, team.wage_budget)) * 100,
   );

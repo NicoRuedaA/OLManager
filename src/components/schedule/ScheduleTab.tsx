@@ -120,6 +120,7 @@ export default function ScheduleTab({
         userSeriesWins={fixtureResultView.userSeriesWins}
         opponentSeriesWins={fixtureResultView.opponentSeriesWins}
         onContinue={() => setFixtureResultView(null)}
+        teams={gameState.teams}
       />
     );
   }

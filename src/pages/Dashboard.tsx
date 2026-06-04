@@ -240,6 +240,7 @@ export default function Dashboard(): JSX.Element {
     handleContinue,
     handleConfirmMatch,
     handleSkipToMatchDay,
+    handleSkipToNextDay,
   } = useAdvanceTime(
     setGameState,
     hasMatchToday,
@@ -563,6 +564,7 @@ export default function Dashboard(): JSX.Element {
           onSelectSearchTeam={handleSelectSearchTeam}
           onSelectSearchChampion={(championKey: string) => setViewingChampionKey(championKey)}
           onSkipToMatchDay={handleSkipToMatchDay}
+          onSkipToNextDay={handleSkipToNextDay}
           onToggleContinueMenu={handleToggleContinueMenu}
           saveFlash={saveFlash}
           searchOpen={searchOpen}
@@ -571,6 +573,7 @@ export default function Dashboard(): JSX.Element {
           showContinueMenu={showContinueMenu}
           isUnemployed={isUnemployed ?? false}
           teams={gameState.teams}
+          dayPhase={gameState.day_phase}
         />
 
         <DashboardWorkspaceContent

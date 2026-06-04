@@ -157,8 +157,13 @@ export default function StaffTab({ gameState, onGameUpdate }: StaffTabProps) {
   const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
+  console.log("[StaffTab] gameState.staff count:", gameState.staff?.length);
+  console.log("[StaffTab] userTeamId:", userTeamId);
+  console.log("[StaffTab] staff team_ids:", gameState.staff?.map(s => `${s.first_name} ${s.last_name}: team_id=${s.team_id}`));
   const myStaff = gameState.staff.filter((s) => s.team_id === userTeamId);
   const availableStaff = gameState.staff.filter((s) => !s.team_id);
+  console.log("[StaffTab] myStaff count:", myStaff.length);
+  console.log("[StaffTab] availableStaff count:", availableStaff.length);
 
   const handleHire = async (staffId: string) => {
     setActionLoading(staffId);

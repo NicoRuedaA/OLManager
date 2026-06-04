@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { PlayerData, StaffData, TeamData } from "../store/gameStore";
 import {
   getAnnualWageBill,
-  getcashRunwayMonths,
+  getCashRunwayMonths,
   getTeamFinanceSnapshot,
 } from "./finance";
 
