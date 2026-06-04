@@ -785,7 +785,7 @@ export default function MainMenu() {
       )}
 
       {/* Version */}
-      <div className="absolute bottom-4 left-4 text-gray-300/70 text-xs font-heading uppercase tracking-widest drop-shadow z-20">
+      <div className="absolute bottom-4 right-4 text-gray-300/70 text-xs font-heading uppercase tracking-widest drop-shadow z-20">
         {t("app.version")} {__APP_VERSION__}
       </div>
     </div>
