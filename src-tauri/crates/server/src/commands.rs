@@ -38,7 +38,9 @@ fn optional_string_arg(args: &Value, names: &[&str]) -> Option<String> {
 }
 
 fn league_selection_data() -> Value {
-    json!([] /* FIXME: implement league selection from competition manifests */)
+    let data_dir = crate::data::data_dir();
+    let selection = olm_core::competitions::build_league_selection(&data_dir);
+    serde_json::to_value(selection).unwrap_or_default()
 }
 
 pub fn dispatch(command: &str, args: Value, game: &mut Game) -> Result<CommandResult, CommandError> {
@@ -120,3 +122,4 @@ pub fn dispatch(command: &str, args: Value, game: &mut Game) -> Result<CommandRe
         _ => Err(CommandError::bad_request(format!("Unknown command: {command}")))
     }
 }
+
