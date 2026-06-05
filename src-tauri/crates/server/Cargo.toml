@@ -37,3 +37,6 @@ dotenvy = "0.15"
 # Import: unzip OLMDBManager export bundles
 zip = { version = "2", default-features = false, features = ["deflate"] }
 
+# Serialization: binary format (same as olm_core)
+bincode = "1.3"
+

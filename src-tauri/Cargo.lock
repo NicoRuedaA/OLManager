@@ -3125,6 +3125,7 @@ name = "olmanager-server"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "bincode",
  "chrono",
  "dotenvy",
  "jsonwebtoken",

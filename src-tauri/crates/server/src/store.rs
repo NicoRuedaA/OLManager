@@ -1,8 +1,8 @@
 //! Postgres-backed save persistence (Supabase).
 //!
-//! A game is stored as a JSON blob in `saves.data` (bytea). We use sqlx's
-//! runtime query API (not the compile-time macros) so the crate builds without
-//! a live database connection.
+//! A game is stored as a bincode blob in `saves.data` (bytea) — same format as
+//! the desktop .olsave files. We use sqlx's runtime query API (not the
+//! compile-time macros) so the crate builds without a live database connection.
 
 use olm_core::game::Game;
 use sqlx::postgres::{PgPool, PgPoolOptions};
@@ -40,7 +40,7 @@ impl Store {
         name: &str,
         game: &Game,
     ) -> Result<Uuid, String> {
-        let blob = serde_json::to_vec(game).map_err(|e| format!("serialize game: {e}"))?;
+        let blob = bincode::serialize(game).map_err(|e| format!("serialize game: {e}"))?;
         let manager = game.manager.display_name();
         let uid = Uuid::parse_str(user_id).map_err(|e| format!("bad user id: {e}"))?;
 
@@ -97,7 +97,7 @@ impl Store {
             Some(r) => {
                 let blob: Vec<u8> = r.get("data");
                 let game: Game =
-                    serde_json::from_slice(&blob).map_err(|e| format!("deserialize game: {e}"))?;
+                    bincode::deserialize(&blob).map_err(|e| format!("deserialize game: {e}"))?;
                 Ok(Some(game))
             }
         }
@@ -107,7 +107,7 @@ impl Store {
     /// doesn't exist or isn't the user's.
     pub async fn save(&self, user_id: &str, save_id: Uuid, game: &Game) -> Result<bool, String> {
         let uid = Uuid::parse_str(user_id).map_err(|e| format!("bad user id: {e}"))?;
-        let blob = serde_json::to_vec(game).map_err(|e| format!("serialize game: {e}"))?;
+        let blob = bincode::serialize(game).map_err(|e| format!("serialize game: {e}"))?;
         let manager = game.manager.display_name();
 
         let result = sqlx::query(
