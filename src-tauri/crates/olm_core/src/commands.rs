@@ -28,8 +28,14 @@ pub fn set_training_schedule(game: &mut Game, team_id: &str, schedule: &str) {
     }
 }
 
-pub fn set_training_groups(_game: &mut Game, _team_id: &str, _groups: &[serde_json::Value]) {
-    // Placeholder
+pub fn set_training_groups(game: &mut Game, team_id: &str, groups: &[serde_json::Value]) {
+    use crate::domain::team::TrainingGroup;
+    let parsed: Vec<TrainingGroup> = groups.iter()
+        .filter_map(|g| serde_json::from_value(g.clone()).ok())
+        .collect();
+    if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
+        team.training_groups = parsed;
+    }
 }
 
 pub fn set_player_training_focus(game: &mut Game, player_id: &str, _focus: Option<&str>) {
@@ -220,12 +226,16 @@ pub fn reroll_player_role(game: &mut Game, player_id: &str) {
 
 // ── Player ───────────────────────────────────────────────────
 
-pub fn set_player_champion_training_target(_game: &mut Game, _player_id: &str, _champion_key: &str) {
-    // Placeholder
+pub fn set_player_champion_training_target(game: &mut Game, player_id: &str, champion_key: &str) {
+    if let Err(e) = crate::champions::set_player_training_target(game, player_id, 0, Some(champion_key.to_string())) {
+        log::warn!("set_player_champion_training_target: {e}");
+    }
 }
 
-pub fn delegate_champion_training(_game: &mut Game) {
-    // Placeholder
+pub fn delegate_champion_training(game: &mut Game) {
+    if let Err(e) = crate::champions::delegate_champion_training_to_coach(game) {
+        log::warn!("delegate_champion_training: {e}");
+    }
 }
 
 // ── Social ───────────────────────────────────────────────────

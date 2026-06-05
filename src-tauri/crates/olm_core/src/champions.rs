@@ -8,6 +8,7 @@ use rand::RngExt;
 use rand::SeedableRng;
 use rand::rngs::StdRng;
 use serde::{Deserialize, Serialize};
+use std::path::Path;
 use std::collections::{HashMap, HashSet};
 use std::sync::OnceLock;
 #[cfg(feature = "typescript")]
@@ -1343,6 +1344,55 @@ pub fn process_daily_champion_system(game: &mut Game) {
     }
 
     process_meta_discovery(game);
+}
+
+// ── Champion catalog (from JSON data file) ─────────────────
+
+#[derive(Deserialize)]
+struct ChampionListFile {
+    champions: Vec<ChampionListEntry>,
+}
+
+#[derive(Deserialize)]
+struct ChampionListEntry {
+    id: String,
+    name: String,
+    tags: Vec<String>,
+    image: String,
+}
+
+/// Load the champion catalog from `data/draft/champion-list.json`.
+/// Returns an empty vec if the file cannot be read.
+pub fn load_champion_catalog(data_base: &Path) -> Vec<crate::domain::champion::Champion> {
+    let path = data_base.join("draft").join("champion-list.json");
+    let content = match std::fs::read_to_string(&path) {
+        Ok(c) => c,
+        Err(e) => {
+            log::warn!("Failed to read champion catalog at {:?}: {e}", path);
+            return vec![];
+        }
+    };
+    let list: ChampionListFile = match serde_json::from_str(&content) {
+        Ok(l) => l,
+        Err(e) => {
+            log::warn!("Failed to parse champion catalog: {e}");
+            return vec![];
+        }
+    };
+    list.champions
+        .into_iter()
+        .enumerate()
+        .map(|(i, entry)| crate::domain::champion::Champion {
+            id: (i + 1) as i64,
+            name: entry.name.clone(),
+            champion_key: entry.id,
+            roles_json: serde_json::to_string(&entry.tags).unwrap_or_default(),
+            counterpicks_json: None,
+            synergies_json: None,
+            image_tile_url: Some(format!("https://ddragon.leagueoflegends.com/cdn/16.10.1/img/champion/{}", entry.image)),
+            image_splash_url: Some(format!("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{}", entry.name.replace(' ', "").replace("'", "") + "_0.jpg")),
+        })
+        .collect()
 }
 
 #[cfg(test)]

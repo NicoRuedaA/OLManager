@@ -382,12 +382,15 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
         // ── Champions ───────────────────────────────────────
         "set_player_champion_training_target" => {
             let pid = string_arg(args, &["playerId", "player_id"]).unwrap_or_default();
-            let ck = string_arg(args, &["championKey", "champion_key"]).unwrap_or_default();
-            commands::set_player_champion_training_target(game, &pid, &ck);
+            let prio = args.get("priorityIndex").and_then(|v| v.as_u64()).unwrap_or(0) as usize;
+            let cid = optional_string_arg(args, &["championId", "champion_id", "championKey", "champion_key"]);
+            crate::champions::set_player_training_target(game, &pid, prio, cid)
+                .map_err(|e| e.to_string())?;
             Ok(DispatchResult::GameModified(json!(game)))
         }
         "delegate_champion_training" => {
-            commands::delegate_champion_training(game);
+            crate::champions::delegate_champion_training_to_coach(game)
+                .map_err(|e| e.to_string())?;
             Ok(DispatchResult::GameModified(json!(game)))
         }
 

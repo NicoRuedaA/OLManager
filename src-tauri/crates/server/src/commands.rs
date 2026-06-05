@@ -110,10 +110,10 @@ pub fn dispatch(command: &str, args: Value, game: &mut Game) -> Result<CommandRe
             }
             ok(json!(game), true)
         }
-        "get_champions" => ok(json!({
-            "champions": &game.champion_masteries,
-            "patch": &game.champion_patch,
-        }), false),
+        "get_champions" => {
+            let catalog = olm_core::champions::load_champion_catalog(&crate::data::data_dir());
+            ok(json!(catalog), false)
+        },
         "get_transfer_history_cmd" => ok(json!(&game.transfer_history), false),
         "make_transfer_bid" => ok(json!(game), true),   // stub
         "preview_transfer_bid_financial_impact" => ok(json!({
