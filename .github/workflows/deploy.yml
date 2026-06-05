@@ -53,8 +53,8 @@ jobs:
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_FRONTEND }}:latest
           build-args: |
-            VITE_SUPABASE_URL=https://gfllmaxmiuyqnlbabwsx.supabase.co
-            VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_FrpeAZFFvB_SKh_L1xusiA_tbZbXxKJ
+            VITE_SUPABASE_URL=https://zqvppsruobmmpssrgzbj.supabase.co
+            VITE_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpxdnBwc3J1b2JtbXBzc3JnemJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2MTk2NTAsImV4cCI6MjA5NjE5NTY1MH0.wj9n28b3N1CPJYVbMB8fPIxoEoqpETjIm8mrmi7a_qU
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
