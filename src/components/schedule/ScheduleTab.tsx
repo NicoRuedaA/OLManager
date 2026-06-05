@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { compareStandingsByLolScore, GameStateData, FixtureData, getStandingKillDiff, getStandingKillsAgainst, getStandingKillsFor } from "../../store/gameStore";
+import { GameStateData, FixtureData } from "../../store/gameStore";
 import { Card, CardBody, Badge } from "../ui";
 import {
   Calendar as CalendarIcon,
   CalendarDays,
   ChevronRight,
-  TableProperties,
-  Trophy,
 } from "lucide-react";
 import { getTeamName, formatMatchDate } from "../../lib/common/helpers";
 import { resolveSeasonContext } from "../../lib/season/seasonContext";
@@ -33,7 +31,7 @@ export default function ScheduleTab({
   onSelectTeam,
 }: ScheduleTabProps) {
   const { t } = useTranslation();
-  const [view, setView] = useState<"fixtures" | "calendar" | "standings">("fixtures");
+  const [view, setView] = useState<"fixtures" | "calendar">("fixtures");
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
       return true;
@@ -154,8 +152,7 @@ export default function ScheduleTab({
     );
   });
 
-  // Sorted standings
-  const standings = [...league.standings].sort(compareStandingsByLolScore);
+// Sorted standings — removed (tab deleted)
 
   return (
     <div className={view === "calendar" ? "w-full" : "w-[92%] max-w-[2000px] mx-auto"}>
@@ -207,17 +204,7 @@ export default function ScheduleTab({
           <CalendarDays className="w-4 h-4 inline mr-1.5 -mt-0.5" />{" "}
           {t("schedule.calendar", "Calendario")}
         </button>
-        <button
-          onClick={() => setView("standings")}
-          className={`px-4 py-2 rounded-lg font-heading font-bold text-sm uppercase tracking-wider transition-all ${
-            view === "standings"
-              ? "bg-primary-500 text-white shadow-md shadow-primary-500/20"
-              : "bg-white dark:bg-navy-800 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 border border-gray-200 dark:border-navy-600"
-          }`}
-        >
-          <TableProperties className="w-4 h-4 inline mr-1.5 -mt-0.5" />{" "}
-          {t("schedule.standings")}
-        </button>
+
       </div>
 
       {view === "calendar" && (
@@ -341,109 +328,7 @@ export default function ScheduleTab({
         </div>
       )}
 
-      {view === "standings" &&
-        (isPreseason ? (
-          <Card>
-            <CardBody>
-              <div className="flex flex-col items-center gap-2 py-6 text-center">
-                <Trophy className="w-8 h-8 text-gray-300 dark:text-navy-600" />
-                <p className="text-sm font-heading font-bold text-gray-800 dark:text-gray-100">
-                  {t("season.standingsLocked")}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {seasonContext.season_start
-                    ? t("season.startsOn", {
-                        date: formatMatchDate(seasonContext.season_start),
-                      })
-                    : t("season.noOpener")}
-                </p>
-              </div>
-            </CardBody>
-          </Card>
-        ) : (
-          <Card>
-            <div className="p-5 border-b border-gray-100 dark:border-navy-600 bg-gradient-to-r from-navy-700 to-navy-800 rounded-t-xl">
-              <h3 className="text-lg font-heading font-bold text-white flex items-center gap-2 uppercase tracking-wide">
-                <Trophy className="text-accent-400 w-5 h-5" />
-                {league.name} —{" "}
-                {t("schedule.season", { number: league.season })}
-              </h3>
-              {playoffFixtures.length > 0 ? (
-                <p className="mt-1 text-xs text-gray-300">
-                  {t("season.standingsLocked")}
-                </p>
-              ) : null}
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-gray-50 dark:bg-navy-800 border-b border-gray-200 dark:border-navy-600 text-xs">
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 w-8">
-                      #
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                      {t("common.team")}
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                      {t("common.played")}
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                      {t("common.won")}
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                      {t("common.lost")}
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                      {t("tournaments.mapScore")}
-                    </th>
-                    <th className="py-3 px-4 font-heading font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 text-center">
-                      {t("tournaments.mapsDiff")}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-navy-600">
-                  {standings.map((entry, idx) => {
-                    const isUser = entry.team_id === userTeamId;
-                    const mapDiff = getStandingKillDiff(entry);
-                    return (
-                      <tr
-                        key={entry.team_id}
-                        className={`transition-colors ${isUser ? "bg-primary-50 dark:bg-primary-500/10" : "hover:bg-gray-50 dark:hover:bg-navy-700/50"}`}
-                      >
-                        <td className="py-3 px-4 font-heading font-bold text-sm text-gray-400 dark:text-gray-500">
-                          {idx + 1}
-                        </td>
-                        <td
-                          onClick={() => onSelectTeam(entry.team_id)}
-                          className={`py-3 px-4 font-semibold text-sm cursor-pointer hover:underline ${isUser ? "text-primary-600 dark:text-primary-400" : "text-gray-800 dark:text-gray-200"}`}
-                        >
-                          {getTeamName(gameState.teams, entry.team_id)}
-                        </td>
-                        <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {entry.played}
-                        </td>
-                        <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {entry.won}
-                        </td>
-                        <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {entry.lost}
-                        </td>
-                        <td className="py-3 px-4 text-center text-sm text-gray-600 dark:text-gray-400 tabular-nums">
-                          {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
-                        </td>
-                        <td
-                          className={`py-3 px-4 text-center text-sm font-semibold tabular-nums ${mapDiff > 0 ? "text-primary-500" : mapDiff < 0 ? "text-red-500" : "text-gray-500 dark:text-gray-400"}`}
-                        >
-                          {mapDiff > 0 ? `+${mapDiff}` : mapDiff}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        ))}
+
     </div>
   );
 }

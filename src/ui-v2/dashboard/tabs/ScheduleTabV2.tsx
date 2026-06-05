@@ -7,10 +7,6 @@ import {
 } from "lucide-react";
 
 import {
-  compareStandingsByLolScore,
-  getStandingKillDiff,
-  getStandingKillsAgainst,
-  getStandingKillsFor,
   type FixtureData,
   type GameStateData,
 } from "@/store/gameStore";
@@ -36,7 +32,7 @@ interface Props {
   onSelectTeam: (id: string) => void;
 }
 
-type ViewMode = "fixtures" | "standings";
+type ViewMode = "fixtures";
 
 export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
   const { t } = useTranslation();
@@ -69,10 +65,7 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
     );
   }, [fixtures]);
 
-  const standings = useMemo(
-    () => (league ? [...league.standings].sort(compareStandingsByLolScore) : []),
-    [league],
-  );
+  /* standings removed — tab deleted */
 
   if (draftView) {
     return (
@@ -151,10 +144,7 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
               <CalendarDays className="size-3.5" />
               Partidos
             </ViewButton>
-            <ViewButton active={view === "standings"} onClick={() => setView("standings")}>
-              <Trophy className="size-3.5" />
-              Clasificación
-            </ViewButton>
+
           </div>
         </CardContent>
       </Card>
@@ -191,29 +181,7 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
         </div>
       )}
 
-      {view === "standings" &&
-        (isPreseason ? (
-          <Card>
-            <CardContent className="flex flex-col items-center gap-2 py-12 text-center">
-              <Trophy className="size-8 text-muted-foreground/40" />
-              <p className="font-heading text-sm font-bold uppercase tracking-wider">
-                Tabla bloqueada hasta que arranque la temporada
-              </p>
-              {seasonContext.season_start && (
-                <p className="text-xs text-muted-foreground">
-                  Inicio: {formatMatchDate(seasonContext.season_start)}
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        ) : (
-          <StandingsTable
-            standings={standings}
-            teams={gameState.teams}
-            userTeamId={userTeamId}
-            onSelectTeam={onSelectTeam}
-          />
-        ))}
+
     </div>
   );
 }
@@ -356,95 +324,7 @@ function FixtureRow({
   );
 }
 
-// ──────────────────────────────────────────────────────────────────────
 
-function StandingsTable({
-  standings,
-  teams,
-  userTeamId,
-  onSelectTeam,
-}: {
-  standings: GameStateData["leagues"][number]["standings"];
-  teams: GameStateData["teams"];
-  userTeamId: string | null;
-  onSelectTeam: (id: string) => void;
-}) {
-  return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-0">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/30 text-[10px] uppercase tracking-widest text-muted-foreground">
-            <tr className="border-b border-border/60">
-              <th className="w-8 px-2 py-2.5 text-right">#</th>
-              <th className="px-3 py-2.5 text-left">Equipo</th>
-              <th className="w-12 px-2 py-2.5 text-center">PJ</th>
-              <th className="w-12 px-2 py-2.5 text-center">G</th>
-              <th className="w-12 px-2 py-2.5 text-center">P</th>
-              <th className="w-20 px-3 py-2.5 text-center">Mapas</th>
-              <th className="w-14 px-3 py-2.5 text-right">Dif</th>
-            </tr>
-          </thead>
-          <tbody>
-            {standings.map((entry, idx) => {
-              const isMe = entry.team_id === userTeamId;
-              const team = teams.find((t) => t.id === entry.team_id);
-              const diff = getStandingKillDiff(entry);
-              const logo =
-                resolveTeamLogo(team?.short_name ?? team?.name, team?.logo_url) ??
-                resolveTeamLogo(team?.name, team?.logo_url);
-              return (
-                <tr
-                  key={entry.team_id}
-                  onClick={() => onSelectTeam(entry.team_id)}
-                  className={cn(
-                    "cursor-pointer border-b border-border/30 last:border-0 transition-colors",
-                    isMe ? "bg-primary/10 text-primary" : "hover:bg-muted/40",
-                  )}
-                >
-                  <td className="px-2 py-2.5 text-right font-heading text-sm text-muted-foreground tabular-nums">
-                    {idx + 1}
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <div className="flex items-center gap-2">
-                      {logo ? (
-                        <img src={logo} alt="" className="size-6 shrink-0 object-contain" />
-                      ) : (
-                        <div className="size-6 shrink-0 rounded-sm bg-muted" />
-                      )}
-                      <span className={cn("text-sm font-medium", isMe && "font-bold")}>
-                        {getTeamName(teams, entry.team_id)}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-2 py-2.5 text-center tabular-nums">{entry.played}</td>
-                  <td className="px-2 py-2.5 text-center font-semibold tabular-nums text-emerald-400">
-                    {entry.won}
-                  </td>
-                  <td className="px-2 py-2.5 text-center font-semibold tabular-nums text-red-400">
-                    {entry.lost}
-                  </td>
-                  <td className="px-3 py-2.5 text-center tabular-nums">
-                    {getStandingKillsFor(entry)}-{getStandingKillsAgainst(entry)}
-                  </td>
-                  <td
-                    className={cn(
-                      "px-3 py-2.5 text-right font-heading font-bold tabular-nums",
-                      diff > 0 && "text-emerald-400",
-                      diff < 0 && "text-red-400",
-                      diff === 0 && "text-muted-foreground",
-                    )}
-                  >
-                    {diff > 0 ? `+${diff}` : diff}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </CardContent>
-    </Card>
-  );
-}
 
 
 
