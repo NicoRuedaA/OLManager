@@ -10,12 +10,12 @@ use std::collections::HashMap;
 
 /// Personality factor derived from player attributes. Affects how they react.
 /// Returns a value from -20 to +20, where positive = more receptive, negative = more volatile.
-fn personality_factor(player: &crate::domain::player::Player) -> i8 {
-    let composure = player.attributes.discipline as i16;
-    let leadership = player.attributes.shotcalling as i16;
-    let aggression = player.attributes.shotcalling as i16;
+pub(crate) fn personality_factor(player: &crate::domain::player::Player) -> i32 {
+    let composure = i32::from(player.attributes.discipline);
+    let leadership = i32::from(player.attributes.shotcalling);
+    let aggression = i32::from(player.attributes.shotcalling);
     // Composed leaders are receptive; aggressive low-composure players are volatile
-    ((composure + leadership - aggression) / 6).clamp(-20, 20) as i8
+    ((composure + leadership - aggression) / 6).clamp(-20, 20)
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -44,7 +44,7 @@ pub struct ResponseBandWeights {
 }
 
 impl ResponseBandWeights {
-    fn total(self) -> u32 {
+    pub(crate) fn total(self) -> u32 {
         self.strong_positive
             + self.mild_positive
             + self.neutral
@@ -81,7 +81,7 @@ fn outcome(delta: i8, effect_key: &str, description: String) -> ResponseOutcome 
     }
 }
 
-fn adjust_weight(weight: &mut u32, delta: i32) {
+pub(crate) fn adjust_weight(weight: &mut u32, delta: i32) {
     let adjusted = (*weight as i32 + delta).max(0) as u32;
     *weight = adjusted;
 }
@@ -172,7 +172,7 @@ pub fn build_response_band_weights(
     option_id: &str,
 ) -> ResponseBandWeights {
     let action_key = treatment_key(message_id, option_id);
-    let pf = i32::from(personality_factor(player));
+    let pf = personality_factor(player);
     let trust = i32::from(player.morale_core.manager_trust);
 
     let mut weights = if message_id.starts_with("morale_talk_") {
@@ -364,7 +364,7 @@ fn banded_morale_talk_outcome<R: rand::Rng + ?Sized>(
     }
 }
 
-fn reduced_by_recent_treatment(delta: i8, player: &Player, action_key: &str) -> i8 {
+pub(crate) fn reduced_by_recent_treatment(delta: i16, player: &Player, action_key: &str) -> i16 {
     let Some(memory) = player.morale_core.recent_treatment.as_ref() else {
         return delta;
     };
@@ -373,11 +373,11 @@ fn reduced_by_recent_treatment(delta: i8, player: &Player, action_key: &str) -> 
         return delta;
     }
 
-    let reduced = i16::from(delta) - i16::from(memory.times_recently_used) * 4;
-    reduced.max(0) as i8
+    let reduced = delta - i16::from(memory.times_recently_used) * 4;
+    reduced.max(0)
 }
 
-fn capped_by_unresolved_issue(delta: i8, player: &Player) -> i8 {
+pub(crate) fn capped_by_unresolved_issue(delta: i16, player: &Player) -> i16 {
     let Some(issue) = player.morale_core.unresolved_issue.as_ref() else {
         return delta;
     };
@@ -391,7 +391,7 @@ fn capped_by_unresolved_issue(delta: i8, player: &Player) -> i8 {
     }
 
     if issue.severity >= 50 {
-        return ((i16::from(delta) + 1) / 2).max(1) as i8;
+        return ((delta + 1) / 2).max(1);
     }
 
     delta
@@ -409,7 +409,7 @@ fn trust_delta_with_memory(base_delta: i16, player: &Player, action_key: &str) -
     base_delta / (i16::from(memory.times_recently_used) + 1)
 }
 
-fn update_recent_treatment(player: &mut Player, action_key: &str) {
+pub(crate) fn update_recent_treatment(player: &mut Player, action_key: &str) {
     match player.morale_core.recent_treatment.as_mut() {
         Some(memory) if memory.action_key == action_key => {
             memory.times_recently_used = memory.times_recently_used.saturating_add(1);
@@ -490,7 +490,7 @@ pub fn apply_player_response(
         match option_id {
             "explain" => {
                 // Moderate; only works on composed players
-                let d = rng.random_range(-2..=6) + (pf / 4);
+                let d = (rng.random_range(-2..=6) + (pf / 4)) as i8;
                 if d >= 0 {
                     outcome(
                         d,
@@ -519,7 +519,7 @@ pub fn apply_player_response(
             }
             "prove_yourself" => {
                 // Very risky — high-aggression players rebel
-                let d = rng.random_range(-10..=6) + (pf / 3);
+                let d = (rng.random_range(-10..=6) + (pf / 3)) as i8;
                 if d >= 0 {
                     outcome(
                         d,
@@ -548,7 +548,7 @@ pub fn apply_player_response(
             }
             "stay_professional" => {
                 // Neutral — can slightly drop morale on volatile players
-                let d = rng.random_range(-2..=3) + (pf / 6);
+                let d = (rng.random_range(-2..=3) + (pf / 6)) as i8;
                 if d >= 0 {
                     outcome(
                         d,
@@ -565,7 +565,7 @@ pub fn apply_player_response(
             }
             "higher_expectations" => {
                 // Risky: leaders respond well, others feel pressured
-                let d = rng.random_range(-6..=4) + (pf / 3);
+                let d = (rng.random_range(-6..=4) + (pf / 3)) as i8;
                 if d >= 0 {
                     outcome(
                         d,
@@ -595,7 +595,7 @@ pub fn apply_player_response(
             }
             "noncommittal" => {
                 // Almost always negative — players hate uncertainty
-                let d = rng.random_range(-8..=0) + (pf / 5);
+                let d = (rng.random_range(-8..=0) + (pf / 5)) as i8;
                 if d >= 0 {
                     outcome(
                         d,
@@ -635,13 +635,13 @@ pub fn apply_player_response(
         let action_key = treatment_key(message_id, option_id);
         let current_day = game.clock.current_date.format("%Y-%m-%d").to_string();
         let adjusted_delta = capped_by_unresolved_issue(
-            reduced_by_recent_treatment(outcome.delta, player, &action_key),
+            reduced_by_recent_treatment(i16::from(outcome.delta), player, &action_key),
             player,
         );
         let trust_delta =
             trust_delta_with_memory(base_trust_delta(message_id, option_id), player, &action_key);
 
-        outcome.delta = adjusted_delta.clamp(-20, 20);
+        outcome.delta = adjusted_delta.clamp(-20, 20) as i8;
         outcome
             .i18n_params
             .insert("delta".to_string(), signed_delta(outcome.delta));
@@ -731,4 +731,7 @@ pub fn apply_player_response(
         i18n_params: outcome.i18n_params,
     })
 }
+
+
+
 

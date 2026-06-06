@@ -9,7 +9,7 @@ use crate::application::live_match::{
     get_match_snapshot as get_match_snapshot_service, start_live_match as start_live_match_service,
     step_live_match as step_live_match_service, LolSimMatchReportInput,
 };
-use crate::application::team_talk::apply_team_talk as apply_team_talk_service;
+use olm_core::team_talk::apply_team_talk as apply_team_talk_core;
 use olm_core::domain::stats::MatchOutcome;
 use olm_core::game::Game;
 use olm_core::state::StateManager;
@@ -97,7 +97,7 @@ fn apply_team_talk_internal(
     context: &str,
     seed: u64,
 ) -> Result<Vec<serde_json::Value>, String> {
-    apply_team_talk_service(game, tone, context, seed)
+    apply_team_talk_core(game, tone, context, seed)
 }
 
 /// Start a live match for a given fixture.

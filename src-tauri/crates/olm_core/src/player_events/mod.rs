@@ -1,5 +1,5 @@
 mod message_builders;
-mod responses;
+pub(crate) mod responses;
 
 pub use responses::{
     PlayerResponseEffect, ResponseBandWeights, ResponseOutcomeBand, apply_player_response,

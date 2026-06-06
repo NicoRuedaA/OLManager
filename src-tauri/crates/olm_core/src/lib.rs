@@ -36,6 +36,7 @@ pub mod season_awards;
 pub mod season_context;
 pub mod social;
 pub mod social_registry;
+pub mod team_talk;
 mod social_templates;
 pub mod staff_effects;
 pub mod state;
