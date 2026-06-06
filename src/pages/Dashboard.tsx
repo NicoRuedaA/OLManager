@@ -198,17 +198,17 @@ export default function Dashboard(): JSX.Element {
     if (!gameState) return;
     if (gameState.champions && gameState.champions.length > 0) return;
 
+    let cancelled = false;
     const loadChampions = async () => {
       try {
         console.log("[Dashboard] Loading champions for world tab...");
         const champions = await apiCmd<unknown[]>("get_champions").catch(() => []);
+        if (cancelled) return;
         // Merge into the freshest state from the store, not the gameState captured
         // in this effect's closure — otherwise a concurrent update (e.g. marking an
         // inbox message read) made while this request was in flight gets clobbered.
         const latest = useGameStore.getState().gameState;
-        if (!cancelled) {
-          setGameState({ ...(latest ?? gameState), champions } as GameStateData);
-        }
+        setGameState({ ...(latest ?? gameState), champions } as GameStateData);
         console.log(`[Dashboard] Loaded ${champions.length} champions`);
       } catch (err) {
         console.error("Failed to load champions:", err);
@@ -216,6 +216,7 @@ export default function Dashboard(): JSX.Element {
     };
 
     loadChampions();
+    return () => { cancelled = true; };
   }, [gameState]);
 
   const isUnemployed = gameState?.manager.team_id === null;

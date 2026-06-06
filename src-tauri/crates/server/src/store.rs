@@ -96,9 +96,20 @@ impl Store {
             None => Ok(None),
             Some(r) => {
                 let blob: Vec<u8> = r.get("data");
-                let game: Game =
-                    bincode::deserialize(&blob).map_err(|e| format!("deserialize game: {e}"))?;
-                Ok(Some(game))
+                let blob_len = blob.len();
+                let first_bytes: Vec<u8> = blob.iter().take(std::cmp::min(8, blob_len)).copied().collect();
+                match bincode::deserialize::<Game>(&blob) {
+                    Ok(game) => Ok(Some(game)),
+                    Err(e) => {
+                        // Try JSON as fallback for legacy saves
+                        let json_fallback = serde_json::from_slice::<Game>(&blob);
+                        tracing::error!(
+                            "deserialize game failed: save_id={save_id} blob_len={blob_len} first_bytes={first_bytes:02x?} error={e} json_fallback_ok={}",
+                            json_fallback.is_ok()
+                        );
+                        Err(format!("deserialize game: {e}"))
+                    }
+                }
             }
         }
     }
