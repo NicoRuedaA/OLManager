@@ -3,7 +3,7 @@ import type { JSX } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getApiClientSync } from "../api/client";
 import { supabase } from "../web/supabase";
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { getCurrentWindow } from "../web/tauriWindowShim";
 import type { MatchModeType } from "../hooks/useAdvanceTime";
 import { useGameStore } from "../store/gameStore";
 
