@@ -224,7 +224,7 @@ export default function TeamSelection() {
         // Step 1: Try the new get_league_selection_data
         console.debug("[TeamSelection] trying get_league_selection_data");
         // Team selection data is loaded from the save context
-        const leagueResult = await clientGetLeagueData();
+        const leagueResult = await apiPost("get_league_selection_data");
         if (cancelled) return;
 
         console.debug("[TeamSelection] leagueResult:", JSON.stringify(leagueResult));
