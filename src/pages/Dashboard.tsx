@@ -2,9 +2,29 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { JSX } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getApiClientSync } from "../api/client";
+import { supabase } from "../web/supabase";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import type { MatchModeType } from "../hooks/useAdvanceTime";
 import { useGameStore } from "../store/gameStore";
+
+/** Helper: call a server command via the unified dispatch with auth. */
+async function apiCmd<T>(command: string, body?: unknown): Promise<T> {
+  const saveId = localStorage.getItem("olmanager.web.activeSaveId")
+  if (!saveId) throw new Error("No active save")
+  const { data } = await supabase.auth.getSession()
+  const token = data?.session?.access_token
+  const headers: Record<string, string> = { "Content-Type": "application/json" }
+  if (token) headers["Authorization"] = `Bearer ${token}`
+  const res = await fetch(`/api/saves/${saveId}/cmd/${command}`, {
+    method: "POST", headers,
+    body: JSON.stringify(body ?? {}),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }))
+    throw new Error(String(err.error ?? err.message ?? res.statusText))
+  }
+  return res.json()
+}
 import type { GameStateData, PlayerSelectionOptions } from "../store/gameStore";
 import DashboardHeader, {
   type DashboardMatchModeMeta,
@@ -148,7 +168,7 @@ export default function Dashboard(): JSX.Element {
     const fetchState = async () => {
       try {
         console.log("[Dashboard] calling get_active_game...");
-        const state = (await getApiClientSync().saves.list()).length > 0 ? await fetch(`/api/saves/${localStorage.getItem("olmanager.web.activeSaveId")}/cmd/get_active_game`, { headers: { "Content-Type": "application/json" }, method: "POST", body: "{}" }).then(r => r.json()) : null;
+        const state = await apiCmd<GameStateData>("get_active_game");
         if (cancelled) return;
         console.log("[Dashboard] get_active_game returned:", state ? "success" : "null");
         setGameState(state);
@@ -181,12 +201,14 @@ export default function Dashboard(): JSX.Element {
     const loadChampions = async () => {
       try {
         console.log("[Dashboard] Loading champions for world tab...");
-        const champions = (async () => { try { const r = await fetch(`/api/saves/${localStorage.getItem("olmanager.web.activeSaveId")}/cmd/get_champions`, { headers: { "Content-Type": "application/json" }, method: "POST", body: "{}" }); return await r.json(); } catch { return []; } })();
+        const champions = await apiCmd<unknown[]>("get_champions").catch(() => []);
         // Merge into the freshest state from the store, not the gameState captured
         // in this effect's closure — otherwise a concurrent update (e.g. marking an
         // inbox message read) made while this request was in flight gets clobbered.
         const latest = useGameStore.getState().gameState;
-        setGameState({ ...(latest ?? gameState), champions });
+        if (!cancelled) {
+          setGameState({ ...(latest ?? gameState), champions } as GameStateData);
+        }
         console.log(`[Dashboard] Loaded ${champions.length} champions`);
       } catch (err) {
         console.error("Failed to load champions:", err);
