@@ -33,14 +33,7 @@ pub struct TeamSelectionData {
 // ---------------------------------------------------------------------------
 
 /// Extract competition ID from a scoped team ID like "lec-g2" → "lec".
-fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
-    let dash_pos = team_id.find('-')?;
-    let prefix = &team_id[..dash_pos];
-    if prefix.is_empty() {
-        return None;
-    }
-    Some(prefix)
-}
+use olm_core::competitions::competition_id_from_team_id;
 
 /// Assemble teams, players, and staff from modular competition data files.
 /// Used by Flow C: the game was created lightweight (empty teams/players),

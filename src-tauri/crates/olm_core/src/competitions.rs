@@ -238,3 +238,10 @@ pub fn build_league_selection(data_base: &Path) -> LeagueSelectionData {
     LeagueSelectionData { competitions }
 }
 
+
+/// Extract competition ID from a scoped team ID like \"lec-g2\" → \"lec\".
+pub fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
+    let dash_pos = team_id.find('-')?;
+    let prefix = &team_id[..dash_pos];
+    if prefix.is_empty() { None } else { Some(prefix) }
+}

@@ -43,13 +43,7 @@ pub fn data_dir() -> PathBuf {
 
 /// Extract the competition prefix from a team id (`lck-team-x` → `lck`).
 pub fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
-    let dash = team_id.find('-')?;
-    let prefix = &team_id[..dash];
-    if prefix.is_empty() {
-        None
-    } else {
-        Some(prefix)
-    }
+    olm_core::competitions::competition_id_from_team_id(team_id)
 }
 
 fn scan_manifests(base: &Path) -> Vec<Manifest> {
