@@ -82,7 +82,14 @@ export const httpAdapter: ApiClient = {
     },
 
     create: async (name, _manager, data) => {
-      const body = { name, ...(typeof data === "object" && data !== null ? data as Record<string, unknown> : {}) }
+      const raw = (typeof data === "object" && data !== null ? data as Record<string, unknown> : {}) as Record<string, unknown>
+      // Map camelCase from frontend to snake_case the server expects
+      const body: Record<string, unknown> = { name }
+      if (raw.firstName) body.first_name = raw.firstName
+      if (raw.lastName) body.last_name = raw.lastName
+      if (raw.dob) body.date_of_birth = raw.dob
+      if (raw.nickname !== undefined) body.nickname = raw.nickname
+      if (raw.nationality) body.nationality = raw.nationality
       const result = await post<{ id: string } & Record<string, unknown>>("/saves", body)
       setActiveSaveId(result.id)
       return result as any
