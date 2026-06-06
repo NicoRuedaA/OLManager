@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./i18n";
@@ -9,8 +9,6 @@ import { AuthGate, AuthProvider } from "./web/auth";
 import { getApiClient } from "./api/client";
 
 // Disable the native browser context menu in the Tauri app.
-// Custom context menus (e.g. <ContextMenu>) handle their own onContextMenu
-// events and call stopPropagation(), so they continue to work.
 document.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
@@ -20,11 +18,16 @@ function Root() {
   return version === "v2" ? <AppV2 /> : <App />;
 }
 
-// Initialize the API client before anything tries to use it
-getApiClient();
+function Boot() {
+  const [ready, setReady] = useState(false);
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  useEffect(() => {
+    getApiClient().then(() => setReady(true));
+  }, []);
+
+  if (!ready) return null;
+
+  return (
     <ThemeProvider>
       {import.meta.env.MODE === "web" ? (
         <AuthProvider>
@@ -36,5 +39,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Root />
       )}
     </ThemeProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <Boot />
   </React.StrictMode>,
 );

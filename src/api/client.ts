@@ -2,13 +2,18 @@ import type { ApiClient } from "./types"
 
 let _client: ApiClient | null = null
 
+function isTauri(): boolean {
+  return typeof window !== "undefined" && (
+    "__TAURI__" in window ||
+    "__TAURI_INTERNALS__" in window
+  )
+}
+
 export async function getApiClient(): Promise<ApiClient> {
   if (_client) return _client
 
-  // Detect Tauri via window.__TAURI__ (more reliable than dynamic import)
-  const isTauri = typeof window !== "undefined" && "__TAURI__" in window
-
-  if (isTauri) {
+  if (isTauri()) {
+    // In Tauri, imports are synchronous because Vite resolves @tauri-apps
     const { tauriAdapter } = await import("./adapters/tauri.adapter")
     _client = tauriAdapter
   } else {
@@ -19,7 +24,7 @@ export async function getApiClient(): Promise<ApiClient> {
   return _client
 }
 
-/** Call after getApiClient() has been called once. Throws if not initialized. */
+/** Call after getApiClient() has resolved. Throws if not initialized. */
 export function getApiClientSync(): ApiClient {
   if (!_client) throw new Error("[ApiClient] No inicializado. Llama a getApiClient() primero.")
   return _client
