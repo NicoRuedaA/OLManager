@@ -617,6 +617,56 @@ pub fn select_team(game: &mut Game, team_id: &str) -> Result<(), String> {
     repair_active_competition(game);
     olm_core::season_context::refresh_game_context(game);
 
+    // ── Generate welcome messages ───────────────────────────
+    let date_str = game.clock.current_date.to_rfc3339();
+    let team_name = game.teams.iter().find(|t| t.id == team_id)
+        .map(|t| t.name.clone()).unwrap_or_default();
+    let user_cid = competition_id_from_team_id(team_id);
+    let competitions_base = base.join("competitions");
+    let season_year = game.clock.current_date.year();
+    let league_display_name = user_cid
+        .and_then(|cid| olm_core::competitions::load_competition_manifest(&competitions_base, cid).ok())
+        .map(|m| format!("{} {}", m.name, m.schedule.splits.first().map(|s| s.name.as_str()).unwrap_or("")))
+        .unwrap_or_else(|| "LEC Winter".to_string());
+
+    game.messages.push(olm_core::messages::welcome_message(&team_name, team_id, &date_str));
+
+    if let Some(parent_team) = game.teams.iter().find(|team| team.id == team_id) {
+        if let Some(academy_team_id) = parent_team.academy_team_id.as_deref() {
+            if let Some(academy_team) = game.teams.iter().find(|team| team.id == academy_team_id) {
+                let academy_count = game.players.iter()
+                    .filter(|p| p.team_id.as_deref() == Some(academy_team_id)).count();
+                game.messages.push(olm_core::game_setup::academy_overview_message(
+                    parent_team, academy_team, academy_count, &date_str,
+                ));
+            }
+        }
+    }
+
+    let season_start_str = if let Some(cid) = user_cid {
+        if let Ok(m) = olm_core::competitions::load_competition_manifest(&competitions_base, cid) {
+            let split = &m.schedule.splits[0];
+            format!("{} {}, {}", chrono::Month::try_from(split.season_start.month as u8)
+                .map(|mon| mon.name()).unwrap_or("January"), split.season_start.day, season_year)
+        } else {
+            format!("January 18, {}", season_year)
+        }
+    } else {
+        format!("January 18, {}", season_year)
+    };
+
+    game.messages.push(olm_core::messages::season_schedule_message(
+        &league_display_name, &season_start_str, &date_str,
+    ));
+
+    let team_names: Vec<String> = game.teams.iter()
+        .filter(|team| team.team_kind != olm_core::domain::team::TeamKind::Academy)
+        .map(|team| team.name.clone()).collect();
+    game.news.push(olm_core::news::season_preview_article(&team_names, &date_str));
+
+    game.messages.push(olm_core::messages::staff_advice_message(&team_name, team_id, &date_str));
+    olm_core::player_events::generate_contract_concern_messages(game, false);
+
     Ok(())
 }
 
