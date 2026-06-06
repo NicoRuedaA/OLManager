@@ -34,7 +34,9 @@ use objectives::{
     process_dragon_capture, resolve_neutral_capture_decision, sync_objectives_from_neutral_timers,
     tick_neutral_timers, NeutralCaptureKind,
 };
-pub use runtime::{dispose, init, reset, run_to_completion, skip_to_end, tick};
+pub use runtime::{
+    dispose, init, init_session_from_request, reset, run_to_completion, skip_to_end, tick,
+};
 pub use session::*;
 use state_init::{build_neutral_timers_state, create_initial_state, ensure_runtime_state_defaults};
 use structures::{

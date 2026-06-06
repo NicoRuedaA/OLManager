@@ -3,14 +3,14 @@ use serde_json::Value;
 use std::collections::HashMap;
 use std::time::{SystemTime, UNIX_EPOCH};
 
-pub fn init(
-    store: &SimLiveStoreState,
-    request: SimLiveInitRequest,
-) -> Result<SimLiveStateResponse, String> {
+/// Create a SimLiveSession from an init request, without storing it.
+/// Used by WebSocket handler where the session lives on the task stack.
+pub fn init_session_from_request(
+    request: &SimLiveInitRequest,
+) -> Result<SimLiveSession, String> {
     if request.session_id.trim().is_empty() {
         return Err("sessionId is required".to_string());
     }
-
     let mut state = create_initial_state(
         &request.seed,
         &request.snapshot,
@@ -20,23 +20,30 @@ pub fn init(
         request.ai_mode,
     );
     ensure_runtime_state_defaults(&mut state);
-    let runtime_state = decode_runtime_state(state.clone())?;
-    let session = SimLiveSession {
+    let runtime_state = decode_runtime_state(state)?;
+    Ok(SimLiveSession {
         id: request.session_id.clone(),
-        seed: request.seed,
+        seed: request.seed.clone(),
         state: runtime_state,
         tick_index: 0,
         wave_spawn_at: MINION_FIRST_WAVE_AT,
         next_minion_id: 1,
-        snapshot: request.snapshot,
-        champion_by_player_id: request.champion_by_player_id,
-        champion_profiles_by_id: request.champion_profiles_by_id,
-        champion_ultimates_by_id: request.champion_ultimates_by_id,
+        snapshot: request.snapshot.clone(),
+        champion_by_player_id: request.champion_by_player_id.clone(),
+        champion_profiles_by_id: request.champion_profiles_by_id.clone(),
+        champion_ultimates_by_id: request.champion_ultimates_by_id.clone(),
         lane_combat_state_by_champion: HashMap::new(),
         ai_mode: request.ai_mode,
-        policy: request.policy,
-    };
+        policy: request.policy.clone(),
+    })
+}
 
+pub fn init(
+    store: &SimLiveStoreState,
+    request: SimLiveInitRequest,
+) -> Result<SimLiveStateResponse, String> {
+    let session = init_session_from_request(&request)?;
+    let state = encode_runtime_state(&session.state)?;
     let mut sessions = store
         .sessions
         .lock()

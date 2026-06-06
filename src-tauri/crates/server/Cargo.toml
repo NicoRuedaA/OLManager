@@ -10,7 +10,7 @@ path = "src/main.rs"
 [dependencies]
 olm_core = { path = "../olm_core" }
 
-axum = { version = "0.8", features = ["multipart"] }
+axum = { version = "0.8", features = ["multipart", "ws"] }
 tokio = { version = "1", features = ["full"] }
 tower-http = { version = "0.6", features = ["cors", "trace"] }
 futures = "0.3"
