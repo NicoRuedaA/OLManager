@@ -162,8 +162,11 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
             Ok(DispatchResult::GameModified(json!(game)))
         }
         "set_weekly_scrim_slots" => {
-            let slots = args.get("slots").and_then(|v| v.as_u64()).unwrap_or(3) as u8;
-            commands::set_weekly_scrim_slots(game, &manager_team_id(game)?, slots);
+            let raw = args.get("slots").and_then(|v| v.as_u64()).unwrap_or(3) as u8;
+            let tid = manager_team_id(game)?;
+            // Sync with the full logic
+            let effective = crate::training::effective_scrim_slots_u8(raw, &game.teams.iter().find(|t| t.id == tid).map(|t| &t.training_schedule).unwrap_or(&crate::domain::team::TrainingSchedule::Balanced));
+            commands::set_weekly_scrim_slots(game, &tid, effective);
             Ok(DispatchResult::GameModified(json!(game)))
         }
         "set_weekly_scrim_objective" => {

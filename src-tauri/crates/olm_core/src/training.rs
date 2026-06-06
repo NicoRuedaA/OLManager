@@ -1352,6 +1352,19 @@ mod tests {
     }
 }
 
+/// Apply a post-scrim decision (simplified — marks the decision on the report).
+pub fn apply_post_scrim_decision(game: &mut crate::game::Game, tid: &str, slot_index: u8, decision: &str) -> Result<(), String> {
+    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+    if let Some(team) = game.teams.iter_mut().find(|t| t.id == tid) {
+        if let Some(report) = team.scrim_reports.iter_mut().find(|r| r.date == today && r.slot_index == slot_index && r.post_decision.is_none()) {
+            let d = parse_post_scrim_decision(decision)?;
+            report.post_decision = Some(d);
+            return Ok(());
+        }
+    }
+    Err("No unresolved scrim report found for this slot".to_string())
+}
+
 /// Estimate player age from date_of_birth string ("YYYY-MM-DD").
 fn estimate_age(dob: &str) -> u32 {
     let parts: Vec<&str> = dob.split('-').collect();
@@ -1416,4 +1429,135 @@ fn recovery_factor_from_fitness(fitness: u8) -> f64 {
         1.20
     }
 }
+
+
+// ── Scrim scheduling helpers (moved from Tauri squad.rs) ─────
+
+/// Parse a post-scrim decision string into a PostScrimDecision.
+pub fn parse_post_scrim_decision(value: &str) -> Result<crate::domain::team::PostScrimDecision, String> {
+    match value {
+        "ContinuePlan" => Ok(crate::domain::team::PostScrimDecision::ContinuePlan),
+        "VodReview" => Ok(crate::domain::team::PostScrimDecision::VodReview),
+        "MentalReset" => Ok(crate::domain::team::PostScrimDecision::MentalReset),
+        "TargetedDrills" => Ok(crate::domain::team::PostScrimDecision::TargetedDrills),
+        "PushThrough" => Ok(crate::domain::team::PostScrimDecision::PushThrough),
+        "DayOff" => Ok(crate::domain::team::PostScrimDecision::DayOff),
+        _ => Err(format!("Unknown post-scrim decision: {value}")),
+    }
+}
+
+/// Parse a scrim focus string into a ScrimFocus.
+pub fn parse_scrim_focus(value: &str) -> Result<crate::domain::team::ScrimFocus, String> {
+    match value {
+        "DraftPrep" => Ok(crate::domain::team::ScrimFocus::DraftPrep),
+        "ChampionPool" => Ok(crate::domain::team::ScrimFocus::ChampionPool),
+        "EarlyGame" => Ok(crate::domain::team::ScrimFocus::EarlyGame),
+        "Teamfighting" => Ok(crate::domain::team::ScrimFocus::Teamfighting),
+        "Macro" => Ok(crate::domain::team::ScrimFocus::Macro),
+        "Mental" => Ok(crate::domain::team::ScrimFocus::Mental),
+        _ => Err(format!("Unknown scrim objective: {value}")),
+    }
+}
+
+/// Alias that returns u8 instead of usize (for Tauri compatibility).
+pub fn scrims_per_week_as_u8(schedule: &crate::domain::team::TrainingSchedule) -> u8 {
+    crate::training::scrims_per_week_for_schedule(schedule) as u8
+}
+
+/// Alias that returns u8 instead of usize.
+pub fn effective_scrim_slots_u8(raw_slots: u8, schedule: &crate::domain::team::TrainingSchedule) -> u8 {
+    crate::training::effective_scrim_slots(raw_slots, schedule) as u8
+}
+
+/// Alias that returns Vec<u8> instead of Vec<u32>.
+pub fn scrim_slot_weekdays_u8(slots: u8) -> Vec<u8> {
+    let slots_usize = if slots == 0 { 4 } else { slots.clamp(2, 6) as usize };
+    crate::training::scrim_slot_weekdays_for_slots(slots_usize)
+        .iter().map(|&d| d as u8).collect()
+}
+
+/// Returns the label parts (day, suffix) for a slot index.
+pub fn slot_label_parts(weekdays: &[u8], slot_index: usize) -> (u8, String) {
+    let day = weekdays.get(slot_index).copied().unwrap_or(0);
+    let previous_same_day = weekdays.iter().take(slot_index).filter(|&&c| c == day).count();
+    let total_same_day = weekdays.iter().filter(|&&c| c == day).count();
+    let suffix = if total_same_day > 1 {
+        ((b'A' + previous_same_day as u8) as char).to_string()
+    } else {
+        String::new()
+    };
+    (day, suffix)
+}
+
+/// Check whether the weekly scrim setup is locked for a team.
+pub fn weekly_scrim_setup_lock_state(
+    team: &crate::domain::team::Team,
+    week_key: &str,
+    current_weekday: u8,
+    day_phase: crate::game::DayPhase,
+) -> (bool, Option<String>) {
+    if team.scrim_setup_locked_week_key.as_deref() == Some(week_key) {
+        return (true, Some("manual".to_string()));
+    }
+    let started_week = team.scrim_reports.iter().any(|e| e.week_key == week_key)
+        || team.scrim_slot_results.iter().any(|e| e.week_key == week_key);
+    if started_week {
+        return (true, Some("week_started".to_string()));
+    }
+    let days = scrim_slot_weekdays_u8(team.scrim_weekly_slots);
+    let first_scrim_weekday = days.into_iter().min().unwrap_or(2);
+    if current_weekday > first_scrim_weekday
+        || (current_weekday == first_scrim_weekday && day_phase != crate::game::DayPhase::Morning)
+    {
+        return (true, Some("first_scrim_window".to_string()));
+    }
+    (false, None)
+}
+
+/// Whether pushing through despite bad scrim results is recommended.
+pub fn is_push_through_recommended(
+    won: bool,
+    severity: u8,
+    own_loss_streak: u8,
+    own_scrim_reputation: u8,
+    opponent_scrim_reputation: u8,
+) -> bool {
+    !won && (severity >= 3 || own_loss_streak >= 3 || own_scrim_reputation >= opponent_scrim_reputation.saturating_add(10))
+}
+
+/// Get the position (0 or 1) of a slot within the current weekday.
+pub fn daily_slot_position(team: &crate::domain::team::Team, current_weekday: u8, slot_index: u8) -> Option<usize> {
+    let slot_days = scrim_slot_weekdays_u8(team.scrim_weekly_slots);
+    let mut todays: Vec<usize> = Vec::new();
+    for (i, day) in slot_days.iter().enumerate() {
+        if *day == current_weekday {
+            todays.push(i);
+        }
+    }
+    todays.iter().position(|i| *i as u8 == slot_index)
+}
+
+/// Classify a scrim report as Good or Bad.
+pub fn quality_from_report(report: &crate::domain::team::ScrimReport) -> crate::scrim_flow::ScrimResultQuality {
+    if report.won.unwrap_or(false) {
+        crate::scrim_flow::ScrimResultQuality::Good
+    } else {
+        crate::scrim_flow::ScrimResultQuality::Bad
+    }
+}
+
+/// Estimate the average LoL OVR of the top 5 players on a team.
+pub fn estimate_team_lol_ovr(game: &crate::game::Game, team_id: &str) -> u8 {
+    let mut ovrs: Vec<u8> = game.players.iter()
+        .filter(|p| p.team_id.as_deref() == Some(team_id))
+        .map(|p| crate::potential::calculate_lol_ovr(p))
+        .collect();
+    if ovrs.is_empty() { return 74; }
+    ovrs.sort_by(|a, b| b.cmp(a));
+    let sample: Vec<u8> = ovrs.iter().take(5).copied().collect();
+    let sum: u32 = sample.iter().map(|&v| u32::from(v)).sum();
+    (sum / sample.len() as u32) as u8
+}
+
+
 
