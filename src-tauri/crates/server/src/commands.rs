@@ -4,6 +4,7 @@
 //! (world assembly, data loading) stay here.
 
 use axum::http::StatusCode;
+use chrono::Datelike;
 use olm_core::dispatch::DispatchResult;
 use olm_core::game::Game;
 use serde_json::{json, Value};
@@ -110,6 +111,118 @@ pub fn dispatch(command: &str, args: Value, game: &mut Game) -> Result<CommandRe
             }
             ok(json!(game), true)
         }
+        "get_scrim_context" => {
+                let tid = game.manager.team_id.clone().ok_or_else(|| CommandError::bad_request("No team assigned"))?;
+            let team = game.teams.iter().find(|t| t.id == tid)
+                .ok_or_else(|| CommandError::bad_request("Team not found"))?;
+            let week_key = format!("{}-W{}", game.clock.current_date.iso_week().year(), game.clock.current_date.iso_week().week());
+            let capacity = olm_core::training::effective_scrim_slots_u8(team.scrim_weekly_slots, &team.training_schedule);
+            let weekdays = olm_core::training::scrim_slot_weekdays_u8(capacity);
+            let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
+            let slot_index = weekdays.iter().position(|w| *w == current_weekday);
+            let day_phase = game.day_phase.as_id();
+            let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+            let (setup_locked, setup_locked_reason) = olm_core::training::weekly_scrim_setup_lock_state(team, &week_key, current_weekday, game.day_phase.clone());
+
+            let has_official_match = game.leagues.first().map(|l| l.fixtures.iter().any(|f|
+                f.status == olm_core::domain::league::FixtureStatus::Scheduled
+                && f.date.get(0..10).unwrap_or_default() == today
+                && (f.home_team_id == tid || f.away_team_id == tid)
+            )).unwrap_or(false);
+
+            let mut today_reports: Vec<_> = team.scrim_reports.iter().filter(|r| r.date == today).cloned().collect();
+            today_reports.sort_by(|a, b| a.slot_index.cmp(&b.slot_index));
+            let unresolved = today_reports.iter().find(|r| r.post_decision.is_none()).cloned();
+            let reviewed = today_reports.iter().find(|r| r.post_decision.is_some()).cloned();
+
+            let today_ctx = if let Some(report) = unresolved {
+                let decision_phase = day_phase == "ScrimBlock";
+                json!({
+                    "state": "PlayedNeedsReview", "slot_index": report.slot_index,
+                    "opponent_team_id": report.opponent_team_id, "resolved_opponent_team_id": report.opponent_team_id,
+                    "objective": team.scrim_weekly_objective, "report": report,
+                    "can_edit_plan": false, "can_cancel": false, "can_review": decision_phase,
+                    "can_view_weekly_plan": true, "has_official_match": has_official_match,
+                    "primary_action": if decision_phase { "Review" } else if has_official_match { "Schedule" } else { "Training" },
+                    "push_through_recommended": olm_core::training::is_push_through_recommended(
+                        report.won.unwrap_or(false), report.severity, team.scrim_loss_streak,
+                        team.scrim_reputation, game.teams.iter().find(|t| t.id == report.opponent_team_id).map(|t| t.scrim_reputation).unwrap_or(50)),
+                })
+            } else if let Some(report) = reviewed {
+                json!({
+                    "state": "Reviewed", "slot_index": report.slot_index,
+                    "opponent_team_id": report.opponent_team_id, "resolved_opponent_team_id": report.opponent_team_id,
+                    "objective": team.scrim_weekly_objective, "report": report,
+                    "can_edit_plan": false, "can_cancel": false, "can_review": false,
+                    "can_view_weekly_plan": true, "has_official_match": has_official_match,
+                    "primary_action": if has_official_match { "Schedule" } else { "Training" },
+                    "push_through_recommended": false,
+                })
+            } else if let Some(idx) = slot_index {
+                let opponent = team.weekly_scrim_plan_team_ids.get(idx).and_then(|p| p.iter().find(|c| !c.is_empty()).cloned())
+                    .or_else(|| team.weekly_scrim_opponent_ids.get(idx).filter(|c| !c.is_empty()).cloned());
+                let is_planned = opponent.is_some() || day_phase == "Morning";
+                json!({
+                    "state": if is_planned { "Planned" } else { "Cancelled" },
+                    "slot_index": idx as u8, "opponent_team_id": opponent, "resolved_opponent_team_id": Value::Null,
+                    "objective": team.scrim_weekly_objective, "report": Value::Null,
+                    "can_edit_plan": day_phase == "Morning", "can_cancel": is_planned && day_phase == "Morning",
+                    "can_review": false, "can_view_weekly_plan": true, "has_official_match": has_official_match,
+                    "primary_action": if is_planned { "OpenPlan" } else if has_official_match { "Schedule" } else { "Training" },
+                    "push_through_recommended": false,
+                })
+            } else {
+                json!({
+                    "state": "NoScrimToday", "slot_index": Value::Null, "opponent_team_id": Value::Null,
+                    "resolved_opponent_team_id": Value::Null, "objective": team.scrim_weekly_objective,
+                    "report": Value::Null, "can_edit_plan": false, "can_cancel": false, "can_review": false,
+                    "can_view_weekly_plan": true, "has_official_match": has_official_match,
+                    "primary_action": if has_official_match { "Schedule" } else { "Training" },
+                    "push_through_recommended": false,
+                })
+            };
+
+            let slots: Vec<Value> = (0..capacity as usize).map(|idx| {
+                let (label_day, label_suffix) = olm_core::training::slot_label_parts(&weekdays, idx);
+                let plan = team.weekly_scrim_plan_team_ids.get(idx).cloned().unwrap_or_default();
+                let opponent = team.weekly_scrim_opponent_ids.get(idx).cloned().unwrap_or_default();
+                let report = team.scrim_reports.iter().find(|r| r.date == today && r.slot_index == idx as u8).cloned();
+                json!({
+                    "slot_index": idx as u8, "weekday": weekdays.get(idx).copied().unwrap_or(0),
+                    "label": format!("{} {}", label_day, label_suffix),
+                    "label_day": label_day, "label_suffix": label_suffix,
+                    "plan": plan, "resolved_opponent_team_id": if opponent.is_empty() { json!(null) } else { json!(&opponent) },
+                    "result_won": report.as_ref().and_then(|r| r.won), "report": report,
+                    "status": if opponent.is_empty() { "Free" } else { "Planned" },
+                    "can_edit": day_phase == "Morning",
+                })
+            }).collect();
+
+            let planned = slots.iter().filter(|s| s.get("status").and_then(|v| v.as_str()) == Some("Planned")).count() as u8;
+            let played_entries: Vec<_> = team.scrim_slot_results.iter().filter(|e| e.week_key == week_key).collect();
+            let wins = played_entries.iter().filter(|e| e.won).count() as u8;
+            let total = played_entries.len() as u8;
+            let losses = total.saturating_sub(wins);
+            let avg_q: u8 = 0; // quality not stored in ScrimSlotResult
+            let top_focus: Option<olm_core::domain::team::ScrimFocus> = None; /* weekly summary TBD */
+            let top_issue: Option<olm_core::domain::team::ScrimIssue> = None;
+
+            ok(json!({
+                "today": today_ctx,
+                "week": {
+                    "week_key": week_key, "objective": team.scrim_weekly_objective,
+                    "capacity": capacity, "planned": planned,
+                    "reputation": team.scrim_reputation, "cancellations": team.scrim_weekly_cancellations,
+                    "played": total, "wins": wins, "losses": losses,
+                    "loss_streak": team.scrim_loss_streak, "avg_quality": avg_q,
+                    "top_focus": top_focus, "top_issue": top_issue,
+                    "next_official_rival_team_id": Value::Null, "next_official_rival_competition": Value::Null,
+                    "setup_locked": setup_locked, "setup_locked_reason": setup_locked_reason,
+                    "can_finalize_setup": !setup_locked && team.weekly_scrim_opponent_ids.iter().any(|o| !o.is_empty()),
+                    "slots": slots, "latest_reports": today_reports,
+                }
+            }), false)
+        }
         "get_champions" => {
             let catalog = olm_core::champions::load_champion_catalog(&crate::data::data_dir());
             ok(json!(catalog), false)
@@ -122,4 +235,9 @@ pub fn dispatch(command: &str, args: Value, game: &mut Game) -> Result<CommandRe
         _ => Err(CommandError::bad_request(format!("Unknown command: {command}")))
     }
 }
+
+
+
+
+
 
