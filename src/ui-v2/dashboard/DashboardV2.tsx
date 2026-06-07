@@ -9,6 +9,7 @@ import type { GameStateData, PlayerSelectionOptions } from "@/store/gameStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useAdvanceTime, type MatchModeType } from "@/hooks/useAdvanceTime";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
+import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
 import {
   formatDateFull,
   isSeasonComplete as isLeagueSeasonComplete,
@@ -39,6 +40,25 @@ import { DashboardHeaderV2 } from "./DashboardHeaderV2";
 import { HomeTabV2 } from "./tabs/HomeTabV2";
 import { InboxTabV2 } from "./tabs/InboxTabV2";
 import { ScheduleTabV2 } from "./tabs/ScheduleTabV2";
+import { SquadTabV2 } from "./tabs/SquadTabV2";
+import { TacticsTabV2 } from "./tabs/TacticsTabV2";
+import { TrainingTabV2 } from "./tabs/TrainingTabV2";
+import { PlayersTabV2 } from "./tabs/PlayersTabV2";
+import { TeamsTabV2 } from "./tabs/TeamsTabV2";
+import { StaffTabV2 } from "./tabs/StaffTabV2";
+import { FinancesTabV2 } from "./tabs/FinancesTabV2";
+import { ScrimsTabV2 } from "./tabs/ScrimsTabV2";
+import { ScoutingTabV2 } from "./tabs/ScoutingTabV2";
+import { TransfersTabV2 } from "./tabs/TransfersTabV2";
+import { NewsTabV2 } from "./tabs/NewsTabV2";
+import { SocialTabV2 } from "./tabs/SocialTabV2";
+import { TournamentsTabV2 } from "./tabs/TournamentsTabV2";
+import { ManagerTabV2 } from "./tabs/ManagerTabV2";
+import { YouthTabV2 } from "./tabs/YouthTabV2";
+import { CompetitionsTabV2 } from "./tabs/CompetitionsTabV2";
+import { ChampionsWorldTabV2 } from "./tabs/ChampionsWorldTabV2";
+import ChampionPageV2 from "@/ui-v2/pages/ChampionPageV2";
+import PlayerProfileV2 from "@/ui-v2/pages/PlayerProfileV2";
 
 const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Home: "dashboard.home",
@@ -133,6 +153,30 @@ export default function DashboardV2() {
       })
       .catch(() => setProbedNoGame(true));
   }, [hasActiveGame, setGameState, setGameActive]);
+
+  // Load champions once when game loads (if not already in gameState)
+  useEffect(() => {
+    console.log("[DashboardV2] champions effect: gameState?.champions =", gameState?.champions);
+    if (!gameState) return;
+    if (gameState.champions) return;
+
+    let cancelled = false;
+    const loadChampions = async () => {
+      try {
+        console.log("[DashboardV2] invoking get_champions...");
+        const champions = await invoke<unknown[]>("get_champions");
+        console.log("[DashboardV2] get_champions returned:", champions?.length, "items");
+        if (cancelled) return;
+        const latest = useGameStore.getState().gameState;
+        useGameStore.getState().setGameState({ ...(latest ?? gameState), champions } as GameStateData);
+        console.log("[DashboardV2] champions stored in gameState");
+      } catch (err) {
+        console.error("[DashboardV2] Failed to load champions:", err);
+      }
+    };
+    loadChampions();
+    return () => { cancelled = true; };
+  }, [gameState]);
 
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
@@ -253,14 +297,16 @@ export default function DashboardV2() {
     : "";
   const unreadMessagesCount = gameState ? getUnreadMessagesCount(gameState) : 0;
   const myTeamName = gameState ? getManagerTeamName(gameState) : null;
+  const myTeam = gameState?.teams.find((t) => t.id === gameState?.manager.team_id);
   const liveManagerName = gameState
     ? gameState.manager.nickname?.trim() ||
       `${gameState.manager.first_name} ${gameState.manager.last_name}`
     : managerName;
-  const teamLogo = useMemo(() => resolveTeamLogo(myTeamName), [myTeamName]);
+  const managerAvatar = useMemo(() => resolveStaffPhoto(gameState?.manager?.avatar_path), [gameState?.manager?.avatar_path]);
+  const teamLogo = useMemo(() => resolveTeamLogo(myTeamName, myTeam?.logo_url), [myTeamName, myTeam?.logo_url]);
   const hasProfileHistory = hasDashboardProfileHistory(profileNavigation);
   const activeTabLabel = TAB_TRANSLATION_KEYS[profileNavigation.activeTab]
-    ? t(TAB_TRANSLATION_KEYS[profileNavigation.activeTab])
+    ? t(TAB_TRANSLATION_KEYS[profileNavigation.activeTab], { defaultValue: profileNavigation.activeTab })
     : profileNavigation.activeTab;
 
   const dashboardAlerts = gameState
@@ -312,12 +358,14 @@ export default function DashboardV2() {
   }
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-background text-foreground">
+    <div className="flex min-h-0 flex-1 overflow-hidden bg-background text-foreground">
       <DashboardSidebarV2
         activeTab={profileNavigation.activeTab}
         onNavClick={handleNavClick}
         unreadMessagesCount={unreadMessagesCount}
+        managerFullName={`${gameState?.manager.first_name ?? ""} ${gameState?.manager.last_name ?? ""}`.trim() || null}
         managerName={liveManagerName}
+        managerAvatar={managerAvatar}
         teamName={myTeamName}
         teamLogo={teamLogo}
         isUnemployed={isUnemployed ?? false}
@@ -349,7 +397,7 @@ export default function DashboardV2() {
       />
       <FiredModal />
 
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <main className="flex flex-1 flex-col overflow-hidden scrollbar-v2">
         <DashboardHeaderV2
           activeTabLabel={activeTabLabel}
           currentDate={currentDate}
@@ -368,7 +416,7 @@ export default function DashboardV2() {
         !profileNavigation.selectedPlayerId &&
         !profileNavigation.selectedTeamId &&
         !seasonComplete ? (
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
             <HomeTabV2 gameState={gameState} onNavigate={handleNavigate} />
           </div>
         ) : profileNavigation.activeTab === "Inbox" &&
@@ -387,8 +435,217 @@ export default function DashboardV2() {
           !viewingChampionKey &&
           !profileNavigation.selectedPlayerId &&
           !profileNavigation.selectedTeamId ? (
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
             <ScheduleTabV2 gameState={gameState} onSelectTeam={selectTeam} />
+          </div>
+        ) : profileNavigation.activeTab === "Squad" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <SquadTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+              onSelectPlayer={selectPlayer}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Training" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <TrainingTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Tactics" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <TacticsTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Players" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <PlayersTabV2
+              gameState={gameState}
+              onSelectPlayer={selectPlayer}
+              onSelectTeam={selectTeam}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Teams" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <TeamsTabV2
+              gameState={gameState}
+              onSelectTeam={selectTeam}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Staff" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <StaffTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Finances" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <FinancesTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+              onSelectPlayer={selectPlayer}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Scrims" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <ScrimsTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Scouting" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <ScoutingTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+              onSelectPlayer={selectPlayer}
+              onNavigate={handleNavigate}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Transfers" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <TransfersTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+              onSelectPlayer={selectPlayer}
+              onSelectTeam={selectTeam}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "News" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <NewsTabV2 gameState={gameState} />
+          </div>
+        ) : profileNavigation.activeTab === "Social" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <SocialTabV2
+              gameState={gameState}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Tournaments" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <TournamentsTabV2
+              gameState={gameState}
+              onSelectTeam={selectTeam}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Manager" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <ManagerTabV2 gameState={gameState} />
+          </div>
+        ) : profileNavigation.activeTab === "Youth" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <YouthTabV2
+              gameState={gameState}
+              onSelectPlayer={selectPlayer}
+              onGameUpdate={setGameState}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "Competitions" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <CompetitionsTabV2
+              gameState={gameState}
+              onSelectTeam={selectTeam}
+            />
+          </div>
+        ) : profileNavigation.activeTab === "ChampionsWorld" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <ChampionsWorldTabV2
+              champions={gameState.champions}
+              onViewChampion={(k) => setViewingChampionKey(k)}
+            />
+          </div>
+        ) : profileNavigation.selectedPlayerId && !viewingChampionKey && !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-hidden">
+            <PlayerProfileV2
+              gameState={gameState}
+              playerId={profileNavigation.selectedPlayerId}
+              onClose={() =>
+                setProfileNavigation((s) => goBackDashboardProfile(s))
+              }
+              onGameUpdate={setGameState}
+              onSelectPlayer={selectPlayer}
+            />
+          </div>
+        ) : profileNavigation.selectedTeamId && !viewingChampionKey && !profileNavigation.selectedPlayerId ? (
+          <div className="flex-1 overflow-hidden">
+            <DashboardWorkspaceContent
+              dashboardAlerts={dashboardAlerts}
+              gameState={gameState}
+              profileNavigation={profileNavigation}
+              dashboardTabContentModel={dashboardTabContentModel}
+              onBack={handleBack}
+              onNavigate={handleNavigate}
+              onSelectPlayer={selectPlayer}
+              onSelectTeam={selectTeam}
+              onGameUpdate={setGameState}
+              isUnemployed={isUnemployed ?? false}
+              viewingChampionKey={viewingChampionKey}
+              onCloseChampion={() => setViewingChampionKey(null)}
+              onViewChampion={(k) => setViewingChampionKey(k)}
+            />
+          </div>
+        ) : viewingChampionKey && !profileNavigation.selectedPlayerId && !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-hidden">
+            <ChampionPageV2
+              championKey={viewingChampionKey}
+              onClose={() => setViewingChampionKey(null)}
+            />
           </div>
         ) : (
           <DashboardWorkspaceContent

@@ -55,23 +55,26 @@ finish one.**
 | Home           | ✅ done     | `tabs/HomeTabV2.tsx`                              | TodayPhase, Roster, Standings, Week, KPIs…    |
 | Inbox          | ✅ done     | `tabs/InboxTabV2.tsx`                             | Master/detail, filters, search, inline actions |
 | Schedule       | ✅ done     | `tabs/ScheduleTabV2.tsx`                          | Fixtures by matchday + standings switcher     |
-| News           | ⬜ pending  |                                                   | Similar shape to Inbox — list+detail          |
-| Social         | ⬜ pending  |                                                   |                                               |
-| Manager        | ⬜ pending  |                                                   | Profile + history                             |
-| Squad          | ⬜ pending  |                                                   | **High priority** — daily-use tool            |
-| Tactics        | ⬜ pending  |                                                   |                                               |
-| Training       | ⬜ pending  |                                                   |                                               |
-| Scrims         | ⬜ pending  |                                                   |                                               |
+| News           | ✅ done     | `tabs/NewsTabV2.tsx`                             | List+detail with filters, pagination         |
+| Social         | ✅ done     | `tabs/SocialTabV2.tsx`                           | Social feed with posts, editor, sentiments    |
+| Manager        | ✅ done     | `tabs/ManagerTabV2.tsx`                          | Profile + history                             |
+| Squad          | ✅ done     | `tabs/SquadTabV2.tsx`                            | 5 role lineup + bench table with sort + context menu |
+| Tactics        | ✅ done     | `tabs/TacticsTabV2.tsx`                           | 6 selectors, coherence ring, role impact sidebar |                                               |
+| Training        | ✅ done     | `tabs/TrainingTabV2.tsx`                         | Schedule, Focus, Intensity, SoloQ, Staff Advice, Squad Fitness, Groups Table |
+| Scrims         | ✅ done     | `tabs/ScrimsTabV2.tsx`                           | Weekly setup, decisions, scrim planning      |
+| Scouting       | ✅ done     | `tabs/ScoutingTabV2.tsx`                         | Overview, assignments, player search          |
+| Transfers      | ✅ done     | `tabs/TransfersTabV2.tsx`                        | Bids, counter-offers, wage negotiation        |
 | Meta           | ⬜ pending  |                                                   |                                               |
-| Staff          | ⬜ pending  |                                                   |                                               |
-| Scouting       | ⬜ pending  |                                                   |                                               |
-| Youth          | ⬜ pending  |                                                   |                                               |
-| Finances       | ⬜ pending  |                                                   | Numbers + tables                              |
-| Transfers      | ⬜ pending  |                                                   |                                               |
-| Players        | ⬜ pending  |                                                   | Global player search                          |
-| Teams          | ⬜ pending  |                                                   |                                               |
-| Tournaments    | ⬜ pending  |                                                   |                                               |
-| ChampionsWorld | ⬜ pending  |                                                   |                                               |
+| Staff          | ✅ done     | `tabs/StaffTabV2.tsx`                            | Card grid, hire/release, stats bars          |
+| Scouting       | ✅ done     | `tabs/ScoutingTabV2.tsx`                         | Overview, assignments, player search          |
+| Finances       | ✅ done     | `tabs/FinancesTabV2.tsx`                         | Budget, cash flow, risks, sponsors, payroll   |
+| Transfers      | ✅ done     | `tabs/TransfersTabV2.tsx`                        | Bids, counter-offers, wage negotiation        |
+| Players        | ✅ done     | `tabs/PlayersTabV2.tsx`                          | Search, filters, sort, pagination table      |
+| Teams          | ✅ done     | `tabs/TeamsTabV2.tsx`                            | Card grid with team stats, filter by league |
+| Tournaments    | ✅ done     | `tabs/TournamentsTabV2.tsx`                      | Overview, fixtures, standings, playoffs      |
+| Competitions   | ✅ done     | `tabs/CompetitionsTabV2.tsx`                     | Overview, fixtures, standings                 |
+| Youth          | ✅ done     | `tabs/YouthTabV2.tsx`                            | Academy scouting, prospects, promotion        |
+| ChampionsWorld | ✅ done     | `tabs/ChampionsWorldTabV2.tsx`                  | Champion grid with detail overlay           |
 
 For any tab **not yet in v2**, the legacy `DashboardWorkspaceContent` renders
 unchanged. The conditional lives in `DashboardV2.tsx` — see the
@@ -176,7 +179,7 @@ and look at what helpers it imports. Reuse the same ones.
 ### Data
 - The canonical data tree is `data/` (no `data/lec/*` legacy paths). If you see
   a legacy path in old code, it has been moved.
-- `data/draft/{ai-config,champion-timings,champions,players,teams}.json` exist
+- `assets/draft/{ai-config,champion-timings,champions,players,teams}.json` exist
   again post-0.3 — you can import `DraftResultScreen` safely.
 - Team JSONs must **not** contain both `stadium_name` and `arena_name` at once —
   `Team::stadium_name` has `#[serde(alias = "arena_name")]` and duplicate keys

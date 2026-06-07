@@ -1,0 +1,464 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CalendarDays, Gauge, Lightbulb, SlidersHorizontal, Swords, Target } from "lucide-react";
+
+import type { GameStateData, ScrimFocus } from "@/store/gameStore";
+import {
+  buildStaffSuggestions,
+  buildScrimPlanSignals as deriveScrimPlanSignals,
+  deriveDailyScrimBlockMeta,
+  deriveTodayScrimContext,
+  deriveWeeklyScrimContext,
+  effectiveWeeklyScrimSlots,
+} from "@/lib/scrims/scrimContext";
+import {
+  chooseDailyScrimAction,
+  finalizeWeeklyScrimSetup,
+  setWeeklyScrimObjective,
+  setWeeklyScrimSlots,
+  type DailyScrimAction,
+} from "@/services/trainingService";
+import { useScrimContextWithFallback } from "@/hooks/useScrimContextWithFallback";
+import { useSettingsStore } from "@/store/settingsStore";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
+import { Badge } from "@/ui-v2/components/ui/badge";
+import { cn } from "@/ui-v2/lib/utils";
+import ScrimPlanningCard from "@/components/scrims/ScrimPlanningCard";
+
+interface ScrimsTabV2Props {
+  gameState: GameStateData;
+  onGameUpdate: (state: GameStateData) => void;
+}
+
+const SCRIM_SLOT_OPTIONS = [2, 4, 6];
+const ALLOW_SCRIM_CONTEXT_FALLBACK = true;
+const SCRIM_OBJECTIVES: ScrimFocus[] = ["DraftPrep", "ChampionPool", "EarlyGame", "Teamfighting", "Macro", "Mental"];
+
+function scrimFocusLabel(t: ReturnType<typeof useTranslation>["t"], focus: ScrimFocus): string {
+  const labels: Record<ScrimFocus, string> = {
+    DraftPrep: t("training.scrims.objectives.draftPrep"),
+    ChampionPool: t("training.scrims.objectives.championPool"),
+    EarlyGame: t("training.scrims.objectives.earlyGame"),
+    Teamfighting: t("training.scrims.objectives.teamfighting"),
+    Macro: t("training.scrims.objectives.macro"),
+    Mental: t("training.scrims.objectives.mental"),
+  };
+  return labels[focus];
+}
+
+function scrimFocusImpactText(focus: ScrimFocus | null): string {
+  if (!focus) return "Set a weekly direction so scrim decisions have clear impact.";
+  const map: Record<ScrimFocus, string> = {
+    DraftPrep: "Improves draft prep, ban reads, and composition plans.",
+    ChampionPool: "Expands viable picks and reduces comfort-pick dependency.",
+    EarlyGame: "Improves lane control, early tempo, and first rotations.",
+    Teamfighting: "Improves teamfight execution and 5v5 coordination.",
+    Macro: "Improves objective setup and map control.",
+    Mental: "Improves mental stability and consistency under pressure.",
+  };
+  return map[focus];
+}
+
+function riskBand(opponentOvr: number, ownOvr: number, repGap: number): string {
+  if (opponentOvr >= 80) return "Alto";
+  if (opponentOvr >= 77) return "Medio";
+  return Math.max(opponentOvr - ownOvr, Math.round(repGap / 4)) >= 4 ? "Alto" : Math.max(opponentOvr - ownOvr, Math.round(repGap / 4)) >= 2 ? "Medio" : "Bajo";
+}
+
+export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
+  const { t } = useTranslation();
+  const { settings, updateSettings } = useSettingsStore();
+  const [isSaving, setIsSaving] = useState(false);
+  const [decisionSaving, setDecisionSaving] = useState<string | null>(null);
+  const [decisionFeedback, setDecisionFeedback] = useState<string | null>(null);
+  const [showCancelFollowups, setShowCancelFollowups] = useState(false);
+  const reviewPhaseActive = (gameState.day_phase ?? "Morning") === "ReviewBlock";
+  const remoteScrimContext = useScrimContextWithFallback(gameState);
+  const myTeam = gameState.teams.find((t) => t.id === gameState.manager.team_id);
+
+  if (!myTeam) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-6">
+        <p className="font-heading text-sm uppercase tracking-wider text-muted-foreground">{t("common.noTeam")}</p>
+      </div>
+    );
+  }
+
+  const fallbackWeekly = deriveWeeklyScrimContext(gameState, myTeam);
+  const fallbackToday = deriveTodayScrimContext(gameState, myTeam);
+  const weeklyContext = remoteScrimContext?.week ?? (ALLOW_SCRIM_CONTEXT_FALLBACK ? fallbackWeekly : null);
+  const todayContext = remoteScrimContext?.today ?? (ALLOW_SCRIM_CONTEXT_FALLBACK ? fallbackToday : null);
+
+  if (!weeklyContext || !todayContext) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-6">
+        <p className="text-sm text-muted-foreground">{t("scrims.loadingContext")}</p>
+      </div>
+    );
+  }
+
+  const weeklyCapacity = weeklyContext.capacity;
+  const plannedScrims = weeklyContext.planned;
+  const played = weeklyContext.played;
+  const wins = weeklyContext.wins;
+  const losses = weeklyContext.losses;
+  const objective = weeklyContext.objective;
+  const teamNameById = new Map(gameState.teams.map((t) => [t.id, t.name]));
+  const latestReports = weeklyContext.latestReports.slice(0, 3);
+  const todayOpponentName = (() => {
+    const c = todayContext.resolvedOpponentTeamId ?? todayContext.opponentTeamId;
+    return c ? teamNameById.get(c) ?? c : null;
+  })();
+  const planSignals = deriveScrimPlanSignals(gameState, myTeam.id, weeklyContext);
+  const estimatedRepGap = todayContext.opponentTeamId ? Math.max(0, planSignals.avgOpponentScrimReputation - weeklyContext.reputation) : 0;
+  const todayRisk = riskBand(planSignals.maxOpponentOvr, planSignals.ownOvr, estimatedRepGap);
+  const setupLocked = weeklyContext.setupLocked;
+  const assistantControls = settings.scrim_review_mode === "assistant";
+  const dailyBlockMeta = todayContext.report ? deriveDailyScrimBlockMeta(effectiveWeeklyScrimSlots(myTeam), gameState.clock.current_date, todayContext.report.slot_index) : null;
+  const isFirstBlock = dailyBlockMeta?.blockNumber === 1;
+  const staffSuggestions = buildStaffSuggestions(
+    (key, fb) => t(key, { defaultValue: fb }), objective, weeklyCapacity, latestReports,
+    weeklyContext.lossStreak, weeklyContext.cancellations, planSignals, weeklyContext.reputation,
+  );
+
+  const decisionOptions: Array<{ id: DailyScrimAction; label: string; description: string }> = (() => {
+    if (!todayContext.report) return [];
+    if (isFirstBlock && !todayContext.report.won && !showCancelFollowups) {
+      return [
+        { id: "PushThrough", label: t("scrims.decision.pushThrough"), description: t("scrims.decision.pushThroughDesc") },
+        { id: "CancelScrims", label: t("scrims.decision.cancelScrims"), description: t("scrims.decision.cancelScrimsDesc") },
+      ];
+    }
+    if (isFirstBlock && todayContext.report.won) {
+      return [
+        { id: "ContinueToBlock2", label: t("scrims.decision.continueBlock2"), description: t("scrims.decision.continueBlock2Desc") },
+        { id: "OfferRest", label: t("scrims.decision.offerRest"), description: t("scrims.decision.offerRestDesc") },
+      ];
+    }
+    if (showCancelFollowups) {
+      return [
+        { id: "VodReview", label: t("scrims.decision.vodReview"), description: t("scrims.decision.vodReviewDesc") },
+        { id: "MentalReset", label: t("scrims.decision.mentalReset"), description: t("scrims.decision.mentalResetDesc") },
+        { id: "TargetedDrills", label: t("scrims.decision.targetedDrills"), description: t("scrims.decision.targetedDrillsDesc") },
+      ];
+    }
+    return [
+      { id: "DayOff", label: t("scrims.decision.dayOff"), description: t("scrims.decision.dayOffDesc") },
+      { id: "VodReview", label: t("scrims.decision.vodReview"), description: t("scrims.decision.vodReviewDesc") },
+      { id: "MentalReset", label: t("scrims.decision.mentalReset"), description: t("scrims.decision.mentalResetDesc") },
+      { id: "TargetedDrills", label: t("scrims.decision.targetedDrills"), description: t("scrims.decision.targetedDrillsDesc") },
+    ];
+  })();
+
+  const decisionImpactTags: Record<DailyScrimAction, string[]> = {
+    ContinueToBlock2: ["Momentum +", "Fatigue -", "Volume +"],
+    OfferRest: ["Recovery +", "Fatigue +", "Volume -"],
+    PushThrough: ["Volume +", "Learning +", "Mental -"],
+    CancelScrims: ["Recovery +", "Risk -", "Volume -"],
+    VodReview: ["Analysis +", "Quality +", "Recovery -"],
+    MentalReset: ["Mental +", "Recovery +", "Technique -"],
+    TargetedDrills: ["Issue +", "Mechanics +", "Fatigue -"],
+    DayOff: ["Recovery +", "Mental +", "Volume -"],
+  };
+
+  const handleSetWeeklyCapacity = async (slots: number) => {
+    if (setupLocked || assistantControls) return;
+    setIsSaving(true);
+    try { const updated = await setWeeklyScrimSlots(slots); onGameUpdate(updated); }
+    catch (e) { console.error(e); }
+    finally { setIsSaving(false); }
+  };
+
+  const handleSetObjective = async (next: ScrimFocus | null) => {
+    if (setupLocked || assistantControls) return;
+    setIsSaving(true);
+    try { const updated = await setWeeklyScrimObjective(next); onGameUpdate(updated); }
+    catch (e) { console.error(e); }
+    finally { setIsSaving(false); }
+  };
+
+  const handleFinalizeSetup = async () => {
+    if (setupLocked || assistantControls) return;
+    setIsSaving(true);
+    try { const updated = await finalizeWeeklyScrimSetup(); onGameUpdate(updated); }
+    catch (e) { console.error(e); }
+    finally { setIsSaving(false); }
+  };
+
+  const handleReviewDecision = async (decision: DailyScrimAction) => {
+    if (!todayContext.report) return;
+    if (decision === "CancelScrims") { setShowCancelFollowups(true); setDecisionFeedback("Scrims cancelled. Pick follow-up."); return; }
+    setDecisionSaving(decision);
+    setDecisionFeedback(null);
+    try {
+      const updated = await chooseDailyScrimAction(todayContext.report.slot_index, decision);
+      onGameUpdate(updated);
+      setDecisionFeedback(t("scrims.reviewDecisionApplied"));
+      setShowCancelFollowups(false);
+    } catch (e) { console.error(e); }
+    finally { setDecisionSaving(null); }
+  };
+
+  return (
+    <div className="flex h-full flex-col gap-4 overflow-y-auto p-6">
+      {/* Hero header */}
+      <Card>
+        <CardContent className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="font-heading text-[10px] uppercase tracking-widest text-primary">{t("scrims.pageKicker")}</p>
+            <h2 className="mt-1 font-heading text-2xl font-bold uppercase tracking-wide text-foreground">{t("dashboard.scrims")}</h2>
+            <p className="mt-2 max-w-xl text-sm text-muted-foreground">{t("scrims.pageDescription")}</p>
+          </div>
+          <div className="flex gap-3">
+            {[
+              { icon: CalendarDays, value: `${plannedScrims}/${weeklyCapacity}`, label: t("scrims.planned") },
+              { icon: Swords, value: `${wins}-${losses}`, label: t("scrims.weekRecord") },
+              { icon: Gauge, value: String(weeklyContext.reputation), label: t("scrims.reputation") },
+            ].map((s) => (
+              <div key={s.label} className="rounded-lg border border-border bg-muted/30 px-3 py-2 text-center">
+                <s.icon className="mx-auto mb-1 size-4 text-primary" />
+                <p className="font-heading text-xl font-bold text-foreground tabular-nums">{s.value}</p>
+                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_360px]">
+        {/* Main column */}
+        <div className="flex flex-col gap-4">
+          {/* Weekly setup */}
+          <Card>
+            <CardHeader className="flex-row items-center justify-between space-y-0">
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                <SlidersHorizontal className="mr-1.5 inline size-4" />
+                {t("scrims.weeklySetup")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col gap-4 md:flex-row md:items-end">
+                <div className="flex-1 space-y-2">
+                  <label className="font-heading text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <Target className="mr-1 inline size-3.5" />
+                    {t("training.scrims.weeklyObjective")}
+                  </label>
+                  <select
+                    value={objective ?? ""}
+                    onChange={(e) => handleSetObjective((e.target.value || null) as ScrimFocus | null)}
+                    disabled={isSaving || setupLocked || assistantControls}
+                    className="w-full rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-xs text-foreground outline-none disabled:opacity-50"
+                  >
+                    <option value="">{t("training.scrims.objectives.none")}</option>
+                    {SCRIM_OBJECTIVES.map((f) => (
+                      <option key={f} value={f}>{scrimFocusLabel(t, f)}</option>
+                    ))}
+                  </select>
+                  {objective && <p className="text-xs text-muted-foreground">{scrimFocusImpactText(objective)}</p>}
+                </div>
+                <div className="space-y-2">
+                  <p className="font-heading text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{t("scrims.weeklyVolume")}</p>
+                  <div className="flex gap-2">
+                    {SCRIM_SLOT_OPTIONS.map((slots) => (
+                      <button
+                        key={slots}
+                        type="button"
+                        disabled={isSaving || setupLocked || assistantControls}
+                        onClick={() => handleSetWeeklyCapacity(slots)}
+                        className={cn(
+                          "rounded-md border px-3 py-1.5 font-heading text-xs font-bold uppercase tracking-wider transition-colors",
+                          weeklyCapacity === slots
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border text-muted-foreground hover:border-primary/50",
+                        )}
+                      >
+                        {slots}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
+                <p className="text-xs text-muted-foreground">
+                  {setupLocked ? t("scrims.setupLocked") : assistantControls ? "Assistant Coach handling scrims." : t("scrims.setupUnlockWindow")}
+                </p>
+                <button
+                  type="button"
+                  disabled={isSaving || setupLocked || assistantControls}
+                  onClick={handleFinalizeSetup}
+                  className="rounded-md border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted disabled:opacity-50"
+                >
+                  {t("scrims.finalizeSetup")}
+                </button>
+              </div>
+              {staffSuggestions.length > 0 && (
+                <div className="mt-4 border-t border-border pt-3">
+                  <p className="mb-2 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <Lightbulb className="size-3.5" />
+                    {t("training.scrims.staffSuggestions")}
+                  </p>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    {staffSuggestions.slice(0, 2).map((s, i) => (
+                      <p key={i} className="rounded-lg border border-border bg-muted/20 p-3 text-xs text-muted-foreground">{s}</p>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <ScrimPlanningCard
+            gameState={gameState}
+            weeklyContext={weeklyContext}
+            onGameUpdate={onGameUpdate}
+            isSaving={isSaving}
+            setIsSaving={setIsSaving}
+            readOnly={assistantControls || setupLocked}
+          />
+        </div>
+
+        {/* Sidebar */}
+        <aside className="flex flex-col gap-4 xl:sticky xl:top-4 xl:self-start">
+          {/* Assistant coach toggle */}
+          <Card>
+            <CardHeader className="space-y-0">
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                {t("scrims.assistantCoach")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between gap-2 rounded-lg border border-border bg-muted/30 p-3">
+                <p className="text-xs text-muted-foreground">{t("scrims.delegation")}</p>
+                <button
+                  type="button"
+                  onClick={() => updateSettings({ scrim_review_mode: settings.scrim_review_mode === "assistant" ? "manual" : "assistant" })}
+                  className={cn(
+                    "rounded-md border px-2.5 py-1 text-xs font-medium transition-colors",
+                    settings.scrim_review_mode === "assistant"
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border text-muted-foreground",
+                  )}
+                >
+                  {settings.scrim_review_mode === "assistant" ? "Assistant" : "Manual"}
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Today's block */}
+          <Card>
+            <CardHeader className="space-y-0">
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                {t("scrims.todayBlock")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <p className="text-xs text-muted-foreground">
+                  {todayContext.state === "PlayedNeedsReview"
+                    ? t("scrims.todayNeedsReview")
+                    : todayContext.state === "Reviewed"
+                      ? t("scrims.todayReviewed")
+                      : todayContext.state === "Planned"
+                        ? t("scrims.todayPlanned")
+                        : todayContext.state === "Cancelled"
+                          ? t("scrims.todayCancelled")
+                          : t("scrims.todayNoScrim")}
+                </p>
+
+                {todayOpponentName && (
+                  <div className="rounded-lg border border-border bg-muted/20 p-3">
+                    <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("scrims.todayOpponent")}</p>
+                    <p className="font-heading text-sm font-bold uppercase tracking-wide text-foreground">{todayOpponentName}</p>
+                    {todayContext.state === "Planned" && (
+                      <div className="mt-2 space-y-1 text-xs text-muted-foreground">
+                        <p>{t("scrims.todayRisk")}: <span className="font-medium text-foreground">{todayRisk}</span></p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Post-scrim review decisions */}
+                {todayContext.state === "PlayedNeedsReview" && todayContext.report && reviewPhaseActive && (
+                  <div className="space-y-2">
+                    {decisionOptions.map((opt) => (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        disabled={decisionSaving !== null}
+                        onClick={() => handleReviewDecision(opt.id)}
+                        className={cn(
+                          "w-full rounded-lg border-2 p-3 text-left transition-all",
+                          "border-border hover:border-primary/50",
+                          decisionSaving === opt.id && "pointer-events-none opacity-50",
+                        )}
+                      >
+                        <p className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
+                          {decisionSaving === opt.id ? t("common.saving") : opt.label}
+                        </p>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{opt.description}</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {decisionImpactTags[opt.id].map((tag) => (
+                            <Badge key={tag} variant="outline" className="text-[10px]">{tag}</Badge>
+                          ))}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {decisionFeedback && (
+                  <p className="rounded-md bg-primary/10 px-2 py-1 text-xs text-primary">{decisionFeedback}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Weekly summary */}
+          <Card>
+            <CardHeader className="space-y-0">
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                {t("scrims.weeklyReportInline")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div>
+                  <p className="mb-2 font-heading text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    {t("scrims.recentReports")}
+                  </p>
+                  {latestReports.length > 0 ? (
+                    <div className="space-y-2">
+                      {latestReports.map((r) => (
+                        <div key={`${r.week_key}-${r.slot_index}`} className="rounded-lg border border-border bg-muted/20 p-2.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="truncate text-xs font-medium text-foreground">
+                              {teamNameById.get(r.opponent_team_id) ?? r.opponent_team_id}
+                            </p>
+                            <span className={cn("text-[10px] font-bold", r.won ? "text-emerald-400" : "text-red-400")}>{r.won ? "W" : "L"}</span>
+                          </div>
+                          <p className="mt-0.5 text-[10px] text-muted-foreground">{r.focus} · Q{r.quality}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">{t("scrims.noRecentReports")}</p>
+                  )}
+                </div>
+
+                {weeklyContext.avgQuality > 0 && (
+                  <div className="rounded-lg border border-border bg-muted/20 p-3">
+                    <p className="font-heading text-[10px] font-bold uppercase tracking-wider text-foreground">{t("scrims.weeklyObjective")}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {wins}-{losses} · {t("scrims.played")}: {played} · Q: {weeklyContext.avgQuality}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </aside>
+      </div>
+    </div>
+  );
+}

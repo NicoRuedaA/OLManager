@@ -33,6 +33,8 @@ interface Props {
   onNavClick: (tab: string) => void;
   unreadMessagesCount: number;
   managerName: string | null;
+  managerFullName?: string | null;
+  managerAvatar?: string | null;
   teamName: string | null;
   teamLogo: string | null;
   isUnemployed: boolean;
@@ -48,6 +50,8 @@ export function DashboardSidebarV2({
   onNavClick,
   unreadMessagesCount,
   managerName,
+  managerFullName,
+  managerAvatar,
   teamName,
   teamLogo,
   isUnemployed,
@@ -114,10 +118,14 @@ export function DashboardSidebarV2({
           activeTab === "Manager" && "bg-sidebar-accent",
         )}
       >
-        <div className="size-9 rounded-full bg-muted ring-2 ring-primary/60" />
+        {managerAvatar ? (
+          <img src={managerAvatar} alt={managerName ?? ""} className="size-9 rounded-full object-cover ring-2 ring-primary/60" />
+        ) : (
+          <div className="size-9 rounded-full bg-muted ring-2 ring-primary/60" />
+        )}
         <div className="min-w-0">
           <div className="truncate text-sm font-medium">{managerName ?? "—"}</div>
-          {teamName && <div className="truncate text-xs text-primary">{teamName}</div>}
+          {managerFullName && <div className="truncate text-xs text-muted-foreground">{managerFullName}</div>}
         </div>
       </button>
 
@@ -216,7 +224,7 @@ function FooterButton({
       className={cn(
         "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors",
         danger
-          ? "text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+          ? "text-destructive hover:bg-destructive/10"
           : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground",
       )}
     >

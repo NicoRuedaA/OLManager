@@ -2,10 +2,11 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Activity,
-  ArrowRight,
+  Briefcase,
+  Calendar,
   CalendarDays,
-  Dumbbell,
   DollarSign,
+  Dumbbell,
   Eye,
   Heart,
   Home,
@@ -15,7 +16,6 @@ import {
   Newspaper,
   ShieldAlert,
   Star,
-  Sun,
   Swords,
   TrendingUp,
   Trophy,
@@ -52,6 +52,14 @@ import { Separator } from "@/ui-v2/components/ui/separator";
 import { Button } from "@/ui-v2/components/ui/button";
 import { cn } from "@/ui-v2/lib/utils";
 
+function getActiveLeague(gameState: GameStateData) {
+  if (!gameState.leagues?.length) return null;
+  if (gameState.user_competition_id) {
+    return gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id) ?? gameState.leagues[0];
+  }
+  return gameState.leagues[0];
+}
+
 interface Props {
   gameState: GameStateData;
   onNavigate?: (tab: string) => void;
@@ -82,9 +90,10 @@ export function HomeTabV2({ gameState, onNavigate }: Props) {
   );
 
   const sortedStandings = useMemo(() => {
-    if (!gameState.leagues?.[0]) return [];
-    return [...gameState.leagues?.[0].standings].sort(compareStandingsByLolScore);
-  }, [gameState.leagues?.[0]]);
+    const l = getActiveLeague(gameState);
+    if (!l) return [];
+    return [...l.standings].sort(compareStandingsByLolScore);
+  }, [gameState.leagues, gameState.user_competition_id]);
 
   const recentMessages = useMemo(() => {
     return [...(gameState.messages ?? [])]
@@ -104,27 +113,12 @@ export function HomeTabV2({ gameState, onNavigate }: Props) {
 
   return (
     <div className="grid auto-rows-min grid-flow-dense gap-4 p-6 lg:grid-cols-4">
-      {/* Row 0: today's phase — full width */}
-      <div className="lg:col-span-4">
+      {/* Left column: TodayPhase + NextOpponent + Roster */}
+      <div className="lg:col-span-3 flex flex-col gap-4">
         <TodayPhaseCard gameState={gameState} onNavigate={onNavigate} />
-      </div>
 
-      {/* Row 1: hero (3 cols) + standings starts (col 4, spans 2 rows) */}
-      <div className="lg:col-span-3">
         <NextOpponentCard gameState={gameState} data={next} onNavigate={onNavigate} />
-      </div>
-      <div className="lg:col-span-1 lg:row-span-2">
-        <FullStandingsCard
-          league={gameState.leagues?.[0]}
-          standings={sortedStandings}
-          teams={gameState.teams}
-          myTeamId={myTeamId}
-          onNavigate={onNavigate}
-        />
-      </div>
 
-      {/* Row 2: roster (3 cols) — standings still spanning */}
-      <div className="lg:col-span-3">
         <RosterLineupV2
           roster={roster}
           championMasteries={gameState.champion_masteries}
@@ -132,8 +126,19 @@ export function HomeTabV2({ gameState, onNavigate }: Props) {
         />
       </div>
 
+      {/* Right column: standings — spans 2 rows */}
+      <div className="lg:col-span-1 lg:row-span-2">
+        <FullStandingsCard
+          league={getActiveLeague(gameState)}
+          standings={sortedStandings}
+          teams={gameState.teams}
+          myTeamId={myTeamId}
+          onNavigate={onNavigate}
+        />
+      </div>
+
       {/* Row 3+: standings has ended, content uses all 4 cols */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-3">
         <WeekScheduleCard gameState={gameState} onNavigate={onNavigate} />
       </div>
       <div className="lg:col-span-2">
@@ -188,7 +193,13 @@ function NextOpponentCard({
 }) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
-  const league = gameState.leagues?.[0];
+  const league = useMemo(() => {
+    if (!gameState.leagues?.length) return null;
+    if (gameState.user_competition_id) {
+      return gameState.leagues.find((l) => l.competition_id === gameState.user_competition_id) ?? gameState.leagues[0];
+    }
+    return gameState.leagues[0];
+  }, [gameState.leagues, gameState.user_competition_id]);
 
   const nextFixture = userTeamId && league
     ? findNextFixture(league.fixtures, userTeamId)
@@ -481,6 +492,7 @@ function Kpi({
 
 function resolveCompetitionLogo(league: GameStateData["leagues"][number] | undefined): string | null {
   if (!league) return null;
+  if (league.logo) return league.logo;
   const id = league.id.toLowerCase();
   const name = league.name.toLowerCase();
   if (id.includes("lec") || name.includes("lec")) return "/lec-logo.svg";
@@ -512,7 +524,7 @@ function FullStandingsCard({
 }) {
   const compLogo = resolveCompetitionLogo(league);
   return (
-    <Card className="h-full overflow-hidden">
+    <Card className="h-full justify-center overflow-hidden">
       <CardHeader className="space-y-3">
         <div className="flex items-center gap-3">
           {compLogo ? (
@@ -821,7 +833,7 @@ function WeekScheduleCard({
   onNavigate?: (tab: string) => void;
 }) {
   const { i18n } = useTranslation();
-  const league = gameState.leagues?.[0];
+  const league = getActiveLeague(gameState);
   const teamId = gameState.manager.team_id;
 
   const todayKey = String(gameState.clock.current_date).slice(0, 10);
@@ -1029,8 +1041,12 @@ function LowConditionCard({
 
 // ──────────────────────────────────────────────────────────────────────
 
+const NewDayIcon = (_props: { className?: string }) => (
+  <img src="/ui-icons/newday.webp" alt="" className="size-full object-cover" />
+);
+
 const PHASE_META: Record<
-  NonNullable<GameStateData["day_phase"]>,
+  string,
   {
     icon: React.ComponentType<{ className?: string }>;
     label: string;
@@ -1042,7 +1058,7 @@ const PHASE_META: Record<
   }
 > = {
   Morning: {
-    icon: Sun,
+    icon: NewDayIcon,
     label: "Mañana",
     title: "Arranque del día",
     description: "Revisa el inbox, la plantilla y planifica el día.",
@@ -1096,7 +1112,7 @@ function TodayPhaseCard({
   onNavigate?: (tab: string) => void;
 }) {
   const teamId = gameState.manager.team_id;
-  const league = gameState.leagues?.[0];
+  const league = getActiveLeague(gameState);
   const todayKey = String(gameState.clock.current_date).slice(0, 10);
 
   const todayFixture =
@@ -1143,7 +1159,7 @@ function TodayPhaseCard({
     <Card className="overflow-hidden">
       <CardContent className="flex items-center gap-4 py-3">
         <div className={cn(
-          "flex size-12 shrink-0 items-center justify-center rounded-lg bg-muted",
+          "flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted",
           meta.accent,
         )}>
           <Icon className="size-6" />
@@ -1167,13 +1183,15 @@ function TodayPhaseCard({
           onClick={() => onNavigate?.(meta.actionTab)}
           className="gap-1.5"
         >
-          <Icon className="size-4" />
+          <Calendar className="size-4 shrink-0" />
           {meta.actionLabel}
         </Button>
       </CardContent>
     </Card>
   );
 }
+
+
 
 
 
