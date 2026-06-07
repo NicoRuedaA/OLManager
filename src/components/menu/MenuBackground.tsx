@@ -1,27 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-
-/**
- * Iconic champion splash arts (verified to exist under public/champion-splash/)
- * used as a slow Ken Burns slideshow behind the main menu.
- */
-const SPLASH_POOL = [
-  "Ahri",
-  "Yasuo",
-  "LeeSin",
-  "Jinx",
-  "Ashe",
-  "Lux",
-  "Ekko",
-  "Aatrox",
-  "Sett",
-  "Akali",
-  "Viego",
-  "Jhin",
-  "Zed",
-  "Kindred",
-  "Aurora",
-  "Ambessa",
-] as const;
+import { CHAMPION_SPLASH_LIST } from "@/assets/champion-splash-list";
 
 const SLIDE_MS = 9000;
 
@@ -47,7 +25,7 @@ function shuffle<T>(items: readonly T[]): T[] {
  * user prefers reduced motion.
  */
 export default function MenuBackground() {
-  const slides = useMemo(() => shuffle(SPLASH_POOL), []);
+  const slides = useMemo(() => shuffle(CHAMPION_SPLASH_LIST), []);
   const reducedMotion = useRef(prefersReducedMotion());
   const [index, setIndex] = useState(0);
 
