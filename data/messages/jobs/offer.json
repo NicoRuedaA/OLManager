@@ -1,0 +1,20 @@
+{
+  "id": "job_offer",
+  "trigger": "job_offer",
+  "weight": 1,
+  "sender": "board",
+  "category": "JobOffer",
+  "priority": "High",
+  "actions": [
+    { "type": "chooseoption", "label": "Accept", "label_key": "be.msg.action.accept", "options": [{"id": "accept", "label": "Accept", "label_key": "be.msg.action.accept"}] },
+    { "type": "chooseoption", "label": "Decline", "label_key": "be.msg.action.decline", "options": [{"id": "decline", "label": "Decline", "label_key": "be.msg.action.decline"}] }
+  ],
+  "subject": "Managerial vacancy \u2014 {team}",
+  "body": "{team} would like to invite you for an interview regarding their managerial vacancy.\n\nThe club finished in position {position} last season and is looking for a new direction.\n\nThis could be an exciting opportunity \u2014 are you interested?",
+  "translations": {
+    "es": {
+      "subject": "Vacante de entrenador \u2014 {team}",
+      "body": "{team} le invita a una entrevista para su vacante de entrenador.\n\nEl club termin\u00f3 en la posici\u00f3n {position} la temporada pasada y busca un nuevo rumbo.\n\nPodr\u00eda ser una oportunidad emocionante \u2014 \u00bfest\u00e1 interesado?"
+    }
+  }
+}

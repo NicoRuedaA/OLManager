@@ -1,0 +1,14 @@
+{
+  "id": "academy_player_moved",
+  "trigger": "academy_player_moved",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "Training",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Academy update: {player}",
+  "body": "{body}",
+  "translations": {}
+}

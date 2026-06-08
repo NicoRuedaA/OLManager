@@ -1,0 +1,19 @@
+{
+  "id": "job_welcome",
+  "trigger": "job_welcome",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Welcome to {team}!",
+  "body": "The board of directors of {team} welcomes you as the new manager.\n\nWe are excited to have you on board and look forward to a successful partnership. The squad is ready, and the staff is in place.\n\nReview the team, set your priorities, and let's get to work!",
+  "translations": {
+    "es": {
+      "subject": "\u00a1Bienvenido a {team}!",
+      "body": "El consejo directivo de {team} te da la bienvenida como nuevo entrenador.\n\nEstamos emocionados de tenerte a bordo y esperamos una asociaci\u00f3n exitosa. La plantilla est\u00e1 lista y el personal est\u00e1 en su lugar.\n\n\u00a1Revisa el equipo, establece tus prioridades y pong\u00e1monos a trabajar!"
+    }
+  }
+}

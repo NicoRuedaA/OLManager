@@ -1,0 +1,19 @@
+{
+  "id": "transfer_offer",
+  "trigger": "transfer_offer",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Transfer",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Transfer offer received for {player}",
+  "body": "{buyer} has submitted an offer for {player}.\n\nThe proposed fee is \u20ac{fee}. You can accept, negotiate a counter-offer, or reject it outright.\n\nConsider whether the player is essential to your plans before making a decision.",
+  "translations": {
+    "es": {
+      "subject": "Oferta de traspaso recibida por {player}",
+      "body": "{buyer} ha presentado una oferta por {player}.\n\nLa cantidad propuesta es de \u20ac{fee}. Puede aceptar, negociar una contraoferta o rechazarla directamente.\n\nConsidere si el jugador es esencial para sus planes antes de tomar una decisi\u00f3n."
+    }
+  }
+}

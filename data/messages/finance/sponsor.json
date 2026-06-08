@@ -1,0 +1,20 @@
+{
+  "id": "sponsor_offer",
+  "trigger": "sponsor_offer",
+  "weight": 1,
+  "sender": "board",
+  "category": "Finance",
+  "priority": "Normal",
+  "actions": [
+    { "type": "chooseoption", "label": "Accept", "label_key": "be.msg.action.accept", "options": [{"id": "accept", "label": "Accept", "label_key": "be.msg.action.accept"}] },
+    { "type": "chooseoption", "label": "Decline", "label_key": "be.msg.action.decline", "options": [{"id": "decline", "label": "Decline", "label_key": "be.msg.action.decline"}] }
+  ],
+  "subject": "Sponsorship offer from {sponsor}",
+  "body": "We have received a sponsorship proposal from {sponsor}.\n\nThe offer is worth \u20ac{amount} annually. This would be a valuable addition to our finances.\n\nWould you like to accept this sponsorship?",
+  "translations": {
+    "es": {
+      "subject": "Oferta de patrocinio de {sponsor}",
+      "body": "Hemos recibido una propuesta de patrocinio de {sponsor}.\n\nLa oferta es de \u20ac{amount} anuales. Ser\u00eda una valiosa adici\u00f3n a nuestras finanzas.\n\n\u00bfDesea aceptar este patrocinio?"
+    }
+  }
+}

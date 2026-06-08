@@ -1,0 +1,19 @@
+{
+  "id": "potential_report",
+  "trigger": "potential_report",
+  "weight": 1,
+  "sender": "scout",
+  "category": "Training",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Potential report completed: {player}",
+  "body": "The potential assessment for {player} has been completed.\n\n{player} has a revealed potential of {potential}. This gives us a clearer picture of their long-term development prospects.",
+  "translations": {
+    "es": {
+      "subject": "Informe de potencial completado: {player}",
+      "body": "La evaluaci\u00f3n de potencial de {player} ha sido completada.\n\n{player} tiene un potencial revelado de {potential}. Esto nos da una imagen m\u00e1s clara de sus perspectivas de desarrollo a largo plazo."
+    }
+  }
+}

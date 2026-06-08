@@ -6,6 +6,17 @@ use crate::domain::message::*;
 use rand::RngExt;
 use std::collections::HashMap;
 
+/// Helper to format fee values for display.
+fn format_fee(fee: u64) -> String {
+    if fee >= 1_000_000 {
+        format!("€{:.1}M", fee as f64 / 1_000_000.0)
+    } else if fee >= 1_000 {
+        format!("€{}K", fee / 1_000)
+    } else {
+        format!("€{}", fee)
+    }
+}
+
 /// Helper to build a HashMap<String, String> from key-value pairs.
 fn params(pairs: &[(&str, &str)]) -> HashMap<String, String> {
     pairs
@@ -114,6 +125,12 @@ pub fn welcome_message(team_name: &str, team_id: &str, date: &str, lang: &str) -
 }
 
 pub fn season_schedule_message(league_name: &str, season_start: &str, date: &str) -> InboxMessage {
+    if let Some(msg) = crate::messages::template_store::template_store().build_message(
+        "season_schedule", "season_schedule", date, "en",
+        vec![("league", league_name), ("start", season_start)],
+    ) {
+        return msg;
+    }
     let mut rng = rand::rng();
     let variations = [
         format!(
@@ -159,6 +176,12 @@ pub fn season_schedule_message(league_name: &str, season_start: &str, date: &str
 }
 
 pub fn staff_advice_message(team_name: &str, team_id: &str, date: &str) -> InboxMessage {
+    if let Some(msg) = crate::messages::template_store::template_store().build_message(
+        "staff_advice", &format!("staff_{team_id}"), date, "en",
+        vec![("team", team_name)],
+    ) {
+        return msg;
+    }
     InboxMessage::new(
         "staff_advice_1".to_string(),
         "Staff Report — Coaching Vacancies".to_string(),
@@ -192,6 +215,12 @@ pub fn staff_advice_message(team_name: &str, team_id: &str, date: &str) -> Inbox
 }
 
 pub fn board_expectations_message(team_name: &str, team_id: &str, date: &str) -> InboxMessage {
+    if let Some(msg) = crate::messages::template_store::template_store().build_message(
+        "board_expectations", &format!("expectations_{team_id}"), date, "en",
+        vec![("team", team_name)],
+    ) {
+        return msg;
+    }
     InboxMessage::new(
         "board_expect_1".to_string(),
         format!("{} — Season Objectives", team_name),
@@ -228,14 +257,13 @@ pub fn board_expectations_message(team_name: &str, team_id: &str, date: &str) ->
 }
 
 pub fn transfer_complete_message(player_name: &str, fee: u64, date: &str) -> InboxMessage {
-    let fee_display = if fee >= 1_000_000 {
-        format!("€{:.1}M", fee as f64 / 1_000_000.0)
-    } else if fee >= 1_000 {
-        format!("€{}K", fee / 1_000)
-    } else {
-        format!("€{}", fee)
-    };
-
+    let fee_display = format_fee(fee);
+    if let Some(msg) = crate::messages::template_store::template_store().build_message(
+        "transfer_complete", &format!("transfer_{player_name}"), date, "en",
+        vec![("player", player_name), ("fee", &fee_display)],
+    ) {
+        return msg;
+    }
     let id = format!("transfer_{}", uuid::Uuid::new_v4());
     InboxMessage::new(
         id,
@@ -267,14 +295,13 @@ pub fn incoming_transfer_offer_message(
     fee: u64,
     date: &str,
 ) -> InboxMessage {
-    let fee_display = if fee >= 1_000_000 {
-        format!("€{:.1}M", fee as f64 / 1_000_000.0)
-    } else if fee >= 1_000 {
-        format!("€{}K", fee / 1_000)
-    } else {
-        format!("€{}", fee)
-    };
-
+    let fee_display = format_fee(fee);
+    if let Some(msg) = crate::messages::template_store::template_store().build_message(
+        "transfer_offer", &format!("offer_{offer_id}"), date, "en",
+        vec![("player", player_name), ("buyer", buying_team_name), ("fee", &fee_display)],
+    ) {
+        return msg;
+    }
     InboxMessage::new(
         format!("transfer_offer_{}", offer_id),
         format!("Incoming Offer for {}", player_name),

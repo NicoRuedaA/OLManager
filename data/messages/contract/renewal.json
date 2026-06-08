@@ -1,0 +1,19 @@
+{
+  "id": "delegated_renewal",
+  "trigger": "delegated_renewal",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "Contract",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Delegated renewal report",
+  "body": "Coach, here is the report on the delegated contract renewals:\n\n\u2022 Successful renewals: {success}\n\u2022 Stalled negotiations: {stalled}\n\u2022 Failed renewals: {failed}\n\nCheck the Contracts section for details on each case.",
+  "translations": {
+    "es": {
+      "subject": "Informe de renovaciones delegadas",
+      "body": "Jefe, aqu\u00ed tiene el informe de las renovaciones de contrato delegadas:\n\n\u2022 Renovaciones exitosas: {success}\n\u2022 Negociaciones estancadas: {stalled}\n\u2022 Renovaciones fallidas: {failed}\n\nConsulte la secci\u00f3n de Contratos para m\u00e1s detalles sobre cada caso."
+    }
+  }
+}

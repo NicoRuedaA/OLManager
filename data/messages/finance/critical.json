@@ -1,0 +1,19 @@
+{
+  "id": "finance_critical",
+  "trigger": "finance_critical",
+  "weight": 1,
+  "sender": "board",
+  "category": "Finance",
+  "priority": "Urgent",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "URGENT: Club in debt \u2014 {balance}",
+  "body": "The club's finances have reached a critical level. Current balance: \u20ac{balance}.\n\nImmediate action is required to avoid further financial deterioration. Consider reducing wages, selling players, or finding additional revenue streams.\n\nThe board expects a financial recovery plan.",
+  "translations": {
+    "es": {
+      "subject": "URGENTE: Club en deuda \u2014 {balance}",
+      "body": "Las finanzas del club han alcanzado un nivel cr\u00edtico. Balance actual: \u20ac{balance}.\n\nSe requiere acci\u00f3n inmediata para evitar un mayor deterioro financiero. Considere reducir salarios, vender jugadores o encontrar fuentes de ingresos adicionales.\n\nEl consejo espera un plan de recuperaci\u00f3n financiera."
+    }
+  }
+}

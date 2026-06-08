@@ -1,0 +1,19 @@
+{
+  "id": "finance_warning",
+  "trigger": "finance_warning",
+  "weight": 1,
+  "sender": "board",
+  "category": "Finance",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Financial warning \u2014 low reserves",
+  "body": "The club's cash reserves are running low. At the current spending rate, we have approximately {months} months of runway remaining.\n\nAnnual wage bill: \u20ac{wages}\n\nWe recommend reviewing expenses and exploring additional revenue opportunities before the situation becomes critical.",
+  "translations": {
+    "es": {
+      "subject": "Advertencia financiera \u2014 reservas bajas",
+      "body": "Las reservas de efectivo del club se est\u00e1n agotando. Al ritmo de gasto actual, nos quedan aproximadamente {months} meses de margen.\n\nGasto salarial anual: \u20ac{wages}\n\nRecomendamos revisar los gastos y explorar oportunidades de ingresos adicionales antes de que la situaci\u00f3n se vuelva cr\u00edtica."
+    }
+  }
+}

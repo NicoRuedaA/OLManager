@@ -1,0 +1,19 @@
+{
+  "id": "season_schedule",
+  "trigger": "season_schedule",
+  "weight": 1,
+  "sender": "board",
+  "category": "LeagueInfo",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "{league} season schedule released",
+  "body": "The schedule for the upcoming {league} season has been released.\n\nThe season begins on {start}. Make sure your squad is ready.\n\nWe'll be facing tough competition this year \u2014 prepare accordingly.",
+  "translations": {
+    "es": {
+      "subject": "Calendario de {league} publicado",
+      "body": "El calendario de la pr\u00f3xima temporada de {league} ha sido publicado.\n\nLa temporada comienza el {start}. Aseg\u00farese de que su plantilla est\u00e9 lista.\n\nNos enfrentaremos a una competencia dura este a\u00f1o \u2014 prep\u00e1rese en consecuencia."
+    }
+  }
+}

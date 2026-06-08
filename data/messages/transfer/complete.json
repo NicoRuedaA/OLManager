@@ -1,0 +1,19 @@
+{
+  "id": "transfer_complete",
+  "trigger": "transfer_complete",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Transfer",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Transfer completed: {player}",
+  "body": "We have completed the transfer of {player} for a fee of \u20ac{fee}.\n\nThe player will join the squad immediately. Make sure to review their attributes and integrate them into the team.\n\nLet me know if you need anything else regarding this transfer.",
+  "translations": {
+    "es": {
+      "subject": "Fichaje completado: {player}",
+      "body": "Hemos completado el fichaje de {player} por una cantidad de \u20ac{fee}.\n\nEl jugador se unir\u00e1 a la plantilla de inmediato. Revise sus atributos e int\u00e9grelo en el equipo.\n\nAv\u00edseme si necesita algo m\u00e1s con respecto a este fichaje."
+    }
+  }
+}
