@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import { getApiClientSync } from "../api/client";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useNavigate } from "react-router-dom";
@@ -313,10 +314,18 @@ export default function MainMenu() {
     try {
       const client = getApiClientSync();
       const dbSaves = await client.saves.list();
-      setSaves(dbSaves as SaveEntry[]);
-    } catch (error) {
-      console.error("Failed to load saves:", error);
-    } finally {
+        console.debug("[DEBUG] saves loaded:", (dbSaves as SaveEntry[]).length, "entries", (dbSaves as SaveEntry[]).map((s: SaveEntry) => ({ id: s.id, name: s.name })));
+        // Run serde diagnostic
+        try {
+          const serdeResult = await invoke("debug_serde_test");
+          console.debug("[DEBUG] serde roundtrip test:", serdeResult);
+        } catch (serdeErr) {
+          console.error("[DEBUG] serde roundtrip FAILED:", serdeErr);
+        }
+        setSaves(dbSaves as SaveEntry[]);
+      } catch (error) {
+        console.error("Failed to load saves:", error);
+      } finally {
       setIsLoadingSaves(false);
     }
   };
@@ -331,11 +340,17 @@ export default function MainMenu() {
         || (result as any)?.manager?.nickname
         || `${(result as any)?.manager?.first_name ?? ""} ${(result as any)?.manager?.last_name ?? ""}`.trim()
         || "Manager");
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Failed to load game:", error);
-      setLoadingSaveId(null);
-    }
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Failed to load game:", error);
+        console.error("[DEBUG] saveId:", saveId);
+        console.error("[DEBUG] error string:", String(error));
+        if (typeof error === "object" && error !== null) {
+          console.error("[DEBUG] error keys:", Object.keys(error as object));
+          try { console.error("[DEBUG] error JSON:", JSON.stringify(error)); } catch {}
+        }
+        setLoadingSaveId(null);
+      }
   };
 
   const handleDeleteSave = async (saveId: string) => {

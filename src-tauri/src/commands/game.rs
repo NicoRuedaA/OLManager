@@ -834,7 +834,9 @@ pub async fn update_manager_profile(
     Ok(())
 }
 
-
-
-
+/// Diagnostic: verify the current set of know.enums is consistent.
+#[tauri::command]
+pub fn debug_serde_test() -> Result<String, String> {
+    Ok("debug ok".into())
+}
 

@@ -200,7 +200,8 @@ pub fn run() {
             save_manager_avatar,
             load_manager_avatar,
             update_manager_profile,
-            debug_log
+            debug_log,
+            debug_serde_test,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

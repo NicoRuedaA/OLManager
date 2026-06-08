@@ -110,25 +110,42 @@ impl SaveManager {
 
     /// Read a Game from a .olsave file.
     fn read_olsave(path: &Path) -> Result<Game, String> {
-        let mut file = fs::File::open(path)
-            .map_err(|e| format!("Failed to open save file: {}", e))?;
+        let file_size = fs::metadata(path)
+            .map(|m| m.len())
+            .unwrap_or(0);
+        let bytes = fs::read(path)
+            .unwrap_or_default();
+
+        if bytes.len() < 4 {
+            return Err(format!(
+                "Save file too small: {} bytes (path={:?})",
+                bytes.len(), path
+            ));
+        }
 
         // Read format version (u32, little-endian)
-        let mut version_bytes = [0u8; 4];
-        file.read_exact(&mut version_bytes)
-            .map_err(|e| format!("Failed to read format version: {}", e))?;
+        let version_bytes: [u8; 4] = bytes[0..4].try_into().unwrap();
         let version = u32::from_le_bytes(version_bytes);
+
+        // Dump first bytes for debugging
+        let hex_preview: Vec<String> = bytes.iter().take(32).map(|b| format!("{:02x}", b)).collect();
+        let hex_str = hex_preview.join(" ");
 
         if version != FORMAT_VERSION {
             return Err(format!(
-                "Unsupported save format version: {}. Expected: {}",
-                version, FORMAT_VERSION
+                "Unsupported save format version: {}. Expected: {} (file={}B, hex={})",
+                version, FORMAT_VERSION, file_size, hex_str
             ));
         }
 
         // Deserialize Game from the rest of the file
-        let game: Game = bincode::deserialize_from(&mut file)
-            .map_err(|e| format!("Failed to deserialize game (format_version={}): {}", version, e))?;
+        let game: Game = match bincode::deserialize_from(std::io::Cursor::new(&bytes[4..])) {
+            Ok(g) => g,
+            Err(e) => return Err(format!(
+                "Failed to deserialize game (v={}, file={}B, path={:?}, hex={}): {}",
+                version, file_size, path, hex_str, e
+            )),
+        };
 
         Ok(game)
     }
