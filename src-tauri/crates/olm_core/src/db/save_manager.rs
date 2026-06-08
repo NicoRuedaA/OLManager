@@ -169,6 +169,16 @@ impl SaveManager {
     /// Create a new save from the current in-memory Game state.
     /// Returns the save_id.
     pub fn create_save(&mut self, game: &Game, save_name: &str) -> Result<String, String> {
+        // Self-test: verify bincode roundtrip before writing to disk
+        {
+            let test_bytes = bincode::serialize(game)
+                .map_err(|e| format!("[serde-test] serialize failed: {e}"))?;
+            let test_back: Game = bincode::deserialize(&test_bytes)
+                .map_err(|e| format!("[serde-test] deserialize failed ({} bytes): {e}", test_bytes.len()))?;
+            if test_back.clock.current_date != game.clock.current_date {
+                return Err("[serde-test] roundtrip data mismatch: clock.current_date differs".into());
+            }
+        }
         let save_id = uuid::Uuid::new_v4().to_string();
         let save_path = self.save_path(&save_id);
 
