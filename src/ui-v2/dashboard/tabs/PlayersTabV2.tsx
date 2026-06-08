@@ -525,8 +525,11 @@ export function PlayersTabV2({
                     const teamName = player.team_id
                       ? getTeamName(gameState.teams, player.team_id)
                       : null;
-                    const teamLogo = player.team_id
-                      ? resolveTeamLogo(teamName ?? undefined)
+                    const playerTeam = player.team_id
+                      ? gameState.teams.find((t) => t.id === player.team_id)
+                      : null;
+                    const teamLogo = playerTeam
+                      ? resolveTeamLogo(playerTeam.short_name ?? playerTeam.name, playerTeam.logo_url)
                       : null;
                     return (
                       <TableRow
