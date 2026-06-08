@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import DashboardV2 from "./dashboard/DashboardV2";
 import { TitleBarV2 } from "./components/TitleBarV2";
 import ErrorBoundary from "./components/ErrorBoundary";
+import FloatingBugButton from "@/components/dashboard/FloatingBugButton";
 
 const MainMenu = lazy(() => import("@/pages/MainMenu"));
 const TeamSelectionV2 = lazy(() => import("@/pages/TeamSelectionV2"));
@@ -36,6 +37,7 @@ export default function AppV2() {
               <Route path="/match" element={<MatchSimulation />} />
               <Route path="/settings" element={<SettingsV2 />} />
             </Routes>
+            <FloatingBugButton />
           </Suspense>
         </BrowserRouter>
       </ErrorBoundary>
