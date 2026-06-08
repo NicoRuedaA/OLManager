@@ -171,12 +171,37 @@ impl SaveManager {
     pub fn create_save(&mut self, game: &Game, save_name: &str) -> Result<String, String> {
         // Self-test: verify bincode roundtrip before writing to disk
         {
-            let test_bytes = bincode::serialize(game)
-                .map_err(|e| format!("[serde-test] serialize failed: {e}"))?;
-            let test_back: Game = bincode::deserialize(&test_bytes)
-                .map_err(|e| format!("[serde-test] deserialize failed ({} bytes): {e}", test_bytes.len()))?;
-            if test_back.clock.current_date != game.clock.current_date {
-                return Err("[serde-test] roundtrip data mismatch: clock.current_date differs".into());
+            // First check if JSON serialization works (structural validation)
+            match serde_json::to_string(game) {
+                Ok(json) => {
+                    // Verify JSON deserialization roundtrip
+                    match serde_json::from_str::<Game>(&json) {
+                        Ok(_) => {},
+                        Err(e) => return Err(format!("[serde-test] JSON deserialize failed: {e}")),
+                    }
+                },
+                Err(e) => return Err(format!("[serde-test] JSON serialize failed: {e}")),
+            }
+
+            // Now test bincode serialization
+            let test_bytes = match bincode::serialize(game) {
+                Ok(b) => b,
+                Err(e) => {
+                    let json_diag = serde_json::to_string(game).unwrap_or_else(|_| "json_fail".into());
+                    let hex_first: Vec<String> = json_diag.bytes().take(32).map(|b| format!("{:02x}", b)).collect();
+                    return Err(format!("[serde-test] bincode serialize failed ({e}). JSON len={}, hex={}", json_diag.len(), hex_first.join(" ")));
+                }
+            };
+            match bincode::deserialize::<Game>(&test_bytes) {
+                Ok(back) => {
+                    if back.clock.current_date != game.clock.current_date {
+                        return Err("[serde-test] roundtrip data mismatch: clock.current_date differs".into());
+                    }
+                },
+                Err(e) => {
+                    let hex_first: Vec<String> = test_bytes.iter().take(64).map(|b| format!("{:02x}", b)).collect();
+                    return Err(format!("[serde-test] bincode deserialize failed ({} bytes, hex={}): {e}", test_bytes.len(), hex_first.join(" ")));
+                }
             }
         }
         let save_id = uuid::Uuid::new_v4().to_string();
