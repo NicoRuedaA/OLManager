@@ -395,13 +395,11 @@ pub async fn select_team(
         let triggers_candidates = vec![
             messages_root.as_ref().map(|p| p.join("triggers")),
         ];
-        let mut found_triggers = None;
         for candidate in &triggers_candidates {
             if let Some(path) = candidate {
                 if path.is_dir() {
                     let result = olm_core::messages::template_store::init_template_store(path);
                     eprintln!("[template_store] init from {:?}: {:?}", path, result);
-                    found_triggers = Some(path.clone());
                     break;
                 }
             }

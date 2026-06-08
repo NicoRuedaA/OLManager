@@ -451,9 +451,6 @@ pub enum WageNegotiationStatus {
 fn default_wage_neg_status() -> WageNegotiationStatus {
     WageNegotiationStatus::NotStarted
 }
-fn default_wage_years() -> u8 {
-    0
-}
 fn default_wage_neg_round() -> u8 {
     0
 }

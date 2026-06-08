@@ -184,10 +184,6 @@ pub struct ErlAssignment {
     pub created_at: String,
 }
 
-fn is_zero_i64(value: &i64) -> bool {
-    *value == 0
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
@@ -789,10 +785,6 @@ pub struct Facilities {
 
 fn default_main_hub_level() -> u8 {
     1
-}
-
-fn is_default_main_hub_level(level: &u8) -> bool {
-    *level == default_main_hub_level()
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

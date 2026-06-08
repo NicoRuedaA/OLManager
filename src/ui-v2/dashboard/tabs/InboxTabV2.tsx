@@ -25,7 +25,7 @@ import {
   sortInboxMessages,
   UNREAD_FILTER,
   type MessageSortOrder,
-} from "@/components/inbox/inboxHelpers";
+} from "@/lib/inbox/helpers";
 import { formatDateShort } from "@/lib/common/helpers";
 
 import { Card, CardContent } from "@/ui-v2/components/ui/card";

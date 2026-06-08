@@ -1,5 +1,5 @@
-import type { ChampionSelectionByPlayer } from "../../components/match/LolMatchLive";
-import type { MatchSnapshot } from "../../components/match/types";
+import type { ChampionSelectionByPlayer } from "@/ui-v2/_legacy/components/match/LolMatchLive";
+import type { MatchSnapshot } from "@/ui-v2/_legacy/components/match/types";
 import type { GameStateData, ScrimFocus, ScrimReportData } from "../../store/gameStore";
 
 export interface LolScrimPrepSidePayload {

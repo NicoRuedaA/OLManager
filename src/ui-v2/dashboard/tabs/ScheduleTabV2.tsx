@@ -11,10 +11,10 @@ import {
   normalizeLolScore,
   readStoredFixtureDraftResult,
   type StoredFixtureDraftResult,
-} from "@/components/schedule/ScheduleTab.helpers";
-import ScheduleCalendarView from "@/components/schedule/ScheduleCalendarView";
-import DraftResultScreen from "@/components/match/DraftResultScreen";
-import PlayoffBracketBoard from "@/components/playoffs/PlayoffBracketBoard";
+} from "@/lib/schedule/helpers";
+import ScheduleCalendarView from "@/ui-v2/_legacy/components/schedule/ScheduleCalendarView";
+import DraftResultScreen from "@/ui-v2/_legacy/components/match/DraftResultScreen";
+import PlayoffBracketBoard from "@/ui-v2/_legacy/components/playoffs/PlayoffBracketBoard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";

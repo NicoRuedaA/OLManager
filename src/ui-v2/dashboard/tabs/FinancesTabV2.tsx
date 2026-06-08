@@ -30,7 +30,7 @@ import {
   getClubInstallationContract,
   getSponsorshipContractView,
 } from "@/lib/finances/lolFinanceContracts";
-import { getLolRoleForPlayer } from "@/components/squad/SquadTab.helpers";
+import { getLolRoleForPlayer } from "@/lib/squad/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";

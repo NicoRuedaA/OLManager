@@ -21,7 +21,7 @@ import {
   getLeagueDigestArticles,
   getNextOpponentWidgetData,
   getRecentResultsForTeam,
-} from "@/components/home/HomeTab.helpers";
+} from "@/lib/home/helpers";
 import { resolveMessage, resolveNewsArticle } from "@/lib/i18n/backendI18n";
 import {
   findNextFixture,
@@ -34,7 +34,7 @@ import {
   getLineupByRole,
   ROLE_ORDER,
   teamLineupOvr,
-} from "@/components/NextMatchDisplay";
+} from "@/ui-v2/_legacy/components/NextMatchDisplay";
 import { RosterLineupV2 } from "./RosterLineupV2";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";

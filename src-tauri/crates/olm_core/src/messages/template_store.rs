@@ -6,7 +6,7 @@ use std::sync::OnceLock;
 use serde::Deserialize;
 
 use crate::domain::message::{
-    ActionOption, ActionType, InboxMessage, MessageAction, MessageCategory, MessageContext,
+    ActionOption, ActionType, InboxMessage, MessageAction, MessageCategory,
     MessagePriority,
 };
 

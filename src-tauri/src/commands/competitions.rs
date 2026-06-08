@@ -4,7 +4,7 @@ use olm_core::domain::team::Team;
 use log::info;
 use olm_core::competitions;
 use olm_core::generator::definitions::{
-    CompetitionManifest, CompetitionSummary, LeagueSelectionData, TeamSummary,
+    CompetitionManifest, LeagueSelectionData,
 };
 use std::path::PathBuf;
 use tauri::Manager as TauriManager;

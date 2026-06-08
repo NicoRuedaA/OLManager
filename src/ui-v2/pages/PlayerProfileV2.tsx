@@ -1,5 +1,5 @@
 import type { GameStateData, PlayerSelectionOptions } from "@/store/gameStore";
-import PlayerProfile from "@/components/playerProfile/PlayerProfile";
+import PlayerProfile from "@/ui-v2/_legacy/components/playerProfile/PlayerProfile";
 
 interface PlayerProfileV2Props {
   gameState: GameStateData;

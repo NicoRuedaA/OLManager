@@ -2580,25 +2580,6 @@ fn player_accepts_transfer(
     acceptance_score >= 22
 }
 
-fn free_agent_accepts_offer(
-    player: &crate::domain::player::Player,
-    destination_team: &crate::domain::team::Team,
-) -> bool {
-    let market_value = player.market_value;
-    let team_reputation = destination_team.reputation as i32;
-
-    // Lightweight realism guard for marquee free agents joining low-reputation teams.
-    if market_value >= 1_500_000 && team_reputation < 60 {
-        return false;
-    }
-
-    if market_value >= 900_000 && team_reputation < 45 {
-        return false;
-    }
-
-    true
-}
-
 pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, String> {
     if !transfer_window_is_open(game) {
         return Err("Transfer window is closed".to_string());

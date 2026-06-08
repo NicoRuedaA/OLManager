@@ -197,7 +197,7 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
         "auto_configure_weekly_scrim_setup" => {
             let tid = manager_team_id(game)?;
             let week_key = format!("{}-W{}", game.clock.current_date.iso_week().year(), game.clock.current_date.iso_week().week());
-            let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
+            let _current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
             if let Some(team) = game.teams.iter_mut().find(|t| t.id == tid) {
                 if team.scrim_setup_locked_week_key.as_deref() == Some(&week_key) {
                     return Ok(DispatchResult::GameModified(json!(game)));
@@ -210,8 +210,8 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
         }
         "cancel_todays_scrims" => {
             let tid = manager_team_id(game)?;
-            let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
-            let week_key = format!("{}-W{}", game.clock.current_date.iso_week().year(), game.clock.current_date.iso_week().week());
+            let _current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
+            let _week_key = format!("{}-W{}", game.clock.current_date.iso_week().year(), game.clock.current_date.iso_week().week());
             if let Some(team) = game.teams.iter_mut().find(|t| t.id == tid) {
                 for (idx, opp) in team.weekly_scrim_opponent_ids.iter_mut().enumerate() {
                     *opp = String::new();
@@ -227,7 +227,7 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
         "choose_post_scrim_decision" => {
             let slot_index = args.get("slotIndex").and_then(|v| v.as_u64()).unwrap_or(0) as u8;
             let decision = string_arg(args, &["decision"])?;
-            let tid = manager_team_id(game)?;
+            let _tid = manager_team_id(game)?;
             if let Some(report) = game.teams.iter_mut().filter_map(|t| t.scrim_reports.iter_mut().find(|r| r.slot_index == slot_index && r.post_decision.is_none())).next() {
                 report.post_decision = Some(match decision.as_str() {
                     "ContinuePlan" | "PushThrough" => crate::domain::team::PostScrimDecision::ContinuePlan,
@@ -241,7 +241,7 @@ pub fn dispatch(command: &str, args: &Value, game: &mut Game) -> Result<Dispatch
             Ok(DispatchResult::GameModified(json!(game)))
         }
         "choose_daily_scrim_action" => {
-            let slot_index = args.get("slotIndex").and_then(|v| v.as_u64()).unwrap_or(0) as u8;
+            let _slot_index = args.get("slotIndex").and_then(|v| v.as_u64()).unwrap_or(0) as u8;
             let action = string_arg(args, &["action"])?;
             let tid = manager_team_id(game)?;
             if let Some(team) = game.teams.iter_mut().find(|t| t.id == tid) {

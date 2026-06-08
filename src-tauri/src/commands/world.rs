@@ -156,7 +156,6 @@ pub fn list_world_databases(
     app_handle: tauri::AppHandle,
 ) -> Result<Vec<olm_core::generator::WorldDatabaseInfo>, String> {
     info!("[cmd] list_world_databases");
-    use olm_core::generator::WorldDatabaseInfo;
 
     let mut databases = Vec::new();
 

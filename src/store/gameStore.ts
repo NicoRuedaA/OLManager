@@ -136,10 +136,10 @@ export const useGameStore = create<GameStore>((set) => ({
       managerName: managerName || null
     });
   },
-  setGameState: (state) => set({
-    gameState: state,
+  setGameState: (state) => set((prev) => ({
+    gameState: { ...state, champions: state.champions ?? prev.gameState?.champions },
     isDirty: true,
-  }),
+  })),
   markClean: () => set({ isDirty: false }),
   setShowFiredModal: (show) => set({ showFiredModal: show }),
   clearGame: () => set({

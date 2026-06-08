@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { EyeOff, Pencil, Shield, User } from "lucide-react";
 import type { PlayerData } from "@/store/gameStore";
-import { formatPlayerMarketValue, formatPlayerWage } from "@/components/playerProfile/PlayerProfile.helpers";
+import { formatPlayerMarketValue, formatPlayerWage } from "@/lib/playerProfile/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
-import type { PlayerProfileScoutStatus, ScoutAvailability } from "@/components/playerProfile/PlayerProfile.scouting";
-import PlayerProfileScoutAction from "@/components/playerProfile/PlayerProfileScoutAction";
-import { CountryFlag } from "@/components/ui/CountryFlag";
+import type { PlayerProfileScoutStatus, ScoutAvailability } from "@/lib/playerProfile/scouting";
+import PlayerProfileScoutAction from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileScoutAction";
+import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
 import { Card, CardContent } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";

@@ -1,0 +1,419 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+#root{font-family:'Barlow',sans-serif;color:#e8e3d8}
+.wrap{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.07);background:radial-gradient(ellipse at 50% 55%, #0d1b2a, #070d16 70%, #020408)}
+.stars{position:absolute;inset:0;pointer-events:none;z-index:1}
+.nebula{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.15;mix-blend-mode:screen}
+@keyframes twinkle{0%,100%{opacity:.12}30%{opacity:1}60%{opacity:.85}}
+@keyframes cr1{0%,100%{opacity:.08}30%{opacity:1}55%{opacity:.6}80%{opacity:1}}
+@keyframes cr2{0%,100%{opacity:.15}20%{opacity:1}50%{opacity:.3}75%{opacity:1}}
+@keyframes cr3{0%,100%{opacity:.1}40%{opacity:1}65%{opacity:.5}85%{opacity:.9}}
+svg.map{display:block;width:100%;position:relative;z-index:3}
+.rp{cursor:pointer;transition:filter .25s;stroke:rgba(13,19,32,.6);stroke-width:.3;vector-effect:non-scaling-stroke}
+.rp.grad.LCS:hover,.rp.grad.LCS.sel{filter:brightness(1.3) drop-shadow(0 0 6px #1e6fbfaa)}
+.rp.grad.CBLOL:hover,.rp.grad.CBLOL.sel{filter:brightness(1.3) drop-shadow(0 0 6px #22a022aa)}
+.rp.grad.LCK:hover,.rp.grad.LCK.sel{filter:brightness(1.3) drop-shadow(0 0 6px #6b3fd4aa)}
+.rp.grad.LPL:hover,.rp.grad.LPL.sel{filter:brightness(1.3) drop-shadow(0 0 6px #cc2222aa)}
+.rp.grad.LEC:hover,.rp.grad.LEC.sel{filter:brightness(1.3) drop-shadow(0 0 6px #0da8b8aa)}
+.rp.grad.LCP:hover,.rp.grad.LCP.sel{filter:brightness(1.3) drop-shadow(0 0 6px #d4820aaa)}
+.rp.pat{pointer-events:none}
+.rp.sel{animation:rpulse 2s ease-in-out infinite}
+@keyframes rpulse{50%{filter:brightness(1.4) drop-shadow(0 0 12px currentColor)!important}}
+.rp.land{fill:rgba(255,255,255,0.04);cursor:default;pointer-events:none}
+.rp.ocean{fill:rgba(10,18,35,.85);pointer-events:none;cursor:default}
+.panel{position:absolute;top:0;right:0;bottom:0;width:182px;z-index:15;display:flex;flex-direction:column;justify-content:center;pointer-events:none;transition:opacity .35s,transform .35s;opacity:0;transform:translateX(14px);padding:18px 16px}
+.panel.vis{opacity:1;transform:translateX(0);pointer-events:auto}
+.pbg{position:absolute;inset:0;background:rgba(13,19,32,.96);border-left:1px solid rgba(255,255,255,.08)}
+.paccent{position:absolute;top:0;left:0;bottom:0;width:3px;transition:background .3s}
+.pc{position:relative;z-index:1}
+.pleague{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:2px;line-height:1;margin-bottom:4px;transition:color .3s}
+.pregion{font-size:13px;font-weight:300;color:rgba(255,255,255,.55);margin-bottom:14px;line-height:1.3}
+.divider{height:1px;background:rgba(255,255,255,.08);margin:12px 0}
+.legend{display:flex;flex-direction:column;gap:5px}
+.litem{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.35);cursor:pointer;transition:color .2s;padding:2px 0}
+.litem:hover{color:rgba(255,255,255,.7)}
+.litem.active{color:rgba(255,255,255,.9)}
+.ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sbtn{display:block;width:100%;border:none;border-radius:5px;padding:9px 0;cursor:pointer;font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:filter .2s,transform .15s;margin-top:14px;color:#fff}
+.sbtn:hover{filter:brightness(1.2);transform:scale(1.03)}
+.sbtn:active{transform:scale(.97)}
+.clr{position:absolute;top:12px;right:12px;z-index:20;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(255,255,255,.3);font-size:16px;width:24px;height:24px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;transition:all .2s}
+.clr:hover{background:rgba(255,80,80,.15);color:#ff6060}
+
+.banner{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);z-index:20;color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;padding:6px 16px;border-radius:16px;text-transform:uppercase;white-space:nowrap;pointer-events:none;display:none}
+.banner.show{display:block;animation:fup .35s ease}
+@keyframes fup{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+</style>
+
+<div id="root">
+<div class="wrap" id="wrap">
+  <svg class="nebula" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="nb"><feGaussianBlur stdDeviation="40"/></filter>
+    </defs>
+    <circle cx="240" cy="150" r="160" fill="#1e6fbf" filter="url(#nb)" opacity=".3"/>
+    <circle cx="720" cy="180" r="120" fill="#6b3fd4" filter="url(#nb)" opacity=".25"/>
+    <circle cx="480" cy="350" r="100" fill="#0da8b8" filter="url(#nb)" opacity=".15"/>
+    <circle cx="160" cy="380" r="140" fill="#22a022" filter="url(#nb)" opacity=".12"/>
+    <circle cx="800" cy="400" r="90" fill="#d4820a" filter="url(#nb)" opacity=".1"/>
+  </svg>
+
+  <svg class="stars" id="stars" viewBox="0 0 960 500"></svg>
+
+  <button class="clr" id="clr">×</button>
+
+  <svg class="map" viewBox="0 0 960 500" id="svg">
+    <defs>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation=".5" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+      <filter id="noise">
+        <feTurbulence type="fractalNoise" baseFrequency=".65" numOctaves="3"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .04 0"/>
+      </filter>
+      <filter id="rim">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+    </defs>
+      <pattern id="p-LCS" width="8" height="8" patternUnits="userSpaceOnUse">
+        <circle cx="4" cy="4" r=".7" fill="#fff" opacity=".04"/>
+      </pattern>
+      <pattern id="p-CBLOL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="10" y2="10" stroke="#fff" stroke-width=".6" opacity=".03"/>
+      </pattern>
+      <pattern id="p-LCK" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M5,0L5,10M0,5L10,5" stroke="#fff" stroke-width=".5" opacity=".05"/>
+      </pattern>
+      <pattern id="p-LPL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="#fff" stroke-width=".5" opacity=".04"/>
+      </pattern>
+      <pattern id="p-LEC" width="6" height="6" patternUnits="userSpaceOnUse">
+        <line x1="3" y1="0" x2="3" y2="6" stroke="#fff" stroke-width=".5" opacity=".04"/>
+      </pattern>
+      <pattern id="p-LCP" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M2.5,2.5L7.5,7.5M7.5,2.5L2.5,7.5" stroke="#fff" stroke-width=".5" opacity=".04"/>
+      </pattern>
+      <pattern id="p-CBLOL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="10" y2="10" stroke="#fff" stroke-width=".6" opacity=".06"/>
+      </pattern>
+      <pattern id="p-LPL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="#fff" stroke-width=".5" opacity=".07"/>
+      </pattern>
+      <pattern id="p-LCP" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M2.5,2.5L7.5,7.5M7.5,2.5L2.5,7.5" stroke="#fff" stroke-width=".5" opacity=".07"/>
+      </pattern>
+      <pattern id="p-CBLOL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <line x1="0" y1="0" x2="10" y2="10" stroke="#fff" stroke-width=".6" opacity=".1"/>
+      </pattern>
+      <pattern id="p-LCK" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M5,0L5,10M0,5L10,5" stroke="#fff" stroke-width=".5" opacity=".12"/>
+      </pattern>
+      <pattern id="p-LPL" width="10" height="10" patternUnits="userSpaceOnUse">
+        <polygon points="5,0 10,5 5,10 0,5" fill="none" stroke="#fff" stroke-width=".5" opacity=".12"/>
+      </pattern>
+      <pattern id="p-LEC" width="6" height="6" patternUnits="userSpaceOnUse">
+        <line x1="3" y1="0" x2="3" y2="6" stroke="#fff" stroke-width=".5" opacity=".1"/>
+      </pattern>
+      <pattern id="p-LCP" width="10" height="10" patternUnits="userSpaceOnUse">
+        <path d="M2.5,2.5L7.5,7.5M7.5,2.5L2.5,7.5" stroke="#fff" stroke-width=".5" opacity=".1"/>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="panel" id="panel">
+    <div class="pbg"></div>
+    <div class="paccent" id="paccent"></div>
+    <div class="pc">
+      <div class="pleague" id="pleague">—</div>
+      <div class="pregion" id="pregion"></div>
+      <div class="divider"></div>
+      <div class="legend" id="legend"></div>
+      <button class="sbtn" id="sbtn">Confirmar ↗</button>
+    </div>
+  </div>
+
+
+  <div class="banner" id="banner"></div>
+</div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
+<script>
+// ── Estrellas de 4 puntas (fuera del globo) ──
+(function() {
+  var ns = 'http://www.w3.org/2000/svg', svg = document.getElementById('stars');
+  var colors = ['#ffffff','#ffe8d0','#d0e8ff','#fffde0'];
+  function r(min, max) { return min + Math.random() * (max - min); }
+  function star(x, y, r2, color) {
+    var g = document.createElementNS(ns, 'g');
+    g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
+    g.style.animation = 'twinkle ' + r(2,6) + 's ease-in-out infinite alternate';
+    g.style.animationDelay = r(0, 5) + 's';
+    var s = r2 * 1.5;
+    var p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', 'M0,-'+s+'L'+(s*0.25).toFixed(2)+',-'+(s*0.25).toFixed(2)+'L'+s+',0L'+(s*0.25).toFixed(2)+','+(s*0.25).toFixed(2)+'L0,'+s+'L-'+(s*0.25).toFixed(2)+','+(s*0.25).toFixed(2)+'L-'+s+',0L-'+(s*0.25).toFixed(2)+',-'+(s*0.25).toFixed(2)+'Z');
+    p.setAttribute('fill', color);
+    if (r2 > 1.2) p.style.filter = 'drop-shadow(0 0 1px ' + color + ')';
+    g.appendChild(p);
+    svg.appendChild(g);
+  }
+  for (var i = 0; i < 200; i++) star(r(0,960), r(0,500), r(0.3,0.6), colors[Math.floor(r(0,4))]);
+  for (var i = 0; i < 90; i++) star(r(0,960), r(0,500), r(0.7,1.2), colors[Math.floor(r(0,4))]);
+  for (var i = 0; i < 35; i++) star(r(0,960), r(0,500), r(1.3,2.0), colors[Math.floor(r(0,4))]);
+})();
+
+// ── Estrellas cruciformes (dentro del globo) ──
+function renderCruciforms(pathD) {
+  var ns = 'http://www.w3.org/2000/svg', svg = document.getElementById('svg');
+  var colors = ['#ffffff','#ffe8d0','#d0e8ff'];
+  function r(min,max){return min+Math.random()*(max-min);}
+  var bb = svg.querySelector('.ocean').getBBox();
+  for (var i = 0; i < 14; i++) {
+    var g = document.createElementNS(ns, 'g');
+    var x = r(bb.x + 20, bb.x + bb.width - 20);
+    var y = r(bb.y + 20, bb.y + bb.height - 20);
+    g.setAttribute('transform', 'translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ')');
+    g.style.animation = ['cr1','cr2','cr3','twinkle'][Math.floor(r(0,4))] + ' ' + r(4,9) + 's ease-in-out infinite alternate';
+    g.style.animationDelay = r(0, 7) + 's';
+    var s = r(1.5, 3.5);
+    var p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', 'M0,-'+s+'L'+(s*0.3).toFixed(1)+',-'+(s*0.3).toFixed(1)+'L'+s+',0L'+(s*0.3).toFixed(1)+','+(s*0.3).toFixed(1)+'L0,'+s+'L-'+(s*0.3).toFixed(1)+','+(s*0.3).toFixed(1)+'L-'+s+',0L-'+(s*0.3).toFixed(1)+',-'+(s*0.3).toFixed(1)+'Z');
+    p.setAttribute('fill', colors[Math.floor(r(0,3))]);
+    var glow = ['#ffffff','#ffe8d0','#d0e8ff','#ffd0d0'][Math.floor(r(0,4))];
+    p.style.filter = 'drop-shadow(0 0 ' + r(3,6).toFixed(1) + 'px ' + glow + ')';
+    g.appendChild(p);
+    svg.appendChild(g);
+  }
+  // Aplicar máscara a #stars: ocultar área del globo
+  var stars = document.getElementById('stars');
+  var mask = document.createElementNS(ns, 'mask');
+  mask.id = 'globe-mask';
+  var bg = document.createElementNS(ns, 'rect');
+  bg.setAttribute('width', '960'); bg.setAttribute('height', '500');
+  bg.setAttribute('fill', 'white');
+  mask.appendChild(bg);
+  var hole = document.createElementNS(ns, 'path');
+  hole.setAttribute('d', pathD);
+  hole.setAttribute('fill', 'black');
+  mask.appendChild(hole);
+  stars.appendChild(mask);
+  stars.setAttribute('mask', 'url(#globe-mask)');
+}
+
+// ── Ligas ──
+const LEAGUES = {
+  LCS:   { name:'LCS',   region:'Norteamérica',              color:'#1e6fbf', btn:'#1e6fbf' },
+  CBLOL: { name:'CBLOL', region:'Sudamérica',                 color:'#22a022', btn:'#22a022' },
+  LCK:   { name:'LCK',   region:'Corea del Sur / del Norte', color:'#6b3fd4', btn:'#6b3fd4' },
+  LPL:   { name:'LPL',   region:'China, Taiwan',              color:'#cc2222', btn:'#cc2222' },
+  LEC:   { name:'LEC',   region:'Europa · África · Oriente Medio', color:'#0da8b8', btn:'#0da8b8' },
+  LCP:   { name:'LCP',   region:'Asia-Pacífico · Oceanía',   color:'#d4820a', btn:'#d4820a' },
+};
+const IDS = Object.keys(LEAGUES);
+
+const CTR = {};
+const _ = (l, ...a) => a.forEach(v => CTR[v] = l);
+
+_('LCS',  28, 44, 52, 84, 124, 188, 192, 212, 214, 222, 308, 320, 332, 340, 388, 484, 558, 591, 659, 662, 670, 780, 840);
+_('CBLOL', 32, 68, 76, 152, 170, 218, 254, 328, 600, 604, 740, 858, 862);
+_('LEC',
+  4, 8, 20, 31, 40, 51, 56, 70, 100, 112, 191, 196, 203, 208,
+  233, 234, 246, 250, 268, 276, 292, 300, 348, 352, 372, 380,
+  398, 400, 417, 428, 438, 440, 442, 470, 498, 499, 528, 578,
+  616, 620, 642, 688, 703, 705, 724, 752, 756, 762, 792,
+  795, 804, 826, 860,
+  12, 24, 48, 72, 108, 120, 132, 140, 148, 174, 178, 180, 204,
+  226, 231, 232, 262, 266, 270, 288, 324, 364, 368, 376, 384,
+  404, 414, 422, 426, 430, 434, 450, 454, 466, 478, 480, 504,
+  508, 512, 516, 562, 566, 624, 634, 646, 678, 682, 686, 690,
+  694, 706, 710, 716, 728, 729, 732, 736, 748, 760, 768, 784,
+  788, 800, 818, 834, 854, 887, 894);
+_('LPL',  156, 158);
+_('LCK',  408, 410);
+_('LCP',  36, 50, 64, 90, 96, 104, 116, 144, 184, 242, 296, 356, 360, 392, 418, 458, 462, 524, 540, 548, 554, 583, 584, 585, 586, 598, 608, 626, 702, 704, 764, 776, 798, 882);
+
+function getLeague(f) {
+  var id = typeof f.id === 'string' ? parseInt(f.id, 10) : f.id;
+  return CTR[id] || null;
+}
+
+var sel = null;
+var panel = document.getElementById('panel');
+var pleague = document.getElementById('pleague');
+var pregion = document.getElementById('pregion');
+var paccent = document.getElementById('paccent');
+var sbtn = document.getElementById('sbtn');
+var clr = document.getElementById('clr');
+var legend = document.getElementById('legend');
+var banner = document.getElementById('banner');
+
+function buildLegend(active) {
+  legend.innerHTML = '';
+  IDS.forEach(function(id) {
+    var l = LEAGUES[id];
+    var div = document.createElement('div');
+    div.className = 'litem' + (id === active ? ' active' : '');
+    div.innerHTML = '<span class="ldot" style="background:' + l.color + '"></span><span>' + l.name + ' — ' + l.region + '</span>';
+    div.addEventListener('click', function() { pick(id); });
+    legend.appendChild(div);
+  });
+}
+
+function pick(id) {
+  document.querySelectorAll('.rp').forEach(function(p) { p.classList.remove('sel'); });
+  sel = id;
+  document.querySelectorAll('.rp.' + id).forEach(function(p) { p.classList.add('sel'); });
+  var l = LEAGUES[id];
+  pleague.textContent = l.name;
+  pleague.style.color = l.color;
+  pregion.textContent = l.region;
+  paccent.style.background = l.color;
+  sbtn.style.background = l.color;
+  panel.classList.add('vis');
+  clr.style.display = 'flex';
+  buildLegend(id);
+  var svg = document.getElementById('svg');
+  IDS.forEach(function(r) {
+    var lbl = svg.querySelector('#l' + r);
+    if (lbl) {
+      var lr = LEAGUES[r];
+      lbl.setAttribute('fill', r === id
+        ? (lr.color.length === 7 ? lr.color + 'f2' : lr.color)
+        : (lr.color.length === 7 ? lr.color + '66' : lr.color));
+    }
+  });
+}
+
+function clear() {
+  document.querySelectorAll('.rp').forEach(function(p) { p.classList.remove('sel'); });
+  sel = null;
+  panel.classList.remove('vis');
+  clr.style.display = 'none';
+  var svg = document.getElementById('svg');
+  IDS.forEach(function(r) {
+    var lbl = svg.querySelector('#l' + r);
+    if (lbl) {
+      var c = LEAGUES[r].color;
+      lbl.setAttribute('fill', c.length === 7 ? c + 'a0' : c);
+    }
+  });
+}
+
+document.querySelectorAll('.rp').forEach(function(p) {
+  p.addEventListener('click', function() {
+    // Pendiente de implementar
+  });
+});
+
+clr.addEventListener('click', clear);
+
+sbtn.addEventListener('click', function() {
+  // Pendiente de implementar
+});
+
+// ── Cargar mundo (50m) ──
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json')
+  .then(function(r) { return r.json(); })
+  .then(function(world) {
+    var all = topojson.feature(world, world.objects.countries);
+    var proj = d3.geoNaturalEarth1().fitSize([960, 500], all);
+    var path = d3.geoPath().projection(proj);
+    var svg = d3.select('#svg');
+
+    svg.append('path').attr('d', path({type:'Sphere'})).attr('class', 'rp ocean');
+    svg.append('rect').attr('width','960').attr('height','500').attr('filter','url(#noise)').attr('pointer-events','none');
+
+    // Países — gradiente (color sólido con opacidad variable)
+    svg.selectAll('path.grad')
+      .data(all.features)
+      .join('path')
+      .attr('d', path)
+      .attr('class', function(d) {
+        var l = getLeague(d);
+        return l ? 'rp grad ' + l : 'rp grad land';
+      })
+      .attr('fill', function(d) {
+        var l = getLeague(d);
+        if (!l) return 'rgba(255,255,255,0.04)';
+        var c = LEAGUES[l].color;
+        var r = parseInt(c.slice(1,3), 16);
+        var g = parseInt(c.slice(3,5), 16);
+        var b = parseInt(c.slice(5,7), 16);
+        var a = (0.7 + Math.random() * 0.3).toFixed(2);
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+      })
+      .attr('data-id', function(d) { return getLeague(d) || ''; })
+      .on('click', function(ev, d) {
+        // Pendiente de implementar
+      });
+
+    // Variantes de patrón con offset aleatorio por país
+    var defs = document.querySelector('#svg defs');
+    var variants = {};
+    IDS.forEach(function(l) {
+      var orig = document.getElementById('p-' + l);
+      variants[l] = [];
+      for (var i = 0; i < 6; i++) {
+        var c = orig.cloneNode(true);
+        c.id = 'p-' + l + '-' + i;
+        c.setAttribute('patternTransform', 'translate(' + Math.floor(Math.random()*8) + ',' + Math.floor(Math.random()*8) + ')');
+        defs.appendChild(c);
+        variants[l].push('url(#p-' + l + '-' + i + ')');
+      }
+    });
+
+    // Países — patrón
+    svg.selectAll('path.pat')
+      .data(all.features)
+      .join('path')
+      .attr('d', path)
+      .attr('class', 'rp pat')
+      .attr('fill', function(d) {
+        var l = getLeague(d);
+        return l ? variants[l][Math.floor(Math.random() * 6)] : 'none';
+      });
+
+    // Rim light del globo
+    svg.insert('path', ':first-child')
+      .attr('d', path({type:'Sphere'}))
+      .attr('fill', 'none')
+      .attr('stroke', 'rgba(160,210,255,.12)')
+      .attr('stroke-width', '4')
+      .attr('filter', 'url(#rim)');
+
+    // Líneas de conexión por liga
+    IDS.forEach(function(l) {
+      var fs = all.features.filter(function(d) { return getLeague(d) === l; });
+      if (fs.length < 3) return;
+      var pts = fs.map(function(f) { return path.centroid(f); });
+      d3.shuffle(pts);
+      var n = Math.min(7, pts.length);
+      for (var i = 0; i < n; i++) {
+        var a = pts[i], b = pts[(i + 1) % n];
+        var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+        var dx = b[0] - a[0], dy = b[1] - a[1];
+        var len = Math.sqrt(dx * dx + dy * dy) || 1;
+        var off = len * 0.25;
+        var cx = mx + (-dy / len) * off, cy = my + (dx / len) * off;
+        svg.append('path')
+          .attr('d', 'M' + a[0].toFixed(1) + ',' + a[1].toFixed(1) + ' Q' + cx.toFixed(1) + ',' + cy.toFixed(1) + ' ' + b[0].toFixed(1) + ',' + b[1].toFixed(1))
+          .attr('fill', 'none')
+          .attr('stroke', 'rgba(255,255,255,.12)')
+          .attr('stroke-width', '.5')
+          .attr('opacity', '.1')
+          .attr('pointer-events', 'none');
+      }
+    });
+
+    var oceanPath = svg.select('.rp.ocean').attr('d');
+    renderCruciforms(oceanPath);
+    buildLegend();
+  })
+  .catch(function(err) {
+    document.getElementById('svg').innerHTML +=
+      '<text x="480" y="250" text-anchor="middle" fill="rgba(255,80,80,.6)" font-family="Barlow,sans-serif" font-size="14">Error al cargar el mapa</text>';
+  });
+</script>

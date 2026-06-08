@@ -1,0 +1,74 @@
+import { getApiClientSync } from "@/api/client";
+
+import type {
+  LolSimV1DisposeRequest,
+  LolSimV1DisposeResponse,
+  LolSimV1InitRequest,
+  LolSimV1RunToCompletionRequest,
+  LolSimV1RunToCompletionResponse,
+  LolSimV1ResetRequest,
+  LolSimV1SkipToEndRequest,
+  LolSimV1SkipToEndResponse,
+  LolSimV1StateResponse,
+  LolSimV1TickRequest,
+} from "@/ui-v2/_legacy/components/match/lol-prototype/backend/contract-v1";
+
+export async function lolSimV2Init(request: LolSimV1InitRequest): Promise<LolSimV1StateResponse> {
+  return getApiClientSync().sim.init({ request }) as Promise<LolSimV1StateResponse>;
+}
+
+export async function lolSimV2Tick(request: LolSimV1TickRequest): Promise<LolSimV1StateResponse> {
+  return getApiClientSync().sim.tick({ request }) as Promise<LolSimV1StateResponse>;
+}
+
+export async function lolSimV2Reset(request: LolSimV1ResetRequest): Promise<LolSimV1StateResponse> {
+  return getApiClientSync().sim.reset({ request }) as Promise<LolSimV1StateResponse>;
+}
+
+export async function lolSimV2Dispose(request: LolSimV1DisposeRequest): Promise<LolSimV1DisposeResponse> {
+  return getApiClientSync().sim.dispose({ request }) as Promise<LolSimV1DisposeResponse>;
+}
+
+export async function lolSimV2RunToCompletion(
+  request: LolSimV1RunToCompletionRequest,
+): Promise<LolSimV1RunToCompletionResponse> {
+  return getApiClientSync().sim.runToCompletion({ request }) as Promise<LolSimV1RunToCompletionResponse>;
+}
+
+export async function lolSimV2SkipToEnd(
+  request: LolSimV1SkipToEndRequest,
+): Promise<LolSimV1SkipToEndResponse> {
+  return getApiClientSync().sim.skipToEnd({ request }) as Promise<LolSimV1SkipToEndResponse>;
+}
+
+function createSessionId() {
+  return `lol-sim-v2-${Date.now()}-${Math.floor(Math.random() * 1_000_000)}`;
+}
+
+export class LolSimV2Client {
+  readonly sessionId: string;
+
+  constructor(sessionId?: string) {
+    this.sessionId = sessionId ?? createSessionId();
+  }
+
+  async init(request: Omit<LolSimV1InitRequest, "sessionId">): Promise<LolSimV1StateResponse> {
+    return lolSimV2Init({ ...request, sessionId: this.sessionId });
+  }
+
+  async tick(request: Omit<LolSimV1TickRequest, "sessionId">): Promise<LolSimV1StateResponse> {
+    return lolSimV2Tick({ ...request, sessionId: this.sessionId });
+  }
+
+  async reset(request: Omit<LolSimV1ResetRequest, "sessionId">): Promise<LolSimV1StateResponse> {
+    return lolSimV2Reset({ ...request, sessionId: this.sessionId });
+  }
+
+  async dispose(): Promise<LolSimV1DisposeResponse> {
+    return lolSimV2Dispose({ sessionId: this.sessionId });
+  }
+
+  async skipToEnd(request?: Omit<LolSimV1SkipToEndRequest, "sessionId">): Promise<LolSimV1SkipToEndResponse> {
+    return lolSimV2SkipToEnd({ sessionId: this.sessionId, ...(request ?? {}) });
+  }
+}

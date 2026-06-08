@@ -1,4 +1,4 @@
-use chrono::{Datelike, Month};
+use chrono::Datelike;
 use crate::game::Game;
 use crate::domain::player::Player;
 use crate::domain::stats::LolRole;
@@ -39,7 +39,7 @@ pub fn set_training_groups(game: &mut Game, team_id: &str, groups: &[serde_json:
 }
 
 pub fn set_player_training_focus(game: &mut Game, player_id: &str, _focus: Option<&str>) {
-    if let Some(player) = game.players.iter_mut().find(|p| p.id == player_id) {
+    if let Some(_player) = game.players.iter_mut().find(|p| p.id == player_id) {
         // player.training_focus would be set here
     }
 }
@@ -240,7 +240,7 @@ pub fn delegate_champion_training(game: &mut Game) {
 
 // ── Social ───────────────────────────────────────────────────
 
-pub fn create_social_post(game: &mut Game, _text: &str) {
+pub fn create_social_post(_game: &mut Game, _text: &str) {
     // Placeholder - creates a social post
 }
 

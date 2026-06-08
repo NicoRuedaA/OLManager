@@ -1,5 +1,5 @@
 import type { GameStateData } from "@/store/gameStore";
-import NewsTab from "@/components/news/NewsTab";
+import NewsTab from "@/ui-v2/_legacy/components/news/NewsTab";
 
 interface NewsTabV2Props {
   gameState: GameStateData;

@@ -119,8 +119,16 @@ pub fn load_players(
             manifest.players_file, manifest.id, e
         )
     })?;
-    let data: PlayerDataFile = serde_json::from_str(&json)
+    let mut data: PlayerDataFile = serde_json::from_str(&json)
         .map_err(|e| format!("Failed to parse players data: {}", e))?;
+
+    // Normalize: if natural_position is unknown, fall back to position
+    for player in &mut data.players {
+        if player.natural_position == crate::domain::stats::LolRole::Unknown {
+            player.natural_position = player.position;
+        }
+    }
+
     Ok(data.players)
 }
 

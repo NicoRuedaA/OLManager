@@ -166,38 +166,6 @@ pub fn demote_main_player_to_academy(
     Ok(game)
 }
 
-#[tauri::command]
-pub fn get_academy_creation_options(
-    state: State<'_, StateManager>,
-    parent_team_id: String,
-) -> Result<AcademyCreationOptionsResponse, String> {
-    info!(
-        "[cmd] get_academy_creation_options: parent_team_id={}",
-        parent_team_id
-    );
-    let game = state
-        .get_game(|game| game.clone())
-        .ok_or("No active game session".to_string())?;
-
-    get_academy_acquisition_options_for_game(&game, &parent_team_id)
-}
-
-#[tauri::command]
-pub fn create_academy(
-    _state: State<'_, StateManager>,
-    parent_team_id: String,
-    erl_league_id: String,
-) -> Result<Game, String> {
-    info!(
-        "[cmd] create_academy: parent_team_id={}, erl_league_id={}",
-        parent_team_id, erl_league_id
-    );
-    Err(format!(
-        "create_academy is deprecated; use acquire_academy_team with a source team candidate instead of ERL '{}'.",
-        erl_league_id
-    ))
-}
-
 pub(crate) fn get_academy_acquisition_options_for_game(
     game: &Game,
     parent_team_id: &str,

@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import {
@@ -7,23 +7,24 @@ import {
   Repeat,
   ShoppingCart,
   User,
+  Loader2,
 } from "lucide-react";
 
-import type { GameStateData, PlayerData, PlayerSelectionOptions } from "@/store/gameStore";
+import type { GameStateData, PlayerSelectionOptions } from "@/store/gameStore";
 import {
   buildActiveLineupIds,
   buildActiveLineupSlots,
   isPlayerOutOfPosition,
   LOL_ACTIVE_ROLES,
   LOL_ROLE_LABELS,
-} from "@/components/squad/SquadTab.helpers";
+} from "@/lib/squad/helpers";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
-import { resolvePlayerLolRole } from "@/lib/players/lolIdentity";
-import ContextMenu from "@/components/ContextMenu";
+import { resolvePlayerLolRole, type LolRoleTag } from "@/lib/players/lolIdentity";
+import ContextMenu from "@/ui-v2/_legacy/components/ContextMenu";
 import { calcAge, formatVal } from "@/lib/common/helpers";
 import { safeFinanceNumber } from "@/lib/finances/finance";
-import { PlayerAvatar } from "@/components/ui/PlayerAvatar";
+import { PlayerAvatar } from "@/ui-v2/_legacy/components/ui/PlayerAvatar";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 
@@ -31,10 +32,9 @@ import { cn } from "@/ui-v2/lib/utils";
 
 // ─── Types ──────────────────────────────────────────────────────
 
-type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 type SortKey = "pos" | "ovr" | "condition" | "fitness" | "morale" | "age";
 
-const LOL_ROLE_ORDER: Record<LolRole, number> = {
+const LOL_ROLE_ORDER: Record<LolRoleTag, number> = {
   TOP: 1,
   JUNGLE: 2,
   MID: 3,
@@ -42,7 +42,7 @@ const LOL_ROLE_ORDER: Record<LolRole, number> = {
   SUPPORT: 5,
 };
 
-const ROLE_ICON_URLS: Record<LolRole, string> = {
+const ROLE_ICON_URLS: Record<LolRoleTag, string> = {
   TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
   JUNGLE:
     "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
@@ -51,10 +51,6 @@ const ROLE_ICON_URLS: Record<LolRole, string> = {
   SUPPORT:
     "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
 };
-
-function resolveRole(player: PlayerData): LolRole {
-  return resolvePlayerLolRole(player);
-}
 
 function clampBar(value: number): number {
   return Math.max(0, Math.min(100, value));
@@ -82,6 +78,7 @@ export function SquadTabV2({
   const [sortKey, setSortKey] = useState<SortKey>("pos");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
+  const [savingSlot, setSavingSlot] = useState<string | null>(null);
 
   // ─── Derived data ────────────────────────────────────────────────
   if (!myTeam) {
@@ -120,7 +117,7 @@ export function SquadTabV2({
       switch (sortKey) {
         case "pos":
           return (
-            LOL_ROLE_ORDER[resolveRole(a)] - LOL_ROLE_ORDER[resolveRole(b)] ||
+            LOL_ROLE_ORDER[resolvePlayerLolRole(a)] - LOL_ROLE_ORDER[resolvePlayerLolRole(b)] ||
             calculateLolOvr(b) - calculateLolOvr(a)
           );
         case "ovr":
@@ -169,11 +166,32 @@ export function SquadTabV2({
   const totalWages = roster.reduce((s, p) => s + safeFinanceNumber(p.wage), 0);
   const roleCounts = useMemo(() => {
     const counts: Record<string, number> = { TOP: 0, JUNGLE: 0, MID: 0, ADC: 0, SUPPORT: 0 };
-    roster.forEach((p) => { const r = resolveRole(p); if (counts[r] !== undefined) counts[r]++; });
+    roster.forEach((p) => { const r = resolvePlayerLolRole(p); if (counts[r] !== undefined) counts[r]++; });
     return counts;
   }, [roster]);
   const lowestCondition = roster.length > 0 ? Math.min(...roster.map((p) => p.condition)) : 0;
   const lowestConditionPlayer = roster.find((p) => p.condition === lowestCondition);
+
+  const handleSlotChange = useCallback(async (slotIndex: number, playerId: string) => {
+    const newIds = [...activeLineupIds];
+    newIds[slotIndex] = playerId;
+    for (let i = 0; i < newIds.length; i++) {
+      if (i !== slotIndex && newIds[i] === playerId) {
+        newIds[i] = "";
+      }
+    }
+    console.debug("[SquadTab] handleSlotChange", { slotIndex, playerId, newIds, oldIds: activeLineupIds });
+    setSavingSlot(String(slotIndex));
+    try {
+      const updated = await invoke<GameStateData>("set_active_lineup", { playerIds: newIds });
+      console.debug("[SquadTab] set_active_lineup response", updated);
+      onGameUpdate(updated);
+    } catch (err) {
+      console.error("[SquadTab] Failed to set active lineup:", err);
+    } finally {
+      setSavingSlot(null);
+    }
+  }, [activeLineupIds, onGameUpdate]);
 
   // ─── Render ──────────────────────────────────────────────────────
   return (
@@ -225,7 +243,7 @@ export function SquadTabV2({
           {/* ── Role distribution + alerts ── */}
           <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "25ms", animationFillMode: "forwards" }}>
             <div className="flex flex-wrap items-center gap-3">
-              {(Object.entries(LOL_ROLE_ORDER) as Array<[LolRole, number]>).map(([role]) => (
+              {(Object.entries(LOL_ROLE_ORDER) as Array<[LolRoleTag, number]>).map(([role]) => (
                 <div key={role} className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-1.5">
                   <img src={ROLE_ICON_URLS[role]} alt={role} className="size-4 object-contain" />
                   <span className="font-heading text-xs font-bold tabular-nums text-foreground">{roleCounts[role]}</span>
@@ -278,14 +296,33 @@ export function SquadTabV2({
 
                 if (!player) {
                   return (
-                    <div key={slot.role} className="flex items-center gap-3 px-4 py-3 opacity-50">
+                    <div key={slot.role} className="flex items-center gap-3 px-4 py-3 opacity-60">
                       <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-dashed border-muted-foreground/30 bg-muted/20">
                         <img src={ROLE_ICON_URLS[slot.role]} alt={roleLabel} className="size-4 object-contain opacity-40" />
                       </div>
                       <div className="flex-1">
                         <p className="font-heading text-sm font-bold text-muted-foreground/50">{roleLabel}</p>
-                        <p className="text-xs text-muted-foreground/30">{t("squad.noRoleAvailable", { defaultValue: "Sin jugador" })}</p>
+                        <select
+                          value=""
+                          onChange={(e) => handleSlotChange(slot.index, e.target.value)}
+                          className="mt-1 w-full max-w-[200px] rounded-md border border-border bg-muted px-2 py-1 text-xs text-foreground"
+                        >
+                          <option value="">{t("squad.noRoleAvailable", { defaultValue: "Sin jugador" })}</option>
+                          {roster
+                            .filter((p) => !activeLineupIds.includes(p.id) || p.id === "")
+                            .sort((a, b) => {
+                              const aMatch = resolvePlayerLolRole(a) === slot.role ? 0 : 1;
+                              const bMatch = resolvePlayerLolRole(b) === slot.role ? 0 : 1;
+                              return aMatch - bMatch || calculateLolOvr(b) - calculateLolOvr(a);
+                            })
+                            .map((p) => (
+                              <option key={p.id} value={p.id}>
+                                {p.match_name} — {resolvePlayerLolRole(p)} ({calculateLolOvr(p)})
+                              </option>
+                            ))}
+                        </select>
                       </div>
+                      {savingSlot === String(slot.index) && <Loader2 className="size-4 shrink-0 animate-spin text-muted-foreground" />}
                     </div>
                   );
                 }
@@ -296,81 +333,92 @@ export function SquadTabV2({
                 const morale = player.morale;
                 const annualWage = player.wage;
 
-                const contextItems = [
-                  {
-                    label: t("squad.viewProfile", { defaultValue: "Ver perfil" }),
-                    icon: <User className="size-4" />,
-                    onClick: () => onSelectPlayer(player.id),
-                  },
-                ];
-
                 return (
-                  <ContextMenu items={contextItems} key={player.id}>
-                    <button type="button" onClick={() => onSelectPlayer(player.id)}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/30">
-                      <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border bg-muted/50">
-                        <img src={ROLE_ICON_URLS[slot.role]} alt={roleLabel} className="size-4 object-contain opacity-80" />
+                  <div key={slot.role} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/30">
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border bg-muted/50">
+                      <img src={ROLE_ICON_URLS[slot.role]} alt={roleLabel} className="size-4 object-contain opacity-80" />
+                    </div>
+                    <PlayerAvatar src={photo} alt={player.match_name} className="size-10" />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <p className="truncate font-heading text-base font-bold text-foreground">{player.match_name}</p>
+                        {outOfPosition && (
+                          <span className="shrink-0 text-amber-400" title={t("squad.outOfPositionTooltip", { defaultValue: "Fuera de rol" })}>
+                            <AlertTriangle className="size-4" />
+                          </span>
+                        )}
                       </div>
-                      <PlayerAvatar src={photo} alt={player.match_name} className="size-10" />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5">
-                          <p className="truncate font-heading text-base font-bold text-foreground">{player.match_name}</p>
-                          {outOfPosition && (
-                            <span className="shrink-0 text-amber-400" title={t("squad.outOfPositionTooltip", { defaultValue: "Fuera de rol" })}>
-                              <AlertTriangle className="size-4" />
-                            </span>
-                          )}
-                        </div>
-                        <p className="truncate text-xs text-muted-foreground">{player.full_name}</p>
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={player.id}
+                          onChange={(e) => handleSlotChange(slot.index, e.target.value)}
+                          disabled={savingSlot === String(slot.index)}
+                          className="max-w-[180px] rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-foreground"
+                        >
+                          {roster
+                            .sort((a, b) => {
+                              const aMatch = resolvePlayerLolRole(a) === slot.role ? 0 : 1;
+                              const bMatch = resolvePlayerLolRole(b) === slot.role ? 0 : 1;
+                              return aMatch - bMatch || calculateLolOvr(b) - calculateLolOvr(a);
+                            })
+                            .map((p) => (
+                              <option key={p.id} value={p.id}>
+                                {p.match_name} — {resolvePlayerLolRole(p)} ({calculateLolOvr(p)} OVR)
+                              </option>
+                            ))}
+                        </select>
+                        {savingSlot === String(slot.index) && <Loader2 className="size-3 shrink-0 animate-spin text-muted-foreground" />}
                       </div>
-                      <div className="hidden w-12 shrink-0 text-center md:block">
-                        <p className="font-heading text-xl font-black text-primary tabular-nums">{ovr}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">OVR</p>
+                    </div>
+                    <div className="hidden w-12 shrink-0 text-center md:block">
+                      <p className="font-heading text-xl font-black text-primary tabular-nums">{ovr}</p>
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">OVR</p>
+                    </div>
+                    <div className="hidden w-14 shrink-0 text-center md:block">
+                      <span className="font-heading text-sm font-bold text-muted-foreground">{slot.role}</span>
+                    </div>
+                    <div className="hidden w-28 shrink-0 lg:block">
+                      <div className="mb-0.5 flex items-center justify-between">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Energía</span>
+                        <span className="font-heading text-[11px] font-bold text-amber-400 tabular-nums">{condition}</span>
                       </div>
-                      <div className="hidden w-14 shrink-0 text-center md:block">
-                        <span className="font-heading text-sm font-bold text-muted-foreground">{slot.role}</span>
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                        <div className={cn("h-full rounded-full transition-all", condition <= 0 ? "bg-amber-400/30" : "bg-amber-400")}
+                          style={{ width: `${clampBar(condition)}%` }} />
                       </div>
-                      <div className="hidden w-28 shrink-0 lg:block">
-                        <div className="mb-0.5 flex items-center justify-between">
-                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Energía</span>
-                          <span className="font-heading text-[11px] font-bold text-amber-400 tabular-nums">{condition}</span>
-                        </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                          <div className={cn("h-full rounded-full transition-all", condition <= 0 ? "bg-amber-400/30" : "bg-amber-400")}
-                            style={{ width: `${clampBar(condition)}%` }} />
-                        </div>
+                    </div>
+                    <div className="hidden w-28 shrink-0 lg:block">
+                      <div className="mb-0.5 flex items-center justify-between">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Moral</span>
+                        <span className="font-heading text-[11px] font-bold text-emerald-400 tabular-nums">{morale}</span>
                       </div>
-                      <div className="hidden w-28 shrink-0 lg:block">
-                        <div className="mb-0.5 flex items-center justify-between">
-                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Moral</span>
-                          <span className="font-heading text-[11px] font-bold text-emerald-400 tabular-nums">{morale}</span>
-                        </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                          <div className={cn("h-full rounded-full transition-all", morale <= 0 ? "bg-emerald-400/30" : "bg-emerald-400")}
-                            style={{ width: `${clampBar(morale)}%` }} />
-                        </div>
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                        <div className={cn("h-full rounded-full transition-all", morale <= 0 ? "bg-emerald-400/30" : "bg-emerald-400")}
+                          style={{ width: `${clampBar(morale)}%` }} />
                       </div>
-                      <div className="hidden w-28 shrink-0 lg:block">
-                        <div className="mb-0.5 flex items-center justify-between">
-                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Fitness</span>
-                          <span className="font-heading text-[11px] font-bold text-green-400 tabular-nums">{fitness}</span>
-                        </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                          <div className={cn("h-full rounded-full transition-all", fitness <= 0 ? "bg-green-400/30" : "bg-green-400")}
-                            style={{ width: `${clampBar(fitness)}%` }} />
-                        </div>
+                    </div>
+                    <div className="hidden w-28 shrink-0 lg:block">
+                      <div className="mb-0.5 flex items-center justify-between">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Fitness</span>
+                        <span className="font-heading text-[11px] font-bold text-green-400 tabular-nums">{fitness}</span>
                       </div>
-                      <div className="hidden w-12 shrink-0 text-center lg:block">
-                        <p className="font-heading text-sm font-bold text-foreground tabular-nums">{age}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Edad</p>
+                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                        <div className={cn("h-full rounded-full transition-all", fitness <= 0 ? "bg-green-400/30" : "bg-green-400")}
+                          style={{ width: `${clampBar(fitness)}%` }} />
                       </div>
-                      <div className="hidden w-20 shrink-0 text-right lg:block">
-                        <p className="font-heading text-sm font-bold text-foreground tabular-nums">{formatVal(annualWage)}</p>
-                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">/año</p>
-                      </div>
-                      <ChevronRight className="size-4 shrink-0 text-muted-foreground/50" />
+                    </div>
+                    <div className="hidden w-12 shrink-0 text-center lg:block">
+                      <p className="font-heading text-sm font-bold text-foreground tabular-nums">{age}</p>
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Edad</p>
+                    </div>
+                    <div className="hidden w-20 shrink-0 text-right lg:block">
+                      <p className="font-heading text-sm font-bold text-foreground tabular-nums">{formatVal(annualWage)}</p>
+                      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">/año</p>
+                    </div>
+                    <button type="button" onClick={() => onSelectPlayer(player.id)} className="shrink-0 text-muted-foreground/50 hover:text-primary">
+                      <ChevronRight className="size-4" />
                     </button>
-                  </ContextMenu>
+                  </div>
                 );
               })}
             </div>
@@ -454,7 +502,7 @@ export function SquadTabV2({
           ) : (
             <div className="divide-y divide-border/40">
               {benchFiltered.map((player) => {
-                const role = resolveRole(player);
+                const role = resolvePlayerLolRole(player);
                 const ovr = calculateLolOvr(player);
                 const photo = resolvePlayerPhoto(
                   player.id,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { extractMatchContext } from "./matchContext";
-import type { DraftMatchResult } from "../../../components/match/draftResultSimulator";
+import type { DraftMatchResult } from "@/ui-v2/_legacy/components/match/draftResultSimulator";
 
 const baseResult = (overrides: Partial<DraftMatchResult> = {}): DraftMatchResult => ({
   winnerSide: "blue",

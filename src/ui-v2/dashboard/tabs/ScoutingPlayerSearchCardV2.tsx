@@ -7,7 +7,7 @@ import { countryName } from "@/lib/common/countries";
 import { calcAge, formatVal, getTeamName } from "@/lib/common/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
-import { getLolRoleForPlayer, type LolRole } from "@/components/squad/SquadTab.helpers";
+import { getLolRoleForPlayer, type LolRole } from "@/lib/squad/helpers";
 import { Card, CardContent, CardHeader } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";

@@ -1,5 +1,5 @@
 import type { GameStateData } from "@/store/gameStore";
-import TeamProfile from "@/components/teamProfile/TeamProfile";
+import TeamProfile from "@/ui-v2/_legacy/components/teamProfile/TeamProfile";
 
 interface TeamProfileV2Props {
   gameState: GameStateData;

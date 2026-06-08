@@ -1,7 +1,7 @@
 use chrono::Utc;
 use log::{debug, info};
 use std::fs;
-use std::io::{Read, Write};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 
 use crate::game::Game;

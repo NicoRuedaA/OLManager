@@ -167,7 +167,7 @@ fn incomplete_lineup_blocker(
         let xi_roles: std::collections::HashSet<&'static str> = roster
             .iter()
             .filter(|player| xi_id_set.contains(player.id.as_str()))
-            .map(|player| role_to_string(&player.natural_position))
+            .map(|player| role_to_string(&player.position))
             .collect();
 
         let required_roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];

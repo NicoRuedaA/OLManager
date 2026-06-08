@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import type { PlayerData, ScoutingAssignment, StaffData, TeamData } from "@/store/gameStore";
 import { getTeamName } from "@/lib/common/helpers";
-import { getLolRoleForPlayer } from "@/components/squad/SquadTab.helpers";
+import { getLolRoleForPlayer } from "@/lib/squad/helpers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 
 interface ScoutingAssignmentsListV2Props {

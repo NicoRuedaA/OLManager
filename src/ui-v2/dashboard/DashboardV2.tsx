@@ -15,10 +15,10 @@ import {
   formatDateFull,
   isSeasonComplete as isLeagueSeasonComplete,
 } from "@/lib/common/helpers";
-import DashboardWorkspaceContent from "@/components/dashboard/DashboardWorkspaceContent";
-import DashboardAlerts from "@/components/dashboard/DashboardAlerts";
-import DashboardOverlays from "@/components/dashboard/DashboardOverlays";
-import FiredModal from "@/components/dashboard/FiredModal";
+import DashboardWorkspaceContent from "@/ui-v2/_legacy/components/dashboard/DashboardWorkspaceContent";
+import DashboardAlerts from "@/ui-v2/_legacy/components/dashboard/DashboardAlerts";
+import DashboardOverlays from "@/ui-v2/_legacy/components/dashboard/DashboardOverlays";
+import FiredModal from "@/ui-v2/_legacy/components/dashboard/FiredModal";
 import {
   createDashboardProfileNavigationState,
   goBackDashboardProfile,
@@ -27,15 +27,15 @@ import {
   selectDashboardPlayer,
   selectDashboardTeam,
   type DashboardNavigateContext,
-} from "@/components/dashboard/dashboardProfileNavigation";
-import { createDashboardTabContentModel } from "@/components/dashboard/dashboardTabContentModel";
+} from "@/lib/dashboard/profileNavigation";
+import { createDashboardTabContentModel } from "@/lib/dashboard/tabContentModel";
 import {
   getDashboardAlerts,
   getManagerTeamName,
   getTodayMatchFixture,
   getUnreadMessagesCount,
-} from "@/components/dashboard/dashboardHelpers";
-import type { DashboardMatchModeMeta } from "@/components/dashboard/DashboardHeader";
+} from "@/lib/dashboard/helpers";
+import type { DashboardMatchModeMeta } from "@/ui-v2/_legacy/components/dashboard/DashboardHeader";
 
 import { DashboardSidebarV2 } from "./DashboardSidebarV2";
 import { DashboardHeaderV2 } from "./DashboardHeaderV2";
@@ -169,29 +169,23 @@ export default function DashboardV2() {
       .catch(() => setProbedNoGame(true));
   }, [hasActiveGame, setGameState, setGameActive]);
 
-  // Load champions once when game loads (if not already in gameState)
+  // Load champions once when game loads
   useEffect(() => {
-    console.log("[DashboardV2] champions effect: gameState?.champions =", gameState?.champions);
-    if (!gameState) return;
-    if (gameState.champions) return;
+    const state = useGameStore.getState().gameState;
+    if (!state) return;
+    if (state.champions) return;
 
-    let cancelled = false;
     const loadChampions = async () => {
       try {
-        console.log("[DashboardV2] invoking get_champions...");
         const champions = await invoke<unknown[]>("get_champions");
-        console.log("[DashboardV2] get_champions returned:", champions?.length, "items");
-        if (cancelled) return;
-        const latest = useGameStore.getState().gameState;
-        useGameStore.getState().setGameState({ ...(latest ?? gameState), champions } as GameStateData);
-        console.log("[DashboardV2] champions stored in gameState");
+        const current = useGameStore.getState().gameState;
+        useGameStore.getState().setGameState({ ...(current ?? state), champions } as GameStateData);
       } catch (err) {
         console.error("[DashboardV2] Failed to load champions:", err);
       }
     };
     loadChampions();
-    return () => { cancelled = true; };
-  }, [gameState]);
+  }, []);
 
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
@@ -213,6 +207,8 @@ export default function DashboardV2() {
     autoDelegationNotice,
     handleContinue,
     handleConfirmMatch,
+    handleSkipToMatchDay,
+    handleSkipToNextDay,
   } = useAdvanceTime(
     setGameState,
     hasMatchToday,
@@ -427,9 +423,12 @@ export default function DashboardV2() {
           isSaving={isSaving}
           saveFlash={saveFlash}
           hasMatchToday={hasMatchToday}
+          dayPhase={gameState?.day_phase ?? "Morning"}
           onBack={handleBack}
           onSave={handleSave}
           onContinue={handleContinue}
+          onSkipToMatchDay={handleSkipToMatchDay}
+          onSkipToNextDay={handleSkipToNextDay}
         />
 
         {!viewingChampionKey &&

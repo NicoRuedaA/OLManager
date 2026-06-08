@@ -1,6 +1,6 @@
 import { Shield } from "lucide-react";
-import { getAttributeColorClass } from "@/components/playerProfile/PlayerProfile.helpers";
-import type { PlayerAttributeGroup } from "@/components/playerProfile/PlayerProfile.attributes";
+import { getAttributeColorClass } from "@/lib/playerProfile/helpers";
+import type { PlayerAttributeGroup } from "@/lib/playerProfile/attributes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { cn } from "@/ui-v2/lib/utils";
 

@@ -4,12 +4,12 @@ import { Building2, Calendar, ChevronLeft, ChevronRight, Globe, ListOrdered, Sea
 
 import type { GameStateData, LeagueData } from "@/store/gameStore";
 import { compareStandingsByLolScore, getStandingKillDiff } from "@/store/gameStore";
-import { getTeamLogoPath } from "@/components/schedule/ScheduleTab.helpers";
+import { getTeamLogoPath } from "@/lib/schedule/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import { cn } from "@/ui-v2/lib/utils";
-import ScheduleCalendarView from "@/components/schedule/ScheduleCalendarView";
-import type { StoredFixtureDraftResult } from "@/components/schedule/ScheduleTab.helpers";
+import ScheduleCalendarView from "@/ui-v2/_legacy/components/schedule/ScheduleCalendarView";
+import type { StoredFixtureDraftResult } from "@/lib/schedule/helpers";
 
 interface Props { gameState: GameStateData; onSelectTeam?: (id: string) => void }
 type View = "standings" | "calendar" | "teams" | "players";

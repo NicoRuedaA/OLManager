@@ -26,7 +26,7 @@ import {
 import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
 import { calcAge, getTeamName } from "@/lib/common/helpers";
 import { countryName } from "@/lib/common/countries";
-import { CountryFlag } from "@/components/ui/CountryFlag";
+import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
 import { Card, CardContent } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 

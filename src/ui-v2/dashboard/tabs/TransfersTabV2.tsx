@@ -48,7 +48,7 @@ import {
   buildResumedCounterFeedback,
   getOutgoingNegotiationOffer,
   mapTransferNegotiationError,
-} from "@/components/transfers/TransfersTab.helpers";
+} from "@/lib/transfers/helpers";
 import {
   deriveTransferCollections,
   filterTransferPlayers,
@@ -57,12 +57,12 @@ import {
   type TransferSortKey,
   type TransferSortState,
   type TransferTabView,
-} from "@/components/transfers/TransfersTab.model";
-import { type NegotiationFeedbackPanelData } from "@/components/NegotiationFeedbackPanel";
-import TransferBidModal from "@/components/transfers/TransferBidModal";
-import TransferCounterOfferModal from "@/components/transfers/TransferCounterOfferModal";
-import WageNegotiationModal from "@/components/transfers/WageNegotiationModal";
-import { CountryFlag } from "@/components/ui/CountryFlag";
+} from "@/lib/transfers/model";
+import { type NegotiationFeedbackPanelData } from "@/ui-v2/_legacy/components/NegotiationFeedbackPanel";
+import TransferBidModal from "@/ui-v2/_legacy/components/transfers/TransferBidModal";
+import TransferCounterOfferModal from "@/ui-v2/_legacy/components/transfers/TransferCounterOfferModal";
+import WageNegotiationModal from "@/ui-v2/_legacy/components/transfers/WageNegotiationModal";
+import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
 
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { Card, CardContent } from "@/ui-v2/components/ui/card";

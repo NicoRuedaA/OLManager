@@ -23,12 +23,12 @@ import {
   setTrainingGroups,
   type TrainingGroupData,
 } from "@/services/trainingService";
-import { getTrainingStaffAdvice } from "@/components/training/trainingAdvice";
+import { getTrainingStaffAdvice } from "@/lib/training/advice";
 import {
   buildPlayerGroupMap,
   reassignPlayerTrainingGroup,
   sortTrainingRoster,
-} from "@/components/training/trainingGroupsModel";
+} from "@/lib/training/groupsModel";
 import {
   DEFAULT_TRAINING_FOCUS,
   RECOVERY_TRAINING_FOCUS,
@@ -44,7 +44,7 @@ import {
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { resolvePlayerCurrentLolRole } from "@/lib/players/lolIdentity";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
-import { translatePositionAbbreviation } from "@/components/squad/SquadTab.helpers";
+import { translatePositionAbbreviation } from "@/lib/squad/helpers";
 import {
   LOL_VISIBLE_STAT_LABEL_KEYS,
   type LolVisibleStatId,
