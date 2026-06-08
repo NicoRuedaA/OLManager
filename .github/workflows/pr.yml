@@ -63,14 +63,14 @@ jobs:
         continue-on-error: true
 
       - name: Check core crates
-        run: cargo check -p db -p ofm_core -p domain -p engine
+        run: cargo check -p olm_core -p olmanager-server
 
       - name: Lint Rust workspace
         run: cargo clippy --workspace --all-targets
         continue-on-error: true
 
       - name: Test core crates
-        run: cargo test -p db -p ofm_core -p domain -p engine
+        run: cargo test -p olm_core -p olmanager-server
 
       - name: Check main crate (lib only, tests blocked by lol_sim_v2.rs)
         run: cargo check -p openleaguemanager --lib
@@ -166,4 +166,4 @@ jobs:
         continue-on-error: true
 
       - name: Test core crates
-        run: cargo test -p db -p ofm_core -p domain -p engine
+        run: cargo test -p olm_core -p olmanager-server
