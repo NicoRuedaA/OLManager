@@ -4,6 +4,18 @@ All notable changes to OLManager will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project uses GPL-3.0 licensing inherited from the OpenFootManager lineage unless otherwise documented.
 
+## [0.3.1-rc.1] - 2026-06-08
+
+### Fixed
+
+- Rust tests aligned with current core model (package names, `League` literals, `PlayerMatchStatsRecord`).
+- UI v2 review phase: decision/review buttons now correctly show in `ReviewBlock` instead of `ScrimBlock`.
+- Legacy test mocks updated to use `@/` aliases, added missing `initReactI18next` stubs.
+- Color token expectations aligned to v2 (e.g. `text-primary-400` → `text-primary`).
+- Player attributes now visible for outside players even without a scout report.
+- Squad lineup persistence now respects player role matching.
+- PR workflow package targets updated to `olm_core` and `olmanager-server`.
+
 ## [0.2.1] - 2026-05-13
 
 ### Added
