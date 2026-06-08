@@ -380,12 +380,21 @@ pub async fn select_team(
             std::env::current_dir().ok().map(|d| d.join("../data").join("messages")),
             std::env::current_dir().ok().map(|d| d.join("src-tauri/data").join("messages")),
         ];
-        for candidate in msg_candidates.into_iter().flatten() {
-            if candidate.is_dir() {
-                let result = olm_core::messages::template_store::init_template_store(&candidate);
-                eprintln!("[template_store] init from {:?}: {:?}", candidate, result);
-                break;
+        let mut data_root = None;
+        for candidate in &msg_candidates {
+            if let Some(path) = candidate {
+                if path.is_dir() {
+                    let result = olm_core::messages::template_store::init_template_store(path);
+                    eprintln!("[template_store] init from {:?}: {:?}", path, result);
+                    data_root = path.parent().map(|p| p.to_path_buf());
+                    break;
+                }
             }
+        }
+        // Initialize senders store from the same data root
+        if let Some(ref root) = data_root {
+            let senders_dir = root.join("senders");
+            olm_core::messages::template_store::init_senders_store(&senders_dir);
         }
     }
 

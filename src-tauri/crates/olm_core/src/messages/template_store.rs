@@ -10,10 +10,11 @@ use crate::domain::message::{
     MessagePriority,
 };
 
-// ─── Template data structures ───
+// ─── Sender data structures ───
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct MessageTemplateSender {
+    pub id: Option<String>,
     pub name: String,
     #[serde(default)]
     pub name_key: Option<String>,
@@ -22,6 +23,51 @@ pub struct MessageTemplateSender {
     pub role_key: Option<String>,
     #[serde(default)]
     pub icon: Option<String>,
+}
+
+// ─── Senders store ───
+
+static SENDERS_STORE: OnceLock<HashMap<String, MessageTemplateSender>> = OnceLock::new();
+
+fn load_senders(senders_dir: &Path) -> HashMap<String, MessageTemplateSender> {
+    let mut senders = HashMap::new();
+    if !senders_dir.is_dir() {
+        return senders;
+    }
+    let Ok(entries) = fs::read_dir(senders_dir) else {
+        return senders;
+    };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path.extension().and_then(|s| s.to_str()) != Some("json") {
+            continue;
+        }
+        let Ok(content) = fs::read_to_string(&path) else { continue };
+        let Ok(sender) = serde_json::from_str::<MessageTemplateSender>(&content) else { continue };
+        if let Some(id) = &sender.id {
+            senders.insert(id.clone(), sender);
+        }
+    }
+    senders
+}
+
+pub fn init_senders_store(senders_dir: &Path) {
+    let senders = load_senders(senders_dir);
+    eprintln!("[senders_store] loaded {} sender(s)", senders.len());
+    let _ = SENDERS_STORE.set(senders);
+}
+
+fn get_sender(id: &str) -> Option<MessageTemplateSender> {
+    SENDERS_STORE.get_or_init(HashMap::new).get(id).cloned()
+}
+
+// ─── Template data structures ───
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+pub enum SenderRef {
+    Id(String),
+    Inline(MessageTemplateSender),
 }
 
 #[derive(Debug, Deserialize)]
@@ -55,7 +101,7 @@ pub struct MessageTemplate {
     pub trigger: String,
     #[serde(default)]
     pub weight: u32,
-    pub sender: MessageTemplateSender,
+    pub sender: SenderRef,
     pub category: String,
     #[serde(default)]
     pub priority: String,
@@ -187,24 +233,41 @@ impl TemplateStore {
         let category = parse_category(&tpl.category);
         let priority = parse_priority(&tpl.priority);
 
+        // Resolve sender: either inline or by reference ID
+        let sender = match &tpl.sender {
+            SenderRef::Id(id) => get_sender(id).unwrap_or_else(|| {
+                // Fallback: create a minimal sender from the ID itself
+                eprintln!("[template_store] sender '{id}' not found, using fallback");
+                MessageTemplateSender {
+                    id: Some(id.clone()),
+                    name: id.clone(),
+                    name_key: None,
+                    role: String::new(),
+                    role_key: None,
+                    icon: None,
+                }
+            }),
+            SenderRef::Inline(s) => s.clone(),
+        };
+
         let mut msg = InboxMessage::new(
             id.to_string(),
             subject,
             body,
-            interpolate(&tpl.sender.name, &i18n_params),
+            interpolate(&sender.name, &i18n_params),
             date.to_string(),
         )
         .with_category(category)
         .with_priority(priority)
-        .with_sender_role(&interpolate(&tpl.sender.role, &i18n_params));
+        .with_sender_role(&interpolate(&sender.role, &i18n_params));
 
-        if let Some(icon) = &tpl.sender.icon {
+        if let Some(icon) = &sender.icon {
             msg = msg.with_sender_icon(icon);
         }
-        if let Some(key) = &tpl.sender.name_key {
+        if let Some(key) = &sender.name_key {
             msg.sender_key = Some(key.clone());
         }
-        if let Some(key) = &tpl.sender.role_key {
+        if let Some(key) = &sender.role_key {
             msg.sender_role_key = Some(key.clone());
         }
         if !i18n_params.is_empty() {

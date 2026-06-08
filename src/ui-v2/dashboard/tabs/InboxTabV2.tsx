@@ -391,9 +391,6 @@ function MessageRow({
           >
             {message.body}
           </div>
-          <Badge variant="outline" className="mt-1.5 h-4 px-1.5 text-[9px]">
-            {message.category}
-          </Badge>
         </div>
       </button>
     </li>
@@ -422,7 +419,6 @@ function DetailPane({
         <Button variant="ghost" size="icon-sm" onClick={onClose} aria-label="Cerrar">
           <ArrowLeft className="size-4" />
         </Button>
-        <Badge variant="outline">{message.category}</Badge>
         <div className="flex-1" />
         <Button
           variant="ghost"
