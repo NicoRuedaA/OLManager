@@ -626,16 +626,6 @@ export default function DashboardV2() {
               onSelectTeam={selectTeam}
             />
           </div>
-        ) : profileNavigation.activeTab === "Tournaments" &&
-          !viewingChampionKey &&
-          !profileNavigation.selectedPlayerId &&
-          !profileNavigation.selectedTeamId ? (
-          <div className="flex-1 overflow-y-auto scrollbar-v2">
-            <TournamentsTabV2
-              gameState={gameState}
-              onSelectTeam={selectTeam}
-            />
-          </div>
         ) : profileNavigation.activeTab === "Market" &&
           !viewingChampionKey &&
           !profileNavigation.selectedPlayerId &&
