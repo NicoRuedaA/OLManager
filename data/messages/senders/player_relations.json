@@ -1,1 +1,8 @@
-{ "id": "player_relations", "name": "Player Liaison", "name_key": "be.sender.playerLiaison", "role": "Officer", "role_key": "be.role.officer", "icon": "player_relations.jpg" }
+{
+  "id": "player_relations",
+  "name": "Player Liaison",
+  "name_key": "be.sender.playerLiaison",
+  "role": "Officer",
+  "role_key": "be.role.officer",
+  "icon": "relations.jpg"
+}

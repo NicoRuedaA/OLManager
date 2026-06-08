@@ -8,11 +8,11 @@
   "logo": "/competitions-icons/1db57fd707344fb7.webp",
   "teams_file": "teams/lrn_teams.json",
   "players_file": "players/lrn_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "single_round_robin",
     "team_count": 8,
     "preseason_friendlies": 0,
     "splits": []
-  }
+  },
+  "staff_file": "staffs/lrn_staffs.json"
 }

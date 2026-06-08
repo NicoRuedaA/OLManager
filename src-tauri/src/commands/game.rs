@@ -375,24 +375,40 @@ pub async fn select_team(
 
     // Initialize message template store
     {
-        let msg_candidates = vec![
+        // Look for messages root directory (to find senders)
+        let msg_root_candidates = vec![
             std::env::current_dir().ok().map(|d| d.join("data").join("messages")),
             std::env::current_dir().ok().map(|d| d.join("../data").join("messages")),
             std::env::current_dir().ok().map(|d| d.join("src-tauri/data").join("messages")),
         ];
-        let mut found_msg_dir = None;
-        for candidate in &msg_candidates {
+        let mut messages_root = None;
+        for candidate in &msg_root_candidates {
             if let Some(path) = candidate {
                 if path.is_dir() {
-                    let result = olm_core::messages::template_store::init_template_store(path);
-                    eprintln!("[template_store] init from {:?}: {:?}", path, result);
-                    found_msg_dir = Some(path.clone());
+                    messages_root = Some(path.clone());
                     break;
                 }
             }
         }
+
+        // Look for triggers/ subdirectory inside messages root
+        let triggers_candidates = vec![
+            messages_root.as_ref().map(|p| p.join("triggers")),
+        ];
+        let mut found_triggers = None;
+        for candidate in &triggers_candidates {
+            if let Some(path) = candidate {
+                if path.is_dir() {
+                    let result = olm_core::messages::template_store::init_template_store(path);
+                    eprintln!("[template_store] init from {:?}: {:?}", path, result);
+                    found_triggers = Some(path.clone());
+                    break;
+                }
+            }
+        }
+
         // Initialize senders store under data/messages/senders/
-        if let Some(msg_dir) = &found_msg_dir {
+        if let Some(msg_dir) = &messages_root {
             let senders_dir = msg_dir.join("senders");
             if senders_dir.is_dir() {
                 olm_core::messages::template_store::init_senders_store(&senders_dir);

@@ -1,1 +1,8 @@
-{ "id": "fitness_coach", "name": "Fitness Coach", "name_key": "be.sender.fitnessCoach", "role": "Coach", "role_key": "be.role.fitnessCoach", "icon": "fitness_coach.jpg" }
+{
+  "id": "fitness_coach",
+  "name": "Fitness Coach",
+  "name_key": "be.sender.fitnessCoach",
+  "role": "Coach",
+  "role_key": "be.role.fitnessCoach",
+  "icon": "coach.jpg"
+}

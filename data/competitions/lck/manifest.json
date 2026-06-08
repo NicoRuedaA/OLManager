@@ -8,7 +8,6 @@
   "logo": "/competitions-icons/b5b07392ac1b4633.webp",
   "teams_file": "teams/lck_teams.json",
   "players_file": "players/lck_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "double_round_robin",
     "splits": [
@@ -41,5 +40,6 @@
     ],
     "team_count": 10,
     "preseason_friendlies": 3
-  }
+  },
+  "staff_file": "staffs/lck_staffs.json"
 }

@@ -20,7 +20,6 @@ import ChampionsWorldTab from "../world/ChampionsWorldTab";
 import ScrimsTab from "../scrims/ScrimsTab";
 import CompetitionsTab from "../competitions/CompetitionsTab";
 import MarketTab from "../market/MarketTab";
-import TournamentsTab from "../tournaments/TournamentsTab";
 import EndOfSeasonScreen from "../EndOfSeasonScreen";
 import type { DashboardTabContentModel } from "./dashboardTabContentModel";
 
@@ -129,10 +128,7 @@ export default function DashboardTabContent({
         <StaffTab gameState={gameState} mode="world" />
       )}
 
-      {activeTab === "Tournaments" && (
-        <TournamentsTab gameState={gameState} onSelectTeam={onSelectTeam} />
-      )}
-
+      
       {activeTab === "ChampionsWorld" && (
         <ChampionsWorldTab champions={gameState.champions} onViewChampion={onViewChampion} />
       )}

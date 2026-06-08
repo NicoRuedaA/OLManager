@@ -8,7 +8,6 @@
   "logo": "/competitions-icons/lec.webp",
   "teams_file": "teams/lec_teams.json",
   "players_file": "players/lec_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "single_round_robin",
     "splits": [
@@ -45,5 +44,6 @@
     ],
     "team_count": 10,
     "preseason_friendlies": 3
-  }
+  },
+  "staff_file": "staffs/lec_staffs.json"
 }

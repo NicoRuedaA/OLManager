@@ -8,12 +8,12 @@
   "logo": null,
   "teams_file": "teams/prm-l_teams.json",
   "players_file": "players/prm-l_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "unknown",
     "team_count": 0,
     "preseason_friendlies": 0,
     "splits": []
   },
-  "legacy": true
+  "legacy": true,
+  "staff_file": "staffs/prm-l_staffs.json"
 }

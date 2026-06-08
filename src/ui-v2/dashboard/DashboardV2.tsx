@@ -58,7 +58,6 @@ import { SocialTabV2 } from "./tabs/SocialTabV2";
 import { ManagerTabV2 } from "./tabs/ManagerTabV2";
 import { YouthTabV2 } from "./tabs/YouthTabV2";
 import { CompetitionsTabV2 } from "./tabs/CompetitionsTabV2";
-import { TournamentsTabV2 } from "./tabs/TournamentsTabV2";
 import { MarketTabV2 } from "./tabs/MarketTabV2";
 import { ChampionsWorldTabV2 } from "./tabs/ChampionsWorldTabV2";
 import { MetaTabV2 } from "./tabs/MetaTabV2";

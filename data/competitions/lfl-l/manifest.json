@@ -8,12 +8,12 @@
   "logo": null,
   "teams_file": "teams/lfl-l_teams.json",
   "players_file": "players/lfl-l_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "single_round_robin",
     "team_count": 20,
     "preseason_friendlies": 0,
     "splits": []
   },
-  "legacy": true
+  "legacy": true,
+  "staff_file": "staffs/lfl-l_staffs.json"
 }

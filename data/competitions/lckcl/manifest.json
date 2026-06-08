@@ -8,11 +8,11 @@
   "logo": "/competitions-icons/83c1c207b2dfde6b.webp",
   "teams_file": "teams/lckcl_teams.json",
   "players_file": "players/lckcl_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "unknown",
     "team_count": 10,
     "preseason_friendlies": 0,
     "splits": []
-  }
+  },
+  "staff_file": "staffs/lckcl_staffs.json"
 }

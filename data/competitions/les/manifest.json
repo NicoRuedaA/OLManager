@@ -8,11 +8,11 @@
   "logo": "/competitions-icons/c5a06181749cd742.webp",
   "teams_file": "teams/les_teams.json",
   "players_file": "players/les_players.json",
-  "staff_file": null,
   "schedule": {
     "format": "unknown",
     "team_count": 0,
     "preseason_friendlies": 0,
     "splits": []
-  }
+  },
+  "staff_file": "staffs/les_staffs.json"
 }
