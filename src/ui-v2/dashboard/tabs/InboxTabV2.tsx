@@ -355,7 +355,7 @@ function MessageRow({
         >
           {message.sender_icon ? (
             <img
-              src={`/ui-icons/${message.sender_icon}.webp`}
+              src={`/messages-icons/${message.sender_icon}`}
               alt={message.sender}
               className="size-full object-cover"
               onError={(e) => {
@@ -440,7 +440,7 @@ function DetailPane({
         <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
           {message.sender_icon && (
             <img
-              src={`/ui-icons/${message.sender_icon}.webp`}
+              src={`/messages-icons/${message.sender_icon}`}
               alt=""
               className="size-5 rounded object-contain bg-muted"
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}

@@ -28,16 +28,18 @@ fn action(id: &str, label: &str, label_key: &str, action_type: ActionType) -> Me
 /// Message template system — generates rich messages with variations.
 
 pub fn welcome_message(team_name: &str, team_id: &str, date: &str) -> InboxMessage {
-    // Try to build from template store; fall back to legacy hardcoded version
+    // Use template store (with inline translations) if available
     if let Some(msg) = crate::messages::template_store::template_store().build_message(
-        "welcome",
-        &format!("welcome_{}_{}", team_id, date),
+        "select_team",
+        &format!("welcome_{}", team_id),
         date,
+        "en",
         vec![("team", team_name), ("days", "0")],
     ) {
         return msg;
     }
 
+    // Legacy fallback
     let mut rng = rand::rng();
     let variations = [
         (

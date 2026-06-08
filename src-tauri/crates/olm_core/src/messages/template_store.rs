@@ -32,10 +32,6 @@ pub struct MessageTemplateAction {
     #[serde(default)]
     pub label_key: Option<String>,
     #[serde(default)]
-    pub description: Option<String>,
-    #[serde(default)]
-    pub description_key: Option<String>,
-    #[serde(default)]
     pub route: Option<String>,
     #[serde(default)]
     pub options: Vec<MessageTemplateOption>,
@@ -56,18 +52,20 @@ pub struct MessageTemplateOption {
 #[derive(Debug, Deserialize)]
 pub struct MessageTemplate {
     pub id: String,
+    pub trigger: String,
     #[serde(default)]
-    pub subject_key: Option<String>,
-    pub subject: String,
-    #[serde(default)]
-    pub body_key: Option<String>,
-    pub body: String,
+    pub weight: u32,
     pub sender: MessageTemplateSender,
     pub category: String,
     #[serde(default)]
     pub priority: String,
     #[serde(default)]
     pub actions: Vec<MessageTemplateAction>,
+    pub subject: String,
+    pub body: String,
+    /// Inline translations keyed by language code: { "es": { "subject": ..., "body": ... } }
+    #[serde(default)]
+    pub translations: HashMap<String, HashMap<String, String>>,
 }
 
 // ─── Template store ───
@@ -75,41 +73,53 @@ pub struct MessageTemplate {
 static TEMPLATE_STORE: OnceLock<TemplateStore> = OnceLock::new();
 
 pub struct TemplateStore {
-    /// templates grouped by function (subdirectory name)
-    by_function: HashMap<String, Vec<MessageTemplate>>,
+    /// Templates grouped by trigger
+    by_trigger: HashMap<String, Vec<MessageTemplate>>,
 }
 
 impl TemplateStore {
-    /// Scan `data/messages/*/*.json` and load all templates.
+    /// Scan `data/messages/*.json` and load all templates.
     pub fn load(messages_dir: &Path) -> Result<Self, String> {
-        let mut by_function: HashMap<String, Vec<MessageTemplate>> = HashMap::new();
+        let mut by_trigger: HashMap<String, Vec<MessageTemplate>> = HashMap::new();
 
         if !messages_dir.is_dir() {
-            return Ok(Self { by_function });
+            return Ok(Self { by_trigger });
         }
 
         let entries = fs::read_dir(messages_dir)
             .map_err(|e| format!("Failed to read messages dir {messages_dir:?}: {e}"))?;
 
+        // Scan flat JSONs
         for entry in entries {
             let entry = entry.map_err(|e| format!("Dir entry error: {e}"))?;
-            let func_dir = entry.path();
-            if !func_dir.is_dir() {
+            let path = entry.path();
+            if path.extension().and_then(|s| s.to_str()) != Some("json") {
                 continue;
             }
-            let function_name = func_dir
-                .file_name()
-                .and_then(|n| n.to_str())
-                .unwrap_or("")
-                .to_string();
+            let content = fs::read_to_string(&path)
+                .map_err(|e| format!("Failed to read {path:?}: {e}"))?;
+            let template: MessageTemplate = serde_json::from_str(&content)
+                .map_err(|e| format!("Failed to parse {path:?}: {e}"))?;
+            by_trigger
+                .entry(template.trigger.clone())
+                .or_default()
+                .push(template);
+        }
 
-            let mut templates: Vec<MessageTemplate> = Vec::new();
-            let json_entries = fs::read_dir(&func_dir)
-                .map_err(|e| format!("Failed to read {func_dir:?}: {e}"))?;
-
-            for json_entry in json_entries {
-                let json_entry = json_entry.map_err(|e| format!("Entry error: {e}"))?;
-                let path = json_entry.path();
+        // Also scan subdirectories for nested JSONs
+        let dir_entries = fs::read_dir(messages_dir)
+            .map_err(|e| format!("Failed to read messages dir: {e}"))?;
+        for entry in dir_entries {
+            let entry = entry.map_err(|e| format!("Dir entry error: {e}"))?;
+            let subdir = entry.path();
+            if !subdir.is_dir() {
+                continue;
+            }
+            let sub_entries = fs::read_dir(&subdir)
+                .map_err(|e| format!("Failed to read {subdir:?}: {e}"))?;
+            for sub_entry in sub_entries {
+                let sub_entry = sub_entry.map_err(|e| format!("Entry error: {e}"))?;
+                let path = sub_entry.path();
                 if path.extension().and_then(|s| s.to_str()) != Some("json") {
                     continue;
                 }
@@ -117,73 +127,62 @@ impl TemplateStore {
                     .map_err(|e| format!("Failed to read {path:?}: {e}"))?;
                 let template: MessageTemplate = serde_json::from_str(&content)
                     .map_err(|e| format!("Failed to parse {path:?}: {e}"))?;
-                templates.push(template);
-            }
-
-            if !templates.is_empty() {
-                by_function.insert(function_name, templates);
+                by_trigger
+                    .entry(template.trigger.clone())
+                    .or_default()
+                    .push(template);
             }
         }
 
-        Ok(Self { by_function })
+        Ok(Self { by_trigger })
     }
 
-    /// Get a random template for a given function.
-    pub fn get_random(&self, function: &str) -> Option<&MessageTemplate> {
-        let templates = self.by_function.get(function)?;
+    /// Get a weighted random template for a given trigger.
+    pub fn pick_random(&self, trigger: &str) -> Option<&MessageTemplate> {
+        let templates = self.by_trigger.get(trigger)?;
         if templates.is_empty() {
             return None;
         }
-        let idx = rand::random_range(0..templates.len());
-        Some(&templates[idx])
+        // Weighted random selection
+        let total_weight: u32 = templates.iter().map(|t| t.weight.max(1)).sum();
+        let mut roll = rand::random_range(1..=total_weight);
+        for t in templates {
+            let w = t.weight.max(1);
+            if roll <= w {
+                return Some(t);
+            }
+            roll -= w;
+        }
+        Some(&templates[0])
     }
 
-    /// Build an InboxMessage from a template with the given i18n params.
+    /// Build an InboxMessage from a template with given params and language.
     pub fn build_message(
         &self,
-        function: &str,
+        trigger: &str,
         id: &str,
         date: &str,
+        lang: &str,
         params: Vec<(&str, &str)>,
     ) -> Option<InboxMessage> {
-        let tpl = self.get_random(function)?;
+        let tpl = self.pick_random(trigger)?;
 
-        let i18n_params: std::collections::HashMap<String, String> = params
-            .into_iter()
+        let i18n_params: HashMap<String, String> = params
+            .iter()
             .map(|(k, v)| (k.to_string(), v.to_string()))
             .collect();
 
-        let category = match tpl.category.to_lowercase().as_str() {
-            "welcome" => MessageCategory::Welcome,
-            "leagueinfo" => MessageCategory::LeagueInfo,
-            "matchpreview" => MessageCategory::MatchPreview,
-            "matchresult" => MessageCategory::MatchResult,
-            "transfer" => MessageCategory::Transfer,
-            "boarddirective" => MessageCategory::BoardDirective,
-            "playermorale" => MessageCategory::PlayerMorale,
-            "injury" => MessageCategory::Injury,
-            "training" => MessageCategory::Training,
-            "finance" => MessageCategory::Finance,
-            "contract" => MessageCategory::Contract,
-            "scoutreport" => MessageCategory::ScoutReport,
-            "media" => MessageCategory::Media,
-            "system" => MessageCategory::System,
-            "joboffer" => MessageCategory::JobOffer,
-            _ => MessageCategory::System,
-        };
+        // Resolve translated text or fall back to default (English)
+        let subject = resolve_text(&tpl.subject, &tpl.translations, lang, "subject", &i18n_params);
+        let body = resolve_text(&tpl.body, &tpl.translations, lang, "body", &i18n_params);
 
-        let priority = match tpl.priority.to_lowercase().as_str() {
-            "low" => MessagePriority::Low,
-            "normal" => MessagePriority::Normal,
-            "high" => MessagePriority::High,
-            "urgent" => MessagePriority::Urgent,
-            _ => MessagePriority::Normal,
-        };
+        let category = parse_category(&tpl.category);
+        let priority = parse_priority(&tpl.priority);
 
         let mut msg = InboxMessage::new(
             id.to_string(),
-            interpolate(&tpl.subject, &i18n_params),
-            interpolate(&tpl.body, &i18n_params),
+            subject,
+            body,
             interpolate(&tpl.sender.name, &i18n_params),
             date.to_string(),
         )
@@ -194,12 +193,6 @@ impl TemplateStore {
         if let Some(icon) = &tpl.sender.icon {
             msg = msg.with_sender_icon(icon);
         }
-        if let Some(key) = &tpl.subject_key {
-            msg.subject_key = Some(key.clone());
-        }
-        if let Some(key) = &tpl.body_key {
-            msg.body_key = Some(key.clone());
-        }
         if let Some(key) = &tpl.sender.name_key {
             msg.sender_key = Some(key.clone());
         }
@@ -207,7 +200,7 @@ impl TemplateStore {
             msg.sender_role_key = Some(key.clone());
         }
         if !i18n_params.is_empty() {
-            msg.i18n_params = i18n_params.clone();
+            msg.i18n_params = i18n_params;
         }
 
         for (i, a) in tpl.actions.iter().enumerate() {
@@ -244,6 +237,62 @@ impl TemplateStore {
     }
 }
 
+/// Resolve translated text: try `translations.lang.field`, fall back to `default`.
+fn resolve_text(
+    default: &str,
+    translations: &HashMap<String, HashMap<String, String>>,
+    lang: &str,
+    field: &str,
+    params: &HashMap<String, String>,
+) -> String {
+    let text = translations
+        .get(lang)
+        .and_then(|t| t.get(field))
+        .map(|s| s.as_str())
+        .unwrap_or(default);
+    interpolate(text, params)
+}
+
+/// Replace {key} placeholders in text with actual values.
+fn interpolate(text: &str, params: &HashMap<String, String>) -> String {
+    let mut result = text.to_string();
+    for (key, value) in params {
+        result = result.replace(&format!("{{{}}}", key), value);
+    }
+    result
+}
+
+fn parse_category(s: &str) -> MessageCategory {
+    match s.to_lowercase().as_str() {
+        "welcome" => MessageCategory::Welcome,
+        "leagueinfo" => MessageCategory::LeagueInfo,
+        "matchpreview" => MessageCategory::MatchPreview,
+        "matchresult" => MessageCategory::MatchResult,
+        "transfer" => MessageCategory::Transfer,
+        "boarddirective" => MessageCategory::BoardDirective,
+        "playermorale" => MessageCategory::PlayerMorale,
+        "injury" => MessageCategory::Injury,
+        "training" => MessageCategory::Training,
+        "finance" => MessageCategory::Finance,
+        "contract" => MessageCategory::Contract,
+        "scoutreport" => MessageCategory::ScoutReport,
+        "media" => MessageCategory::Media,
+        "system" => MessageCategory::System,
+        "joboffer" => MessageCategory::JobOffer,
+        _ => MessageCategory::System,
+    }
+}
+
+fn parse_priority(s: &str) -> MessagePriority {
+    match s.to_lowercase().as_str() {
+        "low" => MessagePriority::Low,
+        "normal" => MessagePriority::Normal,
+        "high" => MessagePriority::High,
+        "urgent" => MessagePriority::Urgent,
+        _ => MessagePriority::Normal,
+    }
+}
+
 /// Initialize the global template store. Call once at app startup.
 pub fn init_template_store(messages_dir: &Path) -> Result<(), String> {
     let store = TemplateStore::load(messages_dir)?;
@@ -254,19 +303,7 @@ pub fn init_template_store(messages_dir: &Path) -> Result<(), String> {
 
 /// Get a reference to the global template store.
 pub fn template_store() -> &'static TemplateStore {
-    TEMPLATE_STORE.get_or_init(|| {
-        // If not initialized, return an empty store (graceful degradation)
-        TemplateStore {
-            by_function: HashMap::new(),
-        }
+    TEMPLATE_STORE.get_or_init(|| TemplateStore {
+        by_trigger: HashMap::new(),
     })
-}
-
-/// Replace {key} placeholders in template text with actual values.
-fn interpolate(text: &str, params: &std::collections::HashMap<String, String>) -> String {
-    let mut result = text.to_string();
-    for (key, value) in params {
-        result = result.replace(&format!("{{{}}}", key), value);
-    }
-    result
 }
