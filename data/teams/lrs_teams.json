@@ -3,95 +3,13 @@
   "description": "LRS - 2026 Season",
   "teams": [
     {
-      "id": "lrs-9z-globant",
-      "colors": {
-        "primary": "#ffffff"
-      },
-      "country": "",
-      "logo_url": "/teams-icons/9z-globant.webp",
-      "data.country": "AR",
-      "name": "9z Globant",
-      "short_name": "9ZG",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "lrs-maze-gaming",
-      "colors": {
-        "primary": "#101211",
-        "secondary": "#20982d"
-      },
-      "country": "",
-      "logo_url": "/teams-icons/maze-gaming.webp",
-      "data.country": "CL",
-      "name": "Maze Gaming",
-      "short_name": "MAZ",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "lrs-seven-dark",
-      "colors": {
-        "primary": "#000036",
-        "secondary": "#0001dd"
-      },
-      "country": "",
-      "logo_url": "/teams-icons/seven-dark.webp",
-      "data.country": "CL",
-      "name": "Seven Dark",
-      "short_name": "7D",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "lrs-the-new-kings",
-      "country": "",
-      "logo_url": "/teams-icons/the-new-kings.webp",
-      "data.country": "AR",
-      "name": "The New Kings",
-      "short_name": "TNK",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "lrs-tu-pap-esports",
-      "colors": {
-        "secondary": "#fc7605"
-      },
-      "country": "",
-      "logo_url": "/teams-icons/tu-pap-esports.webp",
-      "data.country": "PE",
-      "name": "Tu Papá Esports",
-      "short_name": "TPA",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "lrs-volticons",
       "colors": {
         "primary": "#7f4fb3",
         "secondary": "#4b3593"
       },
-      "country": "",
+      "country": "UY",
       "logo_url": "/teams-icons/volticons.webp",
       "data.country": "UY",
       "name": "Volticons",
@@ -99,12 +17,61 @@
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "id": "lrs-maze-gaming",
+      "colors": {
+        "primary": "#101211",
+        "secondary": "#20982d"
+      },
+      "country": "CL",
+      "logo_url": "/teams-icons/maze-gaming.webp",
+      "data.country": "CL",
+      "name": "Maze Gaming",
+      "short_name": "MAZ",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lrs-9z-globant",
+      "colors": {
+        "primary": "#ffffff"
+      },
+      "country": "AR",
+      "logo_url": "/teams-icons/9z-globant.webp",
+      "data.country": "AR",
+      "name": "9z Globant",
+      "short_name": "9ZG",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lrs-tu-pap-esports",
+      "colors": {
+        "secondary": "#fc7605"
+      },
+      "country": "PE",
+      "logo_url": "/teams-icons/tu-pap-esports.webp",
+      "data.country": "PE",
+      "name": "Tu Papá Esports",
+      "short_name": "TPA",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
       "id": "lrs-golden-lions",
-      "country": "",
+      "country": "Peru",
       "logo_url": "/teams-icons/golden-lions.webp",
       "data.country": "Peru",
       "name": "Golden Lions",
@@ -113,13 +80,30 @@
       "stadium_name": "",
       "stadium_capacity": 0,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "id": "lrs-the-new-kings",
+      "country": "AR",
+      "logo_url": "/teams-icons/the-new-kings.webp",
+      "data.country": "AR",
+      "name": "The New Kings",
+      "short_name": "TNK",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
       "id": "lrs-malvinas-gaming",
       "colors": {
         "secondary": "#129ebf"
@@ -132,8 +116,24 @@
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lrs-seven-dark",
+      "colors": {
+        "primary": "#000036",
+        "secondary": "#0001dd"
+      },
+      "country": "CL",
+      "logo_url": "/teams-icons/seven-dark.webp",
+      "data.country": "CL",
+      "name": "Seven Dark",
+      "short_name": "7D",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
     }
   ]
 }

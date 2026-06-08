@@ -1,0 +1,23 @@
+{
+  "id": "welcome",
+  "trigger": "select_team",
+  "weight": 1,
+  "sender": "board",
+  "category": "Welcome",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Welcome to {team}!",
+  "body": "The board of directors welcomes you as the new head coach of {team}.\n\nWe have full confidence in your ability to lead this team to success. The upcoming season begins in {days} days.\n\nReview your squad, set your priorities, and prepare for the challenges ahead.\n\nGood luck, coach!",
+  "translations": {
+    "es": {
+      "subject": "¡Bienvenido a {team}!",
+      "body": "El consejo directivo te da la bienvenida como nuevo entrenador de {team}.\n\nTenemos plena confianza en tu capacidad para llevar a este equipo al éxito. La próxima temporada comienza en {days} días.\n\nRevisa tu plantilla, establece tus prioridades y prepárate para los desafíos que vienen.\n\n¡Buena suerte, entrenador!"
+    },
+    "de": {
+      "subject": "Willkommen bei {team}!",
+      "body": "Der Vorstand heißt Sie als neuen Cheftrainer von {team} willkommen.\n\nWir vertrauen auf Ihre Fähigkeit, dieses Team zum Erfolg zu führen. Die Saison beginnt in {days} Tagen.\n\nViel Erfolg, Trainer!"
+    }
+  }
+}

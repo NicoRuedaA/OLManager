@@ -19,14 +19,9 @@ C4Context
   System_Boundary(backend, "Tauri v2 Backend (Rust)") {
     System(cmd, "Command layer", "src-tauri/src/commands/ (thin handlers)")
     System(app, "Application services", "src-tauri/src/application/")
-    System(sm, "StateManager", "ofm_core::state (unified Session)")
-    System_db(db, "Persistence", "db crate (SQLite per-save)")
-  }
-
-  System_Boundary(crates, "Rust Crates") {
-    System(domain, "domain", "Model types (Player, Team, etc.)")
-    System(engine, "engine", "Match simulation (pure, no I/O)")
-    System(ofm, "ofm_core", "Gameplay orchestration, turn logic")
+    System(sm, "StateManager", "olm_core::state (unified Session)")
+    System(core, "olm_core", "Domain, engine, gameplay, persistence")
+    System_Ext(srv, "server", "Web HTTP API (optional)")
   }
 
   System_Ext(leaguepedia, "Leaguepedia API", "External data (optional)")
@@ -36,12 +31,10 @@ C4Context
   Rel(svc, cmd, "invoke('cmd', payload)")
   Rel(cmd, app, "delegates to")
   Rel(cmd, sm, "reads/writes state")
-  Rel(cmd, db, "loads/saves games")
-  Rel(app, ofm, "orchestrates gameplay")
-  Rel(ofm, engine, "runs simulation")
-  Rel(ofm, domain, "uses types")
-  Rel(db, ofm, "persists/loads domain objects")
+  Rel(cmd, core, "loads/saves game")
+  Rel(cmd, core, "orchestrates gameplay")
   Rel(ui, leaguepedia, "fetches champion data", "optional")
+  Rel(frontend, srv, "HTTP /api/* (web mode)")
 
   UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
 ```
@@ -72,52 +65,38 @@ Use this boundary deliberately:
 
 - Frontend code should call command names through small service functions in `src/services/`, not scatter raw `invoke(...)` calls throughout components.
 - Tauri commands should validate inputs, load/update `StateManager`, call application/core/db functions, and return serializable DTOs or domain structures.
-- Business rules that must be consistent across UI flows belong in Rust (`ofm_core`, `engine`, or application services), not in React components.
+- Business rules that must be consistent across UI flows belong in Rust (`olm_core`, or application services), not in React components.
 - UI-only state, presentation preferences, and navigation belong in React/Zustand/hooks.
 
 The backend keeps process-level state with Tauri-managed objects:
 
-- `ofm_core::state::StateManager` stores the active `Game`, stats state, live match session, and active save id within a single `Mutex<Session>` (unified lock — no deadlock risk).
+- `olm_core::state::StateManager` stores the active `Game`, stats state, live match session, and active save id within a single `Mutex<Session>` (unified lock — no deadlock risk).
 - `SaveManagerState` wraps `db::save_manager::SaveManager` for save listing/loading/saving/deleting.
 
-## Rust workspace and crate responsibilities
+## Rust workspace and module responsibilities
 
-The Rust backend is a workspace declared in `src-tauri/Cargo.toml`.
+The Rust backend is a workspace declared in `src-tauri/Cargo.toml` with two crates: `olm_core` and `server`.
 
-### `domain`
+### `olm_core`
 
-`src-tauri/crates/domain` defines serializable domain data types: players, teams, leagues, managers, staff, messages, news, season context, stats, negotiations, and identity structures.
+`src-tauri/crates/olm_core` is the single backend crate. The old 4-crate workspace (`domain`, `engine`, `ofm_core`, `db`) was consolidated into `olm_core` as modules. It contains:
 
-Keep this crate model-focused. It currently depends only on general-purpose libraries such as `serde`, `serde_json`, and `log`, and should not know about Tauri, SQLite, or frontend concerns.
+- **`domain/`** — Serializable domain data types: players, teams, leagues, managers, staff, messages, news, season context, stats, negotiations, and identity structures. Depends only on general-purpose libraries (`serde`, `serde_json`, `log`).
+- **`engine/`** — Match simulation logic (pure, no I/O). Exposes `simulate`, `LiveMatchState`, `MatchCommand`, `MatchSnapshot`, `MatchReport`.
+- **`db/`** — SQLite persistence. Contains `GameDatabase` (per-save SQLite with migrations up to V55), `repositories/`, `GamePersistenceReader`/`GamePersistenceWriter`, `SaveManager`.
+- **`game.rs`** — Central career object (`Game`), clock, club systems, contracts, finances, training, scouting, transfers, schedules.
+- **`state.rs`** — Runtime session state (`StateManager` with unified `Mutex<Session>`).
+- **`sim_live.rs` / `sim_live/`** — Live match engine (25+ submodules).
+- **`commands.rs`** — Command dispatch for web/server mode.
+- Plus modules for: academy, champions, social, news, messages, turn logic, time blockers, player events, scrims, season awards, etc.
 
-### `engine`
+### `server`
 
-`src-tauri/crates/engine` contains match simulation logic. It exposes simulation functions and match types such as `simulate`, `LiveMatchState`, `MatchCommand`, `MatchSnapshot`, `MatchReport`, and `TeamData`.
-
-This crate is intentionally separate from Tauri and persistence so match simulation can be tested independently.
-
-### `ofm_core`
-
-`src-tauri/crates/ofm_core` contains gameplay/application domain logic: game state, clock, club systems, contracts, finances, training, scouting, transfers, schedules, turns, live match management, season logic, player events, generated messages/news, and job offers.
-
-It depends on `domain` and `engine`. The central career object is `ofm_core::game::Game`, and runtime session state is managed by `ofm_core::state::StateManager`.
-
-### `db`
-
-`src-tauri/crates/db` owns SQLite persistence. It contains:
-
-- `GameDatabase`, which opens per-save SQLite databases and applies migrations.
-- `migrations` and `sql/`, which define schema evolution.
-- `repositories/`, which map domain/core state to tables.
-- `GamePersistenceReader` and `GamePersistenceWriter`, which reconstruct and persist `Game`/stats state.
-- `SaveManager`, `SaveIndexManager`, and `save_index`, which manage save files, metadata, checksums, and save discovery.
-- `legacy_migration`, which handles old save migration on startup.
-
-The `db` crate depends on `domain` and `ofm_core`, but gameplay code should not depend on SQLite details.
+`src-tauri/crates/server` provides an optional HTTP API for web/SaaS mode. It depends on `olm_core` and serves the same gameplay commands via HTTP endpoints proxied through vite in web mode.
 
 ### Tauri app crate
 
-`src-tauri/src` wires the desktop application together. `lib.rs` configures plugins, logging, managed state, app data directories, legacy save migration, and command registration. `application/` contains backend orchestration that is too app-specific for the pure crates, such as time advancement and live-match flow coordination.
+`src-tauri/src` wires the desktop application together. `lib.rs` configures plugins, logging, managed state, app data directories, legacy save migration, and command registration. `application/` contains backend orchestration that is too app-specific for the core crate, such as time advancement and live-match flow coordination.
 
 ## Persistence and save/load model
 
@@ -127,7 +106,7 @@ OLManager uses a per-save SQLite model:
 2. Starting a new game creates a new save database through `SaveManager::create_save` and stores its id in `StateManager`.
 3. `GameDatabase::open` creates or opens a `.db` file and applies all migrations before use.
 4. `GamePersistenceWriter` writes game metadata, manager, teams, players, staff, messages, news, league, objectives, scouting assignments, and stats through repositories.
-5. `GamePersistenceReader` loads the same tables back into an `ofm_core::game::Game` and refreshes derived season context.
+5. `GamePersistenceReader` loads the same tables back into an `olm_core::game::Game` and refreshes derived season context.
 6. The save index records save id, name, manager name, db filename, checksum, creation time, and last played time.
 7. `save_game` persists the active game and stats. `exit_to_menu` auto-saves when there is an active save id, then clears in-memory state.
 
@@ -139,19 +118,17 @@ The current code supports this dependency direction:
 
 ```text
 React UI → frontend services → Tauri commands/application
-Tauri commands/application → ofm_core / engine / db
-db → ofm_core + domain
-ofm_core → domain + engine
-engine → standalone simulation types/logic
-domain → serializable model types only
+Tauri commands/application → olm_core (gameplay, engine, persistence, domain)
+server → olm_core
+olm_core modules: domain ← engine ← gameplay ← persistence
 ```
 
 Contributor rules of thumb:
 
 - Do not put durable business rules only in React. If a rule changes saved game state or simulation results, implement it in Rust and expose it through a command.
-- Keep `domain` free of Tauri, SQLite, and UI-specific code.
-- Keep `engine` focused on simulation. Do not make it depend on save files or Tauri commands.
-- Keep persistence behind `db` repositories/persistence readers/writers. Do not issue SQLite queries from command modules.
+- Keep `domain/` free of Tauri, SQLite, and UI-specific code.
+- Keep `engine/` focused on simulation. Do not make it depend on save files or Tauri commands.
+- Keep persistence behind `db/` repositories. Do not issue SQLite queries from command modules.
 - Keep command modules thin enough to be understandable: parse/validate input, call core/application/db, update `StateManager`, return data.
 - Keep frontend `services/` as the IPC boundary. Components and hooks should use service functions instead of raw command strings when possible.
 
@@ -160,16 +137,16 @@ Contributor rules of thumb:
 - Frontend: `npm test` runs Vitest in jsdom. Use React Testing Library for components/pages/hooks and plain Vitest for helpers, stores, and services.
 - TypeScript contract checks: `npm run build:types` runs the release TypeScript config without creating a Tauri production bundle.
 - Rust formatting/linting: use `cargo fmt --manifest-path src-tauri/Cargo.toml --check`, `cargo check`, and `cargo clippy --workspace --all-targets -- -D warnings`.
-- Rust tests: `cargo test --manifest-path src-tauri/Cargo.toml --workspace` covers crates such as `engine`, `ofm_core`, `db`, and command-level tests.
+- Rust tests: `cargo test --manifest-path src-tauri/Cargo.toml --workspace` covers `olm_core` (simulation, gameplay, persistence) and command-level tests.
 
 Do not run production Tauri bundle builds for normal documentation or PR validation work.
 
 ## Adding a new feature safely
 
 1. Decide where the rule belongs. UI-only behavior goes in React; game-state mutations and simulations go in Rust.
-2. Add or extend domain types in `domain` only when the model needs new durable fields or shared serializable structures.
-3. Implement gameplay behavior in `ofm_core` or simulation behavior in `engine` with crate-level tests.
-4. If the feature must be saved, add a migration and repository/persistence updates in `db`.
+2. Add or extend domain types in `olm_core::domain` only when the model needs new durable fields or shared serializable structures.
+3. Implement gameplay behavior in `olm_core` with module-level tests.
+4. If the feature must be saved, add a migration and repository/persistence updates in `olm_core::db`.
 5. Expose the behavior through a Tauri command in `src-tauri/src/commands/` and register it in `lib.rs`.
 6. Add a typed frontend service wrapper in `src/services/`.
 7. Update Zustand stores/hooks/pages/components only for presentation and UI flow.

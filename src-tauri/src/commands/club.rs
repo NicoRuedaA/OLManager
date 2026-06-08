@@ -1,8 +1,8 @@
 use log::info;
 use tauri::State;
 
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 #[tauri::command]
 pub fn upgrade_facility(state: State<'_, StateManager>, facility: String) -> Result<Game, String> {
@@ -35,9 +35,9 @@ fn upgrade_facility_internal(state: &StateManager, facility: &str) -> Result<Gam
         .ok_or("No team assigned".to_string())?;
 
     let facility_type = match facility {
-        "Training" => domain::team::FacilityType::Training,
-        "Medical" => domain::team::FacilityType::Medical,
-        "Scouting" => domain::team::FacilityType::Scouting,
+        "Training" => olm_core::domain::team::FacilityType::Training,
+        "Medical" => olm_core::domain::team::FacilityType::Medical,
+        "Scouting" => olm_core::domain::team::FacilityType::Scouting,
         _ => return Err(format!("Unknown facility type: {}", facility)),
     };
 
@@ -47,7 +47,7 @@ fn upgrade_facility_internal(state: &StateManager, facility: &str) -> Result<Gam
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    ofm_core::club::upgrade_facility(team, facility_type)?;
+    olm_core::club::upgrade_facility(team, facility_type)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -69,12 +69,12 @@ fn upgrade_main_facility_module_internal(
         .ok_or("No team assigned".to_string())?;
 
     let module_kind = match module {
-        "ScrimsRoom" => domain::team::MainFacilityModuleKind::ScrimsRoom,
-        "AnalysisRoom" => domain::team::MainFacilityModuleKind::AnalysisRoom,
-        "BootcampArea" => domain::team::MainFacilityModuleKind::BootcampArea,
-        "RecoverySuite" => domain::team::MainFacilityModuleKind::RecoverySuite,
-        "ContentStudio" => domain::team::MainFacilityModuleKind::ContentStudio,
-        "ScoutingLab" => domain::team::MainFacilityModuleKind::ScoutingLab,
+        "ScrimsRoom" => olm_core::domain::team::MainFacilityModuleKind::ScrimsRoom,
+        "AnalysisRoom" => olm_core::domain::team::MainFacilityModuleKind::AnalysisRoom,
+        "BootcampArea" => olm_core::domain::team::MainFacilityModuleKind::BootcampArea,
+        "RecoverySuite" => olm_core::domain::team::MainFacilityModuleKind::RecoverySuite,
+        "ContentStudio" => olm_core::domain::team::MainFacilityModuleKind::ContentStudio,
+        "ScoutingLab" => olm_core::domain::team::MainFacilityModuleKind::ScoutingLab,
         _ => return Err(format!("Unknown facility module: {}", module)),
     };
 
@@ -84,7 +84,7 @@ fn upgrade_main_facility_module_internal(
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    ofm_core::club::upgrade_main_facility_module(team, module_kind)?;
+    olm_core::club::upgrade_main_facility_module(team, module_kind)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -108,7 +108,7 @@ fn expand_main_facility_hub_internal(state: &StateManager) -> Result<Game, Strin
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    ofm_core::club::expand_main_facility_hub(team)?;
+    olm_core::club::expand_main_facility_hub(team)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -118,11 +118,11 @@ fn expand_main_facility_hub_internal(state: &StateManager) -> Result<Game, Strin
 mod tests {
     use super::upgrade_facility_internal;
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::state::StateManager;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::state::StateManager;
 
     fn make_team() -> Team {
         let mut team = Team::new(
@@ -178,3 +178,5 @@ mod tests {
         assert_eq!(stored_team.finance, 750_000);
     }
 }
+
+

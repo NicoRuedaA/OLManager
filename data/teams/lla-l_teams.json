@@ -1,0 +1,192 @@
+{
+  "name": "LLA-L Teams",
+  "description": "LLA-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "lla-l-six-karma",
+      "country": "Mexico",
+      "logo_url": "/teams-icons/six-karma.webp",
+      "data.country": "Mexico",
+      "name": "Six Karma",
+      "short_name": "6k",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-the-kings",
+      "country": "MX",
+      "logo_url": "/teams-icons/the-kings.webp",
+      "data.country": "MX",
+      "name": "The Kings",
+      "short_name": "TK",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-movistar-r7",
+      "country": "Mexico",
+      "logo_url": "/teams-icons/movistar-r7.webp",
+      "data.country": "Mexico",
+      "name": "Movistar R7",
+      "short_name": "R7",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-kaos-latin-gamers",
+      "country": "Chile",
+      "logo_url": "/teams-icons/kaos-latin-gamers.webp",
+      "data.country": "Chile",
+      "name": "Kaos Latin Gamers",
+      "short_name": "KLG",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-isurus",
+      "country": "Argentina",
+      "logo_url": "/teams-icons/isurus.webp",
+      "data.country": "Argentina",
+      "name": "Isurus",
+      "short_name": "ISG",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-all-knights",
+      "country": "Chile",
+      "logo_url": "/teams-icons/all-knights.webp",
+      "data.country": "Chile",
+      "name": "All Knights",
+      "short_name": "AK",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-xten-esports",
+      "country": "Mexico",
+      "logo_url": "/teams-icons/xten-esports.webp",
+      "data.country": "Mexico",
+      "name": "XTEN Esports",
+      "short_name": "XTN",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-furious-gaming",
+      "country": "Argentina",
+      "logo_url": "/teams-icons/furious-gaming.webp",
+      "data.country": "Argentina",
+      "name": "Furious Gaming",
+      "short_name": "FG",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-team-aze",
+      "country": "Mexico",
+      "logo_url": "/teams-icons/team-aze.webp",
+      "data.country": "Mexico",
+      "name": "Team Aze",
+      "short_name": "AZE",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-globant-emerald",
+      "colors": {
+        "secondary": "#000000"
+      },
+      "logo_url": "/teams-icons/globant-emerald.webp",
+      "data.country": "Argentina",
+      "name": "Globant Emerald",
+      "short_name": "GET",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lla-l-infinity",
+      "country": "Costa Rica",
+      "logo_url": "/teams-icons/infinity.webp",
+      "data.country": "Costa Rica",
+      "name": "INFINITY",
+      "short_name": "INF",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

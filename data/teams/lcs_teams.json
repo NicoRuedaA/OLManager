@@ -3,6 +3,7 @@
   "description": "LCS - 2026 Season",
   "teams": [
     {
+      "history": [],
       "id": "team-tl2025",
       "city": "Los Angeles",
       "form": [],
@@ -14,7 +15,6 @@
       "academy": null,
       "country": "US",
       "finance": 8500000,
-      "history": [],
       "logo_url": "/teams-icons/team-liquid.webp",
       "team_kind": "Main",
       "facilities": {
@@ -59,6 +59,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-c92025",
       "city": "Los Angeles",
       "form": [],
@@ -70,7 +71,6 @@
       "academy": null,
       "country": "US",
       "finance": 38000000,
-      "history": [],
       "logo_url": "/teams-icons/cloud9.webp",
       "team_kind": "Main",
       "facilities": {
@@ -115,6 +115,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-dig2025",
       "city": "Los Angeles",
       "form": [],
@@ -126,7 +127,6 @@
       "academy": null,
       "country": "US",
       "finance": 5800000,
-      "history": [],
       "logo_url": "/teams-icons/dignitas.webp",
       "team_kind": "Main",
       "facilities": {
@@ -171,6 +171,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-cb9503c1",
       "city": "Mexico City",
       "form": [],
@@ -182,7 +183,6 @@
       "academy": null,
       "country": "MX",
       "finance": 4000000,
-      "history": [],
       "logo_url": "/teams-icons/lyon.webp",
       "team_kind": "Main",
       "facilities": {
@@ -227,6 +227,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-75904cb7",
       "city": "Los Angeles",
       "form": [],
@@ -238,7 +239,6 @@
       "academy": null,
       "country": "US",
       "finance": 5300000,
-      "history": [],
       "logo_url": "/teams-icons/disguised.webp",
       "team_kind": "Main",
       "facilities": {
@@ -283,6 +283,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-sen2025",
       "city": "Los Angeles",
       "form": [],
@@ -294,7 +295,6 @@
       "academy": null,
       "country": "US",
       "finance": 5500000,
-      "history": [],
       "logo_url": "/teams-icons/sentinels.webp",
       "team_kind": "Main",
       "facilities": {
@@ -339,6 +339,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-d740ef00",
       "city": "Toronto",
       "form": [],
@@ -350,7 +351,6 @@
       "academy": null,
       "country": "CA",
       "finance": 4400000,
-      "history": [],
       "logo_url": "/teams-icons/shopify-rebellion.webp",
       "team_kind": "Main",
       "facilities": {
@@ -395,6 +395,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-fly2025",
       "city": "Miami",
       "form": [],
@@ -406,7 +407,6 @@
       "academy": null,
       "country": "US",
       "finance": 6000000,
-      "history": [],
       "logo_url": "/teams-icons/flyquest.webp",
       "team_kind": "Main",
       "facilities": {

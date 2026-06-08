@@ -5,14 +5,11 @@
   "region": "LPL",
   "country": "CN",
   "tier": 1,
-  "logo": "/competition-icons/1778444764071_lzoz5h1zkl.webp",
+  "logo": "/competitions-icons/ccbcd26f2b1fb07b.webp",
   "teams_file": "teams/lpl_teams.json",
   "players_file": "players/lpl_players.json",
-  "staff_file": "staffs/lpl_staffs.json",
   "schedule": {
     "format": "single_round_robin",
-    "team_count": 14,
-    "preseason_friendlies": 0,
     "splits": [
       {
         "name": "Spring",
@@ -40,6 +37,9 @@
         },
         "superweek_offsets": []
       }
-    ]
-  }
+    ],
+    "team_count": 14,
+    "preseason_friendlies": 0
+  },
+  "staff_file": "staffs/lpl_staffs.json"
 }

@@ -1,0 +1,38 @@
+{
+  "name": "AL-L Teams",
+  "description": "AL-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "team-4b8187c4",
+      "name": "Super Stars",
+      "short_name": "SS",
+      "country": "",
+      "logo_url": "/teams-icons/a026f256438378b6.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "EG",
+      "id": "team-6019b0e7",
+      "name": "NextGeneration Esports",
+      "short_name": "NGE",
+      "logo_url": "/teams-icons/98ea1bd9d428ee24.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

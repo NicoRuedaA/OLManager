@@ -3,164 +3,163 @@
   "description": "CD - 2026 Season",
   "teams": [
     {
-      "id": "team-603562ef",
-      "name": "7REX",
-      "short_name": "REX",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-408c21b2",
-      "name": "paiN Gaming Academy",
-      "short_name": "PAINA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-4fec330a",
-      "name": "Ei Nerd Esports",
-      "short_name": "ENE",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-31ca2c75",
-      "name": "INTZ",
-      "short_name": "IZ",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-2ec1b6c9",
-      "name": "Estral Esports",
-      "short_name": "EST",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-53c6789c",
-      "name": "KaBuM! Ilha das Lendas",
-      "short_name": "KIDL",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-467d253d",
-      "name": "RED Academy",
-      "short_name": "REDA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "BR",
       "id": "team-0dcb5849",
       "name": "RMD Gaming",
       "short_name": "RMD",
-      "country": "",
+      "logo_url": "/teams-icons/f264b04cd8181589.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-a49fd9c6",
-      "name": "Team Solid",
-      "short_name": "TS",
-      "country": "",
+      "history": [],
+      "country": "MX",
+      "id": "team-2ec1b6c9",
+      "name": "Estral Esports",
+      "short_name": "EST",
+      "logo_url": "/teams-icons/870ad8f32219916d.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "BR",
+      "id": "team-31ca2c75",
+      "name": "INTZ",
+      "short_name": "IZ",
+      "logo_url": "/teams-icons/c30df901d9d608e9.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
       "id": "team-369e4620",
       "name": "Vivo Keyd Stars Academy",
       "short_name": "VKSA",
       "country": "",
+      "logo_url": "/teams-icons/abdf64a517fcbe0e.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-408c21b2",
+      "name": "paiN Gaming Academy",
+      "short_name": "PAINA",
+      "country": "",
+      "logo_url": "/teams-icons/5daf07d13de882f9.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "BR",
+      "id": "team-467d253d",
+      "name": "RED Academy",
+      "short_name": "REDA",
+      "logo_url": "/teams-icons/569c06ef0d3c24fe.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-4fec330a",
+      "name": "Ei Nerd Esports",
+      "short_name": "ENE",
+      "country": "",
+      "logo_url": "/teams-icons/ffd77d3853ba4557.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-53c6789c",
+      "name": "KaBuM! Ilha das Lendas",
+      "short_name": "KIDL",
+      "country": "",
+      "logo_url": "/teams-icons/cd74198969eab299.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "colors": {
+        "primary": "#f5c211"
+      },
+      "country": "BR",
+      "id": "team-603562ef",
+      "name": "7REX",
+      "short_name": "REX",
+      "logo_url": "/teams-icons/ce65ab85321eed71.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-a49fd9c6",
+      "name": "Team Solid",
+      "short_name": "TS",
+      "country": "",
+      "logo_url": "/teams-icons/8b3c9ef6d8e0584e.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

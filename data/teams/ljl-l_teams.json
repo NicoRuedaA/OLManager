@@ -1,0 +1,37 @@
+{
+  "name": "LJL-L Teams",
+  "description": "LJL-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "team-f711240c",
+      "name": "NOVEX",
+      "short_name": "NOV",
+      "country": "",
+      "logo_url": "/teams-icons/b412ed418ba0a620.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "colors": {
+        "primary": "#c01c28"
+      },
+      "id": "team-ffab9be7",
+      "name": "Inferno Drive Tokyo",
+      "short_name": "TOK",
+      "country": "",
+      "logo_url": "/teams-icons/a3d1f10ce7a0d501.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    }
+  ]
+}

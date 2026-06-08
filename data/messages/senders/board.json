@@ -1,0 +1,8 @@
+{
+  "id": "board",
+  "name": "Board of Directors",
+  "name_key": "be.sender.boardOfDirectors",
+  "role": "Chairman",
+  "role_key": "be.role.chairman",
+  "icon": "board.jpg"
+}

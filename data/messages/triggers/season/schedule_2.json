@@ -1,0 +1,19 @@
+{
+  "id": "schedule_2",
+  "trigger": "season_schedule",
+  "weight": 1,
+  "sender": "board",
+  "category": "LeagueInfo",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "{league} season confirmed",
+  "body": "The fixture list for the upcoming {league} season has been confirmed. The action begins on {start}.\n\nStudy the opening fixtures carefully \u2014 a strong start can set the tone for the whole campaign. Make sure your key players are match-fit and ready to go.\n\nGood luck this season!",
+  "translations": {
+    "es": {
+      "subject": "Temporada de {league} confirmada",
+      "body": "El calendario de la pr\u00f3xima temporada de {league} ha sido confirmado. La acci\u00f3n comienza el {start}.\n\nEstudia los primeros partidos con atenci\u00f3n \u2014 un buen arranque puede marcar el tono de toda la campa\u00f1a. Aseg\u00farate de que tus jugadores clave est\u00e9n en forma.\n\n\u00a1Buena suerte esta temporada!"
+    }
+  }
+}

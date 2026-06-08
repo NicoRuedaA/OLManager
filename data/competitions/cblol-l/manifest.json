@@ -1,0 +1,19 @@
+{
+  "id": "cblol-l",
+  "name": "CBLOL-L",
+  "full_name": "CBLOL-Legacy",
+  "region": "CBLOL-L",
+  "country": "BR",
+  "tier": 1,
+  "logo": "/competitions-icons/1a6d3110c773d644.webp",
+  "teams_file": "teams/cblol-l_teams.json",
+  "players_file": "players/cblol-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

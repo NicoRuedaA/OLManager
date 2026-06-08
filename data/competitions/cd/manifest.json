@@ -1,0 +1,18 @@
+{
+  "id": "cd",
+  "name": "CD",
+  "full_name": "Circuito Desafiante",
+  "region": "CD",
+  "country": "BR",
+  "tier": 2,
+  "logo": "/competitions-icons/c6ba3b0c888e1524.webp",
+  "teams_file": "teams/cd_teams.json",
+  "players_file": "players/cd_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 10,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

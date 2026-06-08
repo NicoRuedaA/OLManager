@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { invoke } from "@tauri-apps/api/core";
+import { getApiClientSync } from "../api/client";
 
 export interface AppSettings {
   theme: "dark" | "light" | "system";
@@ -49,7 +49,7 @@ function mergeWithDefaultSettings(settings: Partial<AppSettings> = {}): AppSetti
 }
 
 async function persistSettings(settings: AppSettings) {
-  await invoke("save_settings", { settings });
+  await getApiClientSync().settings.save(settings as unknown as Partial<import("../api/types").AppSettings>);
 }
 
 interface SettingsStore {
@@ -65,7 +65,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   loadSettings: async () => {
     try {
-      const s = await invoke<Partial<AppSettings>>("get_settings");
+      const s = await getApiClientSync().settings.load();
       set({ settings: mergeWithDefaultSettings(s), loaded: true });
     } catch {
       set({ settings: mergeWithDefaultSettings(), loaded: true });

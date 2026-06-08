@@ -9,7 +9,7 @@ import {
   skipToMatchDay,
 } from "../services/advanceTimeService";
 import { autoConfigureWeeklyScrimSetup, delegateScrimDecision } from "../services/trainingService";
-import { effectiveWeeklyScrimSlots, scrimSlotWeekdays, weekdayMondayBased } from "../lib/scrimContext";
+import { effectiveWeeklyScrimSlots, scrimSlotWeekdays, weekdayMondayBased } from "../lib/scrims/scrimContext";
 
 export type MatchModeType = "live" | "spectator" | "delegate";
 
@@ -520,3 +520,4 @@ export function useAdvanceTime(
     handleSkipToNextDay,
   };
 }
+

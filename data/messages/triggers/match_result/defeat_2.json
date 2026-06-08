@@ -1,0 +1,19 @@
+{
+  "id": "defeat_2",
+  "trigger": "match_result",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchResult",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Loss: {opponent} defeats us {score}",
+  "body": "Not our day, coach. {opponent} beat us {score}.\n\nWe need to analyze what went wrong and address the issues before the next match. I'll prepare a detailed breakdown of the key moments.\n\nStay focused \u2014 there's still plenty to play for.",
+  "translations": {
+    "es": {
+      "subject": "Derrota: {opponent} nos vence {score}",
+      "body": "No fue nuestro d\u00eda, jefe. {opponent} nos gan\u00f3 {score}.\n\nNecesitamos analizar qu\u00e9 sali\u00f3 mal y abordar los problemas antes del pr\u00f3ximo partido. Preparar\u00e9 un desglose detallado de los momentos clave.\n\nMant\u00e9ngase enfocado \u2014 a\u00fan queda mucho en juego."
+    }
+  }
+}

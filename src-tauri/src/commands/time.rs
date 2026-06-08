@@ -3,9 +3,8 @@ use tauri::State;
 
 use crate::application::time_advancement::advance_time_with_mode as advance_time_with_mode_service;
 pub use crate::application::time_advancement::AdvanceTimeWithModeResponse;
-use crate::application::time_blockers::compute_blocking_actions as compute_blocking_actions_service;
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 fn advance_time_internal(state: &StateManager) -> Result<Game, String> {
     let mut current_game = state
@@ -18,7 +17,7 @@ fn advance_time_internal(state: &StateManager) -> Result<Game, String> {
     );
 
     let mut captures = Vec::new();
-    ofm_core::turn::process_day_with_capture(&mut current_game, &mut |capture| {
+    olm_core::turn::process_day_with_capture(&mut current_game, &mut |capture| {
         captures.push(capture);
     });
 
@@ -55,7 +54,7 @@ pub fn advance_time(state: State<'_, StateManager>) -> Result<Game, String> {
 }
 
 pub fn compute_blocking_actions(game: &Game) -> Vec<serde_json::Value> {
-    compute_blocking_actions_service(game)
+    olm_core::time_blockers::compute_blocking_actions(game)
 }
 
 #[tauri::command]
@@ -101,7 +100,7 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
         let has_match = game.active_league().is_some_and(|league| {
             league.fixtures.iter().any(|fixture| {
                 fixture.date == today
-                    && fixture.status == domain::league::FixtureStatus::Scheduled
+                    && fixture.status == olm_core::domain::league::FixtureStatus::Scheduled
                     && (fixture.home_team_id == user_team_id
                         || fixture.away_team_id == user_team_id)
             })
@@ -116,7 +115,7 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
         }
 
         let mut captures = Vec::new();
-        ofm_core::turn::process_day_with_capture(&mut game, &mut |capture| {
+        olm_core::turn::process_day_with_capture(&mut game, &mut |capture| {
             captures.push(capture);
         });
         for capture in captures {
@@ -176,15 +175,15 @@ pub fn skip_to_match_day(state: State<'_, StateManager>) -> Result<serde_json::V
 mod tests {
     use super::{advance_time_with_mode_internal, compute_blocking_actions};
     use chrono::{TimeZone, Utc};
-    use domain::league::{Fixture, FixtureStatus, MatchType};
-    use domain::manager::Manager;
-    use domain::message::{InboxMessage, MessagePriority};
-    use domain::player::{LolRole, Player, PlayerAttributes};
-    use domain::stats::StatsState;
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::{DayPhase, Game};
-    use ofm_core::state::StateManager;
+    use olm_core::domain::league::{Fixture, FixtureStatus, MatchType};
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::message::{InboxMessage, MessagePriority};
+    use olm_core::domain::player::{LolRole, Player, PlayerAttributes};
+    use olm_core::domain::stats::StatsState;
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::{DayPhase, Game};
+    use olm_core::state::StateManager;
     use serde_json::Value;
 
     fn default_attrs() -> PlayerAttributes {
@@ -294,7 +293,7 @@ mod tests {
 
         game.teams[0].active_lineup_ids =
             game.players.iter().take(11).map(|p| p.id.clone()).collect();
-        game.leagues = vec![domain::league::League {
+        game.leagues = vec![olm_core::domain::league::League {
             id: "league-1".to_string(),
             name: "League".to_string(),
             season: 2025,
@@ -311,8 +310,8 @@ mod tests {
                 result: None,
             }],
             standings: vec![
-                domain::league::StandingEntry::new("team1".to_string()),
-                domain::league::StandingEntry::new("team2".to_string()),
+                olm_core::domain::league::StandingEntry::new("team1".to_string()),
+                olm_core::domain::league::StandingEntry::new("team2".to_string()),
             ],
         }];
         game
@@ -610,13 +609,13 @@ mod tests {
             }
         }
 
-        let league = domain::league::League {
+        let league = olm_core::domain::league::League {
             id: "league1".to_string(),
             name: "Test League".to_string(),
             season: 1,
             competition_id: None,
             fixtures: vec![
-                domain::league::Fixture {
+                olm_core::domain::league::Fixture {
                     id: "fix1".to_string(),
                     matchday: 1,
                     date: "2025-06-15".to_string(),
@@ -635,15 +634,15 @@ mod tests {
                     away_team_id: "team4".to_string(),
                     match_type: MatchType::League,
                     best_of: 1,
-                    status: domain::league::FixtureStatus::Scheduled,
+                    status: olm_core::domain::league::FixtureStatus::Scheduled,
                     result: None,
                 },
             ],
             standings: vec![
-                domain::league::StandingEntry::new("team1".to_string()),
-                domain::league::StandingEntry::new("team2".to_string()),
-                domain::league::StandingEntry::new("team3".to_string()),
-                domain::league::StandingEntry::new("team4".to_string()),
+                olm_core::domain::league::StandingEntry::new("team1".to_string()),
+                olm_core::domain::league::StandingEntry::new("team2".to_string()),
+                olm_core::domain::league::StandingEntry::new("team3".to_string()),
+                olm_core::domain::league::StandingEntry::new("team4".to_string()),
             ],
         };
 
@@ -758,3 +757,5 @@ mod tests {
         );
     }
 }
+
+

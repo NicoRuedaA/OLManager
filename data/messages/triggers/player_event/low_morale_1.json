@@ -1,0 +1,21 @@
+{
+  "id": "low_morale_1",
+  "trigger": "low_morale",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "High",
+  "actions": [
+    { "type": "chooseoption", "label": "Talk to player", "label_key": "be.msg.action.talkToPlayer", "options": [{"id": "talk", "label": "Have a conversation", "label_key": "be.msg.action.haveConversation"}] },
+    { "type": "chooseoption", "label": "Give time off", "label_key": "be.msg.action.giveTimeOff", "options": [{"id": "rest", "label": "Grant rest days", "label_key": "be.msg.action.grantRest"}] },
+    { "type": "dismiss", "label": "Ignore", "label_key": "be.msg.action.ignore" }
+  ],
+  "subject": "Morale concern: {player}",
+  "body": "Coach, we've noticed that {player}'s morale has dropped significantly. Currently at {morale}%.\n\nThis could affect their performance in matches and training. It might be worth having a word with them to understand what's going on.",
+  "translations": {
+    "es": {
+      "subject": "Preocupaci\u00f3n por la moral: {player}",
+      "body": "Jefe, hemos notado que la moral de {player} ha bajado significativamente. Actualmente en {morale}%.\n\nEsto podr\u00eda afectar su rendimiento en partidos y entrenamientos. Podr\u00eda valer la pena hablar con \u00e9l para entender qu\u00e9 sucede."
+    }
+  }
+}

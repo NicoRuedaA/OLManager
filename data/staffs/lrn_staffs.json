@@ -1,0 +1,230 @@
+{
+  "name": "LRN Staff",
+  "description": "LRN - 2026 Season",
+  "staff": [
+    {
+      "id": "079bee29-34ad-455b-b5a2-ce16198119d9",
+      "first_name": "Angel Edsel Carrill",
+      "nickname": "Edsel",
+      "role": "Owner",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "0ee7667e-14f3-44b6-bae7-97774e2d43d7",
+      "first_name": "Diego Betancourt",
+      "nickname": "BetaTwins",
+      "role": "Analyst",
+      "team_id": "lrn-sdm-tigres",
+      "profile_image_url": "/staff-photos/56b4f3c99b84aca7.webp"
+    },
+    {
+      "id": "117b1c17-812b-45c7-8a8e-9c99a5486b5f",
+      "first_name": "Miguel Villanueva",
+      "nickname": "Bichofan",
+      "role": "Analyst",
+      "team_id": "lrn-sdm-tigres",
+      "profile_image_url": null
+    },
+    {
+      "id": "1a7b3764-c9e5-415e-93f2-419cbdd5f55f",
+      "first_name": "Markus Leuemberger",
+      "nickname": "Ukkyr",
+      "role": "HeadCoach",
+      "team_id": "lrn-zeu5-esport",
+      "profile_image_url": "/staff-photos/fabbd5eff1076f2b.webp"
+    },
+    {
+      "id": "1c153ba3-1a67-4ecc-b568-6e9ddf1474e2",
+      "first_name": "Ronald Fernando Velez Patiño",
+      "nickname": "Retzu",
+      "role": "HeadCoach",
+      "team_id": "lrn-g3v-e-sports",
+      "profile_image_url": "/staff-photos/9aa46615bfa305a7.webp"
+    },
+    {
+      "id": "23972adc-50e7-4875-964f-c7c456673afa",
+      "first_name": "Alejandro Herrera",
+      "nickname": "Cuadra",
+      "role": "Owner",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "3e437684-6099-4021-93a7-3cf6c168d152",
+      "first_name": "Jeff Macolonie",
+      "nickname": "Rapid",
+      "role": "Owner",
+      "team_id": "lrn-fuego",
+      "profile_image_url": "/staff-photos/0bd39239aa3a1ddc.webp"
+    },
+    {
+      "id": "40f19675-0600-4e1c-abfd-c73715157ed6",
+      "first_name": "Gerameel Avilez Hervella",
+      "nickname": "Tigrazo",
+      "role": "Owner",
+      "team_id": "lrn-icon-esports",
+      "profile_image_url": null
+    },
+    {
+      "id": "4f0b44e0-e20d-497b-a7a4-fb496b18d41f",
+      "first_name": "Ariel Pintos",
+      "nickname": "Ari",
+      "role": "Analyst",
+      "team_id": "lrn-zeu5-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "5d3b9bde-e285-41ff-bcde-9e83d3e57906",
+      "first_name": "Manuel Alejandro Cola Rodriguez",
+      "nickname": "Manuelcap",
+      "role": "Assistant",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": "/staff-photos/ade666beebf8e924.webp"
+    },
+    {
+      "id": "6095fb07-4a2f-4856-85e5-f21a5ef93514",
+      "first_name": "David Claros",
+      "nickname": "Guayaba",
+      "role": "Owner",
+      "team_id": "lrn-g3v-e-sports",
+      "profile_image_url": null
+    },
+    {
+      "id": "7e312400-7466-41c6-b120-138ee6de1bec",
+      "first_name": "José Piceno",
+      "nickname": "Liszt",
+      "role": "Owner",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "7eead65a-0a78-483a-87db-7a1cb2b271f7",
+      "first_name": "Gerson Castaño",
+      "nickname": "Dye",
+      "role": "HeadCoach",
+      "team_id": "lrn-sdm-tigres",
+      "profile_image_url": "/staff-photos/4fb5afed619032a9.webp"
+    },
+    {
+      "id": "87ca5878-71f8-48bc-ba70-97bd603e5ce5",
+      "first_name": "Jeremy Cuadras",
+      "nickname": "JCuadras",
+      "role": "Owner",
+      "team_id": "lrn-ncg-esports",
+      "profile_image_url": null
+    },
+    {
+      "id": "94185bae-7ee7-4814-b20e-32198ed2a174",
+      "first_name": "Francisco Alejandro Fernández Cortés",
+      "nickname": "sSephix",
+      "role": "Assistant",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": "/staff-photos/e9c52858b6664370.webp"
+    },
+    {
+      "id": "9946b790-9fec-46f3-99d7-114e3d93ceb7",
+      "first_name": "Rafael de Jesús",
+      "nickname": "Fallo",
+      "role": "HeadCoach",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": "/staff-photos/54d56763b9113f7f.webp"
+    },
+    {
+      "id": "a864d10c-2847-4b78-aaaf-f9227732f885",
+      "first_name": "Marino Saúl Castro",
+      "nickname": "Jefe de jefes",
+      "role": "Owner",
+      "team_id": "lrn-sdm-tigres",
+      "profile_image_url": null
+    },
+    {
+      "id": "b45d0a80-2d2b-46cb-99bb-7fde18d102de",
+      "first_name": "Esteban Zuleta",
+      "nickname": "Hadouken",
+      "role": "Owner",
+      "team_id": "lrn-zeu5-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "b4690221-3e61-48e9-8f4a-e925408330d6",
+      "first_name": "Eduardo Bolaños",
+      "nickname": "Chronos",
+      "role": "Owner",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "b8c30ef9-b33f-47d8-86fb-ae6b34f30216",
+      "first_name": "Iván Eliseo Maldonado Tanori",
+      "nickname": "Demy",
+      "role": "Assistant",
+      "team_id": "lrn-ncg-esports",
+      "profile_image_url": "/staff-photos/be29a22d8eaa2831.webp"
+    },
+    {
+      "id": "c2e18236-11aa-4310-9ea0-4a2d2f346507",
+      "first_name": "Eduardo Gómez Vázquez",
+      "nickname": "Odraud",
+      "role": "HeadCoach",
+      "team_id": "lrn-ncg-esports",
+      "profile_image_url": null
+    },
+    {
+      "id": "c8849ac1-85b5-4a97-b84d-64521bb4f5af",
+      "first_name": "Tobias Riscica",
+      "nickname": "Pointless",
+      "role": "Assistant",
+      "team_id": "lrn-fuego",
+      "profile_image_url": "/staff-photos/d8ffb06f478e697b.webp"
+    },
+    {
+      "id": "cac0616f-72ef-45e9-8d1c-5063a044a94b",
+      "first_name": "Daniel Zambrano",
+      "nickname": "Blessing",
+      "role": "Owner",
+      "team_id": "lrn-polar-squad-esport",
+      "profile_image_url": null
+    },
+    {
+      "id": "d3c6194f-57a0-437b-bf32-bb4823781f97",
+      "first_name": "Hector Alejandro Godínez Rovelo",
+      "nickname": "Tyr",
+      "role": "HeadCoach",
+      "team_id": "lrn-icon-esports",
+      "profile_image_url": "/staff-photos/05456537a89a28b9.webp"
+    },
+    {
+      "id": "e36d60ff-e977-477c-9978-10345f9b002b",
+      "first_name": "Kevinn León",
+      "nickname": "LEON",
+      "role": "HeadCoach",
+      "team_id": "lrn-fuego",
+      "profile_image_url": "/staff-photos/54a0a800a9a575f0.webp"
+    },
+    {
+      "id": "e9407bce-511a-44e5-8443-885af4e522e2",
+      "first_name": "Anthony Mota",
+      "nickname": "Razel",
+      "role": "HeadCoach",
+      "team_id": "lrn-lyon-academy",
+      "profile_image_url": null
+    },
+    {
+      "id": "ef19851e-8553-47c4-b3de-f577f73ee4d4",
+      "first_name": "Sebastian Pardo Machuc",
+      "nickname": "Xenovia",
+      "role": "Owner",
+      "team_id": "lrn-g3v-e-sports",
+      "profile_image_url": "/staff-photos/e34fbdad0b0dfb78.webp"
+    },
+    {
+      "id": "f09dbd77-6122-42dd-9072-24465c3c61fd",
+      "first_name": "Juan Camilo Franco",
+      "nickname": "Falconz",
+      "role": "Assistant",
+      "team_id": "lrn-zeu5-esport",
+      "profile_image_url": "/staff-photos/814318c861c0a4a4.webp"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ describe("academy acquisition contracts", () => {
       source_team_id: "mkoi-fenix",
       source_team_name: "Movistar KOI Fénix",
       source_team_short_name: "MKOI F",
-      source_team_logo_url: "https://cdn.example/logo.png",
+      source_team_logo_url: "https://cdn.example/logo.webp",
       erl_league_id: "nlc",
       league_name: "Northern League of Legends Championship",
       country: "ES",
@@ -28,7 +28,7 @@ describe("academy acquisition contracts", () => {
         source_team_id: "mkoi-fenix",
         original_name: "Movistar KOI Fénix",
         original_short_name: "MKOI F",
-        original_logo_url: "https://cdn.example/logo.png",
+        original_logo_url: "https://cdn.example/logo.webp",
       },
     };
 
@@ -49,7 +49,7 @@ describe("academy acquisition contracts", () => {
       source_team_id: "mkoi-fenix",
       custom_name: "Movistar KOI Fénix Academy",
       custom_short_name: "MKOI F",
-      custom_logo_url: "https://cdn.example/custom-logo.png",
+      custom_logo_url: "https://cdn.example/custom-logo.webp",
     };
 
     expect(request.custom_short_name).toBe("MKOI F");
@@ -89,20 +89,20 @@ describe("academy acquisition contracts", () => {
           source_team_id: "mkoi-fenix",
           original_name: "Movistar KOI Fénix",
           original_short_name: "MKOI F",
-          original_logo_url: "https://cdn.example/logo.png",
+          original_logo_url: "https://cdn.example/logo.webp",
           acquisition_cost: 260000,
           acquired_at: "2026-08-10T00:00:00Z",
         },
         branding: {
           current_name: "Movistar KOI Fénix Academy",
           current_short_name: "MKOI F",
-          current_logo_url: "https://cdn.example/custom-logo.png",
+          current_logo_url: "https://cdn.example/custom-logo.webp",
         },
         source_identity: {
           source_team_id: "mkoi-fenix",
           original_name: "Movistar KOI Fénix",
           original_short_name: "MKOI F",
-          original_logo_url: "https://cdn.example/logo.png",
+          original_logo_url: "https://cdn.example/logo.webp",
         },
         erl_assignment: {
           erl_league_id: "nlc",

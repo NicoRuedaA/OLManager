@@ -3,164 +3,164 @@
   "description": "EBL - 2026 Season",
   "teams": [
     {
-      "id": "team-de9656fe",
-      "name": "Croatian Flair",
-      "short_name": "CRO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-db2b783a",
-      "name": "Lupus Esports",
-      "short_name": "LUP",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-aa50d684",
-      "name": "Magaza Esports",
-      "short_name": "MAG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-dc2f50f2",
-      "name": "Partizan Sangal",
-      "short_name": "PAR",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-cd386f74",
-      "name": "SPIKE Syndicate",
-      "short_name": "SPK",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-b09886df",
-      "name": "The Secret Club",
-      "short_name": "TSC",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "HU",
       "id": "team-1103bd5e",
       "name": "Lenovo Legion Honvéd",
       "short_name": "LLH",
-      "country": "",
+      "logo_url": "/teams-icons/26dfffc5a5b75537.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "BG",
       "id": "team-3359999b",
       "name": "TQ DURPA KASHLQ",
       "short_name": "TQDK",
-      "country": "",
+      "logo_url": "/teams-icons/89eba3c0585e5776.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-8b9502f1",
-      "name": "Team Spawn Peek",
-      "short_name": "TSP",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "RS",
       "id": "team-500fa635",
       "name": "Washed Gaming",
       "short_name": "WSH",
-      "country": "",
+      "logo_url": "/teams-icons/abcf3c87149dd98c.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "DE",
+      "id": "team-8b9502f1",
+      "name": "Team Spawn Peek",
+      "short_name": "TSP",
+      "logo_url": "/teams-icons/57ea4f40fbbd1fe7.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "BG",
+      "id": "team-aa50d684",
+      "name": "Magaza Esports",
+      "short_name": "MAG",
+      "logo_url": "/teams-icons/42fd65774ea5b2bf.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "HR",
+      "id": "team-b09886df",
+      "name": "The Secret Club",
+      "short_name": "TSC",
+      "logo_url": "/teams-icons/d64df7dc7da928ce.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "SI",
+      "id": "team-cd386f74",
+      "name": "SPIKE Syndicate",
+      "short_name": "SPK",
+      "logo_url": "/teams-icons/a80e361bcb31203b.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "RS",
+      "id": "team-db2b783a",
+      "name": "Lupus Esports",
+      "short_name": "LUP",
+      "logo_url": "/teams-icons/09304c08ee7e501b.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "RS",
+      "id": "team-dc2f50f2",
+      "name": "Partizan Sangal",
+      "short_name": "PAR",
+      "logo_url": "/teams-icons/444862179c3bb83a.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "HR",
+      "id": "team-de9656fe",
+      "name": "Croatian Flair",
+      "short_name": "CRO",
+      "logo_url": "/teams-icons/2779bc1bf39e53b1.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

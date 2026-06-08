@@ -3,148 +3,132 @@
   "description": "HM - 2026 Season",
   "teams": [
     {
-      "id": "team-8c07ed47",
-      "name": "NRG",
-      "short_name": "NRG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-da129d80",
-      "name": "BRUTE",
-      "short_name": "BRT",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-c01f7ad8",
-      "name": "Meavedron",
-      "short_name": "MEV",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-df25d69f",
-      "name": "Bohemian Guardians",
-      "short_name": "BHG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "Slovakia",
       "id": "team-193151e6",
       "name": "Nightbirds",
       "short_name": "NBI",
-      "country": "",
+      "logo_url": "/teams-icons/2cd5d6b3275f34a3.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "Czech Republic",
       "id": "team-19466153",
       "name": "CITA Kaizen",
       "short_name": "CTK",
-      "country": "",
+      "logo_url": "/teams-icons/43a40b33a899ec3f.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-5bf73fd8",
-      "name": "Onion Team",
-      "short_name": "ONT",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "Czech Republic",
       "id": "team-2bda20fb",
       "name": "EXILE esports",
       "short_name": "EXL",
-      "country": "",
+      "logo_url": "/teams-icons/db0c267c0bda3192.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "Czech Republic",
       "id": "team-5a2933ca",
       "name": "eSuba",
       "short_name": "ESU",
-      "country": "",
+      "logo_url": "/teams-icons/8f5fa27c56183bec.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "Poland",
+      "id": "team-5bf73fd8",
+      "name": "Onion Team",
+      "short_name": "ONT",
+      "logo_url": "/teams-icons/8bb889d93fb7e5d1.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "Poland",
+      "id": "team-c01f7ad8",
+      "name": "Meavedron",
+      "short_name": "MEV",
+      "logo_url": "/teams-icons/2ab0e91f6cb38e99.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "Czech Republic",
+      "id": "team-da129d80",
+      "name": "BRUTE",
+      "short_name": "BRT",
+      "logo_url": "/teams-icons/bde1dda56f53d256.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "Czech Republic",
+      "id": "team-df25d69f",
+      "name": "Bohemian Guardians",
+      "short_name": "BHG",
+      "logo_url": "/teams-icons/c439294173603dd4.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

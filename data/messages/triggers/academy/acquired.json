@@ -1,0 +1,19 @@
+{
+  "id": "academy_acquired",
+  "trigger": "academy_acquired",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "Finance",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Academy acquired: {academy}",
+  "body": "The club has successfully acquired {academy} as our academy affiliate.\n\nThe acquisition cost was \u20ac{cost}. The academy will provide a stream of young talents for the future.\n\nYou can now promote promising academy players to the first team or send young prospects to develop there.",
+  "translations": {
+    "es": {
+      "subject": "Academia adquirida: {academy}",
+      "body": "El club ha adquirido con \u00e9xito {academy} como nuestra academia afiliada.\n\nEl coste de adquisici\u00f3n fue de \u20ac{cost}. La academia proporcionar\u00e1 un flujo de j\u00f3venes talentos para el futuro.\n\nAhora puede promover jugadores prometedores de la academia al primer equipo o enviar j\u00f3venes promesas para desarrollarse all\u00ed."
+    }
+  }
+}

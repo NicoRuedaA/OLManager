@@ -3,47 +3,47 @@ use log::info;
 use serde::Serialize;
 use tauri::State;
 
-use ofm_core::champions;
-use ofm_core::game::{DayPhase, Game};
-use ofm_core::potential;
-use ofm_core::scrim_flow::{
+use olm_core::champions;
+use olm_core::game::{DayPhase, Game};
+use olm_core::potential;
+use olm_core::scrim_flow::{
     transition_daily_scrim_flow, DailyScrimFlowEvent, DailyScrimFlowState, ScrimResultQuality,
 };
-use ofm_core::state::StateManager;
+use olm_core::state::StateManager;
 
-fn parse_post_scrim_decision(value: &str) -> Result<domain::team::PostScrimDecision, String> {
+fn parse_post_scrim_decision(value: &str) -> Result<olm_core::domain::team::PostScrimDecision, String> {
     match value {
-        "ContinuePlan" => Ok(domain::team::PostScrimDecision::ContinuePlan),
-        "VodReview" => Ok(domain::team::PostScrimDecision::VodReview),
-        "MentalReset" => Ok(domain::team::PostScrimDecision::MentalReset),
-        "TargetedDrills" => Ok(domain::team::PostScrimDecision::TargetedDrills),
-        "PushThrough" => Ok(domain::team::PostScrimDecision::PushThrough),
-        "DayOff" => Ok(domain::team::PostScrimDecision::DayOff),
+        "ContinuePlan" => Ok(olm_core::domain::team::PostScrimDecision::ContinuePlan),
+        "VodReview" => Ok(olm_core::domain::team::PostScrimDecision::VodReview),
+        "MentalReset" => Ok(olm_core::domain::team::PostScrimDecision::MentalReset),
+        "TargetedDrills" => Ok(olm_core::domain::team::PostScrimDecision::TargetedDrills),
+        "PushThrough" => Ok(olm_core::domain::team::PostScrimDecision::PushThrough),
+        "DayOff" => Ok(olm_core::domain::team::PostScrimDecision::DayOff),
         _ => Err(format!("Unknown post-scrim decision: {value}")),
     }
 }
 
-fn parse_scrim_focus(value: &str) -> Result<domain::team::ScrimFocus, String> {
+fn parse_scrim_focus(value: &str) -> Result<olm_core::domain::team::ScrimFocus, String> {
     match value {
-        "DraftPrep" => Ok(domain::team::ScrimFocus::DraftPrep),
-        "ChampionPool" => Ok(domain::team::ScrimFocus::ChampionPool),
-        "EarlyGame" => Ok(domain::team::ScrimFocus::EarlyGame),
-        "Teamfighting" => Ok(domain::team::ScrimFocus::Teamfighting),
-        "Macro" => Ok(domain::team::ScrimFocus::Macro),
-        "Mental" => Ok(domain::team::ScrimFocus::Mental),
+        "DraftPrep" => Ok(olm_core::domain::team::ScrimFocus::DraftPrep),
+        "ChampionPool" => Ok(olm_core::domain::team::ScrimFocus::ChampionPool),
+        "EarlyGame" => Ok(olm_core::domain::team::ScrimFocus::EarlyGame),
+        "Teamfighting" => Ok(olm_core::domain::team::ScrimFocus::Teamfighting),
+        "Macro" => Ok(olm_core::domain::team::ScrimFocus::Macro),
+        "Mental" => Ok(olm_core::domain::team::ScrimFocus::Mental),
         _ => Err(format!("Unknown scrim objective: {value}")),
     }
 }
 
-fn scrims_per_week_for_schedule(schedule: &domain::team::TrainingSchedule) -> u8 {
+fn scrims_per_week_for_schedule(schedule: &olm_core::domain::team::TrainingSchedule) -> u8 {
     match schedule {
-        domain::team::TrainingSchedule::Intense => 6,
-        domain::team::TrainingSchedule::Balanced => 4,
-        domain::team::TrainingSchedule::Light => 2,
+        olm_core::domain::team::TrainingSchedule::Intense => 6,
+        olm_core::domain::team::TrainingSchedule::Balanced => 4,
+        olm_core::domain::team::TrainingSchedule::Light => 2,
     }
 }
 
-fn effective_scrim_slots(raw_slots: u8, schedule: &domain::team::TrainingSchedule) -> u8 {
+fn effective_scrim_slots(raw_slots: u8, schedule: &olm_core::domain::team::TrainingSchedule) -> u8 {
     if raw_slots == 0 {
         return scrims_per_week_for_schedule(schedule);
     }
@@ -69,8 +69,8 @@ pub struct TodayScrimContextResponse {
     pub slot_index: Option<u8>,
     pub opponent_team_id: Option<String>,
     pub resolved_opponent_team_id: Option<String>,
-    pub objective: Option<domain::team::ScrimFocus>,
-    pub report: Option<domain::team::ScrimReport>,
+    pub objective: Option<olm_core::domain::team::ScrimFocus>,
+    pub report: Option<olm_core::domain::team::ScrimReport>,
     pub can_edit_plan: bool,
     pub can_cancel: bool,
     pub can_review: bool,
@@ -90,7 +90,7 @@ pub struct WeeklyScrimSlotContextResponse {
     pub plan: Vec<String>,
     pub resolved_opponent_team_id: Option<String>,
     pub result_won: Option<bool>,
-    pub report: Option<domain::team::ScrimReport>,
+    pub report: Option<olm_core::domain::team::ScrimReport>,
     pub status: String,
     pub can_edit: bool,
 }
@@ -98,7 +98,7 @@ pub struct WeeklyScrimSlotContextResponse {
 #[derive(Debug, Clone, Serialize)]
 pub struct WeeklyScrimContextResponse {
     pub week_key: String,
-    pub objective: Option<domain::team::ScrimFocus>,
+    pub objective: Option<olm_core::domain::team::ScrimFocus>,
     pub capacity: u8,
     pub planned: u8,
     pub reputation: u8,
@@ -108,19 +108,19 @@ pub struct WeeklyScrimContextResponse {
     pub losses: u8,
     pub loss_streak: u8,
     pub avg_quality: u8,
-    pub top_focus: Option<domain::team::ScrimFocus>,
-    pub top_issue: Option<domain::team::ScrimIssue>,
+    pub top_focus: Option<olm_core::domain::team::ScrimFocus>,
+    pub top_issue: Option<olm_core::domain::team::ScrimIssue>,
     pub next_official_rival_team_id: Option<String>,
-    pub next_official_rival_competition: Option<domain::league::MatchType>,
+    pub next_official_rival_competition: Option<olm_core::domain::league::MatchType>,
     pub setup_locked: bool,
     pub setup_locked_reason: Option<String>,
     pub can_finalize_setup: bool,
     pub slots: Vec<WeeklyScrimSlotContextResponse>,
-    pub latest_reports: Vec<domain::team::ScrimReport>,
+    pub latest_reports: Vec<olm_core::domain::team::ScrimReport>,
 }
 
 fn weekly_scrim_setup_lock_state(
-    team: &domain::team::Team,
+    team: &olm_core::domain::team::Team,
     week_key: &str,
     current_weekday: u8,
     day_phase: DayPhase,
@@ -197,7 +197,7 @@ fn is_push_through_recommended(
 }
 
 fn daily_slot_position(
-    team: &domain::team::Team,
+    team: &olm_core::domain::team::Team,
     current_weekday: u8,
     slot_index: u8,
 ) -> Option<usize> {
@@ -216,7 +216,7 @@ fn daily_slot_position(
         .position(|index| *index as u8 == slot_index)
 }
 
-fn quality_from_report(report: &domain::team::ScrimReport) -> ScrimResultQuality {
+fn quality_from_report(report: &olm_core::domain::team::ScrimReport) -> ScrimResultQuality {
     if report.won.unwrap_or(false) {
         ScrimResultQuality::Good
     } else {
@@ -229,7 +229,7 @@ fn estimate_team_lol_ovr(game: &Game, team_id: &str) -> u8 {
         .players
         .iter()
         .filter(|player| player.team_id.as_deref() == Some(team_id))
-        .map(|player| ofm_core::potential::calculate_lol_ovr(player))
+        .map(|player| olm_core::potential::calculate_lol_ovr(player))
         .collect();
     if ovrs.is_empty() {
         return 74;
@@ -244,7 +244,7 @@ fn apply_post_scrim_decision_internal(
     game: &mut Game,
     manager_team_id: &str,
     slot_index: u8,
-    decision: domain::team::PostScrimDecision,
+    decision: olm_core::domain::team::PostScrimDecision,
 ) -> Result<(), String> {
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     let week_key = format!(
@@ -277,23 +277,23 @@ fn apply_post_scrim_decision_internal(
 
             report.post_decision = Some(decision.clone());
             match decision {
-                domain::team::PostScrimDecision::ContinuePlan => {
+                olm_core::domain::team::PostScrimDecision::ContinuePlan => {
                     report.quality = report.quality.saturating_add(2).min(100);
                 }
-                domain::team::PostScrimDecision::VodReview => {
+                olm_core::domain::team::PostScrimDecision::VodReview => {
                     report.quality = report.quality.saturating_add(6).min(100);
                     report.severity = report.severity.saturating_sub(1);
                 }
-                domain::team::PostScrimDecision::MentalReset => {
+                olm_core::domain::team::PostScrimDecision::MentalReset => {
                     report.severity = report.severity.saturating_sub(2);
                 }
-                domain::team::PostScrimDecision::TargetedDrills => {
+                olm_core::domain::team::PostScrimDecision::TargetedDrills => {
                     report.quality = report.quality.saturating_add(10).min(100);
                 }
-                domain::team::PostScrimDecision::PushThrough => {
+                olm_core::domain::team::PostScrimDecision::PushThrough => {
                     report.quality = report.quality.saturating_add(12).min(100);
                 }
-                domain::team::PostScrimDecision::DayOff => {
+                olm_core::domain::team::PostScrimDecision::DayOff => {
                     report.severity = report.severity.saturating_sub(2);
                 }
             }
@@ -314,8 +314,8 @@ fn apply_post_scrim_decision_internal(
         };
 
         // E8: first daily block decisions other than PushThrough cancel the next daily block.
-        if decision != domain::team::PostScrimDecision::PushThrough
-            && decision != domain::team::PostScrimDecision::ContinuePlan
+        if decision != olm_core::domain::team::PostScrimDecision::PushThrough
+            && decision != olm_core::domain::team::PostScrimDecision::ContinuePlan
         {
             let slot_days = scrim_slot_weekdays(effective_scrim_slots(
                 team.scrim_weekly_slots,
@@ -421,21 +421,21 @@ fn apply_post_scrim_decision_internal(
         };
 
         match decision {
-            domain::team::PostScrimDecision::ContinuePlan => {
+            olm_core::domain::team::PostScrimDecision::ContinuePlan => {
                 player.morale = player.morale.saturating_add(1).min(100);
             }
-            domain::team::PostScrimDecision::VodReview => {
+            olm_core::domain::team::PostScrimDecision::VodReview => {
                 player.morale = player.morale.saturating_add(1).min(100);
                 player.condition = player.condition.saturating_sub(1);
             }
-            domain::team::PostScrimDecision::MentalReset => {
+            olm_core::domain::team::PostScrimDecision::MentalReset => {
                 player.morale = player.morale.saturating_add(4).min(100);
                 player.condition = player.condition.saturating_add(3).min(100);
             }
-            domain::team::PostScrimDecision::TargetedDrills => {
+            olm_core::domain::team::PostScrimDecision::TargetedDrills => {
                 player.condition = player.condition.saturating_sub(3);
             }
-            domain::team::PostScrimDecision::PushThrough => {
+            olm_core::domain::team::PostScrimDecision::PushThrough => {
                 player.condition =
                     player
                         .condition
@@ -446,7 +446,7 @@ fn apply_post_scrim_decision_internal(
                     player.morale = player.morale.saturating_sub(1);
                 }
             }
-            domain::team::PostScrimDecision::DayOff => {
+            olm_core::domain::team::PostScrimDecision::DayOff => {
                 player.morale = player.morale.saturating_add(5).min(100);
                 player.condition = player.condition.saturating_add(6).min(100);
             }
@@ -528,11 +528,11 @@ pub fn set_draft_strategy(
         .ok_or("No team assigned".to_string())?;
 
     let strategy = match draft_strategy.as_str() {
-        "Attacking" | "HighPress" => domain::team::DraftStrategy::Aggressive,
-        "Defensive" => domain::team::DraftStrategy::Passive,
-        "Possession" => domain::team::DraftStrategy::Scaling,
-        "Counter" => domain::team::DraftStrategy::CounterPick,
-        _ => domain::team::DraftStrategy::Balanced,
+        "Attacking" | "HighPress" => olm_core::domain::team::DraftStrategy::Aggressive,
+        "Defensive" => olm_core::domain::team::DraftStrategy::Passive,
+        "Possession" => olm_core::domain::team::DraftStrategy::Scaling,
+        "Counter" => olm_core::domain::team::DraftStrategy::CounterPick,
+        _ => olm_core::domain::team::DraftStrategy::Balanced,
     };
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
@@ -546,7 +546,7 @@ pub fn set_draft_strategy(
 #[tauri::command]
 pub fn set_lol_tactics(
     state: State<'_, StateManager>,
-    lol_tactics: domain::team::LolTactics,
+    lol_tactics: olm_core::domain::team::LolTactics,
 ) -> Result<Game, String> {
     info!("[cmd] set_lol_tactics");
     let mut game = state
@@ -570,7 +570,7 @@ pub fn set_lol_tactics(
 #[tauri::command]
 pub fn set_team_roles(
     state: State<'_, StateManager>,
-    team_roles: domain::team::TeamRoles,
+    team_roles: olm_core::domain::team::TeamRoles,
 ) -> Result<Game, String> {
     info!("[cmd] set_team_roles");
     let mut game = state
@@ -611,13 +611,13 @@ pub fn set_training(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let training_focus = domain::team::TrainingFocus::from_id(&focus).unwrap_or_default();
+    let training_focus = olm_core::domain::team::TrainingFocus::from_id(&focus).unwrap_or_default();
 
     let training_intensity = match intensity.as_str() {
-        "Low" => domain::team::TrainingIntensity::Low,
-        "Medium" => domain::team::TrainingIntensity::Medium,
-        "High" => domain::team::TrainingIntensity::High,
-        _ => domain::team::TrainingIntensity::Medium,
+        "Low" => olm_core::domain::team::TrainingIntensity::Low,
+        "Medium" => olm_core::domain::team::TrainingIntensity::Medium,
+        "High" => olm_core::domain::team::TrainingIntensity::High,
+        _ => olm_core::domain::team::TrainingIntensity::Medium,
     };
 
     if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
@@ -645,16 +645,7 @@ pub fn set_training_schedule(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let training_schedule = match schedule.as_str() {
-        "Intense" => domain::team::TrainingSchedule::Intense,
-        "Balanced" => domain::team::TrainingSchedule::Balanced,
-        "Light" => domain::team::TrainingSchedule::Light,
-        _ => domain::team::TrainingSchedule::Balanced,
-    };
-
-    if let Some(team) = game.teams.iter_mut().find(|t| t.id == team_id) {
-        team.training_schedule = training_schedule;
-    }
+    olm_core::commands::set_training_schedule(&mut game, &team_id, &schedule);
 
     state.set_game(game.clone());
     Ok(game)
@@ -663,7 +654,7 @@ pub fn set_training_schedule(
 #[tauri::command]
 pub fn set_training_groups(
     state: State<'_, StateManager>,
-    groups: Vec<domain::team::TrainingGroup>,
+    groups: Vec<olm_core::domain::team::TrainingGroup>,
 ) -> Result<Game, String> {
     info!("[cmd] set_training_groups: {} groups", groups.len());
     let mut game = state
@@ -964,28 +955,28 @@ pub fn auto_configure_weekly_scrim_setup(state: State<'_, StateManager>) -> Resu
 
         if team.scrim_weekly_objective.is_none() {
             team.scrim_weekly_objective = Some(if team.scrim_loss_streak >= 3 {
-                domain::team::ScrimFocus::Mental
+                olm_core::domain::team::ScrimFocus::Mental
             } else if own_ovr >= 80 {
-                domain::team::ScrimFocus::DraftPrep
+                olm_core::domain::team::ScrimFocus::DraftPrep
             } else if own_ovr >= 77 {
-                domain::team::ScrimFocus::Macro
+                olm_core::domain::team::ScrimFocus::Macro
             } else {
-                domain::team::ScrimFocus::ChampionPool
+                olm_core::domain::team::ScrimFocus::ChampionPool
             });
         }
 
         let objective = team
             .scrim_weekly_objective
             .clone()
-            .unwrap_or(domain::team::ScrimFocus::ChampionPool);
+            .unwrap_or(olm_core::domain::team::ScrimFocus::ChampionPool);
 
         let pool: Vec<String> = match objective {
-            domain::team::ScrimFocus::Mental => rivals_by_strength
+            olm_core::domain::team::ScrimFocus::Mental => rivals_by_strength
                 .iter()
                 .rev()
                 .map(|(id, _)| id.clone())
                 .collect(),
-            domain::team::ScrimFocus::ChampionPool | domain::team::ScrimFocus::EarlyGame => {
+            olm_core::domain::team::ScrimFocus::ChampionPool | olm_core::domain::team::ScrimFocus::EarlyGame => {
                 let split = (rivals_by_strength.len() / 3).max(1);
                 rivals_by_strength
                     .iter()
@@ -1142,7 +1133,7 @@ pub fn choose_post_scrim_decision(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    if decision == domain::team::PostScrimDecision::DayOff {
+    if decision == olm_core::domain::team::PostScrimDecision::DayOff {
         let current_weekday = game.clock.current_date.weekday().num_days_from_monday() as u8;
         let team = game
             .teams
@@ -1241,7 +1232,7 @@ pub fn choose_daily_scrim_action(
 
     if action == "ContinueToBlock2" || action == "PushThrough" {
         let weekday_num = updated.clock.current_date.weekday().num_days_from_monday();
-        ofm_core::training::process_scrim_block(&mut updated, weekday_num);
+        olm_core::training::process_scrim_block(&mut updated, weekday_num);
         state.set_game(updated.clone());
     }
 
@@ -1299,19 +1290,19 @@ pub fn delegate_scrim_decision(state: State<'_, StateManager>) -> Result<Game, S
     let decision = if !won
         && (severity >= 3 || own_loss_streak >= 3 || own_rep >= opponent_rep.saturating_add(10))
     {
-        domain::team::PostScrimDecision::MentalReset
+        olm_core::domain::team::PostScrimDecision::MentalReset
     } else if matches!(
         issue,
-        Some(domain::team::ScrimIssue::ObjectiveSetup | domain::team::ScrimIssue::DraftGap)
+        Some(olm_core::domain::team::ScrimIssue::ObjectiveSetup | olm_core::domain::team::ScrimIssue::DraftGap)
     ) {
-        domain::team::PostScrimDecision::VodReview
+        olm_core::domain::team::PostScrimDecision::VodReview
     } else if matches!(
         issue,
-        Some(domain::team::ScrimIssue::ChampionComfort | domain::team::ScrimIssue::LanePressure)
+        Some(olm_core::domain::team::ScrimIssue::ChampionComfort | olm_core::domain::team::ScrimIssue::LanePressure)
     ) {
-        domain::team::PostScrimDecision::TargetedDrills
+        olm_core::domain::team::PostScrimDecision::TargetedDrills
     } else {
-        domain::team::PostScrimDecision::PushThrough
+        olm_core::domain::team::PostScrimDecision::PushThrough
     };
 
     apply_post_scrim_decision_internal(&mut game, &manager_team_id, slot_index, decision)?;
@@ -1357,14 +1348,14 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         .first()
         .map(|league| {
             league.fixtures.iter().any(|fixture| {
-                fixture.status == domain::league::FixtureStatus::Scheduled
+                fixture.status == olm_core::domain::league::FixtureStatus::Scheduled
                     && fixture.date.get(0..10).unwrap_or_default() == today
                     && (fixture.home_team_id == team.id || fixture.away_team_id == team.id)
             })
         })
         .unwrap_or(false);
 
-    let mut today_reports: Vec<domain::team::ScrimReport> = team
+    let mut today_reports: Vec<olm_core::domain::team::ScrimReport> = team
         .scrim_reports
         .iter()
         .filter(|report| report.date == today)
@@ -1580,7 +1571,7 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         })
         .collect();
 
-    let mut latest_reports: Vec<domain::team::ScrimReport> = team
+    let mut latest_reports: Vec<olm_core::domain::team::ScrimReport> = team
         .scrim_reports
         .iter()
         .filter(|report| report.week_key == week_key)
@@ -1592,13 +1583,13 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
             .cmp(&left.date)
             .then(right.slot_index.cmp(&left.slot_index))
     });
-    let played_reports: Vec<domain::team::ScrimReport> = latest_reports
+    let played_reports: Vec<olm_core::domain::team::ScrimReport> = latest_reports
         .iter()
-        .filter(|report| report.status == domain::team::ScrimStatus::Played)
+        .filter(|report| report.status == olm_core::domain::team::ScrimStatus::Played)
         .cloned()
         .collect();
 
-    let mut issue_counts: Vec<(domain::team::ScrimIssue, usize)> = Vec::new();
+    let mut issue_counts: Vec<(olm_core::domain::team::ScrimIssue, usize)> = Vec::new();
     for report in &played_reports {
         let Some(issue) = report.issue.clone() else {
             continue;
@@ -1618,11 +1609,11 @@ pub fn get_scrim_context(state: State<'_, StateManager>) -> Result<ScrimContextR
         .map(|(issue, _)| issue);
 
     let next_official_fixture = game.active_league().and_then(|league| {
-        let mut fixtures: Vec<&domain::league::Fixture> = league
+        let mut fixtures: Vec<&olm_core::domain::league::Fixture> = league
             .fixtures
             .iter()
             .filter(|fixture| {
-                fixture.status == domain::league::FixtureStatus::Scheduled
+                fixture.status == olm_core::domain::league::FixtureStatus::Scheduled
                     && (fixture.home_team_id == team.id || fixture.away_team_id == team.id)
                     && fixture.date >= game.clock.current_date.to_rfc3339()
             })
@@ -1692,7 +1683,7 @@ pub fn set_player_training_focus(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let training_focus = focus.and_then(|f| domain::team::TrainingFocus::from_id(&f));
+    let training_focus = focus.and_then(|f| olm_core::domain::team::TrainingFocus::from_id(&f));
 
     if let Some(player) = game.players.iter_mut().find(|p| p.id == player_id) {
         player.training_focus = training_focus;
@@ -1737,7 +1728,7 @@ pub fn delegate_champion_training(state: State<'_, StateManager>) -> Result<Game
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let updated = ofm_core::champions::delegate_champion_training_to_coach(&mut game)?;
+    let updated = olm_core::champions::delegate_champion_training_to_coach(&mut game)?;
     info!(
         "[cmd] delegate_champion_training: updated {} players",
         updated
@@ -1785,11 +1776,11 @@ pub fn reroll_player_lol_role(
         .ok_or("No team assigned".to_string())?;
 
     let next_natural = match role.as_str() {
-        "TOP" => domain::player::LolRole::Top,
-        "JUNGLE" => domain::player::LolRole::Jungle,
-        "MID" => domain::player::LolRole::Mid,
-        "ADC" => domain::player::LolRole::Adc,
-        "SUPPORT" => domain::player::LolRole::Support,
+        "TOP" => olm_core::domain::player::LolRole::Top,
+        "JUNGLE" => olm_core::domain::player::LolRole::Jungle,
+        "MID" => olm_core::domain::player::LolRole::Mid,
+        "ADC" => olm_core::domain::player::LolRole::Adc,
+        "SUPPORT" => olm_core::domain::player::LolRole::Support,
         _ => return Err(format!("Unknown LoL role: {}", role)),
     };
     let next_position = next_natural; // In LoL, natural and current position are the same
@@ -1836,7 +1827,7 @@ pub fn auto_select_team_roles(
         .ok_or("No active game session".to_string())?;
 
     let (captain, shotcaller) =
-        ofm_core::live_match_manager::auto_select_team_roles(&game, &player_ids);
+        olm_core::live_match_manager::auto_select_team_roles(&game, &player_ids);
 
     Ok(serde_json::json!({
         "captain": captain,
@@ -1847,12 +1838,12 @@ pub fn auto_select_team_roles(
 #[cfg(test)]
 mod tests {
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, LolRole};
-    use domain::staff::{Staff, StaffAttributes, StaffRole};
-    use domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::player::{Player, PlayerAttributes, LolRole};
+    use olm_core::domain::staff::{Staff, StaffAttributes, StaffRole};
+    use olm_core::domain::team::{Team, TrainingFocus, TrainingIntensity, TrainingSchedule};
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
 
     fn attrs(stat: u8) -> PlayerAttributes {
         PlayerAttributes {
@@ -1940,19 +1931,19 @@ mod tests {
     #[test]
     fn only_one_active_potential_research_at_a_time() {
         let mut game = make_game();
-        ofm_core::potential::start_potential_research(&mut game, "p1").unwrap();
+        olm_core::potential::start_potential_research(&mut game, "p1").unwrap();
 
-        let second = ofm_core::potential::start_potential_research(&mut game, "p2");
+        let second = olm_core::potential::start_potential_research(&mut game, "p2");
         assert!(second.is_err());
     }
 
     #[test]
     fn potential_research_completes_after_seven_days_and_clears_state() {
         let mut game = make_game();
-        ofm_core::potential::start_potential_research(&mut game, "p1").unwrap();
+        olm_core::potential::start_potential_research(&mut game, "p1").unwrap();
 
         for _ in 0..7 {
-            ofm_core::turn::process_day(&mut game);
+            olm_core::turn::process_day(&mut game);
         }
 
         let player = game
@@ -2006,7 +1997,7 @@ mod tests {
             .clone();
 
         for _ in 0..120 {
-            ofm_core::training::process_training(&mut game, 1);
+            olm_core::training::process_training(&mut game, 1);
         }
 
         let after = &game
@@ -2026,3 +2017,5 @@ mod tests {
         assert_eq!(after.mental_resilience, before.mental_resilience);
     }
 }
+
+

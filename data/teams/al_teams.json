@@ -3,164 +3,132 @@
   "description": "AL - 2026 Season",
   "teams": [
     {
-      "id": "team-1f166743",
-      "name": "GnG Amazigh",
-      "short_name": "GGA",
-      "country": "",
+      "history": [],
+      "country": "TN",
+      "id": "team-0f68e76a",
+      "name": "JSK Esports",
+      "short_name": "JSK",
+      "logo_url": "/teams-icons/03a534e5b0a1a8a5.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-e175ded9",
-      "name": "3BL Esports",
-      "short_name": "3BL",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-c648abc2",
-      "name": "BAAM Esports",
-      "short_name": "BAM",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-12ea162a",
       "name": "One More Esports",
       "short_name": "OME",
       "country": "",
+      "logo_url": "/teams-icons/c5196c45a96dc7f9.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-90b5943e",
-      "name": "Anubis Gaming",
-      "short_name": "AG",
-      "country": "",
+      "history": [],
+      "country": "TN",
+      "id": "team-1f166743",
+      "name": "GnG Amazigh",
+      "short_name": "GGA",
+      "logo_url": "/teams-icons/f18c7604f3ed4871.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-8829d0c3",
-      "name": "Dragons Esports",
-      "short_name": "DRA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "KR",
       "id": "team-47ce6033",
       "name": "FN Esports",
       "short_name": "FNE",
-      "country": "",
+      "logo_url": "/teams-icons/3a563c0371e43398.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-4b8187c4",
-      "name": "Super Stars",
-      "short_name": "SS",
-      "country": "",
+      "history": [],
+      "country": "SA",
+      "id": "team-8829d0c3",
+      "name": "Dragons Esports",
+      "short_name": "DRA",
+      "logo_url": "/teams-icons/a9371a23f003bd13.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-0f68e76a",
-      "name": "JSK Esports",
-      "short_name": "JSK",
-      "country": "",
+      "history": [],
+      "country": "EG",
+      "id": "team-90b5943e",
+      "name": "Anubis Gaming",
+      "short_name": "AG",
+      "logo_url": "/teams-icons/4fa6749719924d29.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-6019b0e7",
-      "name": "NextGeneration Esports",
-      "short_name": "NGE",
-      "country": "",
+      "history": [],
+      "country": "SA",
+      "id": "team-c648abc2",
+      "name": "BAAM Esports",
+      "short_name": "BAM",
+      "logo_url": "/teams-icons/24e1e6d10f094b3b.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "EG",
+      "id": "team-e175ded9",
+      "name": "3BL Esports",
+      "short_name": "3BL",
+      "logo_url": "/teams-icons/03bb13eb2b7e6bba.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

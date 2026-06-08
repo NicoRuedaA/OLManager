@@ -1,0 +1,18 @@
+{
+  "id": "hll",
+  "name": "HLL",
+  "full_name": "Hellenic Legends League",
+  "region": "HLL",
+  "country": "GR",
+  "tier": 2,
+  "logo": "/competitions-icons/f323a0e14363fd06.png",
+  "teams_file": "teams/hll_teams.json",
+  "players_file": "players/hll_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 4,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

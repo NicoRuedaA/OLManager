@@ -3,164 +3,132 @@
   "description": "NACL - 2026 Season",
   "teams": [
     {
-      "id": "team-99f3b280",
-      "name": "Blue Otter",
-      "short_name": "BLO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-ba8042f7",
-      "name": "Citadel Gaming",
-      "short_name": "CIT",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-039b2c89",
-      "name": "Apex MI",
-      "short_name": "APE",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-cbe27d81",
-      "name": "NRG",
-      "short_name": "NRG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-10540476",
       "name": "Dorado Gaming",
       "short_name": "DOR",
       "country": "",
+      "logo_url": "/teams-icons/946fb00eb8af3934.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-f1da75bb",
-      "name": "Winthrop University",
-      "short_name": "WIU",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-e21b9ba3",
-      "name": "CCG Esports",
-      "short_name": "CCG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-31b92c52",
       "name": "Conviction",
       "short_name": "CON",
       "country": "",
+      "logo_url": "/teams-icons/61bcc3217e53d122.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
       "id": "team-73a32fd5",
       "name": "Maryville University",
       "short_name": "MARY",
       "country": "",
+      "logo_url": "/teams-icons/92b3f2c0a03877b1.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "id": "team-99f3b280",
+      "name": "Blue Otter",
+      "short_name": "BLO",
+      "country": "",
+      "logo_url": "/teams-icons/89d02998bfbaf895.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-ba8042f7",
+      "name": "Citadel Gaming",
+      "short_name": "CIT",
+      "country": "",
+      "logo_url": "/teams-icons/f37091c677aa3862.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-e21b9ba3",
+      "name": "CCG Esports",
+      "short_name": "CCG",
+      "country": "",
+      "logo_url": "/teams-icons/5762eac4fd5f5f3d.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-f1da75bb",
+      "name": "Winthrop University",
+      "short_name": "WIU",
+      "country": "",
+      "logo_url": "/teams-icons/295f267b67e293d3.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
       "id": "team-fa242f1f",
       "name": "Supernova",
       "short_name": "SUP",
       "country": "",
+      "logo_url": "/teams-icons/fc61120d2f3cf53d.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     }
   ]
 }

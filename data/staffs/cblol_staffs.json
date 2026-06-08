@@ -6,221 +6,163 @@
       "contract_end": "2100-01-01",
       "id": "100f0da2-5a17-4d1a-a3b0-2c35aefc34dc",
       "first_name": "Bruno Oliveira",
-      "last_name": "",
       "nickname": "PlayHard",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-loud2025",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/591f78ff7c93010a.png"
     },
     {
       "contract_end": "2026-11-16",
       "id": "177f7123-bdb2-427b-a8e2-fb06b44cd797",
       "first_name": "Ludvig Granquist",
-      "last_name": "",
       "nickname": "Smiley",
-      "nationality": "SE",
-      "birth_country": null,
-      "date_of_birth": "1998-06-30",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-0e114265",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/eca1b98b24e9f340.png"
     },
     {
       "id": "staff-6a869f91",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-a72bf9ea",
       "last_name": "Barbosa",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 79,
+        "physiotherapy": 72,
+        "judging_ability": 80,
+        "judging_potential": 76
       },
       "first_name": "Gabriel Barbosa",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-03-24",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Von",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/41328c5d.webp",
+      "nickname": "Von"
     },
     {
       "id": "staff-9d2dd290",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-loud2025",
       "last_name": "Ji-hwan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 80,
+        "judging_ability": 78,
+        "judging_potential": 79
       },
       "first_name": "Oh Ji-hwan",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-11-18",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Raise",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/1ad23005.webp",
+      "nickname": "Raise"
     },
     {
       "id": "staff-f35b7199",
       "role": "Analyst",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0c8be917",
       "last_name": "Venancio",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 61,
+        "physiotherapy": 51,
+        "judging_ability": 64,
+        "judging_potential": 63
       },
       "first_name": "Victor Venancio",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1990-08-12",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "SrVenancio",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/6e17d9bc.webp",
+      "nickname": "SrVenancio"
     },
     {
       "id": "staff-281f3669",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-76137e73",
       "last_name": "Souza",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 69,
+        "judging_ability": 74,
+        "judging_potential": 76
       },
       "first_name": "Lucas Spínola de Souza",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-03-02",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "BeellzY",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/32b5c98543d4d694.png",
+      "nickname": "BeellzY"
     },
     {
       "contract_end": "2100-01-01",
       "id": "301675c6-dd90-436d-998d-7a43bf28200e",
       "first_name": "Rodrigo Fernandes",
-      "last_name": "",
       "nickname": "Rodrigo Fernandes",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-b3da089b",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": null
     },
     {
       "id": "staff-a3bf85af",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0e114265",
       "last_name": "Lee",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 73,
+        "judging_ability": 77,
+        "judging_potential": 77
       },
       "first_name": "Christopher Lee",
       "nationality": "South Korea",
       "contract_end": "2028-11-16",
       "birth_country": null,
-      "date_of_birth": "1996-06-12",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "SeeEl",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/79e148bf.webp",
+      "nickname": "SeeEl"
     },
     {
       "contract_end": "2100-01-01",
       "id": "39e45eb3-194c-4eed-b9f9-086af75ddd25",
       "first_name": "Jaime Padua",
-      "last_name": "",
       "nickname": "raizen",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-fur2025",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/8168965f15d1ae0e.png"
     },
     {
       "id": "staff-88d25eba",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0c8be917",
       "last_name": "Valvo",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 61,
+        "judging_ability": 72,
+        "judging_potential": 71
       },
       "first_name": "Lautaro Nicolas Lo Valvo",
       "nationality": "Argentina",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-12-18",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "LautaLoval",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/ac7c208c5a759340.png",
+      "nickname": "LautaLoval"
     },
     {
       "id": "staff-c66d3b80",
@@ -230,515 +172,396 @@
       "last_name": "Corradini",
       "attributes": {
         "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "physiotherapy": 52,
+        "judging_ability": 49,
+        "judging_potential": 51
       },
       "first_name": "Felippe Corradini",
       "nationality": "Brazil",
       "contract_end": "2100-01-01",
       "birth_country": null,
-      "date_of_birth": "1990-05-10",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Fekz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/8ddb2bd958859865.png",
+      "nickname": "Fekz"
     },
     {
       "contract_end": "2100-01-01",
       "id": "5081c556-c857-4429-a569-a7ef031978b0",
       "first_name": "Arthur Zarzur",
-      "last_name": "",
       "nickname": "PAANDA",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1988-09-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-a72bf9ea",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/b362b0660cc927ac.png"
     },
     {
       "id": "staff-b90f8716",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-76137e73",
       "last_name": "Garcia",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 74,
+        "physiotherapy": 72,
+        "judging_ability": 76,
+        "judging_potential": 76
       },
       "first_name": "Vinicius Garcia",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1999-03-04",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Vinicin",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/70db4cff.webp",
+      "nickname": "Vinicin"
     },
     {
       "id": "staff-a45c12d1",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-20461098",
       "last_name": "Merlo",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 72,
+        "judging_ability": 81,
+        "judging_potential": 81
       },
       "first_name": "Brandon Merlo",
       "nationality": "Argentina",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-11-25",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Nothing",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/6df8716b.webp",
+      "nickname": "Nothing"
     },
     {
       "id": "staff-dd1906aa",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-b3da089b",
       "last_name": "Brandão",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 73,
+        "physiotherapy": 67,
+        "judging_ability": 63,
+        "judging_potential": 71
       },
       "first_name": "Felipe Brandão",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1999-11-01",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Brandão",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/4530dfda.webp",
+      "nickname": "Brandão"
     },
     {
       "id": "staff-2e7b4502",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-b3da089b",
       "last_name": "Theodorou",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 83,
+        "physiotherapy": 79,
+        "judging_ability": 81,
+        "judging_potential": 77
       },
       "first_name": "Ilias Theodorou",
       "nationality": "Greece",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-01-24",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Enatron",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/14030e9c.webp",
+      "nickname": "Enatron"
     },
     {
       "contract_end": "2100-01-01",
       "id": "85f1ccc5-820f-4d4d-a42c-4d27a3004210",
       "first_name": "Pedro Schmidt",
-      "last_name": "",
       "nickname": "Pedro Schmidt",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1970-01-01",
-      "profile_image_url": "/staff-photos/1779566651372_ekwt3phmxcu.webp",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-0e114265",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/a906f6001a3d941e.webp"
     },
     {
       "id": "staff-d9bd2215",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-fur2025",
       "last_name": "Felippe",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 68,
+        "judging_ability": 62,
+        "judging_potential": 71
       },
       "first_name": "Caio Cavaglieri Felippe",
       "nationality": "Brazil",
       "contract_end": "2027-11-16",
       "birth_country": null,
-      "date_of_birth": "1991-12-27",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Ianterninho",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/25eee27aeed47227.png",
+      "nickname": "Ianterninho"
     },
     {
       "contract_end": "2026-11-16",
       "id": "8a2ec08b-af0a-48fb-a9ae-39b994c16512",
       "first_name": "Mayoah Almeida",
-      "last_name": "",
       "nickname": "Samyy",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1996-10-07",
-      "profile_image_url": null,
       "role": "HeadCoach",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-20461098",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/fcfc9fc97ccfdf1f.png"
     },
     {
       "contract_end": "2026-11-16",
       "id": "9382fcec-6c50-4aa4-9a52-88bcdd8b08af",
       "first_name": "Heorhii Vechkanov",
-      "last_name": "",
       "nickname": "Heovech",
-      "nationality": "UA",
-      "birth_country": null,
-      "date_of_birth": "1999-01-01",
-      "profile_image_url": "/staff-photos/HHB1IgpbQAAWD_r.jpg",
       "role": "Analyst",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-a72bf9ea",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/5412dda873109119.jpg"
     },
     {
       "id": "staff-fba0226b",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0e114265",
       "last_name": "Moore",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 73,
+        "physiotherapy": 68,
+        "judging_ability": 74,
+        "judging_potential": 72
       },
       "first_name": "Ben Moore",
       "nationality": "Australia",
       "contract_end": "2027-11-16",
       "birth_country": null,
-      "date_of_birth": "2000-03-01",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Benvi",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/51acbeb8.webp",
+      "nickname": "Benvi"
     },
     {
       "id": "staff-54022195",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-76137e73",
       "last_name": "Claumann",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 75,
+        "judging_ability": 73,
+        "judging_potential": 80
       },
       "first_name": "Gabriel Claumann",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1996-08-21",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Tockers",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/59d6adc9.webp",
+      "nickname": "Tockers"
     },
     {
       "id": "staff-f67ac5f5",
       "role": "Performance Coach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0c8be917",
       "last_name": "Kraan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 68,
+        "physiotherapy": 69,
+        "judging_ability": 68,
+        "judging_potential": 70
       },
       "first_name": "Christopher Kraan",
       "nationality": "Argentina",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1988-06-23",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/462544ea.webp",
-      "nickname": "Kraan",
-      "team_id_2": null
+      "nickname": "Kraan"
     },
     {
       "id": "staff-a769d79c",
       "role": "Analyst",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-20461098",
       "last_name": "Ruoso",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 66,
+        "judging_ability": 68,
+        "judging_potential": 69
       },
       "first_name": "Henrique Ruoso",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-12-27",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/2e9b68af.webp",
-      "nickname": "Lyfaenia",
-      "team_id_2": null
+      "nickname": "Lyfaenia"
     },
     {
       "id": "staff-d5672904",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-0c8be917",
       "last_name": "González",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 76,
+        "physiotherapy": 74,
+        "judging_ability": 81,
+        "judging_potential": 78
       },
       "first_name": "Jorge Eduardo Bravo González",
       "nationality": "Peru",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-12-10",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Kouke",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/ac8269da34d2230e.png",
+      "nickname": "Kouke"
     },
     {
       "contract_end": "2100-01-01",
       "id": "c7db6dce-f51e-48e5-9463-6e4cd184fc49",
       "first_name": "Fernando Diez",
-      "last_name": "",
       "nickname": "Fernando Diez",
-      "nationality": "AR",
-      "birth_country": null,
-      "date_of_birth": "1970-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-0c8be917",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": null
     },
     {
       "id": "staff-7e98ddbc",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-a72bf9ea",
       "last_name": "Sarquis",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 78,
+        "judging_ability": 78,
+        "judging_potential": 81
       },
       "first_name": "Matheus Guimarães Sarquis",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1996-03-19",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Sarkis",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/90422fdc27f0c58c.png",
+      "nickname": "Sarkis"
     },
     {
       "contract_end": "2026-11-16",
       "id": "db800e2a-9f4a-4474-a6d4-be570832f2d7",
       "first_name": "Michele Maneggia",
-      "last_name": "",
       "nickname": "Yariet",
-      "nationality": "IT",
-      "birth_country": null,
-      "date_of_birth": "1995-05-22",
-      "profile_image_url": null,
       "role": "Analyst",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-b3da089b",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/db2518c067456e87.png"
     },
     {
       "id": "staff-acb654d0",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-loud2025",
       "last_name": "Jara",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 70,
+        "judging_ability": 80,
+        "judging_potential": 83
       },
       "first_name": "Diego Alejandro de Alencar Jara",
       "nationality": "Brazil",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-11-19",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Sephis",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/a018eb604692e962.png",
+      "nickname": "Sephis"
     },
     {
       "id": "staff-5e59c710",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-a72bf9ea",
       "last_name": "Hyeok",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 81,
+        "judging_ability": 80,
+        "judging_potential": 90
       },
       "first_name": "Sin Hyeok",
       "nationality": "South Korea",
       "contract_end": "2027-11-16",
       "birth_country": null,
-      "date_of_birth": "1988-06-19",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Xero",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/19466268.webp",
+      "nickname": "Xero"
     },
     {
       "contract_end": "2026-11-16",
       "id": "e78db611-87b2-4e0a-ac36-4ee849242810",
       "first_name": "Andrés Castro",
-      "last_name": "",
       "nickname": "Guchi",
-      "nationality": "AR",
-      "birth_country": null,
-      "date_of_birth": "1998-03-14",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-20461098",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/5162a5bf5fdbcabb.png"
     },
     {
       "id": "staff-946ce8da",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-fur2025",
       "last_name": "Higashi",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 69,
+        "physiotherapy": 61,
+        "judging_ability": 72,
+        "judging_potential": 64
       },
       "first_name": "Lucas Yudi Higashi",
       "nationality": "Brazil",
       "contract_end": "2027-11-16",
       "birth_country": null,
-      "date_of_birth": "1995-06-20",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Luuukz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/52c34e79dab49aaa.png",
+      "nickname": "Luuukz"
     },
     {
       "contract_end": "2026-11-16",
       "id": "ef15e336-eb54-4e8b-9f36-491f22d6b884",
       "first_name": "Gabriel Mattos",
-      "last_name": "",
       "nickname": "bieLzera",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "1995-04-20",
-      "profile_image_url": null,
       "role": "Analyst",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-0e114265",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/e7fa85278091726f.png"
     },
     {
       "id": "staff-be403d4f",
       "role": "HeadCoach",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-fur2025",
       "last_name": "Susin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 66,
+        "judging_ability": 76,
+        "judging_potential": 71
       },
       "first_name": "Erick Susin",
       "nationality": "Brazil",
@@ -746,31 +569,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "furyz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/5e21363c.webp",
+      "nickname": "furyz"
     },
     {
       "contract_end": "2100-01-01",
       "id": "fe2a95a3-77c4-45d8-823e-ceefa63e4c20",
       "first_name": "Bruno Goes",
-      "last_name": "",
       "nickname": "Nobru",
-      "nationality": "BR",
-      "birth_country": null,
-      "date_of_birth": "2001-01-20",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-20461098",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/c8951ebe9f84c15f.png"
     }
   ]
 }

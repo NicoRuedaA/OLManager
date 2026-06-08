@@ -2,14 +2,14 @@ use log::info;
 use serde::Serialize;
 use tauri::State;
 
-use domain::negotiation::NegotiationFeedback;
-use domain::player::RenewalSessionStatus;
-use ofm_core::contracts::{
+use olm_core::domain::negotiation::NegotiationFeedback;
+use olm_core::domain::player::RenewalSessionStatus;
+use olm_core::contracts::{
     DelegatedRenewalOptions, DelegatedRenewalReport, RenewalDecision, RenewalFinancialProjection,
     RenewalOffer,
 };
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct RenewalCommandResponse {
@@ -83,7 +83,7 @@ fn propose_renewal_internal(
         .get_game(|g: &Game| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let outcome = ofm_core::contracts::propose_renewal(
+    let outcome = olm_core::contracts::propose_renewal(
         &mut game,
         player_id,
         RenewalOffer {
@@ -121,7 +121,7 @@ fn delegate_renewals_internal(
         .get_game(|g: &Game| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let report = ofm_core::contracts::delegate_renewals(
+    let report = olm_core::contracts::delegate_renewals(
         &mut game,
         DelegatedRenewalOptions {
             player_ids,
@@ -150,7 +150,7 @@ fn preview_renewal_financial_impact_internal(
         .ok_or("No active game session".to_string())?;
 
     let projection =
-        ofm_core::contracts::project_renewal_financial_impact(&game, player_id, annual_wage)?;
+        olm_core::contracts::project_renewal_financial_impact(&game, player_id, annual_wage)?;
 
     Ok(RenewalFinancialProjectionCommandResponse { projection })
 }
@@ -162,15 +162,15 @@ mod tests {
         propose_renewal_internal,
     };
     use chrono::{TimeZone, Utc};
-    use db::save_manager::SaveManager;
-    use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, LolRole};
-    use domain::staff::{Staff, StaffAttributes, StaffRole};
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::contracts::RenewalDecision;
-    use ofm_core::game::Game;
-    use ofm_core::state::StateManager;
+    use olm_core::db::save_manager::SaveManager;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::player::{Player, PlayerAttributes, LolRole};
+    use olm_core::domain::staff::{Staff, StaffAttributes, StaffRole};
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::contracts::RenewalDecision;
+    use olm_core::game::Game;
+    use olm_core::state::StateManager;
     use std::fs;
     use std::path::{Path, PathBuf};
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -472,3 +472,6 @@ mod tests {
         assert!(response.projection.policy_allows);
     }
 }
+
+
+

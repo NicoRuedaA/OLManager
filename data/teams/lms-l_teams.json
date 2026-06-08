@@ -1,0 +1,107 @@
+{
+  "name": "LMS-L Teams",
+  "description": "LMS-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "lms-l-psg-talon",
+      "logo_url": "/teams-icons/psg-talon.webp",
+      "data.country": "Hong Kong",
+      "name": "PSG Talon",
+      "short_name": "PSG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lms-l-beyond-gaming",
+      "logo_url": "/teams-icons/beyond-gaming.webp",
+      "data.country": "Taiwan",
+      "name": "Beyond Gaming",
+      "short_name": "BYG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lms-l-j-team",
+      "logo_url": "/teams-icons/j-team.webp",
+      "data.country": "TW",
+      "name": "J Team",
+      "short_name": "JT",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lms-l-flash-wolves",
+      "logo_url": "/teams-icons/flash-wolves.webp",
+      "data.country": "Taiwan",
+      "name": "Flash Wolves",
+      "short_name": "FW",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "TW",
+      "id": "team-cfe07a66",
+      "name": "ahq eSports Club",
+      "short_name": "AHQ",
+      "logo_url": "/teams-icons/ba1b897341a649a6.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lms-l-taipei-assassins",
+      "logo_url": "/teams-icons/taipei-assassins.webp",
+      "data.country": "TW",
+      "name": "Taipei Assassins",
+      "short_name": "TA",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

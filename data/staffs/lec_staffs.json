@@ -9,10 +9,10 @@
       "team_id": "lec-team-heretics-lec",
       "last_name": "Akpınarlı",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 63,
+        "judging_ability": 70,
+        "judging_potential": 73
       },
       "first_name": "Emre Akpınarlı",
       "nationality": "Turkey",
@@ -21,8 +21,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/1e2812ca.webp",
-      "nickname": "Arkhe",
-      "team_id_2": null
+      "nickname": "Arkhe"
     },
     {
       "id": "staff-13946d43",
@@ -31,10 +30,10 @@
       "team_id": "lec-g2-esports",
       "last_name": "Oliveira",
       "attributes": {
-        "coaching": 50,
+        "coaching": 51,
         "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "judging_ability": 57,
+        "judging_potential": 56
       },
       "first_name": "Rodrigo Domingues ",
       "nationality": "Portugal",
@@ -42,9 +41,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759797022_t8easn8hlj.webp",
-      "nickname": "Rodrigo",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/82d832cf4fa5538c.webp",
+      "nickname": "Rodrigo"
     },
     {
       "id": "staff-a8bf2746",
@@ -53,10 +51,10 @@
       "team_id": "lec-natus-vincere",
       "last_name": "Mikołajczak",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 77,
+        "judging_ability": 78,
+        "judging_potential": 79
       },
       "first_name": "Zuzanna Mikołajczak",
       "nationality": "Poland",
@@ -64,9 +62,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1779561029816_pn5ytju2s3t.jpeg",
-      "nickname": null,
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/574c73810b5a59d8.jpeg",
+      "nickname": null
     },
     {
       "id": "staff-f3dd3299",
@@ -75,9 +72,9 @@
       "team_id": "lec-team-heretics-lec",
       "last_name": "Carranza",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
+        "coaching": 47,
+        "physiotherapy": 49,
+        "judging_ability": 56,
         "judging_potential": 50
       },
       "first_name": "Deam Saavedra Carranza",
@@ -86,9 +83,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Deam147",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/8e4241efee9a20dd.png",
+      "nickname": "Deam147"
     },
     {
       "id": "staff-9c86788c",
@@ -97,10 +93,10 @@
       "team_id": "lec-natus-vincere",
       "last_name": "Voltis",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 77,
+        "physiotherapy": 76,
+        "judging_ability": 75,
+        "judging_potential": 72
       },
       "first_name": "Vasilis Voltis",
       "nationality": "Greece",
@@ -108,9 +104,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778758944675_5h5z7h6rv2c.webp",
-      "nickname": "TheRock",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/4f8a64b1.webp",
+      "nickname": "TheRock"
     },
     {
       "id": "staff-66387e7d",
@@ -119,10 +114,10 @@
       "team_id": "lec-movistar-koi",
       "last_name": "Recio",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 72,
+        "physiotherapy": 65,
+        "judging_ability": 66,
+        "judging_potential": 70
       },
       "first_name": "Luis Cardona Recio",
       "nationality": "Spain",
@@ -130,9 +125,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778833096899_i1paxm9dmyh.png",
-      "nickname": "Cardonetti",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/988552eba86a48b7.png",
+      "nickname": "Cardonetti"
     },
     {
       "id": "staff-e0e79a66",
@@ -141,10 +135,10 @@
       "team_id": "lec-movistar-koi",
       "last_name": "Fernández",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 72,
+        "physiotherapy": 74,
+        "judging_ability": 74,
+        "judging_potential": 71
       },
       "first_name": "Tomás Campelos",
       "nationality": "Spain",
@@ -152,9 +146,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778757359989_2oqga4hz4o9.webp",
-      "nickname": "Melzhet",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/ef96759c7dc3486f.webp",
+      "nickname": "Melzhet"
     },
     {
       "id": "staff-217d297a",
@@ -163,10 +156,10 @@
       "team_id": "lec-team-heretics-lec",
       "last_name": "Holm",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 79,
+        "physiotherapy": 82,
+        "judging_ability": 84,
+        "judging_potential": 84
       },
       "first_name": "Erlend Våtevik ",
       "nationality": "Norway",
@@ -174,31 +167,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759378802_il5u2g9p3kp.webp",
-      "nickname": "Nukeduck",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/2b0caba3b82668f0.webp",
+      "nickname": "Nukeduck"
     },
     {
       "contract_end": "2100-01-01",
       "id": "25f3388a-7909-43bc-ab9a-bb969baaec6b",
       "first_name": "José Ramón Díaz",
-      "last_name": "",
       "nickname": "José Ramón Díaz",
-      "nationality": "ES",
-      "birth_country": null,
-      "date_of_birth": "1980-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-giantx-lec",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/a09e28816dc1d89b.png"
     },
     {
       "id": "staff-66108b54",
@@ -207,10 +186,10 @@
       "team_id": "lec-movistar-koi",
       "last_name": "Bogurina",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 73,
+        "physiotherapy": 68,
+        "judging_ability": 71,
+        "judging_potential": 64
       },
       "first_name": "Eric Ruiz ",
       "nationality": "Spain",
@@ -218,9 +197,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759980648_axfvon3zie.webp",
-      "nickname": "Independent",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/6971ddcda00edcaa.webp",
+      "nickname": "Independent"
     },
     {
       "id": "staff-ad1b63a7",
@@ -229,10 +207,10 @@
       "team_id": "lec-natus-vincere",
       "last_name": "Picard",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 68,
+        "judging_ability": 73,
+        "judging_potential": 75
       },
       "first_name": "Adrien Picard",
       "nationality": "France",
@@ -240,9 +218,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778760041842_oqrh7fkygn.webp",
-      "nickname": "GotoOne",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/78857d0a.webp",
+      "nickname": "GotoOne"
     },
     {
       "id": "staff-c34982d7",
@@ -251,10 +228,10 @@
       "team_id": "lec-sk-gaming",
       "last_name": "Torre",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 73,
+        "physiotherapy": 73,
+        "judging_ability": 69,
+        "judging_potential": 71
       },
       "first_name": "David Rodríguez ",
       "nationality": "Spain",
@@ -262,31 +239,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759293600_pnom323jslj.webp",
-      "nickname": "OWN3R",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/c5f9e287ab75677b.webp",
+      "nickname": "OWN3R"
     },
     {
       "contract_end": "2100-11-16",
       "id": "3722a829-c21b-43f6-9287-12cc5ff02cfe",
       "first_name": "Samuel Mathews",
-      "last_name": "",
       "nickname": "Sam Mathews",
-      "nationality": "GB",
-      "birth_country": null,
-      "date_of_birth": "1980-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-fnatic",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/7d0d872c74fa1776.jpg"
     },
     {
       "id": "staff-6211ad31",
@@ -295,10 +258,10 @@
       "team_id": "lec-giantx-lec",
       "last_name": "Neves",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 78,
+        "judging_ability": 75,
+        "judging_potential": 77
       },
       "first_name": "Rúben Alexandre ",
       "nationality": "Portugal",
@@ -306,9 +269,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759867040_u3i0rlclwbb.webp",
-      "nickname": "Rhuckz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/ce56efbfc78e95c4.webp",
+      "nickname": "Rhuckz"
     },
     {
       "id": "staff-c8127116",
@@ -317,10 +279,10 @@
       "team_id": "lec-sk-gaming",
       "last_name": "Duff",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 70,
+        "physiotherapy": 72,
+        "judging_ability": 69,
+        "judging_potential": 68
       },
       "first_name": "Christopher Duff",
       "nationality": "United Kingdom",
@@ -329,8 +291,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/24267906.webp",
-      "nickname": "Duffman",
-      "team_id_2": null
+      "nickname": "Duffman"
     },
     {
       "id": "staff-314cb40c",
@@ -339,10 +300,10 @@
       "team_id": "lec-team-vitality",
       "last_name": "Morisot",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 49,
+        "physiotherapy": 52,
+        "judging_ability": 51,
+        "judging_potential": 49
       },
       "first_name": "Jonas Morisot",
       "nationality": "France",
@@ -350,75 +311,47 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": null,
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/1ff09787.webp",
+      "nickname": null
     },
     {
       "contract_end": "2026-11-16",
       "id": "47a8f6eb-7f36-45f5-924f-0fae5ddde607",
       "first_name": "Richard Wolter",
-      "last_name": "",
       "nickname": "Immanuelity",
-      "nationality": "DE",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Performance Coach",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-fnatic",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/bff2215c3934d8f8.png"
     },
     {
       "id": "staff-891b413e",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "lec-fnatic",
       "last_name": "Pascu",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 75,
+        "judging_ability": 82,
+        "judging_potential": 81
       },
       "first_name": "Andrei Pascu",
       "nationality": "Romania",
       "contract_end": "2026-12-20",
       "birth_country": null,
-      "date_of_birth": "1995-01-18",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Odoamne",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/7b34ed90.webp",
+      "nickname": "Odoamne"
     },
     {
       "contract_end": "2100-01-01",
       "id": "545d8b6e-86f0-4dc9-8016-788d1a72a190",
       "first_name": "Yevhen Zolotarov",
-      "last_name": "",
       "nickname": "Yevhen Zolotarov",
-      "nationality": "UA",
-      "birth_country": null,
-      "date_of_birth": "1980-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-natus-vincere",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/afcdeb0693772ccd.png"
     },
     {
       "id": "staff-67ee37ad",
@@ -427,10 +360,10 @@
       "team_id": "lec-giantx-lec",
       "last_name": "Samulewski",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
+        "coaching": 53,
+        "physiotherapy": 45,
         "judging_ability": 50,
-        "judging_potential": 50
+        "judging_potential": 51
       },
       "first_name": "Kamil Samulewski",
       "nationality": "Poland",
@@ -439,8 +372,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/60a47a03.webp",
-      "nickname": null,
-      "team_id_2": null
+      "nickname": null
     },
     {
       "id": "staff-8c320e54",
@@ -449,10 +381,10 @@
       "team_id": "lec-team-vitality",
       "last_name": "Fischer",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 74,
+        "physiotherapy": 68,
+        "judging_ability": 74,
+        "judging_potential": 73
       },
       "first_name": "Danusch Fischer",
       "nationality": "Germany",
@@ -460,9 +392,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778761605796_4v7k1d9p2ty.webp",
-      "nickname": "Arvindir",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/0281d932.webp",
+      "nickname": "Arvindir"
     },
     {
       "id": "staff-c4d70048",
@@ -471,10 +402,10 @@
       "team_id": "lec-team-vitality",
       "last_name": "Vidal",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 74,
+        "physiotherapy": 68,
+        "judging_ability": 78,
+        "judging_potential": 80
       },
       "first_name": "Mauro Garih Vidal",
       "nationality": "Spain",
@@ -482,9 +413,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Garih",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/694b663248a87372.png",
+      "nickname": "Garih"
     },
     {
       "id": "staff-71dd6827",
@@ -493,10 +423,10 @@
       "team_id": "lec-karmine-corp",
       "last_name": "Viguié",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 79,
+        "physiotherapy": 70,
+        "judging_ability": 76,
+        "judging_potential": 77
       },
       "first_name": "Quentin Viguié",
       "nationality": "France",
@@ -504,31 +434,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759921944_ql812pegnqd.webp",
-      "nickname": "Zeph",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/617d7d47.webp",
+      "nickname": "Zeph"
     },
     {
       "contract_end": "2100-01-01",
       "id": "657df7ce-7cc6-437d-a4e0-eaf40f44d811",
       "first_name": "Jorge Orejudo",
-      "last_name": "",
       "nickname": "Goorgo",
-      "nationality": "ES",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-team-heretics-lec",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/eccc5ef1adb01319.png"
     },
     {
       "id": "staff-34f82415",
@@ -537,10 +453,10 @@
       "team_id": "lec-team-vitality",
       "last_name": "Trumbić",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 86,
+        "physiotherapy": 80,
+        "judging_ability": 87,
+        "judging_potential": 85
       },
       "first_name": "Luka Trumbić",
       "nationality": "Croatia",
@@ -549,8 +465,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/65b19afc.webp",
-      "nickname": null,
-      "team_id_2": null
+      "nickname": null
     },
     {
       "id": "staff-dbb3517d",
@@ -559,10 +474,10 @@
       "team_id": "lec-shifters",
       "last_name": "Dziemian",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 73,
+        "judging_ability": 73,
+        "judging_potential": 81
       },
       "first_name": "Marek Dziemian",
       "nationality": "Poland",
@@ -570,9 +485,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778760115980_wjk816qmqnc.webp",
-      "nickname": "MenQ",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/6e4972ca.webp",
+      "nickname": "MenQ"
     },
     {
       "id": "staff-cb78bfa2",
@@ -581,10 +495,10 @@
       "team_id": "lec-team-vitality",
       "last_name": "MacCormack",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 99,
+        "physiotherapy": 84,
+        "judging_ability": 96,
+        "judging_potential": 90
       },
       "first_name": "James MacCormack",
       "nationality": "United Kingdom",
@@ -592,21 +506,20 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759033256_omxzvi0saio.webp",
-      "nickname": "Mac",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/7e87d3f9.webp",
+      "nickname": "Mac"
     },
     {
       "id": "staff-32a0172d",
       "role": "Owner",
-      "wage": 0,
+      "wage": null,
       "team_id": "lec-karmine-corp",
       "last_name": "Kebir",
       "attributes": {
-        "coaching": 50,
+        "coaching": 45,
         "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "judging_ability": 53,
+        "judging_potential": 48
       },
       "first_name": "Kamel Kebir",
       "nationality": "France",
@@ -614,31 +527,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1444x920_kameto-rejoint-webedia",
-      "nickname": "Kameto",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/4989d4f2.webp",
+      "nickname": "Kameto"
     },
     {
       "contract_end": "2100-01-01",
       "id": "9909e826-5333-4a5c-a767-f182220b76ff",
       "first_name": "Fabien Devide",
-      "last_name": "",
       "nickname": "Neo",
-      "nationality": "FR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/3a6d2.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-team-vitality",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/fa264b6fd9d0a70a.jpg"
     },
     {
       "id": "staff-60a23f04",
@@ -647,10 +546,10 @@
       "team_id": "lec-shifters",
       "last_name": "Osuch",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 52,
+        "physiotherapy": 51,
+        "judging_ability": 49,
+        "judging_potential": 58
       },
       "first_name": "Damian Osuch",
       "nationality": "Poland",
@@ -659,8 +558,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/210b1d42.webp",
-      "nickname": "Arces",
-      "team_id_2": null
+      "nickname": "Arces"
     },
     {
       "id": "staff-16f5a033",
@@ -669,10 +567,10 @@
       "team_id": "lec-shifters",
       "last_name": "Kella",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 73,
+        "judging_ability": 70,
+        "judging_potential": 69
       },
       "first_name": "Yanis Kella",
       "nationality": "France",
@@ -680,53 +578,26 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759185572_eqc2q2lzigu.webp",
-      "nickname": "Striker",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/09e6a5c4.webp",
+      "nickname": "Striker"
     },
     {
       "contract_end": "2100-01-01",
       "id": "a2840eec-dc24-4408-928d-11016e9b341a",
       "first_name": "Alexander T. Müller",
-      "last_name": "",
       "nickname": "Alexander T. Müller",
-      "nationality": "DE",
-      "birth_country": null,
-      "date_of_birth": "1975-01-01",
-      "profile_image_url": "/staff-photos/Alexander-Mu%CC%88ller-600x600-1.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-sk-gaming",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/f8def92c1b46a662.jpg"
     },
     {
       "contract_end": "2100-01-01",
       "id": "a522360a-1ece-428f-b0d5-349391afd7fd",
       "first_name": "Jens Hilgers",
-      "last_name": "",
       "nickname": "Jens Hilgers",
-      "nationality": "DE",
-      "birth_country": null,
-      "date_of_birth": "1975-01-01",
-      "profile_image_url": "/staff-photos/Jens-Hilgers-Dojo-Madness.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-g2-esports",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/8da094c8ad3e90ce.jpg"
     },
     {
       "id": "staff-bd861166",
@@ -735,10 +606,10 @@
       "team_id": "lec-fnatic",
       "last_name": "Pérez",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 71,
+        "judging_ability": 74,
+        "judging_potential": 81
       },
       "first_name": "Pablo Vegas ",
       "nationality": "Spain",
@@ -746,9 +617,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759718088_t0getlblt2.webp",
-      "nickname": "Gaax",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/c5fb46f73037f877.webp",
+      "nickname": "Gaax"
     },
     {
       "id": "staff-bdce400c",
@@ -757,10 +627,10 @@
       "team_id": "lec-karmine-corp",
       "last_name": "Han-gyu",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 92,
+        "physiotherapy": 86,
+        "judging_ability": 95,
+        "judging_potential": 93
       },
       "first_name": "Bok Han-gyu ",
       "nationality": "South Korea",
@@ -768,75 +638,47 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778758813002_4eye24yb1x3.webp",
-      "nickname": "Reapered",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/48593bcf.webp",
+      "nickname": "Reapered"
     },
     {
       "id": "staff-ae5403d7",
       "role": "Owner",
-      "wage": 0,
+      "wage": null,
       "team_id": "lec-movistar-koi",
       "last_name": "Garatea",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
+        "coaching": 55,
+        "physiotherapy": 44,
+        "judging_ability": 47,
         "judging_potential": 50
       },
       "first_name": "Ibai Llanos Garatea",
       "nationality": "Spain",
       "contract_end": "2100-01-01",
       "birth_country": null,
-      "date_of_birth": "1995-03-26",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/250px-As%C3%AD_fue_la_Presentaci%C3%B3n_de_la_Velada_del_A%C3%B1o_5_24.jpg",
-      "nickname": "Ibai",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/e8f3060aaebfba15.jpg",
+      "nickname": "Ibai"
     },
     {
       "contract_end": "2100-01-01",
       "id": "bcc5cfd7-8dcc-4592-9d0e-d43a9a1e2b9c",
       "first_name": "Alexandre Lopez",
-      "last_name": "",
       "nickname": "Alexandre Lopez",
-      "nationality": "CH",
-      "birth_country": null,
-      "date_of_birth": "1985-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-shifters",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/d24d1bb85ad299ef.png"
     },
     {
       "contract_end": "2026-11-16",
       "id": "bdff9076-d05e-4bbb-988c-c5ae7960683f",
       "first_name": "Barney Morris",
-      "last_name": "",
       "nickname": "Alphari",
-      "nationality": "GB",
-      "birth_country": null,
-      "date_of_birth": "1999-10-20",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-movistar-koi",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/55e5689b80cd90d4.png"
     },
     {
       "id": "staff-e6ed0b15",
@@ -845,10 +687,10 @@
       "team_id": "lec-fnatic",
       "last_name": "Lohmann",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 90,
+        "physiotherapy": 93,
+        "judging_ability": 96,
+        "judging_potential": 96
       },
       "first_name": "Fabian Lohmann",
       "nationality": "Germany",
@@ -856,9 +698,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778759516505_r3keinvk0uj.webp",
-      "nickname": "GrabbZ",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/19512861.webp",
+      "nickname": "GrabbZ"
     },
     {
       "id": "staff-d05dc093",
@@ -867,20 +708,19 @@
       "team_id": "lec-giantx-lec",
       "last_name": "Guilhoto",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 76,
+        "judging_ability": 72,
+        "judging_potential": 76
       },
       "first_name": "André Pereira",
-      "nationality": "PT",
+      "nationality": "Portugal",
       "contract_end": "2026-12-20",
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778758565478_i8uk016jqki.webp",
-      "nickname": "Guilhoto",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/3e7c75d6b2a9f55d.webp",
+      "nickname": "Guilhoto"
     },
     {
       "id": "staff-915e8a83",
@@ -889,10 +729,10 @@
       "team_id": "lec-g2-esports",
       "last_name": "Falco",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 97,
+        "physiotherapy": 89,
+        "judging_ability": 86,
+        "judging_potential": 91
       },
       "first_name": "Dylan Falco",
       "nationality": "Canada",
@@ -901,30 +741,16 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/16c436b3.webp",
-      "nickname": "Dylan Falco",
-      "team_id_2": null
+      "nickname": "Dylan Falco"
     },
     {
       "contract_end": "2026-11-16",
       "id": "cba554a5-3706-4b90-a547-ad7d277c3d0a",
       "first_name": "Lucas Simon-Meslet",
-      "last_name": "",
       "nickname": "Cabochard",
-      "nationality": "FR",
-      "birth_country": null,
-      "date_of_birth": "1997-04-15",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-shifters",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/496121a346ff64f4.png"
     },
     {
       "id": "staff-bf0670c7",
@@ -933,10 +759,10 @@
       "team_id": "lec-g2-esports",
       "last_name": "Pedraza",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 69,
+        "judging_ability": 72,
+        "judging_potential": 66
       },
       "first_name": "Ismael Pedraza",
       "nationality": "Colombia",
@@ -944,31 +770,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Isma",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/c7dd33d64723e84e.png",
+      "nickname": "Isma"
     },
     {
       "contract_end": "2026-11-16",
       "id": "d8a05c96-f94f-4b06-b00e-ceb43ee0f998",
       "first_name": "Nuša Klepec",
-      "last_name": "",
       "nickname": "PlagueRat",
-      "nationality": "SI",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/K1gP0p4o_400x400.jpg",
       "role": "Performance Coach",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-movistar-koi",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/24af0e394aafb456.jpg"
     },
     {
       "id": "staff-9b849fcf",
@@ -977,10 +789,10 @@
       "team_id": "lec-team-heretics-lec",
       "last_name": "Diepstraten",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 88,
+        "physiotherapy": 86,
+        "judging_ability": 91,
+        "judging_potential": 83
       },
       "first_name": "Fabian Diepstraten",
       "nationality": "Netherlands",
@@ -988,31 +800,17 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1778761516705_hqkdjuvye18.webp",
-      "nickname": "Febiven",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/649dd0c6.webp",
+      "nickname": "Febiven"
     },
     {
       "contract_end": "2026-11-16",
       "id": "dffd9869-d558-41d1-ab7a-a50833898668",
       "first_name": "Clément Thillier",
-      "last_name": "",
       "nickname": "Clément",
-      "nationality": "FR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Performance Coach",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "lec-karmine-corp",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/4139015214e629de.png"
     },
     {
       "id": "staff-b5333fab",
@@ -1021,10 +819,10 @@
       "team_id": "lec-natus-vincere",
       "last_name": "Bieńkowski",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
+        "coaching": 46,
+        "physiotherapy": 53,
         "judging_ability": 50,
-        "judging_potential": 50
+        "judging_potential": 57
       },
       "first_name": "Maciej Bieńkowski",
       "nationality": "Poland",
@@ -1032,9 +830,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": "/staff-photos/1779561024885_fvr3crphy5.jpg",
-      "nickname": "Sanchi",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/3eed8e41.webp",
+      "nickname": "Sanchi"
     }
   ]
 }

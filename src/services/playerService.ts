@@ -1,10 +1,10 @@
-import { invoke } from "@tauri-apps/api/core";
+import { getApiClientSync } from "../api/client";
 import type { GameStateData } from "../store/gameStore";
 
 export async function startPotentialResearch(
   playerId: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("start_potential_research", { playerId });
+  return getApiClientSync().players.startPotentialResearch({ playerId });
 }
 
 export async function setPlayerChampionTrainingTarget(
@@ -12,13 +12,13 @@ export async function setPlayerChampionTrainingTarget(
   priorityIndex: number,
   championId: string | null,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_player_champion_training_target", {
+  return getApiClientSync().players.setChampionTrainingTarget({
     playerId,
     priorityIndex,
-    championId,
+    championId: championId ?? "",
   });
 }
 
 export async function delegateChampionTraining(): Promise<GameStateData> {
-  return invoke<GameStateData>("delegate_champion_training");
+  return getApiClientSync().players.delegateChampionTraining();
 }

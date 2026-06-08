@@ -13,9 +13,9 @@ use log::info;
 use tauri::Manager as TauriManager;
 use tauri::State;
 
-use ofm_core::state::StateManager;
+use olm_core::state::StateManager;
 
-use crate::commands::game::{
+use olm_core::game_setup::{
     apply_seed_potential_defaults, bootstrap_example_academy_pool_from_example,
     inject_seed_free_agents, remove_free_agents_shadowed_by_academy,
 };
@@ -45,7 +45,7 @@ fn resolve_default_world_editor_path(
     Err("Default world database not found (world.json).".to_string())
 }
 
-fn enrich_world_for_editor(world: &mut ofm_core::generator::WorldData) {
+fn enrich_world_for_editor(world: &mut olm_core::generator::WorldData) {
     bootstrap_example_academy_pool_from_example(&mut world.teams, &mut world.players, "2025-01-01");
     remove_free_agents_shadowed_by_academy(&mut world.players, &world.teams);
     inject_seed_free_agents(&mut world.players);
@@ -118,7 +118,7 @@ fn export_world_database_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let world = ofm_core::generator::WorldData {
+    let world = olm_core::generator::WorldData {
         name: "Exported World".to_string(),
         description: format!(
             "World with {} teams exported from saved game",
@@ -129,7 +129,7 @@ fn export_world_database_internal(
         staff: game.staff.clone(),
     };
 
-    let json = ofm_core::generator::export_world_to_json(&world)?;
+    let json = olm_core::generator::export_world_to_json(&world)?;
     std::fs::write(export_path, json).map_err(|e| format!("Failed to write file: {}", e))?;
     Ok(export_path.to_string_lossy().to_string())
 }
@@ -137,8 +137,8 @@ fn export_world_database_internal(
 fn write_database_json_to_dir(db_dir: &std::path::Path, json: &str) -> Result<String, String> {
     std::fs::create_dir_all(db_dir).map_err(|e| e.to_string())?;
 
-    let world = ofm_core::generator::load_world_from_json(json)?;
-    let normalized_json = ofm_core::generator::export_world_to_json(&world)?;
+    let world = olm_core::generator::load_world_from_json(json)?;
+    let normalized_json = olm_core::generator::export_world_to_json(&world)?;
 
     let filename = format!(
         "imported_{}.json",
@@ -150,29 +150,19 @@ fn write_database_json_to_dir(db_dir: &std::path::Path, json: &str) -> Result<St
     Ok(path.to_string_lossy().to_string())
 }
 
-/// List available world databases (built-in random + any user JSON files).
+/// List available world databases (any JSON files in bundled or user databases dirs).
 #[tauri::command]
 pub fn list_world_databases(
     app_handle: tauri::AppHandle,
-) -> Result<Vec<ofm_core::generator::WorldDatabaseInfo>, String> {
+) -> Result<Vec<olm_core::generator::WorldDatabaseInfo>, String> {
     info!("[cmd] list_world_databases");
-    use ofm_core::generator::WorldDatabaseInfo;
 
-    // Always include the built-in random option
-    let mut databases = vec![WorldDatabaseInfo {
-        id: "random".to_string(),
-        name: "Random World".to_string(),
-        description: "Randomly generated league with 16 teams across Europe".to_string(),
-        team_count: 16,
-        player_count: 352,
-        source: "builtin".to_string(),
-        path: String::new(),
-    }];
+    let mut databases = Vec::new();
 
     // Scan bundled databases directory (next to the executable / in resources)
     if let Ok(resource_dir) = app_handle.path().resource_dir() {
         let bundled_dir = resource_dir.join("databases");
-        let mut bundled = ofm_core::generator::scan_world_databases(&bundled_dir);
+        let mut bundled = olm_core::generator::scan_world_databases(&bundled_dir);
         for db in &mut bundled {
             db.source = "builtin".to_string();
         }
@@ -182,7 +172,7 @@ pub fn list_world_databases(
     // Scan user databases directory in app data
     if let Ok(app_data_dir) = app_handle.path().app_data_dir() {
         let user_dir = app_data_dir.join("databases");
-        let user_dbs = ofm_core::generator::scan_world_databases(&user_dir);
+        let user_dbs = olm_core::generator::scan_world_databases(&user_dir);
         databases.extend(user_dbs);
     }
 
@@ -216,7 +206,7 @@ pub fn write_temp_database(app_handle: tauri::AppHandle, json: String) -> Result
 pub fn load_world_editor_database(
     app_handle: tauri::AppHandle,
     path: Option<String>,
-) -> Result<ofm_core::generator::WorldData, String> {
+) -> Result<olm_core::generator::WorldData, String> {
     let path = match path
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty())
@@ -230,7 +220,7 @@ pub fn load_world_editor_database(
     let json = std::fs::read_to_string(&path)
         .map_err(|e| format!("Failed to read world database: {}", e))?;
     let has_explicit_potential_base = json.contains("\"potential_base\"");
-    let mut world = ofm_core::generator::load_world_from_json(&json)?;
+    let mut world = olm_core::generator::load_world_from_json(&json)?;
     if !has_explicit_potential_base {
         apply_seed_potential_defaults(&mut world.players);
     }
@@ -242,7 +232,7 @@ pub fn load_world_editor_database(
 pub fn save_world_editor_database(
     app_handle: tauri::AppHandle,
     path: String,
-    world: ofm_core::generator::WorldData,
+    world: olm_core::generator::WorldData,
 ) -> Result<String, String> {
     let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
         let path = path.trim();
@@ -252,7 +242,7 @@ pub fn save_world_editor_database(
             std::path::PathBuf::from(path.strip_prefix("file:").unwrap_or(path))
         };
         info!("[cmd] save_world_editor_database: path={}", path.display());
-        let json = ofm_core::generator::export_world_to_json(&world)?;
+        let json = olm_core::generator::export_world_to_json(&world)?;
         let saved_path = write_world_database_with_fallback(&app_handle, &path, &json)?;
         Ok(saved_path.to_string_lossy().to_string())
     }));
@@ -266,13 +256,13 @@ pub fn save_world_editor_database(
 mod tests {
     use super::{export_world_database_internal, write_database_json_to_dir};
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, LolRole};
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::generator::WorldData;
-    use ofm_core::state::StateManager;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::player::{Player, PlayerAttributes, LolRole};
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::generator::WorldData;
+    use olm_core::state::StateManager;
     use std::fs;
     use std::path::{Path, PathBuf};
     use std::time::{SystemTime, UNIX_EPOCH};
@@ -457,3 +447,5 @@ mod tests {
         assert_eq!(written_files, 0);
     }
 }
+
+

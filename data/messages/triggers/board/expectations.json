@@ -1,0 +1,19 @@
+{
+  "id": "board_expectations",
+  "trigger": "board_expectations",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Season objectives for {team}",
+  "body": "The board has outlined the expectations for {team} this season.\n\nWe expect you to build a competitive squad, implement a solid tactical system, and ensure the club's financial stability. Review your squad, set your training priorities, and prepare for the challenges ahead.\n\nWe will be watching your progress closely.",
+  "translations": {
+    "es": {
+      "subject": "Objetivos de temporada para {team}",
+      "body": "El consejo ha definido las expectativas para {team} esta temporada.\n\nEsperamos que construyas una plantilla competitiva, implementes un sistema t\u00e1ctico s\u00f3lido y garantices la estabilidad financiera del club. Revisa tu plantilla, establece tus prioridades y prep\u00e1rate para los desaf\u00edos que vienen.\n\nSeguiremos tu progreso de cerca."
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "pcs",
+  "name": "PCS",
+  "full_name": "Pacific Championship Series",
+  "region": "PCS",
+  "country": "PCS",
+  "tier": 2,
+  "logo": "/competitions-icons/9b80a9c9554b74d6.png",
+  "teams_file": "teams/pcs_teams.json",
+  "players_file": "players/pcs_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "single_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

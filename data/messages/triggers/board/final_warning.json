@@ -1,0 +1,19 @@
+{
+  "id": "board_final_warning",
+  "trigger": "board_final_warning",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "Urgent",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "FINAL WARNING \u2014 {team} must improve immediately",
+  "body": "This is your final warning. The board's patience has run out.\n\nThe continued poor performance of {team} is unacceptable. You must turn things around immediately or face dismissal.\n\nWe expect a significant improvement in results starting from the next match.",
+  "translations": {
+    "es": {
+      "subject": "\u00daLTIMA ADVERTENCIA \u2014 {team} debe mejorar inmediatamente",
+      "body": "Esta es su \u00faltima advertencia. La paciencia del consejo se ha agotado.\n\nEl continuo bajo rendimiento de {team} es inaceptable. Debe revertir la situaci\u00f3n inmediatamente o enfrentar el despido.\n\nEsperamos una mejora significativa en los resultados a partir del pr\u00f3ximo partido."
+    }
+  }
+}

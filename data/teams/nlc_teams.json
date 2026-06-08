@@ -3,164 +3,164 @@
   "description": "NLC - 2026 Season",
   "teams": [
     {
-      "id": "team-5ef306d4",
-      "name": "Artic Pandas",
-      "short_name": "APA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-1cee59ca",
       "name": "Bulldog Esports",
       "short_name": "BULL",
       "country": "",
+      "logo_url": "/teams-icons/62146a47ffb585a7.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-78aca3aa",
-      "name": "Deer Gaming",
-      "short_name": "DEG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-ee2bd46c",
-      "name": "DMG Esports",
-      "short_name": "DMG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-390ad3b4",
-      "name": "Verdant",
-      "short_name": "VER",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-9114115f",
-      "name": "LEO",
-      "short_name": "LEO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-cc3cd5f0",
-      "name": "Lundqvist Lightside",
-      "short_name": "LUN",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-794821d8",
-      "name": "Ruddy Corporation",
-      "short_name": "RUD",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "PL",
       "id": "team-34ca921d",
       "name": "4 Swines & A Bum",
       "short_name": "4SW",
-      "country": "",
+      "logo_url": "/teams-icons/2ae02e92dc455489.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "GB",
+      "id": "team-390ad3b4",
+      "name": "Verdant",
+      "short_name": "VER",
+      "logo_url": "/teams-icons/6f78541cdb72ebdc.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "FI",
+      "id": "team-5ef306d4",
+      "name": "Arctic Pandas",
+      "short_name": "APA",
+      "logo_url": "/teams-icons/a87a2ffc3dc9bcba.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "FI",
+      "id": "team-78aca3aa",
+      "name": "Deer Gaming",
+      "short_name": "DEG",
+      "logo_url": "/teams-icons/8120836cbb9e0b71.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "GB",
+      "id": "team-794821d8",
+      "name": "Ruddy Corporation",
+      "short_name": "RUD",
+      "logo_url": "/teams-icons/cf4497fd616a9b4b.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "SE",
+      "id": "team-9114115f",
+      "name": "Lund Esports Organization",
+      "short_name": "LEO",
+      "logo_url": "/teams-icons/8da6b201321611e0.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "SE",
+      "id": "team-cc3cd5f0",
+      "name": "Lundqvist Lightside",
+      "short_name": "LUN",
+      "logo_url": "/teams-icons/3918fcf5a2ecdfa7.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "NL",
       "id": "team-e8c7e277",
       "name": "La BOMBAS",
       "short_name": "BOMB",
-      "country": "",
+      "logo_url": "/teams-icons/85cb42980f650111.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "NO",
+      "id": "team-ee2bd46c",
+      "name": "DMG Esports",
+      "short_name": "DMG",
+      "logo_url": "/teams-icons/bb3a882e2ac1cdcc.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

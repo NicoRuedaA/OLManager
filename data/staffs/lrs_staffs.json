@@ -1,0 +1,206 @@
+{
+  "name": "LRS Staff",
+  "description": "LRS - 2026 Season",
+  "staff": [
+    {
+      "id": "09e8ef91-1bca-4de1-a356-859c54766266",
+      "first_name": "Agustin Tomas Di Lalla",
+      "nickname": "Adniel",
+      "role": "HeadCoach",
+      "team_id": "lrs-malvinas-gaming",
+      "profile_image_url": "/staff-photos/82b5d159aabc524d.webp"
+    },
+    {
+      "id": "0bb73aa3-ba01-4c94-8e99-447031891056",
+      "first_name": "Enzo Tomás Ferreira",
+      "nickname": "TomnaM",
+      "role": "HeadCoach",
+      "team_id": "lrs-9z-globant",
+      "profile_image_url": "/staff-photos/aedb87b3150e8807.webp"
+    },
+    {
+      "id": "0db3f348-029b-4ecb-bb67-1fdd78405863",
+      "first_name": "Gonzalo Calvo",
+      "nickname": "Belladona",
+      "role": "HeadCoach",
+      "team_id": "lrs-seven-dark",
+      "profile_image_url": "/staff-photos/b39df865449b2496.webp"
+    },
+    {
+      "id": "149eb8ec-7551-46f3-bba3-aceda666caf0",
+      "first_name": "David Ezequiel Molina",
+      "nickname": "Heartless",
+      "role": "Assistant",
+      "team_id": "lrs-golden-lions",
+      "profile_image_url": "/staff-photos/b9ce817842cedab0.webp"
+    },
+    {
+      "id": "265113bb-dd1f-4712-aeff-7f0f6b1be871",
+      "first_name": "Joaquín Leighton",
+      "nickname": "Bazilha",
+      "role": "Owner",
+      "team_id": "lrs-seven-dark",
+      "profile_image_url": null
+    },
+    {
+      "id": "2a9d586b-5167-4186-9f73-1d3f41adef3b",
+      "first_name": "Matías Nicolai Rammsy",
+      "nickname": "Aramir",
+      "role": "HeadCoach",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "348a148a-3238-4194-99f5-7d2a9c8e3af0",
+      "first_name": "Felipe Andrés Canto Polanco",
+      "nickname": "ReigN",
+      "role": "HeadCoach",
+      "team_id": "lrs-golden-lions",
+      "profile_image_url": "/staff-photos/c60181ca44639994.webp"
+    },
+    {
+      "id": "34c83d39-5848-4c65-a74c-b22f5e8f0325",
+      "first_name": "Karly Jane",
+      "nickname": null,
+      "role": "Owner",
+      "team_id": "lrs-volticons",
+      "profile_image_url": null
+    },
+    {
+      "id": "40e76053-f8eb-4c5f-819f-f49ec50ca7fd",
+      "first_name": "Gonzalo Sintas",
+      "nickname": "Gonzs",
+      "role": "Analyst",
+      "team_id": "lrs-volticons",
+      "profile_image_url": null
+    },
+    {
+      "id": "45a3e824-9145-4656-8081-210afcc5fc12",
+      "first_name": "Ulises Xavier Casimiro Costantino",
+      "nickname": "Smythz",
+      "role": "HeadCoach",
+      "team_id": "lrs-the-new-kings",
+      "profile_image_url": null
+    },
+    {
+      "id": "46b24e82-5647-4f10-8b72-3241d066d8f3",
+      "first_name": "Gabriel Mansilla Lucero",
+      "nickname": "Darumeitor",
+      "role": "Owner",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "4930590b-3280-4c5b-9829-e4b050f7b706",
+      "first_name": "Charly Gonzalez",
+      "nickname": "Charly14",
+      "role": "Owner",
+      "team_id": "lrs-malvinas-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "5864d3ce-ec95-4153-9fb0-7ffdff0ec375",
+      "first_name": "Matias Stagnitta",
+      "nickname": "Matapulgas",
+      "role": "Assistant",
+      "team_id": "lrs-seven-dark",
+      "profile_image_url": null
+    },
+    {
+      "id": "68390cf9-ff84-4bd3-a064-1667085f6ae9",
+      "first_name": "Juan Ignazio Vaccaro",
+      "nickname": "Krim",
+      "role": "HeadCoach",
+      "team_id": "lrs-volticons",
+      "profile_image_url": "/staff-photos/01b17b358e562063.webp"
+    },
+    {
+      "id": "6e8d04ae-8814-49b3-95c2-7d9162503a35",
+      "first_name": "Denisse San Martín Rebolledo",
+      "nickname": null,
+      "role": "Owner",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "7d9854a7-b42e-45f5-ae2a-5bffee967181",
+      "first_name": "Emanuel Pepe",
+      "nickname": "Piscis",
+      "role": "Analyst",
+      "team_id": "lrs-malvinas-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "9ecbf844-debb-4beb-b4aa-35db178c0c73",
+      "first_name": "Jose Manuel Mendoza Palomino",
+      "nickname": "Eskuiro",
+      "role": "HeadCoach",
+      "team_id": "lrs-tu-pap-esports",
+      "profile_image_url": "/staff-photos/4a3e2033eed438b8.webp"
+    },
+    {
+      "id": "a1a2e64a-3066-4e7b-bbb8-b376b17272ca",
+      "first_name": "Miguel Ángel Salas López",
+      "nickname": "Adjudicator",
+      "role": "Assistant",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": "/staff-photos/ab50f2f1be4b3810.webp"
+    },
+    {
+      "id": "b351a570-aa4a-4d0f-9fc4-f6d42aaef16d",
+      "first_name": "Melisa Burgos",
+      "nickname": "Meli",
+      "role": "Assistant",
+      "team_id": "lrs-the-new-kings",
+      "profile_image_url": null
+    },
+    {
+      "id": "b4e25fdc-5b3b-4bcd-b761-d63f6a475041",
+      "first_name": "Fernando Poblete Gómez",
+      "nickname": "Pájaro",
+      "role": "Owner",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "b85137da-028c-4c50-b63a-8f5fd5b9e8ec",
+      "first_name": "Mauro Villan",
+      "nickname": "Principe",
+      "role": "Assistant",
+      "team_id": "lrs-golden-lions",
+      "profile_image_url": null
+    },
+    {
+      "id": "c27c1710-8541-4dc4-900b-1342c6755165",
+      "first_name": "Alan Polo",
+      "nickname": null,
+      "role": "Owner",
+      "team_id": "lrs-malvinas-gaming",
+      "profile_image_url": null
+    },
+    {
+      "id": "f6eb6644-fe5c-406d-b5e3-a26abfacbd15",
+      "first_name": "Diego Arturo Pavez Valenzuela",
+      "nickname": "Glon",
+      "role": "HeadCoach",
+      "team_id": "lrs-maze-gaming",
+      "profile_image_url": "/staff-photos/cdfc260db768dce7.webp"
+    },
+    {
+      "id": "f97db5a8-c5ea-4ca2-bc97-a6c3577fe008",
+      "first_name": "Manuel Ize",
+      "nickname": "Manuize",
+      "role": "Assistant",
+      "team_id": "lrs-the-new-kings",
+      "profile_image_url": "/staff-photos/cade0012fa2e5cda.webp"
+    },
+    {
+      "id": "fc6722d2-9f42-4cab-a036-53af9a58b3d6",
+      "first_name": "Walter Ezequiel Pandiani",
+      "nickname": "Linoyasu",
+      "role": "Owner",
+      "team_id": "lrs-volticons",
+      "profile_image_url": null
+    }
+  ]
+}

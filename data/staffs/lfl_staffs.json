@@ -1,0 +1,359 @@
+{
+  "name": "LFL Staff",
+  "description": "LFL - 2026 Season",
+  "staff": [
+    {
+      "id": "staff-0614faac",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-da97809e",
+      "last_name": "Zrinjski",
+      "attributes": {
+        "coaching": 78,
+        "physiotherapy": 77,
+        "judging_ability": 76,
+        "judging_potential": 78
+      },
+      "first_name": "Nikola Zrinjski",
+      "nationality": "Croatia",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/1ef8884a.webp",
+      "nickname": "Xani"
+    },
+    {
+      "id": "12a28b03-c54f-43ec-b223-834df0de197e",
+      "first_name": "Leo Pironti",
+      "nickname": "ProbablyME",
+      "role": "Analyst",
+      "team_id": "team-012b64d1",
+      "profile_image_url": null
+    },
+    {
+      "id": "staff-8fae16d6",
+      "role": "Owner",
+      "wage": 30000,
+      "team_id": "team-ab04f649",
+      "last_name": "Deseuste",
+      "attributes": {
+        "coaching": 62,
+        "physiotherapy": 56,
+        "judging_ability": 61,
+        "judging_potential": 64
+      },
+      "first_name": "Leo Deseuste",
+      "nationality": "France",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/6d44f1b9.webp",
+      "nickname": "Ashanome"
+    },
+    {
+      "id": "2eee9cfc-fb61-4fff-8f4c-057831a6afae",
+      "first_name": "Bailey Parnell",
+      "nickname": "Dr. Bailey",
+      "role": "Owner",
+      "team_id": "team-92b46fef",
+      "profile_image_url": "/staff-photos/1383fb59a51e6ff2.webp"
+    },
+    {
+      "id": "staff-912798f9",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-af25d742",
+      "last_name": "Stoffel",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 66,
+        "judging_ability": 70,
+        "judging_potential": 73
+      },
+      "first_name": "Benjamin Stoffel",
+      "nationality": "France",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/44fd15c8.webp",
+      "nickname": "Fara"
+    },
+    {
+      "id": "staff-b75c2690",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-92b46fef",
+      "last_name": "Claudé",
+      "attributes": {
+        "coaching": 72,
+        "physiotherapy": 69,
+        "judging_ability": 73,
+        "judging_potential": 71
+      },
+      "first_name": "Raphaël Claudé",
+      "nationality": "France",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/6beb1eb4.webp",
+      "nickname": "Lingwi"
+    },
+    {
+      "id": "47a0f76c-9b17-445a-8a13-99e84dac386b",
+      "first_name": "Frédéric \"Glopo\" Sialelli",
+      "nickname": "Glopo",
+      "role": "Assistant",
+      "team_id": "team-0f9010b5",
+      "profile_image_url": "/staff-photos/292c1c8e1dc6fcfd.webp"
+    },
+    {
+      "id": "staff-cff56735",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-c12fef91",
+      "last_name": "Fructuoso",
+      "attributes": {
+        "coaching": 88,
+        "physiotherapy": 73,
+        "judging_ability": 82,
+        "judging_potential": 86
+      },
+      "first_name": "Ramón Meseguer Fructuoso",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/420cf52ca9a2cb71.webp",
+      "nickname": "Naruterador"
+    },
+    {
+      "id": "staff-179d32e4",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-92b46fef",
+      "last_name": "Lompre",
+      "attributes": {
+        "coaching": 75,
+        "physiotherapy": 66,
+        "judging_ability": 70,
+        "judging_potential": 70
+      },
+      "first_name": "Adrien Lompre",
+      "nationality": "France",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/775442a2.webp",
+      "nickname": "Hellombre"
+    },
+    {
+      "id": "staff-d9420d0c",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-012b64d1",
+      "last_name": "Ginestroni",
+      "attributes": {
+        "coaching": 72,
+        "physiotherapy": 69,
+        "judging_ability": 74,
+        "judging_potential": 77
+      },
+      "first_name": "Fabrizio Ginestroni",
+      "nationality": "Italy",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/72462bd9.webp",
+      "nickname": "Gine"
+    },
+    {
+      "id": "6beaa662-4c5c-499f-b4e9-565f4d71092b",
+      "first_name": "Gabriël Rau",
+      "nickname": "Bwipo",
+      "role": "HeadCoach",
+      "team_id": "team-f8f7f78d",
+      "profile_image_url": "/staff-photos/0d123f4f7939e671.webp"
+    },
+    {
+      "id": "staff-35db42bd",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-af25d742",
+      "last_name": "Paul",
+      "attributes": {
+        "coaching": 67,
+        "physiotherapy": 60,
+        "judging_ability": 64,
+        "judging_potential": 60
+      },
+      "first_name": "Ianis Paul",
+      "nationality": "France",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/3640fa68.webp",
+      "nickname": "Blidzy"
+    },
+    {
+      "id": "staff-e6b14915",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-ab04f649",
+      "last_name": "Bernardino",
+      "attributes": {
+        "coaching": 67,
+        "physiotherapy": 68,
+        "judging_ability": 71,
+        "judging_potential": 73
+      },
+      "first_name": "Rafael Bernardino",
+      "nationality": "Portugal",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/32994785.webp",
+      "nickname": "Yong"
+    },
+    {
+      "id": "staff-dec05177",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-8f3d532a",
+      "last_name": "Borkowski",
+      "attributes": {
+        "coaching": 76,
+        "physiotherapy": 75,
+        "judging_ability": 70,
+        "judging_potential": 71
+      },
+      "first_name": "Mateusz Borkowski",
+      "nationality": "Poland",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/1daab759.webp",
+      "nickname": "Tasz"
+    },
+    {
+      "id": "9778133b-2cb5-4fdf-ad2a-6460d95e7d8a",
+      "first_name": "Benoît Theveny",
+      "nickname": "Tev",
+      "role": "Owner",
+      "team_id": "team-c12fef91",
+      "profile_image_url": "/staff-photos/2524ed189873ba2d.jpg"
+    },
+    {
+      "id": "staff-f03c0e5a",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-012b64d1",
+      "last_name": "Comte",
+      "attributes": {
+        "coaching": 89,
+        "physiotherapy": 81,
+        "judging_ability": 85,
+        "judging_potential": 85
+      },
+      "first_name": "Danny Le Comte",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/e6e58949c084a4cb.webp",
+      "nickname": "Dan Dan"
+    },
+    {
+      "id": "a08906cc-12ba-4512-b34d-904eba9ea379",
+      "first_name": "Maxime Tchoroukian",
+      "nickname": "Sixen",
+      "role": "Owner",
+      "team_id": "team-da97809e",
+      "profile_image_url": "/staff-photos/d0c24459ece74416.jpg"
+    },
+    {
+      "id": "a4bd1808-9fa1-42ea-a6bf-44a72b211ee0",
+      "first_name": "Sakor Ros",
+      "nickname": "Le Roi Bisou",
+      "role": "Owner",
+      "team_id": "team-012b64d1",
+      "profile_image_url": "/staff-photos/add404fe6ede7f96.jpg"
+    },
+    {
+      "id": "staff-700e0fa9",
+      "role": "Analyst",
+      "wage": 30000,
+      "team_id": "team-ab04f649",
+      "last_name": "Young-min",
+      "attributes": {
+        "coaching": 76,
+        "physiotherapy": 67,
+        "judging_ability": 66,
+        "judging_potential": 71
+      },
+      "first_name": "Kim Young-min",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/5d2e5fce.webp",
+      "nickname": "Merit"
+    },
+    {
+      "id": "c1c3223e-6293-47ed-82e4-65d0dc6a92e6",
+      "first_name": "Charly Guillar",
+      "nickname": " Djoko",
+      "role": "HeadCoach",
+      "team_id": "team-0f9010b5",
+      "profile_image_url": "/staff-photos/e2ea0ca51357752d.webp"
+    },
+    {
+      "id": "staff-2ca264f5",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-c12fef91",
+      "last_name": "Bruk",
+      "attributes": {
+        "coaching": 75,
+        "physiotherapy": 72,
+        "judging_ability": 71,
+        "judging_potential": 68
+      },
+      "first_name": "David Bruk",
+      "nationality": "Czech Republic",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/5940ab59.webp",
+      "nickname": "Kraker"
+    },
+    {
+      "id": "ea537e89-e106-4b7c-8232-362a2134b178",
+      "first_name": "Burak Kaan Badan ",
+      "nickname": "Viser1on",
+      "role": "HeadCoach",
+      "team_id": "team-ab04f649",
+      "profile_image_url": "/staff-photos/4d007e80bae32682.webp"
+    },
+    {
+      "id": "fabc7ad8-ffca-4351-9ed4-b163c6cf3eb5",
+      "first_name": "Philippe Mino",
+      "nickname": "Mino",
+      "role": "Owner",
+      "team_id": "team-0f9010b5",
+      "profile_image_url": "/staff-photos/4cfde72648907bda.webp"
+    }
+  ]
+}

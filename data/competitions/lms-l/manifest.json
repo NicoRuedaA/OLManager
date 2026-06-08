@@ -1,0 +1,19 @@
+{
+  "id": "lms-l",
+  "name": "LMS-L",
+  "full_name": "LMS-LEGACY",
+  "region": "LMS-L",
+  "country": "LMS",
+  "tier": 1,
+  "logo": "/competitions-icons/b3a4ae63f06967cf.png",
+  "teams_file": "teams/lms-l_teams.json",
+  "players_file": "players/lms-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

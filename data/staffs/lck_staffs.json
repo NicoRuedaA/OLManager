@@ -5,652 +5,479 @@
     {
       "id": "staff-28cda131",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-41bf07a6",
       "last_name": "Jeong-hyeon",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 97,
+        "physiotherapy": 90,
+        "judging_ability": 90,
+        "judging_potential": 95
       },
       "first_name": "Lee Jeong-hyeon",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1991-01-29",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "PoohManDu",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/04a65d55.webp",
+      "nickname": "PoohManDu"
     },
     {
       "contract_end": "2100-11-16",
       "id": "0d054580-24d0-4812-8b01-2d65d645b65e",
       "first_name": "Shin Ki-hyeok",
-      "last_name": "",
       "nickname": "Shin Ki-hyeok",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/1779606068196_4zj49xzrhmh.jpeg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-932ee946",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/a0b8916c93b4d09f.jpeg"
     },
     {
       "contract_end": "2026-11-16",
       "id": "0f9b2986-6a06-4cd1-a172-9a1725328e23",
       "first_name": "Yu Byeong-jun",
-      "last_name": "",
       "nickname": "Ggoong",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1993-06-26",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-2166882d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/4dbdd42e404d2405.png"
     },
     {
       "id": "staff-0de961f1",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-861ba8cb",
       "last_name": "Sung-young",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 86,
+        "physiotherapy": 77,
+        "judging_ability": 88,
+        "judging_potential": 87
       },
       "first_name": "Yoon Sung-young",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1985-01-01",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Homme",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/1add3440.webp",
+      "nickname": "Homme"
     },
     {
       "contract_end": "2100-01-01",
       "id": "144cdda8-b752-4f7e-b218-db834dbc473a",
       "first_name": "Yang Seon-il",
-      "last_name": "",
       "nickname": "Yang Seon-il",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/1779605993559_35codu7rbwj.jpeg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-bc4c40ec",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/d41eb3885d485f4d.jpeg"
     },
     {
       "id": "staff-3b2af72a",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-932ee946",
       "last_name": "Moo-seong",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 71,
+        "judging_ability": 73,
+        "judging_potential": 78
       },
       "first_name": "Kim Moo-seong",
       "nationality": "South Korea",
       "contract_end": "2027-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-10-09",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Museong",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/792bcc5b.webp",
+      "nickname": "Museong"
     },
     {
       "contract_end": "2026-11-16",
       "id": "19be898a-24eb-453b-bc86-1a77145cc0ea",
       "first_name": "Yang Hyeon-min",
-      "last_name": "",
       "nickname": "Minit",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1998-02-03",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-2166882d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/f9667f4fd4e731ec.png"
     },
     {
       "id": "staff-0c9b8a0b",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-932ee946",
       "last_name": "Dong-bin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 72,
+        "judging_ability": 85,
+        "judging_potential": 87
       },
       "first_name": "Go Dong-bin",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1992-07-08",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Score",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/47092f09.webp",
+      "nickname": "Score"
     },
     {
       "id": "staff-e12ab094",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-861ba8cb",
       "last_name": "Jae-ha",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 77,
+        "judging_ability": 81,
+        "judging_potential": 82
       },
       "first_name": "Lee Jae-ha",
       "nationality": "South Korea",
       "contract_end": "2027-11-15",
       "birth_country": null,
-      "date_of_birth": "1998-04-14",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Mowgli",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/0d8d9830.webp",
+      "nickname": "Mowgli"
     },
     {
       "id": "staff-b8302c58",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-2c4f82f9",
       "last_name": "Se-hyeong",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 86,
+        "physiotherapy": 74,
+        "judging_ability": 85,
+        "judging_potential": 84
       },
       "first_name": "Cho Se-hyeong",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-02-27",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Mata",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/0734ebfe.webp",
+      "nickname": "Mata"
     },
     {
       "id": "staff-6f9391bd",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-dae32fa2",
       "last_name": "Chan-ho",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 72,
+        "judging_ability": 76,
+        "judging_potential": 87
       },
       "first_name": "Park Chan-ho",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1997-11-27",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Nova",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/065de518.webp",
+      "nickname": "Nova"
     },
     {
       "id": "staff-6f4e1f38",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-dae32fa2",
       "last_name": "Sang-wook",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 82,
+        "judging_ability": 82,
+        "judging_potential": 78
       },
       "first_name": "Ryu Sang-wook",
       "nationality": "South Korea",
       "contract_end": "2028-11-20",
       "birth_country": null,
-      "date_of_birth": "1994-01-28",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Ryu",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/570dea2d.webp",
+      "nickname": "Ryu"
     },
     {
       "contract_end": "2026-11-16",
       "id": "545490a3-2fa8-402a-ac1e-d05715afb3bd",
       "first_name": "Park Jun-seok",
-      "last_name": "",
       "nickname": "Edo",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1987-10-14",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-3f714e0d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/3b65fce1db5c8e8a.png"
     },
     {
       "id": "staff-12c5a521",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-bd98ddef",
       "last_name": "Ho-seong",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 98,
+        "physiotherapy": 88,
+        "judging_ability": 89,
+        "judging_potential": 92
       },
       "first_name": "Lee Ho-seong",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-12-19",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Duke",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/3e105348.webp",
+      "nickname": "Duke"
     },
     {
       "contract_end": "2100-01-01",
       "id": "5ec92c2e-b47b-47cf-b9fe-55db4f292a94",
       "first_name": "Choi Young-woo",
-      "last_name": "",
       "nickname": "Choi Young-woo",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1975-08-23",
-      "profile_image_url": "/staff-photos/1779559173480_vvi1dqwv2m.webp",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-2166882d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/5d23fa6ea7ed1efc.webp"
     },
     {
       "id": "staff-cbc4df48",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-861ba8cb",
       "last_name": "Hyeong-mo",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 76,
+        "judging_ability": 79,
+        "judging_potential": 75
       },
       "first_name": "Yeon Hyeong-mo",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1991-12-12",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/268bba81.webp",
-      "nickname": "Sin",
-      "team_id_2": null
+      "nickname": "Sin"
     },
     {
       "id": "staff-90b9dd8e",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-bc4c40ec",
       "last_name": "Jae-eup",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 87,
+        "physiotherapy": 77,
+        "judging_ability": 86,
+        "judging_potential": 81
       },
       "first_name": "Cho Jae-eup",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1991-12-11",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Joker",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/06f7e005.webp",
+      "nickname": "Joker"
     },
     {
       "contract_end": "2026-11-16",
       "id": "6a896ed3-479c-4d80-87c6-4499e107cc6d",
       "first_name": "Nam Tae-yoo",
-      "last_name": "",
       "nickname": "Lira",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1995-01-15",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-3f714e0d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/61d47bd17d7fd757.png"
     },
     {
       "contract_end": "2100-11-16",
       "id": "6cae705d-819c-44e7-bfcb-b1a3ea71d9ac",
       "first_name": "Yeo Seung-joo",
-      "last_name": "",
       "nickname": "Yeo Seung-joo",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/original.jpeg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-861ba8cb",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/dc09f53b11448411.jpeg"
     },
     {
       "id": "staff-8cb087ff",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-61bd92d5",
       "last_name": "Seung-jin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 84,
+        "physiotherapy": 87,
+        "judging_ability": 89,
+        "judging_potential": 91
       },
       "first_name": "Park Seung-jin",
       "nationality": "South Korea",
       "contract_end": "2027-11-15",
       "birth_country": null,
-      "date_of_birth": "1996-11-01",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Chelly",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/7a366c06.webp",
+      "nickname": "Chelly"
     },
     {
       "id": "staff-3417ee68",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-dae32fa2",
       "last_name": "Da-bin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 74,
+        "judging_ability": 76,
+        "judging_potential": 72
       },
       "first_name": "Kim Da-bin",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1996-08-25",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Lyn",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/58eff248.webp",
+      "nickname": "Lyn"
     },
     {
       "id": "staff-327825da",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-61bd92d5",
       "last_name": "Jae-hee",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 90,
+        "physiotherapy": 91,
+        "judging_ability": 87,
+        "judging_potential": 91
       },
       "first_name": "Kim Jae-hee",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1996-09-20",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Crazy",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/4650d3be.webp",
+      "nickname": "Crazy"
     },
     {
       "id": "staff-51c33486",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-bd98ddef",
       "last_name": "Sang-soo",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 79,
+        "physiotherapy": 76,
+        "judging_ability": 77,
+        "judging_potential": 79
       },
       "first_name": "Kim Sang-soo",
       "nationality": "South Korea",
       "contract_end": "2027-11-15",
       "birth_country": null,
-      "date_of_birth": "1989-10-15",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Ssong",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/3e43fd81.webp",
+      "nickname": "Ssong"
     },
     {
       "id": "staff-4c81e27d",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-2c4f82f9",
       "last_name": "Ji-hoon",
       "attributes": {
-        "coaching": 50,
+        "coaching": 61,
         "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "judging_ability": 56,
+        "judging_potential": 60
       },
       "first_name": "Lee Ji-hoon",
-      "nationality": "KR",
+      "nationality": "Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1992-11-23",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Easyhoon",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/6fb7e38c.webp",
+      "nickname": "Easyhoon"
     },
     {
       "contract_end": "2100-11-16",
       "id": "a22d6dd0-2af6-4bbd-8c57-56aa391568d5",
       "first_name": "Lim Woo-taek",
-      "last_name": "",
       "nickname": "Lim Woo-taek",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-bd98ddef",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/0f6cf5e4042a6c23.png"
     },
     {
       "contract_end": "2100-11-16",
       "id": "a35d2c40-1c3f-4e40-89bc-b5e6fff50aaf",
       "first_name": "Oh Ji-hwan",
-      "last_name": "",
       "nickname": "Oh Ji-hwan",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/1779560820963_gftv0lbjjxh.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-61bd92d5",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/8aac35f75fa31a22.jpg"
     },
     {
       "contract_end": "2100-11-16",
       "id": "ac2940da-e7d5-4cfd-8fd9-28e1a49ad5dc",
       "first_name": "Yoon Jun-ho",
-      "last_name": "",
       "nickname": "Yoon Jun-ho",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/1779558429238_yqzpeg318g.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-3f714e0d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/db5c4ed53bc5f8f5.jpg"
     },
     {
       "contract_end": "2026-11-16",
       "id": "bc32309d-584b-4345-a9ec-11875c75f1bf",
       "first_name": "Shin Hyeong-seop",
-      "last_name": "",
       "nickname": "Rather",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1996-11-26",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-3f714e0d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/63d96d9974350821.png"
     },
     {
       "id": "staff-0139a0f6",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-932ee946",
       "last_name": "Seung-ik",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 86,
+        "physiotherapy": 81,
+        "judging_ability": 77,
+        "judging_potential": 78
       },
       "first_name": "Son Seung-ik",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1994-08-31",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Sonstar",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/7e2c1a4a.webp",
+      "nickname": "Sonstar"
     },
     {
       "id": "staff-8305a31d",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-41bf07a6",
       "last_name": "Seung-chan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 91,
+        "physiotherapy": 84,
+        "judging_ability": 84,
+        "judging_potential": 93
       },
       "first_name": "Ha Seung-chan",
       "nationality": "South Korea",
@@ -658,207 +485,137 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Hachani",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/79b8efc1.webp",
+      "nickname": "Hachani"
     },
     {
       "id": "staff-2db0505f",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-2c4f82f9",
       "last_name": "Jae-hyeon",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 74,
+        "judging_ability": 72,
+        "judging_potential": 79
       },
       "first_name": "Im Jae-hyeon",
       "nationality": "South Korea",
       "contract_end": "2026-11-26",
       "birth_country": null,
-      "date_of_birth": "1995-05-22",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Tom",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/21b34d5a.webp",
+      "nickname": "Tom"
     },
     {
       "id": "staff-bd406d7f",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-61bd92d5",
       "last_name": "In-kyu",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 90,
+        "physiotherapy": 82,
+        "judging_ability": 94,
+        "judging_potential": 90
       },
       "first_name": "Choi In-kyu",
       "nationality": "South Korea",
       "contract_end": "2027-11-15",
       "birth_country": null,
-      "date_of_birth": "1994-01-03",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "DanDy",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/05b8e3b8.webp",
+      "nickname": "DanDy"
     },
     {
       "id": "staff-6bb0be76",
       "role": "Assistant",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-41bf07a6",
       "last_name": "Dae-ho",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 92,
+        "physiotherapy": 88,
+        "judging_ability": 95,
+        "judging_potential": 96
       },
       "first_name": "Kim Dae-ho",
       "nationality": "South Korea",
       "contract_end": "2026-11-16",
       "birth_country": null,
-      "date_of_birth": "1990-06-07",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "cvMax",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/3be70999.webp",
+      "nickname": "cvMax"
     },
     {
       "contract_end": "2026-11-16",
       "id": "d58af100-f24e-4a01-93d3-6420255e7a0a",
       "first_name": "\tJu Yeong-dal",
-      "last_name": "",
       "nickname": "oDin",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1987-06-15",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-2166882d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/864dd8666fddffd4.png"
     },
     {
       "contract_end": "2026-11-16",
       "id": "ddc42456-d806-454d-afe2-423c1f9f31a1",
       "first_name": "Yoo Nae-hyun",
-      "last_name": "",
       "nickname": "Naehyun",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1996-02-07",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-bc4c40ec",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/5356e42503138c05.png"
     },
     {
       "contract_end": "2100-11-16",
       "id": "dfd171b1-1114-4fc8-8490-9d8d16b3312b",
       "first_name": "Lee Dong-hyeong",
-      "last_name": "",
       "nickname": "Lee Dong-hyeong",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": "/staff-photos/1779559743298_42qf63mx053.jpg",
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-41bf07a6",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/07d4ddeb1ee543c7.jpg"
     },
     {
       "contract_end": "2100-11-16",
       "id": "e686fc03-30af-4c76-bd59-dee4d96dc7f7",
       "first_name": "Kevin Chou",
-      "last_name": "",
       "nickname": "Kevin Chou",
-      "nationality": "US",
-      "birth_country": null,
-      "date_of_birth": "1990-01-01",
-      "profile_image_url": null,
       "role": "Owner",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-dae32fa2",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/16b1720304359a48.jpg"
     },
     {
       "contract_end": "2026-11-16",
       "id": "e7f4658f-b2ea-4861-8708-7cb62f72da65",
       "first_name": "Kim Chang-seong",
-      "last_name": "",
       "nickname": "Cube",
-      "nationality": "KR",
-      "birth_country": null,
-      "date_of_birth": "1996-08-16",
-      "profile_image_url": null,
       "role": "Assistant",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": "team-2166882d",
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0
+      "profile_image_url": "/staff-photos/02e4f170b9e230de.png"
     },
     {
       "id": "staff-b39d47ca",
       "role": "Owner",
-      "wage": 0,
+      "wage": null,
       "team_id": "team-2c4f82f9",
       "last_name": "Marsh",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 47,
+        "physiotherapy": 49,
+        "judging_ability": 48,
+        "judging_potential": 53
       },
       "first_name": "Joe Marsh",
       "nationality": "United States",
       "contract_end": "2100-11-16",
       "birth_country": null,
-      "date_of_birth": "1990-01-29",
+      "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/0b5f3685.webp",
-      "nickname": "Joe Marsh",
-      "team_id_2": null
+      "nickname": "Joe Marsh"
     }
   ]
 }

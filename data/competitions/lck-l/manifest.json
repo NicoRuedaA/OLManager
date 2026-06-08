@@ -1,0 +1,19 @@
+{
+  "id": "lck-l",
+  "name": "LCK-L",
+  "full_name": "LCK LEGACY",
+  "region": "LCK-L",
+  "country": "KR",
+  "tier": 1,
+  "logo": "/competitions-icons/ecd61ca62145e68e.webp",
+  "teams_file": "teams/lck-l_teams.json",
+  "players_file": "players/lck-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

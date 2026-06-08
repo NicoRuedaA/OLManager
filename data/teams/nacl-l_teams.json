@@ -1,0 +1,38 @@
+{
+  "name": "NACL-L Teams",
+  "description": "NACL-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "team-039b2c89",
+      "name": "Apex MI",
+      "short_name": "APE",
+      "country": "",
+      "logo_url": "/teams-icons/18c28c6c56e39413.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "US",
+      "id": "team-4da13a51",
+      "name": "NRG",
+      "short_name": "NRGes",
+      "logo_url": "/teams-icons/0faac4a6f3386fe0.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

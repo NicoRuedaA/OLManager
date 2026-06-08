@@ -1,0 +1,29 @@
+{
+  "id": "unbeaten_streak",
+  "category": "Editorial",
+  "headlines": [
+    {
+      "key": "be.news.storyline.unbeatenStreak.headline",
+      "text": "{team} Extend Series Run to {runLength}"
+    }
+  ],
+  "body": "{team} have gone {runLength} series without a loss and are building real momentum around drafts and objectives.",
+  "body_key": "be.news.storyline.unbeatenStreak.body",
+  "sources": [
+    {
+      "key": "be.source.leaguePulse",
+      "text": "The Shotcaller"
+    }
+  ],
+  "translations": {
+    "es": {
+      "headlines": [
+        {
+          "key": "be.news.storyline.unbeatenStreak.headline",
+          "text": "{team} extiende su racha a {runLength} series"
+        }
+      ],
+      "body": "{team} lleva {runLength} series sin perder y acumula impulso en drafts y objetivos."
+    }
+  }
+}

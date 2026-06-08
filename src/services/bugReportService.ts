@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
+import { getApiClientSync } from "../api/client";
 
 /**
  * Export a bug report ZIP to the user's Desktop.
@@ -11,8 +11,5 @@ export async function exportBugReport(
   contextJson: string,
   saveJson: string,
 ): Promise<string> {
-  return invoke<string>("export_bug_report", {
-    contextJson,
-    saveJson,
-  });
+  return getApiClientSync().serverCommands.bugReport({ contextJson, saveJson });
 }

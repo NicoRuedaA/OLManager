@@ -3,6 +3,7 @@
   "description": "LPL - 2026 Season",
   "teams": [
     {
+      "history": [],
       "id": "team-ca28739d",
       "city": "Shanghai",
       "form": [],
@@ -14,7 +15,6 @@
       "academy": null,
       "country": "CN",
       "finance": 7700000,
-      "history": [],
       "logo_url": "/teams-icons/edward-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -59,6 +59,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-dc1429f2",
       "city": "China",
       "form": [],
@@ -70,7 +71,6 @@
       "academy": null,
       "country": "CN",
       "finance": 9200000,
-      "history": [],
       "logo_url": "/teams-icons/lgd-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -115,6 +115,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-b777d366",
       "city": "China",
       "form": [],
@@ -126,7 +127,6 @@
       "academy": null,
       "country": "CN",
       "finance": 6400000,
-      "history": [],
       "logo_url": "/teams-icons/top-esports.webp",
       "team_kind": "Main",
       "facilities": {
@@ -171,6 +171,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-a84cce06",
       "city": "China",
       "form": [],
@@ -182,7 +183,6 @@
       "academy": null,
       "country": "CN",
       "finance": 5950000,
-      "history": [],
       "logo_url": "/teams-icons/ultra-prime.webp",
       "team_kind": "Main",
       "facilities": {
@@ -227,6 +227,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-3bd486ec",
       "city": "China",
       "form": [],
@@ -238,7 +239,6 @@
       "academy": null,
       "country": "CN",
       "finance": 6250000,
-      "history": [],
       "logo_url": "/teams-icons/anyones-legend.webp",
       "team_kind": "Main",
       "facilities": {
@@ -283,6 +283,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-a324dc9d",
       "city": "China",
       "form": [],
@@ -294,7 +295,6 @@
       "academy": null,
       "country": "CN",
       "finance": 5900000,
-      "history": [],
       "logo_url": "/teams-icons/weibo-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -339,6 +339,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-ec9ab429",
       "city": "China",
       "form": [],
@@ -350,7 +351,6 @@
       "academy": null,
       "country": "CN",
       "finance": 6200000,
-      "history": [],
       "logo_url": "/teams-icons/lng-esports.webp",
       "team_kind": "Main",
       "facilities": {
@@ -395,6 +395,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-5facf88e",
       "city": "Xi'an",
       "form": [],
@@ -406,7 +407,6 @@
       "academy": null,
       "country": "CN",
       "finance": 9150000,
-      "history": [],
       "logo_url": "/teams-icons/team-we.webp",
       "team_kind": "Main",
       "facilities": {
@@ -451,6 +451,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-dd4bc6a5",
       "city": "Beijing",
       "form": [],
@@ -462,7 +463,6 @@
       "academy": null,
       "country": "CN",
       "finance": 7150000,
-      "history": [],
       "logo_url": "/teams-icons/bilibili-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -507,6 +507,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-38a818e5",
       "city": "China",
       "form": [],
@@ -518,7 +519,6 @@
       "academy": null,
       "country": "CN",
       "finance": 4300000,
-      "history": [],
       "logo_url": "/teams-icons/tt-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -563,6 +563,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-d6ad5a14",
       "city": "China",
       "form": [],
@@ -574,7 +575,6 @@
       "academy": null,
       "country": "CN",
       "finance": 9500000,
-      "history": [],
       "logo_url": "/teams-icons/invictus-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -619,6 +619,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-6481a859",
       "city": "Beijing",
       "form": [],
@@ -630,7 +631,6 @@
       "academy": null,
       "country": "CN",
       "finance": 6600000,
-      "history": [],
       "logo_url": "/teams-icons/jd-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -675,6 +675,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-75263716",
       "city": "China",
       "form": [],
@@ -686,7 +687,6 @@
       "academy": null,
       "country": "CN",
       "finance": 8650000,
-      "history": [],
       "logo_url": "/teams-icons/oh-my-god.webp",
       "team_kind": "Main",
       "facilities": {
@@ -731,6 +731,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-0a33a07d",
       "city": "China",
       "form": [],
@@ -742,7 +743,6 @@
       "academy": null,
       "country": "CN",
       "finance": 5750000,
-      "history": [],
       "logo_url": "/teams-icons/ninjas-in-pyjamas.webp",
       "team_kind": "Main",
       "facilities": {

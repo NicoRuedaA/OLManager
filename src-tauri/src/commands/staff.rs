@@ -2,13 +2,13 @@ use chrono::Datelike;
 use log::info;
 use tauri::State;
 
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 fn is_normal_staff_hiring_window_open(game: &Game) -> bool {
     let context = &game.season_context;
     if context.season_start.is_some() {
-        return context.phase != domain::season::SeasonPhase::InSeason;
+        return context.phase != olm_core::domain::season::SeasonPhase::InSeason;
     }
 
     let month = game.clock.current_date.month();
@@ -69,12 +69,12 @@ fn hire_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, Str
 mod tests {
     use super::{hire_staff_internal, release_staff_internal};
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::staff::{Staff, StaffAttributes, StaffRole};
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::state::StateManager;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::staff::{Staff, StaffAttributes, StaffRole};
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::state::StateManager;
 
     fn make_team() -> Team {
         let mut team = Team::new(
@@ -274,3 +274,5 @@ fn release_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, 
     state.set_game(game.clone());
     Ok(game)
 }
+
+

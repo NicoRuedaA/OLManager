@@ -1,0 +1,21 @@
+{
+  "id": "low_morale_2",
+  "trigger": "low_morale",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "High",
+  "actions": [
+    { "type": "chooseoption", "label": "Talk to player", "label_key": "be.msg.action.talkToPlayer", "options": [{"id": "talk", "label": "Have a conversation", "label_key": "be.msg.action.haveConversation"}] },
+    { "type": "chooseoption", "label": "Give time off", "label_key": "be.msg.action.giveTimeOff", "options": [{"id": "rest", "label": "Grant rest days", "label_key": "be.msg.action.grantRest"}] },
+    { "type": "dismiss", "label": "Ignore", "label_key": "be.msg.action.ignore" }
+  ],
+  "subject": "{player} seems unhappy",
+  "body": "I wanted to bring this to your attention \u2014 {player} appears to be unhappy (morale: {morale}%).\n\nIf left unaddressed, this could create tension in the squad. A conversation or some time off might help lift their spirits.",
+  "translations": {
+    "es": {
+      "subject": "{player} parece infeliz",
+      "body": "Quer\u00eda llamar su atenci\u00f3n sobre esto \u2014 {player} parece estar infeliz (moral: {morale}%).\n\nSi no se aborda, podr\u00eda crear tensi\u00f3n en la plantilla. Una conversaci\u00f3n o un tiempo libre podr\u00edan ayudar a levantar su \u00e1nimo."
+    }
+  }
+}

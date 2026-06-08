@@ -1,0 +1,19 @@
+{
+  "id": "victory_1",
+  "trigger": "match_result",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchResult",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Victory! {score} against {opponent}",
+  "body": "Great result today, coach! We beat {opponent} {score}.\n\nThe team executed the game plan well. Let's build on this momentum for the next match.\n\nWell done to everyone involved.",
+  "translations": {
+    "es": {
+      "subject": "\u00a1Victoria! {score} contra {opponent}",
+      "body": "\u00a1Gran resultado hoy, jefe! Hemos ganado a {opponent} {score}.\n\nEl equipo ejecut\u00f3 bien el plan de juego. Construyamos sobre este impulso para el pr\u00f3ximo partido.\n\nBuen trabajo de todos los involucrados."
+    }
+  }
+}

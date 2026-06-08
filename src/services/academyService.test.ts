@@ -29,7 +29,7 @@ describe("academyService", () => {
           source_team_id: "mkoi-fenix",
           name: "Movistar KOI Fénix",
           short_name: "MKOI F",
-          logo_url: "https://cdn.example/logo.png",
+          logo_url: "https://cdn.example/logo.webp",
           erl_league_id: "nlc",
           erl_league_name: "NLC",
           country_code: "GB",
@@ -52,7 +52,7 @@ describe("academyService", () => {
           source_team_id: "mkoi-fenix",
           source_team_name: "Movistar KOI Fénix",
           source_team_short_name: "MKOI F",
-          source_team_logo_url: "https://cdn.example/logo.png",
+          source_team_logo_url: "https://cdn.example/logo.webp",
           league_name: "NLC",
         }),
       ],
@@ -125,7 +125,7 @@ describe("academyService", () => {
         source_team_id: "mkoi-fenix",
         custom_name: "Movistar KOI Fénix Academy",
         custom_short_name: "MKOI F",
-        custom_logo_url: "https://cdn.example/custom-logo.png",
+          custom_logo_url: "https://cdn.example/custom-logo.webp",
       }),
     ).resolves.toBe(updatedGame);
     expect(mockedInvoke).toHaveBeenCalledWith("acquire_academy_team", {
@@ -134,7 +134,7 @@ describe("academyService", () => {
         sourceTeamId: "mkoi-fenix",
         customName: "Movistar KOI Fénix Academy",
         customShortName: "MKOI F",
-        customLogoUrl: "https://cdn.example/custom-logo.png",
+        customLogoUrl: "https://cdn.example/custom-logo.webp",
       },
     });
   });

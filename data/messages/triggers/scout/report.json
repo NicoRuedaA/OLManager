@@ -1,0 +1,19 @@
+{
+  "id": "scout_report",
+  "trigger": "scout_report",
+  "weight": 1,
+  "sender": "scout",
+  "category": "ScoutReport",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Scout report: {player}",
+  "body": "I've completed my assessment of {player}, a {position} currently at {team}.\n\nThe player shows {rating} potential. Further details are available in the report.\n\nRecommendation: Worth monitoring closely.",
+  "translations": {
+    "es": {
+      "subject": "Informe de ojeo: {player}",
+      "body": "He completado mi evaluaci\u00f3n de {player}, un {position} actualmente en {team}.\n\nEl jugador muestra un potencial {rating}. M\u00e1s detalles disponibles en el informe.\n\nRecomendaci\u00f3n: Vale la pena vigilario de cerca."
+    }
+  }
+}

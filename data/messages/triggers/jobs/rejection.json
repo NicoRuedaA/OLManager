@@ -1,0 +1,19 @@
+{
+  "id": "job_rejection",
+  "trigger": "job_rejection",
+  "weight": 1,
+  "sender": "board",
+  "category": "JobOffer",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Application update \u2014 {team}",
+  "body": "Thank you for your interest in the managerial position at {team}.\n\nAfter careful consideration, the club has decided to pursue other candidates.\n\nWe wish you the best in your search for a new position.",
+  "translations": {
+    "es": {
+      "subject": "Actualizaci\u00f3n de candidatura \u2014 {team}",
+      "body": "Gracias por su inter\u00e9s en el puesto de entrenador de {team}.\n\nDespu\u00e9s de una cuidadosa consideraci\u00f3n, el club ha decidido seguir adelante con otros candidatos.\n\nLe deseamos lo mejor en su b\u00fasqueda de un nuevo puesto."
+    }
+  }
+}

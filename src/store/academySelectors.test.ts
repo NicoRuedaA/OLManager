@@ -66,7 +66,6 @@ function player(overrides: Partial<PlayerData>): PlayerData {
     },
     condition: 80,
     morale: 80,
-    injury: null,
     team_id: "academy-1",
     contract_end: "2028-01-01",
     wage: 1000,

@@ -1,0 +1,19 @@
+{
+  "id": "draw_1",
+  "trigger": "match_result",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchResult",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Draw: {home} {score} {away}",
+  "body": "A hard-fought draw today, coach. {home} {score} {away} against {opponent}.\n\nNot the result we wanted, but we showed character. Let's take the positives and work on the weaknesses.\n\nNext match is an opportunity to get back to winning ways.",
+  "translations": {
+    "es": {
+      "subject": "Empate: {home} {score} {away}",
+      "body": "Un empate muy disputado hoy, jefe. {home} {score} {away} contra {opponent}.\n\nNo es el resultado que quer\u00edamos, pero mostramos car\u00e1cter. Tomemos lo positivo y trabajemos en las debilidades.\n\nEl pr\u00f3ximo partido es una oportunidad para volver a la senda de la victoria."
+    }
+  }
+}

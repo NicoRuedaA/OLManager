@@ -1,0 +1,18 @@
+{
+  "id": "prm",
+  "name": "PRM",
+  "full_name": "Techniker Prime League",
+  "region": "PRM",
+  "country": "DE",
+  "tier": 2,
+  "logo": "/competitions-icons/9ec30098c9439838.webp",
+  "teams_file": "teams/prm_teams.json",
+  "players_file": "players/prm_players.json",
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "staff_file": "staffs/prm_staffs.json"
+}

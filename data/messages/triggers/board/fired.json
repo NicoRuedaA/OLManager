@@ -1,0 +1,19 @@
+{
+  "id": "board_fired",
+  "trigger": "board_fired",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "Urgent",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Notice of dismissal \u2014 {team}",
+  "body": "We regret to inform you that your employment as head coach of {team} has been terminated effective immediately.\n\nAfter careful consideration, the board has concluded that the team's results under your management do not meet the club's expectations.\n\nWe thank you for your efforts and wish you the best in your future endeavors.",
+  "translations": {
+    "es": {
+      "subject": "Aviso de despido \u2014 {team}",
+      "body": "Lamentamos informarle que su empleo como entrenador de {team} ha sido rescindido con efecto inmediato.\n\nDespu\u00e9s de una cuidadosa consideraci\u00f3n, el consejo ha concluido que los resultados del equipo bajo su direcci\u00f3n no cumplen con las expectativas del club.\n\nLe agradecemos sus esfuerzos y le deseamos lo mejor en sus futuros proyectos."
+    }
+  }
+}

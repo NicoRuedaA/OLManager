@@ -1,6 +1,6 @@
 {
-  "name": "Free Agents Staff",
-  "description": "Free Agents - 2026 Season",
+  "name": "Free Agent Staff",
+  "description": "Free Agent - 2026 Season",
   "staff": [
     {
       "id": "staff-13e6c700",
@@ -9,10 +9,10 @@
       "team_id": null,
       "last_name": "Thịnh",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 84,
+        "physiotherapy": 73,
+        "judging_ability": 75,
+        "judging_potential": 77
       },
       "first_name": "Trần Tiến Thịnh",
       "nationality": "Vietnam",
@@ -20,31 +20,16 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Ciel",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/df0b6806cdf4a1e6.png",
+      "nickname": "Ciel"
     },
     {
       "id": "59de1a42-0d82-433a-9bd6-38bfceae0493",
       "first_name": "Daniel Espinoza",
-      "last_name": "",
       "nickname": "Zetz",
-      "nationality": "CU",
-      "birth_country": null,
-      "date_of_birth": null,
-      "profile_image_url": null,
       "role": "Analyst",
-      "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
-      },
       "team_id": null,
-      "team_id_2": null,
-      "specialization": null,
-      "wage": 0,
-      "contract_end": ""
+      "profile_image_url": null
     }
   ]
 }

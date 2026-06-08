@@ -1,4 +1,4 @@
-import type { DraftMatchResult } from "../../../components/match/draftResultSimulator";
+import type { DraftMatchResult } from "@/ui-v2/_legacy/components/match/draftResultSimulator";
 
 type Side = "blue" | "red";
 type Result = "win" | "loss";

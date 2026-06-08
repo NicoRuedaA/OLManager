@@ -1,0 +1,20 @@
+{
+  "id": "preview_2",
+  "trigger": "match_preview",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchPreview",
+  "priority": "Normal",
+  "actions": [
+    { "type": "navigateto", "label": "View on Schedule", "label_key": "be.msg.action.viewSchedule", "route": "/dashboard?tab=Schedule" },
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Match day approaching: {opponent}",
+  "body": "Heads up coach \u2014 we face {opponent} ({venue}) on {date}.\n\nThis is going to be a tough one. {opponent} has some strong players we need to account for. I've prepared a scout report on their key threats.\n\nLet's go over the game plan before match day.",
+  "translations": {
+    "es": {
+      "subject": "Se acerca el partido: {opponent}",
+      "body": "Atenci\u00f3n jefe \u2014 nos enfrentamos a {opponent} ({venue}) el {date}.\n\nEste va a ser un partido duro. {opponent} tiene jugadores fuertes a los que debemos prestar atenci\u00f3n. He preparado un informe sobre sus amenazas clave.\n\nRepasemos el plan de partido antes del d\u00eda del encuentro."
+    }
+  }
+}

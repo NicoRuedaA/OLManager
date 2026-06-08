@@ -1,0 +1,42 @@
+{
+  "id": "weekly_digest",
+  "category": "Editorial",
+  "headlines": [
+    {
+      "key": "be.news.weeklyDigest.headline",
+      "text": "Weekly Digest \u2014 Week of {weekStart}"
+    }
+  ],
+  "body_variants": [
+    {
+      "body_key": "be.news.weeklyDigest.bodyNoTopPerformer",
+      "text": "The latest weekly power rankings are here. {leader} lead the table, and {storylineCount} storyline(s) are shaping the league this week."
+    },
+    {
+      "body_key": "be.news.weeklyDigest.bodyWithTopPerformer",
+      "text": "The latest weekly power rankings are here. {leader} lead the table, while {topPerformer} heads the kill participation charts with {topPerformerPlays} standout play(s). {storylineCount} storyline(s) are shaping the league this week."
+    }
+  ],
+  "sources": [
+    {
+      "key": "be.source.leaguePulse",
+      "text": "The Shotcaller"
+    }
+  ],
+  "translations": {
+    "es": {
+      "headlines": [
+        {
+          "key": "be.news.weeklyDigest.headline",
+          "text": "Resumen semanal \u2014 Semana del {weekStart}"
+        }
+      ],
+      "body_variants": [
+        {
+          "body_key": "be.news.weeklyDigest.bodyNoTopPerformer",
+          "text": "{leader} lidera la tabla y {storylineCount} historia(s) marcan la semana en la liga."
+        }
+      ]
+    }
+  }
+}

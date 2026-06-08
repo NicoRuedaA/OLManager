@@ -1,0 +1,19 @@
+{
+  "id": "prm-l",
+  "name": "PRM-L",
+  "full_name": "Primeleague-Legacy",
+  "region": "PRM-L",
+  "country": "DE",
+  "tier": 2,
+  "logo": null,
+  "teams_file": "teams/prm-l_teams.json",
+  "players_file": "players/prm-l_players.json",
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true,
+  "staff_file": "staffs/prm-l_staffs.json"
+}

@@ -343,6 +343,7 @@ export interface PlayerData {
   potential_research_eta_days?: number | null;
   champion_training_target?: string | null;
   champion_training_targets?: string[];
+  lol_ovr?: number;
 }
 
 export interface ScrimSlotResultData {
@@ -559,11 +560,12 @@ export interface MessageData {
   subject_key?: string;
   body_key?: string;
   sender_key?: string;
-  sender_role_key?: string;
-  i18n_params?: Record<string, string>;
-}
+    sender_role_key?: string;
+    i18n_params?: Record<string, string>;
+    sender_icon?: string;
+  }
 
-export interface ManagerCareerStats {
+  export interface ManagerCareerStats {
   matches_managed: number;
   /** @deprecated Legacy test fixture alias. Use matches_managed. */
   matches?: number;
@@ -680,6 +682,7 @@ export interface CompetitionSummary {
   name: string;
   region: string;
   logo: string | null;
+  tier: number;
   team_count: number;
   teams: TeamSummary[];
 }

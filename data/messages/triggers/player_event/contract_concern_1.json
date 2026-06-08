@@ -1,0 +1,20 @@
+{
+  "id": "contract_concern_1",
+  "trigger": "contract_concern",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Contract",
+  "priority": "High",
+  "actions": [
+    { "type": "navigateto", "label": "Open Contract", "label_key": "be.msg.action.openContract", "route": "/dashboard?tab=Squad" },
+    { "type": "dismiss", "label": "Later", "label_key": "be.msg.action.later" }
+  ],
+  "subject": "Contract running down: {player}",
+  "body": "I wanted to remind you that {player}'s contract is expiring soon ({days} days remaining).\n\nIf we don't act soon, we risk losing them for nothing. We should consider opening renewal negotiations or listing them for transfer.\n\nWhat's your plan for {player}?",
+  "translations": {
+    "es": {
+      "subject": "Contrato por vencer: {player}",
+      "body": "Quer\u00eda recordarle que el contrato de {player} expira pronto ({days} d\u00edas restantes).\n\nSi no actuamos pronto, corremos el riesgo de perderlo sin compensaci\u00f3n. Deber\u00edamos considerar abrir negociaciones de renovaci\u00f3n o ponerlo en el mercado.\n\n\u00bfQu\u00e9 plan tiene para {player}?"
+    }
+  }
+}

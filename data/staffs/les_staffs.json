@@ -1,0 +1,325 @@
+{
+  "name": "LES Staff",
+  "description": "LES - 2026 Season",
+  "staff": [
+    {
+      "id": "195c2504-21b9-49fe-8ff3-f5feab924384",
+      "first_name": "Javier Fernández Calavia",
+      "nickname": "Monu",
+      "role": "Analyst",
+      "team_id": "team-5d7b3ec4",
+      "profile_image_url": "/staff-photos/372fbe25fc057613.jpg"
+    },
+    {
+      "id": "207163ac-7f00-49af-aeb2-c1bc8f03862a",
+      "first_name": "Ricardo Gaio Sousa Ferreira",
+      "nickname": "Gaio",
+      "role": "Assistant",
+      "team_id": "team-129835c5",
+      "profile_image_url": "/staff-photos/8d3af58a5cb88096.webp"
+    },
+    {
+      "id": "staff-6b1e34e3",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-854f6893",
+      "last_name": "Sarafian",
+      "attributes": {
+        "coaching": 88,
+        "physiotherapy": 82,
+        "judging_ability": 85,
+        "judging_potential": 82
+      },
+      "first_name": "Nubar Sarafian",
+      "nationality": "United Kingdom",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/44d173ea.webp",
+      "nickname": "Maxlore"
+    },
+    {
+      "id": "staff-8162f010",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-06974122",
+      "last_name": "Pedrosa",
+      "attributes": {
+        "coaching": 80,
+        "physiotherapy": 76,
+        "judging_ability": 76,
+        "judging_potential": 78
+      },
+      "first_name": "Alejandro Fernández-Valdés Pedrosa",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/27977e5c30a80481.webp",
+      "nickname": "Jandro"
+    },
+    {
+      "id": "320d13e4-2515-4d9e-b702-0e5f188bdefb",
+      "first_name": "Adrián Ballesteros",
+      "nickname": "Carti",
+      "role": "Assistant",
+      "team_id": "team-5d7b3ec4",
+      "profile_image_url": null
+    },
+    {
+      "id": "4df397fa-6c6d-4b33-a362-ff618c042d8d",
+      "first_name": "Sergio Paredes del Pino",
+      "nickname": "Paredes",
+      "role": "Performance Coach",
+      "team_id": "team-129835c5",
+      "profile_image_url": "/staff-photos/8215807f161589dd.jpg"
+    },
+    {
+      "id": "staff-4f08fb53",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-5d7b3ec4",
+      "last_name": "Crespo",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 69,
+        "judging_ability": 68,
+        "judging_potential": 68
+      },
+      "first_name": "Gregorio Santos Crespo",
+      "nationality": "Spanish",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/247d38d017782de8.webp",
+      "nickname": "Shere"
+    },
+    {
+      "id": "staff-ca9464b0",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-129835c5",
+      "last_name": "Brandão",
+      "attributes": {
+        "coaching": 72,
+        "physiotherapy": 74,
+        "judging_ability": 75,
+        "judging_potential": 76
+      },
+      "first_name": "Gonçalo Pinto Brandão",
+      "nationality": "Portugal",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/86392a92f9360909.webp",
+      "nickname": "Crusher"
+    },
+    {
+      "id": "66aae1f3-885a-4ad6-8ec7-b50fd4d9dfd3",
+      "first_name": "Martin Toribio",
+      "nickname": "Toribio",
+      "role": "Performance Coach",
+      "team_id": "team-06974122",
+      "profile_image_url": "/staff-photos/39b4421d3e5d4e86.png"
+    },
+    {
+      "id": "7353a371-ce17-44db-9f9d-00ebc738a338",
+      "first_name": "Joan Laporta",
+      "nickname": "Laporta",
+      "role": "Owner",
+      "team_id": "team-06974122",
+      "profile_image_url": "/staff-photos/2c2a45cf61b40066.webp"
+    },
+    {
+      "id": "748c093b-9005-4e8b-aa5f-815656003c91",
+      "first_name": "Xavier Fluxà i Millan",
+      "nickname": "Xixauxas",
+      "role": "HeadCoach",
+      "team_id": "team-ac846213",
+      "profile_image_url": "/staff-photos/b598ea89dd2e666c.webp"
+    },
+    {
+      "id": "842bf6d9-2996-4cef-b077-987fbc7ca201",
+      "first_name": "Óscar Compadre Alonso ",
+      "nickname": "Fosky",
+      "role": "Analyst",
+      "team_id": "team-d0d82673",
+      "profile_image_url": "/staff-photos/d81248e9ffbfc884.webp"
+    },
+    {
+      "id": "af709659-8000-4ffa-8870-47c202dd5f01",
+      "first_name": "Carlos Gutiérrez",
+      "nickname": " Gutiérrez",
+      "role": "Owner",
+      "team_id": "team-5d7b3ec4",
+      "profile_image_url": "/staff-photos/024752520a16a7c8.jpg"
+    },
+    {
+      "id": "b8de1e8c-eab6-45b2-974a-66087f43d5b9",
+      "first_name": "Carlos Vioque",
+      "nickname": "Kaito",
+      "role": "Analyst",
+      "team_id": "team-06974122",
+      "profile_image_url": "/staff-photos/45a862a92dfcb040.webp"
+    },
+    {
+      "contract_end": "3000-12-31",
+      "id": "c0ae42c7-f979-430e-aceb-d97c447f9e4f",
+      "first_name": "Universidad de Barcelona",
+      "nickname": "UB",
+      "role": "Owner",
+      "team_id": "team-ac846213",
+      "profile_image_url": "/staff-photos/198b8923a98134c8.png"
+    },
+    {
+      "id": "staff-3a38b9f3",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-d0d82673",
+      "last_name": "Martínez",
+      "attributes": {
+        "coaching": 57,
+        "physiotherapy": 53,
+        "judging_ability": 54,
+        "judging_potential": 57
+      },
+      "first_name": "Serafín Rodríguez Martínez",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/a279db3988c407ff.webp",
+      "nickname": "Ritsu"
+    },
+    {
+      "id": "staff-dfbd62fd",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-d0d82673",
+      "last_name": "Villar",
+      "attributes": {
+        "coaching": 71,
+        "physiotherapy": 65,
+        "judging_ability": 65,
+        "judging_potential": 67
+      },
+      "first_name": "Fernando Villar",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/4c9cc264.webp",
+      "nickname": "SLiezzan"
+    },
+    {
+      "id": "staff-478e8530",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-8baee3fd",
+      "last_name": "Used",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 69,
+        "judging_ability": 65,
+        "judging_potential": 74
+      },
+      "first_name": "Jorge López Used",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/c2c5c6a7c6e4411e.webp",
+      "nickname": "Disgrace"
+    },
+    {
+      "id": "dab9fa63-ce82-4bc1-b513-e5080b5ca487",
+      "first_name": "Rafael Bermúdez",
+      "nickname": "Bermúdez",
+      "role": "Owner",
+      "team_id": "team-5d7b3ec4",
+      "profile_image_url": "/staff-photos/1e94451c5437f727.jpg"
+    },
+    {
+      "id": "e86b73cf-d8a5-4a54-9459-cc7425db6ad3",
+      "first_name": "Diego Ferreria",
+      "nickname": "Diogoambf",
+      "role": "Analyst",
+      "team_id": "team-129835c5",
+      "profile_image_url": "/staff-photos/44d94c8ee27b61b7.jpg"
+    },
+    {
+      "id": "staff-55414a84",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-854f6893",
+      "last_name": "Salar",
+      "attributes": {
+        "coaching": 68,
+        "physiotherapy": 63,
+        "judging_ability": 65,
+        "judging_potential": 64
+      },
+      "first_name": "Jose Maria Iznardo Salar",
+      "nationality": "Spain",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/a52c9294bdf5e08c.webp",
+      "nickname": "F1RE"
+    },
+    {
+      "id": "ee2dfbe3-f379-4717-ad94-4e5cc8ba9d75",
+      "first_name": "Santiago Táboas Lobato",
+      "nickname": "Taboas",
+      "role": "Owner",
+      "team_id": "team-d0d82673",
+      "profile_image_url": "/staff-photos/8793444c6c39b51f.jpg"
+    },
+    {
+      "id": "staff-d1215257",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-f10b156f",
+      "last_name": "Rodríguez",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 72,
+        "judging_ability": 73,
+        "judging_potential": 75
+      },
+      "first_name": "Óscar Pedrosa Gonzàlez",
+      "nationality": "Colombia",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/06f271df.webp",
+      "nickname": "Kamkikaze"
+    },
+    {
+      "id": "f0fffb97-67ab-4e62-9fae-d81337f4cc50",
+      "first_name": "Daniel Hockley",
+      "nickname": "Dan",
+      "role": "Assistant",
+      "team_id": "team-f10b156f",
+      "profile_image_url": "/staff-photos/9a3a74749a4daf3f.webp"
+    },
+    {
+      "contract_end": "3000-12-31",
+      "id": "f6695dcf-a421-45d4-a2a8-d0510ac71afb",
+      "first_name": "Universidad Católica San Antonio Murcia",
+      "nickname": "UCAM",
+      "role": "Owner",
+      "team_id": "team-129835c5",
+      "profile_image_url": "/staff-photos/48758de9d58e5cf4.png"
+    }
+  ]
+}

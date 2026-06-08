@@ -3,9 +3,9 @@ use log::info;
 use serde::{Deserialize, Serialize};
 
 use crate::commands::round_summary::{build_round_summary_dto, RoundSummaryDto};
-use ofm_core::game::{DayPhase, Game};
-use ofm_core::live_match_manager::{self, MatchMode};
-use ofm_core::state::StateManager;
+use olm_core::game::{DayPhase, Game};
+use olm_core::live_match_manager::{self, MatchMode};
+use olm_core::state::StateManager;
 
 fn has_unresolved_scrim_review_today(game: &Game) -> bool {
     let Some(team_id) = game.manager.team_id.as_ref() else {
@@ -23,14 +23,14 @@ fn has_unresolved_scrim_review_today(game: &Game) -> bool {
         .unwrap_or(false)
 }
 
-fn first_scrim_weekday_for_team(team: &domain::team::Team) -> u8 {
+fn first_scrim_weekday_for_team(team: &olm_core::domain::team::Team) -> u8 {
     let raw_slots = if team.scrim_weekly_slots > 0 {
         team.scrim_weekly_slots
     } else {
         match team.training_schedule {
-            domain::team::TrainingSchedule::Intense => 6,
-            domain::team::TrainingSchedule::Balanced => 4,
-            domain::team::TrainingSchedule::Light => 2,
+            olm_core::domain::team::TrainingSchedule::Intense => 6,
+            olm_core::domain::team::TrainingSchedule::Balanced => 4,
+            olm_core::domain::team::TrainingSchedule::Light => 2,
         }
     };
     let slots = if raw_slots <= 2 {
@@ -85,7 +85,7 @@ fn has_no_weekly_scrim_setup(game: &Game) -> bool {
 pub struct AdvanceTimeWithModeResponse {
     pub action: String,
     pub game: Option<Game>,
-    pub snapshot: Option<engine::MatchSnapshot>,
+    pub snapshot: Option<olm_core::engine::MatchSnapshot>,
     pub fixture_index: Option<usize>,
     pub mode: Option<String>,
     pub round_summary: Option<RoundSummaryDto>,
@@ -94,7 +94,7 @@ pub struct AdvanceTimeWithModeResponse {
 fn round_context_for_today(
     game: &Game,
     today: &str,
-) -> Option<(u32, Vec<domain::league::StandingEntry>)> {
+) -> Option<(u32, Vec<olm_core::domain::league::StandingEntry>)> {
     let league = game.active_league()?;
     let matchday = league
         .fixtures
@@ -115,7 +115,7 @@ fn scheduled_user_fixture_index(game: &Game, today: &str) -> Option<usize> {
         .enumerate()
         .find_map(|(index, fixture)| {
             if fixture.date == today
-                && fixture.status == domain::league::FixtureStatus::Scheduled
+                && fixture.status == olm_core::domain::league::FixtureStatus::Scheduled
                 && (fixture.home_team_id == *user_team_id || fixture.away_team_id == *user_team_id)
             {
                 Some(index)
@@ -162,7 +162,7 @@ pub fn advance_time_with_mode(
             state.set_live_match(session);
 
             let mut captures = Vec::new();
-            ofm_core::turn::simulate_other_matches_with_capture(
+            olm_core::turn::simulate_other_matches_with_capture(
                 &mut game,
                 &today,
                 Some(index),
@@ -203,14 +203,14 @@ pub fn advance_time_with_mode(
             let report = session.match_state.into_report();
 
             let mut captures = Vec::new();
-            ofm_core::turn::simulate_other_matches_with_capture(
+            olm_core::turn::simulate_other_matches_with_capture(
                 &mut game,
                 &today,
                 Some(index),
                 &mut |capture| captures.push(capture),
             );
 
-            ofm_core::turn::apply_match_report_with_capture(
+            olm_core::turn::apply_match_report_with_capture(
                 &mut game,
                 index,
                 &home_team_id,
@@ -230,7 +230,7 @@ pub fn advance_time_with_mode(
                         build_round_summary_dto(&game, *matchday, previous_standings)
                     });
 
-            ofm_core::turn::finish_live_match_day(&mut game);
+            olm_core::turn::finish_live_match_day(&mut game);
             state.set_game(game.clone());
 
             Ok(AdvanceTimeWithModeResponse {
@@ -257,7 +257,7 @@ pub fn advance_time_with_mode(
                 }
                 if game.day_phase == DayPhase::Morning {
                     let weekday_num = game.clock.current_date.weekday().num_days_from_monday();
-                    ofm_core::training::process_scrim_block(&mut game, weekday_num);
+                    olm_core::training::process_scrim_block(&mut game, weekday_num);
                 }
 
                 if game.day_phase == DayPhase::ScrimBlock
@@ -291,7 +291,7 @@ pub fn advance_time_with_mode(
                 today, mode
             );
             let mut captures = Vec::new();
-            ofm_core::turn::process_day_with_capture(&mut game, &mut |capture| {
+            olm_core::turn::process_day_with_capture(&mut game, &mut |capture| {
                 captures.push(capture);
             });
             for capture in captures {
@@ -316,3 +316,6 @@ pub fn advance_time_with_mode(
         }
     }
 }
+
+
+

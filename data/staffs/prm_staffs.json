@@ -1,0 +1,328 @@
+{
+  "name": "PRM Staff",
+  "description": "PRM - 2026 Season",
+  "staff": [
+    {
+      "id": "02fc19da-b35a-4481-b19e-ff5c2dfeecde",
+      "first_name": "Darius Zähringer",
+      "nickname": "Darius",
+      "role": "Owner",
+      "team_id": "team-1347e217",
+      "profile_image_url": "/staff-photos/f44bddb5e6b458b6.png"
+    },
+    {
+      "id": "staff-33ae6d93",
+      "role": "Owner",
+      "wage": 30000,
+      "team_id": "team-069c707b",
+      "last_name": "Klepper",
+      "attributes": {
+        "coaching": 58,
+        "physiotherapy": 59,
+        "judging_ability": 60,
+        "judging_potential": 56
+      },
+      "first_name": "Michel Klepper",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/13e3b049.webp",
+      "nickname": "Michel"
+    },
+    {
+      "id": "13109eb1-f567-4010-9ed5-557e47036a47",
+      "first_name": "Lukáš Novota",
+      "nickname": "Lukish",
+      "role": "HeadCoach",
+      "team_id": "team-1347e217",
+      "profile_image_url": "/staff-photos/e67a0ad76b52f7dc.webp"
+    },
+    {
+      "id": "staff-bf93d651",
+      "role": "Owner",
+      "wage": 30000,
+      "team_id": "team-e48c23c9",
+      "last_name": "Mallant",
+      "attributes": {
+        "coaching": 84,
+        "physiotherapy": 79,
+        "judging_ability": 72,
+        "judging_potential": 82
+      },
+      "first_name": "Fabian Mallant",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/3fd7a196.webp",
+      "nickname": "Sheepy"
+    },
+    {
+      "id": "staff-e89fb737",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-bec332f5",
+      "last_name": "Kippe",
+      "attributes": {
+        "coaching": 68,
+        "physiotherapy": 62,
+        "judging_ability": 62,
+        "judging_potential": 71
+      },
+      "first_name": "Titus Kippe",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/60d86f8fe8f8f57f.webp",
+      "nickname": "x4NTY"
+    },
+    {
+      "id": "6d748d30-3092-485e-9678-0b917a9dd23a",
+      "first_name": "Sean Persson",
+      "nickname": "Aqsept",
+      "role": "Assistant",
+      "team_id": "team-1347e217",
+      "profile_image_url": "/staff-photos/1145f2cf1203fc59.webp"
+    },
+    {
+      "id": "staff-d496546f",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-5dc37618",
+      "last_name": "Christoffersen",
+      "attributes": {
+        "coaching": 68,
+        "physiotherapy": 58,
+        "judging_ability": 66,
+        "judging_potential": 63
+      },
+      "first_name": "Jacob Bror Christoffersen",
+      "nationality": "Denmark",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/0813128debbe6e96.webp",
+      "nickname": "Hildebrandt"
+    },
+    {
+      "id": "staff-e5c9096d",
+      "role": "Analyst",
+      "wage": 30000,
+      "team_id": "team-0be37b7e",
+      "last_name": "Holt",
+      "attributes": {
+        "coaching": 70,
+        "physiotherapy": 59,
+        "judging_ability": 71,
+        "judging_potential": 73
+      },
+      "first_name": "Dan Holt",
+      "nationality": "United Kingdom",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/4637a9d3.webp",
+      "nickname": "Dan Holt"
+    },
+    {
+      "id": "staff-58394b20",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-a72b6e41",
+      "last_name": "Schadrin",
+      "attributes": {
+        "coaching": 75,
+        "physiotherapy": 75,
+        "judging_ability": 78,
+        "judging_potential": 76
+      },
+      "first_name": "Lothar Schadrin",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/05ed3c6f.webp",
+      "nickname": "Lothi"
+    },
+    {
+      "id": "staff-18c7bc26",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-5dc37618",
+      "last_name": "Schmit",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 63,
+        "judging_ability": 68,
+        "judging_potential": 69
+      },
+      "first_name": "Gregory Schmit",
+      "nationality": "Luxembourg",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/fbf625d71338d1d8.webp",
+      "nickname": null
+    },
+    {
+      "id": "staff-e26f4ecc",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-0be37b7e",
+      "last_name": "Salomon",
+      "attributes": {
+        "coaching": 78,
+        "physiotherapy": 78,
+        "judging_ability": 73,
+        "judging_potential": 79
+      },
+      "first_name": "Finn-Lukas Salomon",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/537c069f.webp",
+      "nickname": "Don Arts"
+    },
+    {
+      "id": "b12ce1a9-79cb-4ec3-b9ba-1f0401a5df89",
+      "first_name": "Maximilian Knabe",
+      "nickname": "HandOfBlood",
+      "role": "Owner",
+      "team_id": "team-bec332f5",
+      "profile_image_url": "/staff-photos/cbc973ac60125616.webp"
+    },
+    {
+      "id": "b39238f3-5699-4b9e-89bc-b480ffff8ad5",
+      "first_name": "Laurentiu-Dodel Zidaru ",
+      "nickname": "CPM",
+      "role": "Owner",
+      "team_id": "team-f3b86137",
+      "profile_image_url": "/staff-photos/9a0e4f36dd847768.webp"
+    },
+    {
+      "id": "c2adbe1b-87eb-4ee4-bb73-e3113e304ff9",
+      "first_name": "Daniel Finkler",
+      "nickname": "Daniel Finkler",
+      "role": "Owner",
+      "team_id": "team-0be37b7e",
+      "profile_image_url": "/staff-photos/fae0f5e5a1df8880.jpg"
+    },
+    {
+      "id": "staff-205900fa",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "team-069c707b",
+      "last_name": "Varoß",
+      "attributes": {
+        "coaching": 66,
+        "physiotherapy": 57,
+        "judging_ability": 56,
+        "judging_potential": 58
+      },
+      "first_name": "Nick Varoß",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/5b1913eb.webp",
+      "nickname": "BliZarD"
+    },
+    {
+      "id": "staff-46c85caa",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-f3b86137",
+      "last_name": "Salah",
+      "attributes": {
+        "coaching": 67,
+        "physiotherapy": 65,
+        "judging_ability": 60,
+        "judging_potential": 65
+      },
+      "first_name": "Haidar Salah",
+      "nationality": "Germany",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/375592d3.webp",
+      "nickname": "Joyous"
+    },
+    {
+      "id": "d7626825-45de-46d4-bda0-cd4aaa9918d5",
+      "first_name": "Chris",
+      "nickname": "FntasyStar",
+      "role": "Assistant",
+      "team_id": "team-e48c23c9",
+      "profile_image_url": null
+    },
+    {
+      "id": "dbcc4024-d487-4320-b4fb-2010e72260d6",
+      "first_name": "Heorhii Vechkanov",
+      "nickname": "heovech",
+      "role": "Analyst",
+      "team_id": "team-e48c23c9",
+      "profile_image_url": null
+    },
+    {
+      "id": "dc3e6b30-deac-441f-a2f3-22011517b535",
+      "first_name": "Mathias Beck",
+      "nickname": "Mathias Beck",
+      "role": "Owner",
+      "team_id": "team-5dc37618",
+      "profile_image_url": "/staff-photos/9aa1f8f7252e785c.jpg"
+    },
+    {
+      "id": "dcf47bd7-a9b7-4cc4-bd24-7521a1c22ce6",
+      "first_name": "The Baam company",
+      "nickname": "Baam",
+      "role": "Owner",
+      "team_id": "team-3cef0cfa",
+      "profile_image_url": "/staff-photos/a2e24a2b60c5a667.jpg"
+    },
+    {
+      "id": "e0c9d2fc-2459-4203-b315-d2106825ad53",
+      "first_name": "E WIE EINFACH GmbH",
+      "nickname": "E.ON.",
+      "role": "Owner",
+      "team_id": "team-a72b6e41",
+      "profile_image_url": "/staff-photos/fe5603aab59eb421.jpg"
+    },
+    {
+      "id": "eacda0ea-5116-4592-bd05-52ae7da21e9d",
+      "first_name": "Samuel Messerer",
+      "nickname": "Sam",
+      "role": "HeadCoach",
+      "team_id": "team-e48c23c9",
+      "profile_image_url": null
+    },
+    {
+      "id": "eb259383-3c16-4822-bd37-757fd4b57543",
+      "first_name": "Dino Tot",
+      "nickname": "LIMIT",
+      "role": "HeadCoach",
+      "team_id": "team-3cef0cfa",
+      "profile_image_url": "/staff-photos/69c632e734e6e3c0.webp"
+    },
+    {
+      "id": "ee73681a-ddc3-4554-8f09-1afa1e5d00c3",
+      "first_name": "Nikolay Akatoz",
+      "nickname": "Zanzarah",
+      "role": "Assistant",
+      "team_id": "team-bec332f5",
+      "profile_image_url": "/staff-photos/b9c9d265ff3ff83d.webp"
+    }
+  ]
+}

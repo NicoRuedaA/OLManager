@@ -3,6 +3,36 @@
     "name": "Open League Manager",
     "version": "pre-alpha"
   },
+  "auth": {
+    "login": "Entrar",
+    "register": "Registro",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "fullName": "Nombre",
+    "country": "País",
+    "age": "Edad",
+    "enter": "Entrar",
+    "signingIn": "Entrando...",
+    "createAccount": "Crear cuenta",
+    "registering": "Creando cuenta...",
+    "registerSuccess": "Cuenta creada. Revisa tu email para confirmar el registro antes de entrar.",
+    "passwordMismatch": "Las contraseñas no coinciden.",
+    "profileFieldsRequired": "Completa nombre, país y edad para crear la cuenta.",
+    "ageInvalid": "Introduce una edad válida entre 13 y 99 años.",
+    "or": "o",
+    "continueWithGoogle": "Continuar con Google",
+    "profile": "Perfil",
+    "signOut": "Cerrar sesión",
+    "user": "Usuario",
+    "userId": "ID de usuario",
+    "createdAt": "Cuenta creada",
+    "playtime": "Tiempo de juego",
+    "notAvailable": "No disponible",
+    "changeAvatar": "Cambiar avatar",
+    "selectAvatar": "Seleccionar avatar",
+    "avatarSaveError": "No se pudo guardar el avatar. Inténtalo de nuevo."
+  },
   "content": {
     "lol": {
       "social": {
@@ -150,6 +180,8 @@
     "newGame": "Nueva Partida",
     "loadGame": "Cargar Partida",
     "settings": "Configuración",
+    "community": "Comunidad",
+    "patchNotes": "Novedades",
     "exitGame": "Salir del juego",
     "noSaves": "No se encontraron partidas guardadas.",
     "loadingSaves": "Cargando partidas...",
@@ -209,6 +241,7 @@
     "transfers": "Fichajes",
     "players": "Jugadores",
     "teams": "Equipos",
+    "worldStaff": "Staffs",
     "tournaments": "Liga",
     "champions_world": "Campeones",
     "market": "Mercado",
@@ -819,7 +852,7 @@
         "TOP": "Carril superior",
         "JUNGLE": "Jungla",
         "MID": "Carril central",
-        "ADC": "Carril inferior (ADC)",
+        "ADC": "ADC",
         "SUPPORT": "Soporte"
       },
       "sections": {
@@ -3172,6 +3205,13 @@
     "rounds": "ronda(s)",
     "youBought": "Compraste",
     "youSold": "Vendiste",
-    "includedPlayers": "Incluido en la oferta"
+    "includedPlayers": "Incluido en la oferta",
+    "scrims.assistantCoach": "Entrenador asistente",
+    "scrims.delegation": "Delegar revisión de scrims",
+    "scrims.todayBlock": "Bloque de hoy",
+    "scrims.weeklyReportInline": "Reporte semanal",
+    "scrims.recentReports": "Reportes recientes",
+    "scrims.noRecentReports": "No hay reportes recientes.",
+    "playerProfile.startPotentialResearch": "Investigar potencial"
   }
 }

@@ -3,6 +3,7 @@
   "description": "LCK - 2026 Season",
   "teams": [
     {
+      "history": [],
       "id": "team-bc4c40ec",
       "city": "Seoul",
       "form": [],
@@ -14,8 +15,7 @@
       "academy": null,
       "country": "South Korea",
       "finance": 4350000,
-      "history": [],
-      "logo_url": "/teams-icons/1779606007533_uo34sqbxhf.webp",
+      "logo_url": "/teams-icons/drx.webp",
       "team_kind": "Main",
       "facilities": {
         "medical": 1,
@@ -59,6 +59,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-932ee946",
       "city": "Seoul",
       "form": [],
@@ -70,7 +71,6 @@
       "academy": null,
       "country": "KR",
       "finance": 6500000,
-      "history": [],
       "logo_url": "/teams-icons/kt-rolster.webp",
       "team_kind": "Main",
       "facilities": {
@@ -115,6 +115,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-dae32fa2",
       "city": "Seoul",
       "form": [],
@@ -126,7 +127,6 @@
       "academy": null,
       "country": "KR",
       "finance": 6150000,
-      "history": [],
       "logo_url": "/teams-icons/geng.webp",
       "team_kind": "Main",
       "facilities": {
@@ -171,6 +171,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-2166882d",
       "city": "Seoul",
       "form": [],
@@ -182,7 +183,6 @@
       "academy": null,
       "country": "KR",
       "finance": 4800000,
-      "history": [],
       "logo_url": "/teams-icons/dn-soopers.webp",
       "team_kind": "Main",
       "facilities": {
@@ -227,6 +227,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-2c4f82f9",
       "city": "Seoul",
       "form": [],
@@ -238,7 +239,6 @@
       "academy": null,
       "country": "KR",
       "finance": 6000000,
-      "history": [],
       "logo_url": "/teams-icons/t1.webp",
       "team_kind": "Main",
       "facilities": {
@@ -283,6 +283,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-3f714e0d",
       "city": "Seoul",
       "form": [],
@@ -294,7 +295,6 @@
       "academy": null,
       "country": "KR",
       "finance": 4900000,
-      "history": [],
       "logo_url": "/teams-icons/bnk-fearx.webp",
       "team_kind": "Main",
       "facilities": {
@@ -339,6 +339,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-61bd92d5",
       "city": "Seoul",
       "form": [],
@@ -350,7 +351,6 @@
       "academy": null,
       "country": "KR",
       "finance": 4400000,
-      "history": [],
       "logo_url": "/teams-icons/ns-redforce.webp",
       "team_kind": "Main",
       "facilities": {
@@ -395,6 +395,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-bd98ddef",
       "city": "Seoul",
       "form": [],
@@ -406,7 +407,6 @@
       "academy": null,
       "country": "KR",
       "finance": 4350000,
-      "history": [],
       "logo_url": "/teams-icons/brion.webp",
       "team_kind": "Main",
       "facilities": {
@@ -451,6 +451,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-861ba8cb",
       "city": "Seoul",
       "form": [],
@@ -462,7 +463,6 @@
       "academy": null,
       "country": "KR",
       "finance": 5750000,
-      "history": [],
       "logo_url": "/teams-icons/hanwha-life-esports.webp",
       "team_kind": "Main",
       "facilities": {
@@ -507,6 +507,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-41bf07a6",
       "city": "Seoul",
       "form": [],
@@ -518,7 +519,6 @@
       "academy": null,
       "country": "KR",
       "finance": 5100000,
-      "history": [],
       "logo_url": "/teams-icons/dplus-kia.webp",
       "team_kind": "Main",
       "facilities": {

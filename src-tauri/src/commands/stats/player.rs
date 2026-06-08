@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
-use domain::player::Player;
-use domain::stats::{LolRole, MatchOutcome, PlayerMatchStatsRecord, TeamSide};
-use ofm_core::state::StateManager;
+use olm_core::domain::player::Player;
+use olm_core::domain::stats::{LolRole, MatchOutcome, PlayerMatchStatsRecord, TeamSide};
+use olm_core::state::StateManager;
 
 use super::dto::{
     PlayerAdvancedMetricDto, PlayerMatchHistoryEntryDto, PlayerStatsOverviewDto,
@@ -351,3 +351,5 @@ pub(super) fn get_player_stats_overview_internal(
 
     Ok(build_legacy_overview())
 }
+
+

@@ -1,0 +1,21 @@
+{
+  "id": "bench_complaint_1",
+  "trigger": "bench_complaint",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "Normal",
+  "actions": [
+    { "type": "chooseoption", "label": "Promise playing time", "label_key": "be.msg.action.promisePlaytime", "options": [{"id": "promise", "label": "Promise more minutes", "label_key": "be.msg.action.promiseMinutes"}] },
+    { "type": "chooseoption", "label": "Explain decision", "label_key": "be.msg.action.explainDecision", "options": [{"id": "explain", "label": "Explain your reasoning", "label_key": "be.msg.action.explainReasoning"}] },
+    { "type": "dismiss", "label": "Ignore", "label_key": "be.msg.action.ignore" }
+  ],
+  "subject": "{player} wants more game time",
+  "body": "Coach, {player} has expressed frustration about their lack of playing time recently.\n\nThey feel they deserve a spot in the starting lineup. This could become a bigger issue if not managed carefully.\n\nHow would you like to handle this?",
+  "translations": {
+    "es": {
+      "subject": "{player} quiere m\u00e1s minutos",
+      "body": "Jefe, {player} ha expresado frustraci\u00f3n por su falta de minutos \u00faltimamente.\n\nCree que merece un puesto en el once inicial. Esto podr\u00eda convertirse en un problema mayor si no se maneja con cuidado.\n\n\u00bfC\u00f3mo le gustar\u00eda manejar esto?"
+    }
+  }
+}

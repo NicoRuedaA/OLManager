@@ -1,0 +1,19 @@
+{
+  "id": "na-lcs-l",
+  "name": "NA-LCS-L",
+  "full_name": "NA-LCS-LEGACY",
+  "region": "NA-LCS-L",
+  "country": null,
+  "tier": 1,
+  "logo": "/competitions-icons/97453c0363ca4dae.png",
+  "teams_file": "teams/na-lcs-l_teams.json",
+  "players_file": "players/na-lcs-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

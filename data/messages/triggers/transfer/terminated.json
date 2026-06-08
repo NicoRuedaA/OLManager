@@ -1,0 +1,19 @@
+{
+  "id": "contract_terminated",
+  "trigger": "contract_terminated",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Contract",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Contract terminated: {player}",
+  "body": "The contract of {player} has been terminated.\n\nA compensation fee of \u20ac{penalty} has been paid to the player. The player is now a free agent and can be signed by any club.\n\nThe wage budget has been adjusted accordingly.",
+  "translations": {
+    "es": {
+      "subject": "Contrato rescindido: {player}",
+      "body": "El contrato de {player} ha sido rescindido.\n\nSe ha pagado una compensaci\u00f3n de \u20ac{penalty} al jugador. El jugador es ahora agente libre y puede ser fichado por cualquier club.\n\nEl presupuesto salarial ha sido ajustado en consecuencia."
+    }
+  }
+}

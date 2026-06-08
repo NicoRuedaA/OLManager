@@ -1,20 +1,16 @@
 use chrono::Utc;
-use domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use domain::team::{AcademyLifecycle, AcademyMetadata, ErlAssignment, Team, TeamKind};
+use olm_core::domain::team::{Team, TeamKind};
 use log::info;
-use ofm_core::academy::{
-    eligible_academy_acquisition_options, validate_academy_acquisition, AcademyAcquisitionOption,
-    ErlAcademyCandidate, ErlLeagueDefinition,
+use olm_core::academy::{
+    academy_candidate_catalog, academy_erl_catalog, eligible_academy_acquisition_options,
+    validate_academy_acquisition, AcademyAcquisitionOption,
 };
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 use serde::{Deserialize, Serialize};
 use tauri::State;
 
-use crate::commands::game::{
-    academy_seed_team_id, ensure_example_academy_pool, example_academy_seed_catalog,
-    RESOURCE_DATA_DIR,
-};
+use olm_core::game_setup::ensure_example_academy_pool;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
 pub struct AcademyAcquisitionOptionsResponse {
@@ -89,7 +85,7 @@ pub fn promote_academy_player(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let academy_team_id = resolve_manager_academy_team_id(&game, &parent_team_id)?;
+    let academy_team_id = olm_core::academy::resolve_manager_academy_team_id(&game, &parent_team_id)?;
 
     let (moved_player_id, moved_player_name) = {
         let player = game
@@ -106,7 +102,7 @@ pub fn promote_academy_player(
         (player.id.clone(), player.match_name.clone())
     };
 
-    push_academy_player_moved_message(
+    olm_core::academy::push_academy_player_moved_message(
         &mut game,
         "academy-promote",
         &parent_team_id,
@@ -139,7 +135,7 @@ pub fn demote_main_player_to_academy(
         .clone()
         .ok_or("No team assigned".to_string())?;
 
-    let academy_team_id = resolve_manager_academy_team_id(&game, &parent_team_id)?;
+    let academy_team_id = olm_core::academy::resolve_manager_academy_team_id(&game, &parent_team_id)?;
 
     let (moved_player_id, moved_player_name) = {
         let player = game
@@ -156,7 +152,7 @@ pub fn demote_main_player_to_academy(
         (player.id.clone(), player.match_name.clone())
     };
 
-    push_academy_player_moved_message(
+    olm_core::academy::push_academy_player_moved_message(
         &mut game,
         "academy-demote",
         &parent_team_id,
@@ -170,43 +166,11 @@ pub fn demote_main_player_to_academy(
     Ok(game)
 }
 
-#[tauri::command]
-pub fn get_academy_creation_options(
-    state: State<'_, StateManager>,
-    parent_team_id: String,
-) -> Result<AcademyCreationOptionsResponse, String> {
-    info!(
-        "[cmd] get_academy_creation_options: parent_team_id={}",
-        parent_team_id
-    );
-    let game = state
-        .get_game(|game| game.clone())
-        .ok_or("No active game session".to_string())?;
-
-    get_academy_acquisition_options_for_game(&game, &parent_team_id)
-}
-
-#[tauri::command]
-pub fn create_academy(
-    _state: State<'_, StateManager>,
-    parent_team_id: String,
-    erl_league_id: String,
-) -> Result<Game, String> {
-    info!(
-        "[cmd] create_academy: parent_team_id={}, erl_league_id={}",
-        parent_team_id, erl_league_id
-    );
-    Err(format!(
-        "create_academy is deprecated; use acquire_academy_team with a source team candidate instead of ERL '{}'.",
-        erl_league_id
-    ))
-}
-
 pub(crate) fn get_academy_acquisition_options_for_game(
     game: &Game,
     parent_team_id: &str,
 ) -> Result<AcademyAcquisitionOptionsResponse, String> {
-    let parent = find_team(game, parent_team_id)?;
+    let parent = olm_core::academy::find_team(game, parent_team_id)?;
     let normalize_key = |value: &str| {
         value
             .chars()
@@ -294,13 +258,13 @@ pub(crate) fn acquire_academy_team_in_game(
             )
         })?;
 
-    let parent_snapshot = find_team(game, &request.parent_team_id)?.clone();
+    let parent_snapshot = olm_core::academy::find_team(game, &request.parent_team_id)?.clone();
     validate_academy_acquisition(&parent_snapshot, &option).map_err(format_academy_error)?;
 
     let academy_id = option.source_team_id.clone();
 
     let created_at = game.clock.current_date.with_timezone(&Utc).to_rfc3339();
-    let metadata = academy_metadata(&option, created_at.clone(), request.custom_logo_url.clone());
+    let metadata = olm_core::academy::academy_metadata(&option, created_at.clone(), request.custom_logo_url.clone());
 
     let existing_academy_index = game
         .teams
@@ -370,65 +334,13 @@ pub(crate) fn acquire_academy_team_in_game(
         game.teams.push(academy);
     }
 
-    push_academy_acquired_message(
+    olm_core::academy::push_academy_acquired_message(
         game,
         &parent_snapshot,
         &option.name,
         option.acquisition_cost,
     );
     Ok(game.clone())
-}
-
-fn push_academy_acquired_message(game: &mut Game, parent: &Team, academy_name: &str, cost: i64) {
-    let date = game.clock.current_date.format("%Y-%m-%d").to_string();
-    let message = InboxMessage::new(
-        format!("academy-acquired-{}-{}", parent.id, academy_name.to_lowercase().replace(' ', "-")),
-        format!("Academia financiada: {}", academy_name),
-        format!(
-            "La operacion se completo con exito. {} ahora tiene una academia vinculada ({}) por un costo de €{}.",
-            parent.name, academy_name, cost
-        ),
-        "Direccion Deportiva".to_string(),
-        date,
-    )
-    .with_category(MessageCategory::Finance)
-    .with_priority(MessagePriority::High)
-    .with_sender_role("Director Deportivo")
-    .with_context(MessageContext {
-        team_id: Some(parent.id.clone()),
-        ..Default::default()
-    });
-
-    game.messages.push(message);
-}
-
-fn push_academy_player_moved_message(
-    game: &mut Game,
-    id_prefix: &str,
-    parent_team_id: &str,
-    player_id: &str,
-    player_name: &str,
-    subject: &str,
-    body_template: &str,
-) {
-    let date = game.clock.current_date.format("%Y-%m-%d").to_string();
-    let message = InboxMessage::new(
-        format!("{}-{}", id_prefix, player_id),
-        subject.to_string(),
-        body_template.replace("{player}", player_name),
-        "Staff Academia".to_string(),
-        date,
-    )
-    .with_category(MessageCategory::Training)
-    .with_priority(MessagePriority::Normal)
-    .with_sender_role("Coordinador de Academia")
-    .with_context(MessageContext {
-        team_id: Some(parent_team_id.to_string()),
-        player_id: Some(player_id.to_string()),
-        ..Default::default()
-    });
-
-    game.messages.push(message);
 }
 
 #[allow(dead_code)]
@@ -443,80 +355,26 @@ pub(crate) fn create_academy_in_game(
     ))
 }
 
-fn find_team<'game>(game: &'game Game, team_id: &str) -> Result<&'game Team, String> {
-    game.teams
-        .iter()
-        .find(|team| team.id == team_id)
-        .ok_or_else(|| format!("Team '{}' not found", team_id))
-}
-
-fn resolve_manager_academy_team_id(game: &Game, parent_team_id: &str) -> Result<String, String> {
-    let parent_team = find_team(game, parent_team_id)?;
-    if !parent_team.is_main() {
-        return Err("Academy actions are only available for main teams".to_string());
-    }
-
-    if let Some(academy_team_id) = parent_team.academy_team_id.clone() {
-        return Ok(academy_team_id);
-    }
-
-    game.teams
-        .iter()
-        .find(|team| {
-            team.team_kind == TeamKind::Academy
-                && team.parent_team_id.as_deref() == Some(parent_team_id)
-        })
-        .map(|team| team.id.clone())
-        .ok_or("No academy team linked to manager team".to_string())
-}
-
-fn academy_metadata(
-    option: &AcademyAcquisitionOption,
-    acquired_at: String,
-    current_logo_url: Option<String>,
-) -> AcademyMetadata {
-    AcademyMetadata {
-        lifecycle: AcademyLifecycle::Active,
-        erl_assignment: ErlAssignment {
-            erl_league_id: option.erl_league_id.clone(),
-            country_rule: option.assignment_rule.clone(),
-            fallback_reason: option.fallback_reason.clone(),
-            reputation: option.reputation,
-            acquisition_cost: option.acquisition_cost,
-            acquired_at: acquired_at.clone(),
-            creation_cost: 0,
-            created_at: String::new(),
-        },
-        source_team_id: option.source_team_id.clone(),
-        original_name: option.name.clone(),
-        original_short_name: option.short_name.clone(),
-        original_logo_url: option.logo_url.clone(),
-        current_logo_url,
-        acquisition_cost: option.acquisition_cost,
-        acquired_at,
-    }
-}
-
-fn format_academy_error(error: ofm_core::academy::AcademyError) -> String {
+fn format_academy_error(error: olm_core::academy::AcademyError) -> String {
     match error {
-        ofm_core::academy::AcademyError::ParentMustBeMainTeam { team_id } => {
+        olm_core::academy::AcademyError::ParentMustBeMainTeam { team_id } => {
             format!("Team '{}' is not a main team", team_id)
         }
-        ofm_core::academy::AcademyError::AcademyAlreadyExists {
+        olm_core::academy::AcademyError::AcademyAlreadyExists {
             parent_team_id,
             academy_team_id,
         } => format!(
             "Parent team '{}' already has academy '{}'",
             parent_team_id, academy_team_id
         ),
-        ofm_core::academy::AcademyError::InsufficientFunds {
+        olm_core::academy::AcademyError::InsufficientFunds {
             available,
             required,
         } => format!(
             "Insufficient funds for academy acquisition: available {}, required {}",
             available, required
         ),
-        ofm_core::academy::AcademyError::UnrelatedAcademy {
+        olm_core::academy::AcademyError::UnrelatedAcademy {
             parent_team_id,
             academy_team_id,
         } => format!(
@@ -526,128 +384,8 @@ fn format_academy_error(error: ofm_core::academy::AcademyError) -> String {
     }
 }
 
-fn academy_erl_catalog() -> &'static [ErlLeagueDefinition] {
-    static CATALOG: std::sync::OnceLock<Vec<ErlLeagueDefinition>> = std::sync::OnceLock::new();
-    CATALOG.get_or_init(|| {
-        catalogs_from_erl_manifests(|path| {
-            std::fs::read_to_string(path).ok()
-        })
-    })
-}
-
-/// Try to find the `data/` directory from common locations (same logic as `resolve_data_base`).
-fn resolve_data_dir_for_catalog() -> Option<std::path::PathBuf> {
-    if let Some(dir) = RESOURCE_DATA_DIR.get() {
-        if dir.is_dir() {
-            return Some(dir.clone());
-        }
-    }
-    let cwd = std::env::current_dir().ok()?;
-    for candidate in [
-        cwd.join("..").join("data"),
-        cwd.join("data"),
-        cwd.join("src-tauri").join("data"),
-    ] {
-        if candidate.is_dir() {
-            return Some(candidate);
-        }
-    }
-    None
-}
-
-/// Scan `data/erls/competitions/` for manifests and build ErlLeagueDefinition entries.
-fn catalogs_from_erl_manifests(
-    reader: impl Fn(&std::path::Path) -> Option<String>,
-) -> Vec<ErlLeagueDefinition> {
-    use ofm_core::generator::definitions::CompetitionManifest;
-
-    let data_base = match resolve_data_dir_for_catalog() {
-        Some(b) => b,
-        None => return vec![],
-    };
-    let erls_dir = data_base.join("erls").join("competitions");
-
-    let mut catalogs = Vec::new();
-    let entries = match std::fs::read_dir(&erls_dir) {
-        Ok(e) => e,
-        Err(_) => return catalogs,
-    };
-
-    for entry in entries.flatten() {
-        let dir_path = entry.path();
-        if !dir_path.is_dir() { continue; }
-        let manifest_path = dir_path.join("manifest.json");
-        if !manifest_path.exists() { continue; }
-        let file_name = dir_path.file_name().and_then(|n| n.to_str()).unwrap_or("");
-        if file_name.is_empty() { continue; }
-
-        let json_str = match reader(&manifest_path) {
-            Some(s) => s,
-            None => continue,
-        };
-        if let Ok(manifest) = serde_json::from_str::<CompetitionManifest>(&json_str) {
-            let country_code = manifest.country.clone().unwrap_or_default();
-            let region = manifest.region.clone();
-            let reputation = manifest.reputation.unwrap_or(3); // default for tier 2
-            let nearby = manifest.nearby_country_codes.clone();
-
-            let academy_id = match file_name {
-                "les" => "liga-espanola".to_string(),
-                other => other.to_string(),
-            };
-
-            catalogs.push(ErlLeagueDefinition {
-                id: academy_id,
-                name: manifest.name,
-                country_code,
-                region,
-                reputation,
-                nearby_country_codes: nearby,
-            });
-        }
-    }
-    catalogs
-}
-
-fn academy_candidate_catalog() -> &'static [ErlAcademyCandidate] {
-    static CATALOG: std::sync::OnceLock<Vec<ErlAcademyCandidate>> = std::sync::OnceLock::new();
-    CATALOG.get_or_init(|| {
-        // Build a lookup: erl_league_id → (reputation, development_level) from manifests
-        let erl_reputations: std::collections::HashMap<String, (u8, u8)> = academy_erl_catalog()
-            .iter()
-            .map(|erl| {
-                let dev_level = match erl.reputation {
-                    5 => 4,
-                    4 => 3,
-                    3 => 2,
-                    _ => 1,
-                };
-                (erl.id.clone(), (erl.reputation, dev_level))
-            })
-            .collect();
-
-        example_academy_seed_catalog()
-            .iter()
-            .map(|seed| {
-                let (reputation, development_level) = erl_reputations
-                    .get(&seed.league_id)
-                    .copied()
-                    .unwrap_or((3, 2));
-
-                ErlAcademyCandidate {
-                    source_team_id: academy_seed_team_id(&seed.league_id, &seed.team_name),
-                    name: seed.team_name.clone(),
-                    short_name: seed.short_name.clone(),
-                    logo_url: seed.logo_url.clone(),
-                    erl_league_id: seed.league_id.clone(),
-                    country_code: seed.country_code.clone(),
-                    reputation,
-                    development_level,
-                }
-            })
-            .collect()
-    })
-}
+// academy_erl_catalog, catalogs_from_tier2_manifests, and
+// academy_candidate_catalog moved to olm_core::academy.
 
 #[cfg(test)]
 mod tests {
@@ -656,12 +394,12 @@ mod tests {
         AcquireAcademyTeamRequest,
     };
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::team::{
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::team::{
         AcademyLifecycle, AcademyMetadata, ErlAssignment, ErlAssignmentRule, Team, TeamKind,
     };
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
 
     fn source_id_by_name(game: &Game, parent_team_id: &str, team_name: &str) -> String {
         get_academy_acquisition_options_for_game(game, parent_team_id)
@@ -723,7 +461,7 @@ mod tests {
             .find(|option| option.name == "Movistar KOI Fénix")
             .expect("koi academy candidate in open pool");
         assert_eq!(koi_fenix.name, "Movistar KOI Fénix");
-        assert_eq!(koi_fenix.erl_league_id, "liga-espanola");
+        assert_eq!(koi_fenix.erl_league_id, "les");
         assert_eq!(koi_fenix.assignment_rule, ErlAssignmentRule::Domestic);
         assert_eq!(koi_fenix.fallback_reason, None);
         assert!(koi_fenix.acquisition_cost > 0);
@@ -769,7 +507,7 @@ mod tests {
         taken_academy.academy = Some(AcademyMetadata {
             lifecycle: AcademyLifecycle::Active,
             erl_assignment: ErlAssignment {
-                erl_league_id: "liga-espanola".to_string(),
+                erl_league_id: "les".to_string(),
                 country_rule: ErlAssignmentRule::Domestic,
                 fallback_reason: None,
                 reputation: 4,
@@ -778,7 +516,7 @@ mod tests {
                 creation_cost: 0,
                 created_at: String::new(),
             },
-            source_team_id: "academy-liga-espanola-team-heretics".to_string(),
+            source_team_id: "academy-les-team-heretics".to_string(),
             original_name: "Team Heretics".to_string(),
             original_short_name: "TH".to_string(),
             original_logo_url: None,
@@ -808,7 +546,7 @@ mod tests {
             response.blocked_reason.as_deref(),
             Some("Insufficient funds for all eligible academy acquisition options")
         );
-        assert_eq!(response.options[0].erl_league_id, "liga-espanola");
+        assert_eq!(response.options[0].erl_league_id, "les");
         assert!(response.options[0].acquisition_cost > 1);
     }
 
@@ -945,7 +683,7 @@ mod tests {
         );
         assert_eq!(metadata.acquisition_cost, 300_000);
         assert_eq!(metadata.acquired_at, "2026-01-01T12:00:00+00:00");
-        assert_eq!(metadata.erl_assignment.erl_league_id, "liga-espanola");
+        assert_eq!(metadata.erl_assignment.erl_league_id, "les");
         assert_eq!(
             metadata.erl_assignment.country_rule,
             ErlAssignmentRule::Domestic
@@ -966,3 +704,6 @@ mod tests {
         );
     }
 }
+
+
+

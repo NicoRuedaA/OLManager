@@ -1,0 +1,18 @@
+{
+  "id": "nlc",
+  "name": "NLC",
+  "full_name": "Northern League of Legends Championship",
+  "region": "NLC",
+  "country": "GB",
+  "tier": 2,
+  "logo": "/competitions-icons/2644868fa28028cb.webp",
+  "teams_file": "teams/nlc_teams.json",
+  "players_file": "players/nlc_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "double_round_robin",
+    "team_count": 8,
+    "preseason_friendlies": 0,
+    "splits": []
+  }
+}

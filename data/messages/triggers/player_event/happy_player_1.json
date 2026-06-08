@@ -1,0 +1,19 @@
+{
+  "id": "happy_player_1",
+  "trigger": "happy_player",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "Low",
+  "actions": [
+    { "type": "acknowledge", "label": "Great!", "label_key": "be.msg.action.great" }
+  ],
+  "subject": "{player} is feeling great!",
+  "body": "Good news, coach \u2014 {player} is in high spirits lately (morale: {morale}%).\n\nHappy players perform better, so keep up whatever you're doing with them. A positive squad atmosphere makes a real difference.",
+  "translations": {
+    "es": {
+      "subject": "\u00a1{player} est\u00e1 de buen humor!",
+      "body": "Buenas noticias, jefe \u2014 {player} est\u00e1 de muy buen humor \u00faltimamente (moral: {morale}%).\n\nLos jugadores contentos rinden mejor, as\u00ed que siga haciendo lo que est\u00e9 haciendo con ellos. Un ambiente positivo en el equipo marca la diferencia."
+    }
+  }
+}

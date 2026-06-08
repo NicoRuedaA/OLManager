@@ -1,14 +1,14 @@
 use chrono::{TimeZone, Utc};
-use domain::league::MatchType;
-use domain::manager::Manager;
-use domain::player::{Player, PlayerAttributes, LolRole};
-use domain::stats::{
+use olm_core::domain::league::MatchType;
+use olm_core::domain::manager::Manager;
+use olm_core::domain::player::{Player, PlayerAttributes, LolRole};
+use olm_core::domain::stats::{
     MatchOutcome, PlayerMatchStatsRecord, StatsState, TeamMatchStatsRecord, TeamSide,
 };
-use domain::team::Team;
-use ofm_core::clock::GameClock;
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::domain::team::Team;
+use olm_core::clock::GameClock;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 use super::player::{get_player_match_history_internal, get_player_stats_overview_internal};
 use super::team::{get_team_match_history_internal, get_team_stats_overview_internal};
@@ -329,3 +329,5 @@ fn get_team_match_history_returns_lol_first_fields() {
     assert_eq!(history[0].kills, 11);
     assert_eq!(history[0].objectives, 7);
 }
+
+

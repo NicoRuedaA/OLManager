@@ -1,0 +1,568 @@
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Briefcase,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  GraduationCap,
+  Loader2,
+  Search,
+  Stethoscope,
+  UserCog,
+  UserMinus,
+  UserPlus,
+  Star,
+  Frown,
+  Users,
+} from "lucide-react";
+
+import type { GameStateData, StaffData } from "@/store/gameStore";
+import { hireStaff, releaseStaff } from "@/services/staffService";
+import {
+  formatStaffEffectPercent,
+  getLolStaffEffectsForTeam,
+} from "@/lib/teams/lolStaffEffects";
+import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
+import { calcAge, getTeamName } from "@/lib/common/helpers";
+import { countryName } from "@/lib/common/countries";
+import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
+import { Card, CardContent } from "@/ui-v2/components/ui/card";
+import { Badge } from "@/ui-v2/components/ui/badge";
+
+interface StaffTabV2Props {
+  gameState: GameStateData;
+  onGameUpdate: (state: GameStateData) => void;
+  mode?: "club" | "world";
+}
+
+const ROLE_ICONS: Record<string, React.ReactNode> = {
+  AssistantManager: <Briefcase className="size-4" />,
+  Coach: <GraduationCap className="size-4" />,
+  Scout: <Eye className="size-4" />,
+  Physio: <Stethoscope className="size-4" />,
+  Owner: <Star className="size-4" />,
+};
+
+const ATTR_LABEL_KEYS = {
+  coaching: "staff.lolAttrs.coaching",
+  judgingAbility: "staff.lolAttrs.judgingAbility",
+  judgingPotential: "staff.lolAttrs.judgingPotential",
+  physiotherapy: "staff.lolAttrs.physiotherapy",
+} as const;
+
+type StaffAttrKey = keyof typeof ATTR_LABEL_KEYS;
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function qualityMult(value: number, min: number, max: number): number {
+  return clamp(min + (clamp(value, 0, 100) / 100) * (max - min), min, max);
+}
+
+function bestAttr(s: StaffData): { key: string; value: number } {
+  const attrs = [
+    { key: "coaching", value: s.attributes.coaching },
+    { key: "judgingAbility", value: s.attributes.judging_ability },
+    { key: "judgingPotential", value: s.attributes.judging_potential },
+    { key: "physiotherapy", value: s.attributes.physiotherapy },
+  ];
+  return attrs.reduce((a, b) => (b.value > a.value ? b : a));
+}
+
+function ovrRating(s: StaffData): number {
+  const { coaching, judging_ability, judging_potential, physiotherapy } = s.attributes;
+  const weights: Record<string, [number, number, number, number]> = {
+    Coach: [0.7, 0.15, 0.1, 0.05],
+    AssistantManager: [0.35, 0.25, 0.25, 0.15],
+    Scout: [0.1, 0.45, 0.4, 0.05],
+    Physio: [0.15, 0.05, 0.05, 0.75],
+  };
+  const [cw, aw, pw, phw] = weights[s.role] ?? [0.25, 0.25, 0.25, 0.25];
+  return Math.round(coaching * cw + judging_ability * aw + judging_potential * pw + physiotherapy * phw);
+}
+
+function getStaffImpactRows(s: StaffData) {
+  const coaching = qualityMult(s.attributes.coaching, 0.88, 1.22);
+  const development = qualityMult(s.attributes.coaching, 0.92, 1.18);
+  const tactics = qualityMult(s.attributes.coaching, 0.94, 1.14);
+  const analysis = qualityMult(s.attributes.judging_ability, 0.94, 1.14);
+  const potential = qualityMult(s.attributes.judging_potential, 0.98, 1.16);
+  const recovery = qualityMult(s.attributes.physiotherapy, 1, 1.2);
+  const morale = qualityMult(
+    s.role === "Physio" ? s.attributes.physiotherapy : s.attributes.coaching,
+    0.96, 1.12,
+  );
+  const metaDiscovery = clamp(analysis * 0.75 + potential * 0.25, 0.9, 1.2);
+  const execution = clamp((tactics + analysis) / 2, 0.96, 1.1);
+
+  if (s.role === "Coach")
+    return [
+      { labelKey: "staff.lolImpact.development", value: development },
+      { labelKey: "staff.lolImpact.tactics", value: tactics },
+      { labelKey: "staff.lolImpact.execution", value: execution },
+    ];
+  if (s.role === "AssistantManager")
+    return [
+      { labelKey: "staff.lolImpact.development", value: coaching },
+      { labelKey: "staff.lolImpact.tactics", value: tactics },
+      { labelKey: "staff.lolImpact.analysis", value: analysis },
+    ];
+  if (s.role === "Scout")
+    return [
+      { labelKey: "staff.lolImpact.analysis", value: analysis },
+      { labelKey: "staff.lolImpact.draftAnalysis", value: execution },
+      { labelKey: "staff.lolImpact.futureMeta", value: metaDiscovery },
+    ];
+  if (s.role === "Physio")
+    return [
+      { labelKey: "staff.lolImpact.recovery", value: recovery },
+      { labelKey: "staff.lolImpact.tiltControl", value: morale },
+    ];
+  return [
+    { labelKey: "staff.lolImpact.development", value: development },
+    { labelKey: "staff.lolImpact.analysis", value: analysis },
+    { labelKey: "staff.lolImpact.recovery", value: recovery },
+  ];
+}
+
+export function StaffTabV2({ gameState, onGameUpdate, mode = "club" }: StaffTabV2Props) {
+  const { t, i18n } = useTranslation();
+  const isWorldMode = mode === "world";
+  const userTeamId = gameState.manager.team_id;
+  const [view, setView] = useState<"mystaff" | "available">("mystaff");
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState<string | null>(null);
+  const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 4;
+
+  const myStaff = gameState.staff.filter((s) => s.team_id === userTeamId);
+  const availableStaff = gameState.staff.filter((s) => !s.team_id);
+  const displayStaff = isWorldMode
+    ? gameState.staff
+    : view === "mystaff"
+      ? myStaff
+      : availableStaff;
+
+  const competitionTeamIds = useMemo(() => {
+    if (!competitionFilter) return null;
+    return new Set(
+      gameState.teams.filter((t) => t.competition_id === competitionFilter).map((t) => t.id),
+    );
+  }, [gameState.teams, competitionFilter]);
+
+  const leagueOptions = useMemo(
+    () => gameState.leagues.map((l) => ({ id: l.competition_id ?? l.id, name: l.name })),
+    [gameState.leagues],
+  );
+
+  const filtered = displayStaff.filter((s) => {
+    if (roleFilter && s.role !== roleFilter) return false;
+    if (competitionTeamIds && (!s.team_id || !competitionTeamIds.has(s.team_id))) return false;
+    if (search.length >= 2) {
+      const q = search.toLowerCase();
+      if (!`${s.first_name} ${s.last_name}`.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pageData = filtered.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
+
+  useEffect(() => setPage(0), [view, roleFilter, competitionFilter, search]);
+
+  const roles = useMemo(
+    () => Array.from(new Set(gameState.staff.map((s) => s.role))).sort(),
+    [gameState.staff],
+  );
+
+  const teamEffects = getLolStaffEffectsForTeam(gameState, userTeamId);
+
+  const handleHire = async (staffId: string) => {
+    setActionLoading(staffId);
+    try {
+      const updated = await hireStaff(staffId);
+      onGameUpdate(updated);
+    } catch (err) {
+      console.error("Failed to hire staff:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRelease = async (staffId: string) => {
+    setActionLoading(staffId);
+    try {
+      const updated = await releaseStaff(staffId);
+      onGameUpdate(updated);
+    } catch (err) {
+      console.error("Failed to release staff:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  return (
+    <div className="flex h-full flex-col gap-4 p-6">
+      {/* Toolbar */}
+      <div className="flex flex-wrap items-center gap-3">
+        {isWorldMode ? (
+          <div className="rounded-lg border border-border bg-card px-4 py-1.5">
+            <p className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
+              {t("dashboard.worldStaff", { defaultValue: "Staffs" })}
+            </p>
+            <p className="text-[11px] text-muted-foreground">
+              {filtered.length} / {gameState.staff.length}
+            </p>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setView("mystaff")}
+              className={`rounded-lg border px-3 py-1.5 font-heading text-xs font-bold uppercase tracking-wider transition-all ${
+                view === "mystaff"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-card text-muted-foreground"
+              }`}
+            >
+              <UserCog className="mr-1 inline size-3.5" />
+              {t("staff.myStaff", { count: myStaff.length })}
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("available")}
+              className={`rounded-lg border px-3 py-1.5 font-heading text-xs font-bold uppercase tracking-wider transition-all ${
+                view === "available"
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-card text-muted-foreground"
+              }`}
+            >
+              <UserPlus className="mr-1 inline size-3.5" />
+              {t("staff.available", { count: availableStaff.length })}
+            </button>
+          </div>
+        )}
+
+        <div className="flex h-8 flex-1 items-center gap-2 rounded-md border border-border bg-muted/30 px-3 min-w-40">
+          <Search className="size-3.5 text-muted-foreground" />
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t("staff.searchStaff")}
+            className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+          />
+        </div>
+
+        <select
+          value={competitionFilter ?? ""}
+          onChange={(e) => setCompetitionFilter(e.target.value || null)}
+          className="h-8 rounded-md border border-border bg-card px-2 text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground"
+        >
+          <option value="">{t("common.all")}</option>
+          {leagueOptions.map((l) => (
+            <option key={l.id} value={l.id}>{l.name}</option>
+          ))}
+        </select>
+
+        <div className="flex gap-1.5">
+          <button
+            type="button"
+            onClick={() => setRoleFilter(null)}
+            className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
+              !roleFilter
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-border bg-card text-muted-foreground"
+            }`}
+          >
+            {t("common.all")}
+          </button>
+          {roles.map((r) => (
+            <button
+              key={r}
+              type="button"
+              onClick={() => setRoleFilter(roleFilter === r ? null : r)}
+              className={`rounded-md border px-2.5 py-1 text-xs font-medium transition-colors ${
+                roleFilter === r
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border bg-card text-muted-foreground"
+              }`}
+            >
+              {ROLE_ICONS[r]} {t(`staff.roles.${r}`, { defaultValue: r })}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Team impact banner */}
+      {view === "mystaff" && myStaff.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 rounded-lg border border-border bg-muted/30 px-4 py-2.5">
+          <span className="font-heading text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+            {t("staff.lolImpactTeamTitle")}
+          </span>
+          {[
+            { key: "development", labelKey: "staff.lolImpact.development" },
+            { key: "tactics", labelKey: "staff.lolImpact.tactics" },
+            { key: "analysis", labelKey: "staff.lolImpact.analysis" },
+            { key: "execution", labelKey: "staff.lolImpact.execution" },
+            { key: "recovery", labelKey: "staff.lolImpact.recovery" },
+          ].map((row) => (
+            <span
+              key={row.key}
+              className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 font-heading text-[10px] uppercase tracking-wider text-primary"
+            >
+              <span>{t(row.labelKey)}</span>
+              <span className="font-bold tabular-nums">
+                {formatStaffEffectPercent((teamEffects as unknown as Record<string, number>)[row.key])}
+              </span>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Staff grid */}
+      {filtered.length === 0 ? (
+        <div className="flex flex-1 items-center justify-center">
+          <div className="text-center">
+            {roleFilter || search.length >= 2 || competitionFilter ? (
+              <>
+                <Frown className="mx-auto mb-2 size-10 text-muted-foreground/40" />
+                <p className="text-sm text-muted-foreground">
+                  {t("staff.noStaffMatch")}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground/60">
+                  Try adjusting filters or search
+                </p>
+              </>
+            ) : (
+              <>
+                {view === "mystaff" ? (
+                  <>
+                    <UserCog className="mx-auto mb-2 size-10 text-muted-foreground/40" />
+                    <p className="text-sm text-muted-foreground">
+                      {t("staff.noStaffMatch")}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground/60">
+                      Hire staff from the available tab
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <Users className="mx-auto mb-2 size-10 text-muted-foreground/40" />
+                    <p className="text-sm text-muted-foreground">
+                      {t("staff.noAvailableStaff")}
+                    </p>
+                    <p className="mt-1 text-xs text-muted-foreground/60">
+                      All staff are currently employed
+                    </p>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="grid min-h-0 grid-cols-1 gap-4 overflow-y-auto md:grid-cols-2 xl:grid-cols-3">
+          {pageData.map((staff) => {
+            const roleIcon = ROLE_ICONS[staff.role] || <GraduationCap className="size-4" />;
+            const age = calcAge(staff.date_of_birth, gameState.clock.current_date);
+            const ovr = ovrRating(staff);
+            const best = bestAttr(staff);
+            const impactRows = getStaffImpactRows(staff);
+            const photo = resolveStaffPhoto(staff.profile_image_url);
+            const attrLabel = (key: StaffAttrKey) => t(ATTR_LABEL_KEYS[key]);
+
+            return (
+              <Card
+                key={staff.id}
+                className="h-full cursor-pointer transition-all hover:ring-1 hover:ring-primary/30"
+                onClick={() => {
+                  if (actionLoading === staff.id) return;
+                  if (view === "mystaff") handleRelease(staff.id);
+                  else handleHire(staff.id);
+                }}
+              >
+                <CardContent className="flex gap-4">
+                  {/* Avatar */}
+                  <div className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted text-muted-foreground">
+                    {photo ? (
+                      <img
+                        src={photo}
+                        alt={`${staff.first_name} ${staff.last_name}`}
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      roleIcon
+                    )}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    {/* Name + OVR */}
+                    <div className="flex items-center gap-2">
+                      <h3 className="truncate font-heading text-sm font-bold uppercase tracking-wide text-foreground">
+                        {staff.first_name} {staff.last_name}
+                      </h3>
+                      <Badge
+                        variant={ovr >= 65 ? "default" : ovr >= 45 ? "secondary" : "outline"}
+                        className="text-[10px]"
+                      >
+                        {ovr} OVR
+                      </Badge>
+                    </div>
+
+                    {/* Role + Age + Nationality + Team */}
+                    <p className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs text-muted-foreground">
+                      <span>{t(`staff.roles.${staff.role}`, { defaultValue: staff.role })}</span>
+                      <span className="text-border">·</span>
+                      <span>{t("common.age")} {age}</span>
+                      {staff.nationality && (
+                        <>
+                          <span className="text-border">·</span>
+                          <span className="inline-flex items-center gap-1">
+                            <CountryFlag code={staff.nationality} locale={i18n.language} className="text-xs leading-none" />
+                            <span>{countryName(staff.nationality, i18n.language)}</span>
+                          </span>
+                        </>
+                      )}
+                      {(isWorldMode || view === "available") && staff.team_id && (
+                        <>
+                          <span className="text-border">·</span>
+                          <span className="text-muted-foreground/70">
+                            @ {getTeamName(gameState.teams, staff.team_id)}
+                          </span>
+                        </>
+                      )}
+                    </p>
+
+                    {/* Specialization + Wage */}
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {staff.specialization && (
+                        <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+                          <Star className="size-3" /> {t(`staff.specializations.${staff.specialization}`)}
+                        </span>
+                      )}
+                      {staff.wage > 0 && (
+                        <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+                          €{staff.wage.toLocaleString()}/año
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Attributes */}
+                    <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
+                      <AttrBar label={attrLabel("coaching")} value={staff.attributes.coaching} />
+                      <AttrBar label={attrLabel("judgingAbility")} value={staff.attributes.judging_ability} />
+                      <AttrBar label={attrLabel("judgingPotential")} value={staff.attributes.judging_potential} />
+                      <AttrBar label={attrLabel("physiotherapy")} value={staff.attributes.physiotherapy} />
+                    </div>
+
+                    {/* Separator + Impact */}
+                    {impactRows.length > 0 && (
+                      <>
+                        <div className="my-2.5 border-t border-border/40" />
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          {impactRows.map((row) => (
+                            <span
+                              key={row.labelKey}
+                              className="inline-flex items-center gap-1 rounded bg-primary/5 px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground"
+                            >
+                              <span>{t(row.labelKey)}</span>
+                              <span className="font-bold text-primary tabular-nums">
+                                {formatStaffEffectPercent(row.value)}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                      </>
+                    )}
+
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      {t("staff.best")}: <span className="font-medium text-foreground">{attrLabel(best.key as StaffAttrKey)} ({best.value})</span>
+                    </p>
+                  </div>
+
+                  {/* Action */}
+                  <div className="flex shrink-0 flex-col items-center justify-start gap-2">
+                    {!isWorldMode && view === "mystaff" && (
+                      <button
+                        type="button"
+                        disabled={actionLoading === staff.id}
+                        onClick={(e) => { e.stopPropagation(); handleRelease(staff.id); }}
+                        className="flex size-8 items-center justify-center rounded-lg bg-red-500/10 text-red-500 transition-colors hover:bg-red-500/20 disabled:pointer-events-none disabled:opacity-50"
+                        title={t("staff.releaseStaff")}
+                      >
+                        {actionLoading === staff.id ? (
+                          <Loader2 className="size-4 animate-spin" />
+                        ) : (
+                          <UserMinus className="size-4" />
+                        )}
+                      </button>
+                    )}
+                    {!isWorldMode && view === "available" && (
+                      <button
+                        type="button"
+                        disabled={actionLoading === staff.id}
+                        onClick={(e) => { e.stopPropagation(); handleHire(staff.id); }}
+                        className="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
+                        title={t("staff.hireStaff")}
+                      >
+                        {actionLoading === staff.id ? (
+                          <Loader2 className="size-4 animate-spin" />
+                        ) : (
+                          <UserPlus className="size-4" />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+      {totalPages > 1 && (
+        <div className="flex shrink-0 items-center justify-center gap-3 pb-2">
+          <button
+            disabled={safePage === 0}
+            onClick={() => setPage(safePage - 1)}
+            className="flex size-7 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+          >
+            <ChevronLeft className="size-4" />
+          </button>
+          <span className="font-heading text-xs font-bold tabular-nums text-muted-foreground">
+            {safePage + 1} / {totalPages}
+          </span>
+          <button
+            disabled={safePage >= totalPages - 1}
+            onClick={() => setPage(safePage + 1)}
+            className="flex size-7 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AttrBar({ label, value }: { label: string; value: number }) {
+  const pct = Math.max(0, Math.min(100, value));
+  const color = value >= 70 ? "bg-emerald-400" : value >= 50 ? "bg-amber-400" : "bg-muted-foreground/40";
+  return (
+    <div>
+      <div className="mb-0.5 flex justify-between text-xs">
+        <span className="text-muted-foreground">{label}</span>
+        <span className={`font-heading font-bold tabular-nums ${value >= 70 ? "text-emerald-400" : value >= 50 ? "text-amber-400" : "text-muted-foreground"}`}>
+          {value}
+        </span>
+      </div>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+        <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
+}

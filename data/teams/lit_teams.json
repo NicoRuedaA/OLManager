@@ -3,132 +3,132 @@
   "description": "LIT - 2026 Season",
   "teams": [
     {
+      "history": [],
+      "country": "IT",
+      "id": "team-3ee8399a",
+      "name": "TITANS",
+      "short_name": "TITA",
+      "logo_url": "/teams-icons/43a53d6bde4b17a5.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "IT",
       "id": "team-763ea26a",
-      "name": "Eeterna Esports",
+      "name": "Aeterna Esports",
       "short_name": "EET",
-      "country": "",
+      "logo_url": "/teams-icons/5161b41cc4654338.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-d8e80ef5",
-      "name": "HMBLE",
-      "short_name": "HBL",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "IT",
       "id": "team-78e0cf99",
       "name": "Colossal Gaming",
       "short_name": "COL",
-      "country": "",
+      "logo_url": "/teams-icons/63e66bbf23752aa8.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-d6fcaa33",
-      "name": "Zena Esports",
-      "short_name": "ZES",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-d4e0b415",
-      "name": "EKO Esports",
-      "short_name": "EKO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-dacb4a17",
-      "name": "GMBLERS Esports",
-      "short_name": "GMB",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "IT",
       "id": "team-a272304b",
       "name": "StoneHenge Esports",
       "short_name": "STON",
-      "country": "",
+      "logo_url": "/teams-icons/a2086b9cb2ce0f79.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-3ee8399a",
-      "name": "Titans",
-      "short_name": "TITA",
-      "country": "",
+      "history": [],
+      "country": "IT",
+      "id": "team-d4e0b415",
+      "name": "EKO Esports",
+      "short_name": "EKO",
+      "logo_url": "/teams-icons/6652963c90b1d101.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "IT",
+      "id": "team-d6fcaa33",
+      "name": "Zena Esports",
+      "short_name": "ZES",
+      "logo_url": "/teams-icons/65d104517b45b9d8.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "IT",
+      "id": "team-d8e80ef5",
+      "name": "HMBLE",
+      "short_name": "HBL",
+      "logo_url": "/teams-icons/3bee4cc98d291b2a.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "IT",
+      "id": "team-dacb4a17",
+      "name": "GMBLERS Esports",
+      "short_name": "GMB",
+      "logo_url": "/teams-icons/dbd4afb569e869b3.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

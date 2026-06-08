@@ -1,5 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
-
+import { getApiClientSync } from "../api/client";
 import type { GameStateData } from "../store/gameStore";
 
 export interface ResolveMessageActionResult {
@@ -12,9 +11,7 @@ export interface ResolveMessageActionResult {
 export async function markMessageRead(
   messageId: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("mark_message_read", {
-    messageId,
-  });
+  return getApiClientSync().inbox.markRead({ messageId });
 }
 
 export async function resolveMessageAction(
@@ -22,33 +19,29 @@ export async function resolveMessageAction(
   actionId: string,
   optionId?: string | null,
 ): Promise<ResolveMessageActionResult> {
-  return invoke<ResolveMessageActionResult>("resolve_message_action", {
+  return getApiClientSync().inbox.resolveAction({
     messageId,
     actionId,
-    optionId: optionId ?? null,
+    optionId: optionId ?? "",
   });
 }
 
 export async function markAllMessagesRead(): Promise<GameStateData> {
-  return invoke<GameStateData>("mark_all_messages_read");
+  return getApiClientSync().inbox.markAllRead();
 }
 
 export async function clearOldMessages(): Promise<GameStateData> {
-  return invoke<GameStateData>("clear_old_messages");
+  return getApiClientSync().inbox.clearOld();
 }
 
 export async function deleteMessage(
   messageId: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("delete_message", {
-    messageId,
-  });
+  return getApiClientSync().inbox.delete({ messageId });
 }
 
 export async function deleteMessages(
   messageIds: string[],
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("delete_messages", {
-    messageIds,
-  });
+  return getApiClientSync().inbox.deleteMany({ messageIds });
 }

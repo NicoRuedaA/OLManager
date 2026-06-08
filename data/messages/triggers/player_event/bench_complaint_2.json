@@ -1,0 +1,21 @@
+{
+  "id": "bench_complaint_2",
+  "trigger": "bench_complaint",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "Normal",
+  "actions": [
+    { "type": "chooseoption", "label": "Promise playing time", "label_key": "be.msg.action.promisePlaytime", "options": [{"id": "promise", "label": "Promise more minutes", "label_key": "be.msg.action.promiseMinutes"}] },
+    { "type": "chooseoption", "label": "Explain decision", "label_key": "be.msg.action.explainDecision", "options": [{"id": "explain", "label": "Explain your reasoning", "label_key": "be.msg.action.explainReasoning"}] },
+    { "type": "dismiss", "label": "Ignore", "label_key": "be.msg.action.ignore" }
+  ],
+  "subject": "{player} unhappy with squad role",
+  "body": "{player} came to see me today \u2014 they're unhappy with their current role in the squad and want more opportunities on the Rift.\n\nIf we can't offer them more playtime soon, they may look for a transfer in the next window.\n\nYour call, coach.",
+  "translations": {
+    "es": {
+      "subject": "{player} insatisfecho con su rol",
+      "body": "{player} vino a verme hoy \u2014 no est\u00e1 contento con su rol actual en el equipo y quiere m\u00e1s oportunidades en la Grieta.\n\nSi no podemos ofrecerle m\u00e1s minutos pronto, podr\u00eda buscar un traspaso en el pr\u00f3ximo mercado.\n\nUsted decide, jefe."
+    }
+  }
+}

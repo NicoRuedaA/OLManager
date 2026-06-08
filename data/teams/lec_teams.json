@@ -3,6 +3,7 @@
   "description": "LEC - 2026 Season",
   "teams": [
     {
+      "history": [],
       "id": "lec-natus-vincere",
       "city": "Kyiv",
       "form": [],
@@ -15,7 +16,6 @@
       "academy": null,
       "country": "UA",
       "finance": 3500000,
-      "history": [],
       "logo_url": "/teams-icons/natus-vincere.webp",
       "team_kind": "Main",
       "facilities": {
@@ -60,6 +60,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-shifters",
       "city": "Geneva",
       "form": [],
@@ -72,7 +73,6 @@
       "academy": null,
       "country": "CH",
       "finance": 3000000,
-      "history": [],
       "logo_url": "/teams-icons/shifters.webp",
       "team_kind": "Main",
       "facilities": {
@@ -117,6 +117,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-g2-esports",
       "city": "Berlin",
       "form": [],
@@ -129,7 +130,6 @@
       "academy": null,
       "country": "DE",
       "finance": 4500000,
-      "history": [],
       "logo_url": "/teams-icons/g2-esports.webp",
       "team_kind": "Main",
       "facilities": {
@@ -174,6 +174,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-fnatic",
       "city": "London",
       "form": [],
@@ -186,7 +187,6 @@
       "academy": null,
       "country": "GB",
       "finance": 3500000,
-      "history": [],
       "logo_url": "/teams-icons/fnatic.webp",
       "team_kind": "Main",
       "facilities": {
@@ -231,6 +231,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-team-vitality",
       "city": "Paris",
       "form": [],
@@ -243,7 +244,6 @@
       "academy": null,
       "country": "FR",
       "finance": 4500000,
-      "history": [],
       "logo_url": "/teams-icons/team-vitality.webp",
       "team_kind": "Main",
       "facilities": {
@@ -288,6 +288,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-sk-gaming",
       "city": "Berlin",
       "form": [],
@@ -300,7 +301,6 @@
       "academy": null,
       "country": "DE",
       "finance": 3000000,
-      "history": [],
       "logo_url": "/teams-icons/sk-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -345,6 +345,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-team-heretics-lec",
       "city": "Madrid",
       "form": [],
@@ -357,7 +358,6 @@
       "academy": null,
       "country": "ES",
       "finance": 3500000,
-      "history": [],
       "logo_url": "/teams-icons/team-heretics-lec.webp",
       "team_kind": "Main",
       "facilities": {
@@ -402,6 +402,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-karmine-corp",
       "city": "Paris",
       "form": [],
@@ -414,7 +415,6 @@
       "academy": null,
       "country": "FR",
       "finance": 4500000,
-      "history": [],
       "logo_url": "/teams-icons/karmine-corp.webp",
       "team_kind": "Main",
       "facilities": {
@@ -459,6 +459,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-movistar-koi",
       "city": "Madrid",
       "form": [],
@@ -471,7 +472,6 @@
       "academy": null,
       "country": "ES",
       "finance": 4500000,
-      "history": [],
       "logo_url": "/teams-icons/movistar-koi.webp",
       "team_kind": "Main",
       "facilities": {
@@ -516,6 +516,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "lec-giantx-lec",
       "city": "Málaga",
       "form": [],
@@ -528,7 +529,6 @@
       "academy": null,
       "country": "ES",
       "finance": 3500000,
-      "history": [],
       "logo_url": "/teams-icons/giantx-lec.webp",
       "team_kind": "Main",
       "facilities": {

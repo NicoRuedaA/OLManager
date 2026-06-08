@@ -6,7 +6,7 @@ mod team;
 #[cfg(test)]
 mod tests;
 
-use ofm_core::state::StateManager;
+use olm_core::state::StateManager;
 use tauri::State;
 
 use self::dto::{
@@ -49,3 +49,4 @@ pub fn get_team_match_history(
 ) -> Result<Vec<TeamMatchHistoryEntryDto>, String> {
     get_team_match_history_internal(&state, &team_id, limit)
 }
+

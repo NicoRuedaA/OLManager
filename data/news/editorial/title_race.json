@@ -1,0 +1,29 @@
+{
+  "id": "title_race",
+  "category": "Editorial",
+  "headlines": [
+    {
+      "key": "be.news.storyline.titleRace.headline",
+      "text": "Top Spot Race Tightens \u2014 {leader} Lead {challenger} by {gap} Point(s)"
+    }
+  ],
+  "body": "{leader} remain in front, but {challenger} are only {gap} point(s) behind as the playoff race takes shape.",
+  "body_key": "be.news.storyline.titleRace.body",
+  "sources": [
+    {
+      "key": "be.source.leaguePulse",
+      "text": "The Shotcaller"
+    }
+  ],
+  "translations": {
+    "es": {
+      "headlines": [
+        {
+          "key": "be.news.storyline.titleRace.headline",
+          "text": "La cima se aprieta \u2014 {leader} lidera, {challenger} a {gap} punto(s)"
+        }
+      ],
+      "body": "{leader} sigue al frente, pero {challenger} est\u00e1 a solo {gap} punto(s) en la lucha por los playoffs."
+    }
+  }
+}

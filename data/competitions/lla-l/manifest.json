@@ -1,0 +1,19 @@
+{
+  "id": "lla-l",
+  "name": "LLA-L",
+  "full_name": "LLA-LEGACY",
+  "region": "LLA-L",
+  "country": "CL",
+  "tier": 1,
+  "logo": "/competitions-icons/aed4e4a1eabca6a5.webp",
+  "teams_file": "teams/lla-l_teams.json",
+  "players_file": "players/lla-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

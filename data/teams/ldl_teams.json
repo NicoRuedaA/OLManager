@@ -3,164 +3,163 @@
   "description": "LDL - 2026 Season",
   "teams": [
     {
-      "id": "team-f97df98e",
-      "name": "Anyone's Legend.Young",
-      "short_name": "ALY",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-13997011",
-      "name": "OMG Academy",
-      "short_name": "OMGA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-8d56ae81",
-      "name": "WBG Youth Team",
-      "short_name": "WBGY",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-bf6805f5",
-      "name": "BLG Junior",
-      "short_name": "BLGJ",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-0c76150c",
       "name": "Royal Club",
       "short_name": "ROY",
       "country": "",
+      "logo_url": "/teams-icons/065be69369ab1d77.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-a73f2996",
-      "name": "WE Academy",
-      "short_name": "WEA",
+      "history": [],
+      "id": "team-13997011",
+      "name": "Oh My God Academy",
+      "short_name": "OMG.A",
       "country": "",
+      "logo_url": "/teams-icons/5767daa9f9a862b3.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
       "id": "team-37ced0d1",
-      "name": "LGD Young Team",
-      "short_name": "LGDY",
+      "name": "LGD Gaming Young Team",
+      "short_name": "LGD.Y",
       "country": "",
+      "logo_url": "/teams-icons/dbfbb56b4744d9b7.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-edb9580a",
-      "name": "TES Challenger",
-      "short_name": "TESC",
+      "history": [],
+      "id": "team-8d56ae81",
+      "name": "Weibo Gaming Youth Team",
+      "short_name": "WBG.Y",
       "country": "",
+      "logo_url": "/teams-icons/0c8901407b8c0858.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "colors": {
+        "primary": "#505fce",
+        "secondary": "#b15cb2"
+      },
       "id": "team-94b3267f",
       "name": "LNG Academy",
-      "short_name": "LNGA",
+      "short_name": "LNG.A",
       "country": "",
+      "logo_url": "/teams-icons/e3281853b366e4f0.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-c6cb03ca",
-      "name": "TT Young",
-      "short_name": "TTY",
+      "history": [],
+      "colors": {
+        "primary": "#fb0e0e"
+      },
+      "id": "team-a73f2996",
+      "name": "Team WE Academy",
+      "short_name": "TWE.A",
       "country": "",
+      "logo_url": "/teams-icons/dabd970ff2b4c252.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-bf6805f5",
+      "name": "Bilibili Gaming Junior",
+      "short_name": "BLG.J",
+      "country": "",
+      "logo_url": "/teams-icons/a164a74705151684.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-c6cb03ca",
+      "name": "ThunderTalk Gaming Young",
+      "short_name": "TT.Y",
+      "country": "",
+      "logo_url": "/teams-icons/30ec5f19b3d67200.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-edb9580a",
+      "name": "Top Esports Challenger",
+      "short_name": "TES.C",
+      "country": "",
+      "logo_url": "/teams-icons/2510d66f568883bf.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-f97df98e",
+      "name": "Anyone's Legend.Young",
+      "short_name": "AL.Y",
+      "country": "",
+      "logo_url": "/teams-icons/a942d1fde0a743b4.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

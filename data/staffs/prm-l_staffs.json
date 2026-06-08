@@ -1,0 +1,35 @@
+{
+  "name": "PRM-L Staff",
+  "description": "PRM-L - 2026 Season",
+  "staff": [
+    {
+      "id": "staff-31c9b028",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "team-1cba5c67",
+      "last_name": "Tuijn",
+      "attributes": {
+        "coaching": 80,
+        "physiotherapy": 72,
+        "judging_ability": 73,
+        "judging_potential": 79
+      },
+      "first_name": "Floris Tuijn",
+      "nationality": "Netherlands",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/18569204.webp",
+      "nickname": "Vamir"
+    },
+    {
+      "id": "b71fe637-d5c1-4a49-a1e0-9c5de98f9b9c",
+      "first_name": "Gil Lieveld",
+      "nickname": "Baelakor",
+      "role": "Owner",
+      "team_id": "team-1cba5c67",
+      "profile_image_url": "/staff-photos/39638f217fe26a89.jpg"
+    }
+  ]
+}

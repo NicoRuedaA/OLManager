@@ -2,16 +2,16 @@ use log::info;
 use std::collections::HashMap;
 
 use crate::commands::round_summary::{build_round_summary_dto, RoundSummaryDto};
-use engine::event::{EventType, MatchEvent};
-use engine::report::{MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
-use engine::types::{Side, Zone};
-use ofm_core::game::Game;
-use ofm_core::live_match_manager::{self, MatchMode};
-use ofm_core::state::StateManager;
+use olm_core::engine::event::{EventType, MatchEvent};
+use olm_core::engine::report::{MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
+use olm_core::engine::types::{Side, Zone};
+use olm_core::game::Game;
+use olm_core::live_match_manager::{self, MatchMode};
+use olm_core::state::StateManager;
 use serde::{Deserialize, Serialize};
 
-fn role_to_string(role: &domain::stats::LolRole) -> &'static str {
-    use domain::stats::LolRole;
+fn role_to_string(role: &olm_core::domain::stats::LolRole) -> &'static str {
+    use olm_core::domain::stats::LolRole;
     match role {
         LolRole::Top => "TOP",
         LolRole::Jungle => "JUNGLE",
@@ -116,13 +116,13 @@ fn map_sim_team_to_side(team: &str) -> Side {
     }
 }
 
-fn map_sim_role_to_engine(role: &str) -> Option<engine::live_match::LolRole> {
+fn map_sim_role_to_engine(role: &str) -> Option<olm_core::engine::sim_background::LolRole> {
     match role {
-        "TOP" => Some(engine::live_match::LolRole::Top),
-        "JGL" => Some(engine::live_match::LolRole::Jungle),
-        "MID" => Some(engine::live_match::LolRole::Mid),
-        "ADC" => Some(engine::live_match::LolRole::Adc),
-        "SUP" => Some(engine::live_match::LolRole::Support),
+        "TOP" => Some(olm_core::engine::sim_background::LolRole::Top),
+        "JGL" => Some(olm_core::engine::sim_background::LolRole::Jungle),
+        "MID" => Some(olm_core::engine::sim_background::LolRole::Mid),
+        "ADC" => Some(olm_core::engine::sim_background::LolRole::Adc),
+        "SUP" => Some(olm_core::engine::sim_background::LolRole::Support),
         _ => None,
     }
 }
@@ -333,7 +333,7 @@ pub fn finish_live_match(
         .ok_or("No active game session")?;
 
     let mut captures = Vec::new();
-    ofm_core::turn::apply_match_report_with_capture(
+    olm_core::turn::apply_match_report_with_capture(
         &mut game,
         fixture_index,
         &home_team_id,
@@ -345,11 +345,11 @@ pub fn finish_live_match(
         state.append_stats_state(capture);
     }
 
-    ofm_core::social::generate_match_social_posts(&mut game, fixture_index, &report, locale);
+    olm_core::social::generate_match_social_posts(&mut game, fixture_index, &report, locale);
 
     let round_summary = build_round_summary_dto(&game, round_matchday, &round_previous_standings);
 
-    ofm_core::turn::finish_live_match_day(&mut game);
+    olm_core::turn::finish_live_match_day(&mut game);
 
     state.set_game(game.clone());
     Ok(FinishLiveMatchResponse {
@@ -363,7 +363,7 @@ pub fn start_live_match(
     fixture_index: usize,
     mode: &str,
     allows_extra_time: bool,
-) -> Result<engine::MatchSnapshot, String> {
+) -> Result<olm_core::engine::MatchSnapshot, String> {
     info!(
         "[cmd] start_live_match: fixture={}, mode={}, extra_time={}",
         fixture_index, mode, allows_extra_time
@@ -399,7 +399,7 @@ pub fn start_live_match(
 pub fn step_live_match(
     state: &StateManager,
     minutes: u16,
-) -> Result<Vec<engine::MinuteResult>, String> {
+) -> Result<Vec<olm_core::engine::MinuteResult>, String> {
     log::debug!("[cmd] step_live_match: minutes={}", minutes);
     let results = state
         .with_live_match(|session| {
@@ -427,13 +427,13 @@ pub fn step_live_match(
 
 pub fn apply_match_command(
     state: &StateManager,
-    command: engine::MatchCommand,
-) -> Result<engine::MatchSnapshot, String> {
+    command: olm_core::engine::MatchCommand,
+) -> Result<olm_core::engine::MatchSnapshot, String> {
     info!("[cmd] apply_match_command: {:?}", command);
     let snapshot = state
         .with_live_match(|session| {
             session.apply_command(command)?;
-            Ok::<engine::MatchSnapshot, String>(session.snapshot())
+            Ok::<olm_core::engine::MatchSnapshot, String>(session.snapshot())
         })
         .ok_or_else(|| "No active live match".to_string())??;
 
@@ -448,7 +448,7 @@ pub fn apply_match_command(
     Ok(snapshot)
 }
 
-pub fn get_match_snapshot(state: &StateManager) -> Result<engine::MatchSnapshot, String> {
+pub fn get_match_snapshot(state: &StateManager) -> Result<olm_core::engine::MatchSnapshot, String> {
     log::debug!("[cmd] get_match_snapshot");
     let snapshot = state
         .with_live_match(|session| session.snapshot())
@@ -462,3 +462,7 @@ pub fn get_match_snapshot(state: &StateManager) -> Result<engine::MatchSnapshot,
 
     Ok(snapshot)
 }
+
+
+
+

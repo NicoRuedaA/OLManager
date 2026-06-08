@@ -1,0 +1,19 @@
+{
+  "id": "al-l",
+  "name": "AL-L",
+  "full_name": "AL Legacy",
+  "region": "AL-L",
+  "country": "SA",
+  "tier": 2,
+  "logo": null,
+  "teams_file": "teams/al-l_teams.json",
+  "players_file": "players/al-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

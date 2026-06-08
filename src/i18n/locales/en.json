@@ -1,7 +1,37 @@
-﻿{
+{
   "app": {
     "name": "Open League Manager",
     "version": "pre-alpha"
+  },
+  "auth": {
+    "login": "Sign In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "fullName": "Name",
+    "country": "Country",
+    "age": "Age",
+    "enter": "Enter",
+    "signingIn": "Signing in...",
+    "createAccount": "Create Account",
+    "registering": "Creating account...",
+    "registerSuccess": "Account created. Check your email to confirm registration before signing in.",
+    "passwordMismatch": "Passwords do not match.",
+    "profileFieldsRequired": "Complete name, country and age to create the account.",
+    "ageInvalid": "Enter a valid age between 13 and 99.",
+    "or": "or",
+    "continueWithGoogle": "Continue with Google",
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "user": "User",
+    "userId": "User ID",
+    "createdAt": "Account Created",
+    "playtime": "Playtime",
+    "notAvailable": "Not available",
+    "changeAvatar": "Change Avatar",
+    "selectAvatar": "Select Avatar",
+    "avatarSaveError": "Could not save the avatar. Try again."
   },
   "content": {
     "lol": {
@@ -150,6 +180,8 @@
     "newGame": "New Game",
     "loadGame": "Load Game",
     "settings": "Settings",
+    "community": "Community",
+    "patchNotes": "What's New",
     "exitGame": "Exit Game",
     "noSaves": "No saved games found.",
     "loadingSaves": "Loading saves...",
@@ -209,6 +241,7 @@
     "transfers": "Transfers",
     "players": "Players",
     "teams": "Teams",
+    "worldStaff": "DB Staff",
     "tournaments": "Tournaments",
     "champions_world": "Champions",
     "market": "Market",
@@ -3174,6 +3207,13 @@
     "rounds": "rnds",
     "youBought": "You bought",
     "youSold": "You sold",
-    "includedPlayers": "Included in deal"
+    "includedPlayers": "Included in deal",
+    "scrims.assistantCoach": "Assistant Coach",
+    "scrims.delegation": "Delegate scrim review",
+    "scrims.todayBlock": "Today's Block",
+    "scrims.weeklyReportInline": "Weekly Report",
+    "scrims.recentReports": "Recent Reports",
+    "scrims.noRecentReports": "No recent reports.",
+    "playerProfile.startPotentialResearch": "Research potential"
   }
 }

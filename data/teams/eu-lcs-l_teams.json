@@ -1,0 +1,163 @@
+{
+  "name": "EU-LCS-L Teams",
+  "description": "EU-LCS-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "eu-lcs-l-astralis",
+      "logo_url": "/teams-icons/astralis.webp",
+      "data.city": "Copenhague",
+      "data.country": "DK",
+      "name": "Astralis",
+      "short_name": "AST",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-misfits",
+      "colors": {
+        "primary": "#ffffff"
+      },
+      "logo_url": "/teams-icons/misfits.webp",
+      "data.city": "Boca Raton",
+      "data.country": "US",
+      "name": "Misfits",
+      "short_name": "MFS",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-fc-schalke-04",
+      "logo_url": "/teams-icons/fc-schalke-04.webp",
+      "data.city": "Schalke",
+      "data.country": "DE",
+      "name": "FC Schalke 04 ",
+      "short_name": "S04",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-rogue",
+      "colors": {
+        "secondary": "#5f91d3"
+      },
+      "logo_url": "/teams-icons/rogue.webp",
+      "data.city": "Las Vegas",
+      "data.country": "US",
+      "name": "Rogue",
+      "short_name": "RGE",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-splyce",
+      "colors": {
+        "primary": "#c7b600"
+      },
+      "logo_url": "/teams-icons/splyce.webp",
+      "data.city": "Rochester",
+      "data.country": "US",
+      "name": "Splyce",
+      "short_name": "SLY",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-mad-lions",
+      "colors": {
+        "primary": "#c3a128"
+      },
+      "data.city": "Madrid",
+      "data.country": "ES",
+      "name": "MAD Lions",
+      "short_name": "MAD",
+      "country": "",
+      "logo_url": "/teams-icons/4fa962423b23841b.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-h2k-gaming",
+      "country": "GB",
+      "logo_url": "/teams-icons/h2k-gaming.webp",
+      "data.country": "GB",
+      "name": "H2K Gaming",
+      "short_name": "H2K",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-origen",
+      "logo_url": "/teams-icons/origen.webp",
+      "data.city": "Madrid",
+      "data.country": "ES",
+      "name": "Origen",
+      "short_name": "ORI",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "eu-lcs-l-excel-espots",
+      "data.city": "London",
+      "data.country": "GB",
+      "name": "Excel Espots",
+      "short_name": "EXC",
+      "country": "",
+      "logo_url": null,
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

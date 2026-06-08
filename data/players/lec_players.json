@@ -8,68 +8,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-movistar-koi",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Supa",
+      "full_name": "David Martínez García",
       "photo_url": "/player-photos/103536968833612789.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 86,
-        "discipline": 82,
+        "laning": 84,
+        "teamfighting": 84,
         "macro_play": 83,
         "consistency": 82,
         "shotcalling": 77,
-        "teamfighting": 84,
         "champion_pool": 80,
+        "discipline": 82,
         "mental_resilience": 81
       },
-      "match_name": "David Martínez García",
+      "match_name": "Supa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 160000,
       "birth_country": null,
       "date_of_birth": "2000-10-23",
@@ -79,14 +42,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103536968833612789.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-103877629120745120",
@@ -94,95 +50,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-movistar-koi",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Elyoya",
+      "full_name": "Javier Prades Batalla",
       "photo_url": "/player-photos/103877629120745120.webp",
       "attributes": {
-        "laning": 90,
         "mechanics": 87,
-        "discipline": 88,
+        "laning": 90,
+        "teamfighting": 85,
         "macro_play": 87,
         "consistency": 85,
         "shotcalling": 90,
-        "teamfighting": 85,
         "champion_pool": 84,
+        "discipline": 88,
         "mental_resilience": 87
       },
-      "match_name": "Javier Prades Batalla",
+      "match_name": "Elyoya",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 200000,
       "birth_country": null,
       "date_of_birth": "2000-03-13",
@@ -192,14 +84,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103877629120745120.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105830645287286396",
@@ -207,86 +92,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Sheo",
+      "full_name": "Théo Borile",
       "photo_url": "/player-photos/105830645287286396.webp",
       "attributes": {
-        "laning": 75,
         "mechanics": 78,
-        "discipline": 72,
+        "laning": 75,
+        "teamfighting": 77,
         "macro_play": 80,
         "consistency": 76,
         "shotcalling": 78,
-        "teamfighting": 77,
         "champion_pool": 75,
+        "discipline": 72,
         "mental_resilience": 71
       },
-      "match_name": "Théo Borile",
+      "match_name": "Sheo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 100000,
       "birth_country": null,
       "date_of_birth": "2001-07-05",
@@ -296,14 +126,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105830645287286396.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107605583684952312",
@@ -311,41 +134,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-vitality",
       "position": "Support",
       "condition": 100,
-      "full_name": "Fleshy",
+      "full_name": "Kadir Kemiksiz",
       "photo_url": "/player-photos/107605583684952312.webp",
       "attributes": {
-        "laning": 82,
         "mechanics": 81,
-        "discipline": 80,
+        "laning": 82,
+        "teamfighting": 80,
         "macro_play": 78,
         "consistency": 78,
         "shotcalling": 80,
-        "teamfighting": 80,
         "champion_pool": 80,
+        "discipline": 80,
         "mental_resilience": 79
       },
-      "match_name": "Kadir Kemiksiz",
+      "match_name": "Fleshy",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "2000-11-24",
@@ -355,14 +168,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107605583684952312.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105501717406803640",
@@ -370,82 +176,27 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "team-932ee946",
-          "team_name": "KT Rolster",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "team-932ee946",
-          "team_name": "KT Rolster",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-giantx-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Noah",
+      "full_name": "Hyeon-taek Oh",
       "photo_url": "/player-photos/105501717406803640.webp",
       "attributes": {
-        "laning": 85,
         "mechanics": 85,
-        "discipline": 83,
+        "laning": 85,
+        "teamfighting": 83,
         "macro_play": 81,
         "consistency": 80,
         "shotcalling": 77,
-        "teamfighting": 83,
         "champion_pool": 80,
+        "discipline": 83,
         "mental_resilience": 79
       },
-      "match_name": "Hyeon-taek Oh",
+      "match_name": "Noah",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -459,14 +210,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501717406803640.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105647947016264573",
@@ -474,59 +218,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-giantx-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Jackies",
+      "full_name": "Adam Jeřábek",
       "photo_url": "/player-photos/105647947016264573.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 83,
-        "discipline": 78,
+        "laning": 81,
+        "teamfighting": 82,
         "macro_play": 76,
         "consistency": 75,
         "shotcalling": 78,
-        "teamfighting": 82,
         "champion_pool": 77,
+        "discipline": 78,
         "mental_resilience": 76
       },
-      "match_name": "Adam Jeřábek",
+      "match_name": "Jackies",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 150000,
       "birth_country": null,
       "date_of_birth": "2004-10-06",
@@ -536,14 +252,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105647947016264573.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-109705412728201213",
@@ -551,50 +260,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-fnatic",
       "position": "Top",
       "condition": 100,
-      "full_name": "Empyros",
+      "full_name": "Panagiotis Tantis",
       "photo_url": "/player-photos/109705412728201213.webp",
       "attributes": {
-        "laning": 73,
         "mechanics": 74,
-        "discipline": 79,
+        "laning": 73,
+        "teamfighting": 74,
         "macro_play": 75,
         "consistency": 78,
         "shotcalling": 74,
-        "teamfighting": 74,
         "champion_pool": 74,
+        "discipline": 79,
         "mental_resilience": 76
       },
-      "match_name": "Panagiotis Tantis",
+      "match_name": "Empyros",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 120000,
       "birth_country": null,
       "date_of_birth": "2004-04-01",
@@ -604,14 +294,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/109705412728201213.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107564404490889053",
@@ -619,68 +302,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-movistar-koi",
       "position": "Support",
       "condition": 100,
-      "full_name": "Alvaro",
+      "full_name": "Álvaro Fernández del Amo",
       "photo_url": "/player-photos/107564404490889053.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 85,
-        "discipline": 84,
+        "laning": 84,
+        "teamfighting": 88,
         "macro_play": 85,
         "consistency": 80,
         "shotcalling": 84,
-        "teamfighting": 88,
         "champion_pool": 80,
+        "discipline": 84,
         "mental_resilience": 83
       },
-      "match_name": "Álvaro Fernández del Amo",
+      "match_name": "Alvaro",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 200000,
       "birth_country": null,
       "date_of_birth": "2003-07-15",
@@ -690,14 +336,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107564404490889053.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-102787200059605684",
@@ -705,104 +344,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "team-0be37b7e",
-          "team_name": "Berlin International Gaming",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-g2-esports",
       "position": "Support",
       "condition": 100,
-      "full_name": "Labrov",
+      "full_name": "Labros Papoutsakis",
       "photo_url": "/player-photos/102787200059605684.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 83,
-        "discipline": 82,
+        "laning": 84,
+        "teamfighting": 83,
         "macro_play": 82,
         "consistency": 80,
         "shotcalling": 77,
-        "teamfighting": 83,
         "champion_pool": 80,
+        "discipline": 82,
         "mental_resilience": 80
       },
-      "match_name": "Labros Papoutsakis",
+      "match_name": "Labrov",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 160000,
       "birth_country": null,
       "date_of_birth": "2002-02-12",
@@ -812,14 +378,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102787200059605684.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-106625308523122120",
@@ -827,68 +386,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "team-fly2025",
-          "team_name": "FlyQuest",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "team-fly2025",
-          "team_name": "FlyQuest",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "team-fly2025",
-          "team_name": "FlyQuest",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-karmine-corp",
       "position": "Support",
       "condition": 100,
-      "full_name": "Busio",
+      "full_name": "Alan Cwalina",
       "photo_url": "/player-photos/106625308523122120.webp",
       "attributes": {
-        "laning": 89,
         "mechanics": 88,
-        "discipline": 83,
+        "laning": 89,
+        "teamfighting": 85,
         "macro_play": 84,
         "consistency": 84,
         "shotcalling": 85,
-        "teamfighting": 85,
         "champion_pool": 84,
+        "discipline": 83,
         "mental_resilience": 84
       },
-      "match_name": "Alan Cwalina",
+      "match_name": "Busio",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "US",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 200000,
       "birth_country": null,
       "date_of_birth": "2003-10-22",
@@ -898,14 +420,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/106625308523122120.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-110350224593953686",
@@ -913,68 +428,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-movistar-koi",
       "position": "Top",
       "condition": 100,
-      "full_name": "Myrwn",
+      "full_name": "Alex Pastor Villarejo",
       "photo_url": "/player-photos/110350224593953686.webp",
       "attributes": {
-        "laning": 85,
         "mechanics": 86,
-        "discipline": 78,
+        "laning": 85,
+        "teamfighting": 85,
         "macro_play": 80,
         "consistency": 75,
         "shotcalling": 75,
-        "teamfighting": 85,
         "champion_pool": 90,
+        "discipline": 78,
         "mental_resilience": 85
       },
-      "match_name": "Alex Pastor Villarejo",
+      "match_name": "Myrwn",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 170000,
       "birth_country": null,
       "date_of_birth": "2003-06-13",
@@ -984,14 +462,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/110350224593953686.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105537190986692036",
@@ -999,77 +470,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-karmine-corp",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Yike",
+      "full_name": "Martin Sundelin",
       "photo_url": "/player-photos/105537190986692036.webp",
       "attributes": {
-        "laning": 86,
         "mechanics": 89,
-        "discipline": 84,
+        "laning": 86,
+        "teamfighting": 87,
         "macro_play": 83,
         "consistency": 84,
         "shotcalling": 84,
-        "teamfighting": 87,
         "champion_pool": 85,
+        "discipline": 84,
         "mental_resilience": 84
       },
-      "match_name": "Martin Sundelin",
+      "match_name": "Yike",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "SE",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 180000,
       "birth_country": null,
       "date_of_birth": "2000-11-11",
@@ -1079,14 +504,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105537190986692036.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107128052280762804",
@@ -1094,50 +512,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-g2-esports",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "SkewMond",
+      "full_name": "Rudy Semaan",
       "photo_url": "/player-photos/107128052280762804.webp",
       "attributes": {
-        "laning": 88,
         "mechanics": 87,
-        "discipline": 86,
+        "laning": 88,
+        "teamfighting": 86,
         "macro_play": 84,
         "consistency": 86,
         "shotcalling": 82,
-        "teamfighting": 86,
         "champion_pool": 83,
+        "discipline": 86,
         "mental_resilience": 88
       },
-      "match_name": "Rudy Semaan",
+      "match_name": "SkewMond",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 240000,
       "birth_country": null,
       "date_of_birth": "2004-08-09",
@@ -1147,14 +546,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107128052280762804.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107840393299826151",
@@ -1162,50 +554,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Natus Vincere",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-natus-vincere",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Poby",
+      "full_name": "Sung-won Yun",
       "photo_url": "/player-photos/107840393299826151.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 80,
-        "discipline": 80,
+        "laning": 81,
+        "teamfighting": 80,
         "macro_play": 82,
         "consistency": 84,
         "shotcalling": 78,
-        "teamfighting": 80,
         "champion_pool": 80,
+        "discipline": 80,
         "mental_resilience": 81
       },
-      "match_name": "Sung-won Yun",
+      "match_name": "Poby",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 160000,
       "birth_country": null,
       "date_of_birth": "2006-02-07",
@@ -1215,14 +588,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107840393299826151.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107045034481599547",
@@ -1230,59 +596,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-fnatic",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Vladi",
+      "full_name": "Vladimiros Kourtidis",
       "photo_url": "/player-photos/107045034481599547.webp",
       "attributes": {
-        "laning": 77,
         "mechanics": 80,
-        "discipline": 75,
+        "laning": 77,
+        "teamfighting": 79,
         "macro_play": 79,
         "consistency": 73,
         "shotcalling": 78,
-        "teamfighting": 79,
         "champion_pool": 77,
+        "discipline": 75,
         "mental_resilience": 77
       },
-      "match_name": "Vladimiros Kourtidis",
+      "match_name": "Vladi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "GR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2005-08-12",
@@ -1292,14 +630,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107045034481599547.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "player-cb07c2cc",
@@ -1307,72 +638,26 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "KT Rolster Challengers",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "KT Rolster Challengers",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "team-bd98ddef",
-          "team_name": "HANJIN BRION",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misa Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Hype",
+      "full_name": "Byeon Jeong-hyeon",
       "attributes": {
-        "laning": 75,
         "mechanics": 75,
-        "discipline": 77,
+        "laning": 75,
+        "teamfighting": 70,
         "macro_play": 74,
         "consistency": 69,
         "shotcalling": 72,
-        "teamfighting": 70,
         "champion_pool": 74,
+        "discipline": 77,
         "mental_resilience": 73
       },
-      "match_name": "Byeon Jeong-hyeon",
+      "match_name": "Hype",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "South Korea",
@@ -1385,16 +670,14 @@
       "transfer_listed": false,
       "transfer_offers": [],
       "champion_mastery": [],
-      "natural_position": "ADC",
-      "profile_image_url": null,
+      "natural_position": "Adc",
+      "profile_image_url": "/player-photos/d631e67f79ced9dc.png",
       "potential_revealed": null,
       "alternate_positions": [],
       "champion_training_target": null,
       "champion_training_targets": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null,
-      "traits": [],
-      "can_be_transferred_until": null
+      "potential_research_started_on": null
     },
     {
       "id": "lec-player-98767975968177297",
@@ -1402,131 +685,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2017,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2016,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-g2-esports",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Caps",
+      "full_name": "Rasmus Winther",
       "photo_url": "/player-photos/98767975968177297.webp",
       "attributes": {
-        "laning": 85,
         "mechanics": 85,
-        "discipline": 90,
+        "laning": 85,
+        "teamfighting": 88,
         "macro_play": 93,
         "consistency": 90,
         "shotcalling": 93,
-        "teamfighting": 88,
         "champion_pool": 86,
+        "discipline": 90,
         "mental_resilience": 92
       },
-      "match_name": "Rasmus Winther",
+      "match_name": "Caps",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DK",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 230000,
       "birth_country": null,
       "date_of_birth": "1999-11-17",
@@ -1536,14 +719,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/98767975968177297.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107464179845128878",
@@ -1551,50 +727,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-giantx-lec",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "ISMA",
+      "full_name": "Ismaïl Boualem",
       "photo_url": "/player-photos/107464179845128878.webp",
       "attributes": {
-        "laning": 77,
         "mechanics": 79,
-        "discipline": 82,
+        "laning": 77,
+        "teamfighting": 78,
         "macro_play": 79,
         "consistency": 78,
         "shotcalling": 80,
-        "teamfighting": 78,
         "champion_pool": 76,
+        "discipline": 82,
         "mental_resilience": 79
       },
-      "match_name": "Ismaïl Boualem",
+      "match_name": "ISMA",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "BE",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 120000,
       "birth_country": null,
       "date_of_birth": "2001-06-20",
@@ -1604,14 +761,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107464179845128878.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-103495716771322725",
@@ -1619,95 +769,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "team-2c4f82f9",
-          "team_name": "T1",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "team-2c4f82f9",
-          "team_name": "T1",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "team-61bd92d5",
-          "team_name": "NS RedForce",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "team-41bf07a6",
-          "team_name": "Dplus KIA",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-karmine-corp",
       "position": "Top",
       "condition": 100,
-      "full_name": "Canna",
+      "full_name": "Chang-dong Kim",
       "photo_url": "/player-photos/103495716771322725.webp",
       "attributes": {
-        "laning": 88,
         "mechanics": 84,
-        "discipline": 88,
+        "laning": 88,
+        "teamfighting": 86,
         "macro_play": 88,
         "consistency": 88,
         "shotcalling": 82,
-        "teamfighting": 86,
         "champion_pool": 85,
+        "discipline": 88,
         "mental_resilience": 86
       },
-      "match_name": "Chang-dong Kim",
+      "match_name": "Canna",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 190000,
       "birth_country": null,
       "date_of_birth": "2000-02-11",
@@ -1717,14 +803,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103495716771322725.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-108205130709313212",
@@ -1732,59 +811,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "team-bc4c40ec",
-          "team_name": "Kiwoom DRX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "team-bc4c40ec",
-          "team_name": "Kiwoom DRX",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-karmine-corp",
       "position": "Mid",
       "condition": 100,
-      "full_name": "kyeahoo",
+      "full_name": "Yea-hoo Kang",
       "photo_url": "/player-photos/108205130709313212.webp",
       "attributes": {
-        "laning": 82,
         "mechanics": 86,
-        "discipline": 85,
+        "laning": 82,
+        "teamfighting": 84,
         "macro_play": 82,
         "consistency": 81,
         "shotcalling": 74,
-        "teamfighting": 84,
         "champion_pool": 83,
+        "discipline": 85,
         "mental_resilience": 79
       },
-      "match_name": "Yea-hoo Kang",
+      "match_name": "kyeahoo",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 190000,
       "birth_country": null,
       "date_of_birth": "2005-08-13",
@@ -1794,14 +845,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/108205130709313212.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-99322214618656216",
@@ -1809,131 +853,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2017,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Splyce",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2016,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Splyce",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2015,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Splyce",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-sk-gaming",
       "position": "Top",
       "condition": 100,
-      "full_name": "Wunder",
+      "full_name": "Martin Nordahl Hansen",
       "photo_url": "/player-photos/99322214618656216.webp",
       "attributes": {
-        "laning": 76,
         "mechanics": 75,
-        "discipline": 72,
+        "laning": 76,
+        "teamfighting": 77,
         "macro_play": 76,
         "consistency": 74,
         "shotcalling": 79,
-        "teamfighting": 77,
         "champion_pool": 82,
+        "discipline": 72,
         "mental_resilience": 77
       },
-      "match_name": "Martin Nordahl Hansen",
+      "match_name": "Wunder",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DK",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 100000,
       "birth_country": null,
       "date_of_birth": "1998-11-09",
@@ -1943,14 +887,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214618656216.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-103889902476986558",
@@ -1958,41 +895,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-sk-gaming",
       "position": "Mid",
       "condition": 100,
-      "full_name": "LIDER",
+      "full_name": "Adam Ilyasov",
       "photo_url": "/player-photos/103889902476986558.webp",
       "attributes": {
-        "laning": 75,
         "mechanics": 76,
-        "discipline": 70,
+        "laning": 75,
+        "teamfighting": 75,
         "macro_play": 72,
         "consistency": 69,
         "shotcalling": 74,
-        "teamfighting": 75,
         "champion_pool": 68,
+        "discipline": 70,
         "mental_resilience": 72
       },
-      "match_name": "Adam Ilyasov",
+      "match_name": "LIDER",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "NO",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 70000,
       "birth_country": null,
       "date_of_birth": "1999-07-03",
@@ -2002,14 +929,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103889902476986558.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105515296576479523",
@@ -2017,50 +937,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Boukada",
+      "full_name": "Mehdi Lahlou",
       "photo_url": "/player-photos/105515296576479523.webp",
       "attributes": {
-        "laning": 69,
         "mechanics": 72,
-        "discipline": 70,
+        "laning": 69,
+        "teamfighting": 72,
         "macro_play": 67,
         "consistency": 71,
         "shotcalling": 70,
-        "teamfighting": 72,
         "champion_pool": 68,
+        "discipline": 70,
         "mental_resilience": 69
       },
-      "match_name": "Mehdi Lahlou",
+      "match_name": "Boukada",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 80000,
       "birth_country": null,
       "date_of_birth": "2002-10-01",
@@ -2070,14 +971,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105515296576479523.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105503548109547493",
@@ -2085,59 +979,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-vitality",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Lyncas",
+      "full_name": "Linas Nauncikas",
       "photo_url": "/player-photos/105503548109547493.webp",
       "attributes": {
-        "laning": 82,
         "mechanics": 82,
-        "discipline": 82,
+        "laning": 82,
+        "teamfighting": 83,
         "macro_play": 82,
         "consistency": 80,
         "shotcalling": 82,
-        "teamfighting": 83,
         "champion_pool": 78,
+        "discipline": 82,
         "mental_resilience": 81
       },
-      "match_name": "Linas Nauncikas",
+      "match_name": "Lyncas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "LT",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 170000,
       "birth_country": null,
       "date_of_birth": "2003-12-10",
@@ -2147,14 +1013,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105503548109547493.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-98767975961872793",
@@ -2162,131 +1021,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esportsg",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "team-tl2025",
-          "team_name": "Team Liquid",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "team-tl2025",
-          "team_name": "Team Liquid",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "eu-lcs-l-misfits",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2017,
-          "assists": 0,
-          "team_id": "eu-lcs-l-misfits",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2016,
-          "assists": 0,
-          "team_id": "eu-lcs-l-misfits",
-          "team_name": "Misfits",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-g2-esports",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Hans Sama",
+      "full_name": "Steven Liv",
       "photo_url": "/player-photos/98767975961872793.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 85,
-        "discipline": 85,
+        "laning": 84,
+        "teamfighting": 84,
         "macro_play": 84,
         "consistency": 86,
         "shotcalling": 83,
-        "teamfighting": 84,
         "champion_pool": 79,
+        "discipline": 85,
         "mental_resilience": 84
       },
-      "match_name": "Steven Liv",
+      "match_name": "Hans Sama",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 170000,
       "birth_country": null,
       "date_of_birth": "1999-09-02",
@@ -2296,14 +1055,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/98767975961872793.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107492067202132417",
@@ -2311,41 +1063,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-fnatic",
       "position": "Support",
       "condition": 100,
-      "full_name": "Lospa",
+      "full_name": "Joon-hyeong Park",
       "photo_url": "/player-photos/107492067202132417.webp",
       "attributes": {
-        "laning": 82,
         "mechanics": 81,
-        "discipline": 78,
+        "laning": 82,
+        "teamfighting": 80,
         "macro_play": 80,
         "consistency": 78,
         "shotcalling": 75,
-        "teamfighting": 80,
         "champion_pool": 77,
+        "discipline": 78,
         "mental_resilience": 78
       },
-      "match_name": "Joon-hyeong Park",
+      "match_name": "Lospa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 150000,
       "birth_country": null,
       "date_of_birth": "2002-09-30",
@@ -2355,14 +1097,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492067202132417.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105501834624360050",
@@ -2370,59 +1105,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Ice",
+      "full_name": "Yoon Sang-hoon",
       "photo_url": "/player-photos/105501834624360050.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 84,
-        "discipline": 80,
+        "laning": 81,
+        "teamfighting": 81,
         "macro_play": 80,
         "consistency": 82,
         "shotcalling": 72,
-        "teamfighting": 81,
         "champion_pool": 78,
+        "discipline": 80,
         "mental_resilience": 80
       },
-      "match_name": "Yoon Sang-hoon",
+      "match_name": "Ice",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2001-04-09",
@@ -2432,14 +1139,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501834624360050.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-101389808348806587",
@@ -2447,59 +1147,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-sk-gaming",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Skeanz",
-      "photo_url": null,
+      "full_name": "Duncan Marquet",
+      "photo_url": "/player-photos/101389808348806587.webp",
       "attributes": {
-        "laning": 72,
         "mechanics": 74,
-        "discipline": 75,
+        "laning": 72,
+        "teamfighting": 72,
         "macro_play": 73,
         "consistency": 76,
         "shotcalling": 75,
-        "teamfighting": 72,
         "champion_pool": 76,
+        "discipline": 75,
         "mental_resilience": 75
       },
-      "match_name": "Duncan Marquet",
+      "match_name": "Skeanz",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 90000,
       "birth_country": null,
       "date_of_birth": "2000-09-25",
@@ -2508,15 +1180,8 @@
       "transfer_listed": false,
       "transfer_offers": [],
       "champion_mastery": [],
-      "profile_image_url": "/player-photos/1778443774092_w3rovgcm13.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "profile_image_url": "/player-photos/f4492cc60da2dece.webp",
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105548731617719496",
@@ -2524,41 +1189,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Natus Vincere",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-natus-vincere",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Rhilech",
+      "full_name": "Enes Uçan",
       "photo_url": "/player-photos/105548731617719496.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 85,
-        "discipline": 80,
+        "laning": 81,
+        "teamfighting": 84,
         "macro_play": 80,
         "consistency": 80,
         "shotcalling": 82,
-        "teamfighting": 84,
         "champion_pool": 79,
+        "discipline": 80,
         "mental_resilience": 84
       },
-      "match_name": "Enes Uçan",
+      "match_name": "Rhilech",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 210000,
       "birth_country": null,
       "date_of_birth": "2005-10-15",
@@ -2568,14 +1223,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105548731617719496.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-102174699705191142",
@@ -2583,41 +1231,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Serin",
+      "full_name": "Tolga Ölmez",
       "photo_url": "/player-photos/102174699705191142.webp",
       "attributes": {
-        "laning": 80,
         "mechanics": 77,
-        "discipline": 78,
+        "laning": 80,
+        "teamfighting": 76,
         "macro_play": 75,
         "consistency": 78,
         "shotcalling": 75,
-        "teamfighting": 76,
         "champion_pool": 75,
+        "discipline": 78,
         "mental_resilience": 76
       },
-      "match_name": "Tolga Ölmez",
+      "match_name": "Serin",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2002-04-10",
@@ -2627,14 +1265,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102174699705191142.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107492114500277895",
@@ -2642,41 +1273,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Paduck",
+      "full_name": "Seok-hyeon Park",
       "photo_url": "/player-photos/107492114500277895.webp",
       "attributes": {
-        "laning": 78,
         "mechanics": 80,
-        "discipline": 78,
+        "laning": 78,
+        "teamfighting": 78,
         "macro_play": 78,
         "consistency": 79,
         "shotcalling": 68,
-        "teamfighting": 78,
         "champion_pool": 77,
+        "discipline": 78,
         "mental_resilience": 75
       },
-      "match_name": "Seok-hyeon Park",
+      "match_name": "Paduck",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "2005-02-12",
@@ -2686,14 +1307,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492114500277895.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-99566406047571736",
@@ -2701,113 +1315,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "eu-lcs-l-fc-schalke-04",
-          "team_name": "FC Schalke 04 ",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Team SoloMid",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Team SoloMid",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-g2-esports",
       "position": "Top",
       "condition": 100,
-      "full_name": "BrokenBlade",
+      "full_name": "Sergen Çelik",
       "photo_url": "/player-photos/99566406047571736.webp",
       "attributes": {
-        "laning": 86,
         "mechanics": 84,
-        "discipline": 83,
+        "laning": 86,
+        "teamfighting": 84,
         "macro_play": 86,
         "consistency": 80,
         "shotcalling": 84,
-        "teamfighting": 84,
         "champion_pool": 88,
+        "discipline": 83,
         "mental_resilience": 83
       },
-      "match_name": "Sergen Çelik",
+      "match_name": "BrokenBlade",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DE",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 170000,
       "birth_country": null,
       "date_of_birth": "2000-01-19",
@@ -2817,14 +1349,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99566406047571736.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-109461265532592848",
@@ -2832,50 +1357,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-karmine-corp",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Caliste",
+      "full_name": "Caliste Henry-Hennebert",
       "photo_url": "/player-photos/109461265532592848.webp",
       "attributes": {
-        "laning": 87,
         "mechanics": 88,
-        "discipline": 85,
+        "laning": 87,
+        "teamfighting": 85,
         "macro_play": 82,
         "consistency": 85,
         "shotcalling": 82,
-        "teamfighting": 85,
         "champion_pool": 80,
+        "discipline": 85,
         "mental_resilience": 87
       },
-      "match_name": "Caliste Henry-Hennebert",
+      "match_name": "Caliste",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 230000,
       "birth_country": null,
       "date_of_birth": "2006-08-28",
@@ -2885,14 +1391,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/109461265532592848.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-99322214629661297",
@@ -2900,131 +1399,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "Excel Espots",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "lec-g2-esports",
-          "team_name": "G2 Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2017,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Splyce",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2016,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Splyce",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-sk-gaming",
       "position": "Support",
       "condition": 100,
-      "full_name": "Mikyx",
+      "full_name": "Mihael Mehle",
       "photo_url": "/player-photos/99322214629661297.webp",
       "attributes": {
-        "laning": 79,
         "mechanics": 78,
-        "discipline": 78,
+        "laning": 79,
+        "teamfighting": 78,
         "macro_play": 81,
         "consistency": 77,
         "shotcalling": 84,
-        "teamfighting": 78,
         "champion_pool": 82,
+        "discipline": 78,
         "mental_resilience": 78
       },
-      "match_name": "Mihael Mehle",
+      "match_name": "Mikyx",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "SI",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 120000,
       "birth_country": null,
       "date_of_birth": "1998-11-02",
@@ -3034,14 +1433,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214629661297.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105700869624784693",
@@ -3049,41 +1441,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Natus Vincere",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-natus-vincere",
       "position": "Top",
       "condition": 100,
-      "full_name": "Maynter",
+      "full_name": "Volodymyr Sorokin",
       "photo_url": "/player-photos/105700869624784693.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 76,
-        "discipline": 82,
+        "laning": 81,
+        "teamfighting": 78,
         "macro_play": 77,
         "consistency": 82,
         "shotcalling": 76,
-        "teamfighting": 78,
         "champion_pool": 75,
+        "discipline": 82,
         "mental_resilience": 78
       },
-      "match_name": "Volodymyr Sorokin",
+      "match_name": "Maynter",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "UA",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "2000-12-15",
@@ -3093,14 +1475,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105700869624784693.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107767810249714879",
@@ -3108,50 +1483,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "Top",
       "condition": 100,
-      "full_name": "Rooster",
+      "full_name": "Yun-hwan Shin",
       "photo_url": "/player-photos/107767810249714879.webp",
       "attributes": {
-        "laning": 82,
         "mechanics": 80,
-        "discipline": 78,
+        "laning": 82,
+        "teamfighting": 76,
         "macro_play": 72,
         "consistency": 75,
         "shotcalling": 68,
-        "teamfighting": 76,
         "champion_pool": 72,
+        "discipline": 78,
         "mental_resilience": 77
       },
-      "match_name": "Yun-hwan Shin",
+      "match_name": "Rooster",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "2005-04-28",
@@ -3161,14 +1517,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107767810249714879.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107492119089043087",
@@ -3176,41 +1525,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "Support",
       "condition": 100,
-      "full_name": "Way",
+      "full_name": "Han GIl",
       "photo_url": "/player-photos/107492119089043087.webp",
       "attributes": {
-        "laning": 74,
         "mechanics": 77,
-        "discipline": 79,
+        "laning": 74,
+        "teamfighting": 76,
         "macro_play": 78,
         "consistency": 78,
         "shotcalling": 68,
-        "teamfighting": 76,
         "champion_pool": 78,
+        "discipline": 79,
         "mental_resilience": 75
       },
-      "match_name": "Han GIl",
+      "match_name": "Way",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 120000,
       "birth_country": null,
       "date_of_birth": "2002-06-29",
@@ -3220,14 +1559,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107492119089043087.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-102787200044335760",
@@ -3235,104 +1567,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-vitality",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Carzzy",
+      "full_name": "Matyáš Orság",
       "photo_url": "/player-photos/102787200044335760.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 83,
-        "discipline": 77,
+        "laning": 84,
+        "teamfighting": 83,
         "macro_play": 81,
         "consistency": 76,
         "shotcalling": 80,
-        "teamfighting": 83,
         "champion_pool": 81,
+        "discipline": 77,
         "mental_resilience": 79
       },
-      "match_name": "Matyáš Orság",
+      "match_name": "Carzzy",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2002-01-31",
@@ -3342,14 +1601,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102787200044335760.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105501802535116331",
@@ -3357,91 +1609,27 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Kiwoon DRX Challengers",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Kiwoon DRX Challengers",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "team-2166882d",
-          "team_name": "DN SOOPers",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-giantx-lec",
       "position": "Support",
       "condition": 100,
-      "full_name": "Jun",
+      "full_name": "Yoon Se-jun",
       "photo_url": "/player-photos/105501802535116331.webp",
       "attributes": {
-        "laning": 86,
         "mechanics": 84,
-        "discipline": 82,
+        "laning": 86,
+        "teamfighting": 83,
         "macro_play": 84,
         "consistency": 82,
         "shotcalling": 80,
-        "teamfighting": 83,
         "champion_pool": 80,
+        "discipline": 82,
         "mental_resilience": 82
       },
-      "match_name": "Yoon Se-jun",
+      "match_name": "Jun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -3455,14 +1643,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105501802535116331.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107605411481021064",
@@ -3470,50 +1651,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-vitality",
       "position": "Top",
       "condition": 100,
-      "full_name": "Naak Nako",
+      "full_name": "Kaan Okan",
       "photo_url": "/player-photos/107605411481021064.webp",
       "attributes": {
-        "laning": 88,
         "mechanics": 90,
-        "discipline": 84,
+        "laning": 88,
+        "teamfighting": 86,
         "macro_play": 85,
         "consistency": 85,
         "shotcalling": 82,
-        "teamfighting": 86,
         "champion_pool": 86,
+        "discipline": 84,
         "mental_resilience": 85
       },
-      "match_name": "Kaan Okan",
+      "match_name": "Naak Nako",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 240000,
       "birth_country": null,
       "date_of_birth": "2005-03-24",
@@ -3523,14 +1685,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107605411481021064.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-103805069759346933",
@@ -3538,50 +1693,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Natus Vincere",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-natus-vincere",
       "position": "Support",
       "condition": 100,
-      "full_name": "Parus",
+      "full_name": "Polat Çiçek",
       "photo_url": "/player-photos/103805069759346933.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 82,
-        "discipline": 81,
+        "laning": 84,
+        "teamfighting": 82,
         "macro_play": 85,
         "consistency": 81,
         "shotcalling": 84,
-        "teamfighting": 82,
         "champion_pool": 82,
+        "discipline": 81,
         "mental_resilience": 83
       },
-      "match_name": "Polat Çiçek",
+      "match_name": "Parus",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 190000,
       "birth_country": null,
       "date_of_birth": "2003-02-22",
@@ -3591,14 +1727,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103805069759346933.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-103495716738607011",
@@ -3606,41 +1735,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-giantx-lec",
-          "team_name": "GIANTX",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-giantx-lec",
       "position": "Top",
       "condition": 100,
-      "full_name": "Lot",
+      "full_name": "Eren Yıldız",
       "photo_url": "/player-photos/103495716738607011.webp",
       "attributes": {
-        "laning": 80,
         "mechanics": 82,
-        "discipline": 78,
+        "laning": 80,
+        "teamfighting": 79,
         "macro_play": 76,
         "consistency": 75,
         "shotcalling": 78,
-        "teamfighting": 79,
         "champion_pool": 76,
+        "discipline": 78,
         "mental_resilience": 76
       },
-      "match_name": "Eren Yıldız",
+      "match_name": "Lot",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "TR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2004-01-02",
@@ -3650,14 +1769,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/103495716738607011.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105504920899018806",
@@ -3665,68 +1777,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-movistar-koi",
-          "team_name": "Movistar KOI",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "team-c92025",
-          "team_name": "Cloud9",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "team-c92025",
-          "team_name": "Cloud9",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-movistar-koi",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Jojopyun",
+      "full_name": "Joseph Joon Pyun",
       "photo_url": "/player-photos/105504920899018806.webp",
       "attributes": {
-        "laning": 93,
         "mechanics": 91,
-        "discipline": 80,
+        "laning": 93,
+        "teamfighting": 88,
         "macro_play": 87,
         "consistency": 82,
         "shotcalling": 86,
-        "teamfighting": 88,
         "champion_pool": 82,
+        "discipline": 80,
         "mental_resilience": 85
       },
-      "match_name": "Joseph Joon Pyun",
+      "match_name": "Jojopyun",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CA",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 240000,
       "birth_country": null,
       "date_of_birth": "2004-10-01",
@@ -3736,14 +1811,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105504920899018806.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-100238780551262852",
@@ -3751,104 +1819,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misfits",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Misfits",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-fnatic",
       "position": "Jungle",
       "condition": 100,
-      "full_name": "Razork",
+      "full_name": "Iván Martín Díaz",
       "photo_url": "/player-photos/100238780551262852.webp",
       "attributes": {
-        "laning": 81,
         "mechanics": 84,
-        "discipline": 81,
+        "laning": 81,
+        "teamfighting": 83,
         "macro_play": 80,
         "consistency": 78,
         "shotcalling": 80,
-        "teamfighting": 83,
         "champion_pool": 82,
+        "discipline": 81,
         "mental_resilience": 79
       },
-      "match_name": "Iván Martín Díaz",
+      "match_name": "Razork",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "ES",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "2000-10-07",
@@ -3858,14 +1853,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/100238780551262852.webp",
-      "potential_revealed": null,
-      "natural_position": "Jungle",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-102181528883745160",
@@ -3873,95 +1861,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "team-0e114265",
-          "team_name": "Vivo Keyd Stars",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Rogue",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "Support",
       "condition": 100,
-      "full_name": "Trymbi",
+      "full_name": "Adrian Trybus",
       "photo_url": "/player-photos/102181528883745160.webp",
       "attributes": {
-        "laning": 72,
         "mechanics": 72,
-        "discipline": 73,
+        "laning": 72,
+        "teamfighting": 74,
         "macro_play": 74,
         "consistency": 75,
         "shotcalling": 77,
-        "teamfighting": 74,
         "champion_pool": 78,
+        "discipline": 73,
         "mental_resilience": 75
       },
-      "match_name": "Adrian Trybus",
+      "match_name": "Trymbi",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "PL",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 80000,
       "birth_country": null,
       "date_of_birth": "2000-10-20",
@@ -3971,14 +1895,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/102181528883745160.webp",
-      "potential_revealed": null,
-      "natural_position": "Support",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-104287359934240404",
@@ -3986,64 +1903,27 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Victory Five",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "team-38a818e5",
-          "team_name": "TT Gaming",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "team-861ba8cb",
-          "team_name": "Hanwha Life Esports",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-natus-vincere",
-          "team_name": "Natus Vincere",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-natus-vincere",
       "position": "ADC",
       "condition": 100,
-      "full_name": "SamD",
+      "full_name": "Jae-hoon Lee",
       "photo_url": "/player-photos/104287359934240404.webp",
       "attributes": {
-        "laning": 78,
         "mechanics": 81,
-        "discipline": 81,
+        "laning": 78,
+        "teamfighting": 82,
         "macro_play": 76,
         "consistency": 80,
         "shotcalling": 78,
-        "teamfighting": 82,
         "champion_pool": 80,
+        "discipline": 81,
         "mental_resilience": 78
       },
-      "match_name": "Jae-hoon Lee",
+      "match_name": "SamD",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "KR",
@@ -4057,14 +1937,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/104287359934240404.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105554437688383476",
@@ -4072,86 +1945,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-shifters",
-          "team_name": "Shifters",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "FC Schalke 04 ",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-shifters",
       "position": "Mid",
       "condition": 100,
-      "full_name": "nuc",
+      "full_name": "Ilias Bizriken",
       "photo_url": "/player-photos/105554437688383476.webp",
       "attributes": {
-        "laning": 80,
         "mechanics": 82,
-        "discipline": 78,
+        "laning": 80,
+        "teamfighting": 80,
         "macro_play": 81,
         "consistency": 80,
         "shotcalling": 80,
-        "teamfighting": 80,
         "champion_pool": 80,
+        "discipline": 78,
         "mental_resilience": 80
       },
-      "match_name": "Ilias Bizriken",
+      "match_name": "nuc",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "FR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 130000,
       "birth_country": null,
       "date_of_birth": "2002-10-17",
@@ -4161,14 +1979,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105554437688383476.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-107156544177574787",
@@ -4176,50 +1987,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "Top",
       "condition": 100,
-      "full_name": "Tracyn",
+      "full_name": "Sebastian Wojtoń",
       "photo_url": "/player-photos/107156544177574787.webp",
       "attributes": {
-        "laning": 76,
         "mechanics": 80,
-        "discipline": 80,
+        "laning": 76,
+        "teamfighting": 74,
         "macro_play": 74,
         "consistency": 76,
         "shotcalling": 77,
-        "teamfighting": 74,
         "champion_pool": 72,
+        "discipline": 80,
         "mental_resilience": 80
       },
-      "match_name": "Sebastian Wojtoń",
+      "match_name": "Tracyn",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "PL",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 150000,
       "birth_country": null,
       "date_of_birth": "2005-09-16",
@@ -4229,14 +2021,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/107156544177574787.webp",
-      "potential_revealed": null,
-      "natural_position": "Top",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-100356590519370319",
@@ -4244,104 +2029,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "MAD Lions",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-vitality",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Humanoid",
+      "full_name": "Marek Brázda",
       "photo_url": "/player-photos/100356590519370319.webp",
       "attributes": {
-        "laning": 86,
         "mechanics": 88,
-        "discipline": 78,
+        "laning": 86,
+        "teamfighting": 86,
         "macro_play": 85,
         "consistency": 75,
         "shotcalling": 85,
-        "teamfighting": 86,
         "champion_pool": 85,
+        "discipline": 78,
         "mental_resilience": 80
       },
-      "match_name": "Marek Brázda",
+      "match_name": "Humanoid",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "CZ",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 160000,
       "birth_country": null,
       "date_of_birth": "2000-03-14",
@@ -4351,14 +2063,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/100356590519370319.webp",
-      "potential_revealed": null,
-      "natural_position": "Mid",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "player-e8115334",
@@ -4366,54 +2071,26 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-team-heretics-lec",
-          "team_name": "Team Heretics",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-team-heretics-lec",
       "position": "Mid",
       "condition": 100,
-      "full_name": "Daglas",
+      "full_name": "Kacper Dagiel",
       "attributes": {
-        "laning": 78,
         "mechanics": 79,
-        "discipline": 74,
+        "laning": 78,
+        "teamfighting": 76,
         "macro_play": 77,
         "consistency": 72,
         "shotcalling": 67,
-        "teamfighting": 76,
         "champion_pool": 74,
+        "discipline": 74,
         "mental_resilience": 71
       },
-      "match_name": "Kacper Dagiel",
+      "match_name": "Daglas",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "Poland",
@@ -4427,15 +2104,13 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "natural_position": "Mid",
-      "profile_image_url": "/player-photos/1778521405223_gzfapz3o6ee.webp",
+      "profile_image_url": "/player-photos/315b2a75.webp",
       "potential_revealed": null,
       "alternate_positions": [],
       "champion_training_target": null,
       "champion_training_targets": [],
       "potential_research_eta_days": null,
-      "potential_research_started_on": null,
-      "traits": [],
-      "can_be_transferred_until": null
+      "potential_research_started_on": null
     },
     {
       "id": "lec-player-99322214653265200",
@@ -4443,131 +2118,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2024,
-          "assists": 0,
-          "team_id": "lec-karmine-corp",
-          "team_name": "Karmine Corp",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2023,
-          "assists": 0,
-          "team_id": "lec-team-vitality",
-          "team_name": "Team Vitality",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2022,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2021,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2020,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "Origen",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2019,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "FC Schalke 04 ",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2018,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "FC Schalke 04 ",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2017,
-          "assists": 0,
-          "team_id": "",
-          "team_name": "FC Schalke 04 ",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        },
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2025,
-          "assists": 0,
-          "team_id": "lec-fnatic",
-          "team_name": "Fnatic",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-fnatic",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Upset",
+      "full_name": "Elias Lipp",
       "photo_url": "/player-photos/99322214653265200.webp",
       "attributes": {
-        "laning": 84,
         "mechanics": 85,
-        "discipline": 82,
+        "laning": 84,
+        "teamfighting": 80,
         "macro_play": 81,
         "consistency": 82,
         "shotcalling": 79,
-        "teamfighting": 80,
         "champion_pool": 76,
+        "discipline": 82,
         "mental_resilience": 81
       },
-      "match_name": "Elias Lipp",
+      "match_name": "Upset",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "DE",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 140000,
       "birth_country": null,
       "date_of_birth": "1999-12-16",
@@ -4577,14 +2152,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/99322214653265200.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     },
     {
       "id": "lec-player-105553696718837337",
@@ -4592,41 +2160,31 @@
       "stats": {
         "appearances": 0
       },
-      "career": [
-        {
-          "kills": 0,
-          "deaths": 0,
-          "season": 2026,
-          "assists": 0,
-          "team_id": "lec-sk-gaming",
-          "team_name": "SK Gaming",
-          "appearances": 0
-        }
-      ],
+      "career": [],
       "injury": null,
       "morale": 100,
       "fitness": 100,
       "team_id": "lec-sk-gaming",
       "position": "ADC",
       "condition": 100,
-      "full_name": "Jopa",
+      "full_name": "Josip Čančar",
       "photo_url": "/player-photos/105553696718837337.webp",
       "attributes": {
-        "laning": 80,
         "mechanics": 82,
-        "discipline": 80,
+        "laning": 80,
+        "teamfighting": 82,
         "macro_play": 76,
         "consistency": 80,
         "shotcalling": 77,
-        "teamfighting": 82,
         "champion_pool": 79,
+        "discipline": 80,
         "mental_resilience": 80
       },
-      "match_name": "Josip Čančar",
+      "match_name": "Jopa",
       "loan_listed": false,
       "morale_core": {},
       "nationality": "HR",
-      "contract_end": null,
+      "contract_end": "",
       "market_value": 160000,
       "birth_country": null,
       "date_of_birth": "2003-11-03",
@@ -4636,14 +2194,7 @@
       "transfer_offers": [],
       "champion_mastery": [],
       "profile_image_url": "/player-photos/105553696718837337.webp",
-      "potential_revealed": null,
-      "natural_position": "ADC",
-      "alternate_positions": [],
-      "traits": [],
-      "potential_research_started_on": null,
-      "potential_research_eta_days": null,
-      "champion_training_targets": [],
-      "can_be_transferred_until": null
+      "potential_revealed": null
     }
   ]
 }

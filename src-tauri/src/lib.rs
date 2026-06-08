@@ -3,17 +3,43 @@ mod commands;
 pub mod error;
 use commands::*;
 
-use application::lol_sim_v2::LolSimV2StoreState;
-use db::save_manager::SaveManager;
-use ofm_core::state::StateManager;
+use olm_core::sim_live::SimLiveStoreState;
+use olm_core::db::save_manager::SaveManager;
+use olm_core::state::StateManager;
 use std::sync::Mutex;
 
 /// Tauri-managed wrapper around SaveManager.
 pub struct SaveManagerState(pub Mutex<SaveManager>);
 
+/// Minimal percent-decoder for `olm-asset://` request paths (filenames may
+/// contain encoded spaces or unicode). Path separators are not encoded.
+fn percent_decode(input: &str) -> String {
+    let bytes = input.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let hex = |b: u8| match b {
+        b'0'..=b'9' => Some(b - b'0'),
+        b'a'..=b'f' => Some(b - b'a' + 10),
+        b'A'..=b'F' => Some(b - b'A' + 10),
+        _ => None,
+    };
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let (Some(h), Some(l)) = (hex(bytes[i + 1]), hex(bytes[i + 2])) {
+                out.push(h * 16 + l);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(bytes[i]);
+        i += 1;
+    }
+    String::from_utf8_lossy(&out).into_owned()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    eprintln!("[OLManager] BUILD: staff-fix-v2");
+    eprintln!("[OLManager] BUILD: format-v2-fix");
     // Workaround for WebKitGTK DMABuf rendering issues on Wayland (Linux)
     #[cfg(target_os = "linux")]
     {
@@ -29,15 +55,31 @@ pub fn run() {
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
                 .level_for("olmanager_lib", log::LevelFilter::Debug)
-                .level_for("ofm_core", log::LevelFilter::Debug)
+                .level_for("olm_core", log::LevelFilter::Debug)
                 .level_for("engine", log::LevelFilter::Debug)
                 .level_for("db", log::LevelFilter::Debug)
                 .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepAll)
                 .max_file_size(5_000_000) // 5 MB per log file
                 .build(),
         )
+        .register_uri_scheme_protocol("olm-asset", |ctx, request| {
+            use tauri::http::Response;
+            let rel = percent_decode(request.uri().path().trim_start_matches('/'));
+            match commands::import::resolve_public_asset(ctx.app_handle(), &rel) {
+                Some((bytes, mime)) => Response::builder()
+                    .status(200)
+                    .header("Content-Type", mime)
+                    .header("Access-Control-Allow-Origin", "*")
+                    .body(bytes)
+                    .unwrap_or_else(|_| Response::new(Vec::new())),
+                None => Response::builder()
+                    .status(404)
+                    .body(Vec::new())
+                    .unwrap_or_else(|_| Response::new(Vec::new())),
+            }
+        })
         .manage(StateManager::new())
-        .manage(LolSimV2StoreState::default())
+        .manage(SimLiveStoreState::default())
         .setup(|app| {
             use tauri::Manager as TauriManager;
             let app_data_dir = app
@@ -51,16 +93,16 @@ pub fn run() {
                 SaveManager::init(&saves_dir).expect("Failed to initialize SaveManager");
 
             // Run legacy migration if old saves.db exists
-            if db::legacy_migration::has_legacy_db(&app_data_dir) {
+            if olm_core::db::legacy_migration::has_legacy_db(&app_data_dir) {
                 log::info!("[setup] Legacy saves.db detected, migrating...");
-                match db::legacy_migration::migrate_legacy_saves(&app_data_dir, &mut save_manager) {
+                match olm_core::db::legacy_migration::migrate_legacy_saves(&app_data_dir, &mut save_manager) {
                     Ok(results) => {
                         let success = results
                             .iter()
                             .filter(|r| {
                                 matches!(
                                     r,
-                                    db::legacy_migration::LegacyMigrationResult::Success { .. }
+                                    olm_core::db::legacy_migration::LegacyMigrationResult::Success { .. }
                                 )
                             })
                             .count();
@@ -69,7 +111,7 @@ pub fn run() {
                             .filter(|r| {
                                 matches!(
                                     r,
-                                    db::legacy_migration::LegacyMigrationResult::Failed { .. }
+                                    olm_core::db::legacy_migration::LegacyMigrationResult::Failed { .. }
                                 )
                             })
                             .count();
@@ -89,7 +131,6 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             list_world_databases,
-            start_new_game,
             start_new_game_lightweight,
             export_world_database,
             write_temp_database,
@@ -99,14 +140,14 @@ pub fn run() {
             get_saves,
             load_game,
             get_active_game,
+            get_champions,
             get_team_selection_data,
             get_league_selection_data,
             get_academy_acquisition_options,
             acquire_academy_team,
             promote_academy_player,
             demote_main_player_to_academy,
-            get_academy_creation_options,
-            create_academy,
+
             advance_time,
             advance_time_with_mode,
             upgrade_facility,
@@ -192,22 +233,25 @@ pub fn run() {
             clear_all_saves,
             get_available_jobs,
             apply_for_job,
-            lol_sim_v2_init,
-            lol_sim_v2_tick,
-            lol_sim_v2_reset,
-            lol_sim_v2_dispose,
-            lol_sim_v2_run_to_completion,
-            lol_sim_v2_skip_to_end,
+            sim_live_init,
+            sim_live_tick,
+            sim_live_reset,
+            sim_live_dispose,
+            sim_live_run_to_completion,
+            sim_live_skip_to_end,
             save_manager_avatar,
             load_manager_avatar,
             update_manager_profile,
-            get_champions,
-            get_champion_by_id,
-            seed_champions_from_json,
-            get_champion_stats,
-            get_top_champions,
-            debug_log
+            auto_import_database,
+            import_export_zip,
+            get_catalog_summary,
+            get_catalog,
+            debug_log,
+            debug_serde_test,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+
+
+

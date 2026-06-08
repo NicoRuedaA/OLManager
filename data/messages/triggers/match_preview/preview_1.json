@@ -1,0 +1,20 @@
+{
+  "id": "preview_1",
+  "trigger": "match_preview",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchPreview",
+  "priority": "Normal",
+  "actions": [
+    { "type": "navigateto", "label": "View on Schedule", "label_key": "be.msg.action.viewSchedule", "route": "/dashboard?tab=Schedule" },
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Upcoming match: vs {opponent}",
+  "body": "Coach, our next match is against {opponent} ({venue}) on {date}.\n\nI've been reviewing their recent games and I think we have a solid chance if we stick to our game plan. Focus on our strengths and exploit their weaknesses.\n\nLet's make sure the squad is prepared.",
+  "translations": {
+    "es": {
+      "subject": "Pr\u00f3ximo partido: vs {opponent}",
+      "body": "Jefe, nuestro pr\u00f3ximo partido es contra {opponent} ({venue}) el {date}.\n\nHe estado revisando sus \u00faltimos partidos y creo que tenemos una buena oportunidad si seguimos nuestro plan. Enfoqu\u00e9monos en nuestras fortalezas y explotemos sus debilidades.\n\nAsegur\u00e9monos de que la plantilla est\u00e9 preparada."
+    }
+  }
+}

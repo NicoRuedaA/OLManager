@@ -1,0 +1,19 @@
+{
+  "id": "contract_expired",
+  "trigger": "contract_expired",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Contract",
+  "priority": "Urgent",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Contract expired: {player}",
+  "body": "The contract of {player} has expired and the player has left {team}.\n\n{player} is now a free agent. If you wish to retain their services, you will need to negotiate a new contract.\n\nPlease review your squad and consider your options.",
+  "translations": {
+    "es": {
+      "subject": "Contrato expirado: {player}",
+      "body": "El contrato de {player} ha expirado y el jugador ha dejado {team}.\n\n{player} es ahora agente libre. Si desea retener sus servicios, deber\u00e1 negociar un nuevo contrato.\n\nRevise su plantilla y considere sus opciones."
+    }
+  }
+}

@@ -3,6 +3,7 @@
   "description": "CBLOL - 2026 Season",
   "teams": [
     {
+      "history": [],
       "id": "team-0e114265",
       "city": "São Paulo",
       "form": [],
@@ -14,7 +15,6 @@
       "academy": null,
       "country": "BR",
       "finance": 5400000,
-      "history": [],
       "logo_url": "/teams-icons/vivo-keyd-stars.webp",
       "team_kind": "Main",
       "facilities": {
@@ -59,6 +59,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-76137e73",
       "city": "São Paulo",
       "form": [],
@@ -70,7 +71,6 @@
       "academy": null,
       "country": "BR",
       "finance": 7000000,
-      "history": [],
       "logo_url": "/teams-icons/red-canids.webp",
       "team_kind": "Main",
       "facilities": {
@@ -115,6 +115,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-b3da089b",
       "city": "São Paulo",
       "form": [],
@@ -126,7 +127,6 @@
       "academy": null,
       "country": "BR",
       "finance": 3800000,
-      "history": [],
       "logo_url": "/teams-icons/los.webp",
       "team_kind": "Main",
       "facilities": {
@@ -171,6 +171,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-0c8be917",
       "city": "Buenos Aires",
       "form": [],
@@ -182,7 +183,6 @@
       "academy": null,
       "country": "AR",
       "finance": 5150000,
-      "history": [],
       "logo_url": "/teams-icons/leviat-n.webp",
       "team_kind": "Main",
       "facilities": {
@@ -227,6 +227,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-a72bf9ea",
       "city": "São Paulo",
       "form": [],
@@ -238,7 +239,6 @@
       "academy": null,
       "country": "BR",
       "finance": 9000000,
-      "history": [],
       "logo_url": "/teams-icons/pain-gaming.webp",
       "team_kind": "Main",
       "facilities": {
@@ -283,6 +283,7 @@
       "stadium_capacity": 2500
     },
     {
+      "history": [],
       "id": "team-loud2025",
       "city": "São Paulo",
       "form": [],
@@ -294,7 +295,6 @@
       "academy": null,
       "country": "BR",
       "finance": 5800000,
-      "history": [],
       "logo_url": "/teams-icons/loud.webp",
       "team_kind": "Main",
       "facilities": {
@@ -339,6 +339,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-fur2025",
       "city": "Rio de Janeiro",
       "form": [],
@@ -350,7 +351,6 @@
       "academy": null,
       "country": "BR",
       "finance": 5200000,
-      "history": [],
       "logo_url": "/teams-icons/furia.webp",
       "team_kind": "Main",
       "facilities": {
@@ -395,6 +395,7 @@
       "stadium_capacity": 0
     },
     {
+      "history": [],
       "id": "team-20461098",
       "city": "Rio de Janeiro",
       "form": [],
@@ -406,7 +407,6 @@
       "academy": null,
       "country": "BR",
       "finance": 4200000,
-      "history": [],
       "logo_url": "/teams-icons/fluxo.webp",
       "team_kind": "Main",
       "facilities": {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import type { GameStateData } from "../store/gameStore";
-import { normalizeBackendScrimContext, type ScrimContextResponse } from "../lib/scrimContext";
+import { normalizeBackendScrimContext, type ScrimContextResponse } from "../lib/scrims/scrimContext";
 import { getScrimContext } from "../services/trainingService";
 
 export function useScrimContextWithFallback(gameState: GameStateData): ScrimContextResponse | null {
@@ -25,3 +25,4 @@ export function useScrimContextWithFallback(gameState: GameStateData): ScrimCont
 
   return remoteScrimContext;
 }
+

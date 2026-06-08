@@ -1,0 +1,241 @@
+{
+  "name": "LCKCL Staff",
+  "description": "LCKCL - 2026 Season",
+  "staff": [
+    {
+      "contract_end": "2026-11-16",
+      "id": "104c7cf2-0b69-47d2-87c7-6b469a871ee5",
+      "first_name": "Kang Sung-jun",
+      "nickname": "Jerry",
+      "role": "HeadCoach",
+      "team_id": "lck-cl-gen-g-global-academy",
+      "profile_image_url": "/staff-photos/1fcb6fc892aa417f.jpeg"
+    },
+    {
+      "id": "staff-080de059",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "lck-cl-kt-rolster-challengers",
+      "last_name": "Ho-jin",
+      "attributes": {
+        "coaching": 81,
+        "physiotherapy": 75,
+        "judging_ability": 78,
+        "judging_potential": 90
+      },
+      "first_name": "Jeon Ho-jin",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/0be3c1f3.webp",
+      "nickname": "Lilac"
+    },
+    {
+      "id": "255f2fd4-da75-400f-8448-e40b29910040",
+      "first_name": "Ko Sung-min",
+      "nickname": "Sungmin",
+      "role": "Assistant",
+      "team_id": "lck-cl-dplus-kia-challengers",
+      "profile_image_url": "/staff-photos/e7dc4d517aac61ec.webp"
+    },
+    {
+      "id": "staff-b7b5bc37",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-kiwoon-drx-challengers",
+      "last_name": "Tae-il",
+      "attributes": {
+        "coaching": 88,
+        "physiotherapy": 82,
+        "judging_ability": 87,
+        "judging_potential": 82
+      },
+      "first_name": "Kim Tae-il",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/6c57bae0.webp",
+      "nickname": "Frozen"
+    },
+    {
+      "id": "staff-64e1ac96",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "lck-cl-kiwoon-drx-challengers",
+      "last_name": "Sang-ho",
+      "attributes": {
+        "coaching": 87,
+        "physiotherapy": 74,
+        "judging_ability": 77,
+        "judging_potential": 82
+      },
+      "first_name": "Yun Sang-ho",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/1ac13ca3.webp",
+      "nickname": "Catch"
+    },
+    {
+      "id": "staff-e09796e3",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-kt-rolster-challengers",
+      "last_name": "Byung-ryul",
+      "attributes": {
+        "coaching": 80,
+        "physiotherapy": 67,
+        "judging_ability": 72,
+        "judging_potential": 72
+      },
+      "first_name": "Kang Byung-ryul",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/2147d90a.webp",
+      "nickname": "Spark"
+    },
+    {
+      "id": "staff-4533fabd",
+      "role": "Assistant",
+      "wage": 30000,
+      "team_id": "lck-cl-t1-esports-academy",
+      "last_name": "Sang-moon",
+      "attributes": {
+        "coaching": 88,
+        "physiotherapy": 74,
+        "judging_ability": 85,
+        "judging_potential": 87
+      },
+      "first_name": "Kim Sang-moon",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/724643b4.webp",
+      "nickname": "Nagne"
+    },
+    {
+      "id": "staff-c8f90d5f",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-dplus-kia-challengers",
+      "last_name": "Sun-woong",
+      "attributes": {
+        "coaching": 74,
+        "physiotherapy": 68,
+        "judging_ability": 79,
+        "judging_potential": 75
+      },
+      "first_name": "Kim Sun-woong",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/1aa0b84b.webp",
+      "nickname": "Woong"
+    },
+    {
+      "id": "staff-0c536007",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-t1-esports-academy",
+      "last_name": "Du-seong",
+      "attributes": {
+        "coaching": 87,
+        "physiotherapy": 81,
+        "judging_ability": 82,
+        "judging_potential": 77
+      },
+      "first_name": "Choi Du-seong",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/11576b5d.webp",
+      "nickname": "DooTi"
+    },
+    {
+      "id": "staff-b5db00ba",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-ns-esports-academy",
+      "last_name": "Gi-beom",
+      "attributes": {
+        "coaching": 76,
+        "physiotherapy": 71,
+        "judging_ability": 74,
+        "judging_potential": 77
+      },
+      "first_name": "Kim Gi-beom",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/061453f1.webp",
+      "nickname": "bon0"
+    },
+    {
+      "id": "staff-c6f22d4f",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-hle-challengers",
+      "last_name": "Dong-hyeon",
+      "attributes": {
+        "coaching": 79,
+        "physiotherapy": 70,
+        "judging_ability": 79,
+        "judging_potential": 74
+      },
+      "first_name": "Kim Dong-hyeon",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/5efd2fc7.webp",
+      "nickname": "Sensation"
+    },
+    {
+      "id": "staff-3ede8b65",
+      "role": "HeadCoach",
+      "wage": 30000,
+      "team_id": "lck-cl-dn-soopers-challengers",
+      "last_name": "Min-sung",
+      "attributes": {
+        "coaching": 93,
+        "physiotherapy": 89,
+        "judging_ability": 91,
+        "judging_potential": 93
+      },
+      "first_name": "Jung Min-sung",
+      "nationality": "South Korea",
+      "contract_end": "2026-12-20",
+      "birth_country": null,
+      "date_of_birth": "1990-01-01",
+      "specialization": null,
+      "profile_image_url": "/staff-photos/0c45ec53.webp",
+      "nickname": "RapidStar"
+    },
+    {
+      "id": "f57b0e46-c6f8-43af-b420-d492b1cfd39a",
+      "first_name": "Kim Han-gi",
+      "nickname": "Key",
+      "role": "HeadCoach",
+      "team_id": "lck-cl-bnk-fearx-youth",
+      "profile_image_url": "/staff-photos/abe9345217391804.webp"
+    }
+  ]
+}

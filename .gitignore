@@ -73,3 +73,11 @@ Thumbs.db
 # =========================
 openspec/
 
+# =========================
+# Player photos
+# Newly downloaded photo assets we are not committing. Photos already tracked
+# stay tracked (git ignore does not untrack); this only stops new ones from
+# showing up as untracked clutter.
+# =========================
+public/player-photos/
+

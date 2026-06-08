@@ -5,14 +5,11 @@
   "region": "LCP",
   "country": "AP",
   "tier": 1,
-  "logo": "/competition-icons/lcp.webp",
+  "logo": "/competitions-icons/lcp.webp",
   "teams_file": "teams/lcp_teams.json",
   "players_file": "players/lcp_players.json",
-  "staff_file": "staffs/lcp_staffs.json",
   "schedule": {
     "format": "double_round_robin",
-    "team_count": 8,
-    "preseason_friendlies": 3,
     "splits": [
       {
         "name": "Spring",
@@ -40,6 +37,9 @@
         },
         "superweek_offsets": []
       }
-    ]
-  }
+    ],
+    "team_count": 8,
+    "preseason_friendlies": 3
+  },
+  "staff_file": "staffs/lcp_staffs.json"
 }

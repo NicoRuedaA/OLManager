@@ -1,0 +1,769 @@
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { invoke } from "@tauri-apps/api/core";
+import {
+  AlertTriangle,
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  BedDouble,
+  Binoculars,
+  Camera,
+  Dumbbell,
+  Lock,
+  Monitor,
+  RefreshCw,
+  Search,
+  User,
+} from "lucide-react";
+
+import type { GameStateData, MessageAction, MessageData, PlayerSelectionOptions } from "@/store/gameStore";
+import { resolveMessage } from "@/lib/i18n/backendI18n";
+import {
+  formatVal,
+  getContractRiskLevel,
+  getContractYearsRemaining,
+} from "@/lib/common/helpers";
+import { safeFinanceNumber, getTeamFinanceSnapshot } from "@/lib/finances/finance";
+import type { FacilityUpgradeId } from "@/lib/finances/lolFinanceContracts";
+import {
+  getClubInstallationContract,
+  getSponsorshipContractView,
+} from "@/lib/finances/lolFinanceContracts";
+import { getLolRoleForPlayer } from "@/lib/squad/helpers";
+import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
+import { Badge } from "@/ui-v2/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/ui-v2/components/ui/table";
+import { cn } from "@/ui-v2/lib/utils";
+
+interface FinancesTabV2Props {
+  gameState: GameStateData;
+  onGameUpdate: (state: GameStateData) => void;
+  onSelectPlayer?: (id: string, options?: PlayerSelectionOptions) => void;
+}
+
+function formatCurrencyAmountParam(value: number): string {
+  return value.toLocaleString();
+}
+
+function getFacilityUpgradeCost(level: number): number {
+  return level * 250_000;
+}
+
+function getMainHubExpansionCost(level: number): number {
+  return level * 500_000;
+}
+
+function isChooseOptionAction(actionType: MessageAction["action_type"]) {
+  return typeof actionType === "object" && "ChooseOption" in actionType;
+}
+
+function isPendingSponsorOffer(message: MessageData): boolean {
+  return (
+    message.id.startsWith("sponsor_") &&
+    message.category === "Finance" &&
+    message.actions.some((a) => !a.resolved && isChooseOptionAction(a.action_type))
+  );
+}
+
+type SortKey = "name" | "position" | "wage" | "value" | "contract";
+
+const FACILITY_ICONS: Record<string, React.ReactNode> = {
+  ScrimsRoom: <Monitor className="size-5" />,
+  AnalysisRoom: <Search className="size-5" />,
+  BootcampArea: <Dumbbell className="size-5" />,
+  RecoverySuite: <BedDouble className="size-5" />,
+  ContentStudio: <Camera className="size-5" />,
+  ScoutingLab: <Binoculars className="size-5" />,
+};
+
+export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: FinancesTabV2Props) {
+  const { t } = useTranslation();
+  const annualSuffix = t("finances.perYearSuffix", "/yr");
+
+  const myTeam = gameState.teams.find((tm) => tm.id === gameState.manager.team_id);
+  const roster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
+  const teamStaff = myTeam
+    ? gameState.staff.filter((s) => s.team_id === myTeam.id)
+    : [];
+
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [delegatedRenewalsSummary, setDelegatedRenewalsSummary] = useState<string | null>(null);
+  const [selectedRiskPlayerIds, setSelectedRiskPlayerIds] = useState<string[]>([]);
+  const [sortKey, setSortKey] = useState<SortKey>("wage");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    else {
+      setSortKey(key);
+      setSortDir(key === "wage" || key === "value" ? "desc" : "asc");
+    }
+  };
+
+  const teamBalance = safeFinanceNumber(myTeam?.finance);
+  const teamWageBudget = safeFinanceNumber(myTeam?.wage_budget);
+  const teamTransferBudget = safeFinanceNumber(myTeam?.transfer_budget);
+  const teamSeasonIncome = safeFinanceNumber(myTeam?.season_income);
+  const teamSeasonExpenses = safeFinanceNumber(myTeam?.season_expenses);
+  const totalValue = roster.reduce((s, p) => s + safeFinanceNumber(p.market_value), 0);
+
+  const financeSnapshot = myTeam
+    ? getTeamFinanceSnapshot(myTeam, roster, teamStaff)
+    : {
+        annualWageBill: 0, annualWageBudget: 0, annualSponsorIncome: 0,
+        weeklyWageBudget: 0, projectedAnnualNet: 0, cashRunwayMonths: null,
+        wageBudgetUsagePercent: 0, wageBudgetStatus: "stable" as const,
+        runwayStatus: "stable" as const, overallStatus: "stable" as const,
+      };
+  const totalWages = financeSnapshot.annualWageBill;
+  const annualWageBudget = financeSnapshot.annualWageBudget;
+  const annualSponsorIncome = financeSnapshot.annualSponsorIncome;
+  const projectedAnnualNet = financeSnapshot.projectedAnnualNet;
+  const cashRunwayMonths = financeSnapshot.cashRunwayMonths;
+  const wageBudgetUsagePercent = financeSnapshot.wageBudgetUsagePercent;
+  const playerWages = roster.reduce((s, p) => s + safeFinanceNumber(p.wage), 0);
+  const staffWages = teamStaff.reduce((s, st) => s + safeFinanceNumber(st.wage), 0);
+  const installationContract = myTeam ? getClubInstallationContract(myTeam) : [];
+  const mainHubLevel = installationContract.reduce((max, m) => Math.max(max, m.level), 1);
+  const nextHubExpansionCost = getMainHubExpansionCost(mainHubLevel);
+  const canExpandMainHub = teamBalance >= nextHubExpansionCost;
+  const activeSponsorship = getSponsorshipContractView(myTeam?.sponsorship);
+  const sponsorOffers = gameState.messages.filter(isPendingSponsorOffer).map(resolveMessage);
+
+  const contractRiskPlayers = useMemo(
+    () =>
+      roster
+        .map((player) => {
+          const riskLevel = getContractRiskLevel(player.contract_end, gameState.clock.current_date);
+          return { player, riskLevel };
+        })
+        .filter(({ riskLevel, player }) => player.contract_end && riskLevel !== "stable")
+        .sort((a, b) => (a.player.contract_end ?? "9999-12-31").localeCompare(b.player.contract_end ?? "9999-12-31")),
+    [roster, gameState.clock.current_date],
+  );
+  const atRiskWages = contractRiskPlayers.reduce((s, { player }) => s + safeFinanceNumber(player.wage), 0);
+  const allRiskPlayerIds = contractRiskPlayers.map(({ player }) => player.id);
+  const selectedRiskPlayers = contractRiskPlayers.filter(({ player }) => selectedRiskPlayerIds.includes(player.id));
+
+  useEffect(() => {
+    setSelectedRiskPlayerIds((current) => {
+      const available = new Set(allRiskPlayerIds);
+      const next = current.filter((id) => available.has(id));
+      return next.length > 0 ? next : allRiskPlayerIds;
+    });
+  }, [allRiskPlayerIds.join("|")]);
+
+  const handleToggleRiskPlayer = (playerId: string) =>
+    setSelectedRiskPlayerIds((current) =>
+      current.includes(playerId) ? current.filter((id) => id !== playerId) : [...current, playerId],
+    );
+
+  const handleToggleAllRiskPlayers = () =>
+    setSelectedRiskPlayerIds((current) =>
+      current.length === allRiskPlayerIds.length ? [] : allRiskPlayerIds,
+    );
+
+  const handleUpgradeFacility = async (facility: FacilityUpgradeId) => {
+    setActionLoading(facility);
+    try {
+      const updated = await invoke<GameStateData>("upgrade_main_facility_module", { module: facility });
+      onGameUpdate(updated);
+    } catch (err) {
+      console.error("Failed to upgrade facility:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleExpandMainHub = async () => {
+    setActionLoading("expand-main-hub");
+    try {
+      const updated = await invoke<GameStateData>("expand_main_facility_hub");
+      onGameUpdate(updated);
+    } catch (err) {
+      console.error("Failed to expand hub:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleDelegateRenewals = async () => {
+    if (selectedRiskPlayers.length === 0) return;
+    const loadingKey = "delegate-renewals";
+    setActionLoading(loadingKey);
+    setDelegatedRenewalsSummary(null);
+    try {
+      const result = await invoke<{
+        game: GameStateData;
+        report: { success_count: number; failure_count: number; stalled_count: number };
+      }>("delegate_renewals", {
+        playerIds: selectedRiskPlayers.map(({ player }) => player.id),
+        maxWageIncreasePct: 35,
+        maxContractYears: 3,
+      });
+      onGameUpdate(result.game);
+      setDelegatedRenewalsSummary(
+        t("finances.delegatedRenewalsSummary", {
+          successes: result.report.success_count,
+          stalled: result.report.stalled_count,
+          failures: result.report.failure_count,
+        }),
+      );
+    } catch (err) {
+      console.error("Failed to delegate renewals:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleSponsorOption = async (messageId: string, actionId: string, optionId: string) => {
+    const loadingKey = `sponsor:${messageId}:${optionId}`;
+    setActionLoading(loadingKey);
+    try {
+      const result = await invoke<{ game: GameStateData }>("resolve_message_action", {
+        messageId,
+        actionId,
+        optionId,
+      });
+      onGameUpdate(result.game);
+    } catch (err) {
+      console.error("Failed to resolve sponsor offer:", err);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  if (!myTeam) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-6">
+        <p className="font-heading text-sm uppercase tracking-wider text-muted-foreground">
+          {t("common.noTeam")}
+        </p>
+      </div>
+    );
+  }
+
+  const sortedRoster = [...roster].sort((a, b) => {
+    const dir = sortDir === "asc" ? 1 : -1;
+    switch (sortKey) {
+      case "name": return dir * a.match_name.localeCompare(b.match_name);
+      case "position": return dir * getLolRoleForPlayer(a).localeCompare(getLolRoleForPlayer(b));
+      case "wage": return dir * (safeFinanceNumber(a.wage) - safeFinanceNumber(b.wage));
+      case "value": return dir * (safeFinanceNumber(a.market_value) - safeFinanceNumber(b.market_value));
+      case "contract": return dir * (a.contract_end || "").localeCompare(b.contract_end || "");
+      default: return 0;
+    }
+  });
+
+  return (
+    <div className="flex h-full flex-col gap-4 overflow-y-auto p-6">
+      {/* Overview */}
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.overview")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.clubBalance")}</p>
+              <p className={cn("mt-1 font-heading text-lg font-bold tabular-nums", teamBalance >= 0 ? "text-emerald-400" : "text-red-400")}>{formatVal(teamBalance)}</p>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.wageBudget")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(teamWageBudget)}</p>
+              <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
+                <div className={cn("h-full rounded-full transition-all", wageBudgetUsagePercent > 100 ? "bg-red-400" : "bg-primary")} style={{ width: `${Math.min(100, wageBudgetUsagePercent)}%` }} />
+              </div>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.transferBudget")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(teamTransferBudget)}</p>
+              <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
+                <div className={cn("h-full rounded-full transition-all", teamTransferBudget > 0 && totalValue / teamTransferBudget > 1 ? "bg-amber-400" : "bg-primary/60")} style={{ width: `${Math.min(100, teamTransferBudget > 0 ? (totalValue / teamTransferBudget) * 100 : 0)}%` }} />
+              </div>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.seasonIncome")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-emerald-400">{formatVal(teamSeasonIncome)}</p>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.seasonExpenses")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-red-400">{formatVal(teamSeasonExpenses)}</p>
+            </div>
+            <div className="rounded-lg bg-muted/50 p-3 text-center">
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.squadValue")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(totalValue)}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Wage Bill + Cash Flow */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader className="space-y-0">
+            <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+              {t("finances.wageBill")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center">
+              <p className="font-heading text-2xl font-bold tabular-nums text-foreground">
+                €{totalWages.toLocaleString()}{annualSuffix}
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {t("finances.budget")}: €{annualWageBudget.toLocaleString()}{annualSuffix}
+                {totalWages <= annualWageBudget ? (
+                  <span className="ml-1 text-emerald-400">— {t("finances.underBudget")}</span>
+                ) : (
+                  <span className="ml-1 inline-flex items-center gap-1 text-red-400">
+                    <AlertTriangle className="size-3" /> {t("finances.overBudget")}
+                  </span>
+                )}
+              </p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className={cn("h-full rounded-full transition-all", totalWages <= annualWageBudget ? "bg-emerald-400" : "bg-red-400")}
+                  style={{ width: `${Math.min(100, Math.round((totalWages / Math.max(1, annualWageBudget)) * 100))}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Wage breakdown */}
+            <div className="mt-4 space-y-2 border-t border-border pt-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{t("finances.playerWages", "Sueldos jugadores")}</span>
+                <span className="tabular-nums text-foreground">€{playerWages.toLocaleString()}{annualSuffix}</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.min(100, (playerWages / Math.max(1, totalWages)) * 100)}%` }} />
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{t("finances.staffWages", "Sueldos staff")}</span>
+                <span className="tabular-nums text-foreground">€{staffWages.toLocaleString()}{annualSuffix}</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-amber-400 transition-all" style={{ width: `${Math.min(100, (staffWages / Math.max(1, totalWages)) * 100)}%` }} />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-0">
+            <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+              {t("finances.cashFlow")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg bg-muted/50 p-3 text-center">
+                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.annualWageSpend")}</p>
+                <p className="mt-1 font-heading text-lg font-bold text-red-400 tabular-nums">€{totalWages.toLocaleString()}{annualSuffix}</p>
+              </div>
+              <div className="rounded-lg bg-muted/50 p-3 text-center">
+                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.annualSponsorIncome")}</p>
+                <p className="mt-1 font-heading text-lg font-bold text-emerald-400 tabular-nums">€{annualSponsorIncome.toLocaleString()}{annualSuffix}</p>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <div className="rounded-lg bg-muted/50 p-3 text-center">
+                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.projectedAnnualNet")}</p>
+                <p className={cn("mt-1 font-heading text-lg font-bold tabular-nums", projectedAnnualNet >= 0 ? "text-emerald-400" : "text-red-400")}>
+                  €{projectedAnnualNet.toLocaleString()}{annualSuffix}
+                </p>
+              </div>
+              <div className="rounded-lg bg-muted/50 p-3 text-center">
+                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.cashRunway")}</p>
+                <p className={cn("mt-1 font-heading text-lg font-bold tabular-nums", cashRunwayMonths !== null && cashRunwayMonths < 12 ? "text-red-400" : cashRunwayMonths !== null && cashRunwayMonths < 52 ? "text-amber-400" : "text-foreground")}>
+                  {cashRunwayMonths === null ? t("finances.runwayStable") : t("finances.runwayMonths", { count: cashRunwayMonths })}
+                </p>
+              </div>
+            </div>
+            {cashRunwayMonths !== null && (
+              <div className="mt-3">
+                <div className="mb-1 flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">{t("finances.cashRunway")}</span>
+                  <span className={cn("tabular-nums font-medium", cashRunwayMonths < 12 ? "text-red-400" : cashRunwayMonths < 52 ? "text-amber-400" : "text-emerald-400")}>
+                    {cashRunwayMonths}m
+                  </span>
+                </div>
+                <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className={cn("h-full rounded-full transition-all", cashRunwayMonths < 12 ? "bg-red-400" : cashRunwayMonths < 52 ? "bg-amber-400" : "bg-emerald-400")}
+                    style={{ width: `${Math.min(100, (cashRunwayMonths / 60) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Contract Risk */}
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.contractRisk")}
+          </CardTitle>
+          <div className="flex items-center gap-2">
+            <p className="text-xs text-muted-foreground tabular-nums">
+              {t("finances.atRiskWages", { amount: formatVal(atRiskWages) })}
+            </p>
+            {contractRiskPlayers.length > 0 && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleToggleAllRiskPlayers}
+                  className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
+                >
+                  {t("finances.selectAllAtRisk")}
+                </button>
+                <button
+                  type="button"
+                  disabled={actionLoading === "delegate-renewals" || selectedRiskPlayers.length === 0}
+                  onClick={handleDelegateRenewals}
+                  className="rounded-md border border-primary bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
+                >
+                  {actionLoading === "delegate-renewals" ? (
+                    <RefreshCw className="mr-1 inline size-3 animate-spin" />
+                  ) : null}
+                  {t("finances.delegateSelectedRenewals")}
+                </button>
+              </>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {delegatedRenewalsSummary && (
+            <p className="mb-3 text-xs text-emerald-400">{delegatedRenewalsSummary}</p>
+          )}
+          {contractRiskPlayers.length > 0 ? (
+            <div className="space-y-2">
+              {contractRiskPlayers.map(({ player, riskLevel }) => {
+                const yearsRemaining = Number.parseFloat(getContractYearsRemaining(player.contract_end, gameState.clock.current_date));
+                return (
+                  <div
+                    key={player.id}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg border p-3 transition-colors",
+                      riskLevel === "critical" ? "border-red-500/20 bg-red-500/5" : "border-amber-500/20 bg-amber-500/5",
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedRiskPlayerIds.includes(player.id)}
+                      onChange={() => handleToggleRiskPlayer(player.id)}
+                      className="size-4 accent-primary"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-medium text-foreground">{player.match_name}</p>
+                      <div className="mt-1 flex items-center gap-2">
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                          <div
+                            className={cn("h-full rounded-full transition-all", riskLevel === "critical" ? "bg-red-400" : "bg-amber-400")}
+                            style={{ width: `${Math.min(100, (yearsRemaining / 5) * 100)}%` }}
+                          />
+                        </div>
+                        <span className="font-heading text-[10px] tabular-nums text-muted-foreground">{yearsRemaining.toFixed(1)}y</span>
+                      </div>
+                    </div>
+                    <Badge variant={riskLevel === "critical" ? "destructive" : "secondary"} className="text-[10px]">
+                      {riskLevel === "critical" ? t("finances.contractRiskCritical") : t("finances.contractRiskWarning")}
+                    </Badge>
+                    <p className="font-heading text-xs font-bold tabular-nums text-foreground">
+                      €{safeFinanceNumber(player.wage).toLocaleString()}{annualSuffix}
+                    </p>
+                    {onSelectPlayer && (
+                      <button
+                        type="button"
+                        onClick={() => onSelectPlayer(player.id, { openRenewal: true })}
+                        className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
+                      >
+                        {t("common.renewContract")}
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">{t("finances.noContractRisks")}</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Sponsors */}
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader className="space-y-0">
+            <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+              {t("finances.activeSponsor")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {activeSponsorship ? (
+              <div className="flex items-start gap-4">
+                <div className="flex size-14 shrink-0 items-center justify-center rounded-xl border-2 border-border bg-muted/50 font-heading text-xl font-bold uppercase text-muted-foreground">
+                  {activeSponsorship.sponsorName.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="truncate font-heading text-base font-bold uppercase tracking-wide text-foreground">
+                      {activeSponsorship.sponsorName}
+                    </h3>
+                    <Badge variant={activeSponsorship.theme === "esports" ? "default" : "secondary"} className="text-[10px]">
+                      {activeSponsorship.theme === "esports" ? t("finances.esportsSponsor") : t("finances.standardSponsor")}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {t("finances.sponsorWeeklyValue", { amount: Math.round(activeSponsorship.baseValue / 12) })}
+                    <span className="mx-1.5 text-border">·</span>
+                    {t("finances.sponsorRemainingMonths", { count: activeSponsorship.remainingMonths })}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">{t("finances.noActiveSponsor")}</p>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-0">
+            <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+              {t("finances.pendingSponsorOffers")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {sponsorOffers.length > 0 ? (
+              <div className="space-y-3">
+                {sponsorOffers.map((message) => {
+                  const sponsorAction = message.actions.find(
+                    (a) => !a.resolved && isChooseOptionAction(a.action_type),
+                  );
+                  if (!sponsorAction || !isChooseOptionAction(sponsorAction.action_type)) return null;
+                  return (
+                    <div key={message.id} className="rounded-lg border border-border bg-muted/30 p-3">
+                      <p className="mb-1 text-sm font-medium text-foreground">{message.subject}</p>
+                      <p className="mb-3 text-xs text-muted-foreground">{message.body}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {sponsorAction.action_type.ChooseOption.options.map((option) => {
+                          const loadingKey = `sponsor:${message.id}:${option.id}`;
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              disabled={actionLoading === loadingKey}
+                              title={option.description || option.label}
+                              onClick={() => handleSponsorOption(message.id, sponsorAction.id, option.id)}
+                              className={cn(
+                                "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
+                                option.id === "decline"
+                                  ? "border-border text-muted-foreground hover:bg-muted"
+                                  : "border-primary bg-primary/10 text-primary hover:bg-primary/20",
+                                actionLoading === loadingKey && "pointer-events-none opacity-50",
+                              )}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">{t("finances.noPendingSponsorOffers")}</p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Facilities */}
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.facilities")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {/* Hub expansion */}
+          <div className="mb-4 rounded-lg border-2 border-dashed border-border bg-muted/20 p-4">
+            <div className="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-muted/50">
+                  <Monitor className="size-5 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="font-heading text-sm font-bold text-foreground">
+                    {t("finances.mainHub", "Hub principal")} · Lv.{mainHubLevel}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("finances.nextUpgradeCost", { amount: nextHubExpansionCost.toLocaleString() })}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                disabled={!canExpandMainHub || actionLoading === "expand-main-hub"}
+                onClick={handleExpandMainHub}
+                className="shrink-0 rounded-md border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
+              >
+                {actionLoading === "expand-main-hub" ? (
+                  <RefreshCw className="mr-1 inline size-3 animate-spin" />
+                ) : null}
+                {t("finances.expandOffices")}
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {installationContract.map((facility) => {
+              const level = facility.level;
+              const nextCost = getFacilityUpgradeCost(level);
+              const unlocksNextLevel = level + 1 <= mainHubLevel;
+              const canUpgrade = Boolean(facility.upgradeFacility) && unlocksNextLevel && teamBalance >= nextCost;
+              const isLoading = actionLoading === facility.upgradeFacility;
+
+              return (
+                <div key={facility.key} className="flex flex-col gap-3 rounded-lg border border-border bg-muted/30 p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 shrink-0 text-muted-foreground">
+                      {FACILITY_ICONS[facility.key] ?? <Monitor className="size-5" />}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-heading text-sm font-bold uppercase tracking-wide text-foreground">
+                          {t(facility.labelKey, facility.label)}
+                        </h3>
+                        <span className="inline-flex items-center gap-1 rounded-full border border-border px-1.5 py-0.5 font-heading text-[10px] tabular-nums text-muted-foreground">
+                          Lv.{level}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{t(facility.effectKey)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {t("finances.monthlyUpkeep", {
+                          amount: formatCurrencyAmountParam(facility.monthlyUpkeep),
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-auto space-y-1">
+                    <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {t("finances.nextUpgradeCost", { amount: nextCost.toLocaleString() })}
+                    </p>
+                    <button
+                      type="button"
+                      disabled={!canUpgrade || isLoading}
+                      onClick={() => facility.upgradeFacility && handleUpgradeFacility(facility.upgradeFacility)}
+                      className="rounded-md border border-primary bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
+                    >
+                      {isLoading ? <RefreshCw className="mr-1 inline size-3 animate-spin" /> : null}
+                      {t("finances.upgradeFacility")}
+                    </button>
+                    {(!facility.upgradeFacility || !unlocksNextLevel) && (
+                      <p className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                        <Lock className="size-3" /> {t("finances.hubExpansionRequired")}
+                      </p>
+                    )}
+                    {canUpgrade === false && facility.upgradeFacility && unlocksNextLevel && (
+                      <p className="text-[10px] text-red-400">{t("finances.insufficientFunds")}</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Payroll */}
+      <Card>
+        <CardHeader className="space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.payroll")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-14" />
+                  {(["name", "position", "wage", "value", "contract"] as const).map((key) => (
+                    <TableHead key={key} className="cursor-pointer" onClick={() => toggleSort(key)}>
+                      <span className="inline-flex items-center gap-1">
+                        {key === "name" && t("common.player")}
+                        {key === "position" && t("common.position")}
+                        {key === "wage" && t("finances.wagePerWeek")}
+                        {key === "value" && t("finances.marketValue")}
+                        {key === "contract" && t("common.contract")}
+                        {sortKey === key ? (
+                          sortDir === "asc" ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />
+                        ) : (
+                          <ArrowUpDown className="size-3 opacity-40" />
+                        )}
+                      </span>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedRoster.map((p, i) => {
+                  const role = getLolRoleForPlayer(p);
+                  const photo = resolvePlayerPhoto(p.id, p.match_name, p.profile_image_url);
+                  return (
+                    <TableRow
+                      key={p.id}
+                      onClick={() => onSelectPlayer?.(p.id)}
+                      className="cursor-pointer"
+                    >
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        {photo ? (
+                          <img src={photo} alt={p.match_name} className="size-8 rounded-full object-cover" />
+                        ) : (
+                          <div className="flex size-8 items-center justify-center rounded-full bg-muted">
+                            <User className="size-4 text-muted-foreground" />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        <span className="text-sm font-medium text-foreground">{p.match_name}</span>
+                      </TableCell>
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+                          {role}
+                        </span>
+                      </TableCell>
+                      <TableCell className={cn("tabular-nums text-sm text-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        €{safeFinanceNumber(p.wage).toLocaleString()}
+                      </TableCell>
+                      <TableCell className={cn("tabular-nums text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        {formatVal(safeFinanceNumber(p.market_value))}
+                      </TableCell>
+                      <TableCell className={cn("text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        {p.contract_end ? t("finances.until", { year: p.contract_end.substring(0, 4) }) : "—"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

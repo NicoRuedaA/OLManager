@@ -1,0 +1,19 @@
+{
+  "id": "board_warning",
+  "trigger": "board_warning",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Board concern \u2014 {team} performance review",
+  "body": "The board has noted with concern the recent results of {team}. While we understand that every team goes through difficult periods, we expect to see improvement soon.\n\nWe urge you to address the issues affecting the team's performance. Review your tactics, training, and squad morale.\n\nThis is a warning \u2014 further decline may lead to more serious consequences.",
+  "translations": {
+    "es": {
+      "subject": "Preocupaci\u00f3n del consejo \u2014 revisi\u00f3n de rendimiento de {team}",
+      "body": "El consejo ha notado con preocupaci\u00f3n los resultados recientes de {team}. Si bien entendemos que todos los equipos pasan por momentos dif\u00edciles, esperamos ver una mejora pronto.\n\nLe instamos a abordar los problemas que afectan el rendimiento del equipo. Revise su t\u00e1ctica, entrenamiento y moral de la plantilla.\n\nEsto es una advertencia \u2014 un mayor declive podr\u00eda tener consecuencias m\u00e1s graves."
+    }
+  }
+}

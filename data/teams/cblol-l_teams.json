@@ -1,0 +1,23 @@
+{
+  "name": "CBLOL-L Teams",
+  "description": "CBLOL-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "cblol-l-rensga-esports",
+      "country": "BR",
+      "logo_url": "/teams-icons/rensga-esports.webp",
+      "data.country": "BR",
+      "name": "Rensga eSports",
+      "short_name": "RNS",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

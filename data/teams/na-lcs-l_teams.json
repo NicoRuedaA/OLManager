@@ -1,0 +1,119 @@
+{
+  "name": "NA-LCS-L Teams",
+  "description": "NA-LCS-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "country": "US",
+      "id": "team-13309c0c",
+      "name": "Golden Guardians",
+      "short_name": "GG",
+      "logo_url": "/teams-icons/92e94e7bf6013077.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "US",
+      "id": "team-2c18b934",
+      "name": "Evil Geniuses",
+      "short_name": "EG",
+      "logo_url": "/teams-icons/c1860523003ac52b.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-63a9b81c",
+      "name": "Immortals",
+      "short_name": "INM",
+      "country": "",
+      "logo_url": "/teams-icons/d4f9080da6c94736.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "US",
+      "id": "team-74cc8702",
+      "name": "Counter Logic Gaming",
+      "short_name": "CLG",
+      "logo_url": "/teams-icons/cb76d70bcc912f38.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-cbe27d81",
+      "name": "NRG",
+      "short_name": "NRGe",
+      "country": "",
+      "logo_url": "/teams-icons/f6653c51e00e7cf2.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "na-lcs-l-team-solomid",
+      "country": "USA",
+      "logo_url": "/teams-icons/team-solomid.webp",
+      "data.country": "USA",
+      "name": "Team SoloMid",
+      "short_name": "TSM",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "US",
+      "id": "team-f43a120f",
+      "name": "100 Thieves",
+      "short_name": "100T",
+      "logo_url": "/teams-icons/f90640ef911cb488.png",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "board_objectives",
+  "trigger": "board_objectives",
+  "weight": 1,
+  "sender": "board",
+  "category": "BoardDirective",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Season {season} \u2014 Board objectives",
+  "body": "The board has set the following objectives for season {season}:\n\n\u2022 League position: Top {position}\n\u2022 Win target: {wins} series\n\u2022 Map target: {maps} maps\n\nYour performance will be evaluated based on these objectives at the end of the season.",
+  "translations": {
+    "es": {
+      "subject": "Temporada {season} \u2014 Objetivos del consejo",
+      "body": "El consejo ha establecido los siguientes objetivos para la temporada {season}:\n\n\u2022 Posici\u00f3n en liga: Top {position}\n\u2022 Objetivo de victorias: {wins} series\n\u2022 Objetivo de mapas: {maps} mapas\n\nSu rendimiento ser\u00e1 evaluado en base a estos objetivos al final de la temporada."
+    }
+  }
+}

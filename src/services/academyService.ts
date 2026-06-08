@@ -1,5 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
-
+import { getApiClientSync } from "../api/client";
 import type {
   AcademyAcquisitionOptionData,
   AcademyAcquisitionOptionsResponseData,
@@ -72,20 +71,14 @@ function normalizeAcademyAcquisitionOptionsResponse(
 export async function getAcademyAcquisitionOptions(
   parentTeamId: string,
 ): Promise<AcademyAcquisitionOptionsResponseData> {
-  const response = await invoke<BackendAcademyAcquisitionOptionsResponse>(
-    "get_academy_acquisition_options",
-    {
-      parentTeamId,
-    },
-  );
-
-  return normalizeAcademyAcquisitionOptionsResponse(response);
+  const response = await getApiClientSync().academy.getAcquisitionOptions({ parentTeamId });
+  return normalizeAcademyAcquisitionOptionsResponse(response as BackendAcademyAcquisitionOptionsResponse);
 }
 
 export async function acquireAcademyTeam(
   request: AcquireAcademyTeamRequestData,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("acquire_academy_team", {
+  return getApiClientSync().academy.acquire({
     request: {
       parentTeamId: request.parent_team_id,
       sourceTeamId: request.source_team_id,
@@ -108,13 +101,9 @@ export async function createAcademy(parentTeamId: string, sourceTeamId: string) 
 }
 
 export async function promoteAcademyPlayer(playerId: string): Promise<GameStateData> {
-  return invoke<GameStateData>("promote_academy_player", {
-    playerId,
-  });
+  return getApiClientSync().academy.promotePlayer({ playerId });
 }
 
 export async function demoteMainPlayerToAcademy(playerId: string): Promise<GameStateData> {
-  return invoke<GameStateData>("demote_main_player_to_academy", {
-    playerId,
-  });
+  return getApiClientSync().academy.demotePlayer({ playerId });
 }

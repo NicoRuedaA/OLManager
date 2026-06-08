@@ -1,9 +1,8 @@
-import { invoke } from "@tauri-apps/api/core";
-
+import { getApiClientSync } from "../api/client";
 import {
   normalizeOptionalTrainingFocus,
   normalizeTrainingFocus,
-} from "../lib/trainingFocus";
+} from "../lib/teams/trainingFocus";
 import type { GameStateData, PostScrimDecision, ScrimFocus, ScrimReportData } from "../store/gameStore";
 
 export interface BackendTodayScrimContext {
@@ -75,24 +74,19 @@ export async function setTraining(
   focus: string,
   intensity: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_training", {
-    focus: normalizeTrainingFocus(focus),
-    intensity,
-  });
+  return getApiClientSync().training.setFocus({ focus: normalizeTrainingFocus(focus), intensity });
 }
 
 export async function setTrainingSchedule(
   schedule: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_training_schedule", {
-    schedule,
-  });
+  return getApiClientSync().training.setSchedule({ schedule });
 }
 
 export async function setTrainingGroups(
   groups: TrainingGroupData[],
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_training_groups", {
+  return getApiClientSync().training.setGroups({
     groups: groups.map((group) => ({
       ...group,
       focus: normalizeTrainingFocus(group.focus),
@@ -103,55 +97,44 @@ export async function setTrainingGroups(
 export async function setWeeklyScrims(
   opponentTeamIds: string[],
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_weekly_scrims", {
-    opponentTeamIds,
-  });
+  return getApiClientSync().training.setScrims({ opponentTeamIds });
 }
 
 export async function setWeeklyScrimPlans(
   plans: string[][],
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_weekly_scrim_plans", {
-    plans,
-  });
+  return getApiClientSync().training.setScrimPlans({ plans });
 }
 
 export async function setWeeklyScrimSlots(
   slots: number,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_weekly_scrim_slots", {
-    slots,
-  });
+  return getApiClientSync().training.setScrimSlots({ slots });
 }
 
 export async function setWeeklyScrimObjective(
   objective: ScrimFocus | null,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_weekly_scrim_objective", {
-    objective,
-  });
+  return getApiClientSync().training.setScrimObjective({ objective });
 }
 
 export async function finalizeWeeklyScrimSetup(): Promise<GameStateData> {
-  return invoke<GameStateData>("finalize_weekly_scrim_setup");
+  return getApiClientSync().training.finalizeScrimSetup();
 }
 
 export async function autoConfigureWeeklyScrimSetup(): Promise<GameStateData> {
-  return invoke<GameStateData>("auto_configure_weekly_scrim_setup");
+  return getApiClientSync().training.autoConfigureScrimSetup();
 }
 
 export async function cancelTodaysScrims(): Promise<GameStateData> {
-  return invoke<GameStateData>("cancel_todays_scrims");
+  return getApiClientSync().training.cancelTodaysScrims();
 }
 
 export async function choosePostScrimDecision(
   slotIndex: number,
   decision: PostScrimDecision,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("choose_post_scrim_decision", {
-    slotIndex,
-    decision,
-  });
+  return getApiClientSync().training.choosePostScrimDecision({ slotIndex, decision });
 }
 
 export type DailyScrimAction =
@@ -168,26 +151,20 @@ export async function chooseDailyScrimAction(
   slotIndex: number,
   action: DailyScrimAction,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("choose_daily_scrim_action", {
-    slotIndex,
-    action,
-  });
+  return getApiClientSync().training.chooseDailyScrimAction({ slotIndex, action });
 }
 
 export async function delegateScrimDecision(): Promise<GameStateData> {
-  return invoke<GameStateData>("delegate_scrim_decision");
+  return getApiClientSync().training.delegateScrimDecision();
 }
 
 export async function getScrimContext(): Promise<BackendScrimContextResponse> {
-  return invoke<BackendScrimContextResponse>("get_scrim_context");
+  return getApiClientSync().training.getScrimContext() as Promise<BackendScrimContextResponse>;
 }
 
 export async function setPlayerTrainingFocus(
   playerId: string,
   focus: string | null,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("set_player_training_focus", {
-    playerId,
-    focus: normalizeOptionalTrainingFocus(focus),
-  });
+  return getApiClientSync().training.setPlayerFocus({ playerId, focus: normalizeOptionalTrainingFocus(focus) });
 }

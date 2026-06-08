@@ -9,10 +9,10 @@ use crate::application::live_match::{
     get_match_snapshot as get_match_snapshot_service, start_live_match as start_live_match_service,
     step_live_match as step_live_match_service, LolSimMatchReportInput,
 };
-use crate::application::team_talk::apply_team_talk as apply_team_talk_service;
-use domain::stats::MatchOutcome;
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::team_talk::apply_team_talk as apply_team_talk_core;
+use olm_core::domain::stats::MatchOutcome;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 fn apply_delta(value: u8, delta: i16) -> u8 {
     ((value as i16) + delta).clamp(10, 100) as u8
@@ -97,7 +97,7 @@ fn apply_team_talk_internal(
     context: &str,
     seed: u64,
 ) -> Result<Vec<serde_json::Value>, String> {
-    apply_team_talk_service(game, tone, context, seed)
+    apply_team_talk_core(game, tone, context, seed)
 }
 
 /// Start a live match for a given fixture.
@@ -108,7 +108,7 @@ pub fn start_live_match(
     fixture_index: usize,
     mode: String,
     allows_extra_time: bool,
-) -> Result<engine::MatchSnapshot, String> {
+) -> Result<olm_core::engine::MatchSnapshot, String> {
     start_live_match_service(&state, fixture_index, &mode, allows_extra_time)
 }
 
@@ -117,7 +117,7 @@ pub fn start_live_match(
 pub fn step_live_match(
     state: State<'_, StateManager>,
     minutes: u16,
-) -> Result<Vec<engine::MinuteResult>, String> {
+) -> Result<Vec<olm_core::engine::MinuteResult>, String> {
     step_live_match_service(&state, minutes)
 }
 
@@ -125,14 +125,14 @@ pub fn step_live_match(
 #[tauri::command]
 pub fn apply_match_command(
     state: State<'_, StateManager>,
-    command: engine::MatchCommand,
-) -> Result<engine::MatchSnapshot, String> {
+    command: olm_core::engine::MatchCommand,
+) -> Result<olm_core::engine::MatchSnapshot, String> {
     apply_match_command_service(&state, command)
 }
 
 /// Get current match snapshot without advancing time.
 #[tauri::command]
-pub fn get_match_snapshot(state: State<'_, StateManager>) -> Result<engine::MatchSnapshot, String> {
+pub fn get_match_snapshot(state: State<'_, StateManager>) -> Result<olm_core::engine::MatchSnapshot, String> {
     get_match_snapshot_service(&state)
 }
 
@@ -204,7 +204,7 @@ pub fn record_fixture_champion_picks(
         .iter()
         .map(|pick| (pick.player_id.clone(), pick.champion_id.clone()))
         .collect();
-    ofm_core::champions::apply_match_mastery_progress(&mut game, &winner_team_id, &mastery_picks);
+    olm_core::champions::apply_match_mastery_progress(&mut game, &winner_team_id, &mastery_picks);
 
     state.set_game(game.clone());
     Ok(game)
@@ -229,7 +229,7 @@ pub fn apply_champion_mastery_from_draft(
         .iter()
         .map(|pick| (pick.player_id.clone(), pick.champion_id.clone()))
         .collect();
-    ofm_core::champions::apply_match_mastery_progress(&mut game, &winner_team_id, &mastery_picks);
+    olm_core::champions::apply_match_mastery_progress(&mut game, &winner_team_id, &mastery_picks);
 
     state.set_game(game.clone());
     Ok(game)
@@ -409,13 +409,13 @@ pub fn submit_press_conference(
     });
 
     let article_id = format!("press_conf_{}", today);
-    let article = domain::news::NewsArticle::new(
+    let article = olm_core::domain::news::NewsArticle::new(
         article_id,
         headline,
         body,
         "Sports Daily".to_string(),
         today.clone(),
-        domain::news::NewsCategory::MatchReport,
+        olm_core::domain::news::NewsCategory::MatchReport,
     )
     .with_teams(vec![user_team_id.clone()]);
 
@@ -434,14 +434,14 @@ mod tests {
         apply_press_conference_effects, apply_team_talk_internal, finish_live_match_internal,
     };
     use chrono::{TimeZone, Utc};
-    use domain::league::{Fixture, FixtureStatus, League, MatchType, StandingEntry};
-    use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, LolRole};
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::live_match_manager::{self, MatchMode};
-    use ofm_core::state::StateManager;
+    use olm_core::domain::league::{Fixture, FixtureStatus, League, MatchType, StandingEntry};
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::player::{Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, LolRole};
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::live_match_manager::{self, MatchMode};
+    use olm_core::state::StateManager;
 
     fn default_attrs(position: LolRole) -> PlayerAttributes {
         let is_goalkeeper = matches!(position, LolRole::Support);
@@ -646,7 +646,7 @@ mod tests {
         let state = StateManager::new();
         let mut game = make_game_with_round();
         let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-        ofm_core::turn::simulate_other_matches(&mut game, &today, Some(0));
+        olm_core::turn::simulate_other_matches(&mut game, &today, Some(0));
 
         let mut session =
             live_match_manager::create_live_match(&game, 0, MatchMode::Instant, false).unwrap();
@@ -721,3 +721,6 @@ mod tests {
         assert!(delta_for(&second, "t1_mid0") <= delta_for(&first, "t1_mid0"));
     }
 }
+
+
+

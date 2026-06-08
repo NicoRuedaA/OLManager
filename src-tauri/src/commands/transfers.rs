@@ -1,11 +1,11 @@
-use domain::negotiation::NegotiationFeedback;
-use domain::transfer_history::TransferHistoryEntry;
+use olm_core::domain::negotiation::NegotiationFeedback;
+use olm_core::domain::transfer_history::TransferHistoryEntry;
 use log::info;
 use tauri::State;
 
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
-use ofm_core::transfers::{
+use olm_core::game::Game;
+use olm_core::state::StateManager;
+use olm_core::transfers::{
     get_transfer_history, TransferBidFinancialProjection, TransferDestination,
     TransferNegotiationDecision, TransferNegotiationOutcome,
 };
@@ -103,7 +103,7 @@ fn make_transfer_bid_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let result = ofm_core::transfers::make_transfer_bid(&mut game, player_id, fee, destination, included_player_ids)?;
+    let result = olm_core::transfers::make_transfer_bid(&mut game, player_id, fee, destination, included_player_ids)?;
     state.set_game(game.clone());
 
     Ok(map_transfer_negotiation_response(result, game))
@@ -139,7 +139,7 @@ fn preview_transfer_bid_financial_impact_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let projection = ofm_core::transfers::project_transfer_bid_financial_impact(
+    let projection = olm_core::transfers::project_transfer_bid_financial_impact(
         &game,
         player_id,
         fee,
@@ -173,7 +173,7 @@ fn respond_to_offer_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    ofm_core::transfers::respond_to_offer(&mut game, player_id, offer_id, accept)?;
+    olm_core::transfers::respond_to_offer(&mut game, player_id, offer_id, accept)?;
     state.set_game(game.clone());
     Ok(game)
 }
@@ -204,7 +204,7 @@ fn counter_offer_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let result = ofm_core::transfers::counter_offer(&mut game, player_id, offer_id, requested_fee, included_player_ids)?;
+    let result = olm_core::transfers::counter_offer(&mut game, player_id, offer_id, requested_fee, included_player_ids)?;
     state.set_game(game.clone());
 
     Ok(map_transfer_negotiation_response(result, game))
@@ -249,7 +249,7 @@ fn negotiate_player_wage_internal(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    let result = ofm_core::transfers::negotiate_player_wage(&mut game, player_id, offer_id, annual_wage, contract_years)?;
+    let result = olm_core::transfers::negotiate_player_wage(&mut game, player_id, offer_id, annual_wage, contract_years)?;
     state.set_game(game.clone());
 
     Ok(WageNegotiationCommandResponse {
@@ -276,7 +276,7 @@ pub fn send_scout(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    ofm_core::scouting::send_scout(&mut game, &scout_id, &player_id)?;
+    olm_core::scouting::send_scout(&mut game, &scout_id, &player_id)?;
     state.set_game(game.clone());
     Ok(game)
 }
@@ -291,7 +291,7 @@ pub fn release_player_contract(
         .get_game(|g| g.clone())
         .ok_or("No active game session".to_string())?;
 
-    ofm_core::transfers::release_player_contract(&mut game, &player_id)?;
+    olm_core::transfers::release_player_contract(&mut game, &player_id)?;
     state.set_game(game.clone());
     Ok(game)
 }
@@ -314,14 +314,14 @@ mod tests {
         toggle_loan_list_internal, toggle_transfer_list_internal,
     };
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::player::{Player, PlayerAttributes, TransferOffer, TransferOfferStatus, LolRole, WageNegotiationStatus};
-    use domain::season::TransferWindowStatus;
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::state::StateManager;
-    use ofm_core::transfers::{TransferDestination, TransferNegotiationDecision};
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::player::{Player, PlayerAttributes, TransferOffer, TransferOfferStatus, LolRole, WageNegotiationStatus};
+    use olm_core::domain::season::TransferWindowStatus;
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::state::StateManager;
+    use olm_core::transfers::{TransferDestination, TransferNegotiationDecision};
 
     fn default_attrs() -> PlayerAttributes {
         PlayerAttributes {
@@ -719,3 +719,5 @@ mod tests {
         assert!(!response.projection.exceeds_finance);
     }
 }
+
+

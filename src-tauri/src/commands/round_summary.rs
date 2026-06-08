@@ -1,5 +1,5 @@
-use domain::league::StandingEntry;
-use ofm_core::turn::{
+use olm_core::domain::league::StandingEntry;
+use olm_core::turn::{
     NotableUpset, RoundResultSummary, RoundSummary, StandingDelta, TopScorerDelta,
 };
 use serde::{Deserialize, Serialize};
@@ -30,9 +30,11 @@ impl From<RoundSummary> for RoundSummaryDto {
 }
 
 pub fn build_round_summary_dto(
-    game: &ofm_core::game::Game,
+    game: &olm_core::game::Game,
     matchday: u32,
     previous_standings: &[StandingEntry],
 ) -> Option<RoundSummaryDto> {
-    ofm_core::turn::build_round_summary(game, matchday, previous_standings).map(Into::into)
+    olm_core::turn::build_round_summary(game, matchday, previous_standings).map(Into::into)
 }
+
+

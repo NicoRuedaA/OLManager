@@ -1,0 +1,19 @@
+{
+  "id": "happy_player_2",
+  "trigger": "happy_player",
+  "weight": 1,
+  "sender": "player_relations",
+  "category": "PlayerMorale",
+  "priority": "Low",
+  "actions": [
+    { "type": "acknowledge", "label": "Great!", "label_key": "be.msg.action.great" }
+  ],
+  "subject": "Positive vibes from {player}",
+  "body": "Just wanted to share that {player} is really enjoying their time at the club right now (morale: {morale}%).\n\nThey've been training hard and supporting teammates. It's great to see such a positive attitude in the squad.\n\nKeep nurturing that environment!",
+  "translations": {
+    "es": {
+      "subject": "Buenas vibras de {player}",
+      "body": "Solo quer\u00eda compartir que {player} est\u00e1 disfrutando mucho su tiempo en el club (moral: {morale}%).\n\nHa estado entrenando duro y apoyando a sus compa\u00f1eros. Es genial ver una actitud tan positiva en la plantilla.\n\n\u00a1Siga cultivando ese ambiente!"
+    }
+  }
+}

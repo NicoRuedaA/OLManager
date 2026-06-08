@@ -3,132 +3,132 @@
   "description": "LPLOL - 2026 Season",
   "teams": [
     {
-      "id": "team-cd7def0c",
-      "name": "Crusaders",
-      "short_name": "DFMA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-527a1974",
-      "name": "Dream Esports",
-      "short_name": "FEN",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-81f175c5",
-      "name": "Otter Side",
-      "short_name": "VAYO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-273eca26",
-      "name": "ZeroZone Gaming",
-      "short_name": "YYG",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-8baac22a",
-      "name": "Bubliki",
-      "short_name": "CLO",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-6b8fef2d",
-      "name": "GTZ Esports",
-      "short_name": "F8",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-a0a25c12",
-      "name": "Ronaldo Team",
-      "short_name": "INF",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
       "id": "team-258078d0",
       "name": "Francesinhas",
       "short_name": "FRAN",
       "country": "",
+      "logo_url": "/teams-icons/8ef550ab9c73fea0.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-273eca26",
+      "name": "ZeroZone Gaming",
+      "short_name": "YYG",
+      "country": "",
+      "logo_url": "/teams-icons/9ec438c6185a93d3.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-527a1974",
+      "name": "Dream Esports",
+      "short_name": "FEN",
+      "country": "",
+      "logo_url": "/teams-icons/078a68c968b4444b.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-6b8fef2d",
+      "name": "GTZ Esports",
+      "short_name": "F8",
+      "country": "",
+      "logo_url": "/teams-icons/eaac415b82b49456.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-81f175c5",
+      "name": "Otter Side",
+      "short_name": "VAYO",
+      "country": "",
+      "logo_url": "/teams-icons/23077ae2748efb91.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-8baac22a",
+      "name": "Bubliki",
+      "short_name": "CLO",
+      "country": "",
+      "logo_url": "/teams-icons/3138451d5d1cb6e4.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-a0a25c12",
+      "name": "Ronaldo Team",
+      "short_name": "INF",
+      "country": "",
+      "logo_url": "/teams-icons/c1e042633adbe950.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "team-cd7def0c",
+      "name": "Crusaders",
+      "short_name": "DFMA",
+      "country": "",
+      "logo_url": "/teams-icons/2f66bd19aafe4195.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
     }
   ]
 }

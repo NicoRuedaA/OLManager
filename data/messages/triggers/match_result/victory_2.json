@@ -1,0 +1,19 @@
+{
+  "id": "victory_2",
+  "trigger": "match_result",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchResult",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Win! {home} {score} {away}",
+  "body": "We did it, coach! A solid {score} victory against {opponent}.\n\nThe players stepped up when it mattered most. Let's keep this level of performance going.\n\nReview the match footage and identify areas to improve for next time.",
+  "translations": {
+    "es": {
+      "subject": "\u00a1Ganamos! {home} {score} {away}",
+      "body": "\u00a1Lo logramos, jefe! Una s\u00f3lida victoria {score} contra {opponent}.\n\nLos jugadores dieron la talla cuando m\u00e1s importaba. Mantengamos este nivel de rendimiento.\n\nRevisa las im\u00e1genes del partido e identifica \u00e1reas de mejora para la pr\u00f3xima."
+    }
+  }
+}

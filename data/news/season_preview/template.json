@@ -1,0 +1,46 @@
+{
+  "id": "season_preview",
+  "category": "SeasonPreview",
+  "headlines": [
+    {
+      "key": "be.news.seasonPreview.headline0",
+      "text": "Split Preview: {teamCount} Teams Battle for the Top Spot"
+    },
+    {
+      "key": "be.news.seasonPreview.headline1",
+      "text": "League Split Set to Begin"
+    },
+    {
+      "key": "be.news.seasonPreview.headline2",
+      "text": "Can {favourite} Control the Meta? Split Preview"
+    }
+  ],
+  "body": "The league is set to kick off with {teamCount} teams entering the split.\n\nAnalyst predictions have {favourite} as the early favourites, but {darkHorse} could be the dark horse to watch this campaign.\n\nWith new coaching staffs refining draft prep, this split promises to be one of the most competitive in recent memory. Every map will matter as the playoff race heats up.\n\nTeams: {teamList}",
+  "body_key": "be.news.seasonPreview.body",
+  "sources": [
+    {
+      "key": "be.source.riftHerald",
+      "text": "Riot Games Newsroom"
+    }
+  ],
+  "translations": {
+    "es": {
+      "headlines": [
+        {
+          "key": "be.news.seasonPreview.headline0",
+          "text": "Pretemporada: {teamCount} equipos buscan la cima"
+        }
+      ],
+      "body": "La liga est\u00e1 lista para comenzar con {teamCount} equipos.\n\nLos analistas se\u00f1alan a {favourite} como favorito, pero {darkHorse} podr\u00eda ser la sorpresa.\n\nEquipos: {teamList}"
+    },
+    "pt": {
+      "headlines": [
+        {
+          "key": "be.news.seasonPreview.headline0",
+          "text": "Pr\u00e9-temporada: {teamCount} equipes em busca do topo"
+        }
+      ],
+      "body": "A liga est\u00e1 pronta para come\u00e7ar com {teamCount} equipes.\n\nAnalistas apontam {favourite} como favorito, mas {darkHorse} pode ser a surpresa.\n\nEquipes: {teamList}"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "defeat_1",
+  "trigger": "match_result",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "MatchResult",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Defeat: {home} {score} {away}",
+  "body": "Tough loss today, coach. We lost to {opponent} {score}.\n\nThere are things to learn from this match. Let's review where we went wrong and come back stronger.\n\nThe season is long \u2014 we'll bounce back.",
+  "translations": {
+    "es": {
+      "subject": "Derrota: {home} {score} {away}",
+      "body": "Dura derrota hoy, jefe. Perdimos contra {opponent} {score}.\n\nHay cosas que aprender de este partido. Revisemos d\u00f3nde nos equivocamos y volvamos m\u00e1s fuertes.\n\nLa temporada es larga \u2014 nos recuperaremos."
+    }
+  }
+}

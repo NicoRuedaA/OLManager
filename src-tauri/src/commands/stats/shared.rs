@@ -1,5 +1,5 @@
-use domain::league::MatchType;
-use ofm_core::state::StateManager;
+use olm_core::domain::league::MatchType;
+use olm_core::state::StateManager;
 
 pub(super) fn competition_label(match_type: &MatchType) -> String {
     match match_type {
@@ -64,3 +64,5 @@ pub(super) fn ensure_team_exists(state: &StateManager, team_id: &str) -> Result<
         Err("Team not found".to_string())
     }
 }
+
+

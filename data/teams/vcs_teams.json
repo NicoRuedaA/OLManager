@@ -3,100 +3,100 @@
   "description": "VCS - 2026 Season",
   "teams": [
     {
-      "id": "team-2b60138b",
-      "name": "MVK Academy",
-      "short_name": "MVKA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-12d8ddae",
-      "name": "9Gaming Esports",
-      "short_name": "9GA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-cd683e2d",
-      "name": "Saigon Warriors",
-      "short_name": "SWA",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
-    },
-    {
+      "history": [],
+      "country": "VN",
       "id": "team-0b0654fe",
       "name": "Saigon Dino",
       "short_name": "DINO",
-      "country": "",
+      "logo_url": "/teams-icons/56c4be2732477b21.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "VN",
+      "id": "team-12d8ddae",
+      "name": "9Gaming Esports",
+      "short_name": "9GA",
+      "logo_url": "/teams-icons/afb6d62ce0a75fc0.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "VN",
+      "id": "team-2b60138b",
+      "name": "MVK Esports Academy",
+      "short_name": "MVK.A",
+      "logo_url": "/teams-icons/d9b028e8ba7fd275.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "VN",
       "id": "team-3cd254ed",
       "name": "SN CyberCore Esports",
       "short_name": "SNC",
-      "country": "",
+      "logo_url": "/teams-icons/090292d4809e9512.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "VN",
+      "id": "team-cd683e2d",
+      "name": "Saigon Warriors",
+      "short_name": "SWA",
+      "logo_url": "/teams-icons/e5e7327fd84c7443.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "country": "VN",
       "id": "team-cf666c65",
       "name": "ZEN Esports",
       "short_name": "ZEN",
-      "country": "",
+      "logo_url": "/teams-icons/1e9d79a8e025ea66.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     }
   ]
 }

@@ -3,132 +3,132 @@
   "description": "HLL - 2026 Season",
   "teams": [
     {
-      "id": "team-b2dec67c",
-      "name": "ALMO Players",
-      "short_name": "ALMO",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-2e0c08a9",
+      "name": "WLGaming Esports",
+      "short_name": "WLG",
+      "logo_url": "/teams-icons/e70bb7aaf8ae9385.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-ca24ae43",
-      "name": "Gamespace MCE",
-      "short_name": "GAME",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-34f5f8b3",
+      "name": "Team Insidious",
+      "short_name": "INS",
+      "logo_url": "/teams-icons/b50e625743b622b5.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-92da5b60",
-      "name": "GOAL",
-      "short_name": "GOAL",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-608ecbe2",
+      "name": "Team Phantasma",
+      "short_name": "PHA",
+      "logo_url": "/teams-icons/0e4784dab02a7b30.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
+      "history": [],
+      "country": "Greece",
+      "id": "team-86bb25d6",
+      "name": "The ParadOx",
+      "short_name": "PAR",
+      "logo_url": "/teams-icons/8f9a6b4ed9ec1d2d.webp",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
       "id": "team-8aeeec01",
       "name": "Spartans EU",
       "short_name": "SEU",
       "country": "",
+      "logo_url": "/teams-icons/6274035b3c15b5a2.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-34f5f8b3",
-      "name": "Team Insidious",
-      "short_name": "INS",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-92da5b60",
+      "name": "GOAL",
+      "short_name": "GOAL",
+      "logo_url": "/teams-icons/0b637746b675c6e5.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-608ecbe2",
-      "name": "Team Phantasma",
-      "short_name": "PHA",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-b2dec67c",
+      "name": "ALMO Players",
+      "short_name": "ALMO",
+      "logo_url": "/teams-icons/85af0cf2e036ee8b.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     },
     {
-      "id": "team-2e0c08a9",
-      "name": "WLGaming Esports",
-      "short_name": "WLG",
-      "country": "",
+      "history": [],
+      "country": "Greece",
+      "id": "team-ca24ae43",
+      "name": "Gamespace Mediterranean College Esports",
+      "short_name": "GAME",
+      "logo_url": "/teams-icons/98d08bd708387000.webp",
       "city": "",
       "stadium_name": "",
       "stadium_capacity": 0,
-      "logo_url": null,
       "colors": {
-        "primary": "#10b981",
+        "primary": "#000000",
         "secondary": "#ffffff"
       },
-      "facilities": {},
-      "history": []
-    },
-    {
-      "id": "team-86bb25d6",
-      "name": "The Parad0x",
-      "short_name": "PAR",
-      "country": "",
-      "city": "",
-      "stadium_name": "",
-      "stadium_capacity": 0,
-      "logo_url": null,
-      "colors": {
-        "primary": "#10b981",
-        "secondary": "#ffffff"
-      },
-      "facilities": {},
-      "history": []
+      "facilities": {}
     }
   ]
 }

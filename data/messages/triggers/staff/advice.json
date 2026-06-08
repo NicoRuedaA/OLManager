@@ -1,0 +1,19 @@
+{
+  "id": "staff_advice",
+  "trigger": "staff_advice",
+  "weight": 1,
+  "sender": "assistant_coach",
+  "category": "Training",
+  "priority": "High",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Staff vacancies at {team}",
+  "body": "Coach, I've reviewed the staff situation at {team} and wanted to point out a few things:\n\n\u2022 A good Coach will significantly improve training effectiveness \u2014 your players will develop faster.\n\u2022 A qualified Physio helps with injury prevention and speeds up recovery between matches.\n\u2022 Our Scouts can help identify transfer targets and assess opponents.\n\nI strongly recommend filling these vacancies before the season starts. You can find available staff in the Staff section.\n\nTake a look when you can.",
+  "translations": {
+    "es": {
+      "subject": "Vacantes de personal en {team}",
+      "body": "Jefe, he revisado la situaci\u00f3n del personal en {team} y quer\u00eda se\u00f1alar algunas cosas:\n\n\u2022 Un buen Entrenador mejorar\u00e1 significativamente la efectividad del entrenamiento \u2014 sus jugadores se desarrollar\u00e1n m\u00e1s r\u00e1pido.\n\u2022 Un Fisioterapeuta cualificado ayuda con la prevenci\u00f3n de lesiones y acelera la recuperaci\u00f3n entre partidos.\n\u2022 Nuestros Ojeadores pueden ayudar a identificar objetivos de fichaje y evaluar rivales.\n\nRecomiendo encarecidamente cubrir las vacantes antes de que comience la temporada. Puede encontrar personal disponible en la secci\u00f3n de Personal.\n\n\u00c9chele un vistazo cuando pueda."
+    }
+  }
+}

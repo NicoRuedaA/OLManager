@@ -1,6 +1,6 @@
-use domain::social::{SocialAccount, SocialPost, SocialTemplate};
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::domain::social::{SocialAccount, SocialPost, SocialTemplate};
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 use tauri::State;
 
 #[tauri::command]
@@ -8,7 +8,7 @@ pub fn get_social_feed(state: State<'_, StateManager>) -> Result<Vec<SocialPost>
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
-    ofm_core::social::ensure_social_registry_defaults(&mut game);
+    olm_core::social::ensure_social_registry_defaults(&mut game);
     state.set_game(game.clone());
     let mut posts = game.social_posts;
     posts.sort_by(|left, right| right.date.cmp(&left.date).then(right.id.cmp(&left.id)));
@@ -23,9 +23,9 @@ pub fn create_manager_social_post(
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
-    ofm_core::social::ensure_social_registry_defaults(&mut game);
+    olm_core::social::ensure_social_registry_defaults(&mut game);
 
-    ofm_core::social::publish_manager_post(&mut game, &text)?;
+    olm_core::social::publish_manager_post(&mut game, &text)?;
     state.set_game(game.clone());
     Ok(game)
 }
@@ -35,7 +35,7 @@ pub fn get_social_accounts(state: State<'_, StateManager>) -> Result<Vec<SocialA
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
-    ofm_core::social::ensure_social_registry_defaults(&mut game);
+    olm_core::social::ensure_social_registry_defaults(&mut game);
     state.set_game(game.clone());
     Ok(game.social_accounts)
 }
@@ -58,7 +58,7 @@ pub fn get_social_templates(state: State<'_, StateManager>) -> Result<Vec<Social
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
-    ofm_core::social::ensure_social_registry_defaults(&mut game);
+    olm_core::social::ensure_social_registry_defaults(&mut game);
     state.set_game(game.clone());
     Ok(game.social_templates)
 }
@@ -84,7 +84,9 @@ pub fn relocalize_social_feed(
     let mut game = state
         .get_game(|game| game.clone())
         .ok_or("No active game session".to_string())?;
-    ofm_core::social::relocalize_social_posts(&mut game, &language);
+    olm_core::social::relocalize_social_posts(&mut game, &language);
     state.set_game(game.clone());
     Ok(game)
 }
+
+

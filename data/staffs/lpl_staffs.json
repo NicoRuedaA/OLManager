@@ -9,10 +9,10 @@
       "team_id": "team-38a818e5",
       "last_name": "Qi-Lin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 79,
+        "physiotherapy": 77,
+        "judging_ability": 75,
+        "judging_potential": 78
       },
       "first_name": "Zhou Qi-Lin",
       "nationality": "China",
@@ -21,8 +21,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/2b9ac96f.webp",
-      "nickname": "NONAME",
-      "team_id_2": null
+      "nickname": "NONAME"
     },
     {
       "id": "staff-607aa975",
@@ -31,10 +30,10 @@
       "team_id": "team-dd4bc6a5",
       "last_name": "Chieh",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 86,
+        "physiotherapy": 80,
+        "judging_ability": 81,
+        "judging_potential": 89
       },
       "first_name": "Li Chieh",
       "nationality": "Taiwan",
@@ -43,8 +42,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/2bcd73b3.webp",
-      "nickname": "Chieh",
-      "team_id_2": null
+      "nickname": "Chieh"
     },
     {
       "id": "staff-5fc74665",
@@ -53,10 +51,10 @@
       "team_id": "team-b777d366",
       "last_name": "Po-Hao",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 84,
+        "physiotherapy": 88,
+        "judging_ability": 85,
+        "judging_potential": 91
       },
       "first_name": "Chang Po-Hao",
       "nationality": "Taiwan",
@@ -65,8 +63,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/71052dc0.webp",
-      "nickname": "Poppy",
-      "team_id_2": null
+      "nickname": "Poppy"
     },
     {
       "id": "staff-8aded48b",
@@ -75,10 +72,10 @@
       "team_id": "team-38a818e5",
       "last_name": "Hsiu-Chi",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 84,
+        "physiotherapy": 72,
+        "judging_ability": 79,
+        "judging_potential": 85
       },
       "first_name": "Lien Hsiu-Chi",
       "nationality": "Taiwan",
@@ -87,8 +84,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/4cdbc195.webp",
-      "nickname": "Benny",
-      "team_id_2": null
+      "nickname": "Benny"
     },
     {
       "id": "staff-7dd70ea6",
@@ -97,10 +93,10 @@
       "team_id": "team-dd4bc6a5",
       "last_name": "Dong-hyun",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 73,
+        "judging_ability": 80,
+        "judging_potential": 79
       },
       "first_name": "Nam Dong-hyun",
       "nationality": "South Korea",
@@ -109,8 +105,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/34fae1b0.webp",
-      "nickname": "Ben",
-      "team_id_2": null
+      "nickname": "Ben"
     },
     {
       "id": "staff-fb61079f",
@@ -119,9 +114,9 @@
       "team_id": "team-dd4bc6a5",
       "last_name": "Yi-Bin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
+        "coaching": 53,
+        "physiotherapy": 44,
+        "judging_ability": 57,
         "judging_potential": 50
       },
       "first_name": "Zhuang Yi-Bin",
@@ -131,8 +126,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/3cfdf428.webp",
-      "nickname": "zyb",
-      "team_id_2": null
+      "nickname": "zyb"
     },
     {
       "id": "staff-9f9132e1",
@@ -141,10 +135,10 @@
       "team_id": "team-5facf88e",
       "last_name": "Xin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 71,
+        "judging_ability": 82,
+        "judging_potential": 81
       },
       "first_name": "He Xin",
       "nationality": "China",
@@ -153,8 +147,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/7f0659a4.webp",
-      "nickname": "694",
-      "team_id_2": null
+      "nickname": "694"
     },
     {
       "id": "staff-835edf1a",
@@ -163,10 +156,10 @@
       "team_id": "team-a324dc9d",
       "last_name": "Jun-Da",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 55,
+        "physiotherapy": 60,
+        "judging_ability": 60,
+        "judging_potential": 64
       },
       "first_name": "Feng Jun-Da",
       "nationality": "China",
@@ -175,8 +168,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/16432004.webp",
-      "nickname": "Medusa",
-      "team_id_2": null
+      "nickname": "Medusa"
     },
     {
       "id": "staff-91937240",
@@ -185,10 +177,10 @@
       "team_id": "team-ec9ab429",
       "last_name": "Woo-beom",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 76,
+        "judging_ability": 81,
+        "judging_potential": 81
       },
       "first_name": "Choi Woo-beom",
       "nationality": "South Korea",
@@ -197,8 +189,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/64a39a1a.webp",
-      "nickname": "Edgar",
-      "team_id_2": null
+      "nickname": "Edgar"
     },
     {
       "id": "staff-ff5433a5",
@@ -207,10 +198,10 @@
       "team_id": "team-b777d366",
       "last_name": "Wen-Bo",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 83,
+        "physiotherapy": 75,
+        "judging_ability": 76,
+        "judging_potential": 79
       },
       "first_name": "He Wen-Bo",
       "nationality": "China",
@@ -219,8 +210,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/5eeac6e1.webp",
-      "nickname": "BoBo",
-      "team_id_2": null
+      "nickname": "BoBo"
     },
     {
       "id": "staff-a544c007",
@@ -229,10 +219,10 @@
       "team_id": "team-6481a859",
       "last_name": "Xing-Ran",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 76,
+        "physiotherapy": 73,
+        "judging_ability": 78,
+        "judging_potential": 83
       },
       "first_name": "Zhang Xing-Ran",
       "nationality": "China",
@@ -241,8 +231,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/1148d3fa.webp",
-      "nickname": "Zoom",
-      "team_id_2": null
+      "nickname": "Zoom"
     },
     {
       "id": "staff-de3e267b",
@@ -251,10 +240,10 @@
       "team_id": "team-a324dc9d",
       "last_name": "Ze-Lin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 77,
+        "physiotherapy": 74,
+        "judging_ability": 73,
+        "judging_potential": 72
       },
       "first_name": "Zhao Ze-Lin",
       "nationality": "China",
@@ -263,8 +252,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/1cd8ccb0.webp",
-      "nickname": "Tselin",
-      "team_id_2": null
+      "nickname": "Tselin"
     },
     {
       "id": "staff-e43e0d39",
@@ -273,10 +261,10 @@
       "team_id": "team-b777d366",
       "last_name": "Yu-Ming",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 72,
+        "physiotherapy": 62,
+        "judging_ability": 67,
+        "judging_potential": 67
       },
       "first_name": "Li Yu-Ming",
       "nationality": "China",
@@ -284,9 +272,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Leo",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/d72a08760bd2133f.png",
+      "nickname": "Leo"
     },
     {
       "id": "staff-c545ae4a",
@@ -295,10 +282,10 @@
       "team_id": "team-6481a859",
       "last_name": "Kan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 78,
+        "physiotherapy": 74,
+        "judging_ability": 76,
+        "judging_potential": 82
       },
       "first_name": "Wong Pak Kan",
       "nationality": "Hong Kong",
@@ -306,9 +293,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Tabe",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/c4d133741da258a4.png",
+      "nickname": "Tabe"
     },
     {
       "id": "staff-df41b938",
@@ -317,10 +303,10 @@
       "team_id": "team-0a33a07d",
       "last_name": "Xin-Yi",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 82,
+        "judging_ability": 80,
+        "judging_potential": 78
       },
       "first_name": "Zeng Xin-Yi",
       "nationality": "China",
@@ -329,8 +315,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/76f15164.webp",
-      "nickname": "Maizijian",
-      "team_id_2": null
+      "nickname": "Maizijian"
     },
     {
       "id": "staff-75a8224a",
@@ -339,10 +324,10 @@
       "team_id": "team-ca28739d",
       "last_name": "Zheng-Yang",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 67,
+        "physiotherapy": 61,
+        "judging_ability": 69,
+        "judging_potential": 69
       },
       "first_name": "Liu Zheng-Yang",
       "nationality": "China",
@@ -351,8 +336,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/58ac522f.webp",
-      "nickname": "Liet",
-      "team_id_2": null
+      "nickname": "Liet"
     },
     {
       "id": "staff-5eb4fe61",
@@ -361,10 +345,10 @@
       "team_id": "team-0a33a07d",
       "last_name": "Ren-Zhe",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 65,
+        "physiotherapy": 67,
+        "judging_ability": 63,
+        "judging_potential": 71
       },
       "first_name": "Li Ren-Zhe",
       "nationality": "China",
@@ -373,8 +357,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/74a0da9f.webp",
-      "nickname": "Renzhe",
-      "team_id_2": null
+      "nickname": "Renzhe"
     },
     {
       "id": "staff-93bac53e",
@@ -383,10 +366,10 @@
       "team_id": "team-3bd486ec",
       "last_name": "Chien-Wei",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 84,
+        "physiotherapy": 71,
+        "judging_ability": 75,
+        "judging_potential": 77
       },
       "first_name": "Fu Chien-Wei",
       "nationality": "Taiwan",
@@ -395,8 +378,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/12ca8268.webp",
-      "nickname": "BigWei",
-      "team_id_2": null
+      "nickname": "BigWei"
     },
     {
       "id": "staff-0ba60755",
@@ -405,10 +387,10 @@
       "team_id": "team-a84cce06",
       "last_name": "Chen-Hui",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 71,
+        "physiotherapy": 66,
+        "judging_ability": 64,
+        "judging_potential": 72
       },
       "first_name": "Fan Chen-Hui",
       "nationality": "China",
@@ -417,8 +399,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/2fceb775.webp",
-      "nickname": "Yuzhang",
-      "team_id_2": null
+      "nickname": "Yuzhang"
     },
     {
       "id": "staff-c2a7c8b1",
@@ -427,10 +408,10 @@
       "team_id": "team-ec9ab429",
       "last_name": "Fan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 83,
+        "physiotherapy": 80,
+        "judging_ability": 81,
+        "judging_potential": 84
       },
       "first_name": "Lu Fan",
       "nationality": "China",
@@ -439,8 +420,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/4ebd9c2d.webp",
-      "nickname": "Viod",
-      "team_id_2": null
+      "nickname": "Viod"
     },
     {
       "id": "staff-47ba6d64",
@@ -449,10 +429,10 @@
       "team_id": "team-ca28739d",
       "last_name": "Kai",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 89,
+        "physiotherapy": 91,
+        "judging_ability": 92,
+        "judging_potential": 96
       },
       "first_name": "Ming Kai",
       "nationality": "China",
@@ -461,8 +441,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/1389bf14.webp",
-      "nickname": "Clearlove",
-      "team_id_2": null
+      "nickname": "Clearlove"
     },
     {
       "id": "staff-4ed24513",
@@ -471,10 +450,10 @@
       "team_id": "team-5facf88e",
       "last_name": "Guang-Hua",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 61,
+        "judging_ability": 62,
+        "judging_potential": 68
       },
       "first_name": "Jin Guang-Hua",
       "nationality": "China",
@@ -483,8 +462,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": null,
-      "nickname": "JinJin",
-      "team_id_2": null
+      "nickname": "JinJin"
     },
     {
       "id": "staff-d1391251",
@@ -493,10 +471,10 @@
       "team_id": "team-ca28739d",
       "last_name": "Fang",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 78,
+        "judging_ability": 72,
+        "judging_potential": 84
       },
       "first_name": "Peng Fang",
       "nationality": "China",
@@ -505,8 +483,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/45eb9d10.webp",
-      "nickname": "Mni",
-      "team_id_2": null
+      "nickname": "Mni"
     },
     {
       "id": "staff-9117cce7",
@@ -515,10 +492,10 @@
       "team_id": "team-3bd486ec",
       "last_name": "Li-Peng",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 77,
+        "judging_ability": 80,
+        "judging_potential": 74
       },
       "first_name": "Zhou Li-Peng",
       "nationality": "China",
@@ -527,8 +504,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/371c54c9.webp",
-      "nickname": "Dispa1r",
-      "team_id_2": null
+      "nickname": "Dispa1r"
     },
     {
       "id": "staff-5a077162",
@@ -537,10 +513,10 @@
       "team_id": "team-d6ad5a14",
       "last_name": "Jin-yong",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 88,
+        "physiotherapy": 75,
+        "judging_ability": 83,
+        "judging_potential": 84
       },
       "first_name": "Lee Jin-yong",
       "nationality": "South Korea",
@@ -549,8 +525,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/494af767.webp",
-      "nickname": "Fury",
-      "team_id_2": null
+      "nickname": "Fury"
     },
     {
       "id": "staff-85fb475a",
@@ -559,10 +534,10 @@
       "team_id": "team-75263716",
       "last_name": "Sheng-Liao",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 70,
+        "physiotherapy": 62,
+        "judging_ability": 66,
+        "judging_potential": 69
       },
       "first_name": "Ye Sheng-Liao",
       "nationality": "China",
@@ -570,9 +545,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "chengz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/b074ff923dbf4365.png",
+      "nickname": "chengz"
     },
     {
       "id": "staff-cc5cf59d",
@@ -581,10 +555,10 @@
       "team_id": "team-dd4bc6a5",
       "last_name": "Dae-in",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 74,
+        "physiotherapy": 69,
+        "judging_ability": 73,
+        "judging_potential": 77
       },
       "first_name": "Yang Dae-in",
       "nationality": "South Korea",
@@ -593,8 +567,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/66e6395b.webp",
-      "nickname": "Daeny",
-      "team_id_2": null
+      "nickname": "Daeny"
     },
     {
       "id": "staff-0e17c2b9",
@@ -603,10 +576,10 @@
       "team_id": "team-3bd486ec",
       "last_name": "Chen",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 76,
+        "judging_ability": 75,
+        "judging_potential": 83
       },
       "first_name": "Jiang Chen",
       "nationality": "China",
@@ -615,8 +588,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/7e768c29.webp",
-      "nickname": "Teacherma",
-      "team_id_2": null
+      "nickname": "Teacherma"
     },
     {
       "id": "staff-c4501876",
@@ -625,10 +597,10 @@
       "team_id": "team-dc1429f2",
       "last_name": "Li-Xin",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 75,
+        "physiotherapy": 69,
+        "judging_ability": 78,
+        "judging_potential": 84
       },
       "first_name": "Chen Li-Xin",
       "nationality": "China",
@@ -637,8 +609,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/24dffd09.webp",
-      "nickname": "1874",
-      "team_id_2": null
+      "nickname": "1874"
     },
     {
       "id": "staff-30414a23",
@@ -647,10 +618,10 @@
       "team_id": "team-75263716",
       "last_name": "Peng",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 68,
+        "physiotherapy": 59,
+        "judging_ability": 72,
+        "judging_potential": 74
       },
       "first_name": "Luo Peng",
       "nationality": "China",
@@ -659,8 +630,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/39d0a40f.webp",
-      "nickname": "Yondaime",
-      "team_id_2": null
+      "nickname": "Yondaime"
     },
     {
       "id": "staff-0273d84a",
@@ -669,10 +639,10 @@
       "team_id": "team-a324dc9d",
       "last_name": "Dong-wook",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 73,
+        "physiotherapy": 70,
+        "judging_ability": 75,
+        "judging_potential": 78
       },
       "first_name": "Shin Dong-wook",
       "nationality": "Korea",
@@ -681,8 +651,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/26da2168.webp",
-      "nickname": "Shine",
-      "team_id_2": null
+      "nickname": "Shine"
     },
     {
       "id": "staff-db5f4c71",
@@ -691,10 +660,10 @@
       "team_id": "team-dc1429f2",
       "last_name": "Han-Xi",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 72,
+        "judging_ability": 75,
+        "judging_potential": 78
       },
       "first_name": "Xia Han-Xi",
       "nationality": "China",
@@ -703,8 +672,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/40fa54ea.webp",
-      "nickname": "Chelizi",
-      "team_id_2": null
+      "nickname": "Chelizi"
     },
     {
       "id": "staff-8d1862fa",
@@ -713,10 +681,10 @@
       "team_id": "team-ca28739d",
       "last_name": "Ji-Song",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 76,
+        "judging_ability": 75,
+        "judging_potential": 72
       },
       "first_name": "Yang Ji-Song",
       "nationality": "China",
@@ -725,8 +693,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/243f577d.webp",
-      "nickname": "Maokai",
-      "team_id_2": null
+      "nickname": "Maokai"
     },
     {
       "id": "staff-bf912de2",
@@ -735,10 +702,10 @@
       "team_id": "team-d6ad5a14",
       "last_name": "Yeong-jae",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 79,
+        "judging_ability": 84,
+        "judging_potential": 86
       },
       "first_name": "Kwon Yeong-jae",
       "nationality": "South Korea",
@@ -747,8 +714,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/4ca54ece.webp",
-      "nickname": "Helper",
-      "team_id_2": null
+      "nickname": "Helper"
     }
   ]
 }

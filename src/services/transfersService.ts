@@ -1,5 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
-
+import { getApiClientSync } from "../api/client";
 import type { GameStateData } from "../store/gameStore";
 
 export type TransferDestinationData = "main" | "academy";
@@ -52,12 +51,7 @@ export async function makeTransferBid(
   destination: TransferDestinationData = "main",
   includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
-  return invoke<TransferNegotiationResponseData>("make_transfer_bid", {
-    playerId,
-    fee,
-    destination,
-    includedPlayerIds,
-  });
+  return getApiClientSync().transfers.makeBid({ playerId, fee, destination, includedPlayerIds });
 }
 
 export async function respondToOffer(
@@ -65,11 +59,7 @@ export async function respondToOffer(
   offerId: string,
   accept: boolean,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("respond_to_offer", {
-    playerId,
-    offerId,
-    accept,
-  });
+  return getApiClientSync().transfers.respondToOffer({ playerId, offerId, accept });
 }
 
 export async function counterOffer(
@@ -78,12 +68,7 @@ export async function counterOffer(
   requestedFee: number,
   includedPlayerIds: string[] = [],
 ): Promise<TransferNegotiationResponseData> {
-  return invoke<TransferNegotiationResponseData>("counter_offer", {
-    playerId,
-    offerId,
-    requestedFee,
-    includedPlayerIds,
-  });
+  return getApiClientSync().transfers.counterOffer({ playerId, offerId, requestedFee, includedPlayerIds });
 }
 
 export async function previewTransferBidFinancialImpact(
@@ -91,22 +76,13 @@ export async function previewTransferBidFinancialImpact(
   fee: number,
   destination: TransferDestinationData = "main",
 ): Promise<TransferBidProjectionData> {
-  return invoke<TransferBidProjectionData>(
-    "preview_transfer_bid_financial_impact",
-    {
-      playerId,
-      fee,
-      destination,
-    },
-  );
+  return getApiClientSync().transfers.previewBidImpact({ playerId, fee, destination });
 }
 
 export async function releasePlayerContract(
   playerId: string,
 ): Promise<GameStateData> {
-  return invoke<GameStateData>("release_player_contract", {
-    playerId,
-  });
+  return getApiClientSync().transfers.releaseContract({ playerId });
 }
 
 export async function negotiatePlayerWage(
@@ -115,12 +91,7 @@ export async function negotiatePlayerWage(
   annualWage: number,
   contractYears: number,
 ): Promise<WageNegotiationResponseData> {
-  return invoke<WageNegotiationResponseData>("negotiate_player_wage", {
-    playerId,
-    offerId,
-    annualWage,
-    contractYears,
-  });
+  return getApiClientSync().transfers.negotiateWage({ playerId, offerId, annualWage, contractYears });
 }
 
 export interface TransferHistoryEntryData {
@@ -145,5 +116,5 @@ export interface TransferHistoryEntryData {
 }
 
 export async function getTransferHistory(): Promise<TransferHistoryEntryData[]> {
-  return invoke<TransferHistoryEntryData[]>("get_transfer_history_cmd");
+  return getApiClientSync().transfers.getHistory() as Promise<TransferHistoryEntryData[]>;
 }

@@ -1,5 +1,5 @@
-use domain::stats::{MatchOutcome, TeamMatchStatsRecord, TeamSide};
-use ofm_core::state::StateManager;
+use olm_core::domain::stats::{MatchOutcome, TeamMatchStatsRecord, TeamSide};
+use olm_core::state::StateManager;
 
 use super::dto::{
     TeamAdvancedMetricDto, TeamMatchHistoryEntryDto, TeamStatsOverviewDto,
@@ -159,3 +159,5 @@ pub(super) fn get_team_match_history_internal(
         .map(|record| to_team_history_dto(state, &record))
         .collect())
 }
+
+

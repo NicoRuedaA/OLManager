@@ -1,0 +1,193 @@
+{
+  "name": "LPL-L Teams",
+  "description": "LPL-L - 2026 Season",
+  "teams": [
+    {
+      "history": [],
+      "id": "lpl-l-vici-gaming",
+      "logo_url": "/teams-icons/vici-gaming.webp",
+      "data.country": "China",
+      "name": "Vici Gaming",
+      "short_name": "VG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-victory-five",
+      "logo_url": "/teams-icons/victory-five.webp",
+      "data.country": "China",
+      "name": "Victory Five",
+      "short_name": "V5",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-snake-esports",
+      "logo_url": "/teams-icons/snake-esports.webp",
+      "data.country": "China",
+      "name": "Snake Esports",
+      "short_name": "SS",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-suning",
+      "country": "China",
+      "logo_url": "/teams-icons/suning.webp",
+      "data.country": "China",
+      "name": "Suning",
+      "short_name": "SN",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-royal-never-give-up",
+      "logo_url": "/teams-icons/royal-never-give-up.webp",
+      "data.country": "China",
+      "name": "Royal Never Give Up",
+      "short_name": "RNG",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-rare-atom",
+      "country": "China",
+      "logo_url": "/teams-icons/rare-atom.webp",
+      "data.country": "China",
+      "name": "Rare Atom",
+      "short_name": "RA",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-funplus-phoenix",
+      "logo_url": "/teams-icons/funplus-phoenix.webp",
+      "data.country": "China",
+      "name": "FunPlus Phoenix",
+      "short_name": "FPX",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-i-may",
+      "logo_url": "/teams-icons/i-may.webp",
+      "data.country": "China",
+      "name": "I May",
+      "short_name": "IM",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-qiao-gu-reapers",
+      "logo_url": "/teams-icons/qiao-gu-reapers.webp",
+      "data.country": "CN",
+      "name": "Qiao Gu Reapers",
+      "short_name": "QGR",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-rogue-warriors",
+      "logo_url": "/teams-icons/rogue-warriors.webp",
+      "data.country": "China",
+      "name": "Rogue Warriors",
+      "short_name": "RW",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    },
+    {
+      "history": [],
+      "id": "lpl-l-royal-club",
+      "logo_url": "/teams-icons/royal-club.webp",
+      "data.country": "chin",
+      "name": "Royal Club",
+      "short_name": "RYL",
+      "country": "",
+      "city": "",
+      "stadium_name": "",
+      "stadium_capacity": 0,
+      "colors": {
+        "primary": "#000000",
+        "secondary": "#ffffff"
+      },
+      "facilities": {}
+    }
+  ]
+}

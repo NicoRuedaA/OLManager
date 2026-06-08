@@ -1,0 +1,19 @@
+{
+  "id": "wage_over_budget",
+  "trigger": "wage_over_budget",
+  "weight": 1,
+  "sender": "board",
+  "category": "Finance",
+  "priority": "Normal",
+  "actions": [
+    { "type": "acknowledge", "label": "OK", "label_key": "be.msg.action.acknowledge" }
+  ],
+  "subject": "Wage bill exceeds budget",
+  "body": "The club's annual wage bill of \u20ac{wages} exceeds the allocated budget of \u20ac{budget}.\n\nThis overspend is impacting the club's financial stability. Consider adjusting the wage structure or moving high-earning players.\n\nThe board recommends bringing wages in line with the budget as soon as possible.",
+  "translations": {
+    "es": {
+      "subject": "Gasto salarial excede el presupuesto",
+      "body": "El gasto salarial anual de \u20ac{wages} supera el presupuesto asignado de \u20ac{budget}.\n\nEste exceso est\u00e1 afectando la estabilidad financiera del club. Considere ajustar la estructura salarial o traspasar jugadores con salarios altos.\n\nEl consejo recomienda ajustar los salarios al presupuesto lo antes posible."
+    }
+  }
+}

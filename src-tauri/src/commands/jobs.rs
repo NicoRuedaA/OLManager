@@ -1,6 +1,6 @@
 use log::info;
-use ofm_core::job_offers::{self, JobApplicationResult, JobOpportunity};
-use ofm_core::state::StateManager;
+use olm_core::job_offers::{self, JobApplicationResult, JobOpportunity};
+use olm_core::state::StateManager;
 use tauri::State;
 
 #[tauri::command]
@@ -35,3 +35,4 @@ pub fn apply_for_job(
         "game": game,
     }))
 }
+

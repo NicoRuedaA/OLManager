@@ -1,0 +1,19 @@
+{
+  "id": "nacl-l",
+  "name": "NACL-L",
+  "full_name": "NACL Legacy",
+  "region": "NACL-L",
+  "country": "US",
+  "tier": 2,
+  "logo": null,
+  "teams_file": "teams/nacl-l_teams.json",
+  "players_file": "players/nacl-l_players.json",
+  "staff_file": null,
+  "schedule": {
+    "format": "unknown",
+    "team_count": 0,
+    "preseason_friendlies": 0,
+    "splits": []
+  },
+  "legacy": true
+}

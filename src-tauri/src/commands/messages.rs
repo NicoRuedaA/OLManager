@@ -3,8 +3,8 @@ use std::collections::HashSet;
 use log::info;
 use tauri::State;
 
-use ofm_core::game::Game;
-use ofm_core::state::StateManager;
+use olm_core::game::Game;
+use olm_core::state::StateManager;
 
 #[tauri::command]
 pub fn mark_message_read(
@@ -150,7 +150,7 @@ fn resolve_message_action_internal(
     let (effect, effect_i18n_key, effect_i18n_params) = if let Some(opt) = option_id {
         // Try player events first, then random events
         let player_effect =
-            ofm_core::player_events::apply_player_response(&mut game, message_id, action_id, opt);
+            olm_core::player_events::apply_player_response(&mut game, message_id, action_id, opt);
         if let Some(player_effect) = player_effect {
             (
                 Some(player_effect.message),
@@ -158,14 +158,14 @@ fn resolve_message_action_internal(
                 Some(player_effect.i18n_params),
             )
         } else {
-            let random_effect = ofm_core::random_events::apply_event_response(
+            let random_effect = olm_core::random_events::apply_event_response(
                 &mut game, message_id, action_id, opt,
             );
             if random_effect.is_some() {
                 (random_effect, None, None)
             } else {
                 (
-                    ofm_core::job_offers::apply_job_offer_response(
+                    olm_core::job_offers::apply_job_offer_response(
                         &mut game, message_id, action_id, opt,
                     ),
                     None,
@@ -200,12 +200,12 @@ mod tests {
         resolve_message_action_internal,
     };
     use chrono::{TimeZone, Utc};
-    use domain::manager::Manager;
-    use domain::message::{ActionType, InboxMessage, MessageAction};
-    use domain::team::Team;
-    use ofm_core::clock::GameClock;
-    use ofm_core::game::Game;
-    use ofm_core::state::StateManager;
+    use olm_core::domain::manager::Manager;
+    use olm_core::domain::message::{ActionType, InboxMessage, MessageAction};
+    use olm_core::domain::team::Team;
+    use olm_core::clock::GameClock;
+    use olm_core::game::Game;
+    use olm_core::state::StateManager;
 
     fn make_team() -> Team {
         let mut team = Team::new(
@@ -439,3 +439,5 @@ mod tests {
             .any(|message| message.id == "remove-stale"));
     }
 }
+
+

@@ -1,0 +1,20 @@
+{
+  "id": "contract_concern_2",
+  "trigger": "contract_concern",
+  "weight": 1,
+  "sender": "director_of_football",
+  "category": "Contract",
+  "priority": "High",
+  "actions": [
+    { "type": "navigateto", "label": "Open Contract", "label_key": "be.msg.action.openContract", "route": "/dashboard?tab=Squad" },
+    { "type": "dismiss", "label": "Later", "label_key": "be.msg.action.later" }
+  ],
+  "subject": "{player} contract expiring in {days} days",
+  "body": "This is a reminder about {player}'s contract situation. With only {days} days left on their current deal, we need to make a decision.\n\nOptions:\n\u2022 Open renewal negotiations\n\u2022 List them for transfer while they still have value\n\u2022 Let the contract expire\n\nPlease advise on how you'd like to proceed.",
+  "translations": {
+    "es": {
+      "subject": "El contrato de {player} expira en {days} d\u00edas",
+      "body": "Este es un recordatorio sobre la situaci\u00f3n contractual de {player}. Con solo {days} d\u00edas restantes en su contrato actual, debemos tomar una decisi\u00f3n.\n\nOpciones:\n\u2022 Abrir negociaciones de renovaci\u00f3n\n\u2022 Ponerlo en el mercado mientras tenga valor\n\u2022 Dejar que el contrato expire\n\nPor favor, ind\u00edquenos c\u00f3mo desea proceder."
+    }
+  }
+}

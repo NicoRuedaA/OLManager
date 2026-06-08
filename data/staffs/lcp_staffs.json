@@ -9,10 +9,10 @@
       "team_id": "team-83d3342f",
       "last_name": "Lei",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 89,
+        "physiotherapy": 90,
+        "judging_ability": 88,
+        "judging_potential": 96
       },
       "first_name": "Wong Xing Lei",
       "nationality": "Singapore",
@@ -20,9 +20,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Chawy",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/727b32b43c9dba45.png",
+      "nickname": "Chawy"
     },
     {
       "id": "staff-6a8007dd",
@@ -31,10 +30,10 @@
       "team_id": "team-709031e2",
       "last_name": "Tài",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 80,
+        "physiotherapy": 77,
+        "judging_ability": 79,
+        "judging_potential": 79
       },
       "first_name": "Đặng Ngọc Tài",
       "nationality": "Vietnam",
@@ -42,9 +41,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Bigkoro",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/cf193578c037b1cf.png",
+      "nickname": "Bigkoro"
     },
     {
       "id": "staff-57528e27",
@@ -53,10 +51,10 @@
       "team_id": "team-dcg2025",
       "last_name": "Liang-Jung",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 67,
+        "physiotherapy": 69,
+        "judging_ability": 65,
+        "judging_potential": 74
       },
       "first_name": "Chiu Liang-Jung",
       "nationality": "Taiwan",
@@ -64,9 +62,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Lxz",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/9ca646cecfb07779.png",
+      "nickname": "Lxz"
     },
     {
       "id": "staff-8a39f2d1",
@@ -75,10 +72,10 @@
       "team_id": "team-d13da18a",
       "last_name": "Ju-Chih",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 76,
+        "judging_ability": 73,
+        "judging_potential": 74
       },
       "first_name": "Chen Ju-Chih",
       "nationality": "Taiwan",
@@ -87,8 +84,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/374296cb.webp",
-      "nickname": "WarHorse",
-      "team_id_2": null
+      "nickname": "WarHorse"
     },
     {
       "id": "staff-d1b8a592",
@@ -97,10 +93,10 @@
       "team_id": "team-cbc2ec83",
       "last_name": "Aoki",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 72,
+        "physiotherapy": 73,
+        "judging_ability": 73,
+        "judging_potential": 68
       },
       "first_name": "Haruhiko Aoki",
       "nationality": "",
@@ -109,8 +105,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/75dc74d2.webp",
-      "nickname": "Gismo",
-      "team_id_2": null
+      "nickname": "Gismo"
     },
     {
       "id": "staff-4a8f3e95",
@@ -119,10 +114,10 @@
       "team_id": "team-cbc2ec83",
       "last_name": "Sang-wook",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 81,
+        "physiotherapy": 79,
+        "judging_ability": 81,
+        "judging_potential": 83
       },
       "first_name": "Lee Sang-wook",
       "nationality": "South Korea",
@@ -131,8 +126,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/0a60e480.webp",
-      "nickname": "Tana",
-      "team_id_2": null
+      "nickname": "Tana"
     },
     {
       "id": "staff-71781ec7",
@@ -141,10 +135,10 @@
       "team_id": "team-83d3342f",
       "last_name": "Sheng-Wei",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 76,
+        "physiotherapy": 75,
+        "judging_ability": 75,
+        "judging_potential": 79
       },
       "first_name": "Liu Sheng-Wei",
       "nationality": "Taiwan",
@@ -153,8 +147,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/1bc04c9b.webp",
-      "nickname": "Wulala",
-      "team_id_2": null
+      "nickname": "Wulala"
     },
     {
       "id": "staff-179c8711",
@@ -163,10 +156,10 @@
       "team_id": "team-dcg2025",
       "last_name": "Kuan-Ting",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 85,
+        "physiotherapy": 76,
+        "judging_ability": 77,
+        "judging_potential": 80
       },
       "first_name": "Chen Kuan-Ting",
       "nationality": "Taiwan",
@@ -175,8 +168,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/3c1af869.webp",
-      "nickname": "REFRA1N",
-      "team_id_2": null
+      "nickname": "REFRA1N"
     },
     {
       "id": "staff-924ab434",
@@ -185,10 +177,10 @@
       "team_id": "team-f4306bce",
       "last_name": "Pin-Lun",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 93,
+        "physiotherapy": 88,
+        "judging_ability": 84,
+        "judging_potential": 95
       },
       "first_name": "Cheng Pin-Lun",
       "nationality": "Taiwan",
@@ -197,8 +189,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/4bafee16.webp",
-      "nickname": "CorGi",
-      "team_id_2": null
+      "nickname": "CorGi"
     },
     {
       "id": "staff-ce47e65c",
@@ -207,10 +198,10 @@
       "team_id": "team-494fc51a",
       "last_name": "Luân",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 82,
+        "physiotherapy": 78,
+        "judging_ability": 82,
+        "judging_potential": 83
       },
       "first_name": "Võ Thành Luân",
       "nationality": "Vietnam",
@@ -218,9 +209,8 @@
       "birth_country": null,
       "date_of_birth": "1990-01-01",
       "specialization": null,
-      "profile_image_url": null,
-      "nickname": "Naul",
-      "team_id_2": null
+      "profile_image_url": "/staff-photos/c9576f02fddd8f3e.png",
+      "nickname": "Naul"
     },
     {
       "id": "staff-21c6bfa1",
@@ -229,10 +219,10 @@
       "team_id": "team-gzg2025",
       "last_name": "Yu-Fan",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 72,
+        "physiotherapy": 67,
+        "judging_ability": 66,
+        "judging_potential": 76
       },
       "first_name": "Wong Yu-Fan",
       "nationality": "Taiwan",
@@ -241,8 +231,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/5f473b84.webp",
-      "nickname": "Ratis",
-      "team_id_2": null
+      "nickname": "Ratis"
     },
     {
       "id": "staff-9daa012f",
@@ -251,10 +240,10 @@
       "team_id": "team-cbc2ec83",
       "last_name": "Sasaki",
       "attributes": {
-        "coaching": 50,
-        "physiotherapy": 50,
-        "judging_ability": 50,
-        "judging_potential": 50
+        "coaching": 83,
+        "physiotherapy": 80,
+        "judging_ability": 77,
+        "judging_potential": 81
       },
       "first_name": "Shirou Sasaki",
       "nationality": "Japan",
@@ -263,8 +252,7 @@
       "date_of_birth": "1990-01-01",
       "specialization": null,
       "profile_image_url": "/staff-photos/296c58fb.webp",
-      "nickname": "Paz",
-      "team_id_2": null
+      "nickname": "Paz"
     }
   ]
 }

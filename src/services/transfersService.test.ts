@@ -28,6 +28,7 @@ describe("transfersService", () => {
       playerId: "player-1",
       fee: 1500000,
       destination: "main",
+      includedPlayerIds: [],
     });
   });
 
@@ -52,6 +53,7 @@ describe("transfersService", () => {
       playerId: "player-1",
       offerId: "offer-1",
       requestedFee: 1800000,
+      includedPlayerIds: [],
     });
   });
 

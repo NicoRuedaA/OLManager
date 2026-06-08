@@ -14,7 +14,7 @@ Current project health overview. Tech stack versions, what's working/broken, tec
 
 Contributor-facing architecture map. Explains the React/Tauri boundary, frontend structure, Rust workspace crates, persistence model, testing approach, dependency direction, and how to add features without breaking architectural boundaries.
 
-### [GOVERNANCE.md](GOVERNANCE.md)
+### [CONTRIBUTING.md](CONTRIBUTING.md)
 
 Open-source governance model. Documents `main` as stable/release-only, `development` as integration, feature branches from `development`, issue-first review gates, labels, protected branch settings, release promotion, and hotfix back-merges.
 
