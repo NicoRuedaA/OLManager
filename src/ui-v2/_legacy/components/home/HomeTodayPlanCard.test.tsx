@@ -14,6 +14,10 @@ vi.mock("react-i18next", () => ({
         "scrims.tag.learningPlus": "Aprendizaje +",
         "scrims.tag.mentalMinus": "Mental -",
         "scrims.decision.cancelScrims": "Cancelar scrims",
+        "scrims.decision.pushThrough": "Push Through",
+        "scrims.decision.continueBlock2": "Continue to block 2",
+        "scrims.decision.offerRest": "Offer rest",
+        "scrims.decision.dayOff": "Dar resto del día libre",
         "scrims.decision.vodReview": "VOD Review",
         "scrims.decision.mentalReset": "Mental Reset",
         "scrims.decision.targetedDrills": "Targeted Drills",
@@ -29,7 +33,7 @@ vi.mock("react-i18next", () => ({
   }),
 }));
 
-vi.mock("../../services/trainingService", () => ({
+vi.mock("@/services/trainingService", () => ({
   cancelTodaysScrims: vi.fn(),
   choosePostScrimDecision: vi.fn(),
   delegateScrimDecision: vi.fn(),
@@ -117,7 +121,7 @@ describe("HomeTodayPlanCard", () => {
 
     render(
         <HomeTodayPlanCard
-        gameState={gameState([myTeam, rival], { day_phase: "ScrimBlock" })}
+        gameState={gameState([myTeam, rival], { day_phase: "ReviewBlock" })}
         team={myTeam}
       />,
     );
@@ -155,7 +159,7 @@ describe("HomeTodayPlanCard", () => {
 
     render(
         <HomeTodayPlanCard
-        gameState={gameState([myTeam, rival], { day_phase: "ScrimBlock" })}
+        gameState={gameState([myTeam, rival], { day_phase: "ReviewBlock" })}
         team={myTeam}
       />,
     );
@@ -165,13 +169,13 @@ describe("HomeTodayPlanCard", () => {
     expect(screen.getByText("Mental -")).toBeInTheDocument();
   });
 
-  it("does not render review actions outside ScrimBlock even with unresolved report", () => {
+  it("does not render review actions outside ReviewBlock even with unresolved report", () => {
     const myTeam = team({ scrim_reports: [report({ post_decision: null })] });
     const rival = team({ id: "team-2", name: "G2 Esports", weekly_scrim_plan_team_ids: [] });
 
     render(
         <HomeTodayPlanCard
-        gameState={gameState([myTeam, rival], { day_phase: "ReviewBlock" })}
+        gameState={gameState([myTeam, rival], { day_phase: "ScrimBlock" })}
         team={myTeam}
       />,
     );
@@ -190,7 +194,7 @@ describe("HomeTodayPlanCard", () => {
     });
     const { rerender } = render(
       <HomeTodayPlanCard
-        gameState={gameState([firstBlockTeam, rival], { day_phase: "ScrimBlock" })}
+        gameState={gameState([firstBlockTeam, rival], { day_phase: "ReviewBlock" })}
         team={firstBlockTeam}
       />, 
     );
@@ -204,7 +208,7 @@ describe("HomeTodayPlanCard", () => {
     });
     rerender(
       <HomeTodayPlanCard
-        gameState={gameState([secondBlockTeam, rival], { day_phase: "ScrimBlock" })}
+        gameState={gameState([secondBlockTeam, rival], { day_phase: "ReviewBlock" })}
         team={secondBlockTeam}
       />, 
     );
@@ -222,7 +226,7 @@ describe("HomeTodayPlanCard", () => {
 
     render(
       <HomeTodayPlanCard
-        gameState={gameState([myTeam, rival], { day_phase: "ScrimBlock" })}
+        gameState={gameState([myTeam, rival], { day_phase: "ReviewBlock" })}
         team={myTeam}
       />,
     );

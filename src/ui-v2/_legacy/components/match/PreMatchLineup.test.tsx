@@ -83,12 +83,12 @@ describe("PreMatchLineup helpers", () => {
   });
 
   it("keeps condition/stat color helpers", () => {
-    expect(condColor(90)).toBe("text-primary-400");
+    expect(condColor(90)).toBe("text-primary");
     expect(condColor(60)).toBe("text-amber-400");
     expect(condColor(20)).toBe("text-red-400");
-    expect(statColor(80)).toBe("text-primary-400 font-bold");
+    expect(statColor(80)).toBe("text-primary font-bold");
     expect(statColor(65)).toBe("text-gray-200");
-    expect(statColor(40)).toBe("text-gray-500");
+    expect(statColor(40)).toBe("text-muted-foreground");
   });
 });
 

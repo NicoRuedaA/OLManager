@@ -21,6 +21,10 @@ vi.mock("../../lib/i18n/backendI18n", () => ({
 }));
 
 vi.mock("react-i18next", () => ({
+  initReactI18next: {
+    type: "3rdParty",
+    init: vi.fn(),
+  },
   useTranslation: () => ({
     i18n: { language: "en" },
     t: (key: string, params?: Record<string, string | number>) => {
@@ -283,4 +287,3 @@ describe("HomeTab", function (): void {
     expect(screen.getByText("No league digest yet.")).toBeInTheDocument();
   });
 });
-

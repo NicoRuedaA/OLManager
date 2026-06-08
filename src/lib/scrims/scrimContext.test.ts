@@ -94,7 +94,7 @@ describe("scrimContext", () => {
     const context = deriveTodayScrimContext(gameState(myTeam, { day_phase: "ScrimBlock" }), myTeam);
     expect(context.state).toBe("PlayedNeedsReview");
     expect(context.canCancel).toBe(false);
-    expect(context.canReview).toBe(true);
+    expect(context.canReview).toBe(false);
   });
 
   it("returns Reviewed after post decision", () => {
@@ -218,4 +218,3 @@ describe("scrimContext", () => {
     expect(secondBlock).toEqual({ blockLabel: "B", blockNumber: 2, blocksToday: 2 });
   });
 });
-

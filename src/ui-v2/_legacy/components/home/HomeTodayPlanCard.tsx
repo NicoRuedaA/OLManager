@@ -160,7 +160,7 @@ export default function HomeTodayPlanCard({
     ? gameState.teams.find((candidate) => candidate.id === scrimContext.opponentTeamId) ?? null
     : null;
   const dayPhase = gameState.day_phase ?? "Morning";
-  const decisionPhaseActive = dayPhase === "ScrimBlock";
+  const decisionPhaseActive = dayPhase === "ReviewBlock";
   const unresolvedReviewReport = decisionPhaseActive && scrimContext.canReview ? scrimContext.report : null;
   const suggestedDecision = unresolvedReviewReport ? recommendedDecision(unresolvedReviewReport) : null;
   const reviewOpponent = unresolvedReviewReport
@@ -494,4 +494,3 @@ export default function HomeTodayPlanCard({
     </Card>
   );
 }
-

@@ -26,7 +26,7 @@ const { getAvailableJobsMock, applyForJobMock } = vi.hoisted(() => ({
   applyForJobMock: vi.fn(),
 }));
 
-vi.mock("../../services/jobService", () => ({
+vi.mock("@/services/jobService", () => ({
   getAvailableJobs: (...args: unknown[]) => getAvailableJobsMock(...args),
   applyForJob: (...args: unknown[]) => applyForJobMock(...args),
 }));

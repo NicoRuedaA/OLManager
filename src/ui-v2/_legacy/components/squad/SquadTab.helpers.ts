@@ -160,7 +160,11 @@ export function buildActiveLineupIds(
   LOL_ACTIVE_ROLES.forEach((role, index) => {
     const savedSlotPlayer = byId.get(savedIds[index] ?? "");
 
-    if (savedSlotPlayer && !used.has(savedSlotPlayer.id)) {
+    if (
+      savedSlotPlayer &&
+      !used.has(savedSlotPlayer.id) &&
+      resolvePlayerLolRole(savedSlotPlayer) === role
+    ) {
       activeIds[index] = savedSlotPlayer.id;
       used.add(savedSlotPlayer.id);
       return;
@@ -308,4 +312,3 @@ export function applyLineupSwap(
 
   return null;
 }
-

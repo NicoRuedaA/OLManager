@@ -5,6 +5,10 @@ import type { GameStateData, NewsArticle, TeamData } from "@/store/gameStore";
 import NewsTab from "@/ui-v2/_legacy/components/news/NewsTab";
 
 vi.mock("react-i18next", () => ({
+  initReactI18next: {
+    type: "3rdParty",
+    init: vi.fn(),
+  },
   useTranslation: () => ({
     t: (key: string, params?: Record<string, string | number>) => {
       if (key === "news.noNews") return "No news";

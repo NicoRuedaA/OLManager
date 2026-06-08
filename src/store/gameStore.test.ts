@@ -75,7 +75,10 @@ describe("useGameStore", () => {
     it("stores game state data", () => {
       const gs = makeGameState();
       useGameStore.getState().setGameState(gs);
-      expect(useGameStore.getState().gameState).toBe(gs);
+      expect(useGameStore.getState().gameState).toEqual({
+        ...gs,
+        champions: undefined,
+      });
     });
 
     it("marks state as dirty", () => {
