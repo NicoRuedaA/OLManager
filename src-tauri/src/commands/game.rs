@@ -239,8 +239,10 @@ pub async fn select_team(
     sm_state: State<'_, SaveManagerState>,
     app_handle: tauri::AppHandle,
     team_id: String,
+    lang: Option<String>,
 ) -> Result<Game, String> {
-    info!("[cmd] select_team: team_id={}", team_id);
+    let lang = lang.unwrap_or_else(|| "en".to_string());
+    info!("[cmd] select_team: team_id={}, lang={}", team_id, lang);
     let mut game = state
         .get_game(|g: &Game| g.clone())
         .ok_or("No active game session".to_string())?;
@@ -387,7 +389,7 @@ pub async fn select_team(
         }
     }
 
-    let welcome_msg = olm_core::messages::welcome_message(&team_name, &team_id, &date_str);
+    let welcome_msg = olm_core::messages::welcome_message(&team_name, &team_id, &date_str, &lang);
     game.messages.push(welcome_msg);
 
     if let Some(parent_team) = game.teams.iter().find(|team| team.id == team_id) {

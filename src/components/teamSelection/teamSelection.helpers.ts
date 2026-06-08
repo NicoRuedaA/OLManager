@@ -26,6 +26,6 @@ export async function loadLeagueSelectionData(): Promise<LeagueSelectionData> {
   return invoke<LeagueSelectionData>("get_league_selection_data");
 }
 
-export async function selectTeam(teamId: string): Promise<GameStateData> {
-  return invoke<GameStateData>("select_team", { teamId });
+export async function selectTeam(teamId: string, lang?: string): Promise<GameStateData> {
+  return invoke<GameStateData>("select_team", { teamId, lang: lang ?? "en" });
 }

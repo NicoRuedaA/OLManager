@@ -288,7 +288,7 @@ pub fn select_team(game: &mut Game, team_id: &str, comp_id: &str,
     let team_name = game.teams.iter().find(|t| t.id == team_id)
         .map(|t| t.name.clone()).unwrap_or_default();
 
-    game.messages.push(crate::messages::welcome_message(&team_name, team_id, &date_str));
+    game.messages.push(crate::messages::welcome_message(&team_name, team_id, &date_str, "en"));
 
     if let Some(parent) = game.teams.iter().find(|t| t.id == team_id) {
         if let Some(aid) = parent.academy_team_id.as_deref() {

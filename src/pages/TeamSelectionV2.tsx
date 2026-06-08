@@ -12,7 +12,7 @@ import { loadLeagueSelectionData, selectTeam } from "@/components/teamSelection/
 type Screen = "loading" | "error" | "league" | "teams";
 
 export default function TeamSelectionV2() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { setGameState, setGameActive } = useGameStore();
 
@@ -54,7 +54,7 @@ export default function TeamSelectionV2() {
     if (!selectedTeamId || isConfirming) return;
     setIsConfirming(true);
     try {
-      const updatedGame = await selectTeam(selectedTeamId);
+      const updatedGame = await selectTeam(selectedTeamId, i18n.language);
       setGameState(updatedGame);
       const mgr = updatedGame.manager;
       const displayName = mgr.nickname?.trim() || `${mgr.first_name} ${mgr.last_name}`;

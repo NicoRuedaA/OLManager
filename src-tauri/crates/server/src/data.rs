@@ -623,7 +623,7 @@ pub fn select_team(game: &mut Game, team_id: &str) -> Result<(), String> {
         .map(|m| format!("{} {}", m.name, m.schedule.splits.first().map(|s| s.name.as_str()).unwrap_or("")))
         .unwrap_or_else(|| "LEC Winter".to_string());
 
-    game.messages.push(olm_core::messages::welcome_message(&team_name, team_id, &date_str));
+    game.messages.push(olm_core::messages::welcome_message(&team_name, team_id, &date_str, "en"));
 
     if let Some(parent_team) = game.teams.iter().find(|team| team.id == team_id) {
         if let Some(academy_team_id) = parent_team.academy_team_id.as_deref() {
