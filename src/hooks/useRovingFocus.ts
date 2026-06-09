@@ -6,6 +6,7 @@ interface RovingFocusOptions {
   onSelect?: (index: number) => void;
   getItemLabel?: (index: number) => string;
   loop?: boolean;
+  initialIndex?: number;
 }
 
 interface RovingFocusResult {
@@ -21,8 +22,9 @@ export function useRovingFocus({
   onSelect,
   getItemLabel,
   loop = true,
+  initialIndex = 0,
 }: RovingFocusOptions): RovingFocusResult {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(initialIndex);
   const searchBuffer = useRef("");
   const searchTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
