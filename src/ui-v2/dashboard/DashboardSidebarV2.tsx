@@ -159,17 +159,17 @@ export function DashboardSidebarV2({
         onKeyDown={handleKeyDown}
         tabIndex={-1}
       >
-        <Group items={top} allItems={allNavItems} flatIndex={0} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
+        <Group items={top} flatIndex={0} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
 
         {!isUnemployed && (
           <>
             <SectionLabel>{t("dashboard.sectionClub")}</SectionLabel>
-            <Group items={club} allItems={allNavItems} flatIndex={top.length} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
+            <Group items={club} flatIndex={top.length} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
           </>
         )}
 
         <SectionLabel>{t("dashboard.sectionWorld")}</SectionLabel>
-        <Group items={world} allItems={allNavItems} flatIndex={top.length + (isUnemployed ? 0 : club.length)} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
+        <Group items={world} flatIndex={top.length + (isUnemployed ? 0 : club.length)} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
       </nav>
 
       <Separator />
@@ -189,7 +189,6 @@ export function DashboardSidebarV2({
 
 function Group({
   items,
-  allItems,
   flatIndex,
   activeTab,
   onNavClick,
@@ -197,7 +196,6 @@ function Group({
   getTabIndex,
 }: {
   items: Item[];
-  allItems: Item[];
   flatIndex: number;
   activeTab: string;
   onNavClick: (tab: string) => void;
