@@ -7,7 +7,7 @@ import type { LeagueData, TeamData } from "@/store/gameStore";
 vi.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string, params?: Record<string, string | number>) => {
-      if (key === "home.standings") return "Standings";
+      if (key === "home.standings.title") return "Standings";
       if (key === "schedule.playoffs") return "Playoffs";
       if (key === "home.leaguePosition") return "League Position";
       if (key === "season.phases.Preseason") return "Preseason";

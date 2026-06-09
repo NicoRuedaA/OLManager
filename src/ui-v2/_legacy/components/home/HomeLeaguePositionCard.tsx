@@ -92,7 +92,7 @@ export default function HomeLeaguePositionCard({
             onClick={() => onNavigate?.("Schedule")}
             className="text-primary-500 dark:text-primary-400 text-xs font-heading font-bold uppercase tracking-wider hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
           >
-            {hasPlayoffsStarted ? t("schedule.playoffs") : t("home.standings")}
+            {hasPlayoffsStarted ? t("schedule.playoffs") : t("home.standings.title")}
           </button>
         }
       >
