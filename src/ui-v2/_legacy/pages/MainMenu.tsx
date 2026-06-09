@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getApiClientSync } from "@/api/client";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -11,6 +11,7 @@ import SavesList from "@/ui-v2/_legacy/components/menu/SavesList";
 import MenuBackground from "@/ui-v2/_legacy/components/menu/MenuBackground";
 import CommunityPanel from "@/ui-v2/_legacy/components/menu/CommunityPanel";
 import PatchNotesPanel from "@/ui-v2/_legacy/components/menu/PatchNotesPanel";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 import {
   FolderOpen,
   Settings,
@@ -375,8 +376,60 @@ export default function MainMenu() {
     }
   };
 
+  const mainMenuItems = useMemo(() => {
+    const items: Array<{ label: string; onClick: () => void; icon: React.ReactNode; tone?: MenuItemTone; active?: boolean; title?: string }> = [
+      { icon: <PlusCircle />, label: t("menu.newGame"), active: menuState === "create", onClick: () => setMenuState("create") },
+      { icon: <FolderOpen />, label: t("menu.loadGame"), active: menuState === "load", onClick: handleOpenLoadMenu },
+      { icon: <Settings />, tone: "muted" as const, label: t("menu.settings"), onClick: () => navigate("/settings", { state: { from: "/", menuStyle: true } }) },
+      { icon: <Users />, label: t("menu.community", "Comunidad"), active: menuState === "community", onClick: () => setMenuState("community") },
+      { icon: <Newspaper />, tone: "muted" as const, label: t("menu.patchNotes", "Novedades"), active: menuState === "patchnotes", onClick: () => setMenuState("patchnotes") },
+    ];
+    if (debugToolsEnabled) {
+      items.push({ icon: <Database />, tone: "primary" as const, label: "World Editor", title: "World Editor", onClick: () => navigate("/world-editor") });
+    }
+    if (!isWebSession) {
+      items.push({ icon: <Power />, tone: "danger" as const, label: t("menu.exitGame"), onClick: () => { void handleExitApp(); } });
+    }
+    return items;
+  }, [t, menuState, debugToolsEnabled, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: mainMenuItems.length,
+    columns: 1,
+    onSelect: (i) => mainMenuItems[i]?.onClick(),
+    getItemLabel: (i) => mainMenuItems[i]?.label ?? "",
+  });
+
+  useEffect(() => {
+    if (menuState === "main") {
+      containerRef.current?.focus();
+      itemRefs.current[activeIndex]?.focus();
+    }
+  }, [activeIndex, menuState]);
+
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
+
+  const handleMenuKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape" && menuState !== "main") {
+      e.preventDefault();
+      setMenuState("main");
+      return;
+    }
+    if (menuState !== "main") return;
+    handleKeyDown(e);
+  };
+
   return (
-    <div className="h-full relative overflow-hidden font-sans text-white">
+    <div
+      ref={containerRef}
+      className="h-full relative overflow-hidden font-sans text-white"
+      onKeyDown={handleMenuKeyDown}
+      tabIndex={-1}
+    >
       <MenuBackground />
 
       {/* Theme Toggle */}
@@ -394,60 +447,19 @@ export default function MainMenu() {
             />
 
             <nav className="flex flex-col gap-1">
-              <MenuItem
-                icon={<PlusCircle />}
-                label={t("menu.newGame")}
-                active={menuState === "create"}
-                onClick={() => setMenuState("create")}
-              />
-              <MenuItem
-                icon={<FolderOpen />}
-                label={t("menu.loadGame")}
-                active={menuState === "load"}
-                onClick={handleOpenLoadMenu}
-              />
-              <MenuItem
-                icon={<Settings />}
-                tone="muted"
-                label={t("menu.settings")}
-                onClick={() =>
-                  navigate("/settings", {
-                    state: { from: "/", menuStyle: true },
-                  })
-                }
-              />
-              <MenuItem
-                icon={<Users />}
-                label={t("menu.community", "Comunidad")}
-                active={menuState === "community"}
-                onClick={() => setMenuState("community")}
-              />
-              <MenuItem
-                icon={<Newspaper />}
-                tone="muted"
-                label={t("menu.patchNotes", "Novedades")}
-                active={menuState === "patchnotes"}
-                onClick={() => setMenuState("patchnotes")}
-              />
-              {debugToolsEnabled && (
+              {mainMenuItems.map((item, i) => (
                 <MenuItem
-                  icon={<Database />}
-                  tone="primary"
-                  label="World Editor"
-                  title="World Editor"
-                  onClick={() => navigate("/world-editor")}
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  tone={item.tone}
+                  active={item.active}
+                  title={item.title}
+                  tabIndex={getTabIndex(i)}
+                  ref={(el) => { itemRefs.current[i] = el; }}
+                  onClick={item.onClick}
                 />
-              )}
-              {!isWebSession && (
-                <MenuItem
-                  icon={<Power />}
-                  tone="danger"
-                  label={t("menu.exitGame")}
-                  onClick={() => {
-                    void handleExitApp();
-                  }}
-                />
-              )}
+              ))}
             </nav>
           </div>
         </div>
@@ -874,21 +886,23 @@ export default function MainMenu() {
 
 type MenuItemTone = "accent" | "muted" | "primary" | "danger";
 
-function MenuItem({
-  icon,
-  label,
-  onClick,
-  active = false,
-  tone = "accent",
-  title,
-}: {
+const MenuItem = React.forwardRef<HTMLButtonElement, {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
   active?: boolean;
   tone?: MenuItemTone;
   title?: string;
-}) {
+  tabIndex?: 0 | -1;
+}>(function MenuItem({
+  icon,
+  label,
+  onClick,
+  active = false,
+  tone = "accent",
+  title,
+  tabIndex,
+}, ref) {
   const bar =
     tone === "danger"
       ? "bg-red-500"
@@ -908,6 +922,8 @@ function MenuItem({
 
   return (
     <button
+      ref={ref}
+      tabIndex={tabIndex ?? 0}
       onClick={onClick}
       title={title}
       className={`group relative flex items-center gap-4 w-full py-3 pl-5 pr-6 text-left rounded-lg transition-colors duration-200 ${
@@ -935,5 +951,5 @@ function MenuItem({
       </span>
     </button>
   );
-}
-
+});
+ 
