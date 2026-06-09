@@ -1,0 +1,98 @@
+name: Build installers (.exe + .apk)
+
+# Builds downloadable installers on demand:
+#   - Windows .exe/.msi on a native Windows runner
+#   - Android .apk (debug, auto-signed with the debug key so it installs) on Linux
+# Artifacts are uploaded to the workflow run (Actions tab -> run -> Artifacts).
+# Runs automatically when this branch is pushed, or manually via "Run workflow".
+
+on:
+  push:
+    branches: [ci/build-installers]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-exe:
+    name: windows-exe
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Tauri bundle (Windows)
+        run: npm run tauri build
+
+      - name: Upload Windows installers
+        uses: actions/upload-artifact@v4
+        with:
+          name: olmanager-windows
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error
+
+  android-apk:
+    name: android-apk
+    runs-on: ubuntu-latest
+    env:
+      NDK_VERSION: "27.1.12297006"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK platform, build-tools and NDK
+        run: |
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;${NDK_VERSION}"
+
+      - name: Export NDK environment
+        run: |
+          echo "NDK_HOME=${ANDROID_HOME}/ndk/${NDK_VERSION}" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=${ANDROID_HOME}/ndk/${NDK_VERSION}" >> "$GITHUB_ENV"
+
+      - name: Setup Rust with Android targets
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Build Android APK (debug, installable)
+        run: npm run tauri android build -- --apk --debug --ci
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: olmanager-android
+          path: src-tauri/gen/android/app/build/outputs/apk/**/*.apk
+          if-no-files-found: error
