@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
@@ -38,6 +38,8 @@ export default function TeamSelectionV2() {
         setScreen("error");
       });
   }, []);
+
+  const activeCompetitions = useMemo(() => (leagueData?.competitions ?? []).filter((c) => !c.legacy), [leagueData]);
 
   const handleLeagueSelect = (id: string) => {
     setSelectedCompetitionId(id);
@@ -117,7 +119,7 @@ export default function TeamSelectionV2() {
     );
   }
 
-  const selectedCompetition = leagueData?.competitions.find((c) => c.id === selectedCompetitionId);
+  const selectedCompetition = activeCompetitions.find((c) => c.id === selectedCompetitionId);
   const isLeagueScreen = screen === "league" && leagueData;
 
   return (
@@ -149,7 +151,7 @@ export default function TeamSelectionV2() {
       </header>
 
       {isLeagueScreen ? (
-        <LeaguePickerV2 competitions={leagueData.competitions} onSelect={handleLeagueSelect} />
+        <LeaguePickerV2 competitions={activeCompetitions} onSelect={handleLeagueSelect} />
       ) : (
         <TeamGridV2 teams={selectedCompetition?.teams ?? []} onSelectTeam={setSelectedTeamId} selectedTeamId={selectedTeamId} />
       )}

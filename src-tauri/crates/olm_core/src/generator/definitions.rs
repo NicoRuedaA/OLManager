@@ -158,6 +158,8 @@ pub struct CompetitionSummary {
     #[serde(default)]
     pub logo: Option<String>,
     pub tier: u8,
+    #[serde(default)]
+    pub legacy: bool,
     pub team_count: u32,
     pub teams: Vec<TeamSummary>,
 }

@@ -683,6 +683,7 @@ export interface CompetitionSummary {
   region: string;
   logo: string | null;
   tier: number;
+  legacy: boolean;
   team_count: number;
   teams: TeamSummary[];
 }

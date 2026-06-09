@@ -225,6 +225,7 @@ fn competition_summary(
         region: manifest.region,
         logo: manifest.logo,
         tier: manifest.tier.unwrap_or(0),
+        legacy: manifest.legacy,
         team_count: manifest.schedule.team_count,
         teams: team_summaries,
     })

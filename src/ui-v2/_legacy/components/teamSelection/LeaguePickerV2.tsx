@@ -1,5 +1,6 @@
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronRight, Globe, Users } from "lucide-react";
+import { ChevronRight, Globe, Search, Users, X } from "lucide-react";
 import type { CompetitionSummary } from "@/store/gameStore";
 import { cn } from "@/ui-v2/lib/utils";
 
@@ -19,11 +20,48 @@ const REGION_BG: Record<string, string> = {
 
 export function LeaguePickerV2({ competitions, onSelect }: LeaguePickerV2Props) {
   const { t } = useTranslation();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    if (!query.trim()) return competitions;
+    const q = query.toLowerCase();
+    return competitions.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.region.toLowerCase().includes(q),
+    );
+  }, [competitions, query]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2">
+    <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="shrink-0 px-6 pt-4 md:px-8 md:pt-6">
+        <div className="relative mx-auto max-w-2xl">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/50" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("teamSelect.searchLeague", "Search leagues...")}
+            className="h-10 w-full rounded-lg border border-border bg-muted/50 pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground/40 transition-colors focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
+          />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              className="absolute right-2 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground/50 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <X className="size-3.5" />
+            </button>
+          )}
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
-          {competitions.map((comp, i) => {
+          {filtered.length === 0 ? (
+            <div className="col-span-full py-16 text-center">
+              <Search className="mx-auto mb-3 size-8 text-muted-foreground/30" />
+              <p className="text-sm text-muted-foreground/60">{t("teamSelect.noLeaguesMatch", "No leagues match your search")}</p>
+            </div>
+          ) : (
+            filtered.map((comp, i) => {
             const region = Object.keys(REGION_BG).find((k) => comp.name.toUpperCase().includes(k) || comp.region.toUpperCase().includes(k));
             const bgGradient = region ? REGION_BG[region] : "from-primary/20 via-primary/5 to-transparent";
 
@@ -69,8 +107,9 @@ export function LeaguePickerV2({ competitions, onSelect }: LeaguePickerV2Props) 
                 </div>
               </button>
             );
-          })}
+          }))}
         </div>
       </div>
+    </div>
   );
 }
