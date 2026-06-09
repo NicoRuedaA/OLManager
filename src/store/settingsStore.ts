@@ -20,7 +20,7 @@ export interface AppSettings {
 
 const DEFAULT_SETTINGS: AppSettings = {
   theme: "dark",
-  language: "es",
+  language: "en",
   currency: "EUR",
   default_match_mode: "live",
   scrim_review_mode: "manual",

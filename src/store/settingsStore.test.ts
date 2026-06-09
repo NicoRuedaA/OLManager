@@ -8,7 +8,7 @@ vi.mock("@tauri-apps/api/core", () => ({
 
 const DEFAULT_SETTINGS = {
   theme: "dark",
-  language: "es",
+  language: "en",
   currency: "EUR",
   default_match_mode: "live",
   scrim_review_mode: "manual",
@@ -41,7 +41,7 @@ describe("useSettingsStore", () => {
 
   it("loads settings from the backend and merges missing fields with defaults", async () => {
     vi.mocked(invoke).mockResolvedValue({
-      language: "es",
+      language: "en",
       confirm_advance: true,
     });
 
@@ -51,7 +51,7 @@ describe("useSettingsStore", () => {
     expect(useSettingsStore.getState().loaded).toBe(true);
     expect(useSettingsStore.getState().settings).toEqual({
       ...DEFAULT_SETTINGS,
-      language: "es",
+      language: "en",
       confirm_advance: true,
     });
   });

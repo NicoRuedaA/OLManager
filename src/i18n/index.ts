@@ -30,8 +30,8 @@ i18n.use(initReactI18next).init({
     "pt-BR": { translation: ptBR },
     tr: { translation: tr },
   },
-  lng: "es",
-  fallbackLng: "es",
+  lng: "en",
+  fallbackLng: "en",
   interpolation: {
     escapeValue: false, // React already escapes
   },

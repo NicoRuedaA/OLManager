@@ -25,7 +25,7 @@ pub struct AppSettings {
 }
 
 fn default_language() -> String {
-    "es".to_string()
+    "en".to_string()
 }
 fn default_ui_scale() -> String {
     "normal".to_string()
@@ -41,7 +41,7 @@ impl Default for AppSettings {
     fn default() -> Self {
         Self {
             theme: "dark".to_string(),
-            language: "es".to_string(),
+            language: "en".to_string(),
             currency: "EUR".to_string(),
             default_match_mode: "live".to_string(),
             auto_save: true,
