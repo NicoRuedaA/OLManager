@@ -28,7 +28,7 @@ export default function MatchScreenLayout({
   themeToggleClassName,
 }: MatchScreenLayoutProps) {
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
+    <div className="min-h-0 flex-1 bg-background text-foreground flex flex-col">
       {header && (
         <header
           className={joinClasses(

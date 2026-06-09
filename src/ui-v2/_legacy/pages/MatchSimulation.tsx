@@ -1794,10 +1794,10 @@ export default function MatchSimulation() {
   // Loading state
   if (!snapshot || !gameState) {
     return (
-      <div className="h-full bg-gray-100 dark:bg-navy-900 flex items-center justify-center transition-colors duration-300">
+      <div className="h-full bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
-          <span className="text-gray-500 dark:text-gray-400 font-heading uppercase tracking-wider text-sm">
+          <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <span className="text-muted-foreground font-heading uppercase tracking-wider text-sm">
             {t("dashboard.loading")}
           </span>
         </div>
@@ -1939,15 +1939,15 @@ export default function MatchSimulation() {
   } catch (renderError) {
     console.error("[MatchSimulation] render:error", { stage, error: renderError });
     return (
-      <div className="h-full bg-gray-100 dark:bg-navy-900 flex items-center justify-center p-8">
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-2xl">
-          <h2 className="text-lg font-heading font-bold text-red-700 dark:text-red-400 mb-2">
+      <div className="h-full bg-background flex items-center justify-center p-8">
+        <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-6 max-w-2xl">
+          <h2 className="text-lg font-heading font-bold text-destructive mb-2">
             Render Error
           </h2>
-          <p className="text-red-600 dark:text-red-300 text-sm font-mono whitespace-pre-wrap">
+          <p className="text-destructive/80 text-sm font-mono whitespace-pre-wrap">
             {String(renderError)}
           </p>
-          <p className="text-gray-500 dark:text-gray-400 text-xs mt-4">
+          <p className="text-muted-foreground text-xs mt-4">
             Stage: {stage}
           </p>
         </div>
