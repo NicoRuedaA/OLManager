@@ -137,7 +137,7 @@ export function StaffTabV2({ gameState, onGameUpdate, mode = "club" }: StaffTabV
   const [competitionFilter, setCompetitionFilter] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [page, setPage] = useState(0);
-  const PAGE_SIZE = 4;
+  const PAGE_SIZE = 12;
 
   const myStaff = gameState.staff.filter((s) => s.team_id === userTeamId);
   const availableStaff = gameState.staff.filter((s) => !s.team_id);
