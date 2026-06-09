@@ -1117,13 +1117,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                   <button className="rounded border border-cyan-500/30 bg-black/60 px-2 py-1 text-white/90" onClick={() => setRunning((v) => !v)}>
                     {running ? t("match.pause") : t("match.play")}
                   </button>
-                  <button
-                    className="rounded border border-amber-400/40 bg-amber-500/20 px-2 py-1 text-amber-200 disabled:opacity-50"
-                    onClick={requestSkipFromZero}
-                    disabled={isSkipping}
-                  >
-                    {isSkipping ? t("match.skipping", { defaultValue: "Skipping..." }) : t("match.skipMatch", { defaultValue: "Skip Match" })}
-                  </button>
+
                   <button className="col-span-2 rounded border border-cyan-500/30 bg-black/60 px-2 py-1 text-white/90" onClick={handleReset}>
                     {t("match.reset")}
                   </button>
