@@ -577,7 +577,17 @@ export default function Settings() {
           </div>
 
           {/* Section tabs */}
-          <nav className="flex flex-wrap gap-1 border-b border-border/40 mb-6">
+          <nav className="flex flex-wrap gap-1 border-b border-border/40 mb-6"
+            onKeyDown={(e) => {
+              if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+                e.preventDefault();
+                const dir = e.key === "ArrowRight" ? 1 : -1;
+                const idx = gameSections.findIndex((s) => s.id === active.id);
+                const next = (idx + dir + gameSections.length) % gameSections.length;
+                setActiveSettingsTab(gameSections[next].id);
+              }
+            }}
+          >
             {gameSections.map((s) => (
               <GameTab
                 key={s.id}
