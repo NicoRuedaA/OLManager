@@ -234,7 +234,7 @@ export function YouthTabV2({ gameState, onSelectPlayer, onSelectTeam, onGameUpda
   }
 
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 scrollbar-v2">
+    <div className="flex h-full flex-col gap-4 p-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -350,8 +350,8 @@ export function YouthTabV2({ gameState, onSelectPlayer, onSelectTeam, onGameUpda
 
       {/* Academy Acquisition */}
       {!academyTeam && (
-        <Card className="flex-1">
-          <CardHeader>
+        <Card className="flex min-h-0 flex-1 flex-col">
+          <CardHeader className="shrink-0">
             <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
               {t("youthAcademy.academyCardTitle")}
             </CardTitle>
