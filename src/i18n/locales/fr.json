@@ -246,7 +246,7 @@
       "matchTodayStartingXi": "Match aujourd'hui ! Définissez votre équipe titulaire"
     },
     "unemployedBanner": "Vous êtes actuellement sans club. Des offres d'emploi pourraient arriver dans votre boîte de réception.",
-    "worldStaff": "DB Staff",
+    "worldStaff": "Staffs",
     "brandSubtitle": "Manager",
     "brandTitle": "Open League",
     "competitions": "Competitions",
@@ -344,6 +344,7 @@
     },
     "leaguePosition": "Position en Ligue",
     "standings": {
+      "title": "Classement",
       "hash": "#",
       "losses": "L",
       "preseason": "Preseason — no standings yet",

@@ -243,7 +243,7 @@
     },
     "unemployedBanner": "Şu anda bir kulübünüz yok. Gelen kutunuza iş teklifleri gelebilir.",
     "scrims": "Scrims",
-    "worldStaff": "DB Staff",
+    "worldStaff": "Staffs",
     "social": "Social",
     "searchChampions": "Champions",
     "brandSubtitle": "Manager",
@@ -344,6 +344,7 @@
     },
     "leaguePosition": "Lig Sıralaması",
     "standings": {
+      "title": "Puan Durumu",
       "hash": "#",
       "losses": "L",
       "preseason": "Preseason — no standings yet",
