@@ -1,23 +1,5 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { LeagueSelectionData, GameStateData } from "@/store/gameStore";
-import { autoImportDatabase } from "@/lib/dataImport";
-
-let autoImportAttempt: Promise<void> | null = null;
-
-function hasSelectableLeagueData(data: LeagueSelectionData): boolean {
-  return data.competitions.some((competition) => competition.teams.length > 0);
-}
-
-function ensureAutoImportAttempted(): Promise<void> {
-  if (!autoImportAttempt) {
-    autoImportAttempt = autoImportDatabase()
-      .then(() => undefined)
-      .finally(() => {
-        autoImportAttempt = null;
-      });
-  }
-  return autoImportAttempt;
-}
 
 export function formatFinance(val: number): string {
   if (val >= 1_000_000) return `€${(val / 1_000_000).toFixed(1)}M`;
@@ -41,12 +23,6 @@ export function getTeamLogoPath(teamId: string, logoUrl?: string | null): string
 }
 
 export async function loadLeagueSelectionData(): Promise<LeagueSelectionData> {
-  const data = await invoke<LeagueSelectionData>("get_league_selection_data");
-  if (hasSelectableLeagueData(data)) {
-    return data;
-  }
-
-  await ensureAutoImportAttempted();
   return invoke<LeagueSelectionData>("get_league_selection_data");
 }
 
