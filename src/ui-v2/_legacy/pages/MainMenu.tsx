@@ -519,17 +519,38 @@ export default function MainMenu() {
                 {menuState === "create" && (
                   <form onSubmit={handleStartCareer} className="flex flex-col"
                     onKeyDown={(e) => {
-                      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-                        e.preventDefault();
-                        const focusable = Array.from(document.querySelectorAll<HTMLElement>(
-                          "#create-manager-field-nickname input, #create-manager-field-firstName input, #create-manager-field-lastName input, #create-manager-field-dob input, #create-manager-field-dob button, #create-manager-field-nationality-btn, #create-manager-submit"
-                        )                        ).filter(el => !(el as HTMLInputElement).disabled && el.tabIndex !== -1);
+                      const nav: Record<string, Record<string, string | null>> = {
+                        nickname: { right: null, left: null, down: "firstName", up: null },
+                        firstName: { right: "lastName", left: null, down: "day", up: "nickname" },
+                        lastName: { right: null, left: "firstName", down: "day", up: "nickname" },
+                        day: { right: "month", left: null, down: "nationality", up: "firstName" },
+                        month: { right: "year", left: "day", down: "nationality", up: "firstName" },
+                        year: { right: null, left: "month", down: "nationality", up: "firstName" },
+                        nationality: { right: null, left: null, down: "submit", up: "day" },
+                        submit: { right: null, left: null, down: null, up: "nationality" },
+                      };
+                      const selectors: Record<string, string> = {
+                        nickname: "#create-manager-field-nickname input",
+                        firstName: "#create-manager-field-firstName input",
+                        lastName: "#create-manager-field-lastName input",
+                        day: "#dp-day-input",
+                        month: "#dp-month-btn",
+                        year: "#dp-year-input",
+                        nationality: "#create-manager-field-nationality-btn",
+                        submit: "#create-manager-submit",
+                      };
+                      if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(e.key)) {
                         const current = document.activeElement;
-                        const idx = focusable.indexOf(current as HTMLElement);
-                        const next = e.key === "ArrowDown"
-                          ? focusable[Math.min(idx + 1, focusable.length - 1)]
-                          : focusable[Math.max(idx - 1, 0)];
-                        next?.focus();
+                        const fieldId = Object.entries(selectors).find(
+                          ([, sel]) => current === document.querySelector(sel)
+                        )?.[0];
+                        if (!fieldId) return;
+                        const dir = e.key === "ArrowDown" ? "down" : e.key === "ArrowUp" ? "up" : e.key === "ArrowRight" ? "right" : "left";
+                        const target = nav[fieldId]?.[dir];
+                        if (!target) return;
+                        e.preventDefault();
+                        const el = document.querySelector<HTMLElement>(selectors[target]);
+                        el?.focus();
                       }
                     }}
                   >

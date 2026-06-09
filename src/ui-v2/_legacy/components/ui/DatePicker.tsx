@@ -187,6 +187,7 @@ export function DatePicker({ value, onChange, error, nextFieldId }: DatePickerPr
       {/* Day */}
       <div className="flex-1">
         <input
+          id="dp-day-input"
           ref={dayRef}
           type="text"
           inputMode="numeric"
