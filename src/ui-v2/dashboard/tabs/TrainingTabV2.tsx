@@ -64,6 +64,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/ui-v2/components/ui/table";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/ui-v2/components/ui/tabs";
 import { cn } from "@/ui-v2/lib/utils";
 
 // ─── SoloQ constants & helpers (from legacy tab) ─────────────
@@ -448,13 +454,138 @@ export function TrainingTabV2({
     t("training.days.sun", { defaultValue: "S" }),
   ];
 
+  // ─── Tab state ───────────────────────────────────────────────
+  const [activeTab, setActiveTab] = useState("training");
+
+  // ─── SoloQ Ranks ─────────────────────────────────────────────
+  const soloQRanksCard = (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+          {t("training.soloQRanks", {
+            defaultValue: "SoloQ Ranks",
+          })}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1 overflow-y-auto">
+        {!hasRoster ? (
+          <p className="py-4 text-center font-heading text-xs uppercase tracking-wider text-muted-foreground">
+            {t("training.emptyRoster", { defaultValue: "Empty roster" })}
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {sortedRoster.map((player) => {
+              const role = resolvePlayerCurrentLolRole(player, myTeam);
+              const playerFocus = normalizeTrainingFocus(
+                player.training_focus ?? currentFocus,
+              );
+              const soloQ = computeSoloQ(
+                player,
+                gameState,
+                masterySignalByPlayer.get(player.id) ?? 0,
+                playerFocus,
+                currentIntensity,
+                currentSchedule,
+              );
+              const photo = resolvePlayerPhoto(
+                player.id,
+                player.match_name,
+                player.profile_image_url,
+              );
+
+              return (
+                <div
+                  key={player.id}
+                  className="flex items-center gap-3 rounded-lg border border-border px-3 py-2"
+                >
+                  {/* Avatar + role badge */}
+                  <div className="relative size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
+                    {photo && (
+                      <img
+                        src={photo}
+                        alt={player.match_name}
+                        className="size-full object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    )}
+                    <img
+                      src={ROLE_ICON_PATHS[role]}
+                      alt={role}
+                      className="absolute bottom-0 left-0 size-4 rounded-tr bg-card/90 p-0.5"
+                      loading="lazy"
+                    />
+                  </div>
+
+                  {/* Name + tier/LP */}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-heading text-sm font-bold uppercase tracking-wider text-foreground">
+                      {player.match_name}
+                    </p>
+                    <p className="font-heading text-xs uppercase tracking-wide text-muted-foreground">
+                      <span className={soloQTierClass(soloQ.tier)}>
+                        {t(`training.soloQTiers.${soloQ.tier}`, {
+                          defaultValue: soloQ.tier,
+                        })}
+                      </span>
+                      <span className="tabular-nums">
+                        {" · "}
+                        {soloQ.lp} LP
+                      </span>
+                      <span
+                        className={cn(
+                          "ml-1 tabular-nums",
+                          soloQ.delta >= 0
+                            ? "text-emerald-400"
+                            : "text-red-400",
+                        )}
+                      >
+                        {soloQ.delta >= 0
+                          ? `+${soloQ.delta}`
+                          : soloQ.delta}
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Rank emblem */}
+                  <img
+                    src={soloQEmblemUrl(soloQ.tier)}
+                    alt=""
+                    className="size-7 shrink-0 object-contain"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+
   // ─── Render ──────────────────────────────────────────────────
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto p-6">
-      {/* ═══ Top: two-column layout ═══ */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {/* ── Left column: Settings ─────────────────────────────── */}
-        <div className="flex flex-col gap-4 lg:col-span-2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 min-h-0">
+        <TabsList variant="line">
+          <TabsTrigger value="training">
+            {t("training.tab.training", { defaultValue: "Entrenamiento" })}
+          </TabsTrigger>
+          <TabsTrigger value="soloq">
+            {t("training.tab.soloq", { defaultValue: "SoloQ" })}
+          </TabsTrigger>
+        </TabsList>
+
+        {/* ═══ Tab: Training Settings ═══ */}
+        <TabsContent value="training" className="flex flex-col">
+          <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-3 lg:grid-rows-[1fr]">
+            {/* ── Left column: Settings ─────────────────────────────── */}
+            <div className="flex flex-col gap-4 lg:col-span-2 h-full">
           {/* ── Staff Advice Banner ────────────────────────────── */}
           {staffAdvice && (
             <div
@@ -583,7 +714,7 @@ export function TrainingTabV2({
           </Card>
 
           {/* ── Training Focus + Intensity Card ─────────────────── */}
-          <Card>
+          <Card className="flex-1">
             <CardHeader>
               <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
                 {t("training.trainingFocus", {
@@ -591,7 +722,7 @@ export function TrainingTabV2({
                 })}
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               {/* Focus grid */}
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 {TRAINING_FOCUS_IDS.map((focusId) => {
@@ -658,7 +789,7 @@ export function TrainingTabV2({
                         handleSetTraining(currentFocus, intensityId)
                       }
                       className={cn(
-                        "flex-1 rounded-lg border-2 p-3 text-left transition-all",
+                        "flex-1 rounded-lg border-2 py-5 px-3 text-left transition-all",
                         currentIntensity === intensityId
                           ? "border-primary bg-primary/10"
                           : "border-border hover:border-primary/50",
@@ -713,116 +844,7 @@ export function TrainingTabV2({
         </div>
 
         {/* ── Right column: Stats ───────────────────────────────── */}
-        <div className="flex flex-col gap-4">
-          {/* ── SoloQ Ranks Card ────────────────────────────────── */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-                {t("training.soloQRanks", {
-                  defaultValue: "SoloQ Ranks",
-                })}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {!hasRoster ? (
-                <p className="py-4 text-center font-heading text-xs uppercase tracking-wider text-muted-foreground">
-                  {t("training.emptyRoster", { defaultValue: "Empty roster" })}
-                </p>
-              ) : (
-                <div className="space-y-2">
-                  {sortedRoster.map((player) => {
-                    const role = resolvePlayerCurrentLolRole(player, myTeam);
-                    const playerFocus = normalizeTrainingFocus(
-                      player.training_focus ?? currentFocus,
-                    );
-                    const soloQ = computeSoloQ(
-                      player,
-                      gameState,
-                      masterySignalByPlayer.get(player.id) ?? 0,
-                      playerFocus,
-                      currentIntensity,
-                      currentSchedule,
-                    );
-                    const photo = resolvePlayerPhoto(
-                      player.id,
-                      player.match_name,
-                      player.profile_image_url,
-                    );
-
-                    return (
-                      <div
-                        key={player.id}
-                        className="flex items-center gap-3 rounded-lg border border-border px-3 py-2"
-                      >
-                        {/* Avatar + role badge */}
-                        <div className="relative size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
-                          {photo && (
-                            <img
-                              src={photo}
-                              alt={player.match_name}
-                              className="size-full object-cover"
-                              loading="lazy"
-                              onError={(e) => {
-                                e.currentTarget.style.display = "none";
-                              }}
-                            />
-                          )}
-                          <img
-                            src={ROLE_ICON_PATHS[role]}
-                            alt={role}
-                            className="absolute bottom-0 left-0 size-4 rounded-tr bg-card/90 p-0.5"
-                            loading="lazy"
-                          />
-                        </div>
-
-                        {/* Name + tier/LP */}
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate font-heading text-sm font-bold uppercase tracking-wider text-foreground">
-                            {player.match_name}
-                          </p>
-                          <p className="font-heading text-xs uppercase tracking-wide text-muted-foreground">
-                            <span className={soloQTierClass(soloQ.tier)}>
-                              {t(`training.soloQTiers.${soloQ.tier}`, {
-                                defaultValue: soloQ.tier,
-                              })}
-                            </span>
-                            <span className="tabular-nums">
-                              {" · "}
-                              {soloQ.lp} LP
-                            </span>
-                            <span
-                              className={cn(
-                                "ml-1 tabular-nums",
-                                soloQ.delta >= 0
-                                  ? "text-emerald-400"
-                                  : "text-red-400",
-                              )}
-                            >
-                              {soloQ.delta >= 0
-                                ? `+${soloQ.delta}`
-                                : soloQ.delta}
-                            </span>
-                          </p>
-                        </div>
-
-                        {/* Rank emblem */}
-                        <img
-                          src={soloQEmblemUrl(soloQ.tier)}
-                          alt=""
-                          className="size-7 shrink-0 object-contain"
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
+        <div className="flex flex-col gap-4 h-full">
           {/* ── Staff Impact Card ───────────────────────────────── */}
           <Card>
             <CardHeader>
@@ -946,211 +968,220 @@ export function TrainingTabV2({
               </div>
             </CardContent>
           </Card>
-        </div>
-      </div>
 
-      {/* ═══ Bottom: Training Groups Table ═══ */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-            {t("training.groups.trainingGroups", {
-              defaultValue: "Training Groups",
-            })}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Group badges */}
-          {groups.length > 0 && (
-            <div className="mb-4 flex flex-wrap gap-2">
-              {groups.map((group) => (
-                <div
-                  key={group.id}
-                  className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-1.5"
-                >
-                  <span className="text-muted-foreground">
-                    {TRAINING_FOCUS_ICONS[group.focus] ?? (
-                      <Users className="size-4" />
-                    )}
-                  </span>
-                  <span className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
-                    {group.name}
-                  </span>
-                  <span className="font-heading text-[10px] tabular-nums text-muted-foreground">
-                    {group.player_ids.length}
-                  </span>
+          {/* ═══ Training Groups ═══ */}
+          <Card className="flex-1">
+            <CardHeader>
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                {t("training.groups.trainingGroups", {
+                  defaultValue: "Training Groups",
+                })}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-y-auto">
+              {/* Group badges */}
+              {groups.length > 0 && (
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {groups.map((group) => (
+                    <div
+                      key={group.id}
+                      className="flex items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-1.5"
+                    >
+                      <span className="text-muted-foreground">
+                        {TRAINING_FOCUS_ICONS[group.focus] ?? (
+                          <Users className="size-4" />
+                        )}
+                      </span>
+                      <span className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
+                        {group.name}
+                      </span>
+                      <span className="font-heading text-[10px] tabular-nums text-muted-foreground">
+                        {group.player_ids.length}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
+              )}
 
-          {!hasRoster || groups.length === 0 || showCreateGroup ? (
-            <div>
-              {!hasRoster ? (
-                <p className="py-4 text-center font-heading text-sm uppercase tracking-wider text-muted-foreground">
-                  {t("training.emptyRoster")}
-                </p>
-              ) : (
-                <div className="space-y-4">
-                  {groups.length === 0 && !showCreateGroup && (
-                    <>
-                      <p className="py-4 text-center font-heading text-sm uppercase tracking-wider text-muted-foreground">
-                        {t("training.groups.noGroups")}
-                      </p>
-                      <p className="mt-3 text-center text-xs text-muted-foreground">
-                        {t("training.groups.trainingGroupsDesc")}
-                      </p>
-                      <div className="flex justify-center">
-                        <button
-                          type="button"
-                          onClick={() => setShowCreateGroup(true)}
-                          className="rounded-md border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
-                        >
-                          + {t("training.groups.addGroup", "Añadir grupo")}
-                        </button>
-                      </div>
-                    </>
-                  )}
-                  {showCreateGroup && (
-                    <div className="mx-auto max-w-md space-y-3 rounded-lg border border-border bg-muted/20 p-4">
-                      <p className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
-                        {t("training.groups.newGroup", "Nuevo grupo")}
-                      </p>
-                      <input
-                        value={newGroupName}
-                        onChange={(e) => setNewGroupName(e.target.value)}
-                        placeholder={t("training.groups.groupNamePlaceholder", "Nombre del grupo")}
-                        className="w-full rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-xs text-foreground outline-none"
-                      />
-                      <select
-                        value={newGroupFocus}
-                        onChange={(e) => setNewGroupFocus(e.target.value)}
-                        className="w-full rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-xs text-foreground outline-none"
-                      >
-                        {TRAINING_FOCUS_IDS.map((f) => (
-                          <option key={f} value={f}>
-                            {t(`training.focuses.${f}.label`)}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="flex justify-end gap-2">
-                        <button
-                          type="button"
-                          onClick={() => { setShowCreateGroup(false); setNewGroupName(""); }}
-                          className="rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted"
-                        >
-                          {t("common.cancel")}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={handleAddGroup}
-                          disabled={!newGroupName.trim()}
-                          className="rounded-md border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
-                        >
-                          {t("common.create", "Crear")}
-                        </button>
-                      </div>
+              {!hasRoster || groups.length === 0 || showCreateGroup ? (
+                <div>
+                  {!hasRoster ? (
+                    <p className="py-4 text-center font-heading text-sm uppercase tracking-wider text-muted-foreground">
+                      {t("training.emptyRoster")}
+                    </p>
+                  ) : (
+                    <div className="space-y-4">
+                      {groups.length === 0 && !showCreateGroup && (
+                        <>
+                          <p className="py-4 text-center font-heading text-sm uppercase tracking-wider text-muted-foreground">
+                            {t("training.groups.noGroups")}
+                          </p>
+                          <p className="mt-3 text-center text-xs text-muted-foreground">
+                            {t("training.groups.trainingGroupsDesc")}
+                          </p>
+                          <div className="flex justify-center">
+                            <button
+                              type="button"
+                              onClick={() => setShowCreateGroup(true)}
+                              className="rounded-md border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                            >
+                              + {t("training.groups.addGroup", "Añadir grupo")}
+                            </button>
+                          </div>
+                        </>
+                      )}
+                      {showCreateGroup && (
+                        <div className="mx-auto max-w-md space-y-3 rounded-lg border border-border bg-muted/20 p-4">
+                          <p className="font-heading text-xs font-bold uppercase tracking-wider text-foreground">
+                            {t("training.groups.newGroup", "Nuevo grupo")}
+                          </p>
+                          <input
+                            value={newGroupName}
+                            onChange={(e) => setNewGroupName(e.target.value)}
+                            placeholder={t("training.groups.groupNamePlaceholder", "Nombre del grupo")}
+                            className="w-full rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-xs text-foreground outline-none"
+                          />
+                          <select
+                            value={newGroupFocus}
+                            onChange={(e) => setNewGroupFocus(e.target.value)}
+                            className="w-full rounded-md border border-border bg-muted/30 px-2.5 py-1.5 text-xs text-foreground outline-none"
+                          >
+                            {TRAINING_FOCUS_IDS.map((f) => (
+                              <option key={f} value={f}>
+                                {t(`training.focuses.${f}.label`)}
+                              </option>
+                            ))}
+                          </select>
+                          <div className="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => { setShowCreateGroup(false); setNewGroupName(""); }}
+                              className="rounded-md border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted"
+                            >
+                              {t("common.cancel")}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleAddGroup}
+                              disabled={!newGroupName.trim()}
+                              className="rounded-md border border-primary bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
+                            >
+                              {t("common.create", "Crear")}
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
-              )}
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {t("common.player", { defaultValue: "Player" })}
-                  </TableHead>
-                  <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {t("common.position", { defaultValue: "Pos" })}
-                  </TableHead>
-                  <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {t("training.groups.group", {
-                      defaultValue: "Group",
-                    })}
-                  </TableHead>
-                  <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                    {t("training.effectiveFocus", {
-                      defaultValue: "Focus",
-                    })}
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sortedRoster.map((player) => {
-                  const playerGroup = playerGroupMap.get(player.id);
-                  const playerFocus = normalizeOptionalTrainingFocus(
-                    player.training_focus,
-                  );
-                  const hasIndividualFocus = !!playerFocus;
-                  const effectiveFocus =
-                    playerFocus ||
-                    (playerGroup ? playerGroup.focus : teamFocus);
-
-                  return (
-                    <TableRow key={player.id}>
-                      <TableCell className="font-heading text-sm font-bold text-foreground">
-                        {player.match_name}
-                      </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">
-                        {translatePositionAbbreviation(
-                          t,
-                          player.natural_position || player.position,
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <select
-                          value={playerGroup?.id ?? ""}
-                          onChange={(e) =>
-                            setPlayerGroup(player.id, e.target.value)
-                          }
-                          disabled={isSaving}
-                          className={cn(
-                            "w-full max-w-[130px] rounded-md border bg-transparent px-2 py-1 font-heading text-xs uppercase tracking-wider text-foreground transition-colors",
-                            "border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
-                            isSaving && "pointer-events-none opacity-50",
-                          )}
-                        >
-                          <option value="">
-                            {t("training.groups.teamDefault", {
-                              defaultValue: "Team default",
-                            })}
-                          </option>
-                          {groups.map((group) => (
-                            <option key={group.id} value={group.id}>
-                              {group.name}
-                            </option>
-                          ))}
-                        </select>
-                      </TableCell>
-                      <TableCell>
-                        <span
-                          className={cn(
-                            "inline-block rounded px-2 py-0.5 font-heading text-[11px] uppercase tracking-wider",
-                            hasIndividualFocus
-                              ? "border border-primary/30 bg-primary/10 text-primary"
-                              : "text-muted-foreground",
-                          )}
-                        >
-                          {t(`training.focuses.${effectiveFocus}.label`)}
-                          {hasIndividualFocus && " *"}
-                        </span>
-                      </TableCell>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {t("common.player", { defaultValue: "Player" })}
+                      </TableHead>
+                      <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {t("common.position", { defaultValue: "Pos" })}
+                      </TableHead>
+                      <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {t("training.groups.group", {
+                          defaultValue: "Group",
+                        })}
+                      </TableHead>
+                      <TableHead className="font-heading text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                        {t("training.effectiveFocus", {
+                          defaultValue: "Focus",
+                        })}
+                      </TableHead>
                     </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          )}
+                  </TableHeader>
+                  <TableBody>
+                    {sortedRoster.map((player) => {
+                      const playerGroup = playerGroupMap.get(player.id);
+                      const playerFocus = normalizeOptionalTrainingFocus(
+                        player.training_focus,
+                      );
+                      const hasIndividualFocus = !!playerFocus;
+                      const effectiveFocus =
+                        playerFocus ||
+                        (playerGroup ? playerGroup.focus : teamFocus);
 
-          <p className="mt-3 text-xs text-muted-foreground">
-            {t("training.groups.trainingGroupsDesc", {
-              defaultValue:
-                "Assign players to training groups to customise their focus. Groups with a custom focus override the team default.",
-            })}
-          </p>
-        </CardContent>
-      </Card>
+                      return (
+                        <TableRow key={player.id}>
+                          <TableCell className="font-heading text-sm font-bold text-foreground">
+                            {player.match_name}
+                          </TableCell>
+                          <TableCell className="text-xs text-muted-foreground">
+                            {translatePositionAbbreviation(
+                              t,
+                              player.natural_position || player.position,
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <select
+                              value={playerGroup?.id ?? ""}
+                              onChange={(e) =>
+                                setPlayerGroup(player.id, e.target.value)
+                              }
+                              disabled={isSaving}
+                              className={cn(
+                                "w-full max-w-[130px] rounded-md border bg-transparent px-2 py-1 font-heading text-xs uppercase tracking-wider text-foreground transition-colors",
+                                "border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
+                                isSaving && "pointer-events-none opacity-50",
+                              )}
+                            >
+                              <option value="">
+                                {t("training.groups.teamDefault", {
+                                  defaultValue: "Team default",
+                                })}
+                              </option>
+                              {groups.map((group) => (
+                                <option key={group.id} value={group.id}>
+                                  {group.name}
+                                </option>
+                              ))}
+                            </select>
+                          </TableCell>
+                          <TableCell>
+                            <span
+                              className={cn(
+                                "inline-block rounded px-2 py-0.5 font-heading text-[11px] uppercase tracking-wider",
+                                hasIndividualFocus
+                                  ? "border border-primary/30 bg-primary/10 text-primary"
+                                  : "text-muted-foreground",
+                              )}
+                            >
+                              {t(`training.focuses.${effectiveFocus}.label`)}
+                              {hasIndividualFocus && " *"}
+                            </span>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              )}
+
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t("training.groups.trainingGroupsDesc", {
+                  defaultValue:
+                    "Assign players to training groups to customise their focus. Groups with a custom focus override the team default.",
+                })}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+      </TabsContent>
+
+      {/* ═══ Tab: SoloQ Ranks ═══ */}
+      <TabsContent value="soloq" className="flex-1">
+        <div className="h-full">
+          {soloQRanksCard}
+        </div>
+      </TabsContent>
+    </Tabs>
     </div>
   );
 }
