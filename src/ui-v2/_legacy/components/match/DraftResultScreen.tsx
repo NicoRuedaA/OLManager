@@ -6,6 +6,7 @@ import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
 import type { MatchSnapshot } from "@/ui-v2/_legacy/components/match/types";
 import type { DraftMatchResult, DraftTimelineEvent } from "@/ui-v2/_legacy/components/match/draftResultSimulator";
+import { cn } from "@/ui-v2/lib/utils";
 
 type Side = "blue" | "red";
 
@@ -48,89 +49,107 @@ export function buildGoldAdvantageChartPoints(timeline: GoldDiffPoint[]): GoldCh
   const orderedTimeline = [...timeline]
     .filter((point) => Number.isFinite(point.minute) && Number.isFinite(point.diff))
     .sort((left, right) => left.minute - right.minute);
-  const maxAbsGold = Math.max(...orderedTimeline.map((point) => Math.abs(point.diff)), 1000) || 1000;
 
-  return orderedTimeline.map((point, idx) => {
-    const x = 6 + (idx / Math.max(1, orderedTimeline.length - 1)) * 88;
-    // diff is always blue gold minus red gold. In SVG, lower y renders higher,
-    // so a larger blue-side advantage MUST move visually up, while red recovery
-    // and red-side leads move down through/below the center line.
-    const y = GOLD_CHART_CENTER_Y - (point.diff / maxAbsGold) * GOLD_CHART_HALF_HEIGHT;
-    return { ...point, x, y };
-  });
+  const maxDiff = Math.max(...orderedTimeline.map((point) => Math.abs(point.diff)), 100);
+  const minMinute = orderedTimeline[0]?.minute ?? 0;
+  const maxMinute = orderedTimeline[orderedTimeline.length - 1]?.minute ?? 1;
+  const range = maxMinute - minMinute || 1;
+  const centerX = 6;
+  const chartWidth = 88;
+
+  return orderedTimeline.map((point) => ({
+    ...point,
+    x: centerX + ((point.minute - minMinute) / range) * chartWidth,
+    y: GOLD_CHART_CENTER_Y + (point.diff / maxDiff) * GOLD_CHART_HALF_HEIGHT,
+  }));
 }
 
-const TEAM_BRAND_MAP: Record<string, { tricode: string }> = {
-  "g2 esports": { tricode: "G2" },
-  fnatic: { tricode: "FNC" },
-  "team vitality": { tricode: "VIT" },
-  vitality: { tricode: "VIT" },
-  "team heretics": { tricode: "HRTS" },
-  "sk gaming": { tricode: "SK" },
-  "movistar koi": { tricode: "MKOI" },
-  "mad lions koi": { tricode: "MKOI" },
-  "team bds": { tricode: "BDS" },
-  giantx: { tricode: "GX" },
-  heretics: { tricode: "HRTS" },
-  "natus vincere": { tricode: "NAVI" },
-  "karmine corp": { tricode: "KC" },
-};
-
-function normalizeKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
+function buildKDAColor(kills: number, deaths: number, assists: number): string {
+  const kda = (kills + assists) / Math.max(1, deaths);
+  if (kda >= 4) return "text-emerald-400";
+  if (kda >= 2) return "text-foreground";
+  return "text-muted-foreground";
 }
 
-function teamTriCode(name: string, teams?: import("@/store/types").TeamData[]): string {
-  const normalizedName = normalizeKey(name);
+function count(events: DraftTimelineEvent[], type: string, side: string) {
+  return events.filter((event) => event.type === type).filter((event) => {
+    if (type === "kill" && event.participants) {
+      const source = typeof event.participants[0] === "object" ? (event.participants[0] as { teamId?: string }).teamId : undefined;
+      return source === side;
+    }
+    return true;
+  }).length;
+}
 
-  if (teams) {
-    const fromTeams = teams.find((t) => normalizeKey(t.name) === normalizedName);
-    if (fromTeams?.short_name) return fromTeams.short_name;
+function estimatedRuntimeEvents(runtime: DraftMatchResult): Array<{ t: number; text: string; type: "kill" | "tower" | "dragon" | "baron" | "info" }> {
+  const minutes = Math.max(8, Math.floor((runtime.durationSec ?? 0) / 60));
+  const blueName = (runtime as unknown as Record<string, { name: string }>).blue_team?.name ?? "BLUE";
+  const redName = (runtime as unknown as Record<string, { name: string }>).red_team?.name ?? "RED";
+  const seed = Math.floor((runtime.durationSec ?? 0) + (runtime.blueKills ?? 0) * 13 + (runtime.redKills ?? 0) * 17);
+  let state = (seed >>> 0) || 1;
+  const rng = () => {
+    state = (1664525 * state + 1013904223) >>> 0;
+    return state / 0xffffffff;
+  };
+
+  const events: Array<{ t: number; text: string; type: "kill" | "tower" | "dragon" | "baron" | "info" }> = [];
+  const pushKill = (minute: number, side: string) => {
+    const jitter = Math.floor(rng() * 60);
+    events.push({ t: minute * 60 + jitter, text: `${side} secured a kill`, type: "kill" });
+  };
+  for (let i = 0; i < (runtime.blueKills ?? 0); i++) {
+    const minute = Math.max(2, Math.floor(((i + 1) / ((runtime.blueKills ?? 1) + 1)) * minutes));
+    pushKill(minute, blueName);
   }
-
-  const fromSeed = TEAM_SEEDS.find((team) => normalizeKey(team.name) === normalizedName);
-  if (fromSeed?.shortName) return fromSeed.shortName.toUpperCase();
-
-  const key = name.trim().toLowerCase();
-  const known = TEAM_BRAND_MAP[key];
-  if (known) return known.tricode;
-
-  const cleaned = name.replace(/[^A-Za-z0-9\s]/g, " ").trim();
-  if (!cleaned) return "TEAM";
-  const words = cleaned.split(/\s+/).filter(Boolean);
-  if (words.length >= 2) return words.map((word) => word[0]).join("").toUpperCase().slice(0, 4);
-  return cleaned.slice(0, 4).toUpperCase();
+  for (let i = 0; i < (runtime.redKills ?? 0); i++) {
+    const minute = Math.max(2, Math.floor(((i + 1) / ((runtime.redKills ?? 1) + 1)) * minutes));
+    pushKill(minute, redName);
+  }
+  events.sort((a, b) => a.t - b.t);
+  return events.slice(0, 50);
 }
 
-function sideTeam(snapshot: MatchSnapshot, side: Side) {
-  return side === "blue" ? snapshot.home_team : snapshot.away_team;
+function pick<T>(arr: T[], seed: number): T {
+  return arr[Math.abs(seed) % arr.length];
 }
 
-function eventPillClass(event: DraftTimelineEvent): string {
-  const sideBase =
-    event.side === "blue"
-      ? "border-primary/30 bg-primary/10 text-muted-foreground"
-      : "border-orange-400/30 bg-orange-500/10 text-orange-400";
+function MvpCard({ result, snapshot }: { result: DraftMatchResult; snapshot?: MatchSnapshot }) {
+  const { t } = useTranslation();
+  const mvp = (() => {
+    const all = [...result.homeChampions, ...result.awayChampions];
+    if (all.length === 0) return null;
+    const best = all.reduce((a, b) => getScore(b) > getScore(a) ? b : a);
+    const player = result.players?.find((p) => p.id === best.id);
+    return { ...best, name: player?.name ?? best.name, photoUrl: player ? resolvePlayerPhoto(player.id, player.name, player.profile_image_url) : null };
+  })();
 
-  if (event.type === "baron") {
-    return `${sideBase} shadow-[0_0_0_1px_rgba(168,85,247,0.35),0_0_14px_rgba(168,85,247,0.45)]`;
-  }
-
-  if (event.type === "dragon_soul" || event.type === "elder") {
-    return `${sideBase} shadow-[0_0_0_1px_rgba(250,204,21,0.35),0_0_14px_rgba(250,204,21,0.45)]`;
-  }
-
-  return sideBase;
+  return (
+    <div className="rounded-xl border border-primary/20 bg-card p-4">
+      <p className="text-xs uppercase tracking-[0.2em] text-primary">{t("match.draftResult.mvp")}</p>
+      <div className="mt-3 flex items-center gap-3">
+        {mvp?.photoUrl ? (
+          <img src={mvp.photoUrl} alt={mvp.name} className="w-14 h-14 rounded-full object-cover border border-border" loading="lazy" />
+        ) : (
+          <div className="w-14 h-14 rounded-full bg-muted" />
+        )}
+        <div>
+          <p className="font-bold text-lg text-foreground">{mvp?.name ?? "-"}</p>
+          <p className="text-sm text-muted-foreground/50">
+            {mvp ? `${mvp.kills}/${mvp.deaths}/${mvp.assists}` : ""}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-function formatGoldDiff(value: number): string {
-  const absValue = Math.abs(Math.round(value));
-  if (absValue >= 1000) {
-    const thousands = absValue / 1000;
-    return `${thousands % 1 === 0 ? thousands.toFixed(0) : thousands.toFixed(1)}k`;
-  }
+function getScore(c: { kills: number; deaths: number; assists: number; gold?: number }): number {
+  return (c.kills * 3 + c.assists * 2 - c.deaths) + (c.gold ?? 0) / 1000;
+}
 
-  return absValue.toString();
+function formatGold(val: number): string {
+  if (val >= 1000) return `${(val / 1000).toFixed(1)}k`;
+  return String(val);
 }
 
 export default function DraftResultScreen({
@@ -149,506 +168,228 @@ export default function DraftResultScreen({
 }: DraftResultScreenProps) {
   const { t } = useTranslation();
 
-  const playerById = useMemo(() => {
-    const map = new Map<string, { name: string; profileImageUrl?: string | null }>();
-    [...(snapshot.home_team?.players ?? []), ...(snapshot.away_team?.players ?? [])].forEach((p) => {
-      map.set(p.id, { name: p.name, profileImageUrl: p.profile_image_url });
+  const userSide = controlledSide === "blue" ? "Home" : "Away";
+  const userWon = result.winner === userSide;
+  const title = userWon ? t("match.victory") : t("match.defeat");
+  const blueLabel = "BLUE";
+  const redLabel = "RED";
+  const blueTri = "▲";
+  const redTri = "▼";
+  const blueLogo = resolveTeamLogo(snapshot.home_team.name, undefined);
+  const redLogo = resolveTeamLogo(snapshot.away_team.name, undefined);
+  const displayHomeKills = result.homeKills ?? result.blueKills ?? 0;
+  const displayAwayKills = result.awayKills ?? result.redKills ?? 0;
+
+  const seriesGamesForTabs = useMemo(() => {
+    if (!seriesGames || seriesGames.length <= 1) return [];
+    return seriesGames.map((entry) => ({ ...entry, gameLabel: t("match.seriesGame", { game: entry.gameIndex }) }));
+  }, [seriesGames, t]);
+
+  const [selectedGameIndex, setSelectedGameIndex] = useState(seriesGameIndex);
+  const selectedResult = seriesGamesForTabs.length > 0
+    ? (seriesGamesForTabs.find((g) => g.gameIndex === selectedGameIndex)?.result ?? result)
+    : result;
+
+  const homeChampions = selectedResult.homeChampions ?? [];
+  const awayChampions = selectedResult.awayChampions ?? [];
+  const runtimeEvents = useMemo(() => estimatedRuntimeEvents(selectedResult), [selectedResult]);
+
+  const blueKills = selectedResult.blueKills ?? selectedResult.homeKills ?? homeChampions.reduce((s, c) => s + c.kills, 0);
+  const redKills = selectedResult.redKills ?? selectedResult.awayKills ?? awayChampions.reduce((s, c) => s + c.kills, 0);
+  const blueGold = selectedResult.blueGold ?? homeChampions.reduce((s, c) => s + (c.gold ?? 0), 0);
+  const redGold = selectedResult.redGold ?? awayChampions.reduce((s, c) => s + (c.gold ?? 0), 0);
+  const homeGold = blueGold;
+  const awayGold = redGold;
+  const homeObjectives = (selectedResult.blueDragons ?? 0) + (selectedResult.blueBarons ?? 0) + (selectedResult.blueTowers ?? 0);
+  const awayObjectives = (selectedResult.redDragons ?? 0) + (selectedResult.redBarons ?? 0) + (selectedResult.redTowers ?? 0);
+
+  const statRows = useMemo(() => {
+    const rows: Array<{ label: string; home: string; away: string }> = [];
+    rows.push({ label: t("match.statKills"), home: String(blueKills), away: String(redKills) });
+    rows.push({ label: t("match.statGold"), home: formatGold(blueGold), away: formatGold(redGold) });
+    rows.push({ label: t("match.statTowers"), home: String(selectedResult.blueTowers ?? 0), away: String(selectedResult.redTowers ?? 0) });
+    rows.push({ label: t("match.statDragons"), home: String(selectedResult.blueDragons ?? 0), away: String(selectedResult.redDragons ?? 0) });
+    rows.push({ label: t("match.statBarons"), home: String(selectedResult.blueBarons ?? 0), away: String(selectedResult.redBarons ?? 0) });
+    return rows;
+  }, [t, blueKills, redKills, blueGold, redGold, selectedResult]);
+
+  const homePlayers = useMemo(
+    () => (result.players ?? []).filter((p) => p.team_id === snapshot.home_team.id),
+    [result.players, snapshot.home_team.id],
+  );
+  const awayPlayers = useMemo(
+    () => (result.players ?? []).filter((p) => p.team_id === snapshot.away_team.id),
+    [result.players, snapshot.away_team.id],
+  );
+
+  const userPrepInsight = useMemo(() => {
+    if (result.champion_ids_by_role == null) return null;
+    return buildLolScrimPrepInsight({
+      championIds: Object.values(result.champion_ids_by_role).filter(Boolean) as string[],
     });
-    return map;
-  }, [snapshot.home_team?.players, snapshot.away_team?.players]);
+  }, [result.champion_ids_by_role]);
 
-  const seriesGamesForTabs = useMemo<DraftResultSeriesGame[]>(() => {
-    if (!Array.isArray(seriesGames) || seriesGames.length === 0) {
-      return [{ gameIndex: Math.max(1, seriesGameIndex), result, winnerSide: result.winnerSide }];
-    }
+  const userPrepFocus = useMemo(() => {
+    return null;
+  }, []);
 
-    return [...seriesGames]
-      .filter((entry) => Number.isFinite(entry.gameIndex) && entry.gameIndex >= 1)
-      .sort((left, right) => left.gameIndex - right.gameIndex);
-  }, [result, seriesGameIndex, seriesGames]);
-
-  const latestSeriesGame = seriesGamesForTabs[seriesGamesForTabs.length - 1];
-  const [selectedGameIndex, setSelectedGameIndex] = useState<number>(latestSeriesGame?.gameIndex ?? 1);
-
-  useEffect(() => {
-    const hasSelectedGame = seriesGamesForTabs.some((entry) => entry.gameIndex === selectedGameIndex);
-    if (!hasSelectedGame) {
-      setSelectedGameIndex(latestSeriesGame?.gameIndex ?? 1);
-    }
-  }, [latestSeriesGame?.gameIndex, selectedGameIndex, seriesGamesForTabs]);
-
-  const selectedSeriesGame =
-    seriesGamesForTabs.find((entry) => entry.gameIndex === selectedGameIndex) ?? latestSeriesGame;
-  const selectedResult = selectedSeriesGame?.result ?? result;
-
-  const blueTeam = sideTeam(snapshot, "blue");
-  const redTeam = sideTeam(snapshot, "red");
-  const blueTri = teamTriCode(blueTeam.name, teams);
-  const redTri = teamTriCode(redTeam.name, teams);
-  const blueLogo = resolveTeamLogo(blueTeam.name);
-  const redLogo = resolveTeamLogo(redTeam.name);
-
-  const controlledWon = selectedResult.winnerSide === controlledSide;
-  const controlledPrepInsight = buildLolScrimPrepInsight(
-    snapshot.lol_scrim_prep,
-    controlledSide === "blue" ? "home" : "away",
+  const sortedHome = useMemo(
+    () => [...homeChampions].sort((a, b) => getScore(b) - getScore(a)),
+    [homeChampions],
   );
-  const controlledPrepFocus = controlledPrepInsight
-    ? t(controlledPrepInsight.focusLabel.key, { defaultValue: controlledPrepInsight.focusLabel.defaultValue })
-    : null;
-  const title = controlledWon
-    ? t("match.victory")
-    : t("match.defeat");
-
-  const blueRows = selectedResult.playerResults.filter((row) => row.side === "blue");
-  const redRows = selectedResult.playerResults.filter((row) => row.side === "red");
-
-  const chartPoints = buildGoldAdvantageChartPoints(selectedResult.goldDiffTimeline);
-  const maxAbsGold = Math.max(...chartPoints.map((point) => Math.abs(point.diff)), 1000) || 1000;
-  const finalGoldDiff = chartPoints[chartPoints.length - 1]?.diff ?? 0;
-  const leadingSide = finalGoldDiff > 0 ? "blue" : finalGoldDiff < 0 ? "red" : null;
-  const leadingTri = leadingSide === "blue" ? blueTri : leadingSide === "red" ? redTri : null;
-  const peakGoldDiff = chartPoints.reduce(
-    (peak, point) => (Math.abs(point.diff) > Math.abs(peak.diff) ? point : peak),
-    { minute: 0, diff: 0 },
+  const sortedAway = useMemo(
+    () => [...awayChampions].sort((a, b) => getScore(b) - getScore(a)),
+    [awayChampions],
   );
-  const chartIdSuffix = `${selectedGameIndex}-${blueTri}-${redTri}`.replace(/[^A-Za-z0-9_-]/g, "");
-  const goldAxisLabel = `${t("match.draftResult.goldAdvantage")} (+ ${blueTri}, - ${redTri})`;
 
-  const points = chartPoints.map((point) => `${point.x},${point.y}`).join(" ");
-  const areaPath = chartPoints.length > 0
-    ? `M ${chartPoints[0].x},${GOLD_CHART_CENTER_Y} L ${chartPoints.map((point) => `${point.x},${point.y}`).join(" L ")} L ${chartPoints[chartPoints.length - 1].x},${GOLD_CHART_CENTER_Y} Z`
-    : "";
-
-  const mvpPlayer = playerById.get(selectedResult.mvp.playerId);
-  const mvpPhoto = resolvePlayerPhoto(selectedResult.mvp.playerId, selectedResult.mvp.playerName, mvpPlayer?.profileImageUrl);
-  const playedSeriesGames = Math.max(latestSeriesGame?.gameIndex ?? 1, seriesGamesForTabs.length);
-  const nextGameLabel = `${Math.min(seriesLength, playedSeriesGames + 1)}/${seriesLength}`;
-  const targetSeriesWins = seriesLength === 1 ? 1 : seriesLength === 3 ? 2 : 3;
-  const seriesWinsFromGames = seriesGamesForTabs.reduce(
-    (score, entry) => {
-      if (entry.winnerSide === controlledSide) {
-        return { ...score, user: score.user + 1 };
-      }
-
-      if (entry.winnerSide === "blue" || entry.winnerSide === "red") {
-        return { ...score, opponent: score.opponent + 1 };
-      }
-
-      return score;
-    },
-    { user: 0, opponent: 0 },
-  );
-  const propSeriesWins = userSeriesWins + opponentSeriesWins;
-  const gameSeriesWins = seriesWinsFromGames.user + seriesWinsFromGames.opponent;
-  const propsClaimFinished = userSeriesWins >= targetSeriesWins || opponentSeriesWins >= targetSeriesWins;
-  const propsSupportedByGames =
-    propsClaimFinished &&
-    propSeriesWins <= seriesLength &&
-    gameSeriesWins >= propSeriesWins;
-  const shouldUseSeriesGamesScore =
-    seriesLength > 1 &&
-    gameSeriesWins > 0 &&
-    (propSeriesWins === 0 || !propsSupportedByGames);
-  const displayedUserSeriesWins = shouldUseSeriesGamesScore ? seriesWinsFromGames.user : userSeriesWins;
-  const displayedOpponentSeriesWins = shouldUseSeriesGamesScore ? seriesWinsFromGames.opponent : opponentSeriesWins;
-  const displayedSeriesWins = displayedUserSeriesWins + displayedOpponentSeriesWins;
-  const displayedWinnerReachedTarget =
-    displayedUserSeriesWins >= targetSeriesWins || displayedOpponentSeriesWins >= targetSeriesWins;
-  const displayedScoreSupportedByGames =
-    displayedSeriesWins <= seriesLength && gameSeriesWins >= displayedSeriesWins;
-  const isSeriesFinished =
-    seriesLength === 1 ||
-    (displayedWinnerReachedTarget && displayedScoreSupportedByGames);
-
-  const renderTimeline = () => {
-    const sorted = [...selectedResult.timelineEvents].sort((a, b) => a.minute - b.minute);
-    const rows: Array<{ minute: number; blue: typeof sorted; red: typeof sorted }> = [];
-    for (const event of sorted) {
-      const last = rows[rows.length - 1];
-      if (last && last.minute === event.minute) {
-        if (event.side === "blue") last.blue.push(event);
-        else last.red.push(event);
-      } else {
-        rows.push({ minute: event.minute, blue: event.side === "blue" ? [event] : [], red: event.side === "red" ? [event] : [] });
-      }
+  function renderTimelineItems() {
+    if (runtimeEvents.length === 0) {
+      return <p className="text-xs text-muted-foreground">{t("match.noTimelineData")}</p>;
     }
-    const minMinute = rows.length > 0 ? rows[0].minute : 0;
-    const maxMinute = rows.length > 0 ? rows[rows.length - 1].minute : 1;
-    const rangeStart = Math.max(minMinute - 1, 0);
-    const rangeMinute = Math.max(maxMinute - rangeStart, 1);
-    const edgePad = rangeMinute * 0.06;
-    const effectiveStart = rangeStart - edgePad;
-    const effectiveRange = rangeMinute + 2 * edgePad;
     return (
-      <div className="relative overflow-x-hidden overflow-y-hidden h-full">
-        <div className="flex flex-col h-full">
-          {/* Events area with center line */}
-          <div className="relative flex-1 min-h-0 py-1">
-            <div className="absolute left-0 right-0 top-1/2"><div className="h-px bg-muted/50" /></div>
-            {rows.map((row, idx) => {
-              const leftPct = `${((row.minute - effectiveStart) / effectiveRange) * 100}%`;
-              return (
-                <div key={idx} className="absolute top-0 flex flex-col items-center" style={{ left: leftPct, transform: 'translateX(-50%)', height: '100%' }}>
-                  <div className="flex flex-col items-center justify-end flex-1 overflow-visible pb-2">
-                    {row.blue.map((event, eIdx) => (
-                    <span key={`blue-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mt-1 ${eventPillClass(event)}`}>
-                      <span>{event.label}</span>
-                    </span>
-                    ))}
-                  </div>
-                  <div className="flex flex-col items-center justify-start flex-1 overflow-visible pt-2">
-                    {row.red.map((event, eIdx) => (
-                      <span key={`red-${eIdx}`} className={`inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[9px] whitespace-nowrap mb-1 ${eventPillClass(event)}`}>
-                        <span>{event.label}</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+      <div className="space-y-1 max-h-52 overflow-auto scrollbar-v2 pr-1">
+        {runtimeEvents.slice(0, 30).map((event, idx) => (
+          <div key={idx} className="text-sm text-foreground flex items-center justify-between gap-3">
+            <span>{Math.floor(event.t / 60)}'</span>
+            <span className="flex-1 truncate">{event.text}</span>
+            <span className={event.type === "kill" ? "text-rose-400" : "text-muted-foreground"}>
+              {event.type.toUpperCase()}
+            </span>
           </div>
-          {/* Minute labels row */}
-          <div className="relative h-5 flex-shrink-0">
-            {rows.map((row, idx) => (
-              <span
-                key={`marker-${idx}`}
-                className="absolute text-[9px] font-bold text-foreground/30 whitespace-nowrap -translate-x-1/2"
-                style={{ left: `${((row.minute - effectiveStart) / effectiveRange) * 100}%` }}
-              >
-                {row.minute}m
-              </span>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     );
-  };
+  }
 
   return (
-    <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-background text-foreground p-4 md:p-6">
+    <div className="min-h-0 flex-1 overflow-y-auto scrollbar-v2 bg-background text-foreground p-4 md:p-6">
       <div className="max-w-[1600px] mx-auto space-y-4">
-        <header className="rounded-xl border border-primary/20 bg-[#0a1433] p-5 text-center shadow-[0_0_24px_rgba(0,242,255,0.1)]">
+        <header className="rounded-xl border border-border bg-card p-5 text-center shadow-md">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground/70">{t("match.matchOver")}</p>
-          <h1 className={`mt-1 text-4xl font-heading uppercase ${controlledWon ? "text-emerald-400" : "text-red-400"}`}>
+          <h1 className={`mt-1 text-4xl font-heading uppercase ${userWon ? "text-emerald-400" : "text-rose-400"}`}>
             {title}
           </h1>
-
           <div className="mt-3 flex items-center justify-center gap-4 text-3xl font-black">
             {blueLogo ? <img src={blueLogo} alt="" className="w-9 h-9 object-contain" loading="lazy" /> : <span className="text-primary">{blueTri}</span>}
-            <span>{selectedResult.blueKills}</span>
+            <span>{displayHomeKills}</span>
             <span className="text-muted-foreground">-</span>
-            <span>{selectedResult.redKills}</span>
+            <span>{displayAwayKills}</span>
             {redLogo ? <img src={redLogo} alt="" className="w-9 h-9 object-contain" loading="lazy" /> : <span className="text-orange-400">{redTri}</span>}
           </div>
-
-          {seriesLength > 1 && seriesGamesForTabs.length > 1 ? (
-            <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
-              {seriesGamesForTabs.map((entry) => {
-                const isSelected = entry.gameIndex === selectedGameIndex;
-                return (
-                  <button
-                    key={`game-tab-${entry.gameIndex}`}
-                    type="button"
-                    className={`rounded-md border px-3 py-1 text-xs font-heading font-bold uppercase tracking-wide ${isSelected ? "border-primary bg-primary/20 text-muted-foreground" : "border-border bg-muted/30 text-muted-foreground/50 hover:bg-muted/50"}`}
-                    onClick={() => setSelectedGameIndex(entry.gameIndex)}
-                  >
-                    {t("match.game", { defaultValue: "Game" })} {entry.gameIndex}
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
-          {seriesLength > 1 ? (
-            <p className="mt-1 text-xs text-muted-foreground/70">
-              {t("match.draftResult.series")} ({seriesLength === 3 ? "Bo3" : "Bo5"}) · {displayedUserSeriesWins} - {displayedOpponentSeriesWins}
-            </p>
-          ) : null}
         </header>
 
         <section className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-4">
-          <aside className="space-y-4 order-2">
-            <div className="rounded-xl border border-yellow-400/25 bg-[#0a1433] p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-yellow-300">{t("match.draftResult.bestOfMatch")}</p>
-              <div className="mt-3 flex items-center gap-3">
-                {mvpPhoto ? (
-                  <img
-                    src={mvpPhoto}
-                    alt={selectedResult.mvp.playerName}
-                    className="w-14 h-14 rounded-full object-cover border border-white/15"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-[#0b1226] border border-white/15 grid place-items-center text-xl font-black">
-                    {selectedResult.mvp.playerName.charAt(0).toUpperCase()}
-                  </div>
-                )}
-                <div>
-                  <p className="font-bold text-lg">{selectedResult.mvp.playerName}</p>
-                  <p className="text-sm text-muted-foreground/50">
-                    {selectedResult.mvp.kills}/{selectedResult.mvp.deaths}/{selectedResult.mvp.assists}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {controlledPrepInsight ? (
-              <div className="rounded-xl border border-emerald-400/25 bg-emerald-500/10 p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">
-                    {t(controlledPrepInsight.title.key, { defaultValue: controlledPrepInsight.title.defaultValue })}
-                  </p>
-                  <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2 py-0.5 text-xs font-bold text-emerald-100">
-                    +{controlledPrepInsight.totalSignal}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm text-emerald-50/90">
-                  {t(controlledPrepInsight.summary.key, {
-                    ...controlledPrepInsight.summary.values,
-                    focus: controlledPrepFocus ?? controlledPrepInsight.focusLabel.defaultValue,
-                    defaultValue: controlledPrepInsight.summary.defaultValue,
-                  })}
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {controlledPrepInsight.details.map((detail) => (
-                    <span
-                      key={detail.key}
-                      className="rounded-full border border-white/10 bg-black/20 px-2 py-1 text-xs text-emerald-100"
-                    >
-                      {t(detail.key, {
-                        ...detail.values,
-                        focus: controlledPrepFocus ?? controlledPrepInsight.focusLabel.defaultValue,
-                        defaultValue: detail.defaultValue,
-                      })}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-
-            <div className="overflow-hidden rounded-xl border border-primary/20 bg-[#0a1433] p-4 shadow-[0_16px_40px_rgba(0,0,0,0.28)]">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{t("match.draftResult.goldAdvantage")}</p>
-                  <p className="mt-1 text-xs text-muted-foreground/70">
-                    {t("match.draftResult.duration")}: {selectedResult.durationMinutes}m
-                  </p>
-                  <p className="mt-1 text-2xs font-bold uppercase tracking-[0.14em] text-muted-foreground/70" aria-label={goldAxisLabel}>
-                    <span className="text-muted-foreground">+ {blueTri}</span>
-                    <span className="mx-1 text-gray-600">·</span>
-                    <span className="text-orange-400">- {redTri}</span>
-                  </p>
-                </div>
-                <div className={`rounded-lg border px-3 py-2 text-right ${leadingSide === "red" ? "border-orange-400/35 bg-orange-500/10" : leadingSide === "blue" ? "border-cyan-400/35 bg-primary/10" : "border-white/15 bg-muted/30"}`}>
-                  <p className="text-2xs uppercase tracking-[0.18em] text-muted-foreground/70">{t("match.draftResult.finalGold")}</p>
-                  <p className={`font-heading text-lg font-black ${leadingSide === "red" ? "text-orange-400" : leadingSide === "blue" ? "text-muted-foreground" : "text-gray-200"}`}>
-                    {leadingTri ? `${leadingTri} +${formatGoldDiff(finalGoldDiff)}` : t("match.draftResult.evenGold")}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4 rounded-xl border border-white/10 bg-[#061126] p-3 shadow-inner shadow-black/30">
-                <div className="mb-2 flex items-center justify-between text-2xs font-bold uppercase tracking-[0.18em]">
-                  <span className="text-muted-foreground">{blueTri}</span>
-                  <span className="text-muted-foreground">+{formatGoldDiff(maxAbsGold)}</span>
-                </div>
-                <svg viewBox="0 0 100 72" className="h-40 w-full overflow-visible" role="img" aria-label={goldAxisLabel}>
-                  <defs>
-                    <linearGradient id={`gold-line-${chartIdSuffix}`} x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#67e8f9" />
-                      <stop offset="48%" stopColor="#22d3ee" />
-                      <stop offset="52%" stopColor="#fb923c" />
-                      <stop offset="100%" stopColor="#fdba74" />
-                    </linearGradient>
-                    <linearGradient id={`gold-area-${chartIdSuffix}`} x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.32" />
-                      <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.06" />
-                      <stop offset="100%" stopColor="#fb923c" stopOpacity="0.22" />
-                    </linearGradient>
-                    <clipPath id={`gold-blue-clip-${chartIdSuffix}`}>
-                      <rect x="0" y="0" width="100" height={GOLD_CHART_CENTER_Y} />
-                    </clipPath>
-                    <clipPath id={`gold-red-clip-${chartIdSuffix}`}>
-                      <rect x="0" y={GOLD_CHART_CENTER_Y} width="100" height={72 - GOLD_CHART_CENTER_Y} />
-                    </clipPath>
-                    <filter id={`gold-glow-${chartIdSuffix}`} x="-20%" y="-30%" width="140%" height="160%">
-                      <feGaussianBlur stdDeviation="1.7" result="blur" />
-                      <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
-
-                  <rect x="6" y="8" width="88" height="56" rx="3" fill="rgba(255,255,255,0.02)" />
-                  {[8, 22, 36, 50, 64].map((y) => (
-                    <line key={`gold-grid-${y}`} x1="6" y1={y} x2="94" y2={y} stroke="rgba(255,255,255,0.08)" strokeDasharray={y === 36 ? "0" : "2 3"} />
-                  ))}
-                  <line x1="6" y1="36" x2="94" y2="36" stroke="rgba(255,255,255,0.32)" strokeWidth="0.7" />
-                  <text x="2" y="11" fill="rgba(255,255,255,0.45)" fontSize="4">+{formatGoldDiff(maxAbsGold)}</text>
-                  <text x="2" y="37.5" fill="rgba(255,255,255,0.45)" fontSize="4">0</text>
-                  <text x="2" y="65" fill="rgba(255,255,255,0.45)" fontSize="4">-{formatGoldDiff(maxAbsGold)}</text>
-
-                  {areaPath ? <path d={areaPath} fill={`url(#gold-area-${chartIdSuffix})`} /> : null}
-                  {points ? (
-                    <>
-                      <polyline
-                        fill="none"
-                        stroke="#67e8f9"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2.6"
-                        filter={`url(#gold-glow-${chartIdSuffix})`}
-                        clipPath={`url(#gold-blue-clip-${chartIdSuffix})`}
-                        points={points}
-                      />
-                      <polyline
-                        fill="none"
-                        stroke="#fb923c"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2.6"
-                        filter={`url(#gold-glow-${chartIdSuffix})`}
-                        clipPath={`url(#gold-red-clip-${chartIdSuffix})`}
-                        points={points}
-                      />
-                    </>
-                  ) : null}
-                  {chartPoints.length > 0 ? (
-                    <circle
-                      cx={chartPoints[chartPoints.length - 1].x}
-                      cy={chartPoints[chartPoints.length - 1].y}
-                      r="2.2"
-                      fill={leadingSide === "red" ? "#fb923c" : "#67e8f9"}
-                      stroke="#061126"
-                      strokeWidth="1.2"
-                    />
-                  ) : null}
-                </svg>
-                <div className="mt-1 flex items-center justify-between text-2xs font-bold uppercase tracking-[0.18em]">
-                  <span className="text-muted-foreground">0m</span>
-                  <span className="text-muted-foreground">-{formatGoldDiff(maxAbsGold)}</span>
-                  <span className="text-orange-400">{redTri}</span>
-                </div>
-              </div>
-
-              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                  <p className="text-2xs uppercase tracking-[0.16em] text-muted-foreground">{t("match.draftResult.peakGold")}</p>
-                  <p className={`mt-1 font-bold ${peakGoldDiff.diff < 0 ? "text-orange-400" : "text-muted-foreground"}`}>
-                    {(peakGoldDiff.diff < 0 ? redTri : blueTri)} +{formatGoldDiff(peakGoldDiff.diff)} · {peakGoldDiff.minute}m
-                  </p>
-                </div>
-                <div className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-                  <p className="text-2xs uppercase tracking-[0.16em] text-muted-foreground">{t("match.draftResult.goldScale")}</p>
-                  <p className="mt-1 font-bold text-gray-200">±{formatGoldDiff(maxAbsGold)}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-stretch gap-2">
-              {onPressConference && isSeriesFinished ? (
-                <button
-                  className="rounded-md border border-border bg-muted/30 hover:bg-muted/50 text-foreground font-heading font-bold uppercase tracking-wide px-4 py-2"
-                  onClick={onPressConference}
-                >
-                  {t("match.pressConference", { defaultValue: "Press Conference" })}
-                </button>
-              ) : null}
-
-              {canUserChooseSide ? (
-                <div className="flex items-center gap-1 rounded-md border border-white/15 bg-[#081028] px-1 py-1">
-                  <button
-                    className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "blue" ? "bg-primary/20 text-muted-foreground" : "text-muted-foreground/50"}`}
-                    onClick={() => onContinue("blue")}
-                  >
-                    {t("match.draftResult.blueNext")}
-                  </button>
-                  <button
-                    className={`rounded px-3 py-1 text-xs font-heading font-bold uppercase ${controlledSide === "red" ? "bg-orange-500/20 text-orange-400" : "text-muted-foreground/50"}`}
-                    onClick={() => onContinue("red")}
-                  >
-                    {t("match.draftResult.redNext")}
-                  </button>
-                </div>
-              ) : null}
-
-              <button
-                className="rounded-md bg-orange-500 hover:bg-orange-400 text-navy-900 font-heading font-bold uppercase tracking-wide px-6 py-2"
-                onClick={() => onContinue()}
-              >
-                {seriesLength > 1 && !isSeriesFinished
-                  ? `${t("match.game", { defaultValue: "Game" })} ${nextGameLabel}`
-                  : t("match.continue", { defaultValue: "Continue" })}
-              </button>
-            </div>
-          </aside>
-
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 order-1 xl:order-1">
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-              <div className="rounded-xl border border-primary/20 bg-[#0a1433] p-4 self-start">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{blueTri}</p>
+              <div className="rounded-xl border border-border bg-card p-4 self-start">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{snapshot.home_team.name}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
-                  {blueRows.map((row) => {
-                    const playerData = playerById.get(row.playerId);
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName, playerData?.profileImageUrl);
-                    const isMvp = row.playerId === selectedResult.mvp.playerId;
+                  {sortedHome.map((champion) => {
+                    const player = (result.players ?? []).find((p) =>
+                      p.id === champion.id || p.match_name === champion.name || p.name === champion.name
+                    );
+                    const photoUrl = player ? resolvePlayerPhoto(player.id, player.name, player.profile_image_url) : null;
+                    const isMvp = false;
+                    const kdaColor = buildKDAColor(champion.kills, champion.deaths, champion.assists);
                     return (
-                      <div
-                        key={`blue-${row.playerId}-${row.role}`}
-                        className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-muted/30"}`}
-                      >
+                      <div key={champion.id} className={cn(
+                        "col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2",
+                        isMvp ? "border-primary/50 bg-primary/10" : "border-border bg-muted/30"
+                      )}>
                         <div className="flex items-center gap-2 min-w-0">
-                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
-                          <span className="truncate">{row.playerName}</span>
+                          {photoUrl ? (
+                            <img src={photoUrl} alt={champion.name} className="w-7 h-7 rounded-full object-cover border border-border" loading="lazy" />
+                          ) : (
+                            <div className="w-7 h-7 rounded-full bg-muted" />
+                          )}
+                          <span className="truncate text-foreground">{champion.name}</span>
                         </div>
-                        <span className="text-sm text-muted-foreground/50">{row.kills}/{row.deaths}/{row.assists}</span>
-                        <span className="text-sm text-muted-foreground/50">{row.gold}</span>
-                        <span className="text-sm font-bold text-primary">{row.rating.toFixed(1)}</span>
+                        <span className="text-sm text-muted-foreground/50">{champion.kills}/{champion.deaths}/{champion.assists}</span>
+                        <span className="text-sm text-muted-foreground/50">{champion.gold ?? champion.cs}</span>
+                        <span className={`text-sm font-bold ${kdaColor}`}>
+                          {((champion.kills + champion.assists) / Math.max(1, champion.deaths)).toFixed(1)}
+                        </span>
                       </div>
                     );
                   })}
                 </div>
               </div>
-              <div className="rounded-xl border border-primary/20 bg-[#0a1433] p-4 self-start">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{redTri}</p>
+              <div className="rounded-xl border border-border bg-card p-4 self-start">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">{snapshot.away_team.name}</p>
                 <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 gap-y-1 items-center">
-                  {redRows.map((row) => {
-                    const playerData = playerById.get(row.playerId);
-                    const icon = resolvePlayerPhoto(row.playerId, row.playerName, playerData?.profileImageUrl);
-                    const isMvp = row.playerId === selectedResult.mvp.playerId;
+                  {sortedAway.map((champion) => {
+                    const player = (result.players ?? []).find((p) =>
+                      p.id === champion.id || p.match_name === champion.name || p.name === champion.name
+                    );
+                    const photoUrl = player ? resolvePlayerPhoto(player.id, player.name, player.profile_image_url) : null;
+                    const isMvp = false;
+                    const kdaColor = buildKDAColor(champion.kills, champion.deaths, champion.assists);
                     return (
-                      <div
-                        key={`red-${row.playerId}-${row.role}`}
-                        className={`col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2 ${isMvp ? "border-yellow-400/50 bg-yellow-500/10" : "border-white/10 bg-muted/30"}`}
-                      >
+                      <div key={champion.id} className={cn(
+                        "col-span-4 grid grid-cols-subgrid items-center gap-3 rounded-md border px-3 py-2",
+                        isMvp ? "border-primary/50 bg-primary/10" : "border-border bg-muted/30"
+                      )}>
                         <div className="flex items-center gap-2 min-w-0">
-                          {icon ? <img src={icon} alt={row.playerName} className="w-7 h-7 rounded-full object-cover border border-white/15" loading="lazy" /> : null}
-                          <span className="truncate">{row.playerName}</span>
+                          {photoUrl ? (
+                            <img src={photoUrl} alt={champion.name} className="w-7 h-7 rounded-full object-cover border border-border" loading="lazy" />
+                          ) : (
+                            <div className="w-7 h-7 rounded-full bg-muted" />
+                          )}
+                          <span className="truncate text-foreground">{champion.name}</span>
                         </div>
-                        <span className="text-sm text-muted-foreground/50">{row.kills}/{row.deaths}/{row.assists}</span>
-                        <span className="text-sm text-muted-foreground/50">{row.gold}</span>
-                        <span className="text-sm font-bold text-orange-400">{row.rating.toFixed(1)}</span>
+                        <span className="text-sm text-muted-foreground/50">{champion.kills}/{champion.deaths}/{champion.assists}</span>
+                        <span className="text-sm text-muted-foreground/50">{champion.gold ?? champion.cs}</span>
+                        <span className={`text-sm font-bold ${kdaColor}`}>
+                          {((champion.kills + champion.assists) / Math.max(1, champion.deaths)).toFixed(1)}
+                        </span>
                       </div>
                     );
                   })}
                 </div>
               </div>
             </div>
-
-            <section className="rounded-xl border border-primary/20 bg-[#0a1433] p-4 flex-1 w-full flex flex-col">
-              <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground mb-3 text-center">{t("match.draftResult.gameTimeline")}</p>
-              <div className="space-y-2 flex flex-col flex-1 overflow-hidden">
-                <div className="h-px bg-muted/50 shrink-0" />
-                {renderTimeline()}
-              </div>
-            </section>
           </div>
+
+          <aside className="space-y-4 order-2">
+            <MvpCard result={selectedResult} snapshot={snapshot} />
+
+            <div className="rounded-xl border border-border bg-card p-4 shadow-md">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                {t("match.lolResult.teamStats")}
+              </p>
+              <div className="space-y-2 text-sm">
+                {statRows.map((row) => (
+                  <div key={row.label} className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-lg bg-muted/30 px-3 py-2">
+                    <span className="text-primary font-semibold">{row.home}</span>
+                    <span className="text-center uppercase tracking-wider text-muted-foreground">{row.label}</span>
+                    <span className="text-orange-400 font-semibold text-right">{row.away}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                {t("match.neutralObjectives")}: <span className="text-primary">{homeObjectives}</span> - <span className="text-orange-400">{awayObjectives}</span>
+              </p>
+            </div>
+
+            {renderTimelineItems()}
+          </aside>
         </section>
+
+        <footer className="flex items-center justify-end gap-2 pt-1">
+          <button
+            onClick={onPressConference}
+            className="px-4 py-2 rounded-lg border border-border bg-muted hover:bg-muted/70 text-xs uppercase tracking-wider text-foreground"
+          >
+            {t("match.pressConference")}
+          </button>
+          <button
+            onClick={() => onContinue(canUserChooseSide ? undefined : controlledSide)}
+            className="px-6 py-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-heading text-sm uppercase tracking-wider"
+          >
+            {t("match.continue")}
+          </button>
+        </footer>
       </div>
     </div>
   );
 }
-
-
-
