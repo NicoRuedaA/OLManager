@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getApiClientSync } from "@/api/client";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -394,6 +394,7 @@ export default function MainMenu() {
   }, [t, menuState, debugToolsEnabled, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
     itemCount: mainMenuItems.length,
@@ -413,13 +414,51 @@ export default function MainMenu() {
     containerRef.current?.focus();
   }, []);
 
+  const isPanelOpen = menuState !== "main";
+
+  const focusFirstPanelElement = useCallback(() => {
+    requestAnimationFrame(() => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      const focusable = panel.querySelector<HTMLElement>(
+        "input:not([type=hidden]):not([disabled]), button:not([disabled]), select, textarea, [tabindex]:not([tabindex='-1'])",
+      );
+      focusable?.focus();
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isPanelOpen) {
+      focusFirstPanelElement();
+    } else {
+      itemRefs.current[activeIndex]?.focus();
+    }
+  }, [menuState]);
+
   const handleMenuKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape" && menuState !== "main") {
+    if (e.key === "Escape" && isPanelOpen) {
       e.preventDefault();
       setMenuState("main");
       return;
     }
-    if (menuState !== "main") return;
+    if (e.key === "ArrowLeft" && isPanelOpen) {
+      e.preventDefault();
+      setMenuState("main");
+      return;
+    }
+    if (e.key === "ArrowRight" && isPanelOpen) {
+      e.preventDefault();
+      focusFirstPanelElement();
+      return;
+    }
+    if (isPanelOpen) return;
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      if (activeIndex >= 0 && activeIndex < mainMenuItems.length) {
+        mainMenuItems[activeIndex]?.onClick();
+      }
+      return;
+    }
     handleKeyDown(e);
   };
 
@@ -466,7 +505,7 @@ export default function MainMenu() {
 
         {/* Right column — active panel opens beside the nav */}
         {menuState !== "main" && (
-          <div className="dark flex-1 min-w-0 flex flex-col justify-center overflow-y-auto p-6 lg:p-10">
+          <div ref={panelRef} className="dark flex-1 min-w-0 flex flex-col justify-center overflow-y-auto p-6 lg:p-10">
             <div
               key={menuState}
               className="w-full max-w-2xl mx-auto animate-fade-in-up border-t border-white/10"
