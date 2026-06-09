@@ -51,7 +51,6 @@ const USE_RUST_SIM_V2 = true;
 const ICON_TOWER = "/lol-map-icons/icon_ui_tower_minimap.webp";
 const ICON_GOLD = "/lol-map-icons/gold.webp";
 const ICON_VOIDGRUB = "/lol-map-icons/grub.webp";
-import type { GameStateData } from "@/store/gameStore";
 const DEFAULT_DRAGON_ICON = "/lol-map-icons/dragon.webp";
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
@@ -1118,13 +1117,7 @@ export default function LolMatchLive({ gameState, snapshot, championSelections, 
                   <button className="rounded border border-cyan-500/30 bg-black/60 px-2 py-1 text-white/90" onClick={() => setRunning((v) => !v)}>
                     {running ? t("match.pause") : t("match.play")}
                   </button>
-                  <button
-                    className="rounded border border-amber-400/40 bg-amber-500/20 px-2 py-1 text-amber-200 disabled:opacity-50"
-                    onClick={requestSkipFromZero}
-                    disabled={isSkipping}
-                  >
-                    {isSkipping ? t("match.skipping", { defaultValue: "Skipping..." }) : t("match.skipMatch", { defaultValue: "Skip Match" })}
-                  </button>
+
                   <button className="col-span-2 rounded border border-cyan-500/30 bg-black/60 px-2 py-1 text-white/90" onClick={handleReset}>
                     {t("match.reset")}
                   </button>

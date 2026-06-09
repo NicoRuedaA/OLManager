@@ -1,6 +1,8 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/lib/common/helpers";
 import { Play, Clock, Trash2, X, Loader2 } from "lucide-react";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 
 interface SaveEntry {
   id: string;
@@ -35,8 +37,23 @@ export default function SavesList({
 }: SavesListProps) {
   const { t, i18n } = useTranslation();
 
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: saves.length,
+    columns: 1,
+    loop: false,
+    onSelect: (i) => onLoad(saves[i]?.id),
+    getItemLabel: (i) => saves[i]?.name ?? "",
+  });
+
+  useEffect(() => {
+    if (!isLoading && saves.length > 0) {
+      itemRefs.current[activeIndex]?.focus();
+    }
+  }, [activeIndex, isLoading, saves.length]);
+
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" onKeyDown={handleKeyDown}>
       <div className="flex justify-between items-center pb-5">
         <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
           {t("menu.loadGame")}
@@ -63,7 +80,7 @@ export default function SavesList({
             {t("menu.noSaves")}
           </div>
         ) : (
-          saves.map((save) => (
+          saves.map((save, i) => (
             <div
               key={save.id}
               className="group relative flex flex-col gap-2 w-full py-4 text-left transition-colors border-b border-white/10 hover:bg-white/5"
@@ -94,6 +111,8 @@ export default function SavesList({
               ) : (
                 <div className="flex items-center gap-3 w-full">
                   <button
+                    ref={(el) => { itemRefs.current[i] = el; }}
+                    tabIndex={getTabIndex(i)}
                     onClick={() => onLoad(save.id)}
                     className="flex flex-col gap-2 flex-1 text-left min-w-0 px-1"
                   >
@@ -138,4 +157,3 @@ export default function SavesList({
     </div>
   );
 }
-

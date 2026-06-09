@@ -34,6 +34,7 @@ import { getLolRoleForPlayer } from "@/lib/squad/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui-v2/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -95,6 +96,7 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
     ? gameState.staff.filter((s) => s.team_id === myTeam.id)
     : [];
 
+  const [activeTab, setActiveTab] = useState("overview");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [delegatedRenewalsSummary, setDelegatedRenewalsSummary] = useState<string | null>(null);
   const [selectedRiskPlayerIds, setSelectedRiskPlayerIds] = useState<string[]>([]);
@@ -266,6 +268,13 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto p-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 min-h-0">
+        <TabsList variant="line">
+          <TabsTrigger value="overview">{t("finances.overviewTab", "Resumen")}</TabsTrigger>
+          <TabsTrigger value="facilities">{t("finances.facilitiesTab", "Instalaciones")}</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="flex flex-col gap-4">
       {/* Overview */}
       <Card>
         <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -411,100 +420,7 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
         </Card>
       </div>
 
-      {/* Contract Risk */}
-      <Card>
-        <CardHeader className="flex-row items-center justify-between space-y-0">
-          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-            {t("finances.contractRisk")}
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <p className="text-xs text-muted-foreground tabular-nums">
-              {t("finances.atRiskWages", { amount: formatVal(atRiskWages) })}
-            </p>
-            {contractRiskPlayers.length > 0 && (
-              <>
-                <button
-                  type="button"
-                  onClick={handleToggleAllRiskPlayers}
-                  className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
-                >
-                  {t("finances.selectAllAtRisk")}
-                </button>
-                <button
-                  type="button"
-                  disabled={actionLoading === "delegate-renewals" || selectedRiskPlayers.length === 0}
-                  onClick={handleDelegateRenewals}
-                  className="rounded-md border border-primary bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
-                >
-                  {actionLoading === "delegate-renewals" ? (
-                    <RefreshCw className="mr-1 inline size-3 animate-spin" />
-                  ) : null}
-                  {t("finances.delegateSelectedRenewals")}
-                </button>
-              </>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent>
-          {delegatedRenewalsSummary && (
-            <p className="mb-3 text-xs text-emerald-400">{delegatedRenewalsSummary}</p>
-          )}
-          {contractRiskPlayers.length > 0 ? (
-            <div className="space-y-2">
-              {contractRiskPlayers.map(({ player, riskLevel }) => {
-                const yearsRemaining = Number.parseFloat(getContractYearsRemaining(player.contract_end, gameState.clock.current_date));
-                return (
-                  <div
-                    key={player.id}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg border p-3 transition-colors",
-                      riskLevel === "critical" ? "border-red-500/20 bg-red-500/5" : "border-amber-500/20 bg-amber-500/5",
-                    )}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedRiskPlayerIds.includes(player.id)}
-                      onChange={() => handleToggleRiskPlayer(player.id)}
-                      className="size-4 accent-primary"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-foreground">{player.match_name}</p>
-                      <div className="mt-1 flex items-center gap-2">
-                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                          <div
-                            className={cn("h-full rounded-full transition-all", riskLevel === "critical" ? "bg-red-400" : "bg-amber-400")}
-                            style={{ width: `${Math.min(100, (yearsRemaining / 5) * 100)}%` }}
-                          />
-                        </div>
-                        <span className="font-heading text-[10px] tabular-nums text-muted-foreground">{yearsRemaining.toFixed(1)}y</span>
-                      </div>
-                    </div>
-                    <Badge variant={riskLevel === "critical" ? "destructive" : "secondary"} className="text-[10px]">
-                      {riskLevel === "critical" ? t("finances.contractRiskCritical") : t("finances.contractRiskWarning")}
-                    </Badge>
-                    <p className="font-heading text-xs font-bold tabular-nums text-foreground">
-                      €{safeFinanceNumber(player.wage).toLocaleString()}{annualSuffix}
-                    </p>
-                    {onSelectPlayer && (
-                      <button
-                        type="button"
-                        onClick={() => onSelectPlayer(player.id, { openRenewal: true })}
-                        className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
-                      >
-                        {t("common.renewContract")}
-                      </button>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">{t("finances.noContractRisks")}</p>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Sponsors */}
+      {/* Sponsors + Contract Risk */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader className="space-y-0">
@@ -541,59 +457,177 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
         </Card>
 
         <Card>
-          <CardHeader className="space-y-0">
+          <CardHeader className="flex-row items-center justify-between space-y-0">
             <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-              {t("finances.pendingSponsorOffers")}
+              {t("finances.contractRisk")}
             </CardTitle>
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-muted-foreground tabular-nums">
+                {t("finances.atRiskWages", { amount: formatVal(atRiskWages) })}
+              </p>
+              {contractRiskPlayers.length > 0 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleToggleAllRiskPlayers}
+                    className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
+                  >
+                    {t("finances.selectAllAtRisk")}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={actionLoading === "delegate-renewals" || selectedRiskPlayers.length === 0}
+                    onClick={handleDelegateRenewals}
+                    className="rounded-md border border-primary bg-primary/10 px-2 py-1 text-[10px] font-medium text-primary transition-colors hover:bg-primary/20 disabled:pointer-events-none disabled:opacity-50"
+                  >
+                    {actionLoading === "delegate-renewals" ? (
+                      <RefreshCw className="mr-1 inline size-3 animate-spin" />
+                    ) : null}
+                    {t("finances.delegateSelectedRenewals")}
+                  </button>
+                </>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            {sponsorOffers.length > 0 ? (
-              <div className="space-y-3">
-                {sponsorOffers.map((message) => {
-                  const sponsorAction = message.actions.find(
-                    (a) => !a.resolved && isChooseOptionAction(a.action_type),
-                  );
-                  if (!sponsorAction || !isChooseOptionAction(sponsorAction.action_type)) return null;
+            {delegatedRenewalsSummary && (
+              <p className="mb-3 text-xs text-emerald-400">{delegatedRenewalsSummary}</p>
+            )}
+            {contractRiskPlayers.length > 0 ? (
+              <div className="space-y-2">
+                {contractRiskPlayers.map(({ player, riskLevel }) => {
+                  const yearsRemaining = Number.parseFloat(getContractYearsRemaining(player.contract_end, gameState.clock.current_date));
                   return (
-                    <div key={message.id} className="rounded-lg border border-border bg-muted/30 p-3">
-                      <p className="mb-1 text-sm font-medium text-foreground">{message.subject}</p>
-                      <p className="mb-3 text-xs text-muted-foreground">{message.body}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {sponsorAction.action_type.ChooseOption.options.map((option) => {
-                          const loadingKey = `sponsor:${message.id}:${option.id}`;
-                          return (
-                            <button
-                              key={option.id}
-                              type="button"
-                              disabled={actionLoading === loadingKey}
-                              title={option.description || option.label}
-                              onClick={() => handleSponsorOption(message.id, sponsorAction.id, option.id)}
-                              className={cn(
-                                "rounded-md border px-3 py-1.5 text-xs font-medium transition-colors",
-                                option.id === "decline"
-                                  ? "border-border text-muted-foreground hover:bg-muted"
-                                  : "border-primary bg-primary/10 text-primary hover:bg-primary/20",
-                                actionLoading === loadingKey && "pointer-events-none opacity-50",
-                              )}
-                            >
-                              {option.label}
-                            </button>
-                          );
-                        })}
+                    <div
+                      key={player.id}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg border p-3 transition-colors",
+                        riskLevel === "critical" ? "border-red-500/20 bg-red-500/5" : "border-amber-500/20 bg-amber-500/5",
+                      )}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedRiskPlayerIds.includes(player.id)}
+                        onChange={() => handleToggleRiskPlayer(player.id)}
+                        className="size-4 accent-primary"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-medium text-foreground">{player.match_name}</p>
+                        <div className="mt-1 flex items-center gap-2">
+                          <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                            <div
+                              className={cn("h-full rounded-full transition-all", riskLevel === "critical" ? "bg-red-400" : "bg-amber-400")}
+                              style={{ width: `${Math.min(100, (yearsRemaining / 5) * 100)}%` }}
+                            />
+                          </div>
+                          <span className="font-heading text-[10px] tabular-nums text-muted-foreground">{yearsRemaining.toFixed(1)}y</span>
+                        </div>
                       </div>
+                      <Badge variant={riskLevel === "critical" ? "destructive" : "secondary"} className="text-[10px]">
+                        {riskLevel === "critical" ? t("finances.contractRiskCritical") : t("finances.contractRiskWarning")}
+                      </Badge>
+                      <p className="font-heading text-xs font-bold tabular-nums text-foreground">
+                        €{safeFinanceNumber(player.wage).toLocaleString()}{annualSuffix}
+                      </p>
+                      {onSelectPlayer && (
+                        <button
+                          type="button"
+                          onClick={() => onSelectPlayer(player.id, { openRenewal: true })}
+                          className="rounded-md border border-border px-2 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:bg-muted"
+                        >
+                          {t("common.renewContract")}
+                        </button>
+                      )}
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">{t("finances.noPendingSponsorOffers")}</p>
+              <p className="text-sm text-muted-foreground">{t("finances.noContractRisks")}</p>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Facilities */}
+      {/* Payroll */}
       <Card>
+        <CardHeader className="space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.payroll")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-14" />
+                  {(["name", "position", "wage", "value", "contract"] as const).map((key) => (
+                    <TableHead key={key} className="cursor-pointer" onClick={() => toggleSort(key)}>
+                      <span className="inline-flex items-center gap-1">
+                        {key === "name" && t("common.player")}
+                        {key === "position" && t("common.position")}
+                        {key === "wage" && t("finances.wagePerWeek")}
+                        {key === "value" && t("finances.marketValue")}
+                        {key === "contract" && t("common.contract")}
+                        {sortKey === key ? (
+                          sortDir === "asc" ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />
+                        ) : (
+                          <ArrowUpDown className="size-3 opacity-40" />
+                        )}
+                      </span>
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedRoster.map((p, i) => {
+                  const role = getLolRoleForPlayer(p);
+                  const photo = resolvePlayerPhoto(p.id, p.match_name, p.profile_image_url);
+                  return (
+                    <TableRow
+                      key={p.id}
+                      onClick={() => onSelectPlayer?.(p.id)}
+                      className="cursor-pointer"
+                    >
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        {photo ? (
+                          <img src={photo} alt={p.match_name} className="size-8 rounded-full object-cover" />
+                        ) : (
+                          <div className="flex size-8 items-center justify-center rounded-full bg-muted">
+                            <User className="size-4 text-muted-foreground" />
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        <span className="text-sm font-medium text-foreground">{p.match_name}</span>
+                      </TableCell>
+                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
+                        <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+                          {role}
+                        </span>
+                      </TableCell>
+                      <TableCell className={cn("tabular-nums text-sm text-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        €{safeFinanceNumber(p.wage).toLocaleString()}
+                      </TableCell>
+                      <TableCell className={cn("tabular-nums text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        {formatVal(safeFinanceNumber(p.market_value))}
+                      </TableCell>
+                      <TableCell className={cn("text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
+                        {p.contract_end ? t("finances.until", { year: p.contract_end.substring(0, 4) }) : "—"}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+      </TabsContent>
+
+      <TabsContent value="facilities" className="flex flex-col flex-1">
+      <Card className="flex-1">
         <CardHeader className="flex-row items-center justify-between space-y-0">
           <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
             {t("finances.facilities")}
@@ -688,82 +722,8 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
           </div>
         </CardContent>
       </Card>
-
-      {/* Payroll */}
-      <Card>
-        <CardHeader className="space-y-0">
-          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-            {t("finances.payroll")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-14" />
-                  {(["name", "position", "wage", "value", "contract"] as const).map((key) => (
-                    <TableHead key={key} className="cursor-pointer" onClick={() => toggleSort(key)}>
-                      <span className="inline-flex items-center gap-1">
-                        {key === "name" && t("common.player")}
-                        {key === "position" && t("common.position")}
-                        {key === "wage" && t("finances.wagePerWeek")}
-                        {key === "value" && t("finances.marketValue")}
-                        {key === "contract" && t("common.contract")}
-                        {sortKey === key ? (
-                          sortDir === "asc" ? <ArrowUp className="size-3" /> : <ArrowDown className="size-3" />
-                        ) : (
-                          <ArrowUpDown className="size-3 opacity-40" />
-                        )}
-                      </span>
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {sortedRoster.map((p, i) => {
-                  const role = getLolRoleForPlayer(p);
-                  const photo = resolvePlayerPhoto(p.id, p.match_name, p.profile_image_url);
-                  return (
-                    <TableRow
-                      key={p.id}
-                      onClick={() => onSelectPlayer?.(p.id)}
-                      className="cursor-pointer"
-                    >
-                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
-                        {photo ? (
-                          <img src={photo} alt={p.match_name} className="size-8 rounded-full object-cover" />
-                        ) : (
-                          <div className="flex size-8 items-center justify-center rounded-full bg-muted">
-                            <User className="size-4 text-muted-foreground" />
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
-                        <span className="text-sm font-medium text-foreground">{p.match_name}</span>
-                      </TableCell>
-                      <TableCell className={cn(i % 2 === 1 && "bg-muted/20")}>
-                        <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
-                          {role}
-                        </span>
-                      </TableCell>
-                      <TableCell className={cn("tabular-nums text-sm text-foreground", i % 2 === 1 && "bg-muted/20")}>
-                        €{safeFinanceNumber(p.wage).toLocaleString()}
-                      </TableCell>
-                      <TableCell className={cn("tabular-nums text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
-                        {formatVal(safeFinanceNumber(p.market_value))}
-                      </TableCell>
-                      <TableCell className={cn("text-sm text-muted-foreground", i % 2 === 1 && "bg-muted/20")}>
-                        {p.contract_end ? t("finances.until", { year: p.contract_end.substring(0, 4) }) : "—"}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+      </TabsContent>
+    </Tabs>
     </div>
   );
 }

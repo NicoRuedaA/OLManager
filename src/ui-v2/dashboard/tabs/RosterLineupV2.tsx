@@ -72,7 +72,7 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
   );
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="flex h-full flex-col overflow-hidden">
       <CardHeader className="flex-row items-center justify-between space-y-0">
         <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
           Plantilla
@@ -82,11 +82,11 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
           onClick={() => onNavigate?.("Squad")}
           className="font-heading text-xs font-bold uppercase tracking-wider text-primary hover:underline"
         >
-          Plantilla completa
+          5 titular
         </button>
       </CardHeader>
-      <CardContent>
-        <div className="grid gap-2 lg:grid-cols-5">
+      <CardContent className="flex-1">
+        <div className="grid h-full gap-2 lg:grid-cols-5">
           {lineup.map(({ role, player }) => {
             const photo = player ? resolvePlayerPhoto(player.id, player.match_name) : null;
             const ovr = player ? calculateLolOvr(player) : null;

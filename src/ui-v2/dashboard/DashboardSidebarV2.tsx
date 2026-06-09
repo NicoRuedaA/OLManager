@@ -1,4 +1,6 @@
 import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useRef } from "react";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 import {
   Briefcase,
   Mail,
@@ -63,15 +65,15 @@ export function DashboardSidebarV2({
 }: Props) {
   const { t } = useTranslation();
 
-  const top: Item[] = [
+  const top: Item[] = useMemo(() => [
     { tab: "Home", label: t("dashboard.home"), icon: Briefcase },
     { tab: "Inbox", label: t("dashboard.inbox"), icon: Mail, badge: unreadMessagesCount },
     { tab: "News", label: t("dashboard.news"), icon: Newspaper },
     { tab: "Social", label: t("dashboard.social", { defaultValue: "Social" }), icon: MessageCircle },
     { tab: "Schedule", label: t("dashboard.schedule"), icon: CalendarIcon },
-  ];
+  ], [t, unreadMessagesCount]);
 
-  const club: Item[] = [
+  const club: Item[] = useMemo(() => [
     { tab: "Squad", label: t("dashboard.squad"), icon: Users },
     { tab: "Tactics", label: t("dashboard.tactics"), icon: Crosshair },
     { tab: "Training", label: t("dashboard.training"), icon: Dumbbell },
@@ -82,16 +84,42 @@ export function DashboardSidebarV2({
     { tab: "Youth", label: t("dashboard.youthAcademy"), icon: GraduationCap },
     { tab: "Finances", label: t("dashboard.finances"), icon: DollarSign },
     { tab: "Transfers", label: t("dashboard.transfers"), icon: TrendingUp },
-  ];
+  ], [t]);
 
-  const world: Item[] = [
+  const world: Item[] = useMemo(() => [
     { tab: "Competitions", label: t("dashboard.competitions", { defaultValue: "Competiciones" }), icon: Globe },
     { tab: "Players", label: t("dashboard.players"), icon: UsersRound, badge: playerCount },
     { tab: "Teams", label: t("dashboard.teams"), icon: Building2, badge: teamCount },
     { tab: "WorldStaff", label: t("dashboard.worldStaff", { defaultValue: "Staffs" }), icon: UserCog, badge: staffCount },
     { tab: "ChampionsWorld", label: t("dashboard.champions_world"), icon: Gamepad2 },
+  ], [t, playerCount, teamCount, staffCount]);
+
+  const market: Item[] = useMemo(() => [
     { tab: "Market", label: t("dashboard.market"), icon: Store },
-  ];
+    { tab: "Transfers", label: t("dashboard.transfers"), icon: TrendingUp },
+  ], [t]);
+
+  const allNavItems = useMemo(() => {
+    const items = [...top];
+    if (!isUnemployed) items.push(...club);
+    items.push(...market);
+    items.push(...world);
+    return items;
+  }, [top, club, market, world, isUnemployed]);
+
+  const initialNavIndex = useMemo(() => Math.max(0, allNavItems.findIndex((item) => item.tab === activeTab)), [allNavItems, activeTab]);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: allNavItems.length,
+    columns: 1,
+    initialIndex: initialNavIndex,
+    onSelect: (i) => onNavClick(allNavItems[i]?.tab),
+    getItemLabel: (i) => allNavItems[i]?.label ?? "",
+  });
+
+  useEffect(() => {
+    itemRefs.current[activeIndex]?.focus();
+  }, [activeIndex]);
 
   return (
     <aside className="flex h-full w-64 shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground">
@@ -131,18 +159,25 @@ export function DashboardSidebarV2({
 
       <Separator />
 
-      <nav className="min-h-0 flex-1 overflow-y-auto px-2 py-3 text-sm scrollbar-v2">
-        <Group items={top} activeTab={activeTab} onNavClick={onNavClick} />
+      <nav
+        className="min-h-0 flex-1 overflow-y-auto px-2 py-3 text-sm scrollbar-v2"
+        onKeyDown={handleKeyDown}
+        tabIndex={-1}
+      >
+        <Group items={top} flatIndex={0} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
 
         {!isUnemployed && (
           <>
             <SectionLabel>{t("dashboard.sectionClub")}</SectionLabel>
-            <Group items={club} activeTab={activeTab} onNavClick={onNavClick} />
+            <Group items={club} flatIndex={top.length} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
           </>
         )}
 
+        <SectionLabel>{t("dashboard.sectionMarket", { defaultValue: "Market" })}</SectionLabel>
+        <Group items={market} flatIndex={top.length + (isUnemployed ? 0 : club.length)} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
+
         <SectionLabel>{t("dashboard.sectionWorld")}</SectionLabel>
-        <Group items={world} activeTab={activeTab} onNavClick={onNavClick} />
+        <Group items={world} flatIndex={top.length + (isUnemployed ? 0 : club.length) + market.length} activeTab={activeTab} onNavClick={onNavClick} itemRefs={itemRefs} getTabIndex={getTabIndex} />
       </nav>
 
       <Separator />
@@ -162,21 +197,30 @@ export function DashboardSidebarV2({
 
 function Group({
   items,
+  flatIndex,
   activeTab,
   onNavClick,
+  itemRefs,
+  getTabIndex,
 }: {
   items: Item[];
+  flatIndex: number;
   activeTab: string;
   onNavClick: (tab: string) => void;
+  itemRefs: React.MutableRefObject<(HTMLButtonElement | null)[]>;
+  getTabIndex: (index: number) => 0 | -1;
 }) {
   return (
     <div className="space-y-0.5">
-      {items.map((it) => {
+      {items.map((it, localIdx) => {
+        const globalIdx = flatIndex + localIdx;
         const Icon = it.icon;
         const active = activeTab === it.tab;
         return (
           <button
             key={it.tab}
+            ref={(el) => { itemRefs.current[globalIdx] = el; }}
+            tabIndex={getTabIndex(globalIdx)}
             onClick={() => onNavClick(it.tab)}
             className={cn(
               "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors",

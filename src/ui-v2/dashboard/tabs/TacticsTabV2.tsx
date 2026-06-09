@@ -521,10 +521,10 @@ export function TacticsTabV2({ gameState, onGameUpdate }: TacticsTabV2Props) {
 
   // ─── Render ───────────────────────────────────────────────────────
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-6">
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1.6fr_1fr]">
+    <div className="mx-auto flex max-h-full w-full max-w-7xl flex-col gap-4 overflow-hidden p-6">
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-5 xl:grid-cols-[1.6fr_1fr]">
         {/* ── Left column: 6 tactic sections ────────────────────────── */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 overflow-y-auto">
           <Section<GameTiming>
             title={t("tactics.lol.sections.gameTiming", "Game timing")}
             options={gameTimingOptions}
@@ -587,14 +587,14 @@ export function TacticsTabV2({ gameState, onGameUpdate }: TacticsTabV2Props) {
         </div>
 
         {/* ── Right column: Sidebar (sticky) ─────────────────────────── */}
-        <aside className="sticky top-2 h-full">
+        <aside className="sticky top-2 max-h-dvh overflow-hidden">
           <Card className="h-full">
             <CardHeader>
               <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
                 {t("tactics.lol.impactAndCoherence")}
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1 overflow-y-auto">
               {/* ── SVG Coherence Ring ──────────────────────────────── */}
               <div className="rounded-lg border border-border bg-muted/30 p-3">
                 <div className="flex items-center gap-3">

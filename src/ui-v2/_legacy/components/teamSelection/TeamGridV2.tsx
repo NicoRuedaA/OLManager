@@ -1,8 +1,10 @@
+import { useEffect, useRef } from "react";
 import { Check, Landmark, MapPin, Star, Users } from "lucide-react";
 import type { TeamSummary } from "@/store/gameStore";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";
 import { formatFinance, getReputationLabel, getTeamLogoPath } from "@/ui-v2/_legacy/components/teamSelection/teamSelection.helpers";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 
 interface TeamGridV2Props {
   teams: TeamSummary[];
@@ -13,8 +15,25 @@ interface TeamGridV2Props {
 export function TeamGridV2({
   teams, onSelectTeam, selectedTeamId,
 }: TeamGridV2Props) {
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: teams.length,
+    columns: 2,
+    loop: false,
+    onSelect: (i) => onSelectTeam(teams[i]?.id),
+    getItemLabel: (i) => teams[i]?.name ?? "",
+  });
+
+  useEffect(() => {
+    itemRefs.current[activeIndex]?.focus();
+  }, [activeIndex]);
+
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2">
+    <div
+      className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2"
+      onKeyDown={handleKeyDown}
+      tabIndex={-1}
+    >
         <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-2">
           {teams.map((team, i) => {
             const isSelected = team.id === selectedTeamId;
@@ -22,7 +41,10 @@ export function TeamGridV2({
             const logo = getTeamLogoPath(team.id, team.logo_url);
 
             return (
-              <button key={team.id} type="button" onClick={() => onSelectTeam(team.id)}
+              <button key={team.id} type="button"
+                ref={(el) => { itemRefs.current[i] = el; }}
+                tabIndex={getTabIndex(i)}
+                onClick={() => onSelectTeam(team.id)}
                 className={cn(
                     "group relative overflow-hidden rounded-xl border-2 p-5 text-left transition-all duration-300 animate-fade-in-up",
                   isSelected
@@ -31,13 +53,11 @@ export function TeamGridV2({
                 )}
                 style={{ animationDelay: `${i * 50}ms` }}
               >
-                {/* Selected glow accent */}
                 {isSelected && (
                   <div className="absolute -right-10 -top-10 size-28 rounded-full bg-primary/20 blur-3xl" />
                 )}
 
                 <div className="relative z-10">
-                  {/* Top row: logo + name + OVR */}
                   <div className="flex items-start gap-4">
                     <div className={cn(
                       "flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border-2 transition-all duration-300",
@@ -62,7 +82,6 @@ export function TeamGridV2({
                       </p>
                     </div>
 
-                    {/* OVR */}
                     {team.ovr != null && (
                       <div className={cn(
                         "shrink-0 rounded-lg px-3 py-2 text-center transition-all",
@@ -74,7 +93,6 @@ export function TeamGridV2({
                     )}
                   </div>
 
-                  {/* Stats row */}
                   <div className="mt-4 grid grid-cols-3 gap-3">
                     <div className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-center transition-colors group-hover:bg-muted/50">
                       <Users className="mx-auto mb-0.5 size-4 text-muted-foreground" />
@@ -93,13 +111,11 @@ export function TeamGridV2({
                     </div>
                   </div>
 
-                  {/* Reputation + color accent bar */}
                   <div className="mt-4 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <Badge variant={rep.variant} className="text-[10px]">{rep.label}</Badge>
                       <span className="text-[10px] text-muted-foreground/60">Rep: {team.reputation}</span>
                     </div>
-                    {/* Team color dot */}
                     {team.colors?.primary && team.colors.primary !== "#000000" && (
                       <span className="size-3 rounded-full border border-border" style={{ backgroundColor: team.colors.primary }} />
                     )}

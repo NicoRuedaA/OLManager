@@ -2741,11 +2741,13 @@ export default function ChampionDraft({
               </div>
 
               {!isCompactLayout ? (
-                <img
-                  src={LEC_LOGO_URL}
-                  alt={t("match.draft.leagueLogoAlt")}
-                  className="w-10 h-10 object-contain opacity-100 mt-1"
-                />
+                <div className="size-10 overflow-hidden rounded-md mt-1">
+                  <img
+                    src={LEC_LOGO_URL}
+                    alt={t("match.draft.leagueLogoAlt")}
+                    className="size-full object-cover"
+                  />
+                </div>
               ) : null}
               <p className={`${isCompactLayout ? "text-2xs tracking-[0.08em] mb-0.5" : "text-xs tracking-[0.15em] mb-1"} text-muted-foreground/50 uppercase`}>
                 {t("match.draft.patchLabel", { patch: patchLabel })}

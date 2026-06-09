@@ -540,11 +540,10 @@ pub fn select_team(game: &mut Game, team_id: &str) -> Result<(), String> {
     let user_cid = competition_id_from_team_id(team_id);
     let mut leagues = Vec::new();
     for manifest in &manifests {
-        let prefix = format!("{}-", manifest.id);
         let team_ids: Vec<String> = game
             .teams
             .iter()
-            .filter(|t| t.id.starts_with(&prefix))
+            .filter(|t| t.competition_id.as_deref() == Some(&manifest.id))
             .map(|t| t.id.clone())
             .collect();
         if team_ids.len() < 2 || manifest.schedule.splits.is_empty() {

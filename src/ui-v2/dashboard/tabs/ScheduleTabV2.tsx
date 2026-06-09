@@ -114,7 +114,7 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
   });
 
   return (
-    <div className="flex h-full flex-col gap-5 overflow-y-auto p-6 scrollbar-v2">
+    <div className="flex h-full flex-col gap-5 p-6">
       {/* Tab switcher — segmented control */}
       <div className={cn("inline-flex gap-1.5 rounded-lg border border-border bg-muted/30 p-1", visible && "animate-fade-in-up")}>
         {(["fixtures", "calendar"] as const).map((v) => (

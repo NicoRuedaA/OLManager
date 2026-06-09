@@ -8,7 +8,7 @@ interface ChampionsWorldTabV2Props {
 
 export function ChampionsWorldTabV2({ champions, onViewChampion }: ChampionsWorldTabV2Props) {
   return (
-    <div className="flex h-full flex-col overflow-y-auto p-6 scrollbar-v2">
+    <div className="flex h-full flex-col overflow-hidden p-6">
       <ChampionsGridV2 champions={champions} onChampionClick={onViewChampion} />
     </div>
   );

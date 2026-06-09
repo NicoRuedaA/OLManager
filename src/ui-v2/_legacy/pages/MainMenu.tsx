@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getApiClientSync } from "@/api/client";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -11,6 +11,7 @@ import SavesList from "@/ui-v2/_legacy/components/menu/SavesList";
 import MenuBackground from "@/ui-v2/_legacy/components/menu/MenuBackground";
 import CommunityPanel from "@/ui-v2/_legacy/components/menu/CommunityPanel";
 import PatchNotesPanel from "@/ui-v2/_legacy/components/menu/PatchNotesPanel";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 import {
   FolderOpen,
   Settings,
@@ -375,8 +376,100 @@ export default function MainMenu() {
     }
   };
 
+  const mainMenuItems = useMemo(() => {
+    const items: Array<{ label: string; onClick: () => void; icon: React.ReactNode; tone?: MenuItemTone; active?: boolean; title?: string }> = [
+      { icon: <PlusCircle />, label: t("menu.newGame"), active: menuState === "create", onClick: () => setMenuState("create") },
+      { icon: <FolderOpen />, label: t("menu.loadGame"), active: menuState === "load", onClick: handleOpenLoadMenu },
+      { icon: <Settings />, tone: "muted" as const, label: t("menu.settings"), onClick: () => navigate("/settings", { state: { from: "/", menuStyle: true } }) },
+      { icon: <Users />, label: t("menu.community", "Comunidad"), active: menuState === "community", onClick: () => setMenuState("community") },
+      { icon: <Newspaper />, tone: "muted" as const, label: t("menu.patchNotes", "Novedades"), active: menuState === "patchnotes", onClick: () => setMenuState("patchnotes") },
+    ];
+    if (debugToolsEnabled) {
+      items.push({ icon: <Database />, tone: "primary" as const, label: "World Editor", title: "World Editor", onClick: () => navigate("/world-editor") });
+    }
+    if (!isWebSession) {
+      items.push({ icon: <Power />, tone: "danger" as const, label: t("menu.exitGame"), onClick: () => { void handleExitApp(); } });
+    }
+    return items;
+  }, [t, menuState, debugToolsEnabled, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: mainMenuItems.length,
+    columns: 1,
+    onSelect: (i) => mainMenuItems[i]?.onClick(),
+    getItemLabel: (i) => mainMenuItems[i]?.label ?? "",
+  });
+
+  useEffect(() => {
+    if (menuState === "main") {
+      containerRef.current?.focus();
+      itemRefs.current[activeIndex]?.focus();
+    }
+  }, [activeIndex, menuState]);
+
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
+
+  const isPanelOpen = menuState !== "main";
+
+  const focusFirstPanelElement = useCallback(() => {
+    requestAnimationFrame(() => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      const all = panel.querySelectorAll<HTMLElement>(
+        "input:not([type=hidden]):not([disabled]), button:not([disabled]), select, textarea, [tabindex]:not([tabindex='-1'])",
+      );
+      for (const el of all) {
+        const isCloseBtn = el.tagName === "BUTTON" && el.querySelector("svg.lucide-x");
+        if (!isCloseBtn) {
+          el.focus();
+          return;
+        }
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isPanelOpen) {
+      focusFirstPanelElement();
+    } else {
+      itemRefs.current[activeIndex]?.focus();
+    }
+  }, [menuState]);
+
+  const handleMenuKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape" && isPanelOpen) {
+      e.preventDefault();
+      setMenuState("main");
+      return;
+    }
+    if (e.key === "ArrowLeft" && isPanelOpen) {
+      e.preventDefault();
+      setMenuState("main");
+      return;
+    }
+    if (isPanelOpen) return;
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      if (activeIndex >= 0 && activeIndex < mainMenuItems.length) {
+        mainMenuItems[activeIndex]?.onClick();
+      }
+      return;
+    }
+    handleKeyDown(e);
+  };
+
   return (
-    <div className="h-full relative overflow-hidden font-sans text-white">
+    <div
+      ref={containerRef}
+      className="h-full relative overflow-hidden font-sans text-white"
+      onKeyDown={handleMenuKeyDown}
+      tabIndex={-1}
+    >
       <MenuBackground />
 
       {/* Theme Toggle */}
@@ -394,67 +487,26 @@ export default function MainMenu() {
             />
 
             <nav className="flex flex-col gap-1">
-              <MenuItem
-                icon={<PlusCircle />}
-                label={t("menu.newGame")}
-                active={menuState === "create"}
-                onClick={() => setMenuState("create")}
-              />
-              <MenuItem
-                icon={<FolderOpen />}
-                label={t("menu.loadGame")}
-                active={menuState === "load"}
-                onClick={handleOpenLoadMenu}
-              />
-              <MenuItem
-                icon={<Settings />}
-                tone="muted"
-                label={t("menu.settings")}
-                onClick={() =>
-                  navigate("/settings", {
-                    state: { from: "/", menuStyle: true },
-                  })
-                }
-              />
-              <MenuItem
-                icon={<Users />}
-                label={t("menu.community", "Comunidad")}
-                active={menuState === "community"}
-                onClick={() => setMenuState("community")}
-              />
-              <MenuItem
-                icon={<Newspaper />}
-                tone="muted"
-                label={t("menu.patchNotes", "Novedades")}
-                active={menuState === "patchnotes"}
-                onClick={() => setMenuState("patchnotes")}
-              />
-              {debugToolsEnabled && (
+              {mainMenuItems.map((item, i) => (
                 <MenuItem
-                  icon={<Database />}
-                  tone="primary"
-                  label="World Editor"
-                  title="World Editor"
-                  onClick={() => navigate("/world-editor")}
+                  key={item.label}
+                  icon={item.icon}
+                  label={item.label}
+                  tone={item.tone}
+                  active={item.active}
+                  title={item.title}
+                  tabIndex={getTabIndex(i)}
+                  ref={(el) => { itemRefs.current[i] = el; }}
+                  onClick={item.onClick}
                 />
-              )}
-              {!isWebSession && (
-                <MenuItem
-                  icon={<Power />}
-                  tone="danger"
-                  label={t("menu.exitGame")}
-                  onClick={() => {
-                    void handleExitApp();
-                  }}
-                />
-              )}
+              ))}
             </nav>
           </div>
         </div>
 
         {/* Right column — active panel opens beside the nav */}
         {menuState !== "main" && (
-          <div className="dark flex-1 min-w-0 flex flex-col justify-center overflow-y-auto p-6 lg:p-10">
+          <div ref={panelRef} className="dark flex-1 min-w-0 flex flex-col justify-center overflow-y-auto p-6 lg:p-10">
             <div
               key={menuState}
               className="w-full max-w-2xl mx-auto animate-fade-in-up border-t border-white/10"
@@ -462,7 +514,44 @@ export default function MainMenu() {
               <div className="pt-6">
                 {/* Step 1: Create Manager Form */}
                 {menuState === "create" && (
-                  <form onSubmit={handleStartCareer} className="flex flex-col">
+                  <form onSubmit={handleStartCareer} className="flex flex-col"
+                    onKeyDown={(e) => {
+                      const nav: Record<string, Record<string, string | null>> = {
+                        nickname: { right: null, left: null, down: "firstName", up: null },
+                        firstName: { right: "lastName", left: null, down: "day", up: "nickname" },
+                        lastName: { right: null, left: "firstName", down: "day", up: "nickname" },
+                        day: { right: "month", left: null, down: "nationality", up: "firstName" },
+                        month: { right: "year", left: "day", down: "nationality", up: "firstName" },
+                        year: { right: null, left: "month", down: "nationality", up: "firstName" },
+                        nationality: { right: null, left: null, down: "submit", up: "day" },
+                        submit: { right: null, left: null, down: null, up: "nationality" },
+                      };
+                      const selectors: Record<string, string> = {
+                        nickname: "#create-manager-field-nickname input",
+                        firstName: "#create-manager-field-firstName input",
+                        lastName: "#create-manager-field-lastName input",
+                        day: "#dp-day-input",
+                        month: "#dp-month-btn",
+                        year: "#dp-year-input",
+                        nationality: "#create-manager-field-nationality-btn",
+                        submit: "#create-manager-submit",
+                      };
+                      if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+                        const current = document.activeElement;
+                        const fieldId = Object.entries(selectors).find(
+                          ([, sel]) => current === document.querySelector(sel)
+                        )?.[0];
+                        if (!fieldId) return;
+                        const dir = e.key === "ArrowDown" ? "down" : e.key === "ArrowUp" ? "up" : e.key === "ArrowRight" ? "right" : "left";
+                        const target = nav[fieldId]?.[dir];
+                        if (!target) return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const el = document.querySelector<HTMLElement>(selectors[target]);
+                        el?.focus();
+                      }
+                    }}
+                  >
                     <div className="flex justify-between items-center pb-5">
                       <h2 className="text-2xl font-heading font-bold uppercase tracking-wider text-white drop-shadow">
                         {t("createManager.title")}
@@ -670,6 +759,7 @@ export default function MainMenu() {
                               return
                             }
                             if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+                              if (!nationalityOpen) return;
                               e.preventDefault();
                               const dir = e.key === "ArrowDown" ? 1 : -1;
                               const currentIdx = countriesList.findIndex(
@@ -753,56 +843,43 @@ export default function MainMenu() {
                                 onChange={(e) =>
                                   setNationalitySearch(e.target.value)
                                 }
+                                onKeyDown={(e) => {
+                                  if (e.key === "ArrowDown") {
+                                    e.preventDefault();
+                                    const first = document.querySelector<HTMLButtonElement>("#nationality-dropdown-list button");
+                                    first?.focus();
+                                  }
+                                  if (e.key === "Escape") {
+                                    e.preventDefault();
+                                    setNationalityOpen(false);
+                                    setNationalitySearch("");
+                                    document.getElementById("create-manager-field-nationality-btn")?.focus();
+                                  }
+                                }}
                                 className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-accent-400 transition-colors placeholder:text-gray-500"
                               />
                             </div>
-                            <div className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
+                            <div id="nationality-dropdown-list" className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
                               {filteredNationalities.length === 0 ? (
                                 <p className="px-3 py-2 text-xs text-gray-400">
                                   {t("menu.noResults")}
                                 </p>
                               ) : (
-                                filteredNationalities.map((nat) => (
-                                  <button
-                                    key={nat.code}
-                                    type="button"
-                                    onMouseDown={(event) => {
-                                      event.preventDefault();
-                                      event.stopPropagation();
-                                      logNationalityDebug("option selected", {
-                                        code: nat.code,
-                                        name: nat.name,
-                                      });
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        nationality: nat.code,
-                                      }));
-                                      setNationalityOpen(false);
-                                      setNationalitySearch("");
-                                      setFormErrors((prev) => ({
-                                        ...prev,
-                                        nationality: "",
-                                      }));
-                                    }}
-                                    className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between transition-colors ${
-                                      formData.nationality === nat.code
-                                        ? "bg-accent-400/10 text-accent-400"
-                                        : "text-gray-200 hover:bg-white/10"
-                                    }`}
-                                  >
-                                    <div className="flex items-center gap-2">
-                                      <CountryFlag
-                                        code={nat.code}
-                                        locale={i18n.language}
-                                        className="text-lg leading-none"
-                                      />
-                                      <span>{nat.name}</span>
-                                    </div>
-                                    {formData.nationality === nat.code && (
-                                      <Check className="w-4 h-4 text-accent-400" />
-                                    )}
-                                  </button>
-                                ))
+                                  <DropdownList
+                                  items={filteredNationalities}
+                                  selectedCode={formData.nationality}
+                                  locale={i18n.language}
+                                  onSelect={(code) => {
+                                    setFormData((prev) => ({ ...prev, nationality: code }));
+                                    setNationalityOpen(false);
+                                    setNationalitySearch("");
+                                    setFormErrors((prev) => ({ ...prev, nationality: "" }));
+                                  }}
+                                  onClose={() => {
+                                    setNationalityOpen(false);
+                                    setNationalitySearch("");
+                                  }}
+                                />
                               )}
                             </div>
                           </div>
@@ -874,21 +951,23 @@ export default function MainMenu() {
 
 type MenuItemTone = "accent" | "muted" | "primary" | "danger";
 
-function MenuItem({
-  icon,
-  label,
-  onClick,
-  active = false,
-  tone = "accent",
-  title,
-}: {
+const MenuItem = React.forwardRef<HTMLButtonElement, {
   icon: React.ReactNode;
   label: string;
   onClick: () => void;
   active?: boolean;
   tone?: MenuItemTone;
   title?: string;
-}) {
+  tabIndex?: 0 | -1;
+}>(function MenuItem({
+  icon,
+  label,
+  onClick,
+  active = false,
+  tone = "accent",
+  title,
+  tabIndex,
+}, ref) {
   const bar =
     tone === "danger"
       ? "bg-red-500"
@@ -908,6 +987,8 @@ function MenuItem({
 
   return (
     <button
+      ref={ref}
+      tabIndex={tabIndex ?? 0}
       onClick={onClick}
       title={title}
       className={`group relative flex items-center gap-4 w-full py-3 pl-5 pr-6 text-left rounded-lg transition-colors duration-200 ${
@@ -935,5 +1016,80 @@ function MenuItem({
       </span>
     </button>
   );
-}
+});
 
+function DropdownList({
+  items,
+  selectedCode,
+  locale,
+  onSelect,
+  onClose,
+}: {
+  items: Array<{ code: string; name: string }>;
+  selectedCode: string;
+  locale: string;
+  onSelect: (code: string) => void;
+  onClose?: () => void;
+}) {
+  const [focusIdx, setFocusIdx] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setFocusIdx(0);
+  }, [items.length]);
+
+  useEffect(() => {
+    if (items.length === 0) return;
+    const btns = listRef.current?.querySelectorAll<HTMLButtonElement>("button");
+    btns?.[focusIdx]?.focus();
+  }, [focusIdx, items.length]);
+
+  return (
+    <div ref={listRef} onKeyDown={(e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setFocusIdx((prev) => Math.min(prev + 1, items.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setFocusIdx((prev) => Math.max(prev - 1, 0));
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (items[focusIdx]) onSelect(items[focusIdx].code);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        onClose?.();
+        document.getElementById("create-manager-field-nationality-btn")?.focus();
+      }
+    }}>
+      {items.map((nat, i) => (
+        <button
+          key={nat.code}
+          type="button"
+          tabIndex={i === focusIdx ? 0 : -1}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            onSelect(nat.code);
+          }}
+          className={`w-full text-left px-3 py-2 text-sm flex items-center justify-between transition-colors ${
+            selectedCode === nat.code
+              ? "bg-accent-400/10 text-accent-400"
+              : "text-gray-200 hover:bg-white/10"
+          }`}
+        >
+          <div className="flex items-center gap-2">
+            <CountryFlag
+              code={nat.code}
+              locale={locale}
+              className="text-lg leading-none"
+            />
+            <span>{nat.name}</span>
+          </div>
+          {selectedCode === nat.code && (
+            <Check className="w-4 h-4 text-accent-400" />
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+ 

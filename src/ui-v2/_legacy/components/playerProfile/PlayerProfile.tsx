@@ -999,6 +999,30 @@ export default function PlayerProfile({
         }
         potentialResearchSubmitting={potentialResearchSubmitting}
         isPotentialResearchBlockedByOther={isPotentialResearchBlockedByOther}
+        onToggleTransferList={
+          onGameUpdate && actualIsOwnClub
+            ? () => {
+                void (async () => {
+                  try {
+                    const updated = await invoke<GameStateData>("toggle_transfer_list", { playerId: player.id });
+                    onGameUpdate(updated);
+                  } catch { /* silent */ }
+                })();
+              }
+            : undefined
+        }
+        onToggleLoanList={
+          onGameUpdate && actualIsOwnClub
+            ? () => {
+                void (async () => {
+                  try {
+                    const updated = await invoke<GameStateData>("toggle_loan_list", { playerId: player.id });
+                    onGameUpdate(updated);
+                  } catch { /* silent */ }
+                })();
+              }
+            : undefined
+        }
         t={t}
       />
 

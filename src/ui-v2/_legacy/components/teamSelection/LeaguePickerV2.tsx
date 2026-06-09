@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronRight, Globe, Search, Users, X } from "lucide-react";
 import type { CompetitionSummary } from "@/store/gameStore";
 import { cn } from "@/ui-v2/lib/utils";
+import { useRovingFocus } from "@/hooks/useRovingFocus";
 
 interface LeaguePickerV2Props {
   competitions: CompetitionSummary[];
@@ -30,6 +31,18 @@ export function LeaguePickerV2({ competitions, onSelect }: LeaguePickerV2Props) 
     );
   }, [competitions, query]);
 
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const { activeIndex, handleKeyDown, getTabIndex } = useRovingFocus({
+    itemCount: filtered.length,
+    columns: 2,
+    onSelect: (i) => onSelect(filtered[i]?.id),
+    getItemLabel: (i) => filtered[i]?.name ?? "",
+  });
+
+  useEffect(() => {
+    itemRefs.current[activeIndex]?.focus();
+  }, [activeIndex]);
+
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <div className="shrink-0 px-6 pt-4 md:px-8 md:pt-6">
@@ -53,7 +66,11 @@ export function LeaguePickerV2({ competitions, onSelect }: LeaguePickerV2Props) 
           )}
         </div>
       </div>
-      <div className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2">
+      <div
+        className="flex-1 overflow-y-auto p-6 md:p-8 scrollbar-v2"
+        onKeyDown={handleKeyDown}
+        tabIndex={-1}
+      >
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-4 md:grid-cols-2">
           {filtered.length === 0 ? (
             <div className="col-span-full py-16 text-center">
@@ -68,6 +85,8 @@ export function LeaguePickerV2({ competitions, onSelect }: LeaguePickerV2Props) 
             return (
               <button
                 key={comp.id}
+                ref={(el) => { itemRefs.current[i] = el; }}
+                tabIndex={getTabIndex(i)}
                 type="button"
                 onClick={() => onSelect(comp.id)}
                 className={cn(

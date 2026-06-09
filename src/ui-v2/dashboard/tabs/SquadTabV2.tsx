@@ -23,7 +23,6 @@ import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { resolvePlayerLolRole, type LolRoleTag } from "@/lib/players/lolIdentity";
 import ContextMenu from "@/ui-v2/_legacy/components/ContextMenu";
 import { calcAge, formatVal } from "@/lib/common/helpers";
-import { safeFinanceNumber } from "@/lib/finances/finance";
 import { PlayerAvatar } from "@/ui-v2/_legacy/components/ui/PlayerAvatar";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
@@ -79,6 +78,20 @@ export function SquadTabV2({
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
   const [savingSlot, setSavingSlot] = useState<string | null>(null);
+
+  const handleToggleTransfer = useCallback(async (playerId: string) => {
+    try {
+      const updated = await invoke<GameStateData>("toggle_transfer_list", { playerId });
+      onGameUpdate(updated);
+    } catch { /* silent */ }
+  }, [onGameUpdate]);
+
+  const handleToggleLoan = useCallback(async (playerId: string) => {
+    try {
+      const updated = await invoke<GameStateData>("toggle_loan_list", { playerId });
+      onGameUpdate(updated);
+    } catch { /* silent */ }
+  }, [onGameUpdate]);
 
   // ─── Derived data ────────────────────────────────────────────────
   if (!myTeam) {
@@ -169,13 +182,6 @@ export function SquadTabV2({
     : benchPlayers;
   const hasRoster = roster.length > 0;
 
-  // ─── Squad KPIs ──────────────────────────────────────────────────
-  const avgOvr = roster.length > 0 ? Math.round(roster.reduce((s, p) => s + calculateLolOvr(p), 0) / roster.length) : 0;
-  const avgCondition = roster.length > 0 ? Math.round(roster.reduce((s, p) => s + p.condition, 0) / roster.length) : 0;
-  const avgMorale = roster.length > 0 ? Math.round(roster.reduce((s, p) => s + p.morale, 0) / roster.length) : 0;
-  const avgFitness = roster.length > 0 ? Math.round(roster.reduce((s, p) => s + (p.fitness ?? 75), 0) / roster.length) : 0;
-  const totalValue = roster.reduce((s, p) => s + safeFinanceNumber(p.market_value), 0);
-  const totalWages = roster.reduce((s, p) => s + safeFinanceNumber(p.wage), 0);
   const roleCounts = useMemo(() => {
     const counts: Record<string, number> = { TOP: 0, JUNGLE: 0, MID: 0, ADC: 0, SUPPORT: 0 };
     roster.forEach((p) => { const r = resolvePlayerLolRole(p); if (counts[r] !== undefined) counts[r]++; });
@@ -210,48 +216,6 @@ export function SquadTabV2({
     <div className={cn("flex h-full flex-col gap-4 overflow-y-auto p-6 scrollbar-v2", visible && "animate-fade-in-up")}>
       {hasRoster && (
         <>
-          {/* ── Squad KPIs ── */}
-          <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "0ms", animationFillMode: "forwards" }}>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-6">
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("common.ovr", "OVR")}</p>
-                <p className="mt-1 font-heading text-xl font-bold tabular-nums text-primary">{avgOvr}</p>
-                <div className="mx-auto mt-1 h-1 w-12 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary" style={{ width: `${avgOvr}%` }} />
-                </div>
-              </div>
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("common.condition", "Energía")}</p>
-                <p className="mt-1 font-heading text-xl font-bold tabular-nums text-amber-400">{avgCondition}</p>
-                <div className="mx-auto mt-1 h-1 w-12 overflow-hidden rounded-full bg-muted">
-                  <div className={cn("h-full rounded-full", avgCondition >= 70 ? "bg-amber-400" : avgCondition >= 40 ? "bg-amber-400" : "bg-red-400")} style={{ width: `${avgCondition}%` }} />
-                </div>
-              </div>
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("common.morale", "Moral")}</p>
-                <p className="mt-1 font-heading text-xl font-bold tabular-nums text-emerald-400">{avgMorale}</p>
-                <div className="mx-auto mt-1 h-1 w-12 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-emerald-400" style={{ width: `${avgMorale}%` }} />
-                </div>
-              </div>
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("common.fitness", "Fitness")}</p>
-                <p className="mt-1 font-heading text-xl font-bold tabular-nums text-green-400">{avgFitness}</p>
-                <div className="mx-auto mt-1 h-1 w-12 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-green-400" style={{ width: `${avgFitness}%` }} />
-                </div>
-              </div>
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.squadValue", "Valor plantilla")}</p>
-                <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(totalValue)}</p>
-              </div>
-              <div className="rounded-lg bg-muted/50 p-3 text-center">
-                <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.wageBill", "Masa salarial")}</p>
-                <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(totalWages)}</p>
-              </div>
-            </div>
-          </div>
-
           {/* ── Role distribution + alerts ── */}
           <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "25ms", animationFillMode: "forwards" }}>
             <div className="flex flex-wrap items-center gap-3">
@@ -427,9 +391,23 @@ export function SquadTabV2({
                       <p className="font-heading text-sm font-bold text-foreground tabular-nums">{formatVal(annualWage)}</p>
                       <p className="text-[10px] uppercase tracking-wider text-muted-foreground">/año</p>
                     </div>
-                    <button type="button" onClick={() => onSelectPlayer(player.id)} className="shrink-0 text-muted-foreground/50 hover:text-primary">
-                      <ChevronRight className="size-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleTransfer(player.id); }}
+                        className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                          player.transfer_listed ? "border-red-500/30 bg-red-500/10 text-red-400" : "border-border text-muted-foreground/50 hover:border-red-500/30 hover:text-red-400"
+                        )}>
+                        <ShoppingCart className="size-3.5" />
+                      </button>
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleLoan(player.id); }}
+                        className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                          player.loan_listed ? "border-blue-500/30 bg-blue-500/10 text-blue-400" : "border-border text-muted-foreground/50 hover:border-blue-500/30 hover:text-blue-400"
+                        )}>
+                        <Repeat className="size-3.5" />
+                      </button>
+                      <button type="button" onClick={() => onSelectPlayer(player.id)} className="shrink-0 text-muted-foreground/50 hover:text-primary">
+                        <ChevronRight className="size-4" />
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -440,8 +418,8 @@ export function SquadTabV2({
       </div>
 
       {/* ── Bench / Substitutes ─────────────────────────────────── */}
-      <div className="opacity-0 animate-fade-in-up" style={{ animationDelay: "50ms", animationFillMode: "forwards" }}>
-      <Card>
+      <div className="flex-1 min-h-0 opacity-0 animate-fade-in-up" style={{ animationDelay: "50ms", animationFillMode: "forwards" }}>
+      <Card className="flex h-full flex-col">
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between gap-3">
             <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
@@ -500,7 +478,7 @@ export function SquadTabV2({
             </div>
           )}
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="flex-1 overflow-y-auto p-0">
           {benchFiltered.length === 0 && hasRoster ? (
             <div className="p-8 text-center font-heading text-sm uppercase tracking-wider text-muted-foreground">
               {t("squad.allStarting", {
@@ -747,8 +725,22 @@ export function SquadTabV2({
                         </p>
                       </div>
 
-                      {/* Chevron */}
-                      <ChevronRight className="size-4 shrink-0 text-muted-foreground/50" />
+                      {/* Actions */}
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleTransfer(player.id); }}
+                          className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                            player.transfer_listed ? "border-red-500/30 bg-red-500/10 text-red-400" : "border-border text-muted-foreground/50 hover:border-red-500/30 hover:text-red-400"
+                          )}>
+                          <ShoppingCart className="size-3.5" />
+                        </button>
+                        <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleLoan(player.id); }}
+                          className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                            player.loan_listed ? "border-blue-500/30 bg-blue-500/10 text-blue-400" : "border-border text-muted-foreground/50 hover:border-blue-500/30 hover:text-blue-400"
+                          )}>
+                          <Repeat className="size-3.5" />
+                        </button>
+                        <ChevronRight className="size-4 text-muted-foreground/50" />
+                      </div>
                     </button>
                   </ContextMenu>
                 );

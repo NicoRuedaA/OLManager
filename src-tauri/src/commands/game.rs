@@ -324,9 +324,8 @@ pub async fn select_team(
 
     for manifest in all_manifests.iter().filter(|m| !m.legacy) {
         let cid = &manifest.id;
-        let prefix = format!("{}-", cid);
         let team_ids: Vec<String> = game.teams.iter()
-            .filter(|team| team.team_kind != TeamKind::Academy && team.id.starts_with(&prefix))
+            .filter(|team| team.team_kind != TeamKind::Academy && team.competition_id.as_deref() == Some(cid.as_str()))
             .map(|team| team.id.clone()).collect();
 
         if team_ids.len() < 2 { continue; }

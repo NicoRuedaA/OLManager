@@ -3,14 +3,11 @@ import { useTranslation } from "react-i18next";
 import {
   CalendarDays,
   DollarSign,
-  Dumbbell,
   Eye,
   Home,
   Mail,
   MapPin,
-  Moon,
   Newspaper,
-  Swords,
   TrendingUp,
   Trophy,
 } from "lucide-react";
@@ -139,7 +136,7 @@ export function HomeTabV2({ gameState, onNavigate, onSelectPlayer }: Props) {
       </div>
 
       {/* Row: Roster lineup */}
-      <div className="lg:col-span-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "50ms", animationFillMode: "forwards" }}>
+      <div className="lg:col-span-4 flex flex-col opacity-0 animate-fade-in-up" style={{ animationDelay: "50ms", animationFillMode: "forwards" }}>
         <RosterLineupV2
           roster={roster}
           championMasteries={gameState.champion_masteries}
@@ -428,7 +425,9 @@ function FullStandingsCard({
       <CardHeader className="space-y-3">
         <div className="flex items-center gap-3">
           {compLogo ? (
-            <img src={compLogo} alt={league?.name ?? "Competition"} className="size-10 shrink-0 object-contain" />
+            <div className="size-10 shrink-0 overflow-hidden rounded-md">
+              <img src={compLogo} alt={league?.name ?? "Competition"} className="size-full object-cover" />
+            </div>
           ) : (
             <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-muted">
               <TrendingUp className="size-4 text-muted-foreground" />
@@ -436,7 +435,7 @@ function FullStandingsCard({
           )}
           <div className="min-w-0">
             <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-              {t("home.standings")}
+              {t("home.standings.title")}
             </div>
             <div className="truncate font-heading text-base font-bold uppercase tracking-wider">
               {league?.name ?? "—"}
@@ -865,7 +864,7 @@ const NewDayIcon = (_props: { className?: string }) => (
 function getPhaseMeta(t: (key: string) => string): Record<
   string,
   {
-    icon: React.ComponentType<{ className?: string }>;
+    icon: React.ComponentType<{ className?: string }> | string;
     label: string;
     title: string;
     description: string;
@@ -885,7 +884,7 @@ function getPhaseMeta(t: (key: string) => string): Record<
       actionTab: "Schedule",
     },
     ScrimBlock: {
-      icon: Swords,
+      icon: "/ui-icons/scrims.webp",
       label: t("dashboard.phaseLabels.scrimBlock"),
       title: t("home.phase.scrimBlock.title"),
       description: t("home.phase.scrimBlock.description"),
@@ -894,7 +893,7 @@ function getPhaseMeta(t: (key: string) => string): Record<
       actionTab: "Scrims",
     },
     ReviewBlock: {
-      icon: Eye,
+      icon: "/ui-icons/review.webp",
       label: t("dashboard.phaseLabels.reviewBlock"),
       title: t("home.phase.reviewBlock.title"),
       description: t("home.phase.reviewBlock.description"),
@@ -903,7 +902,7 @@ function getPhaseMeta(t: (key: string) => string): Record<
       actionTab: "Scrims",
     },
     TrainingBlock: {
-      icon: Dumbbell,
+      icon: "/ui-icons/training.webp",
       label: t("dashboard.phaseLabels.trainingBlock"),
       title: t("home.phase.trainingBlock.title"),
       description: t("home.phase.trainingBlock.description"),
@@ -912,7 +911,7 @@ function getPhaseMeta(t: (key: string) => string): Record<
       actionTab: "Training",
     },
     Evening: {
-      icon: Moon,
+      icon: "/ui-icons/evening.webp",
       label: t("dashboard.phaseLabels.evening"),
       title: t("home.phase.evening.title"),
       description: t("home.phase.evening.description"),
@@ -974,7 +973,7 @@ function TodayPhaseCard({
   const phase = gameState.day_phase ?? "Morning";
   const phaseMeta = getPhaseMeta(t);
   const meta = phaseMeta[phase];
-  const Icon = meta.icon;
+  const PhaseIcon = meta.icon;
 
   return (
     <Card className="overflow-hidden">
@@ -983,7 +982,11 @@ function TodayPhaseCard({
           "flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted",
           meta.accent,
         )}>
-          <Icon className="size-6" />
+          {typeof PhaseIcon === "string" ? (
+            <img src={PhaseIcon} alt="" className="size-full object-cover" />
+          ) : (
+            <PhaseIcon className="size-6" />
+          )}
         </div>
         <div className="min-w-0 flex-1">
           <div className="mb-0.5 flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">

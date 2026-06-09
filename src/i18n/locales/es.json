@@ -406,6 +406,7 @@
     "unbeatenRun": "Racha invicta",
     "leaguePosition": "Posición en Liga",
     "standings": {
+      "title": "Clasificación",
       "hash": "#",
       "losses": "L",
       "preseason": "Preseason — no standings yet",

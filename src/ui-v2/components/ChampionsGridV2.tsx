@@ -68,9 +68,9 @@ export default function ChampionsGridV2({ champions, onChampionClick }: Champion
   if (!champions || champions.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex min-h-0 flex-1 flex-col gap-5">
       {/* Search & filter bar */}
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex shrink-0 flex-wrap items-center gap-3">
         <div className="relative flex h-9 min-w-48 flex-1 items-center">
           <Search className="pointer-events-none absolute left-3 size-4 text-muted-foreground/50" />
           <input
@@ -108,71 +108,65 @@ export default function ChampionsGridV2({ champions, onChampionClick }: Champion
       </div>
 
       {/* Champion grid */}
-      <div
-        ref={gridRef}
-        className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8"
-      >
-        {paginated.map((champion, i) => {
-          const roles = CHAMPION_ROLES[champion.champion_key] ?? [];
-          const tile = resolveChampionTile(champion.champion_key);
-          return (
-            <button
-              key={champion.id}
-              type="button"
-              onClick={() => handleClick(champion.champion_key)}
-              className={cn(
-                "group relative aspect-[3/4] overflow-hidden rounded-lg border border-border/60 bg-card transition-all duration-200",
-                "hover:z-10 hover:scale-[1.08] hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10",
-                visible && "animate-fade-in-up",
-              )}
-              style={{ animationDelay: `${(i % 20) * 25}ms` }}
-            >
-              {/* Champion art */}
-              {tile && (
-                <img
-                  src={tile}
-                  alt={champion.name}
-                  className="size-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  loading="lazy"
-                />
-              )}
-
-              {/* Gradient overlay at bottom for name */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-              {/* Name */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 px-2 py-2">
-                <p className="truncate text-center font-heading text-[11px] font-bold uppercase tracking-wider text-white drop-shadow">
-                  {champion.champion_key}
-                </p>
-              </div>
-
-              {/* Role badges on hover */}
-              {roles.length > 0 && (
-                <div className="pointer-events-none absolute left-1.5 top-1.5 flex flex-col gap-0.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  {roles.map((role) => {
-                    const norm = normalizeRole(role);
-                    const icon = LOL_ROLE_ICON_URLS[norm];
-                    return icon ? (
-                      <span
-                        key={role}
-                        className="flex size-4 items-center justify-center rounded-sm bg-black/60"
-                        title={role}
-                      >
-                        <img src={icon} alt={role} className="size-3 object-contain" />
-                      </span>
-                    ) : null;
-                  })}
+      {paginated.length > 0 ? (
+        <div className="min-h-0 flex-1 overflow-y-auto scrollbar-v2">
+          <div
+            ref={gridRef}
+            className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8"
+          >
+          {paginated.map((champion, i) => {
+            const roles = CHAMPION_ROLES[champion.champion_key] ?? [];
+            const tile = resolveChampionTile(champion.champion_key);
+            return (
+              <button
+                key={champion.id}
+                type="button"
+                onClick={() => handleClick(champion.champion_key)}
+                className={cn(
+                  "group relative aspect-[3/4] overflow-hidden rounded-lg border border-border/60 bg-card transition-all duration-200",
+                  "hover:z-10 hover:scale-[1.08] hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10",
+                  visible && "animate-fade-in-up",
+                )}
+                style={{ animationDelay: `${(i % 20) * 25}ms` }}
+              >
+                {tile && (
+                  <img
+                    src={tile}
+                    alt={champion.name}
+                    className="size-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 px-2 py-2">
+                  <p className="truncate text-center font-heading text-[11px] font-bold uppercase tracking-wider text-white drop-shadow">
+                    {champion.champion_key}
+                  </p>
                 </div>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Empty state */}
-      {paginated.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-16">
+                {roles.length > 0 && (
+                  <div className="pointer-events-none absolute left-1.5 top-1.5 flex flex-col gap-0.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    {roles.map((role) => {
+                      const norm = normalizeRole(role);
+                      const icon = LOL_ROLE_ICON_URLS[norm];
+                      return icon ? (
+                        <span
+                          key={role}
+                          className="flex size-4 items-center justify-center rounded-sm bg-black/60"
+                          title={role}
+                        >
+                          <img src={icon} alt={role} className="size-3 object-contain" />
+                        </span>
+                      ) : null;
+                    })}
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+        </div>
+      ) : (
+        <div className="flex shrink-0 flex-col items-center justify-center py-16">
           <p className="font-heading text-sm uppercase tracking-wider text-muted-foreground">
             {t("championsGrid.noResults")}
           </p>
@@ -188,7 +182,7 @@ export default function ChampionsGridV2({ champions, onChampionClick }: Champion
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-border pt-4">
+        <div className="flex shrink-0 items-center justify-between border-t border-border pt-4">
           <p className="font-heading text-xs tabular-nums text-muted-foreground">
             {safePage * PAGE_SIZE + 1}–{Math.min((safePage + 1) * PAGE_SIZE, filtered.length)} de {filtered.length}
           </p>

@@ -122,8 +122,16 @@ export default function TeamSelectionV2() {
   const selectedCompetition = activeCompetitions.find((c) => c.id === selectedCompetitionId);
   const isLeagueScreen = screen === "league" && leagueData;
 
+  const handleRootKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      if (isLeagueScreen) handleBackToMenu();
+      else handleBackToLeagues();
+    }
+  };
+
   return (
-    <div className="flex h-full flex-col bg-background">
+    <div className="flex h-full flex-col bg-background" onKeyDown={handleRootKeyDown} tabIndex={-1}>
       <header className="relative flex h-14 shrink-0 items-center border-b border-border bg-gradient-to-r from-primary/5 to-transparent px-6">
         <button type="button" onClick={isLeagueScreen ? handleBackToMenu : handleBackToLeagues}
           className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"

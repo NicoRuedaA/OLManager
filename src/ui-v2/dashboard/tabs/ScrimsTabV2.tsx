@@ -248,61 +248,70 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
 
   return (
     <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 scrollbar-v2">
-      {/* ── Hero header ── */}
-      <Card>
-        <CardContent className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="font-heading text-[10px] uppercase tracking-widest text-primary">{t("scrims.pageKicker")}</p>
-            <h2 className="mt-1 font-heading text-2xl font-bold uppercase tracking-wide text-foreground">{t("dashboard.scrims")}</h2>
-            <p className="mt-2 max-w-xl text-sm text-muted-foreground">{t("scrims.pageDescription")}</p>
-          </div>
-          <div className="flex gap-3">
-            {/* Planned gauge */}
-            <div className="w-28 rounded-lg border border-border bg-muted/30 px-3 py-2.5 text-center">
-              <p className="font-heading text-xl font-bold text-foreground tabular-nums">{plannedScrims}/{weeklyCapacity}</p>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all"
-                  style={{ width: `${weeklyCapacity > 0 ? (plannedScrims / weeklyCapacity) * 100 : 0}%` }}
-                />
-              </div>
-              <p className="mt-1 font-heading text-[9px] uppercase tracking-wider text-muted-foreground">{t("scrims.planned")}</p>
-            </div>
-            {/* W/L gauge */}
-            <div className="w-28 rounded-lg border border-border bg-muted/30 px-3 py-2.5 text-center">
-              <p className="font-heading text-xl font-bold tabular-nums">
-                <span className="text-emerald-400">{wins}</span>
-                <span className="text-muted-foreground/40">-</span>
-                <span className="text-red-400">{losses}</span>
-              </p>
-              <div className="mt-1 flex h-1.5 overflow-hidden rounded-full bg-muted">
-                {played > 0 && (
-                  <>
-                    <div className="h-full bg-emerald-400 transition-all" style={{ width: `${(wins / played) * 100}%` }} />
-                    <div className="h-full bg-red-400 transition-all" style={{ width: `${(losses / played) * 100}%` }} />
-                  </>
-                )}
-              </div>
-              <p className="mt-1 font-heading text-[9px] uppercase tracking-wider text-muted-foreground">{t("scrims.weekRecord")}</p>
-            </div>
-            {/* Rep gauge */}
-            <div className="w-28 rounded-lg border border-border bg-muted/30 px-3 py-2.5 text-center">
-              <p className="font-heading text-xl font-bold text-foreground tabular-nums">{weeklyContext.reputation}</p>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-amber-400 transition-all"
-                  style={{ width: `${Math.min(100, weeklyContext.reputation * 10)}%` }}
-                />
-              </div>
-              <p className="mt-1 font-heading text-[9px] uppercase tracking-wider text-muted-foreground">{t("scrims.reputation")}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1fr_360px]">
         {/* ── Main column ── */}
         <div className="flex flex-col gap-4">
+          <ScrimPlanningCardV2
+            gameState={gameState}
+            weeklyContext={weeklyContext}
+            onGameUpdate={onGameUpdate}
+            isSaving={isSaving}
+            setIsSaving={setIsSaving}
+            readOnly={assistantControls || setupLocked}
+          />
+        </div>
+
+        {/* ── Sidebar ── */}
+        <aside className="flex flex-col gap-4 xl:sticky xl:top-4 xl:self-start">
+          {/* ── Gauges ── */}
+          <Card>
+            <CardContent className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex gap-1.5">
+                {/* Planned gauge */}
+                <div className="flex-1 rounded-lg border border-border bg-muted/30 px-2 py-2 text-center min-w-0">
+                  <p className="font-heading text-base font-bold text-foreground tabular-nums">{plannedScrims}/{weeklyCapacity}</p>
+                  <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-primary transition-all"
+                      style={{ width: `${weeklyCapacity > 0 ? (plannedScrims / weeklyCapacity) * 100 : 0}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 font-heading text-[8px] uppercase tracking-wider text-muted-foreground">{t("scrims.planned")}</p>
+                </div>
+                {/* W/L gauge */}
+                <div className="flex-1 rounded-lg border border-border bg-muted/30 px-2 py-2 text-center min-w-0">
+                  <p className="font-heading text-base font-bold tabular-nums">
+                    <span className="text-emerald-400">{wins}</span>
+                    <span className="text-muted-foreground/40">-</span>
+                    <span className="text-red-400">{losses}</span>
+                  </p>
+                  <div className="mt-1 flex h-1 overflow-hidden rounded-full bg-muted">
+                    {played > 0 && (
+                      <>
+                        <div className="h-full bg-emerald-400 transition-all" style={{ width: `${(wins / played) * 100}%` }} />
+                        <div className="h-full bg-red-400 transition-all" style={{ width: `${(losses / played) * 100}%` }} />
+                      </>
+                    )}
+                  </div>
+                  <p className="mt-1 font-heading text-[8px] uppercase tracking-wider text-muted-foreground">{t("scrims.weekRecord")}</p>
+                </div>
+                {/* Rep gauge */}
+                <div className="flex-1 rounded-lg border border-border bg-muted/30 px-2 py-2 text-center min-w-0">
+                  <p className="font-heading text-base font-bold text-foreground tabular-nums">{weeklyContext.reputation}</p>
+                  <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-amber-400 transition-all"
+                      style={{ width: `${Math.min(100, weeklyContext.reputation * 10)}%` }}
+                    />
+                  </div>
+                  <p className="mt-1 font-heading text-[8px] uppercase tracking-wider text-muted-foreground">{t("scrims.reputation")}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Weekly setup */}
           <Card>
             <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -381,19 +390,6 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
               )}
             </CardContent>
           </Card>
-
-          <ScrimPlanningCardV2
-            gameState={gameState}
-            weeklyContext={weeklyContext}
-            onGameUpdate={onGameUpdate}
-            isSaving={isSaving}
-            setIsSaving={setIsSaving}
-            readOnly={assistantControls || setupLocked}
-          />
-        </div>
-
-        {/* ── Sidebar ── */}
-        <aside className="flex flex-col gap-4 xl:sticky xl:top-4 xl:self-start">
           {/* Assistant coach */}
           <Card>
             <CardHeader className="space-y-0">

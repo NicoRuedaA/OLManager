@@ -589,6 +589,7 @@ function CoherenceSummary({
   roleImpactRows,
   roleMetaLabels,
   maxAbsModifier,
+  gameState,
   t,
 }: {
   coherenceScore: number;

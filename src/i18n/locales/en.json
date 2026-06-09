@@ -242,7 +242,7 @@
     "transfers": "Transfers",
     "players": "Players",
     "teams": "Teams",
-    "worldStaff": "DB Staff",
+    "worldStaff": "Staffs",
     "tournaments": "Tournaments",
     "champions_world": "Champions",
     "market": "Market",
@@ -372,6 +372,7 @@
     },
     "leaguePosition": "League Position",
     "standings": {
+      "title": "Standings",
       "hash": "#",
       "losses": "L",
       "preseason": "Preseason — no standings yet",

@@ -47,7 +47,7 @@ const ES_TRANSLATIONS: Record<string, string> = {
   "home.nextOpponent.opponentForm": "Forma del rival",
   "home.nextOpponent.noHistory": "Sin historial",
   "home.schedule": "Calendario",
-  "home.standings": "Clasificación",
+  "home.standings.title": "Clasificación",
   "home.standings.preseason": "Pretemporada.",
   "home.standings.hash": "#",
   "home.standings.team": "Equipo",

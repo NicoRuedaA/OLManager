@@ -1,8 +1,9 @@
-import { ArrowLeft, Calendar as CalendarIcon, ChevronDown, ChevronRight, Loader2, Play, Save, SkipForward, Swords } from "lucide-react";
+import { AlertCircle, ArrowLeft, Calendar as CalendarIcon, ChevronDown, ChevronRight, Loader2, Play, Save, SkipForward, Swords } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/ui-v2/components/ui/button";
 import { Separator } from "@/ui-v2/components/ui/separator";
+import type { DashboardAlert } from "@/ui-v2/_legacy/components/dashboard/dashboardHelpers";
 
 interface Props {
   activeTabLabel: string;
@@ -13,11 +14,13 @@ interface Props {
   saveFlash: boolean;
   hasMatchToday: boolean;
   dayPhase: string;
+  alerts: DashboardAlert[];
   onBack: () => void;
   onSave: () => void;
   onContinue: () => void;
   onSkipToMatchDay: () => void;
   onSkipToNextDay: () => void;
+  onNavigate: (tab: string) => void;
 }
 
 const PHASE_COLORS: Record<string, string> = {
@@ -37,11 +40,13 @@ export function DashboardHeaderV2({
   saveFlash,
   hasMatchToday,
   dayPhase,
+  alerts,
   onBack,
   onSave,
   onContinue,
   onSkipToMatchDay,
   onSkipToNextDay,
+  onNavigate,
 }: Props) {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -87,6 +92,19 @@ export function DashboardHeaderV2({
       <h1 className="min-w-0 flex-1 truncate font-heading text-sm font-bold uppercase tracking-widest text-foreground">
         {activeTabLabel}
       </h1>
+
+      {alerts.length > 0 && (() => {
+        const alert = alerts[0];
+        return (
+          <button onClick={() => onNavigate(alert.tab)}
+            className="flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[10px] font-heading font-bold uppercase tracking-wider transition-all border-amber-500/20 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 dark:text-amber-400"
+          >
+            <AlertCircle className="h-3 w-3 shrink-0" />
+            <span className="truncate max-w-32">{alert.text}</span>
+            <ChevronRight className="h-2.5 w-2.5 shrink-0" />
+          </button>
+        );
+      })()}
 
       {/* Day phase indicator */}
       <div className={`flex items-center gap-1.5 rounded-md border border-border bg-muted/30 px-2.5 py-1 ${phaseColor}`}>
