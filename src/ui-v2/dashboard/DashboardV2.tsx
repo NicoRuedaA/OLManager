@@ -16,7 +16,6 @@ import {
   isSeasonComplete as isLeagueSeasonComplete,
 } from "@/lib/common/helpers";
 import DashboardWorkspaceContent from "@/ui-v2/_legacy/components/dashboard/DashboardWorkspaceContent";
-import DashboardAlerts from "@/ui-v2/_legacy/components/dashboard/DashboardAlerts";
 import DashboardOverlays from "@/ui-v2/_legacy/components/dashboard/DashboardOverlays";
 import FiredModal from "@/ui-v2/_legacy/components/dashboard/FiredModal";
 import {
@@ -169,23 +168,21 @@ export default function DashboardV2() {
       .catch(() => setProbedNoGame(true));
   }, [hasActiveGame, setGameState, setGameActive]);
 
-  // Load champions once when game loads
+  // Load champions once game state is available
   useEffect(() => {
-    const state = useGameStore.getState().gameState;
-    if (!state) return;
-    if (state.champions) return;
+    if (!gameState) return;
+    if (gameState.champions) return;
 
     const loadChampions = async () => {
       try {
         const champions = await invoke<unknown[]>("get_champions");
-        const current = useGameStore.getState().gameState;
-        useGameStore.getState().setGameState({ ...(current ?? state), champions } as GameStateData);
+        useGameStore.getState().setGameState({ ...gameState, champions } as GameStateData);
       } catch (err) {
         console.error("[DashboardV2] Failed to load champions:", err);
       }
     };
     loadChampions();
-  }, []);
+  }, [gameState]);
 
   const isUnemployed = gameState?.manager.team_id === null;
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
@@ -424,21 +421,14 @@ export default function DashboardV2() {
           saveFlash={saveFlash}
           hasMatchToday={hasMatchToday}
           dayPhase={gameState?.day_phase ?? "Morning"}
+          alerts={dashboardAlerts}
           onBack={handleBack}
           onSave={handleSave}
           onContinue={handleContinue}
           onSkipToMatchDay={handleSkipToMatchDay}
           onSkipToNextDay={handleSkipToNextDay}
+          onNavigate={handleNavigate}
         />
-
-        {!viewingChampionKey &&
-          !profileNavigation.selectedPlayerId &&
-          !profileNavigation.selectedTeamId &&
-          dashboardAlerts.length > 0 && (
-            <div className="shrink-0 px-6 pt-4">
-              <DashboardAlerts alerts={dashboardAlerts} onNavigate={handleNavigate} />
-            </div>
-          )}
 
         {profileNavigation.activeTab === "Home" &&
         !viewingChampionKey &&
