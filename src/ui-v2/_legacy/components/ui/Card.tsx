@@ -8,21 +8,17 @@ interface CardProps {
 }
 
 export function Card({ children, className = "", accent = "none", onClick }: CardProps) {
-  const accentBorder = {
-    primary: "border-t-4 border-t-primary-500",
-    accent: "border-t-4 border-t-accent-400",
-    success: "border-t-4 border-t-success-400",
-    danger: "border-t-4 border-t-red-500",
-    none: "border border-gray-200 dark:border-navy-600",
-  }[accent];
+  const accentBorder = accent === "none"
+    ? "border border-border"
+    : `border border-t-4 border-t-primary border-border`;
 
   return (
     <div
       onClick={onClick}
       className={`
-        bg-white dark:bg-navy-700
-        ${accent === "none" ? accentBorder : `border ${accentBorder} border-gray-200 dark:border-navy-600`}
-        rounded-xl shadow-card dark:shadow-panel
+        bg-card
+        ${accentBorder}
+        rounded-xl
         transition-all duration-200
         ${className}
       `}
@@ -40,8 +36,8 @@ interface CardHeaderProps {
 
 export function CardHeader({ children, action, className = "" }: CardHeaderProps) {
   return (
-    <div className={`px-6 py-4 border-b border-gray-100 dark:border-navy-600 flex items-center justify-between ${className}`}>
-      <h3 className="text-lg font-bold font-heading uppercase tracking-wide text-gray-800 dark:text-gray-100">
+    <div className={`px-6 py-4 border-b border-border flex items-center justify-between ${className}`}>
+      <h3 className="text-lg font-bold font-heading uppercase tracking-wide text-foreground">
         {children}
       </h3>
       {action}
