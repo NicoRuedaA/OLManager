@@ -49,11 +49,11 @@ fn assemble_world_from_modular_data(
         competition_id, team_id
     );
 
-    // Initialize shared resource directory for static functions
+    // Initialize shared resource directory for static functions.
+    // Use the same multi-tier resolution as the rest of the data layer so the
+    // Tauri `_up_/data` install layout is handled correctly.
     olm_core::state::RESOURCE_DATA_DIR.get_or_init(|| {
-        app_handle.path().resource_dir()
-            .ok()
-            .map(|d| d.join("data"))
+        crate::commands::competitions::resolve_data_base(app_handle)
             .unwrap_or_else(|| PathBuf::from("data"))
     });
 

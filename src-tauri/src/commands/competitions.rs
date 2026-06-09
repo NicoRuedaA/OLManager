@@ -25,6 +25,14 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .app_data_dir()
             .ok()
             .map(|dir| dir.join("data").join("competitions")),
+        // Tauri rewrites the leading `..` of bundled resource globs (e.g.
+        // `../data/...`) into a literal `_up_` directory under the resource dir,
+        // so the installed data lives at `<resource_dir>/_up_/data/...`.
+        app_handle
+            .path()
+            .resource_dir()
+            .ok()
+            .map(|dir| dir.join("_up_").join("data").join("competitions")),
         app_handle
             .path()
             .resource_dir()
@@ -63,6 +71,14 @@ pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .app_data_dir()
             .ok()
             .map(|dir| dir.join("data")),
+        // Tauri rewrites the leading `..` of bundled resource globs (e.g.
+        // `../data/...`) into a literal `_up_` directory under the resource dir,
+        // so the installed data lives at `<resource_dir>/_up_/data/...`.
+        app_handle
+            .path()
+            .resource_dir()
+            .ok()
+            .map(|dir| dir.join("_up_").join("data")),
         app_handle
             .path()
             .resource_dir()
