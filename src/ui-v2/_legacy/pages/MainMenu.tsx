@@ -450,11 +450,6 @@ export default function MainMenu() {
       setMenuState("main");
       return;
     }
-    if (e.key === "ArrowRight" && isPanelOpen) {
-      e.preventDefault();
-      focusFirstPanelElement();
-      return;
-    }
     if (isPanelOpen) return;
     if (e.key === "ArrowRight") {
       e.preventDefault();
@@ -521,11 +516,11 @@ export default function MainMenu() {
                     onKeyDown={(e) => {
                       const nav: Record<string, Record<string, string | null>> = {
                         nickname: { right: null, left: null, down: "firstName", up: null },
-                        firstName: { right: "lastName", left: null, down: "day", up: "nickname" },
+                        firstName: { right: "lastName", left: null, down: "day", up: "lastName" },
                         lastName: { right: null, left: "firstName", down: "day", up: "nickname" },
-                        day: { right: "month", left: null, down: "nationality", up: "firstName" },
-                        month: { right: "year", left: "day", down: "nationality", up: "firstName" },
-                        year: { right: null, left: "month", down: "nationality", up: "firstName" },
+                        day: { right: "month", left: null, down: "nationality", up: "lastName" },
+                        month: { right: "year", left: "day", down: "nationality", up: "lastName" },
+                        year: { right: null, left: "month", down: "nationality", up: "lastName" },
                         nationality: { right: null, left: null, down: "submit", up: "day" },
                         submit: { right: null, left: null, down: null, up: "nationality" },
                       };
@@ -540,6 +535,7 @@ export default function MainMenu() {
                         submit: "#create-manager-submit",
                       };
                       if (["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+                        e.preventDefault();
                         const current = document.activeElement;
                         const fieldId = Object.entries(selectors).find(
                           ([, sel]) => current === document.querySelector(sel)
@@ -548,7 +544,6 @@ export default function MainMenu() {
                         const dir = e.key === "ArrowDown" ? "down" : e.key === "ArrowUp" ? "up" : e.key === "ArrowRight" ? "right" : "left";
                         const target = nav[fieldId]?.[dir];
                         if (!target) return;
-                        e.preventDefault();
                         const el = document.querySelector<HTMLElement>(selectors[target]);
                         el?.focus();
                       }
