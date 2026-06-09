@@ -265,9 +265,8 @@ pub fn select_team(game: &mut Game, team_id: &str, comp_id: &str,
     let mut all_leagues = Vec::new();
 
     for manifest in manifests.iter().filter(|m| !m.legacy) {
-        let prefix = format!("{}-", manifest.id);
         let team_ids: Vec<String> = game.teams.iter()
-            .filter(|t| t.team_kind != TeamKind::Academy && t.id.starts_with(&prefix))
+            .filter(|t| t.team_kind != TeamKind::Academy && t.competition_id.as_deref() == Some(manifest.id.as_str()))
             .map(|t| t.id.clone()).collect();
         if team_ids.len() < 2 { continue; }
 

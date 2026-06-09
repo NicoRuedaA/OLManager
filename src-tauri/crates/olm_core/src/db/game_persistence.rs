@@ -220,11 +220,7 @@ impl GamePersistenceReader {
             .teams
             .iter()
             .find(|t| t.manager_id.as_deref() == Some(&game.manager.id))
-            .and_then(|t| {
-                let dash_pos = t.id.find('-')?;
-                let prefix = &t.id[..dash_pos];
-                if prefix.is_empty() { None } else { Some(prefix.to_string()) }
-            });
+            .and_then(|t| t.competition_id.clone());
         crate::season_context::refresh_game_context(&mut game);
 
         Ok(game)
