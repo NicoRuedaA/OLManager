@@ -13,6 +13,7 @@ import {
   Scale,
   Shield,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 
@@ -427,6 +428,10 @@ export function TrainingTabV2({
 
   const setPlayerGroup = (playerId: string, groupId: string) => {
     saveGroups(reassignPlayerTrainingGroup(groups, playerId, groupId));
+  };
+
+  const handleDeleteGroup = (groupId: string) => {
+    saveGroups(groups.filter((g) => g.id !== groupId));
   };
 
   const handleAddGroup = () => {
@@ -998,6 +1003,14 @@ export function TrainingTabV2({
                       <span className="font-heading text-[10px] tabular-nums text-muted-foreground">
                         {group.player_ids.length}
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteGroup(group.id)}
+                        disabled={isSaving}
+                        className="ml-1 flex size-4 items-center justify-center rounded-full text-muted-foreground/50 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+                      >
+                        <X className="size-3" />
+                      </button>
                     </div>
                   ))}
                 </div>

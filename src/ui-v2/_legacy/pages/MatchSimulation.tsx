@@ -18,7 +18,7 @@ import LolMatchLive from "@/ui-v2/_legacy/components/match/LolMatchLive";
 import type { ChampionSelectionByPlayer } from "@/ui-v2/_legacy/components/match/LolMatchLive";
 import MatchTacticsStage from "@/ui-v2/_legacy/components/match/MatchTacticsStage";
 import LolResultScreen from "@/ui-v2/_legacy/components/match/LolResultScreen";
-import DraftResultScreen from "@/ui-v2/_legacy/components/match/DraftResultScreen";
+import DraftResultScreenV2 from "@/ui-v2/components/DraftResultScreenV2";
 import PressConference from "@/ui-v2/_legacy/components/match/PressConference";
 import {
   simulateDraftMatchResult,
@@ -1864,7 +1864,7 @@ export default function MatchSimulation() {
 
         if (draftScreenResult) {
           return (
-            <DraftResultScreen
+            <DraftResultScreenV2
               snapshot={renderSnapshotWithTactics ?? snapshot}
               controlledSide={userSelectedSide}
               result={draftScreenResult}

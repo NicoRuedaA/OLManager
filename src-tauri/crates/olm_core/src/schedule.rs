@@ -293,13 +293,15 @@ pub fn generate_schedule_from_config(
     // an out-of-bounds index. Callers that need a real schedule should skip
     // such competitions beforehand.
     if config.splits.get(split_index).is_none() {
-        return League::new(
+        let mut league = League::new(
             competition_id.to_string(),
             competition_name.to_string(),
             year,
             team_ids,
             None,
         );
+        league.competition_id = Some(competition_id.to_string());
+        return league;
     }
     let split = &config.splits[split_index];
     let season_start = Utc
@@ -315,7 +317,7 @@ pub fn generate_schedule_from_config(
 
     let split_name = format!("{} {}", competition_name, split.name);
 
-    match config.format.as_str() {
+    let mut league = match config.format.as_str() {
         "single_round_robin" => {
             generate_single_round_league_with_offsets_and_bo_with_id(
                 competition_id,
@@ -332,8 +334,7 @@ pub fn generate_schedule_from_config(
             )
         }
         "double_round_robin" => {
-            // For double round-robin, we use the offsets but double it
-            let mut league = generate_single_round_league_with_offsets_and_bo_with_id(
+            let mut l = generate_single_round_league_with_offsets_and_bo_with_id(
                 competition_id,
                 &split_name,
                 year,
@@ -346,7 +347,6 @@ pub fn generate_schedule_from_config(
                 },
                 split.best_of as u8,
             );
-            // Add return leg: same offsets but shifted by the last offset + 7 days
             let last_offset = split.superweek_offsets.last().copied().unwrap_or(7 * (team_ids.len() as i64 - 1));
             let return_start = season_start + Duration::days(last_offset + 7);
             let return_league = generate_single_round_league_with_offsets_and_bo(
@@ -362,18 +362,17 @@ pub fn generate_schedule_from_config(
                 split.best_of as u8,
             );
             for fixture in return_league.fixtures {
-                // Reverse home/away for return leg
                 let reversed = Fixture {
                     home_team_id: fixture.away_team_id,
                     away_team_id: fixture.home_team_id,
                     ..fixture
                 };
-                league.fixtures.push(reversed);
+                l.fixtures.push(reversed);
             }
-            league.fixtures.sort_by(|a, b| {
+            l.fixtures.sort_by(|a, b| {
                 a.date.cmp(&b.date).then(a.matchday.cmp(&b.matchday))
             });
-            league
+            l
         }
         _ => {
             log::warn!(
@@ -393,7 +392,9 @@ pub fn generate_schedule_from_config(
                 split.best_of as u8,
             )
         }
-    }
+    };
+    league.competition_id = Some(competition_id.to_string());
+    league
 }
 
 /// Generate a Winter playoffs bracket (Top 8, double elimination structure).

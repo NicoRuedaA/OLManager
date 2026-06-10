@@ -17,23 +17,39 @@ pub fn check_season_complete(state: State<'_, StateManager>) -> Result<bool, Str
 fn resolve_schedule_config(
     game: &olm_core::game::Game,
 ) -> Option<olm_core::generator::definitions::ScheduleConfig> {
-    // Check if we have leagues data with competition_id on teams
-    let competition_id = game.teams.first().and_then(|t| t.competition_id.as_deref())?;
+    // Use the active competition's ID, not the first team's (which may be unrelated)
+    let competition_id = game.user_competition_id.as_deref()?;
 
-    // Try to load the manifest — this is best-effort
-    let data_dir = std::env::current_dir().ok()?;
-    let manifest_path = data_dir
-        .join("src-tauri")
-        .join("data")
-        .join("competitions")
-        .join(competition_id)
-        .join("manifest.json");
+    // First try: data dir relative to the executable (Tauri build)
+    let exe_dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
+    let relative_paths = [
+        exe_dir.join("data").join("competitions").join(competition_id).join("manifest.json"),
+        exe_dir.join("src-tauri").join("data").join("competitions").join(competition_id).join("manifest.json"),
+    ];
+    for p in &relative_paths {
+        if let Ok(json) = std::fs::read_to_string(p) {
+            if let Ok(manifest) = serde_json::from_str::<olm_core::generator::definitions::CompetitionManifest>(&json) {
+                return Some(manifest.schedule);
+            }
+        }
+    }
 
-    let manifest_json = std::fs::read_to_string(manifest_path).ok()?;
-    let manifest: olm_core::generator::definitions::CompetitionManifest =
-        serde_json::from_str(&manifest_json).ok()?;
+    // Fallback: try current working directory paths (dev mode)
+    if let Ok(cwd) = std::env::current_dir() {
+        let cwd_paths = [
+            cwd.join("data").join("competitions").join(competition_id).join("manifest.json"),
+            cwd.join("src-tauri").join("data").join("competitions").join(competition_id).join("manifest.json"),
+        ];
+        for p in &cwd_paths {
+            if let Ok(json) = std::fs::read_to_string(p) {
+                if let Ok(manifest) = serde_json::from_str::<olm_core::generator::definitions::CompetitionManifest>(&json) {
+                    return Some(manifest.schedule);
+                }
+            }
+        }
+    }
 
-    Some(manifest.schedule)
+    None
 }
 
 #[tauri::command]

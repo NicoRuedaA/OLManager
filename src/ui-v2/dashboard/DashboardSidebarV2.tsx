@@ -83,7 +83,6 @@ export function DashboardSidebarV2({
     { tab: "Scouting", label: t("dashboard.scouting"), icon: Eye },
     { tab: "Youth", label: t("dashboard.youthAcademy"), icon: GraduationCap },
     { tab: "Finances", label: t("dashboard.finances"), icon: DollarSign },
-    { tab: "Transfers", label: t("dashboard.transfers"), icon: TrendingUp },
   ], [t]);
 
   const world: Item[] = useMemo(() => [

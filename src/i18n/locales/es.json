@@ -2306,6 +2306,12 @@
         "general": "preparación general"
       }
     },
+    "statKills": "Asesinatos",
+    "statGold": "Oro",
+    "statTowers": "Torretas",
+    "statDragons": "Dragones",
+    "statBarons": "Barones",
+    "neutralObjectives": "Objetivos neutrales",
     "draftResult": {
       "mvp": "MVP",
       "series": "Serie",

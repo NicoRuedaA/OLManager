@@ -4,7 +4,7 @@ import { getContractRiskLevel, formatVal } from "@/lib/common/helpers";
 import { parseUtcDate } from "@/lib/formatting/dateFormatting";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import { PlayerData, GameStateData, PlayerMatchHistoryEntryData, ScoutReportData, ChampionMasteryEntryData } from "@/store/gameStore";
-import { ArrowLeft } from "lucide-react";
+
 import { useTranslation } from "react-i18next";
 import { resolveBackendText } from "@/lib/i18n/backendI18n";
 import { resolveSeasonContext } from "@/lib/season/seasonContext";
@@ -893,16 +893,6 @@ export default function PlayerProfile({
 
   return (
     <div className="w-[92%] max-w-[2000px] mx-auto">
-      <button
-        onClick={onClose}
-        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-muted-foreground hover:text-foreground transition-colors mb-4"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span className="font-heading font-bold uppercase tracking-wider">
-          {t("common.back")}
-        </span>
-      </button>
-
       <PlayerProfileHeroCardV2
         player={player}
         ovr={ovr}

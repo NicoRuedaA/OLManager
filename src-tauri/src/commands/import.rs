@@ -15,12 +15,21 @@ use std::io::Read;
 use std::path::{Component, Path, PathBuf};
 
 use log::info;
+use serde::Serialize;
 use serde_json::Value;
-use tauri::Manager as TauriManager;
+use tauri::{Emitter, Manager as TauriManager};
 
 /// Default public OLMDBManager export endpoint. Overridable at runtime via the
 /// `OLM_IMPORT_SOURCE` env var.
 const DEFAULT_IMPORT_SOURCE: &str = "https://olmdatabase.nicorueda.dev/api/olm/export";
+
+#[derive(Clone, Serialize)]
+struct ImportProgress {
+    phase: String,
+    current: usize,
+    total: usize,
+    status: String,
+}
 
 const PUBLIC_PHOTO_DIRS: [&str; 4] = [
     "player-photos",
@@ -182,13 +191,70 @@ fn import_source() -> String {
 pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<ImportSummary, String> {
     let source = import_source();
     info!("[cmd] auto_import_database: source={source}");
-    let bytes = download_export(&source).await?;
+
+    let total_size: usize;
+    let total_entries: usize;
+    let bytes = {
+        let _ = app_handle.emit("import-progress", ImportProgress {
+            phase: "download".into(),
+            current: 0,
+            total: 1,
+            status: "Descargando datos...".into(),
+        });
+        let response = reqwest::Client::new()
+            .get(&source)
+            .send()
+            .await
+            .map_err(|e| format!("download {source}: {e}"))?;
+        let status = response.status();
+        if !status.is_success() {
+            return Err(format!("download {source}: HTTP {status}"));
+        }
+        total_size = response.content_length().unwrap_or(0) as usize;
+        let data = response
+            .bytes()
+            .await
+            .map_err(|e| format!("read response {source}: {e}"))?
+            .to_vec();
+        let _ = app_handle.emit("import-progress", ImportProgress {
+            phase: "download".into(),
+            current: 1,
+            total: 1,
+            status: format!("Descarga completa ({} MB)", total_size / 1024 / 1024),
+        });
+
+        // Quick pass to count entries for progress estimation
+        let reader = std::io::Cursor::new(&data);
+        let zip = zip::ZipArchive::new(reader).map_err(|e| format!("open zip: {e}"))?;
+        total_entries = zip.len();
+        drop(zip);
+
+        data
+    };
+
     let data_dir = writable_data_dir(&app_handle)?;
     let public_dir = writable_public_dir(&app_handle)?;
+
+    let _ = app_handle.emit("import-progress", ImportProgress {
+        phase: "extract".into(),
+        current: 0,
+        total: total_entries,
+        status: format!("Extrayendo archivos... 0 / {}", total_entries),
+    });
+
+    let app = app_handle.clone();
     let summary =
-        tauri::async_runtime::spawn_blocking(move || import_zip(&bytes, &data_dir, &public_dir))
+        tauri::async_runtime::spawn_blocking(move || import_zip(&bytes, &data_dir, &public_dir, &app))
             .await
             .map_err(|e| format!("import task panicked: {e}"))??;
+
+    let _ = app_handle.emit("import-progress", ImportProgress {
+        phase: "extract".into(),
+        current: total_entries,
+        total: total_entries,
+        status: "Extracción completa".into(),
+    });
+
     info!(
         "[cmd] auto_import_database: {} data files, {} photos, {} players, {} teams, {} staff, {} skipped",
         summary.data_files,
@@ -210,9 +276,10 @@ pub async fn import_export_zip(
     info!("[cmd] import_export_zip: path={path}");
     let data_dir = writable_data_dir(&app_handle)?;
     let public_dir = writable_public_dir(&app_handle)?;
+    let app = app_handle.clone();
     tauri::async_runtime::spawn_blocking(move || {
         let bytes = std::fs::read(&path).map_err(|e| format!("read {path}: {e}"))?;
-        import_zip(&bytes, &data_dir, &public_dir)
+        import_zip(&bytes, &data_dir, &public_dir, &app)
     })
     .await
     .map_err(|e| format!("import task panicked: {e}"))?
@@ -236,31 +303,15 @@ pub fn get_catalog(app_handle: tauri::AppHandle) -> Result<CatalogResponse, Stri
 // Download + extraction
 // ---------------------------------------------------------------------------
 
-async fn download_export(url: &str) -> Result<Vec<u8>, String> {
-    let response = reqwest::Client::new()
-        .get(url)
-        .send()
-        .await
-        .map_err(|e| format!("download {url}: {e}"))?;
-    let status = response.status();
-    if !status.is_success() {
-        return Err(format!("download {url}: HTTP {status}"));
-    }
-    response
-        .bytes()
-        .await
-        .map(|b| b.to_vec())
-        .map_err(|e| format!("read response {url}: {e}"))
-}
-
 /// Extract the export zip into the data/public dirs. Returns a summary.
-fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path) -> Result<ImportSummary, String> {
+fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path, _app: &tauri::AppHandle) -> Result<ImportSummary, String> {
     let reader = std::io::Cursor::new(bytes);
     let mut zip = zip::ZipArchive::new(reader).map_err(|e| format!("open zip: {e}"))?;
+    let total = zip.len();
 
     let mut summary = ImportSummary::default();
 
-    for i in 0..zip.len() {
+    for i in 0..total {
         let mut entry = zip.by_index(i).map_err(|e| format!("zip entry {i}: {e}"))?;
         if entry.is_dir() {
             continue;

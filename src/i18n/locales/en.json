@@ -2306,6 +2306,12 @@
         "general": "general prep"
       }
     },
+    "statKills": "Kills",
+    "statGold": "Gold",
+    "statTowers": "Towers",
+    "statDragons": "Dragons",
+    "statBarons": "Barons",
+    "neutralObjectives": "Neutral objectives",
     "draftResult": {
       "mvp": "MVP",
       "series": "Series",

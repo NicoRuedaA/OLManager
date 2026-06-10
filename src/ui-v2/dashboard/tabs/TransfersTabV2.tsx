@@ -657,9 +657,7 @@ export function TransfersTabV2({
                   {view === "offers" && (
                     <TableHead className="text-center">{t("transfers.offers")}</TableHead>
                   )}
-                  {(view === "market" || view === "erl" || view === "loans") && (
-                    <TableHead className="text-center">{t("common.action")}</TableHead>
-                  )}
+                  
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -733,7 +731,7 @@ export function TransfersTabV2({
                         </span>
                       </TableCell>
                       <TableCell>
-                        <div className="flex gap-1">
+                        <div className="flex flex-wrap gap-1">
                           {player.transfer_listed && (
                             <Badge variant="secondary" className="text-[10px]">
                               {t("transfers.transfer")}
@@ -743,6 +741,14 @@ export function TransfersTabV2({
                             <Badge variant="outline" className="text-[10px]">
                               {t("transfers.loan")}
                             </Badge>
+                          )}
+                          {(view === "market" || view === "erl" || view === "loans") && (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); openBidNegotiation(player); }}
+                              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-primary/10 px-2 py-0.5 text-[10px] font-heading uppercase tracking-wider text-primary transition-all hover:bg-primary/20"
+                            >
+                              <Gavel className="size-2.5" /> {t("transfers.bid")}
+                            </button>
                           )}
                         </div>
                       </TableCell>
