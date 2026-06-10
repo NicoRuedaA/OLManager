@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, useBlocker } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore, AppSettings } from "@/store/settingsStore";
-import { useTheme } from "@/context/ThemeContext";
-import { ThemeToggle, Select } from "@/ui-v2/_legacy/components/ui";
+import { Select } from "@/ui-v2/_legacy/components/ui";
 import { SUPPORTED_LANGUAGES } from "@/i18n";
 import { setUIVersion, useUIVersion, type UIVersion } from "@/ui-v2/uiVersion";
 import {
@@ -49,7 +48,6 @@ export default function Settings() {
   const location = useLocation();
   const { t, i18n } = useTranslation();
   const { settings, loaded, loadSettings, updateSettings } = useSettingsStore();
-  const { theme, toggleTheme } = useTheme();
   const uiVersion = useUIVersion();
   const {
     updateAvailable,
@@ -114,17 +112,6 @@ export default function Settings() {
 
   const handleUpdate = (partial: Partial<AppSettings>) => {
     updateSettings(partial);
-
-    // Sync theme with ThemeContext
-    if (partial.theme) {
-      const desired =
-        partial.theme === "system"
-          ? window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light"
-          : partial.theme;
-      if (desired !== theme) toggleTheme();
-    }
 
     // Sync language with i18n
     if (partial.language) {
@@ -400,7 +387,7 @@ export default function Settings() {
               label={t("settings.debugTools", "Debug tools")}
               description={t(
                 "settings.debugToolsDesc",
-                "Enable internal tools like draft skip and World Editor",
+                "Enable internal tools like draft skip",
               )}
             >
               <div className="flex items-center gap-2">
@@ -567,7 +554,7 @@ export default function Settings() {
           {/* Header */}
           <div className="flex items-center gap-3 mb-8">
             <button
-              onClick={() => navigate(returnTo)}
+              onClick={handleBack}
               className="p-2 rounded-lg text-foreground/80 hover:text-foreground hover:bg-muted/50 transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -834,7 +821,7 @@ export default function Settings() {
             label={t("settings.debugTools", "Debug tools")}
             description={t(
               "settings.debugToolsDesc",
-              "Enable internal tools like draft skip and World Editor",
+              "Enable internal tools like draft skip",
             )}
           >
             <div className="flex items-center gap-2">
@@ -1016,7 +1003,7 @@ export default function Settings() {
         <div className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => navigate(returnTo)}
+              onClick={handleBack}
               className="p-2 rounded-lg text-muted-foreground/70 hover:text-foreground/90 hover:text-foreground hover:bg-muted transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -1025,7 +1012,6 @@ export default function Settings() {
               {t("settings.title")}
             </h1>
           </div>
-          <ThemeToggle />
         </div>
       </header>
 
@@ -1311,23 +1297,19 @@ function ImportDataSection() {
 
   // Listen for import progress events from Tauri backend
   useEffect(() => {
-    const unlisten = listen<{ current: number; total: number; phase: string; status: string }>(
+    let unlistenFn: (() => void) | null = null;
+    let cancelled = false;
+    listen<{ current: number; total: number; phase: string; status: string }>(
       "import-progress",
       (event) => {
-        setProgress(event.payload);
+        if (!cancelled) setProgress(event.payload);
       },
-    );
-    return () => { unlisten.then((fn) => fn()); };
+    ).then((fn) => { unlistenFn = fn; });
+    return () => {
+      cancelled = true;
+      unlistenFn?.();
+    };
   }, []);
-
-  // Warn when navigating away during import
-  const blocker = useBlocker(
-    useCallback(
-      ({ currentLocation, nextLocation }) =>
-        status === "running" && currentLocation.pathname !== nextLocation.pathname,
-      [status],
-    ),
-  );
 
   // Warn when closing the window during import
   useEffect(() => {
@@ -1338,6 +1320,33 @@ function ImportDataSection() {
     window.addEventListener("beforeunload", handler);
     return () => window.removeEventListener("beforeunload", handler);
   }, [status]);
+
+  // Warn on browser back/forward during import
+  useEffect(() => {
+    if (status !== "running") return;
+    const handler = () => {
+      if (!window.confirm(t("settings.importWarningDesc", {
+        defaultValue: "Hay una importación en curso. Si sales se cancelará. ¿Estás seguro?",
+      }))) {
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+    window.addEventListener("popstate", handler);
+    // Push an extra state so back can be intercepted
+    window.history.pushState(null, "", window.location.href);
+    return () => {
+      window.removeEventListener("popstate", handler);
+    };
+  }, [status, t]);
+
+  const handleBack = () => {
+    if (status === "running" && !window.confirm(
+      t("settings.importWarningDesc", {
+        defaultValue: "Hay una importación en curso. Si sales se cancelará. ¿Estás seguro?",
+      })
+    )) return;
+    navigate(returnTo);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -1380,37 +1389,6 @@ function ImportDataSection() {
 
   return (
     <div className="flex flex-col gap-4 py-4">
-      {/* Blocker modal */}
-      {blocker.state === "blocked" && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="rounded-xl border border-border bg-card p-6 shadow-xl max-w-sm mx-4">
-            <p className="font-heading text-sm font-bold text-foreground">
-              {t("settings.importWarningTitle", { defaultValue: "Importación en curso" })}
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              {t("settings.importWarningDesc", {
-                defaultValue: "Si sales ahora se cancelará la descarga. ¿Estás seguro?",
-              })}
-            </p>
-            <div className="mt-4 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => blocker.reset()}
-                className="rounded-lg border border-border px-4 py-2 text-xs font-heading font-bold uppercase tracking-wider text-foreground hover:bg-muted transition-colors"
-              >
-                {t("common.cancel", { defaultValue: "Cancelar" })}
-              </button>
-              <button
-                type="button"
-                onClick={() => blocker.proceed()}
-                className="rounded-lg bg-primary px-4 py-2 text-xs font-heading font-bold uppercase tracking-wider text-primary-foreground hover:bg-primary/90 transition-colors"
-              >
-                {t("common.exit", { defaultValue: "Salir" })}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
@@ -1468,8 +1446,9 @@ function ImportDataSection() {
                     />
                   </div>
                   <p className="mt-1 text-right text-[10px] tabular-nums text-muted-foreground/60">
-                    {progress.current}/{progress.total}
-                    {progress.phase === "download" && " bytes"}
+                    {progress.phase === "download"
+                      ? (progress.current === 0 ? "Descargando..." : "Descarga completa")
+                      : `${progress.current}/${progress.total}`}
                   </p>
                 </div>
               )}

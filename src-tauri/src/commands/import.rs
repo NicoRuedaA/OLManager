@@ -193,7 +193,14 @@ pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<Import
     info!("[cmd] auto_import_database: source={source}");
 
     let total_size: usize;
+    let total_entries: usize;
     let bytes = {
+        let _ = app_handle.emit("import-progress", ImportProgress {
+            phase: "download".into(),
+            current: 0,
+            total: 1,
+            status: "Descargando datos...".into(),
+        });
         let response = reqwest::Client::new()
             .get(&source)
             .send()
@@ -204,12 +211,6 @@ pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<Import
             return Err(format!("download {source}: HTTP {status}"));
         }
         total_size = response.content_length().unwrap_or(0) as usize;
-        let _ = app_handle.emit("import-progress", ImportProgress {
-            phase: "download".into(),
-            current: 0,
-            total: total_size,
-            status: format!("Descargando datos... (0 / {} MB)", total_size / 1024 / 1024),
-        });
         let data = response
             .bytes()
             .await
@@ -217,20 +218,43 @@ pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<Import
             .to_vec();
         let _ = app_handle.emit("import-progress", ImportProgress {
             phase: "download".into(),
-            current: total_size,
-            total: total_size,
+            current: 1,
+            total: 1,
             status: format!("Descarga completa ({} MB)", total_size / 1024 / 1024),
         });
+
+        // Quick pass to count entries for progress estimation
+        let reader = std::io::Cursor::new(&data);
+        let zip = zip::ZipArchive::new(reader).map_err(|e| format!("open zip: {e}"))?;
+        total_entries = zip.len();
+        drop(zip);
+
         data
     };
 
     let data_dir = writable_data_dir(&app_handle)?;
     let public_dir = writable_public_dir(&app_handle)?;
+
+    let _ = app_handle.emit("import-progress", ImportProgress {
+        phase: "extract".into(),
+        current: 0,
+        total: total_entries,
+        status: format!("Extrayendo archivos... 0 / {}", total_entries),
+    });
+
     let app = app_handle.clone();
     let summary =
         tauri::async_runtime::spawn_blocking(move || import_zip(&bytes, &data_dir, &public_dir, &app))
             .await
             .map_err(|e| format!("import task panicked: {e}"))??;
+
+    let _ = app_handle.emit("import-progress", ImportProgress {
+        phase: "extract".into(),
+        current: total_entries,
+        total: total_entries,
+        status: "Extracción completa".into(),
+    });
+
     info!(
         "[cmd] auto_import_database: {} data files, {} photos, {} players, {} teams, {} staff, {} skipped",
         summary.data_files,
@@ -280,41 +304,21 @@ pub fn get_catalog(app_handle: tauri::AppHandle) -> Result<CatalogResponse, Stri
 // ---------------------------------------------------------------------------
 
 /// Extract the export zip into the data/public dirs. Returns a summary.
-fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path, app: &tauri::AppHandle) -> Result<ImportSummary, String> {
+fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path, _app: &tauri::AppHandle) -> Result<ImportSummary, String> {
     let reader = std::io::Cursor::new(bytes);
     let mut zip = zip::ZipArchive::new(reader).map_err(|e| format!("open zip: {e}"))?;
     let total = zip.len();
-
-    let _ = app.emit("import-progress", ImportProgress {
-        phase: "extract".into(),
-        current: 0,
-        total,
-        status: format!("Extrayendo archivos... 0 / {}", total),
-    });
 
     let mut summary = ImportSummary::default();
 
     for i in 0..total {
         let mut entry = zip.by_index(i).map_err(|e| format!("zip entry {i}: {e}"))?;
         if entry.is_dir() {
-            // Still count it as processed for progress
-            let _ = app.emit("import-progress", ImportProgress {
-                phase: "extract".into(),
-                current: i + 1,
-                total,
-                status: format!("Extrayendo archivos... {} / {}", i + 1, total),
-            });
             continue;
         }
         let name = entry.name().to_string();
         let Some(dest) = destination_for(&name, data_dir, public_dir) else {
             summary.skipped += 1;
-            let _ = app.emit("import-progress", ImportProgress {
-                phase: "extract".into(),
-                current: i + 1,
-                total,
-                status: format!("Extrayendo archivos... {} / {}", i + 1, total),
-            });
             continue;
         };
 
@@ -333,13 +337,6 @@ fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path, app: &tauri::App
         } else {
             summary.photo_files += 1;
         }
-
-        let _ = app.emit("import-progress", ImportProgress {
-            phase: "extract".into(),
-            current: i + 1,
-            total,
-            status: format!("Extrayendo archivos... {} / {}", i + 1, total),
-        });
     }
 
     Ok(summary)
