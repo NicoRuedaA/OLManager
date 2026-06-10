@@ -450,6 +450,9 @@ export interface TransferOfferData {
 
 export interface StaffData {
   id: string;
+  /** Esports handle (e.g. "Zetz"). Always sent by the backend; optional here so
+   *  test fixtures that predate the field still satisfy the type. */
+  nickname?: string;
   first_name: string;
   last_name: string;
   date_of_birth: string;

@@ -552,6 +552,7 @@ pub async fn delete_save(
 pub async fn load_game(
     state: State<'_, StateManager>,
     sm_state: State<'_, SaveManagerState>,
+    app_handle: tauri::AppHandle,
     save_id: String,
 ) -> Result<String, String> {
     info!("[cmd] load_game: save_id={}", save_id);
@@ -563,10 +564,16 @@ pub async fn load_game(
 
     info!("[cmd] load_game: loading game data from save");
     let mut game = sm.load_game(&save_id)?;
+    let added_staff =
+        crate::commands::import::rehydrate_game_staff_from_catalog(&app_handle, &mut game);
+    if added_staff > 0 {
+        info!("[cmd] load_game: rehydrated {added_staff} missing staff from catalog");
+    }
     info!(
-        "[cmd] load_game: game loaded, players={}, teams={}",
+        "[cmd] load_game: game loaded, players={}, teams={}, staff={}",
         game.players.len(),
-        game.teams.len()
+        game.teams.len(),
+        game.staff.len()
     );
 
     // Bootstrap champion state so the Champions tab has data
@@ -593,16 +600,26 @@ pub async fn load_game(
 }
 
 #[tauri::command]
-pub async fn get_active_game(state: State<'_, StateManager>) -> Result<Game, String> {
+pub async fn get_active_game(
+    state: State<'_, StateManager>,
+    app_handle: tauri::AppHandle,
+) -> Result<Game, String> {
     log::info!("[cmd] get_active_game: start");
     let mut game = state.get_game(|g: &Game| g.clone()).ok_or_else(|| {
         log::error!("[cmd] get_active_game: no active game in state");
         "No active game session".to_string()
     })?;
+    let added_staff =
+        crate::commands::import::rehydrate_game_staff_from_catalog(&app_handle, &mut game);
+    if added_staff > 0 {
+        log::info!("[cmd] get_active_game: rehydrated {added_staff} missing staff from catalog");
+        state.set_game(game.clone());
+    }
     log::info!(
-        "[cmd] get_active_game: found game with {} players, {} teams",
+        "[cmd] get_active_game: found game with {} players, {} teams, {} staff",
         game.players.len(),
-        game.teams.len()
+        game.teams.len(),
+        game.staff.len()
     );
     log::info!("[cmd] get_active_game: bootstrapping champion state...");
     olm_core::champions::bootstrap_champion_state(&mut game);
@@ -923,4 +940,3 @@ pub async fn update_manager_profile(
 pub fn debug_serde_test() -> Result<String, String> {
     Ok("debug ok".into())
 }
-

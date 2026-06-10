@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { useTranslation } from "react-i18next";
 import { useSettingsStore, AppSettings } from "@/store/settingsStore";
 import { useTheme } from "@/context/ThemeContext";
@@ -28,11 +29,18 @@ import {
 import {
   autoImportDatabase,
   getCatalogSummary,
+  getImportCacheInfo,
+  importCachedExport,
+  importExportZip,
+  type ImportCacheInfo,
+  type ImportProgress,
   type ImportSummary,
 } from "@/lib/dataImport";
 import { useUpdater } from "@/hooks/useUpdater";
 import { APP_VERSION } from "@/lib/common/appInfo";
 import { APP_NAME } from "@/lib/common/appInfo";
+import { useGameStore } from "@/store/gameStore";
+import type { GameStateData } from "@/store/gameStore";
 
 const CURRENCY_OPTIONS = [
   { value: "EUR", label: "Euro (€)", symbol: "€" },
@@ -1301,9 +1309,14 @@ function GameButton({
 
 function ImportDataSection() {
   const { t } = useTranslation();
+  const hasActiveGame = useGameStore((s) => s.hasActiveGame);
+  const setGameState = useGameStore((s) => s.setGameState);
   const [summary, setSummary] = useState<ImportSummary | null>(null);
   const [result, setResult] = useState<ImportSummary | null>(null);
+  const [cacheInfo, setCacheInfo] = useState<ImportCacheInfo | null>(null);
   const [busy, setBusy] = useState(false);
+  const [zipPath, setZipPath] = useState("");
+  const [progress, setProgress] = useState<ImportProgress | null>(null);
   const [status, setStatus] = useState<"idle" | "running" | "success" | "error">(
     "idle",
   );
@@ -1311,28 +1324,66 @@ function ImportDataSection() {
 
   useEffect(() => {
     let cancelled = false;
-    getCatalogSummary()
-      .then((s) => {
-        if (!cancelled) setSummary(s);
+    Promise.all([getCatalogSummary(), getImportCacheInfo()])
+      .then(([s, cache]) => {
+        if (!cancelled) {
+          setSummary(s);
+          setCacheInfo(cache);
+        }
       })
       .catch(() => {
-        if (!cancelled) setSummary(null);
+        if (!cancelled) {
+          setSummary(null);
+          setCacheInfo(null);
+        }
       });
     return () => {
       cancelled = true;
     };
   }, []);
 
-  async function handleAutoImport() {
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    listen<ImportProgress>("olm-import-progress", (event) => {
+      setProgress(event.payload);
+    })
+      .then((fn) => {
+        unlisten = fn;
+      })
+      .catch(() => {
+        unlisten = undefined;
+      });
+    return () => {
+      unlisten?.();
+    };
+  }, []);
+
+  async function runImport(action: () => Promise<ImportSummary>) {
     setBusy(true);
     setError(null);
     setResult(null);
+    setProgress(null);
     setStatus("running");
     try {
-      const imported = await autoImportDatabase();
+      const imported = await action();
       setResult(imported);
       setSummary(imported);
+      getImportCacheInfo()
+        .then(setCacheInfo)
+        .catch(() => setCacheInfo(null));
       setStatus("success");
+      // The backend rehydrates the active game's staff from the freshly
+      // imported catalog, but the dashboard reads from the Zustand store, which
+      // was populated once when the game loaded. Re-fetch so the new staff
+      // (and players/teams) show up without restarting the app.
+      if (hasActiveGame) {
+        try {
+          const refreshed = await invoke<GameStateData>("get_active_game");
+          setGameState(refreshed);
+        } catch (refreshErr) {
+          console.error("[import] failed to refresh active game:", refreshErr);
+        }
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
       setStatus("error");
@@ -1341,8 +1392,45 @@ function ImportDataSection() {
     }
   }
 
+  async function handleAutoImport() {
+    await runImport(autoImportDatabase);
+  }
+
+  async function handleZipImport() {
+    const path = zipPath.trim();
+    if (!path) {
+      setError(t("settings.importZipPathRequired", { defaultValue: "Introduce la ruta del ZIP." }));
+      setStatus("error");
+      return;
+    }
+    await runImport(() => importExportZip(path));
+  }
+
+  async function handleCachedImport() {
+    if (!cacheInfo?.exists) {
+      setError(t("settings.importCacheMissing", { defaultValue: "Aún no hay un ZIP guardado." }));
+      setStatus("error");
+      return;
+    }
+    await runImport(importCachedExport);
+  }
+
   const isError = status === "error";
   const isSuccess = status === "success";
+  const progressTotal = progress?.total ?? null;
+  const progressPercent =
+    progressTotal && progressTotal > 0
+      ? Math.max(0, Math.min(100, Math.round(((progress?.processed ?? 0) / progressTotal) * 100)))
+      : null;
+  const currentProgressText =
+    progress?.message ??
+    t("settings.importRunning", {
+      defaultValue:
+        "Descargando y descomprimiendo datos desde OLMDBManager...",
+    });
+  const cacheSizeText = cacheInfo?.exists
+    ? `${(cacheInfo.size_bytes / 1_048_576).toFixed(1)} MB`
+    : null;
 
   return (
     <div className="flex flex-col gap-4 py-4">
@@ -1358,21 +1446,33 @@ function ImportDataSection() {
             })}
           </p>
         </div>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={handleAutoImport}
-          className="flex shrink-0 items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 text-sm font-heading font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
-        >
-          {busy ? (
-            <RefreshCw className="w-4 h-4 animate-spin" />
-          ) : (
-            <Database className="w-4 h-4" />
-          )}
-          {busy
-            ? t("settings.importing", { defaultValue: "Importando…" })
-            : t("settings.import", { defaultValue: "Importar" })}
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            disabled={busy || !cacheInfo?.exists}
+            onClick={handleCachedImport}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted text-sm font-heading font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
+            title={cacheInfo?.path}
+          >
+            <Save className="w-4 h-4" />
+            {t("settings.importCached", { defaultValue: "Usar último ZIP" })}
+          </button>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={handleAutoImport}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 text-sm font-heading font-bold uppercase tracking-wider transition-colors disabled:opacity-50"
+          >
+            {busy ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              <Database className="w-4 h-4" />
+            )}
+            {busy
+              ? t("settings.importing", { defaultValue: "Importando..." })
+              : t("settings.importOnline", { defaultValue: "Importar online" })}
+          </button>
+        </div>
       </div>
 
       {status !== "idle" && (
@@ -1386,13 +1486,20 @@ function ImportDataSection() {
           }`}
         >
           {busy && (
-            <p className="flex items-center gap-2">
-              <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
-              {t("settings.importRunning", {
-                defaultValue:
-                  "Descargando y descomprimiendo datos desde OLMDBManager…",
-              })}
-            </p>
+            <div className="space-y-2">
+              <p className="flex items-center gap-2">
+                <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
+                {currentProgressText}
+              </p>
+              {progressPercent !== null && (
+                <div className="h-2 overflow-hidden rounded-full bg-background/70">
+                  <div
+                    className="h-full rounded-full bg-primary transition-all"
+                    style={{ width: `${progressPercent}%` }}
+                  />
+                </div>
+              )}
+            </div>
           )}
           {error && <p>{error}</p>}
           {result && isSuccess && (
@@ -1409,6 +1516,38 @@ function ImportDataSection() {
           )}
         </div>
       )}
+
+      <div className="grid gap-2 rounded-lg border border-border bg-muted/20 p-3 md:grid-cols-[1fr_auto]">
+        <input
+          value={zipPath}
+          disabled={busy}
+          onChange={(e) => setZipPath(e.target.value)}
+          placeholder={t("settings.importZipPath", {
+            defaultValue: "/ruta/a/olmanager_export.zip",
+          })}
+          className="min-w-0 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary disabled:opacity-50"
+        />
+        <button
+          type="button"
+          disabled={busy || !zipPath.trim()}
+          onClick={handleZipImport}
+          className="flex items-center justify-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-heading font-bold uppercase tracking-wider text-foreground transition-colors hover:bg-muted disabled:opacity-50"
+        >
+          <Download className="w-4 h-4" />
+          {t("settings.importZip", { defaultValue: "Importar ZIP" })}
+        </button>
+      </div>
+
+      <p className="text-2xs uppercase tracking-wider text-muted-foreground">
+        {cacheInfo?.exists
+          ? t("settings.importCacheReady", {
+              defaultValue: "ZIP guardado: {{size}}",
+              size: cacheSizeText,
+            })
+          : t("settings.importCacheEmpty", {
+              defaultValue: "Sin ZIP guardado todavía. El primer import online lo creará.",
+            })}
+      </p>
 
       {summary && (summary.player_count > 0 || summary.team_count > 0) && (
         <div className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-muted/30 p-3">
@@ -1429,4 +1568,3 @@ function ImportStat({ label, value }: { label: string; value: number }) {
     </div>
   );
 }
-

@@ -244,6 +244,8 @@ pub fn run() {
             update_manager_profile,
             auto_import_database,
             import_export_zip,
+            import_cached_export,
+            get_import_cache_info,
             get_catalog_summary,
             get_catalog,
             debug_log,
@@ -252,6 +254,5 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
-
 
 

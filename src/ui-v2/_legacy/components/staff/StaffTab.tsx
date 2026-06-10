@@ -24,6 +24,7 @@ import {
   getLolStaffEffectsForTeam,
 } from "@/lib/teams/lolStaffEffects";
 import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
+import { staffDisplayName } from "@/lib/staff/staffName";
 
 interface StaffTabProps {
   gameState: GameStateData;
@@ -211,7 +212,7 @@ export default function StaffTab({ gameState, onGameUpdate, mode = "club" }: Sta
     if (competitionTeamIds && (!s.team_id || !competitionTeamIds.has(s.team_id))) return false;
     if (search.length >= 2) {
       const q = search.toLowerCase();
-      const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
+      const fullName = `${staffDisplayName(s)} ${s.first_name} ${s.last_name}`.toLowerCase();
       if (!fullName.includes(q)) return false;
     }
     return true;
@@ -366,12 +367,12 @@ export default function StaffTab({ gameState, onGameUpdate, mode = "club" }: Sta
                     <div
                       className={`w-12 h-12 rounded-xl overflow-hidden flex items-center justify-center ${roleColor} bg-gray-100 dark:bg-navy-700`}
                     >
-                      {photo ? <img src={photo} alt={`${staff.first_name} ${staff.last_name}`} className="w-full h-full object-cover" loading="lazy" /> : roleIcon}
+                      {photo ? <img src={photo} alt={staffDisplayName(staff)} className="w-full h-full object-cover" loading="lazy" /> : roleIcon}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <h3 className="font-heading font-bold text-sm text-gray-800 dark:text-gray-100 uppercase tracking-wide truncate">
-                          {staff.first_name} {staff.last_name}
+                          {staffDisplayName(staff)}
                         </h3>
                         <Badge
                           variant={

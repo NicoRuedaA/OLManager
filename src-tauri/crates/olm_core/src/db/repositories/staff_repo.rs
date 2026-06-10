@@ -9,11 +9,12 @@ pub fn upsert_staff(conn: &Connection, s: &Staff) -> Result<(), String> {
 
     conn.execute(
         "INSERT OR REPLACE INTO staff
-          (id, first_name, last_name, date_of_birth, nationality, birth_country, profile_image_url, role,
+          (id, nickname, first_name, last_name, date_of_birth, nationality, birth_country, profile_image_url, role,
            attributes, team_id, wage, contract_end)
-          VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12)",
+          VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13)",
         params![
             s.id,
+            s.nickname,
             s.first_name,
             s.last_name,
             s.date_of_birth,
@@ -54,7 +55,7 @@ fn parse_role(s: &str) -> StaffRole {
 pub fn load_all_staff(conn: &Connection) -> Result<Vec<Staff>, String> {
     let mut stmt = conn
         .prepare(
-            "SELECT id, first_name, last_name, date_of_birth, nationality, birth_country, profile_image_url, role,
+            "SELECT id, nickname, first_name, last_name, date_of_birth, nationality, birth_country, profile_image_url, role,
                     attributes, team_id, wage, contract_end
              FROM staff",
         )
@@ -72,17 +73,18 @@ pub fn load_all_staff(conn: &Connection) -> Result<Vec<Staff>, String> {
 }
 
 fn row_to_staff(row: &rusqlite::Row) -> rusqlite::Result<Staff> {
-    let role_str: String = row.get(7)?;
-    let attrs_json: String = row.get(8)?;
+    let role_str: String = row.get(8)?;
+    let attrs_json: String = row.get(9)?;
 
     Ok(Staff {
         id: row.get(0)?,
-        first_name: row.get(1)?,
-        last_name: row.get(2)?,
-        date_of_birth: row.get(3)?,
-        nationality: row.get(4)?,
-        birth_country: row.get(5)?,
-        profile_image_url: row.get(6)?,
+        nickname: row.get(1)?,
+        first_name: row.get(2)?,
+        last_name: row.get(3)?,
+        date_of_birth: row.get(4)?,
+        nationality: row.get(5)?,
+        birth_country: row.get(6)?,
+        profile_image_url: row.get(7)?,
         role: parse_role(&role_str),
         attributes: serde_json::from_str(&attrs_json).unwrap_or(StaffAttributes {
             coaching: 50,
@@ -90,9 +92,9 @@ fn row_to_staff(row: &rusqlite::Row) -> rusqlite::Result<Staff> {
             judging_potential: 50,
             physiotherapy: 50,
         }),
-        team_id: row.get(9)?,
-        wage: row.get(10)?,
-        contract_end: row.get(11)?,
+        team_id: row.get(10)?,
+        wage: row.get(11)?,
+        contract_end: row.get(12)?,
     })
 }
 

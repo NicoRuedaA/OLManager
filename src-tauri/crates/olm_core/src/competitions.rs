@@ -133,20 +133,21 @@ pub fn load_players(
 }
 
 /// Load staff data for a competition from its manifest's `staff_file` path.
-/// Returns an empty vec if no staff_file is configured.
+/// Returns an empty vec if no staff_file is configured and no conventional
+/// `staffs/<competition>_staffs.json` shard exists.
 pub fn load_staff(
     data_base: &Path,
     manifest: &CompetitionManifest,
 ) -> Result<Vec<Staff>, String> {
-    let staff_path = match &manifest.staff_file {
-        Some(path) => data_base.join(path),
+    let staff_path = match resolve_staff_file(data_base, manifest) {
+        Some(path) => path,
         None => return Ok(Vec::new()),
     };
     info!("[competitions] loading staff for '{}' from {:?}", manifest.id, staff_path);
     let json = std::fs::read_to_string(&staff_path).map_err(|e| {
         format!(
             "Failed to read staff file '{}' for '{}': {}",
-            manifest.staff_file.as_deref().unwrap_or("?"),
+            staff_path.display(),
             manifest.id,
             e
         )
@@ -154,6 +155,25 @@ pub fn load_staff(
     let data: StaffDataFile = serde_json::from_str(&json)
         .map_err(|e| format!("Failed to parse staff data: {}", e))?;
     Ok(data.staff)
+}
+
+fn resolve_staff_file(
+    data_base: &Path,
+    manifest: &CompetitionManifest,
+) -> Option<std::path::PathBuf> {
+    if let Some(path) = manifest
+        .staff_file
+        .as_deref()
+        .map(str::trim)
+        .filter(|path| !path.is_empty())
+    {
+        return Some(data_base.join(path));
+    }
+
+    let conventional = data_base
+        .join("staffs")
+        .join(format!("{}_staffs.json", manifest.id));
+    conventional.is_file().then_some(conventional)
 }
 
 /// Load free agent staff from `data/staffs/free_agents.json`.
@@ -253,4 +273,89 @@ pub fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
     let dash_pos = team_id.find('-')?;
     let prefix = &team_id[..dash_pos];
     if prefix.is_empty() { None } else { Some(prefix) }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn manifest_with_staff_file(staff_file: Option<&str>) -> CompetitionManifest {
+        let staff_file_json = match staff_file {
+            Some(path) => format!(r#""{path}""#),
+            None => "null".to_string(),
+        };
+        serde_json::from_str(&format!(
+            r#"{{
+                "id": "lec",
+                "name": "LEC",
+                "region": "EU",
+                "tier": 1,
+                "teams_file": "teams/lec_teams.json",
+                "players_file": "players/lec_players.json",
+                "staff_file": {staff_file_json},
+                "schedule": {{
+                    "format": "single_round_robin",
+                    "team_count": 10,
+                    "splits": []
+                }}
+            }}"#
+        ))
+        .expect("manifest should parse")
+    }
+
+    fn write_staff_file(path: &std::path::Path) {
+        std::fs::write(
+            path,
+            r#"{
+                "staff": [
+                    {
+                        "id": "staff-1",
+                        "first_name": "Ada",
+                        "last_name": "Analyst",
+                        "date_of_birth": "1990-01-01",
+                        "nationality": "Spain",
+                        "role": "Assistant",
+                        "attributes": {
+                            "coaching": 70,
+                            "judging_ability": 71,
+                            "judging_potential": 72,
+                            "physiotherapy": 73
+                        },
+                        "team_id": "lec-g2-esports"
+                    }
+                ]
+            }"#,
+        )
+        .expect("staff file should write");
+    }
+
+    #[test]
+    fn load_staff_falls_back_to_conventional_shard_when_manifest_omits_staff_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let staffs = dir.path().join("staffs");
+        std::fs::create_dir_all(&staffs).expect("staffs dir");
+        write_staff_file(&staffs.join("lec_staffs.json"));
+
+        let loaded = load_staff(dir.path(), &manifest_with_staff_file(None)).expect("staff load");
+
+        assert_eq!(loaded.len(), 1);
+        assert_eq!(loaded[0].id, "staff-1");
+        assert_eq!(loaded[0].team_id.as_deref(), Some("lec-g2-esports"));
+    }
+
+    #[test]
+    fn load_staff_still_respects_explicit_manifest_staff_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let custom = dir.path().join("custom_staff.json");
+        write_staff_file(&custom);
+
+        let loaded = load_staff(
+            dir.path(),
+            &manifest_with_staff_file(Some("custom_staff.json")),
+        )
+        .expect("staff load");
+
+        assert_eq!(loaded.len(), 1);
+        assert_eq!(loaded[0].first_name, "Ada");
+    }
 }

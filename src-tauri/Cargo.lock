@@ -3206,6 +3206,7 @@ dependencies = [
  "tauri-plugin-opener",
  "tauri-plugin-updater",
  "thiserror 2.0.18",
+ "tokio",
  "ts-rs",
  "validator",
  "zip 2.4.2",

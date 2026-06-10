@@ -24,6 +24,7 @@ import {
   getLolStaffEffectsForTeam,
 } from "@/lib/teams/lolStaffEffects";
 import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
+import { staffDisplayName } from "@/lib/staff/staffName";
 import { calcAge, getTeamName } from "@/lib/common/helpers";
 import { countryName } from "@/lib/common/countries";
 import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
@@ -164,7 +165,8 @@ export function StaffTabV2({ gameState, onGameUpdate, mode = "club" }: StaffTabV
     if (competitionTeamIds && (!s.team_id || !competitionTeamIds.has(s.team_id))) return false;
     if (search.length >= 2) {
       const q = search.toLowerCase();
-      if (!`${s.first_name} ${s.last_name}`.toLowerCase().includes(q)) return false;
+      const haystack = `${staffDisplayName(s)} ${s.first_name} ${s.last_name}`.toLowerCase();
+      if (!haystack.includes(q)) return false;
     }
     return true;
   });
@@ -392,7 +394,7 @@ export function StaffTabV2({ gameState, onGameUpdate, mode = "club" }: StaffTabV
                     {photo ? (
                       <img
                         src={photo}
-                        alt={`${staff.first_name} ${staff.last_name}`}
+                        alt={staffDisplayName(staff)}
                         className="size-full object-cover"
                       />
                     ) : (
@@ -404,7 +406,7 @@ export function StaffTabV2({ gameState, onGameUpdate, mode = "club" }: StaffTabV
                     {/* Name + OVR */}
                     <div className="flex items-center gap-2">
                       <h3 className="truncate font-heading text-sm font-bold uppercase tracking-wide text-foreground">
-                        {staff.first_name} {staff.last_name}
+                        {staffDisplayName(staff)}
                       </h3>
                       <Badge
                         variant={ovr >= 65 ? "default" : ovr >= 45 ? "secondary" : "outline"}

@@ -11,22 +11,38 @@
 //! over the bundled read-only `data/`, and the `olm-asset://` protocol
 //! (see `lib.rs`) serves imported photos with a fallback to bundled assets.
 
+use std::collections::HashSet;
 use std::io::Read;
 use std::path::{Component, Path, PathBuf};
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use log::info;
+use olm_core::domain::staff::Staff;
+use olm_core::game::Game;
+use olm_core::generator::definitions::StaffDataFile;
+use olm_core::state::StateManager;
 use serde_json::Value;
+use tauri::Emitter;
 use tauri::Manager as TauriManager;
+use tauri::State;
+
+use crate::SaveManagerState;
 
 /// Default public OLMDBManager export endpoint. Overridable at runtime via the
 /// `OLM_IMPORT_SOURCE` env var.
 const DEFAULT_IMPORT_SOURCE: &str = "https://olmdatabase.nicorueda.dev/api/olm/export";
+const IMPORT_DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(15 * 60);
+const IMPORT_CONNECT_TIMEOUT: Duration = Duration::from_secs(20);
+const IMPORT_RESPONSE_TIMEOUT: Duration = Duration::from_secs(45);
+const IMPORT_READ_TIMEOUT: Duration = Duration::from_secs(45);
+const IMPORT_PROGRESS_EVENT: &str = "olm-import-progress";
 
-const PUBLIC_PHOTO_DIRS: [&str; 4] = [
+const PUBLIC_PHOTO_DIRS: [&str; 5] = [
     "player-photos",
     "teams-icons",
     "competitions-icons",
     "staff-photos",
+    "staff-icons",
 ];
 
 #[derive(Debug, Default, serde::Serialize)]
@@ -37,6 +53,22 @@ pub struct ImportSummary {
     pub team_count: usize,
     pub staff_count: usize,
     pub skipped: usize,
+}
+
+#[derive(Debug, Clone, serde::Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ImportProgress {
+    pub phase: &'static str,
+    pub message: String,
+    pub processed: usize,
+    pub total: Option<usize>,
+}
+
+#[derive(Debug, Default, serde::Serialize)]
+pub struct ImportCacheInfo {
+    pub exists: bool,
+    pub path: String,
+    pub size_bytes: u64,
 }
 
 #[derive(Debug, Default, serde::Serialize)]
@@ -92,6 +124,14 @@ pub fn writable_public_dir(app_handle: &tauri::AppHandle) -> Result<PathBuf, Str
     Ok(app_data_dir(app_handle)?.join("public"))
 }
 
+fn import_cache_dir(app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
+    Ok(app_data_dir(app_handle)?.join("import-cache"))
+}
+
+fn import_cache_path(app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
+    Ok(import_cache_dir(app_handle)?.join("olmanager_export.zip"))
+}
+
 fn app_data_dir(app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
     app_handle
         .path()
@@ -102,10 +142,7 @@ fn app_data_dir(app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
 /// Resolve a `/public`-namespaced asset (e.g. `player-photos/x.webp`) for the
 /// `olm-asset://` protocol: imported file first, bundled frontend asset second.
 /// Returns the bytes and a best-effort MIME type.
-pub fn resolve_public_asset(
-    app_handle: &tauri::AppHandle,
-    rel: &str,
-) -> Option<(Vec<u8>, String)> {
+pub fn resolve_public_asset(app_handle: &tauri::AppHandle, rel: &str) -> Option<(Vec<u8>, String)> {
     let safe = safe_relative(rel)?;
 
     // 1. Imported photo in the writable app-data dir (the whole point).
@@ -179,16 +216,43 @@ fn import_source() -> String {
 /// Download the configured public OLMDBManager export and extract it into the
 /// writable data/public directories.
 #[tauri::command]
-pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<ImportSummary, String> {
+pub async fn auto_import_database(
+    app_handle: tauri::AppHandle,
+    state: State<'_, StateManager>,
+    sm_state: State<'_, SaveManagerState>,
+) -> Result<ImportSummary, String> {
     let source = import_source();
     info!("[cmd] auto_import_database: source={source}");
-    let bytes = download_export(&source).await?;
-    let data_dir = writable_data_dir(&app_handle)?;
-    let public_dir = writable_public_dir(&app_handle)?;
-    let summary =
-        tauri::async_runtime::spawn_blocking(move || import_zip(&bytes, &data_dir, &public_dir))
-            .await
-            .map_err(|e| format!("import task panicked: {e}"))??;
+    emit_progress(
+        &app_handle,
+        "downloading",
+        "Conectando con OLMDBManager...",
+        0,
+        None,
+    );
+    let bytes = download_export(&source, &app_handle).await?;
+    emit_progress(
+        &app_handle,
+        "extracting",
+        "Preparando importacion segura...",
+        0,
+        None,
+    );
+    let import_app_handle = app_handle.clone();
+    let summary = tauri::async_runtime::spawn_blocking(move || {
+        let summary = import_zip_safely(&bytes, &import_app_handle)?;
+        emit_progress(
+            &import_app_handle,
+            "caching",
+            "Guardando ZIP para futuros imports...",
+            0,
+            None,
+        );
+        write_import_cache(&import_app_handle, &bytes)?;
+        Ok::<ImportSummary, String>(summary)
+    })
+    .await
+    .map_err(|e| format!("import task panicked: {e}"))??;
     info!(
         "[cmd] auto_import_database: {} data files, {} photos, {} players, {} teams, {} staff, {} skipped",
         summary.data_files,
@@ -198,6 +262,9 @@ pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<Import
         summary.staff_count,
         summary.skipped
     );
+    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] auto_import_database: active staff rehydrate skipped: {err}");
+    }
     Ok(summary)
 }
 
@@ -206,59 +273,244 @@ pub async fn auto_import_database(app_handle: tauri::AppHandle) -> Result<Import
 pub async fn import_export_zip(
     app_handle: tauri::AppHandle,
     path: String,
+    state: State<'_, StateManager>,
+    sm_state: State<'_, SaveManagerState>,
 ) -> Result<ImportSummary, String> {
     info!("[cmd] import_export_zip: path={path}");
-    let data_dir = writable_data_dir(&app_handle)?;
-    let public_dir = writable_public_dir(&app_handle)?;
-    tauri::async_runtime::spawn_blocking(move || {
+    emit_progress(&app_handle, "reading", "Leyendo ZIP local...", 0, None);
+    let import_app_handle = app_handle.clone();
+    let summary = tauri::async_runtime::spawn_blocking(move || {
         let bytes = std::fs::read(&path).map_err(|e| format!("read {path}: {e}"))?;
-        import_zip(&bytes, &data_dir, &public_dir)
+        let summary = import_zip_safely(&bytes, &import_app_handle)?;
+        write_import_cache(&import_app_handle, &bytes)?;
+        Ok::<ImportSummary, String>(summary)
     })
     .await
-    .map_err(|e| format!("import task panicked: {e}"))?
+    .map_err(|e| format!("import task panicked: {e}"))??;
+    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] import_export_zip: active staff rehydrate skipped: {err}");
+    }
+    Ok(summary)
+}
+
+/// Re-import the last successfully downloaded/imported export without network.
+#[tauri::command]
+pub async fn import_cached_export(
+    app_handle: tauri::AppHandle,
+    state: State<'_, StateManager>,
+    sm_state: State<'_, SaveManagerState>,
+) -> Result<ImportSummary, String> {
+    let path = import_cache_path(&app_handle)?;
+    info!("[cmd] import_cached_export: path={}", path.display());
+    emit_progress(&app_handle, "reading", "Leyendo ultimo ZIP guardado...", 0, None);
+    let import_app_handle = app_handle.clone();
+    let summary = tauri::async_runtime::spawn_blocking(move || {
+        let bytes = std::fs::read(&path)
+            .map_err(|e| format!("No hay ZIP guardado para reimportar: {e}"))?;
+        import_zip_safely(&bytes, &import_app_handle)
+    })
+    .await
+    .map_err(|e| format!("import task panicked: {e}"))??;
+    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] import_cached_export: active staff rehydrate skipped: {err}");
+    }
+    Ok(summary)
+}
+
+#[tauri::command]
+pub fn get_import_cache_info(app_handle: tauri::AppHandle) -> Result<ImportCacheInfo, String> {
+    let path = import_cache_path(&app_handle)?;
+    let metadata = std::fs::metadata(&path).ok();
+    Ok(ImportCacheInfo {
+        exists: metadata.as_ref().is_some_and(|meta| meta.is_file()),
+        path: path.to_string_lossy().to_string(),
+        size_bytes: metadata.map(|meta| meta.len()).unwrap_or(0),
+    })
 }
 
 /// Counts of the currently imported catalog (or zeros if nothing imported yet).
 #[tauri::command]
 pub fn get_catalog_summary(app_handle: tauri::AppHandle) -> Result<ImportSummary, String> {
     let data_dir = writable_data_dir(&app_handle)?;
-    Ok(catalog_summary(&data_dir))
+    let public_dir = writable_public_dir(&app_handle)?;
+    Ok(catalog_summary(&data_dir, &public_dir))
 }
 
 /// Full imported catalog (players/teams/staff) for the Settings browser.
 #[tauri::command]
 pub fn get_catalog(app_handle: tauri::AppHandle) -> Result<CatalogResponse, String> {
     let data_dir = writable_data_dir(&app_handle)?;
-    Ok(current_catalog(&data_dir))
+    let public_dir = writable_public_dir(&app_handle)?;
+    Ok(current_catalog(&data_dir, &public_dir))
 }
 
 // ---------------------------------------------------------------------------
 // Download + extraction
 // ---------------------------------------------------------------------------
 
-async fn download_export(url: &str) -> Result<Vec<u8>, String> {
-    let response = reqwest::Client::new()
-        .get(url)
-        .send()
+fn emit_progress(
+    app_handle: &tauri::AppHandle,
+    phase: &'static str,
+    message: impl Into<String>,
+    processed: usize,
+    total: Option<usize>,
+) {
+    let _ = app_handle.emit(
+        IMPORT_PROGRESS_EVENT,
+        ImportProgress {
+            phase,
+            message: message.into(),
+            processed,
+            total,
+        },
+    );
+}
+
+fn write_import_cache(app_handle: &tauri::AppHandle, bytes: &[u8]) -> Result<(), String> {
+    let cache_dir = import_cache_dir(app_handle)?;
+    std::fs::create_dir_all(&cache_dir).map_err(|e| format!("mkdir {cache_dir:?}: {e}"))?;
+    let path = cache_dir.join("olmanager_export.zip");
+    let tmp_path = cache_dir.join(format!("olmanager_export.zip.tmp-{}", timestamp_millis()));
+    std::fs::write(&tmp_path, bytes).map_err(|e| format!("write {tmp_path:?}: {e}"))?;
+    if path.exists() {
+        std::fs::remove_file(&path).map_err(|e| format!("replace cache {path:?}: {e}"))?;
+    }
+    std::fs::rename(&tmp_path, &path).map_err(|e| format!("cache {path:?}: {e}"))?;
+    Ok(())
+}
+
+async fn download_export(url: &str, app_handle: &tauri::AppHandle) -> Result<Vec<u8>, String> {
+    let client = reqwest::Client::builder()
+        .connect_timeout(IMPORT_CONNECT_TIMEOUT)
+        .timeout(IMPORT_DOWNLOAD_TIMEOUT)
+        .read_timeout(IMPORT_READ_TIMEOUT)
+        .build()
+        .map_err(|e| format!("create import HTTP client: {e}"))?;
+    let mut response = tokio::time::timeout(IMPORT_RESPONSE_TIMEOUT, client.get(url).send())
         .await
-        .map_err(|e| format!("download {url}: {e}"))?;
+        .map_err(|_| {
+            format!(
+                "OLMDBManager no empezo a responder en {} segundos. Prueba de nuevo o importa un ZIP local.",
+                IMPORT_RESPONSE_TIMEOUT.as_secs()
+            )
+        })?
+        .map_err(|e| {
+            if e.is_timeout() {
+                format!(
+                    "download {url}: timeout after {} seconds",
+                    IMPORT_DOWNLOAD_TIMEOUT.as_secs()
+                )
+            } else {
+                format!("download {url}: {e}")
+            }
+        })?;
     let status = response.status();
     if !status.is_success() {
         return Err(format!("download {url}: HTTP {status}"));
     }
-    response
-        .bytes()
-        .await
-        .map(|b| b.to_vec())
-        .map_err(|e| format!("read response {url}: {e}"))
+    let total = response.content_length().map(|value| value as usize);
+    emit_progress(
+        app_handle,
+        "downloading",
+        "Descargando export de OLMDBManager...",
+        0,
+        total,
+    );
+
+    let mut bytes = Vec::with_capacity(total.unwrap_or(0));
+    let mut last_reported = 0usize;
+    while let Some(chunk) = response.chunk().await.map_err(|e| {
+        if e.is_timeout() {
+            format!(
+                "La descarga no recibio datos durante {} segundos. Prueba de nuevo o usa el ZIP local.",
+                IMPORT_READ_TIMEOUT.as_secs()
+            )
+        } else {
+            format!("read response {url}: {e}")
+        }
+    })? {
+        bytes.extend_from_slice(&chunk);
+        if bytes.len().saturating_sub(last_reported) >= 1_048_576
+            || total.map(|expected| bytes.len() >= expected).unwrap_or(false)
+        {
+            last_reported = bytes.len();
+            emit_progress(
+                app_handle,
+                "downloading",
+                format!("Descargando... {:.1} MB", bytes.len() as f64 / 1_048_576.0),
+                bytes.len(),
+                total,
+            );
+        }
+    }
+    emit_progress(
+        app_handle,
+        "downloaded",
+        format!(
+            "Descarga completada ({:.1} MB).",
+            bytes.len() as f64 / 1_048_576.0
+        ),
+        bytes.len(),
+        Some(bytes.len()),
+    );
+    Ok(bytes)
 }
 
 /// Extract the export zip into the data/public dirs. Returns a summary.
-fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path) -> Result<ImportSummary, String> {
+fn import_zip_safely(bytes: &[u8], app_handle: &tauri::AppHandle) -> Result<ImportSummary, String> {
+    let app_dir = app_data_dir(app_handle)?;
+    let staging_root = app_dir.join(format!(".import-staging-{}", timestamp_millis()));
+    let staging_data = staging_root.join("data");
+    let staging_public = staging_root.join("public");
+
+    let mut summary =
+        match import_zip(bytes, &staging_data, &staging_public, app_handle).and_then(|summary| {
+            validate_import_summary(&summary)?;
+            Ok(summary)
+        }) {
+            Ok(summary) => summary,
+            Err(err) => {
+                let _ = std::fs::remove_dir_all(&staging_root);
+                return Err(err);
+            }
+        };
+
+    emit_progress(
+        app_handle,
+        "installing",
+        "Validado. Activando nuevos datos...",
+        0,
+        None,
+    );
+    install_staged_import(&app_dir, &staging_root)?;
+
+    let data_dir = app_dir.join("data");
+    let public_dir = app_dir.join("public");
+    let skipped = summary.skipped;
+    summary = catalog_summary(&data_dir, &public_dir);
+    summary.skipped = skipped;
+
+    emit_progress(
+        app_handle,
+        "done",
+        "Importacion completada.",
+        summary.data_files + summary.photo_files,
+        Some(summary.data_files + summary.photo_files),
+    );
+    Ok(summary)
+}
+
+fn import_zip(
+    bytes: &[u8],
+    data_dir: &Path,
+    public_dir: &Path,
+    app_handle: &tauri::AppHandle,
+) -> Result<ImportSummary, String> {
     let reader = std::io::Cursor::new(bytes);
     let mut zip = zip::ZipArchive::new(reader).map_err(|e| format!("open zip: {e}"))?;
 
     let mut summary = ImportSummary::default();
+    let total = zip.len();
 
     for i in 0..zip.len() {
         let mut entry = zip.by_index(i).map_err(|e| format!("zip entry {i}: {e}"))?;
@@ -286,9 +538,260 @@ fn import_zip(bytes: &[u8], data_dir: &Path, public_dir: &Path) -> Result<Import
         } else {
             summary.photo_files += 1;
         }
+
+        if i == 0 || i + 1 == total || i % 25 == 0 {
+            emit_progress(
+                app_handle,
+                "extracting",
+                format!("Extrayendo {} de {} archivos...", i + 1, total),
+                i + 1,
+                Some(total),
+            );
+        }
     }
 
     Ok(summary)
+}
+
+fn timestamp_millis() -> u128 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_millis())
+        .unwrap_or(0)
+}
+
+fn validate_import_summary(summary: &ImportSummary) -> Result<(), String> {
+    if summary.data_files == 0 {
+        return Err("El ZIP no contiene archivos data/ importables.".to_string());
+    }
+    if summary.player_count == 0 || summary.team_count == 0 {
+        return Err(
+            "El ZIP no parece una exportacion valida: faltan jugadores o equipos.".to_string(),
+        );
+    }
+    Ok(())
+}
+
+fn install_staged_import(app_dir: &Path, staging_root: &Path) -> Result<(), String> {
+    let backup_root = app_dir.join(format!(".import-backup-{}", timestamp_millis()));
+    let data_dir = app_dir.join("data");
+    let public_dir = app_dir.join("public");
+    let staging_data = staging_root.join("data");
+    let staging_public = staging_root.join("public");
+
+    std::fs::create_dir_all(&backup_root).map_err(|e| format!("mkdir {backup_root:?}: {e}"))?;
+
+    let result = (|| {
+        replace_dir(&data_dir, &staging_data, &backup_root)?;
+        replace_dir(&public_dir, &staging_public, &backup_root)?;
+        Ok::<(), String>(())
+    })();
+
+    if let Err(err) = result {
+        let _ = restore_backup(&data_dir, &public_dir, &backup_root);
+        let _ = std::fs::remove_dir_all(staging_root);
+        return Err(err);
+    }
+
+    let _ = std::fs::remove_dir_all(&backup_root);
+    let _ = std::fs::remove_dir_all(staging_root);
+    Ok(())
+}
+
+fn replace_dir(dest: &Path, staged: &Path, backup_root: &Path) -> Result<(), String> {
+    if !staged.exists() {
+        return Ok(());
+    }
+    if let Some(parent) = dest.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| format!("mkdir {parent:?}: {e}"))?;
+    }
+    if dest.exists() {
+        let backup = backup_root.join(
+            dest.file_name()
+                .ok_or_else(|| format!("invalid destination path {dest:?}"))?,
+        );
+        std::fs::rename(dest, &backup).map_err(|e| format!("backup {dest:?}: {e}"))?;
+    }
+    std::fs::rename(staged, dest).map_err(|e| format!("install {staged:?} -> {dest:?}: {e}"))
+}
+
+fn restore_backup(data_dir: &Path, public_dir: &Path, backup_root: &Path) -> Result<(), String> {
+    for dest in [data_dir, public_dir] {
+        let Some(name) = dest.file_name() else {
+            continue;
+        };
+        let backup = backup_root.join(name);
+        if dest.exists() {
+            let _ = std::fs::remove_dir_all(dest);
+        }
+        if backup.exists() {
+            std::fs::rename(&backup, dest).map_err(|e| format!("restore {dest:?}: {e}"))?;
+        }
+    }
+    Ok(())
+}
+
+fn collect_staff_from_shards(app_handle: &tauri::AppHandle) -> Vec<Staff> {
+    let Some(data_base) = crate::commands::competitions::resolve_data_base(app_handle) else {
+        log::debug!("[import] data base unavailable during staff rehydrate");
+        return Vec::new();
+    };
+    let staffs_dir = data_base.join("staffs");
+    let Ok(entries) = std::fs::read_dir(&staffs_dir) else {
+        log::debug!("[import] staffs dir unavailable during rehydrate: {:?}", staffs_dir);
+        return Vec::new();
+    };
+
+    let mut staff = Vec::new();
+    for entry in entries.flatten() {
+        let path = entry.path();
+        if path.extension().and_then(|ext| ext.to_str()) != Some("json") {
+            continue;
+        }
+        let Some(stem) = path.file_stem().and_then(|stem| stem.to_str()) else {
+            continue;
+        };
+        let competition_id = stem.strip_suffix("_staffs");
+        let Ok(bytes) = std::fs::read(&path) else {
+            continue;
+        };
+        let mut members = match serde_json::from_slice::<StaffDataFile>(&bytes)
+            .map(|data| data.staff)
+            .or_else(|_| serde_json::from_slice::<Vec<Staff>>(&bytes))
+        {
+            Ok(members) => members,
+            Err(err) => {
+                log::debug!("[import] skipped malformed staff shard {:?}: {err}", path);
+                continue;
+            }
+        };
+
+        if let Some(cid) = competition_id {
+            let prefix = format!("{cid}-");
+            for member in &mut members {
+                if let Some(team_id) = member.team_id.clone() {
+                    if team_id != "fa"
+                        && team_id != "freeagent"
+                        && !team_id.starts_with(&prefix)
+                    {
+                        member.team_id = Some(format!("{prefix}{team_id}"));
+                    }
+                }
+            }
+        }
+        staff.extend(members);
+    }
+
+    log::info!(
+        "[import] collected {} staff directly from {:?}",
+        staff.len(),
+        staffs_dir
+    );
+    staff
+}
+
+fn collect_runtime_staff(app_handle: &tauri::AppHandle) -> Vec<Staff> {
+    let mut staff = collect_staff_from_shards(app_handle);
+
+    staff.extend(
+        crate::commands::competitions::load_staff_free_agents(app_handle).unwrap_or_else(|err| {
+            log::debug!("[import] free-agent staff unavailable during rehydrate: {err}");
+            Vec::new()
+        }),
+    );
+
+    for manifest in crate::commands::competitions::scan_competitions(app_handle)
+        .iter()
+        .filter(|manifest| !manifest.legacy)
+    {
+        let prefix = format!("{}-", manifest.id);
+        match crate::commands::competitions::load_competition_staff(app_handle, manifest) {
+            Ok(comp_staff) => {
+                for mut member in comp_staff {
+                    if let Some(team_id) = member.team_id.clone() {
+                        if team_id != "fa"
+                            && team_id != "freeagent"
+                            && !team_id.starts_with(&prefix)
+                        {
+                            member.team_id = Some(format!("{}-{team_id}", manifest.id));
+                        }
+                    }
+                    staff.push(member);
+                }
+            }
+            Err(err) => {
+                log::debug!(
+                    "[import] staff unavailable for '{}' during rehydrate: {err}",
+                    manifest.id
+                );
+            }
+        }
+    }
+
+    let mut seen = HashSet::new();
+    staff
+        .into_iter()
+        .filter(|member| seen.insert(member.id.clone()))
+        .collect()
+}
+
+fn merge_missing_staff(game: &mut Game, imported_staff: Vec<Staff>) -> usize {
+    // Backfill display fields (nickname) onto staff that already exist in the
+    // game/save but predate the field — older saves persisted nickname as "".
+    let nickname_by_id: std::collections::HashMap<String, String> = imported_staff
+        .iter()
+        .filter(|member| !member.nickname.is_empty())
+        .map(|member| (member.id.clone(), member.nickname.clone()))
+        .collect();
+    for member in game.staff.iter_mut() {
+        if member.nickname.is_empty() {
+            if let Some(nickname) = nickname_by_id.get(&member.id) {
+                member.nickname = nickname.clone();
+            }
+        }
+    }
+
+    let mut existing_ids: HashSet<String> =
+        game.staff.iter().map(|member| member.id.clone()).collect();
+    let before = game.staff.len();
+    for member in imported_staff {
+        if existing_ids.insert(member.id.clone()) {
+            game.staff.push(member);
+        }
+    }
+    game.staff.len().saturating_sub(before)
+}
+
+pub fn rehydrate_game_staff_from_catalog(app_handle: &tauri::AppHandle, game: &mut Game) -> usize {
+    merge_missing_staff(game, collect_runtime_staff(app_handle))
+}
+
+fn rehydrate_active_game_staff(
+    app_handle: &tauri::AppHandle,
+    state: &State<'_, StateManager>,
+    sm_state: &State<'_, SaveManagerState>,
+) -> Result<usize, String> {
+    let Some(mut game) = state.get_game(|game| game.clone()) else {
+        return Ok(0);
+    };
+    let added = rehydrate_game_staff_from_catalog(app_handle, &mut game);
+    if added == 0 {
+        return Ok(0);
+    }
+
+    let save_id = state.get_save_id();
+    state.set_game(game.clone());
+
+    if let Some(save_id) = save_id {
+        let mut sm = sm_state
+            .0
+            .lock()
+            .map_err(|e| format!("save manager lock: {e}"))?;
+        sm.save_game(&game, &save_id)?;
+    }
+
+    info!("[cmd] auto_import_database: rehydrated active game with {added} missing staff");
+    Ok(added)
 }
 
 /// Decide the on-disk destination for a zip entry, or None to skip it.
@@ -415,29 +918,11 @@ fn json_string(value: &Value, keys: &[&str]) -> Option<String> {
     })
 }
 
-fn catalog_summary(data_dir: &Path) -> ImportSummary {
-    let mut summary = ImportSummary::default();
-    let mut files = Vec::new();
-    if walk_files(data_dir, &mut files).is_err() {
-        return summary;
-    }
-    for file in files {
-        let Ok(rel) = file.strip_prefix(data_dir) else {
-            continue;
-        };
-        let rel_name = format!("data/{}", rel.to_string_lossy().replace('\\', "/"));
-        if rel_category(&rel_name).is_none() {
-            continue;
-        }
-        if let Ok(bytes) = std::fs::read(&file) {
-            summary.data_files += 1;
-            add_entity_counts(&mut summary, &rel_name, &bytes);
-        }
-    }
-    summary
+fn catalog_summary(data_dir: &Path, public_dir: &Path) -> ImportSummary {
+    current_catalog(data_dir, public_dir).summary
 }
 
-fn current_catalog(data_dir: &Path) -> CatalogResponse {
+fn current_catalog(data_dir: &Path, public_dir: &Path) -> CatalogResponse {
     let mut catalog = CatalogResponse::default();
     let mut files = Vec::new();
     if walk_files(data_dir, &mut files).is_err() {
@@ -524,10 +1009,30 @@ fn current_catalog(data_dir: &Path) -> CatalogResponse {
         }
     }
 
+    catalog.players.sort_by(|a, b| a.id.cmp(&b.id));
+    catalog.players.dedup_by(|a, b| a.id == b.id);
+    catalog.teams.sort_by(|a, b| a.id.cmp(&b.id));
+    catalog.teams.dedup_by(|a, b| a.id == b.id);
+    catalog.staff.sort_by(|a, b| a.id.cmp(&b.id));
+    catalog.staff.dedup_by(|a, b| a.id == b.id);
+
+    catalog.summary.player_count = catalog.players.len();
+    catalog.summary.team_count = catalog.teams.len();
+    catalog.summary.staff_count = catalog.staff.len();
+    catalog.summary.photo_files = count_files(public_dir);
+
     catalog.players.sort_by(|a, b| a.name.cmp(&b.name));
     catalog.teams.sort_by(|a, b| a.name.cmp(&b.name));
     catalog.staff.sort_by(|a, b| a.name.cmp(&b.name));
     catalog
+}
+
+fn count_files(root: &Path) -> usize {
+    let mut files = Vec::new();
+    if walk_files(root, &mut files).is_err() {
+        return 0;
+    }
+    files.len()
 }
 
 fn walk_files(root: &Path, out: &mut Vec<PathBuf>) -> Result<(), String> {

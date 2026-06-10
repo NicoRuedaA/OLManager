@@ -140,16 +140,10 @@ export default function TeamProfileRosterCard({
                     <td className="py-3 px-5">
                       <span
                         className={`font-heading font-bold text-lg tabular-nums ${
-                          isOwnTeam
-                            ? ovr >= 75
-                              ? "text-primary"
-                              : ovr >= 55
-                                ? "text-primary"
-                                : "text-gray-400"
-                            : "text-gray-400"
+                          ovr >= 55 ? "text-primary" : "text-gray-400"
                         }`}
                       >
-                        {isOwnTeam ? ovr : "??"}
+                        {ovr}
                       </span>
                     </td>
                   </tr>

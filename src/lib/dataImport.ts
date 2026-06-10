@@ -14,6 +14,19 @@ export interface ImportSummary {
   skipped: number;
 }
 
+export interface ImportProgress {
+  phase: "downloading" | "downloaded" | "reading" | "extracting" | "installing" | "done" | string;
+  message: string;
+  processed: number;
+  total: number | null;
+}
+
+export interface ImportCacheInfo {
+  exists: boolean;
+  path: string;
+  size_bytes: number;
+}
+
 export interface CatalogPlayer {
   id: string;
   name: string;
@@ -52,6 +65,21 @@ export interface CatalogResponse {
 /** Download the configured public OLMDBManager export and import it locally. */
 export function autoImportDatabase(): Promise<ImportSummary> {
   return invoke<ImportSummary>("auto_import_database");
+}
+
+/** Import a local OLMDBManager export zip from an absolute path. */
+export function importExportZip(path: string): Promise<ImportSummary> {
+  return invoke<ImportSummary>("import_export_zip", { path });
+}
+
+/** Re-import the last successfully imported ZIP from local app-data cache. */
+export function importCachedExport(): Promise<ImportSummary> {
+  return invoke<ImportSummary>("import_cached_export");
+}
+
+/** Metadata for the locally cached export ZIP, if one exists. */
+export function getImportCacheInfo(): Promise<ImportCacheInfo> {
+  return invoke<ImportCacheInfo>("get_import_cache_info");
 }
 
 /** Counts of the currently imported catalog (zeros if nothing imported yet). */

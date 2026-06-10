@@ -9,6 +9,7 @@ import type { GameStateData, PlayerSelectionOptions } from "@/store/gameStore";
 import { useSettingsStore } from "@/store/settingsStore";
 import { useAdvanceTime, type MatchModeType } from "@/hooks/useAdvanceTime";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
+import { isAcademyTeam } from "@/store/academySelectors";
 import TeamProfileV2 from "@/ui-v2/pages/TeamProfileV2";
 import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
 import {
@@ -185,6 +186,23 @@ export default function DashboardV2() {
   }, [gameState]);
 
   const isUnemployed = gameState?.manager.team_id === null;
+  // World (MUNDO) sidebar badges: count the real competitive world only,
+  // excluding seeded youth-academy teams and their generated players (which the
+  // Players/Teams tabs already filter out). Keeps the badges consistent with
+  // the lists and with the imported catalog totals.
+  const worldCounts = useMemo(() => {
+    if (!gameState) return { players: 0, teams: 0, staff: 0 };
+    const academyTeamIds = new Set(
+      gameState.teams.filter(isAcademyTeam).map((team) => team.id),
+    );
+    return {
+      players: gameState.players.filter(
+        (player) => !player.team_id || !academyTeamIds.has(player.team_id),
+      ).length,
+      teams: gameState.teams.filter((team) => !isAcademyTeam(team)).length,
+      staff: gameState.staff.length,
+    };
+  }, [gameState]);
   const todayMatchFixture = gameState ? getTodayMatchFixture(gameState) : null;
   const hasMatchToday = todayMatchFixture !== null;
   const activeLeague = gameState?.user_competition_id
@@ -382,9 +400,9 @@ export default function DashboardV2() {
         teamName={myTeamName}
         teamLogo={teamLogo}
         isUnemployed={isUnemployed ?? false}
-        playerCount={gameState.players.length}
-        teamCount={gameState.teams.length}
-        staffCount={gameState.staff.length}
+        playerCount={worldCounts.players}
+        teamCount={worldCounts.teams}
+        staffCount={worldCounts.staff}
         onNavigateSettings={() => navigate("/settings", { state: { from: "/dashboard" } })}
         onExitClick={() => !isExitingToMenu && setShowExitConfirm(true)}
       />

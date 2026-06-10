@@ -14,8 +14,11 @@ where
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct Staff {
     pub id: String,
+    #[serde(default, deserialize_with = "deserialize_null_to_empty")]
+    pub nickname: String,
+    #[serde(default, deserialize_with = "deserialize_null_to_empty")]
     pub first_name: String,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "deserialize_null_to_empty")]
     pub last_name: String,
     #[serde(default, deserialize_with = "deserialize_null_to_empty")]
     pub date_of_birth: String,
@@ -33,7 +36,7 @@ pub struct Staff {
     pub team_id: Option<String>,
 
     // Contract & finances
-    #[serde(default)]
+    #[serde(default, deserialize_with = "crate::domain::serde_util::lenient_u32")]
     pub wage: u32,
     #[serde(default)]
     pub contract_end: Option<String>,
@@ -56,9 +59,13 @@ pub enum StaffRole {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct StaffAttributes {
+    #[serde(default)]
     pub coaching: u8,
+    #[serde(default)]
     pub judging_ability: u8,
+    #[serde(default)]
     pub judging_potential: u8,
+    #[serde(default)]
     pub physiotherapy: u8,
 }
 
@@ -73,6 +80,7 @@ impl Staff {
     ) -> Self {
         Self {
             id,
+            nickname: String::new(),
             first_name,
             last_name,
             date_of_birth,
@@ -85,5 +93,35 @@ impl Staff {
             wage: 0,
             contract_end: None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn imported_staff_accepts_null_wage_and_partial_fields() {
+        let staff: Staff = serde_json::from_str(
+            r#"{
+                "id": "staff-imported",
+                "first_name": null,
+                "last_name": null,
+                "date_of_birth": null,
+                "role": "Assistant",
+                "wage": null,
+                "team_id": "team-1",
+                "attributes": { "coaching": 79 }
+            }"#,
+        )
+        .expect("staff should parse");
+
+        assert_eq!(staff.first_name, "");
+        assert_eq!(staff.last_name, "");
+        assert_eq!(staff.date_of_birth, "");
+        assert_eq!(staff.role, StaffRole::AssistantManager);
+        assert_eq!(staff.wage, 0);
+        assert_eq!(staff.attributes.coaching, 79);
+        assert_eq!(staff.attributes.judging_ability, 0);
     }
 }
