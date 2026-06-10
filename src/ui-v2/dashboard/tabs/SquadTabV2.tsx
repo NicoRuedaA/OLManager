@@ -314,10 +314,14 @@ export function SquadTabV2({
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border bg-muted/50">
                       <img src={ROLE_ICON_URLS[slot.role]} alt={roleLabel} className="size-4 object-contain opacity-80" />
                     </div>
-                    <PlayerAvatar src={photo} alt={player.match_name} className="size-10" />
+                    <button type="button" onClick={() => onSelectPlayer(player.id)} className="shrink-0">
+                      <PlayerAvatar src={photo} alt={player.match_name} className="size-10 cursor-pointer" />
+                    </button>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
-                        <p className="truncate font-heading text-base font-bold text-foreground">{player.match_name}</p>
+                        <button type="button" onClick={() => onSelectPlayer(player.id)} className="truncate text-left">
+                          <p className="truncate font-heading text-base font-bold text-foreground hover:text-primary transition-colors">{player.match_name}</p>
+                        </button>
                         {outOfPosition && (
                           <span className="shrink-0 text-amber-400" title={t("squad.outOfPositionTooltip", { defaultValue: "Fuera de rol" })}>
                             <AlertTriangle className="size-4" />
@@ -393,12 +397,14 @@ export function SquadTabV2({
                     </div>
                     <div className="flex items-center gap-1">
                       <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleTransfer(player.id); }}
+                        title={player.transfer_listed ? t("squad.removeFromTransferList", { defaultValue: "Remove from transfers list" }) : t("squad.addToTransferList", { defaultValue: "Add to transfers list" })}
                         className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
                           player.transfer_listed ? "border-red-500/30 bg-red-500/10 text-red-400" : "border-border text-muted-foreground/50 hover:border-red-500/30 hover:text-red-400"
                         )}>
                         <ShoppingCart className="size-3.5" />
                       </button>
                       <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleLoan(player.id); }}
+                        title={player.loan_listed ? t("squad.removeFromLoanList", { defaultValue: "Remove from loans list" }) : t("squad.addToLoanList", { defaultValue: "Add to loans list" })}
                         className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
                           player.loan_listed ? "border-blue-500/30 bg-blue-500/10 text-blue-400" : "border-border text-muted-foreground/50 hover:border-blue-500/30 hover:text-blue-400"
                         )}>
@@ -728,12 +734,14 @@ export function SquadTabV2({
                       {/* Actions */}
                       <div className="flex items-center gap-1 shrink-0">
                         <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleTransfer(player.id); }}
+                          title={player.transfer_listed ? t("squad.removeFromTransferList", { defaultValue: "Remove from transfers list" }) : t("squad.addToTransferList", { defaultValue: "Add to transfers list" })}
                           className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
                             player.transfer_listed ? "border-red-500/30 bg-red-500/10 text-red-400" : "border-border text-muted-foreground/50 hover:border-red-500/30 hover:text-red-400"
                           )}>
                           <ShoppingCart className="size-3.5" />
                         </button>
                         <button type="button" onClick={(e) => { e.stopPropagation(); handleToggleLoan(player.id); }}
+                          title={player.loan_listed ? t("squad.removeFromLoanList", { defaultValue: "Remove from loans list" }) : t("squad.addToLoanList", { defaultValue: "Add to loans list" })}
                           className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
                             player.loan_listed ? "border-blue-500/30 bg-blue-500/10 text-blue-400" : "border-border text-muted-foreground/50 hover:border-blue-500/30 hover:text-blue-400"
                           )}>
