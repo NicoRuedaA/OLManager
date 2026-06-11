@@ -1,6 +1,6 @@
-import lesPlayersData from "../../../data/players/les_players.json";
-import lflPlayersData from "../../../data/players/lfl_players.json";
-import primeLeaguePlayersData from "../../../data/players/prm_players.json";
+import lesPlayersData from "../../../data/world/players/les_players.json";
+import lflPlayersData from "../../../data/world/players/lfl_players.json";
+import primeLeaguePlayersData from "../../../data/world/players/prm_players.json";
 import { assetUrl } from "../assetUrl";
 
 const FALLBACK_PLAYER_PHOTO = "/default/defaultplayer.webp";

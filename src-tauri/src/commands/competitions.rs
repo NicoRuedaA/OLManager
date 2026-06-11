@@ -13,7 +13,7 @@ use tauri::Manager as TauriManager;
 // Path resolution (Tauri-specific — uses AppHandle)
 // ---------------------------------------------------------------------------
 
-/// Resolve the base `data/competitions/` directory with multi-tier fallback.
+/// Resolve the base `data/world/competitions/` directory with multi-tier fallback.
 fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     let cwd = std::env::current_dir().ok()?;
     info!("[competitions] cwd: {:?}", cwd);
@@ -24,7 +24,7 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .path()
             .app_data_dir()
             .ok()
-            .map(|dir| dir.join("data").join("competitions")),
+            .map(|dir| dir.join("data").join("world").join("competitions")),
         // Tauri rewrites the leading `..` of bundled resource globs (e.g.
         // `../data/...`) into a literal `_up_` directory under the resource dir,
         // so the installed data lives at `<resource_dir>/_up_/data/...`.
@@ -32,19 +32,19 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("_up_").join("data").join("competitions")),
+            .map(|dir| dir.join("_up_").join("data").join("world").join("competitions")),
         app_handle
             .path()
             .resource_dir()
             .ok()
-            .and_then(|dir| dir.parent().map(|p| p.join("data").join("competitions"))),
+            .and_then(|dir| dir.parent().map(|p| p.join("data").join("world").join("competitions"))),
         app_handle
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("data").join("competitions")),
-        Some(cwd.join("..").join("data").join("competitions")),
-        Some(cwd.join("data").join("competitions")),
+            .map(|dir| dir.join("data").join("world").join("competitions")),
+        Some(cwd.join("..").join("data").join("world").join("competitions")),
+        Some(cwd.join("data").join("world").join("competitions")),
     ];
 
     let candidate_count = candidates.len();
@@ -60,7 +60,7 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     None
 }
 
-/// Resolve the base `data/` directory for runtime file reads.
+/// Resolve the base `data/world/` directory for runtime world file reads.
 pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     let cwd = std::env::current_dir().ok()?;
 
@@ -70,7 +70,7 @@ pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .path()
             .app_data_dir()
             .ok()
-            .map(|dir| dir.join("data")),
+            .map(|dir| dir.join("data").join("world")),
         // Tauri rewrites the leading `..` of bundled resource globs (e.g.
         // `../data/...`) into a literal `_up_` directory under the resource dir,
         // so the installed data lives at `<resource_dir>/_up_/data/...`.
@@ -78,20 +78,20 @@ pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("_up_").join("data")),
+            .map(|dir| dir.join("_up_").join("data").join("world")),
         app_handle
             .path()
             .resource_dir()
             .ok()
-            .and_then(|dir| dir.parent().map(|p| p.join("data"))),
+            .and_then(|dir| dir.parent().map(|p| p.join("data").join("world"))),
         app_handle
             .path()
             .resource_dir()
             .ok()
-            .map(|dir| dir.join("data")),
-        Some(cwd.join("..").join("data")),
-        Some(cwd.join("data")),
-        Some(cwd.join("src-tauri").join("data")),
+            .map(|dir| dir.join("data").join("world")),
+        Some(cwd.join("..").join("data").join("world")),
+        Some(cwd.join("data").join("world")),
+        Some(cwd.join("src-tauri").join("data").join("world")),
     ];
 
     for candidate in candidates.into_iter().flatten() {

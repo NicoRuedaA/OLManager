@@ -34,11 +34,11 @@ struct PlayersFile {
     players: Vec<Player>,
 }
 
-/// Resolve the data directory: `OLM_DATA_DIR` env var, else `data/` under cwd.
+/// Resolve the world data directory: `OLM_DATA_DIR` env var, else `data/world/` under cwd.
 pub fn data_dir() -> PathBuf {
     std::env::var("OLM_DATA_DIR")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from("data"))
+        .unwrap_or_else(|_| PathBuf::from("data").join("world"))
 }
 
 /// Extract the competition prefix from a team id (`lck-team-x` → `lck`).
@@ -48,6 +48,7 @@ pub fn competition_id_from_team_id(team_id: &str) -> Option<&str> {
 
 fn scan_manifests(base: &Path) -> Vec<Manifest> {
     let comp_dir = base.join("competitions");
+    // Note: base already points to data/world/, so competitions is at base/competitions
     let Ok(entries) = std::fs::read_dir(&comp_dir) else {
         return vec![];
     };
@@ -118,10 +119,10 @@ fn normalize_name(value: &str) -> String {
         .collect()
 }
 
-/// normalized match_name → photo url, harvested from `data/erls/players`.
+/// normalized match_name → photo url, harvested from `data/world/erls/players`.
 ///
 /// The OLMDBManager export stores photos on its ERL-tier competition records
-/// but leaves `profile_image_url` null on the `data/players` shards for the
+/// but leaves `profile_image_url` null on the `data/world/players` shards for the
 /// same leagues. Those photos were still downloaded to disk, so we recover them
 /// by matching IGNs. First non-empty url per name wins.
 fn build_photo_fallback_map(base: &Path) -> HashMap<String, String> {
@@ -157,10 +158,10 @@ fn build_photo_fallback_map(base: &Path) -> HashMap<String, String> {
     map
 }
 
-/// One shard file per competition slug, preferring `data/erls/<kind>` over
-/// `data/<kind>`. The OLMDBManager export emits ERL leagues twice: a sparse,
-/// photo-less tier-1 copy under `data/<kind>` and the complete copy (full
-/// roster + photos) under `data/erls/<kind>`. We load the complete one.
+/// One shard file per competition slug, preferring `data/world/erls/<kind>` over
+/// `data/world/<kind>`. The OLMDBManager export emits ERL leagues twice: a sparse,
+/// photo-less tier-1 copy under `data/world/<kind>` and the complete copy (full
+/// roster + photos) under `data/world/erls/<kind>`. We load the complete one.
 fn resolve_preferred_shards(base: &Path, kind: &str) -> Vec<PathBuf> {
     let mut by_slug: HashMap<String, PathBuf> = HashMap::new();
     for path in list_json_files(&base.join(kind)) {
@@ -175,7 +176,7 @@ fn resolve_preferred_shards(base: &Path, kind: &str) -> Vec<PathBuf> {
 }
 
 /// Resolve a single competition's shard (`teams`/`players`), preferring the
-/// complete `data/erls/<kind>` copy. Used by the team picker so the ids it
+/// complete `data/world/erls/<kind>` copy. Used by the team picker so the ids it
 /// shows match the world that `assemble_world` builds.
 pub fn preferred_shard_path(base: &Path, kind: &str, slug: &str) -> Option<PathBuf> {
     let file = format!("{slug}_{kind}.json");
@@ -337,7 +338,7 @@ fn sanitize_staff_value(value: &mut Value) {
     }
 }
 
-/// Load every `data/staffs/*.json` shard, de-duplicated by id. Staff belong to
+/// Load every `data/world/staffs/*.json` shard, de-duplicated by id. Staff belong to
 /// teams (not competitions), so this scans the whole folder and re-points each
 /// `team_id` to the prefixed world id via `team_id_map`; staff whose team isn't
 /// part of the assembled world become unattached (free agents).

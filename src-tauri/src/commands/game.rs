@@ -54,7 +54,7 @@ fn assemble_world_from_modular_data(
     // Tauri `_up_/data` install layout is handled correctly.
     olm_core::state::RESOURCE_DATA_DIR.get_or_init(|| {
         crate::commands::competitions::resolve_data_base(app_handle)
-            .unwrap_or_else(|| PathBuf::from("data"))
+            .unwrap_or_else(|| PathBuf::from("data").join("world"))
     });
 
     // 1. Scan ALL competitions and load every team + player + staff

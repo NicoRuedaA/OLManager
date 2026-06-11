@@ -359,7 +359,7 @@ pub fn load_external_more_fa_seed() -> Option<DraftSeedRoot> {
     None
 }
 
-/// Load and cache free agent players from `data/players/free_agents.json`.
+/// Load and cache free agent players from `data/world/players/free_agents.json`.
 /// Uses OnceLock for lazy init — file is read once per process lifetime.
 pub fn load_free_agent_players() -> &'static Vec<Player> {
     static FREE_AGENTS: OnceLock<Vec<Player>> = OnceLock::new();
@@ -369,9 +369,9 @@ pub fn load_free_agent_players() -> &'static Vec<Player> {
         let cwd = std::env::current_dir().ok();
         let candidates = [
             resource,
-            cwd.as_ref().map(|p| p.join("data").join("players").join("free_agents.json")),
-            cwd.as_ref().map(|p| p.join("..").join("data").join("players").join("free_agents.json")),
-            cwd.as_ref().map(|p| p.join("src-tauri").join("data").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("data").join("world").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("..").join("data").join("world").join("players").join("free_agents.json")),
+            cwd.as_ref().map(|p| p.join("src-tauri").join("data").join("world").join("players").join("free_agents.json")),
         ];
 
         for path in candidates.iter().flatten() {
@@ -387,12 +387,12 @@ pub fn load_free_agent_players() -> &'static Vec<Player> {
             }
         }
 
-        warn!("[game] data/players/free_agents.json not found — using empty pool");
+        warn!("[game] data/world/players/free_agents.json not found — using empty pool");
         Vec::new()
     })
 }
 
-/// Inject players from `data/players/free_agents.json` into the player list.
+/// Inject players from `data/world/players/free_agents.json` into the player list.
 /// Deduplicates by player ID to avoid collisions with competition-loaded players.
 pub fn inject_json_free_agents(players: &mut Vec<Player>) {
     let mut existing_ids: HashSet<String> = players.iter().map(|p| p.id.clone()).collect();

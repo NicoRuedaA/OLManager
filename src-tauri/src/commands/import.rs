@@ -114,9 +114,9 @@ pub struct CatalogStaff {
 // Writable destination directories (shared with competitions + asset protocol)
 // ---------------------------------------------------------------------------
 
-/// Writable `data/` directory the import extracts into and the loaders prefer.
+/// Writable `data/world/` directory the import extracts into and the loaders prefer.
 pub fn writable_data_dir(app_handle: &tauri::AppHandle) -> Result<PathBuf, String> {
-    Ok(app_data_dir(app_handle)?.join("data"))
+    Ok(app_data_dir(app_handle)?.join("data").join("world"))
 }
 
 /// Writable `public/` directory imported photos are extracted into.
@@ -484,7 +484,7 @@ fn import_zip_safely(bytes: &[u8], app_handle: &tauri::AppHandle) -> Result<Impo
     );
     install_staged_import(&app_dir, &staging_root)?;
 
-    let data_dir = app_dir.join("data");
+    let data_dir = app_dir.join("data").join("world");
     let public_dir = app_dir.join("public");
     let skipped = summary.skipped;
     summary = catalog_summary(&data_dir, &public_dir);
@@ -574,9 +574,11 @@ fn validate_import_summary(summary: &ImportSummary) -> Result<(), String> {
 
 fn install_staged_import(app_dir: &Path, staging_root: &Path) -> Result<(), String> {
     let backup_root = app_dir.join(format!(".import-backup-{}", timestamp_millis()));
-    let data_dir = app_dir.join("data");
+    let data_dir = app_dir.join("data").join("world");
     let public_dir = app_dir.join("public");
     let staging_data = staging_root.join("data");
+    // staging/data contains extracted entries (data/players/... → staging/data/players/...)
+    // replace_dir renames staging/data → app_dir/data/world
     let staging_public = staging_root.join("public");
 
     std::fs::create_dir_all(&backup_root).map_err(|e| format!("mkdir {backup_root:?}: {e}"))?;

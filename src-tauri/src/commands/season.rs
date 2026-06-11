@@ -23,8 +23,8 @@ fn resolve_schedule_config(
     // First try: data dir relative to the executable (Tauri build)
     let exe_dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
     let relative_paths = [
-        exe_dir.join("data").join("competitions").join(competition_id).join("manifest.json"),
-        exe_dir.join("src-tauri").join("data").join("competitions").join(competition_id).join("manifest.json"),
+        exe_dir.join("data").join("world").join("competitions").join(competition_id).join("manifest.json"),
+        exe_dir.join("src-tauri").join("data").join("world").join("competitions").join(competition_id).join("manifest.json"),
     ];
     for p in &relative_paths {
         if let Ok(json) = std::fs::read_to_string(p) {
@@ -37,8 +37,8 @@ fn resolve_schedule_config(
     // Fallback: try current working directory paths (dev mode)
     if let Ok(cwd) = std::env::current_dir() {
         let cwd_paths = [
-            cwd.join("data").join("competitions").join(competition_id).join("manifest.json"),
-            cwd.join("src-tauri").join("data").join("competitions").join(competition_id).join("manifest.json"),
+            cwd.join("data").join("world").join("competitions").join(competition_id).join("manifest.json"),
+            cwd.join("src-tauri").join("data").join("world").join("competitions").join(competition_id).join("manifest.json"),
         ];
         for p in &cwd_paths {
             if let Ok(json) = std::fs::read_to_string(p) {

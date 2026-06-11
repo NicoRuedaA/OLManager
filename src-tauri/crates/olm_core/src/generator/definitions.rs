@@ -105,7 +105,7 @@ pub struct PlayoffConfig {
 // Team / player / staff data file types (Flow C — per-competition JSON)
 // ---------------------------------------------------------------------------
 
-/// Wrapper for `data/teams/*.json` files.
+/// Wrapper for `data/world/teams/*.json` files.
 /// Supports both the full `crate::domain::team::Team` format (with `name`/`description`)
 /// and the simplified format (with `competition_id`).
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -119,7 +119,7 @@ pub struct TeamDataFile {
     pub teams: Vec<crate::domain::team::Team>,
 }
 
-/// Wrapper for `data/players/*.json` files.
+/// Wrapper for `data/world/players/*.json` files.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayerDataFile {
     #[serde(default)]
@@ -131,7 +131,7 @@ pub struct PlayerDataFile {
     pub players: Vec<crate::domain::player::Player>,
 }
 
-/// Wrapper for `data/staffs/free_agents.json`.
+/// Wrapper for `data/world/staffs/free_agents.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StaffDataFile {
     #[serde(default)]

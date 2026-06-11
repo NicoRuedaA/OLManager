@@ -176,7 +176,7 @@ fn resolve_staff_file(
     conventional.is_file().then_some(conventional)
 }
 
-/// Load free agent staff from `data/staffs/free_agents.json`.
+/// Load free agent staff from `data/world/staffs/free_agents.json`.
 pub fn load_staff_free_agents(data_base: &Path) -> Result<Vec<Staff>, String> {
     let staff_path = data_base.join("staffs").join("free_agents.json");
     let json = std::fs::read_to_string(&staff_path)

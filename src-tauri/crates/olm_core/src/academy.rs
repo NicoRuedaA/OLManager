@@ -404,12 +404,14 @@ pub fn academy_seed_catalog() -> &'static Vec<AcademyTeamSeed> {
         let comps_dir = {
             let mut d = cwd.clone();
             d.push("data");
+            d.push("world");
             d.push("competitions");
             if d.is_dir() { d }
             else {
                 d = cwd;
                 d.push("..");
                 d.push("data");
+                d.push("world");
                 d.push("competitions");
                 if d.is_dir() { d } else { return vec![] }
             }
@@ -513,7 +515,7 @@ pub fn academy_seed_catalog() -> &'static Vec<AcademyTeamSeed> {
 // ERL league catalog — reads tier 2+ competition manifests
 // ---------------------------------------------------------------------------
 
-/// Scan `data/competitions/` for tier 2+ manifests and build ErlLeagueDefinition entries.
+/// Scan `data/world/competitions/` for tier 2+ manifests and build ErlLeagueDefinition entries.
 pub fn academy_erl_catalog() -> &'static [ErlLeagueDefinition] {
     static CATALOG: OnceLock<Vec<ErlLeagueDefinition>> = OnceLock::new();
     CATALOG.get_or_init(catalogs_from_tier2_manifests)
@@ -529,12 +531,14 @@ fn catalogs_from_tier2_manifests() -> Vec<ErlLeagueDefinition> {
     let comps_dir = {
         let mut d = cwd.clone();
         d.push("data");
+        d.push("world");
         d.push("competitions");
         if d.is_dir() { d }
         else {
             d = cwd;
             d.push("..");
             d.push("data");
+            d.push("world");
             d.push("competitions");
             if d.is_dir() { d } else { return vec![] }
         }

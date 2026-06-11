@@ -2,7 +2,7 @@
 //! the frontend's public asset dirs.
 //!
 //! The export zip has this top-level shape:
-//!   data/competitions/**, data/teams/**, data/players/**, data/staffs/**, ...
+//!   data/world/competitions/**, data/world/teams/**, data/world/players/**, data/world/staffs/**, ...
 //!   public/player-photos/**, public/teams-icons/**, public/staff-icons/**
 //!   _meta.json
 //!
@@ -77,7 +77,7 @@ const PUBLIC_PHOTO_DIRS: [&str; 4] = [
 fn data_dir() -> PathBuf {
     std::env::var("OLM_DATA_DIR")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| PathBuf::from("data"))
+        .unwrap_or_else(|_| PathBuf::from("data").join("world"))
 }
 
 fn public_dir() -> PathBuf {
