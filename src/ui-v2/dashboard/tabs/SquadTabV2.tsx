@@ -310,7 +310,7 @@ export function SquadTabV2({
                 const annualWage = player.wage;
 
                 return (
-                  <div key={slot.role} className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/30">
+                  <div key={slot.role} onClick={(e) => { if (!(e.target as HTMLElement).closest("select,button")) onSelectPlayer(player.id); }} className="flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/30">
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-md border border-border bg-muted/50">
                       <img src={ROLE_ICON_URLS[slot.role]} alt={roleLabel} className="size-4 object-contain opacity-80" />
                     </div>

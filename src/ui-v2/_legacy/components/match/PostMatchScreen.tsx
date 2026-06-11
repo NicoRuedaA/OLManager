@@ -12,7 +12,7 @@ import {
 } from "@/ui-v2/_legacy/components/match/types";
 import { getEventDisplay, getPlayerName } from "@/ui-v2/_legacy/components/match/helpers";
 import { getTalkIcon } from "@/ui-v2/_legacy/components/match/TeamTalkIcons";
-import { Badge, ThemeToggle } from "@/ui-v2/_legacy/components/ui";
+import { Badge } from "@/ui-v2/_legacy/components/ui";
 import {
   QuickStat,
   renderScorers,
@@ -308,7 +308,7 @@ export default function PostMatchScreen({
         }`}
       >
         <div className="max-w-5xl mx-auto text-center relative">
-          <ThemeToggle className="absolute right-0 top-0" />
+
           {/* Result badge */}
           {!isSpectator && userSide && (
             <div className="mb-4">

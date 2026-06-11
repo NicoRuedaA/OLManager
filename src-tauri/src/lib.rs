@@ -130,12 +130,7 @@ pub fn run() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
-            list_world_databases,
             start_new_game_lightweight,
-            export_world_database,
-            write_temp_database,
-            load_world_editor_database,
-            save_world_editor_database,
             select_team,
             get_saves,
             load_game,
@@ -239,9 +234,6 @@ pub fn run() {
             sim_live_dispose,
             sim_live_run_to_completion,
             sim_live_skip_to_end,
-            save_manager_avatar,
-            load_manager_avatar,
-            update_manager_profile,
             auto_import_database,
             import_export_zip,
             import_cached_export,

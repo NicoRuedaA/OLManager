@@ -6,7 +6,7 @@ import { mapRuntimeEventsToMatchEvents, mergeRuntimeEventsIntoSnapshot } from "@
 import { buildPressConferenceQuestions } from "@/ui-v2/_legacy/components/match/pressConferenceContent";
 import type { MatchSnapshot } from "@/ui-v2/_legacy/components/match/types";
 import type { GameStateData } from "@/store/gameStore";
-import { ThemeProvider } from "@/context/ThemeContext";
+
 import { invoke } from "@tauri-apps/api/core";
 import { SOCIAL_CONTENT_PACK } from "@/content/lol/social/content";
 
@@ -400,14 +400,12 @@ describe("PressConference LoL social content", () => {
 
   it("submits stable effect_id values while preserving text for news generation", async () => {
     render(
-      <ThemeProvider>
         <PressConference
           snapshot={makeObjectiveWinSnapshot()}
           gameState={makeGameState()}
           userSide="Home"
           onFinish={vi.fn()}
-        />
-      </ThemeProvider>,
+        />,
     );
 
     for (let index = 0; index < 3; index += 1) {

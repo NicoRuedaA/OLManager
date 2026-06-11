@@ -3,7 +3,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { useTranslation } from "react-i18next";
 import { GameStateData } from "@/store/gameStore";
 import { MatchSnapshot } from "@/ui-v2/_legacy/components/match/types";
-import { Badge, ThemeToggle } from "@/ui-v2/_legacy/components/ui";
+import { Badge } from "@/ui-v2/_legacy/components/ui";
 import { ChevronRight, Mic, MessageSquare } from "lucide-react";
 import { buildPressConferenceQuestions } from "@/ui-v2/_legacy/components/match/pressConferenceContent";
 import { cn } from "@/ui-v2/lib/utils";
@@ -186,7 +186,7 @@ export default function PressConference({
     <div className="min-h-0 flex-1 bg-background text-foreground flex flex-col overflow-y-auto">
       <header className="border-b border-border bg-card px-4 py-6">
         <div className="max-w-3xl mx-auto text-center relative">
-          <ThemeToggle className="absolute right-0 top-0" />
+
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-muted rounded-full mb-3">
             <Mic className="w-4 h-4 text-accent-400" />
             <span className="font-heading font-bold text-xs uppercase tracking-widest text-muted-foreground">

@@ -3,7 +3,7 @@ use olm_core::domain::player::Player;
 use olm_core::domain::staff::Staff;
 use olm_core::domain::team::{Team, TeamKind};
 use olm_core::domain::stats::LolRole;
-use log::info;
+use log::{info, warn};
 use serde::Serialize;
 use std::path::PathBuf;
 use tauri::Manager as TauriManager;
@@ -18,8 +18,6 @@ use olm_core::game_setup;
 use olm_core::state::StateManager;
 
 use crate::SaveManagerState;
-use crate::application::game_setup::avatar;
-use crate::error::AppError;
 use validator::Validate;
 
 #[derive(Debug, Clone, Serialize)]
@@ -67,14 +65,20 @@ fn assemble_world_from_modular_data(
         let cid = &manifest.id;
         let prefix = format!("{}-", cid);
 
-        if let Ok(mut comp_teams) = crate::commands::competitions::load_competition_teams(app_handle, manifest) {
-            for team in &mut comp_teams {
-                if !team.id.starts_with(&prefix) {
-                    team.id = format!("{}{}", prefix, team.id);
+        match crate::commands::competitions::load_competition_teams(app_handle, manifest) {
+            Ok(mut comp_teams) => {
+                for team in &mut comp_teams {
+                    if !team.id.starts_with(&prefix) {
+                        team.id = format!("{}{}", prefix, team.id);
+                    }
+                    team.competition_id = Some(cid.to_string());
                 }
-                team.competition_id = Some(cid.to_string());
+                all_teams.extend(comp_teams);
             }
-            all_teams.extend(comp_teams);
+            Err(err) => {
+                eprintln!("[game] FAILED to load teams for '{}': {}", cid, err);
+                info!("[game] FAILED to load teams for '{}': {}", cid, err);
+            }
         }
         let player_count_before = all_players.len();
         match crate::commands::competitions::load_competition_players(app_handle, manifest) {
@@ -99,8 +103,10 @@ fn assemble_world_from_modular_data(
 
         // Load competition staff
         let staff_count_before = staff.len();
+        eprintln!("[game] loading staff for '{}': staff_file={:?}", cid, manifest.staff_file);
         match crate::commands::competitions::load_competition_staff(app_handle, manifest) {
             Ok(comp_staff) => {
+                eprintln!("[game] loaded {} staff for '{}'", comp_staff.len(), cid);
                 for mut s in comp_staff {
                     if let Some(ref tid) = s.team_id.clone() {
                         if !tid.starts_with(&prefix) {
@@ -111,10 +117,12 @@ fn assemble_world_from_modular_data(
                 }
             }
             Err(err) => {
+                eprintln!("[game] FAILED to load staff for '{}': {}", cid, err);
                 info!("[game] FAILED to load staff for '{}': {}", cid, err);
             }
         }
         let loaded_staff = staff.len() - staff_count_before;
+        eprintln!("[game] total staff count after '{}': {}", cid, staff.len());
         info!("[game] loaded {} staff for '{}'", loaded_staff, cid);
     }
 
@@ -269,6 +277,7 @@ pub async fn select_team(
         let roles = [LolRole::Top, LolRole::Jungle, LolRole::Mid, LolRole::Adc, LolRole::Support];
         if let Some(user_team) = game.teams.iter_mut().find(|t| t.id == team_id) {
             let mut used = std::collections::HashSet::new();
+            let mut missing_roles = Vec::new();
             let lineup: Vec<String> = roles.iter().map(|role| {
                 let candidates: Vec<&str> = game.players.iter()
                     .filter(|p| {
@@ -281,18 +290,19 @@ pub async fn select_team(
                 candidates.first().map(|id| {
                     used.insert(id.to_string());
                     id.to_string()
-                }).unwrap_or_default()
+                }).unwrap_or_else(|| {
+                    missing_roles.push(format!("{:?}", role));
+                    String::new()
+                })
             }).collect();
-            eprintln!("[select_team] auto_lineup: {:?} (roles: {:?})", lineup, roles);
-            eprintln!("[select_team] roster_roles: {:?}", game.players.iter()
-                .filter(|p| p.team_id.as_deref() == Some(&team_id))
-                .map(|p| format!("{} pos={:?} nat={:?}", p.id, p.position, p.natural_position))
-                .collect::<Vec<_>>());
+            if !missing_roles.is_empty() {
+                warn!("[select_team] auto_lineup: missing players for roles: {:?}", missing_roles);
+            }
             if lineup.iter().all(|id| !id.is_empty()) {
                 user_team.active_lineup_ids = lineup;
-                eprintln!("[select_team] active_lineup_ids set to {:?}", user_team.active_lineup_ids);
+                info!("[select_team] active_lineup_ids set to {:?}", user_team.active_lineup_ids);
             } else {
-                eprintln!("[select_team] WARNING: auto_lineup incomplete, setting empty");
+                warn!("[select_team] auto_lineup incomplete ({}/5 roles filled), setting empty lineup — user must configure manually", roles.len() - missing_roles.len());
                 user_team.active_lineup_ids = vec![];
             }
         }
@@ -350,7 +360,8 @@ pub async fn select_team(
         let split = &schedule_config.splits[0];
         let season_start = chrono::Utc
             .with_ymd_and_hms(season_year, split.season_start.month, split.season_start.day, 0, 0, 0)
-            .unwrap();
+            .single()
+            .unwrap_or(chrono::Utc.with_ymd_and_hms(season_year, 1, 18, 0, 0, 0).unwrap());
         let num_friendlies = schedule_config.preseason_friendlies as usize;
         if num_friendlies > 0 {
             if user_cid == Some(cid.as_str()) {
@@ -471,13 +482,16 @@ pub async fn select_team(
     // For schedule message, compute season start from user competition manifest or fallback
     let season_start_str = if let Some(cid) = user_cid {
         if let Ok(m) = crate::commands::competitions::load_competition_manifest(&app_handle, cid) {
-            let split = &m.schedule.splits[0];
-            format!(
-                "{} {}, {}",
-                chrono::Month::try_from(split.season_start.month as u8).map(|mon| mon.name()).unwrap_or("January"),
-                split.season_start.day,
-                season_year
-            )
+            if let Some(split) = m.schedule.splits.first() {
+                format!(
+                    "{} {}, {}",
+                    chrono::Month::try_from(split.season_start.month as u8).map(|mon| mon.name()).unwrap_or("January"),
+                    split.season_start.day,
+                    season_year
+                )
+            } else {
+                format!("January 18, {}", season_year)
+            }
         } else {
             format!("January 18, {}", season_year)
         }
@@ -742,197 +756,12 @@ pub async fn exit_to_menu(
     Ok(())
 }
 
-/// Save manager avatar file to app data directory
-#[tauri::command]
-pub async fn save_manager_avatar(
-    app_handle: tauri::AppHandle,
-    filename: String,
-    data: Vec<u8>,
-) -> Result<String, AppError> {
-    info!("[cmd] save_manager_avatar: filename={}", filename);
-
-    let safe_name = avatar::safe_avatar_filename(&filename)?;
-
-    let app_data_dir = app_handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
-
-    let avatar_dir = app_data_dir.join("manager-avatars");
-    std::fs::create_dir_all(&avatar_dir)
-        .map_err(|e| AppError::Io(format!("Failed to create avatar directory: {}", e)))?;
-
-    let file_path = avatar_dir.join(&safe_name);
-    // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path
-        .canonicalize()
-        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
-    let canonical_dir = avatar_dir
-        .canonicalize()
-        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
-    if !canonical.starts_with(&canonical_dir) {
-        return Err(AppError::Validation(
-            "Avatar path traversal detected".into(),
-        ));
-    }
-
-    std::fs::write(&file_path, &data)
-        .map_err(|e| AppError::Io(format!("Failed to write avatar file: {}", e)))?;
-
-    info!("[cmd] save_manager_avatar: saved to {:?}", file_path);
-    Ok(safe_name)
-}
-
-/// Load manager avatar as base64 data URL
-#[tauri::command]
-pub async fn load_manager_avatar(
-    app_handle: tauri::AppHandle,
-    filename: String,
-) -> Result<String, AppError> {
-    info!("[cmd] load_manager_avatar: filename={}", filename);
-
-    let safe_name = avatar::safe_avatar_filename(&filename)?;
-
-    let app_data_dir = app_handle
-        .path()
-        .app_data_dir()
-        .map_err(|e| AppError::Io(format!("Failed to get app data dir: {}", e)))?;
-
-    let avatar_dir = app_data_dir.join("manager-avatars");
-    let file_path = avatar_dir.join(&safe_name);
-    // Extra safety: verify resolved path is within the avatar directory
-    let canonical = file_path
-        .canonicalize()
-        .map_err(|e| AppError::Io(format!("Failed to resolve avatar path: {}", e)))?;
-    let canonical_dir = avatar_dir
-        .canonicalize()
-        .map_err(|e| AppError::Io(format!("Failed to resolve avatar directory: {}", e)))?;
-    if !canonical.starts_with(&canonical_dir) {
-        return Err(AppError::Validation(
-            "Avatar path traversal detected".into(),
-        ));
-    }
-
-    if !file_path.exists() {
-        return Err(AppError::NotFound(format!(
-            "Avatar file not found: {}",
-            safe_name
-        )));
-    }
-
-    let data = std::fs::read(&file_path)
-        .map_err(|e| AppError::Io(format!("Failed to read avatar file: {}", e)))?;
-
-    // Determine MIME type from extension
-    let mime_type = match safe_name.rsplit('.').next() {
-        Some("png") => "image/png",
-        Some("jpg") | Some("jpeg") => "image/jpeg",
-        Some("webp") => "image/webp",
-        _ => "application/octet-stream",
-    };
-
-    // Use modern base64 API (0.22+)
-    use base64::Engine;
-    let base64_data = base64::engine::general_purpose::STANDARD.encode(&data);
-    let data_url = format!("data:{};base64,{}", mime_type, base64_data);
-
-    info!("[cmd] load_manager_avatar: loaded {} bytes", data.len());
-    Ok(data_url)
-}
-
-/// Validated input for updating manager profile fields.
-#[derive(Debug, validator::Validate)]
-#[allow(dead_code)]
-struct ManagerProfileInput {
-    #[validate(length(max = 30))]
-    nickname: Option<String>,
-    #[validate(length(max = 30))]
-    first_name: Option<String>,
-    #[validate(length(max = 30))]
-    last_name: Option<String>,
-    #[validate(custom(function = "validate_date_format"))]
-    dob: Option<String>,
-    #[validate(length(max = 3))]
-    nationality: Option<String>,
-    avatar_path: Option<String>,
-}
-
 fn validate_date_format(date: &str) -> Result<(), validator::ValidationError> {
     if chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d").is_ok() {
         Ok(())
     } else {
         Err(validator::ValidationError::new("invalid_date_format"))
     }
-}
-
-/// Update manager profile fields (nickname, name, dob, nationality, avatar)
-#[tauri::command]
-pub async fn update_manager_profile(
-    state: State<'_, StateManager>,
-    nickname: Option<String>,
-    first_name: Option<String>,
-    last_name: Option<String>,
-    dob: Option<String>,
-    nationality: Option<String>,
-    avatar_path: Option<String>,
-) -> Result<(), AppError> {
-    info!("[cmd] update_manager_profile");
-
-    // Validate input
-    let input = ManagerProfileInput {
-        nickname: nickname.clone(),
-        first_name: first_name.clone(),
-        last_name: last_name.clone(),
-        dob: dob.clone(),
-        nationality: nationality.clone(),
-        avatar_path: avatar_path.clone(),
-    };
-    input
-        .validate()
-        .map_err(|e| AppError::Validation(format!("Validation failed: {}", e)))?;
-
-    let mut game = state
-        .get_game(|g: &Game| g.clone())
-        .ok_or(AppError::Session("No active game session".into()))?;
-
-    // Update only the provided fields (not None)
-    if let Some(nick) = nickname {
-        let trimmed = nick.trim().to_string();
-        if !trimmed.is_empty() {
-            game.manager.nickname = trimmed;
-        }
-    }
-    if let Some(first) = first_name {
-        let trimmed = first.trim().to_string();
-        if !trimmed.is_empty() {
-            game.manager.first_name = trimmed;
-        }
-    }
-    if let Some(last) = last_name {
-        let trimmed = last.trim().to_string();
-        if !trimmed.is_empty() {
-            game.manager.last_name = trimmed;
-        }
-    }
-    if let Some(date) = dob {
-        // Already validated by validator custom function
-        game.manager.date_of_birth = date;
-    }
-    if let Some(nat) = nationality {
-        let trimmed = nat.trim().to_string();
-        if !trimmed.is_empty() {
-            game.manager.nationality = trimmed;
-        }
-    }
-    if let Some(avatar) = avatar_path {
-        game.manager.avatar_path = Some(avatar);
-    }
-
-    // Save the game state back
-    state.set_game(game.clone());
-
-    info!("[cmd] update_manager_profile: completed");
-    Ok(())
 }
 
 /// Diagnostic: verify the current set of know.enums is consistent.

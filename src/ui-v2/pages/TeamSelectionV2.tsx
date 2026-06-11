@@ -29,6 +29,7 @@ export default function TeamSelectionV2() {
   useEffect(() => {
     loadLeagueSelectionData()
       .then((data) => {
+        console.log("[LeagueDebug] RAW from backend:", data.competitions.map(c => ({ id: c.id, name: c.name, legacy: c.legacy, tier: c.tier, team_count: c.team_count })));
         setLeagueData(data);
         setScreen(data.competitions.length > 0 ? "league" : "error");
       })
@@ -39,7 +40,11 @@ export default function TeamSelectionV2() {
       });
   }, []);
 
-  const activeCompetitions = useMemo(() => (leagueData?.competitions ?? []).filter((c) => !c.legacy), [leagueData]);
+  const activeCompetitions = useMemo(() => {
+    const filtered = (leagueData?.competitions ?? []).filter((c) => !c.legacy);
+    console.log("[LeagueDebug] FILTERED:", filtered.map(c => ({ id: c.id, name: c.name, legacy: c.legacy })));
+    return filtered;
+  }, [leagueData]);
 
   const handleLeagueSelect = (id: string) => {
     setSelectedCompetitionId(id);

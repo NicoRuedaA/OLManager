@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { getTeamName } from "@/lib/common/helpers";
 import type { PlayerData, TeamData, ChampionData } from "@/store/gameStore";
 import type { MatchModeType } from "@/hooks/useAdvanceTime";
-import { Badge, ThemeToggle } from "@/ui-v2/_legacy/components/ui";
+import { Badge } from "@/ui-v2/_legacy/components/ui";
 import { translatePositionAbbreviation } from "@/ui-v2/_legacy/components/squad/SquadTab.helpers";
 import { getPlayerBadgeVariant } from "@/ui-v2/_legacy/components/dashboard/dashboardHelpers";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
@@ -431,7 +431,7 @@ export default function DashboardHeader({
       </div>
 
       <div className="flex items-center gap-3">
-        <ThemeToggle />
+
         <button
           onClick={onSave}
           disabled={isSaving}

@@ -678,6 +678,9 @@ export function TransfersTabV2({
                   {view === "offers" && (
                     <TableHead className="text-center">{t("transfers.offers")}</TableHead>
                   )}
+                  {(view === "market" || view === "erl" || view === "loans") && (
+                    <TableHead className="text-center">{t("transfers.actions")}</TableHead>
+                  )}
                   
                 </TableRow>
               </TableHeader>
@@ -751,8 +754,8 @@ export function TransfersTabV2({
                           {ovr}
                         </span>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex flex-wrap gap-1">
+                      <TableCell className="text-center">
+                        <div className="flex flex-wrap justify-center gap-1">
                           {player.transfer_listed && (
                             <Badge variant="secondary" className="text-[10px]">
                               {t("transfers.transfer")}
@@ -823,16 +826,6 @@ export function TransfersTabV2({
                               ))}
                             </div>
                           )}
-                        </TableCell>
-                      )}
-                      {(view === "market" || view === "erl" || view === "loans") && (
-                        <TableCell className="text-center">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); openBidNegotiation(player); }}
-                            className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-primary/10 px-2.5 py-1 text-xs font-heading uppercase tracking-wider text-primary transition-all hover:bg-primary/20"
-                          >
-                            <Gavel className="size-3" /> {t("transfers.bid")}
-                          </button>
                         </TableCell>
                       )}
                     </TableRow>

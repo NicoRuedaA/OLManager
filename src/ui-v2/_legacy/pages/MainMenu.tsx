@@ -5,8 +5,8 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useGameStore } from "@/store/gameStore";
-import { useSettingsStore } from "@/store/settingsStore";
-import { Button, ThemeToggle, DatePicker, CountryFlag } from "@/ui-v2/_legacy/components/ui";
+
+import { Button, DatePicker, CountryFlag } from "@/ui-v2/_legacy/components/ui";
 import SavesList from "@/ui-v2/_legacy/components/menu/SavesList";
 import MenuBackground from "@/ui-v2/_legacy/components/menu/MenuBackground";
 import CommunityPanel from "@/ui-v2/_legacy/components/menu/CommunityPanel";
@@ -22,7 +22,6 @@ import {
   ChevronDown,
   Check,
   Power,
-  Database,
   Users,
   Newspaper,
 } from "lucide-react";
@@ -117,9 +116,6 @@ function logNationalityDebug(
 export default function MainMenu() {
   const navigate = useNavigate();
   const setGameActive = useGameStore((state) => state.setGameActive);
-  const debugToolsEnabled = useSettingsStore(
-    (state) => state.settings.debug_tools_enabled,
-  );
   const { t, i18n } = useTranslation();
   const isWebSession = false;
   const [menuState, setMenuState] = useState<
@@ -384,14 +380,11 @@ export default function MainMenu() {
       { icon: <Users />, label: t("menu.community", "Comunidad"), active: menuState === "community", onClick: () => setMenuState("community") },
       { icon: <Newspaper />, tone: "muted" as const, label: t("menu.patchNotes", "Novedades"), active: menuState === "patchnotes", onClick: () => setMenuState("patchnotes") },
     ];
-    if (debugToolsEnabled) {
-      items.push({ icon: <Database />, tone: "primary" as const, label: "World Editor", title: "World Editor", onClick: () => navigate("/world-editor") });
-    }
     if (!isWebSession) {
       items.push({ icon: <Power />, tone: "danger" as const, label: t("menu.exitGame"), onClick: () => { void handleExitApp(); } });
     }
     return items;
-  }, [t, menuState, debugToolsEnabled, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
+  }, [t, menuState, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -473,7 +466,7 @@ export default function MainMenu() {
       <MenuBackground />
 
       {/* Theme Toggle */}
-      <ThemeToggle className="absolute top-6 right-6 z-20" />
+
 
       {/* Two-column layout: persistent nav on the left, active panel on the right */}
       <div className="relative z-10 h-full flex">
@@ -859,7 +852,7 @@ export default function MainMenu() {
                                 className="w-full bg-white/5 border border-white/10 text-white rounded-md px-3 py-2 text-sm outline-none focus:border-accent-400 transition-colors placeholder:text-gray-500"
                               />
                             </div>
-                            <div id="nationality-dropdown-list" className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain">
+                            <div id="nationality-dropdown-list" className="max-h-[min(20rem,calc(100vh-9rem))] overflow-y-auto overscroll-contain scrollbar-v2">
                               {filteredNationalities.length === 0 ? (
                                 <p className="px-3 py-2 text-xs text-gray-400">
                                   {t("menu.noResults")}
@@ -1038,20 +1031,20 @@ function DropdownList({
     setFocusIdx(0);
   }, [items.length]);
 
-  useEffect(() => {
-    if (items.length === 0) return;
-    const btns = listRef.current?.querySelectorAll<HTMLButtonElement>("button");
-    btns?.[focusIdx]?.focus();
-  }, [focusIdx, items.length]);
-
   return (
     <div ref={listRef} onKeyDown={(e) => {
       if (e.key === "ArrowDown") {
         e.preventDefault();
-        setFocusIdx((prev) => Math.min(prev + 1, items.length - 1));
+        const next = Math.min(focusIdx + 1, items.length - 1);
+        setFocusIdx(next);
+        const btns = listRef.current?.querySelectorAll<HTMLButtonElement>("button");
+        btns?.[next]?.focus();
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        setFocusIdx((prev) => Math.max(prev - 1, 0));
+        const next = Math.max(focusIdx - 1, 0);
+        setFocusIdx(next);
+        const btns = listRef.current?.querySelectorAll<HTMLButtonElement>("button");
+        btns?.[next]?.focus();
       } else if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         if (items[focusIdx]) onSelect(items[focusIdx].code);

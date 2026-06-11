@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { ThemeToggle } from "@/ui-v2/_legacy/components/ui";
 
 interface MatchScreenLayoutProps {
   children: ReactNode;
@@ -9,8 +8,7 @@ interface MatchScreenLayoutProps {
   header?: ReactNode;
   headerClassName?: string;
   headerContentClassName?: string;
-  showThemeToggle?: boolean;
-  themeToggleClassName?: string;
+
 }
 
 function joinClasses(...classes: Array<string | false | null | undefined>): string {
@@ -24,8 +22,6 @@ export default function MatchScreenLayout({
   header,
   headerClassName,
   headerContentClassName,
-  showThemeToggle = true,
-  themeToggleClassName,
 }: MatchScreenLayoutProps) {
   return (
     <div className="min-h-0 flex-1 bg-background text-foreground flex flex-col">
@@ -49,11 +45,7 @@ export default function MatchScreenLayout({
 
       <div className={joinClasses("flex-1", contentClassName)}>{children}</div>
 
-      {showThemeToggle && (
-        <div className="flex justify-center py-4">
-          <ThemeToggle className={themeToggleClassName} />
-        </div>
-      )}
+
 
       {footer}
     </div>

@@ -58,23 +58,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Deploy to Hetzner
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.HETZNER_HOST }}
-          username: ${{ secrets.HETZNER_USER }}
-          key: ${{ secrets.HETZNER_SSH_KEY }}
-          script: |
-            set -e
-            cd /opt/olmanager-server
-
-            docker compose pull backend frontend
-
-            docker compose up -d backend frontend
-
-            docker image prune -f
-
-      - name: Health check
-        run: |
-          sleep 15
+      - name: Build Tauri app
+        run: npm run tauri build
           curl -f https://olmanager.nicorueda.dev/health || exit 1

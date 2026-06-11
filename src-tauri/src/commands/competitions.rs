@@ -19,12 +19,9 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     info!("[competitions] cwd: {:?}", cwd);
 
     let candidates: Vec<Option<PathBuf>> = vec![
-        // Imported OLMDBManager data (writable app-data dir) takes precedence.
-        app_handle
-            .path()
-            .app_data_dir()
-            .ok()
-            .map(|dir| dir.join("data").join("competitions")),
+        // Project-local data takes precedence during development.
+        Some(cwd.join("..").join("data").join("competitions")),
+        Some(cwd.join("data").join("competitions")),
         // Tauri rewrites the leading `..` of bundled resource globs (e.g.
         // `../data/...`) into a literal `_up_` directory under the resource dir,
         // so the installed data lives at `<resource_dir>/_up_/data/...`.
@@ -43,8 +40,13 @@ fn resolve_competitions_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .resource_dir()
             .ok()
             .map(|dir| dir.join("data").join("competitions")),
-        Some(cwd.join("..").join("data").join("competitions")),
-        Some(cwd.join("data").join("competitions")),
+        // Imported OLMDBManager data (writable app-data dir) — last resort
+        // so stale cached copies don't shadow project changes during dev.
+        app_handle
+            .path()
+            .app_data_dir()
+            .ok()
+            .map(|dir| dir.join("data").join("competitions")),
     ];
 
     let candidate_count = candidates.len();
@@ -65,12 +67,10 @@ pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
     let cwd = std::env::current_dir().ok()?;
 
     let candidates: Vec<Option<PathBuf>> = vec![
-        // Imported OLMDBManager data (writable app-data dir) takes precedence.
-        app_handle
-            .path()
-            .app_data_dir()
-            .ok()
-            .map(|dir| dir.join("data")),
+        // Project-local data takes precedence during development.
+        Some(cwd.join("..").join("data")),
+        Some(cwd.join("data")),
+        Some(cwd.join("src-tauri").join("data")),
         // Tauri rewrites the leading `..` of bundled resource globs (e.g.
         // `../data/...`) into a literal `_up_` directory under the resource dir,
         // so the installed data lives at `<resource_dir>/_up_/data/...`.
@@ -89,9 +89,13 @@ pub fn resolve_data_base(app_handle: &tauri::AppHandle) -> Option<PathBuf> {
             .resource_dir()
             .ok()
             .map(|dir| dir.join("data")),
-        Some(cwd.join("..").join("data")),
-        Some(cwd.join("data")),
-        Some(cwd.join("src-tauri").join("data")),
+        // Imported OLMDBManager data (writable app-data dir) — last resort
+        // so stale cached copies don't shadow project changes during dev.
+        app_handle
+            .path()
+            .app_data_dir()
+            .ok()
+            .map(|dir| dir.join("data")),
     ];
 
     for candidate in candidates.into_iter().flatten() {

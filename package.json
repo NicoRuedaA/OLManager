@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "vite",
     "dev:web": "vite --mode web",
-    "dev:web:api": "cargo run --manifest-path src-tauri/Cargo.toml -p olmanager-server",
-    "dev:web:full": "sh -c 'npm run dev:web:api & api=$!; npm run dev:web & web=$!; trap \"kill $api $web 2>/dev/null\" INT TERM EXIT; wait $api $web'",
     "build": "vite build",
     "build:web": "vite build --mode web",
     "build:types": "tsc -p tsconfig.release.json",

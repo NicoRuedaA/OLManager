@@ -17,7 +17,7 @@ name = "olmanager_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [workspace]
-members = ["crates/olm_core", "crates/server"]
+members = ["crates/olm_core"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }

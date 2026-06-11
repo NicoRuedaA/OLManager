@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import PostMatchScreen from "@/ui-v2/_legacy/components/match/PostMatchScreen";
 import type { FixtureData, GameStateData } from "@/store/gameStore";
-import { ThemeProvider } from "@/context/ThemeContext";
+
 
 vi.mock("@tauri-apps/api/core", () => ({
   invoke: vi.fn(),
@@ -470,7 +470,7 @@ describe("PostMatchScreen", function (): void {
     };
 
     render(
-      <ThemeProvider>
+      
         <PostMatchScreen
           snapshot={makeSnapshot()}
           gameState={gameState}
@@ -536,7 +536,7 @@ describe("PostMatchScreen", function (): void {
           onPressConference={() => { }}
           onFinish={() => { }}
         />
-      </ThemeProvider>,
+      ,
     );
 
     expect(screen.getByText("Matchday 4")).toBeInTheDocument();
@@ -558,7 +558,7 @@ describe("PostMatchScreen", function (): void {
     };
 
     render(
-      <ThemeProvider>
+      
         <PostMatchScreen
           snapshot={makeSnapshot()}
           gameState={gameState}
@@ -597,7 +597,7 @@ describe("PostMatchScreen", function (): void {
           onPressConference={() => { }}
           onFinish={() => { }}
         />
-      </ThemeProvider>,
+      ,
     );
 
     fireEvent.click(screen.getByText("View details"));
@@ -613,7 +613,7 @@ describe("PostMatchScreen", function (): void {
 
   it("renders a friendly empty state when the round summary is null", function (): void {
     render(
-      <ThemeProvider>
+      
         <PostMatchScreen
           snapshot={makeSnapshot()}
           gameState={makeGameState()}
@@ -634,7 +634,7 @@ describe("PostMatchScreen", function (): void {
           onPressConference={() => { }}
           onFinish={() => { }}
         />
-      </ThemeProvider>,
+      ,
     );
 
     expect(screen.getByText("Other Matches")).toBeInTheDocument();

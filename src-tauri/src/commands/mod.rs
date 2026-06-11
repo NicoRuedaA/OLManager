@@ -18,8 +18,6 @@ pub mod staff;
 pub mod stats;
 pub mod time;
 pub mod transfers;
-pub mod world;
-
 pub use academy::*;
 pub use bug_report::*;
 pub use club::*;
@@ -39,7 +37,6 @@ pub use staff::*;
 pub use stats::*;
 pub use time::*;
 pub use transfers::*;
-pub use world::*;
 
 #[tauri::command]
 pub fn debug_log(message: String) {

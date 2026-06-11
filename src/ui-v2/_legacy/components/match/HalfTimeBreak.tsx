@@ -12,7 +12,7 @@ import {
 import { getEventDisplay, getPlayerName } from "@/ui-v2/_legacy/components/match/helpers";
 import { getTalkIcon } from "@/ui-v2/_legacy/components/match/TeamTalkIcons";
 import { SubPanel } from "@/ui-v2/_legacy/components/match/SubPanel";
-import { Badge, ThemeToggle } from "@/ui-v2/_legacy/components/ui";
+import { Badge } from "@/ui-v2/_legacy/components/ui";
 import {
   Play,
   RefreshCw,
@@ -154,7 +154,7 @@ export default function HalfTimeBreak({
       {/* Header scoreboard */}
       <header className="bg-linear-to-r from-gray-200 via-white to-gray-200 dark:from-navy-800 dark:via-navy-900 dark:to-navy-800 border-b border-gray-200 dark:border-navy-700 px-4 py-4 transition-colors duration-300">
         <div className="max-w-5xl mx-auto relative">
-          <ThemeToggle className="absolute right-0 top-0" />
+
           <div className="flex items-center justify-center gap-8">
             <div className="flex items-center gap-3">
               <div
