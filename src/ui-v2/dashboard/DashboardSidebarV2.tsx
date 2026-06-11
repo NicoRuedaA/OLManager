@@ -87,6 +87,7 @@ export function DashboardSidebarV2({
 
   const world: Item[] = useMemo(() => [
     { tab: "Competitions", label: t("dashboard.competitions", { defaultValue: "Competiciones" }), icon: Globe },
+    { tab: "International", label: t("dashboard.international", { defaultValue: "Internacional" }), icon: Globe },
     { tab: "Players", label: t("dashboard.players"), icon: UsersRound, badge: playerCount },
     { tab: "Teams", label: t("dashboard.teams"), icon: Building2, badge: teamCount },
     { tab: "WorldStaff", label: t("dashboard.worldStaff", { defaultValue: "Staffs" }), icon: UserCog, badge: staffCount },

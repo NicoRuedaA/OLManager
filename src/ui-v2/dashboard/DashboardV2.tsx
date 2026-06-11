@@ -62,6 +62,7 @@ import { CompetitionsTabV2 } from "./tabs/CompetitionsTabV2";
 import { MarketTabV2 } from "./tabs/MarketTabV2";
 import { ChampionsWorldTabV2 } from "./tabs/ChampionsWorldTabV2";
 import { MetaTabV2 } from "./tabs/MetaTabV2";
+import { InternationalTabV2 } from "./tabs/InternationalTabV2";
 import ChampionPageV2 from "@/ui-v2/pages/ChampionPageV2";
 import PlayerProfileV2 from "@/ui-v2/pages/PlayerProfileV2";
 import StaffProfileV2 from "@/ui-v2/pages/StaffProfileV2";
@@ -79,6 +80,7 @@ const TAB_TRANSLATION_KEYS: Record<string, string> = {
   Finances: "dashboard.finances",
   Competitions: "dashboard.competitions",
   Tournaments: "dashboard.tournaments",
+  International: "dashboard.international",
   Market: "dashboard.market",
   Transfers: "dashboard.transfers",
   Players: "dashboard.players",
@@ -647,6 +649,13 @@ export default function DashboardV2() {
               gameState={gameState}
               onSelectTeam={selectTeam}
             />
+          </div>
+        ) : profileNavigation.activeTab === "International" &&
+          !viewingChampionKey &&
+          !profileNavigation.selectedPlayerId &&
+          !profileNavigation.selectedTeamId ? (
+          <div className="flex-1 overflow-y-auto scrollbar-v2">
+            <InternationalTabV2 gameState={gameState} />
           </div>
         ) : profileNavigation.activeTab === "Market" &&
           !viewingChampionKey &&

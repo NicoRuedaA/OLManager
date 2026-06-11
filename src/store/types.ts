@@ -750,7 +750,7 @@ export interface LeagueData {
   standings: StandingData[];
   competition_id?: string | null;
   logo?: string | null;
-  league_kind?: "Main" | "Academy";
+  league_kind?: "Main" | "Academy" | "International";
 }
 
 export type SeasonPhase = "Preseason" | "InSeason" | "PostSeason";
