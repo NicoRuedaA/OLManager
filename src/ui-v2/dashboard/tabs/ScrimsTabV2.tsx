@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Brain,
@@ -62,8 +62,7 @@ function scrimFocusImpactText(t: ReturnType<typeof useTranslation>["t"], focus: 
   return t(key);
 }
 
-<<<<<<< Updated upstream
-function riskBand(opponentOvr: number, ownOvr: number, repGap: number): string {
+function riskLevel(opponentOvr: number, ownOvr: number, repGap: number): string {
   if (opponentOvr >= 80) return "Alto";
   if (opponentOvr >= 77) return "Medio";
   const gap = Math.max(opponentOvr - ownOvr, Math.round(repGap / 4));
@@ -72,11 +71,11 @@ function riskBand(opponentOvr: number, ownOvr: number, repGap: number): string {
   return "Bajo";
 }
 
-function riskColor(risk: RiskLevel): string {
+function riskColor(risk: string): string {
   switch (risk) {
-    case "high": return "text-red-400 border-red-500/30 bg-red-500/10";
-    case "medium": return "text-amber-400 border-amber-500/30 bg-amber-500/10";
-    case "low": return "text-emerald-400 border-emerald-500/30 bg-emerald-500/10";
+    case "Alto": return "text-red-400 border-red-500/30 bg-red-500/10";
+    case "Medio": return "text-amber-400 border-amber-500/30 bg-amber-500/10";
+    default: return "text-emerald-400 border-emerald-500/30 bg-emerald-500/10";
   }
 }
 
@@ -120,7 +119,10 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
   const [showCancelFollowups, setShowCancelFollowups] = useState(false);
   const reviewPhaseActive = (gameState.day_phase ?? "Morning") === "ReviewBlock";
   const remoteScrimContext = useScrimContextWithFallback(gameState);
-  const myTeam = gameState.teams.find((t) => t.id === gameState.manager.team_id);
+  const myTeam = useMemo(
+    () => gameState.teams.find((t) => t.id === gameState.manager.team_id) ?? null,
+    [gameState.teams, gameState.manager.team_id],
+  );
 
   if (!myTeam) {
     return (
@@ -130,8 +132,14 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
     );
   }
 
-  const fallbackWeekly = deriveWeeklyScrimContext(gameState, myTeam);
-  const fallbackToday = deriveTodayScrimContext(gameState, myTeam);
+  const fallbackWeekly = useMemo(
+    () => deriveWeeklyScrimContext(gameState, myTeam),
+    [gameState, myTeam],
+  );
+  const fallbackToday = useMemo(
+    () => deriveTodayScrimContext(gameState, myTeam),
+    [gameState, myTeam],
+  );
   const weeklyContext = remoteScrimContext?.week ?? (ALLOW_SCRIM_CONTEXT_FALLBACK ? fallbackWeekly : null);
   const todayContext = remoteScrimContext?.today ?? (ALLOW_SCRIM_CONTEXT_FALLBACK ? fallbackToday : null);
 
@@ -149,14 +157,22 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
   const wins = weeklyContext.wins;
   const losses = weeklyContext.losses;
   const objective = weeklyContext.objective;
-  const teamNameById = new Map(gameState.teams.map((t) => [t.id, t.name]));
+  const teamNameById = useMemo(
+    () => new Map(gameState.teams.map((t) => [t.id, t.name])),
+    [gameState.teams],
+  );
   const latestReports = weeklyContext.latestReports.slice(0, 3);
-  const todayOpponentName = (() => {
+  const todayOpponentName = useMemo(() => {
     const c = todayContext.resolvedOpponentTeamId ?? todayContext.opponentTeamId;
     return c ? teamNameById.get(c) ?? c : null;
-  })();
-  const planSignals = deriveScrimPlanSignals(gameState, myTeam.id, weeklyContext);
-  const estimatedRepGap = todayContext.opponentTeamId ? Math.max(0, planSignals.avgOpponentScrimReputation - weeklyContext.reputation) : 0;
+  }, [todayContext.resolvedOpponentTeamId, todayContext.opponentTeamId, teamNameById]);
+  const planSignals = useMemo(
+    () => deriveScrimPlanSignals(gameState, myTeam.id, weeklyContext),
+    [gameState, myTeam.id, weeklyContext],
+  );
+  const estimatedRepGap = todayContext.opponentTeamId
+    ? Math.max(0, planSignals.avgOpponentScrimReputation - weeklyContext.reputation)
+    : 0;
   const todayRisk = riskLevel(planSignals.maxOpponentOvr, planSignals.ownOvr, estimatedRepGap);
   const setupLocked = weeklyContext.setupLocked;
   const assistantControls = settings.scrim_review_mode === "assistant";
