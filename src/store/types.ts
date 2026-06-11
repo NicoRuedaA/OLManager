@@ -3,6 +3,11 @@ export interface TeamColors {
   secondary: string;
 }
 
+export type TournamentFormat =
+  | { type: "GroupsThenSingleElim"; groups: number; teams_per_group: number; knockout_teams: number; group_best_of: number; knockout_best_of: number }
+  | { type: "DoubleElimination"; teams: number; best_of: number; grand_finals_best_of: number }
+  | { type: "SwissThenKnockout"; swiss_teams: number; swiss_rounds: number; knockout_teams: number; knockout_best_of: number; has_play_in: boolean };
+
 export interface FacilitiesData {
   main_hub_level?: number;
   training: number;

@@ -1011,6 +1011,81 @@ pub fn check_international_qualification(game: &mut Game) {
     game.leagues.push(league);
 }
 
+/// Generate all international tournaments for the current year at game start.
+/// Uses descriptive placeholder team IDs (e.g. "Seed 1 LCK") instead of real teams,
+/// since cross-region team data is not loaded at game start.
+pub fn initialize_preseason_international_tournaments(game: &mut Game) {
+    use crate::schedule::generate_international_tournament;
+
+    let year = game.clock.current_date.year() as u32;
+    let season_start = game.clock.current_date;
+
+    let tournaments: Vec<(&str, &str, TournamentFormat, Vec<String>, i64)> = vec![
+        (
+            "intl_first_stand",
+            "First Stand",
+            TournamentFormat::GroupsThenSingleElim {
+                groups: 1, teams_per_group: 5, knockout_teams: 4,
+                group_best_of: 3, knockout_best_of: 5,
+            },
+            vec![
+                "Seed 1 LCK".into(), "Seed 1 LPL".into(),
+                "Seed 1 LEC".into(), "Seed 1 LTA".into(),
+                "Seed 1 LCP".into(),
+            ],
+            60, // start ~2 months in
+        ),
+        (
+            "intl_msi",
+            "MSI",
+            TournamentFormat::DoubleElimination {
+                teams: 8, best_of: 5, grand_finals_best_of: 5,
+            },
+            vec![
+                "Seed 1 LCK".into(), "Seed 2 LCK".into(),
+                "Seed 1 LPL".into(), "Seed 2 LPL".into(),
+                "Seed 1 LEC".into(), "Seed 2 LEC".into(),
+                "Seed 1 LTA".into(), "Seed 2 LTA".into(),
+            ],
+            150, // start ~5 months in
+        ),
+        (
+            "intl_worlds",
+            "Worlds",
+            TournamentFormat::SwissThenKnockout {
+                swiss_teams: 16, swiss_rounds: 5, knockout_teams: 8,
+                knockout_best_of: 5, has_play_in: true,
+            },
+            vec![
+                "Seed 1 LCK".into(), "Seed 2 LCK".into(), "Seed 3 LCK".into(), "Seed 4 LCK".into(),
+                "Seed 1 LPL".into(), "Seed 2 LPL".into(), "Seed 3 LPL".into(), "Seed 4 LPL".into(),
+                "Seed 1 LEC".into(), "Seed 2 LEC".into(), "Seed 3 LEC".into(),
+                "Seed 1 LTA".into(), "Seed 2 LTA".into(), "Seed 3 LTA".into(),
+                "Seed 1 LCP".into(), "Seed 2 LCP".into(), "Seed 3 LCP".into(),
+            ],
+            270, // start ~9 months in
+        ),
+    ];
+
+    for (id, name, format, team_ids, days_offset) in tournaments {
+        let start = season_start + chrono::Duration::days(days_offset);
+        let league = generate_international_tournament(
+            id,
+            &format!("{} {}", year, name),
+            year,
+            &team_ids,
+            &format,
+            Utc.from_utc_datetime(&start.naive_utc()),
+        );
+        log::info!(
+            "[international] preseason init: {} with {} teams",
+            name,
+            team_ids.len()
+        );
+        game.leagues.push(league);
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
