@@ -705,7 +705,7 @@ pub fn generate_swiss_stage(
         } else {
             // Subsequent rounds: placeholder teams, re-paired dynamically during simulation
             // We create empty fixture shells that get filled during simulation
-            for i in 0..n / 2 {
+            for _i in 0..n / 2 {
                 fixtures.push(build_fixture(
                     matchday,
                     date_str.clone(),
@@ -743,7 +743,7 @@ pub fn generate_international_tournament(
         TournamentFormat::GroupsThenSingleElim {
             groups,
             teams_per_group,
-            knockout_teams: _,
+            knockout_teams,
             group_best_of,
             knockout_best_of,
         } => {
@@ -753,7 +753,6 @@ pub fn generate_international_tournament(
                 "Not enough teams for groups format"
             );
 
-            // Group stage: single round-robin within each group
             let group_size = *teams_per_group as usize;
             let mut all_fixtures = Vec::new();
             let group_start = start_date;
@@ -771,6 +770,22 @@ pub fn generate_international_tournament(
                     *group_best_of,
                 );
                 all_fixtures.extend(group_league.fixtures);
+            }
+
+            // Generate placeholder knockout bracket for teams that advance from groups
+            if *knockout_teams > 0 && knockout_teams.is_power_of_two() {
+                let knockout_start = start_date + Duration::days((*groups * 14 + 7) as i64);
+                let placeholder_seeds: Vec<String> = (0..*knockout_teams)
+                    .map(|i| format!("group_adv_{}", i + 1))
+                    .collect();
+                let knockout_fixtures = generate_single_elim_bracket(
+                    &placeholder_seeds,
+                    knockout_start,
+                    (*groups as u32) * 5 + 1,
+                    *knockout_best_of,
+                    7,
+                );
+                all_fixtures.extend(knockout_fixtures);
             }
 
             all_fixtures

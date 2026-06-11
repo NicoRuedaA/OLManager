@@ -66,6 +66,8 @@ export default function Settings() {
   } = useUpdater(false);
   const [activeSettingsTab, setActiveSettingsTab] = useState("display");
   const [confirmClear, setConfirmClear] = useState(false);
+  const [importRunning, setImportRunning] = useState(false);
+  const [showImportExitConfirm, setShowImportExitConfirm] = useState(false);
   const [clearSuccess, setClearSuccess] = useState(false);
   const [exportPath, setExportPath] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(
