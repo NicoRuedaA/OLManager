@@ -1186,6 +1186,15 @@
     "staffWages": "Staff Wages",
     "standardSponsor": "Standard Sponsor",
     "recentLedger": "Registro recente",
+    "ledgerSearchLabel": "Cerca nel registro",
+    "ledgerSearchPlaceholder": "Cerca transazioni",
+    "ledgerKindFilter": "Tipo di transazione",
+    "ledgerSourceFilter": "Fonte",
+    "ledgerAllKinds": "Tutti i tipi",
+    "ledgerAllSources": "Tutte le fonti",
+    "ledgerRunningBalance": "Saldo",
+    "ledgerNoMatches": "Nessuna transazione corrisponde ai filtri.",
+    "ledgerSource": { "legacy": "Legacy", "monthly": "Mensile", "transfer": "Trasferimento", "staff": "Staff", "academy": "Academy", "facility": "Strutture", "sponsor": "Sponsor", "prize": "Premio", "board": "Direzione", "manual": "Manuale" },
     "ledgerEmpty": "Nessun movimento finanziario registrato."
   },
   "inbox": {
@@ -2416,11 +2425,21 @@
       },
       "financeWarning": {
         "subject": "Avviso finanziario — Riserve basse",
-        "body": "Le nostre riserve finanziarie si stanno assottigliando. Al ritmo attuale di spesa (€{{annualWages}}/anno di stipendi), abbiamo circa {{weeksLeft}} settimane di copertura rimanenti.\n\nTi consiglierei di rivedere il monte ingaggi e cercare modi per aumentare le entrate."
+        "body": "Le nostre riserve finanziarie si stanno assottigliando. Al ritmo attuale di spesa (€{{annualWages}}/anno di stipendi), abbiamo circa {{monthsLeft}} mesi di copertura rimanenti.\n\nTi consiglierei di rivedere il monte ingaggi e cercare modi per aumentare le entrate."
       },
       "wageOverBudget": {
         "subject": "Monte ingaggi oltre il budget",
         "body": "Il nostro monte ingaggi annuale (€{{annualWages}}) supera attualmente il budget stipendi assegnato (€{{wageBudget}}).\n\nAnche se possiamo sostenerlo nel breve periodo, il consiglio preferirebbe vedere il monte ingaggi tornare sotto controllo."
+      },
+      "finance": {
+        "sponsorAccepted": { "subject": "Accordo di sponsorizzazione firmato", "body": "La sponsorizzazione {{sponsorName}} è stata accettata. L'accordo vale €{{amount}} all'anno e verrà pagato mensilmente." },
+        "sponsorPayout": { "subject": "Pagamento sponsor ricevuto", "body": "{{sponsorName}} ha versato €{{amount}} sul conto del club questo mese." },
+        "sponsorBonus": { "subject": "Bonus sponsor attivato", "body": "I criteri bonus di {{sponsorName}} sono stati raggiunti. €{{bonusAmount}} sono inclusi nel pagamento mensile di €{{totalAmount}}." },
+        "sponsorExpired": { "subject": "Sponsorizzazione scaduta", "body": "La sponsorizzazione {{sponsorName}} è terminata. Controlla il mercato per trovare un sostituto." },
+        "facilityUpkeepSummary": { "subject": "Manutenzione strutture pagata", "body": "La manutenzione mensile delle strutture di €{{amount}} è stata pagata dal conto del club." },
+        "facilityUpkeepSpike": { "subject": "Aumento manutenzione strutture", "body": "La manutenzione delle strutture ha raggiunto €{{amount}} questo mese. I miglioramenti recenti stanno aumentando i costi operativi." },
+        "prizePayout": { "subject": "Premio confermato", "body": "Il premio della stagione {{season}} di €{{amount}} è stato assegnato per la posizione {{position}}." },
+        "boardFinancialHealth": { "subject": "Riepilogo finanziario del consiglio", "body": "Saldo attuale: €{{balance}}. Tendenza netta mensile: €{{monthlyNet}}. Autonomia stimata: {{monthsLeft}} mesi." }
       },
       "seasonPayout": {
         "subject": "Stagione {{season}} — Premio assegnato",

@@ -39,10 +39,16 @@ export type FinancialTransactionKind =
   | "Other";
 
 export interface FinancialTransactionData {
+  id?: string;
   date: string;
   description: string;
   amount: number;
   kind: FinancialTransactionKind;
+  balance_before?: number;
+  balance_after?: number;
+  source?: string;
+  source_id?: string | null;
+  correlation_id?: string | null;
 }
 
 export interface TeamSeasonRecord {

@@ -1456,6 +1456,26 @@
     "staffWages": "Staff Wages",
     "standardSponsor": "Standard Sponsor",
     "recentLedger": "Recent Ledger",
+    "ledgerSearchLabel": "Search ledger",
+    "ledgerSearchPlaceholder": "Search transactions",
+    "ledgerKindFilter": "Transaction type",
+    "ledgerSourceFilter": "Source",
+    "ledgerAllKinds": "All types",
+    "ledgerAllSources": "All sources",
+    "ledgerRunningBalance": "Balance",
+    "ledgerNoMatches": "No transactions match your filters.",
+    "ledgerSource": {
+      "legacy": "Legacy",
+      "monthly": "Monthly",
+      "transfer": "Transfer",
+      "staff": "Staff",
+      "academy": "Academy",
+      "facility": "Facility",
+      "sponsor": "Sponsor",
+      "prize": "Prize",
+      "board": "Board",
+      "manual": "Manual"
+    },
     "ledgerEmpty": "No financial ledger entries yet."
   },
   "inbox": {
@@ -2753,11 +2773,45 @@
       },
       "financeWarning": {
         "subject": "Financial Warning — Low Reserves",
-        "body": "Our financial reserves are running low. At the current burn rate (€{{annualWages}}/year in wages), we have approximately {{weeksLeft}} weeks of funding remaining.\n\nI'd recommend reviewing the wage bill and exploring ways to boost income."
+        "body": "Our financial reserves are running low. At the current burn rate (€{{annualWages}}/year in wages), we have approximately {{monthsLeft}} months of funding remaining.\n\nI'd recommend reviewing the wage bill and exploring ways to boost income."
       },
       "wageOverBudget": {
         "subject": "Wage Bill Exceeds Budget",
         "body": "Our annual wage bill (€{{annualWages}}) currently exceeds the allocated wage budget (€{{wageBudget}}).\n\nWhile we can sustain this in the short term, the board would prefer to see the wage bill brought under control."
+      },
+      "finance": {
+        "sponsorAccepted": {
+          "subject": "Sponsorship Deal Signed",
+          "body": "The {{sponsorName}} sponsorship has been accepted. The deal is worth €{{amount}} annually and will be paid monthly."
+        },
+        "sponsorPayout": {
+          "subject": "Sponsorship Payment Received",
+          "body": "{{sponsorName}} has paid €{{amount}} into the club account this month."
+        },
+        "sponsorBonus": {
+          "subject": "Sponsorship Bonus Triggered",
+          "body": "{{sponsorName}} bonus criteria were met. €{{bonusAmount}} was included in this month's €{{totalAmount}} sponsorship payment."
+        },
+        "sponsorExpired": {
+          "subject": "Sponsorship Deal Expired",
+          "body": "The {{sponsorName}} sponsorship has ended. Review the market for a replacement deal."
+        },
+        "facilityUpkeepSummary": {
+          "subject": "Facility Upkeep Paid",
+          "body": "Monthly facility upkeep of €{{amount}} has been paid from the club account."
+        },
+        "facilityUpkeepSpike": {
+          "subject": "Facility Upkeep Spike",
+          "body": "Facility upkeep reached €{{amount}} this month. Recent upgrades are increasing operating costs."
+        },
+        "prizePayout": {
+          "subject": "Prize Money Confirmed",
+          "body": "Season {{season}} prize money of €{{amount}} has been awarded for finishing {{position}}."
+        },
+        "boardFinancialHealth": {
+          "subject": "Board Financial Health Summary",
+          "body": "Current balance: €{{balance}}. Monthly net trend: €{{monthlyNet}}. Estimated runway: {{monthsLeft}} months."
+        }
       },
       "seasonPayout": {
         "subject": "Season {{season}} Prize Money Awarded",

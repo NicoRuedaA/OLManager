@@ -194,3 +194,67 @@ describe("i18n locale football guard", () => {
     });
   }
 });
+
+function getValueByPath(localeData: LocaleTree, path: string): unknown {
+  return path.split(".").reduce<unknown>((current, segment) => {
+    if (!current || typeof current !== "object") return undefined;
+    return (current as Record<string, unknown>)[segment];
+  }, localeData);
+}
+
+describe("finance ledger locale parity", () => {
+  const financeLedgerKeys = [
+    "finances.ledgerSearchLabel",
+    "finances.ledgerSearchPlaceholder",
+    "finances.ledgerKindFilter",
+    "finances.ledgerSourceFilter",
+    "finances.ledgerAllKinds",
+    "finances.ledgerAllSources",
+    "finances.ledgerRunningBalance",
+    "finances.ledgerNoMatches",
+    "finances.ledgerSource.legacy",
+    "finances.ledgerSource.monthly",
+    "finances.ledgerSource.transfer",
+    "finances.ledgerSource.staff",
+    "finances.ledgerSource.academy",
+    "finances.ledgerSource.facility",
+    "finances.ledgerSource.sponsor",
+    "finances.ledgerSource.prize",
+    "finances.ledgerSource.board",
+    "finances.ledgerSource.manual",
+    "be.msg.finance.sponsorAccepted.subject",
+    "be.msg.finance.sponsorAccepted.body",
+    "be.msg.finance.sponsorPayout.subject",
+    "be.msg.finance.sponsorPayout.body",
+    "be.msg.finance.sponsorBonus.subject",
+    "be.msg.finance.sponsorBonus.body",
+    "be.msg.finance.sponsorExpired.subject",
+    "be.msg.finance.sponsorExpired.body",
+    "be.msg.finance.facilityUpkeepSummary.subject",
+    "be.msg.finance.facilityUpkeepSummary.body",
+    "be.msg.finance.facilityUpkeepSpike.subject",
+    "be.msg.finance.facilityUpkeepSpike.body",
+    "be.msg.finance.prizePayout.subject",
+    "be.msg.finance.prizePayout.body",
+    "be.msg.finance.boardFinancialHealth.subject",
+    "be.msg.finance.boardFinancialHealth.body",
+  ];
+
+  for (const [localeCode, localeData] of Object.entries(LOCALE_RESOURCES)) {
+    itTest(`includes finance ledger keys in ${localeCode}`, () => {
+      const missing = financeLedgerKeys.filter((key) => typeof getValueByPath(localeData, key) !== "string");
+
+      expect(missing, `Missing finance ledger keys in ${localeCode}`).toEqual([]);
+    });
+  }
+
+  itTest("uses monthsLeft, not weeksLeft, for finance warning interpolation", () => {
+    for (const [localeCode, localeData] of Object.entries(LOCALE_RESOURCES)) {
+      const body = getValueByPath(localeData, "be.msg.financeWarning.body");
+
+      expect(body, `financeWarning body missing in ${localeCode}`).toEqual(expect.any(String));
+      expect(body as string, `financeWarning should interpolate monthsLeft in ${localeCode}`).toContain("{{monthsLeft}}");
+      expect(body as string, `financeWarning should not interpolate weeksLeft in ${localeCode}`).not.toContain("{{weeksLeft}}");
+    }
+  });
+});

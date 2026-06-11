@@ -781,11 +781,27 @@ impl Default for FinancialTransactionKind {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct FinancialTransaction {
+    #[serde(default)]
+    pub id: String,
     pub date: String,
     pub description: String,
     pub amount: i64,
     #[serde(default)]
     pub kind: FinancialTransactionKind,
+    #[serde(default)]
+    pub balance_before: i64,
+    #[serde(default)]
+    pub balance_after: i64,
+    #[serde(default = "default_financial_transaction_source")]
+    pub source: String,
+    #[serde(default)]
+    pub source_id: Option<String>,
+    #[serde(default)]
+    pub correlation_id: Option<String>,
+}
+
+fn default_financial_transaction_source() -> String {
+    "legacy".to_string()
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

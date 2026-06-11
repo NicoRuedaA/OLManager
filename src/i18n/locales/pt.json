@@ -1329,6 +1329,15 @@
     "staffWages": "Staff Wages",
     "standardSponsor": "Standard Sponsor",
     "recentLedger": "Registo recente",
+    "ledgerSearchLabel": "Pesquisar registo",
+    "ledgerSearchPlaceholder": "Pesquisar transações",
+    "ledgerKindFilter": "Tipo de transação",
+    "ledgerSourceFilter": "Origem",
+    "ledgerAllKinds": "Todos os tipos",
+    "ledgerAllSources": "Todas as origens",
+    "ledgerRunningBalance": "Saldo",
+    "ledgerNoMatches": "Nenhuma transação corresponde aos filtros.",
+    "ledgerSource": { "legacy": "Legado", "monthly": "Mensal", "transfer": "Transferência", "staff": "Staff", "academy": "Academia", "facility": "Instalações", "sponsor": "Patrocinador", "prize": "Prémio", "board": "Direção", "manual": "Manual" },
     "ledgerEmpty": "Ainda não há movimentos financeiros."
   },
   "inbox": {
@@ -2613,11 +2622,21 @@
       },
       "financeWarning": {
         "subject": "Aviso financeiro — Reservas baixas",
-        "body": "As nossas reservas financeiras estão a diminuir. Ao ritmo atual de despesa (€{{annualWages}}/ano em salários), temos aproximadamente {{weeksLeft}} semanas de margem.\n\nRecomendaria rever a folha salarial e procurar formas de aumentar a receita."
+        "body": "As nossas reservas financeiras estão a diminuir. Ao ritmo atual de despesa (€{{annualWages}}/ano em salários), temos aproximadamente {{monthsLeft}} meses de margem.\n\nRecomendaria rever a folha salarial e procurar formas de aumentar a receita."
       },
       "wageOverBudget": {
         "subject": "Folha salarial acima do orçamento",
         "body": "A nossa folha salarial anual (€{{annualWages}}) excede atualmente o orçamento salarial atribuído (€{{wageBudget}}).\n\nEmbora seja sustentável a curto prazo, a direção preferia ver a folha salarial novamente sob controlo."
+      },
+      "finance": {
+        "sponsorAccepted": { "subject": "Acordo de patrocínio assinado", "body": "O patrocínio {{sponsorName}} foi aceite. O acordo vale €{{amount}} por ano e será pago mensalmente." },
+        "sponsorPayout": { "subject": "Pagamento de patrocínio recebido", "body": "{{sponsorName}} depositou €{{amount}} na conta do clube este mês." },
+        "sponsorBonus": { "subject": "Bónus de patrocínio ativado", "body": "Os critérios de bónus de {{sponsorName}} foram cumpridos. €{{bonusAmount}} foram incluídos no pagamento mensal de €{{totalAmount}}." },
+        "sponsorExpired": { "subject": "Patrocínio expirado", "body": "O patrocínio {{sponsorName}} terminou. Consulta o mercado para encontrar uma substituição." },
+        "facilityUpkeepSummary": { "subject": "Manutenção das instalações paga", "body": "A manutenção mensal das instalações de €{{amount}} foi paga a partir da conta do clube." },
+        "facilityUpkeepSpike": { "subject": "Aumento da manutenção das instalações", "body": "A manutenção das instalações chegou a €{{amount}} este mês. As melhorias recentes estão a aumentar os custos operacionais." },
+        "prizePayout": { "subject": "Prémio confirmado", "body": "O prémio da temporada {{season}} de €{{amount}} foi atribuído pela posição {{position}}." },
+        "boardFinancialHealth": { "subject": "Resumo financeiro da direção", "body": "Saldo atual: €{{balance}}. Tendência líquida mensal: €{{monthlyNet}}. Autonomia estimada: {{monthsLeft}} meses." }
       },
       "seasonPayout": {
         "subject": "Época {{season}} — Prémio atribuído",

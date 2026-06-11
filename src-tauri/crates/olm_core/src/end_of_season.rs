@@ -1,17 +1,20 @@
-use crate::game::Game;
-use crate::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
-use crate::generator::definitions::ScheduleConfig;
-use crate::schedule::{
-    LecSplit, append_fixtures, generate_preseason_friendlies,
-    generate_schedule_from_config, generate_single_round_league_with_offsets_and_bo_with_id,
-    parse_lec_split, regular_best_of,
-};
-use crate::season_awards::compute_season_awards;
-use chrono::{Datelike, TimeZone, Utc};
-use crate::domain::league::{MatchType, FixtureStatus, League};
+use crate::domain::league::{FixtureStatus, League, MatchType};
 use crate::domain::message::*;
 use crate::domain::player::PlayerSeasonStats;
 use crate::domain::team::{FinancialTransactionKind, TeamSeasonRecord};
+use crate::finances::{
+    push_board_financial_health_mail, push_prize_payout_mail, record_transaction, BudgetImpact,
+    FinanceTransactionInput,
+};
+use crate::game::Game;
+use crate::generator::definitions::ScheduleConfig;
+use crate::schedule::{
+    append_fixtures, generate_preseason_friendlies, generate_schedule_from_config,
+    generate_single_round_league_with_offsets_and_bo_with_id, parse_lec_split, regular_best_of,
+    LecSplit,
+};
+use crate::season_awards::compute_season_awards;
+use chrono::{Datelike, TimeZone, Utc};
 use std::collections::HashMap;
 
 pub fn expected_fixture_count(team_count: usize) -> Option<usize> {
@@ -164,10 +167,7 @@ pub fn process_end_of_season_with_config(
 /// Records team history for completed bg leagues and generates next season via
 /// the competition manifest's ScheduleConfig (looked up by competition_id).
 /// Skips bg leagues that are not complete, or have no competition_id.
-pub fn process_background_seasons(
-    game: &mut Game,
-    configs: &HashMap<String, ScheduleConfig>,
-) {
+pub fn process_background_seasons(game: &mut Game, configs: &HashMap<String, ScheduleConfig>) {
     // First pass: identify complete bg leagues (avoiding borrow conflicts)
     let complete_indices: Vec<usize> = (1..game.leagues.len())
         .filter(|i| is_league_complete(&game.leagues[*i]))
@@ -230,7 +230,11 @@ fn process_end_of_season_inner(
         None => return EndOfSeasonSummary::default(),
     };
 
-    let league_id = league.competition_id.as_deref().unwrap_or(&league.id).to_string();
+    let league_id = league
+        .competition_id
+        .as_deref()
+        .unwrap_or(&league.id)
+        .to_string();
     let season = league.season;
     let league_name = league.name.clone();
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
@@ -360,8 +364,12 @@ fn process_end_of_season_inner(
                         kind: FinancialTransactionKind::PrizeMoney,
                         budget_impact: BudgetImpact::None,
                         affects_season_totals: true,
+                        source: "prize".to_string(),
+                        source_id: Some(format!("season-{season}-position-{position}")),
+                        correlation_id: Some(format!("prize:{}:{}:{}", team.id, season, position)),
                     },
-                );
+                )
+                .ok();
             }
 
             refresh_hiring_cycle_budgets(team);
@@ -512,7 +520,9 @@ fn process_end_of_season_inner(
                     next_season_num as i32,
                     split.season_start.month,
                     split.season_start.day,
-                    0, 0, 0,
+                    0,
+                    0,
+                    0,
                 )
                 .unwrap();
             let friendlies = generate_preseason_friendlies(
@@ -682,6 +692,33 @@ fn process_end_of_season_inner(
         .with_sender_i18n("be.sender.boardOfDirectors", "be.role.chairman");
         game.messages.push(payout_message);
     }
+    if user_prize_money > 0 && !user_team_id.is_empty() {
+        push_prize_payout_mail(
+            game,
+            &user_team_id,
+            season,
+            user_position,
+            user_prize_money,
+            &last_fixture_date,
+        );
+    }
+
+    if let Some(user_team) = game.teams.iter().find(|team| team.id == user_team_id) {
+        let monthly_net = (user_team.season_income - user_team.season_expenses) / 12;
+        let months_left = if monthly_net < 0 {
+            Some((user_team.finance / monthly_net.abs()).max(0))
+        } else {
+            None
+        };
+        push_board_financial_health_mail(
+            game,
+            &user_team_id,
+            user_team.finance,
+            monthly_net,
+            months_left,
+            &last_fixture_date,
+        );
+    }
 
     let msg_id = format!("season_end_{}", season);
     if !existing_ids.contains(&msg_id) {
@@ -787,7 +824,10 @@ pub struct EndOfSeasonSummary {
     pub total_teams: u32,
 }
 
-fn contract_days_remaining(contract_end: Option<&str>, current_date: chrono::NaiveDate) -> Option<i64> {
+fn contract_days_remaining(
+    contract_end: Option<&str>,
+    current_date: chrono::NaiveDate,
+) -> Option<i64> {
     let end_str = contract_end?;
     let end_date = chrono::NaiveDate::parse_from_str(end_str, "%Y-%m-%d").ok()?;
     Some((end_date - current_date).num_days())
@@ -804,7 +844,11 @@ fn renew_contracts_for_retained_players(game: &mut Game) {
         let Some(team_id) = &player.team_id else {
             continue;
         };
-        let Some(team) = game.teams.iter().find(|t| t.id.as_str() == team_id.as_str()) else {
+        let Some(team) = game
+            .teams
+            .iter()
+            .find(|t| t.id.as_str() == team_id.as_str())
+        else {
             continue;
         };
 
@@ -825,7 +869,10 @@ fn renew_contracts_for_retained_players(game: &mut Game) {
         let wage = crate::contracts::expected_wage(player, team, current_date);
         let contract_end = current_date
             .checked_add_months(chrono::Months::new(base_years * 12))
-            .unwrap_or_else(|| chrono::NaiveDate::from_ymd_opt(next_season_year + base_years as i32, 11, 30).unwrap());
+            .unwrap_or_else(|| {
+                chrono::NaiveDate::from_ymd_opt(next_season_year + base_years as i32, 11, 30)
+                    .unwrap()
+            });
 
         player.contract_end = Some(contract_end.format("%Y-%m-%d").to_string());
         player.wage = wage;
@@ -841,13 +888,22 @@ fn replenish_depleted_rosters(game: &mut Game) {
     let team_ids: Vec<String> = game.teams.iter().map(|t| t.id.clone()).collect();
 
     for team_id in team_ids {
-        let roster_count = game.players.iter().filter(|p| p.team_id.as_ref().map(|id| id.as_str()) == Some(team_id.as_str())).count();
+        let roster_count = game
+            .players
+            .iter()
+            .filter(|p| p.team_id.as_ref().map(|id| id.as_str()) == Some(team_id.as_str()))
+            .count();
 
         if roster_count >= 5 {
             continue;
         }
 
-        let Some(team_name) = game.teams.iter().find(|t| t.id == team_id).map(|t| t.name.clone()) else {
+        let Some(team_name) = game
+            .teams
+            .iter()
+            .find(|t| t.id == team_id)
+            .map(|t| t.name.clone())
+        else {
             continue;
         };
 
@@ -881,7 +937,9 @@ fn replenish_depleted_rosters(game: &mut Game) {
             agent.contract_end = Some(
                 current_date
                     .checked_add_months(chrono::Months::new(contract_years * 12))
-                    .unwrap_or_else(|| chrono::NaiveDate::from_ymd_opt(next_season_year, 11, 30).unwrap())
+                    .unwrap_or_else(|| {
+                        chrono::NaiveDate::from_ymd_opt(next_season_year, 11, 30).unwrap()
+                    })
                     .format("%Y-%m-%d")
                     .to_string(),
             );
@@ -906,7 +964,11 @@ fn replenish_depleted_rosters(game: &mut Game) {
             )
             .with_category(crate::domain::message::MessageCategory::Transfer)
             .with_priority(crate::domain::message::MessagePriority::Normal)
-            .with_i18n("be.msg.freeAgentSigned.subject", "be.msg.freeAgentSigned.body", params);
+            .with_i18n(
+                "be.msg.freeAgentSigned.subject",
+                "be.msg.freeAgentSigned.body",
+                params,
+            );
             game.messages.push(msg);
 
             let user_team_id = game.manager.team_id.clone().unwrap_or_default();
@@ -934,7 +996,7 @@ fn replenish_depleted_rosters(game: &mut Game) {
 mod tests {
     use super::*;
     use crate::clock::GameClock;
-    use crate::generator::definitions::{ScheduleConfig, SplitConfig, SeasonStart};
+    use crate::generator::definitions::{ScheduleConfig, SeasonStart, SplitConfig};
 
     fn make_team(id: &str) -> crate::domain::team::Team {
         let team = crate::domain::team::Team::new(
@@ -949,7 +1011,13 @@ mod tests {
         team
     }
 
-    fn make_completed_fixture(id: &str, matchday: u32, date: &str, home: &str, away: &str) -> crate::domain::league::Fixture {
+    fn make_completed_fixture(
+        id: &str,
+        matchday: u32,
+        date: &str,
+        home: &str,
+        away: &str,
+    ) -> crate::domain::league::Fixture {
         crate::domain::league::Fixture {
             id: id.to_string(),
             matchday,
@@ -985,9 +1053,7 @@ mod tests {
     /// Create a game with an active league (index 0) and a bg league (index 1).
     /// The bg league can be set to complete or incomplete.
     fn bg_eos_test_game(bg_complete: bool) -> Game {
-        let clock = GameClock::new(
-            chrono::Utc.with_ymd_and_hms(2025, 6, 1, 12, 0, 0).unwrap(),
-        );
+        let clock = GameClock::new(chrono::Utc.with_ymd_and_hms(2025, 6, 1, 12, 0, 0).unwrap());
         let manager = crate::domain::manager::Manager::new(
             "mgr".to_string(),
             "Test".to_string(),
@@ -995,7 +1061,12 @@ mod tests {
             "1980-01-01".to_string(),
             "ES".to_string(),
         );
-        let teams = vec![make_team("team_a"), make_team("team_b"), make_team("team_c"), make_team("team_d")];
+        let teams = vec![
+            make_team("team_a"),
+            make_team("team_b"),
+            make_team("team_c"),
+            make_team("team_d"),
+        ];
 
         let mut game = crate::game::Game::new(clock, manager, teams, vec![], vec![], vec![]);
 
@@ -1022,8 +1093,20 @@ mod tests {
         if bg_complete {
             // Add 2 completed fixtures and update standings so season_has_started is true
             if let Some(league) = game.leagues.get_mut(1) {
-                league.fixtures.push(make_completed_fixture("bg-fix-1", 1, "2025-01-15", "team_c", "team_d"));
-                league.fixtures.push(make_completed_fixture("bg-fix-2", 2, "2025-01-22", "team_d", "team_c"));
+                league.fixtures.push(make_completed_fixture(
+                    "bg-fix-1",
+                    1,
+                    "2025-01-15",
+                    "team_c",
+                    "team_d",
+                ));
+                league.fixtures.push(make_completed_fixture(
+                    "bg-fix-2",
+                    2,
+                    "2025-01-22",
+                    "team_d",
+                    "team_c",
+                ));
                 // Mark standings as having played (so season_has_started returns true)
                 for entry in league.standings.iter_mut() {
                     entry.played = 10; // Any positive value works
@@ -1045,14 +1128,34 @@ mod tests {
         let mut configs = HashMap::new();
         configs.insert("lck".to_string(), sample_schedule_config());
 
-        let team_c_history_before = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
-        let team_d_history_before = game.teams.iter().find(|t| t.id == "team_d").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_before = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
+        let team_d_history_before = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_d")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
 
         process_background_seasons(&mut game, &configs);
 
         // TeamSeasonRecord should be pushed for both teams
-        let team_c_history_after = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
-        let team_d_history_after = game.teams.iter().find(|t| t.id == "team_d").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_after = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
+        let team_d_history_after = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_d")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
         assert_eq!(team_c_history_after, team_c_history_before + 1);
         assert_eq!(team_d_history_after, team_d_history_before + 1);
 
@@ -1073,12 +1176,22 @@ mod tests {
         let mut configs = HashMap::new();
         configs.insert("lck".to_string(), sample_schedule_config());
 
-        let team_c_history_before = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_before = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
 
         process_background_seasons(&mut game, &configs);
 
         // No history should have been recorded
-        let team_c_history_after = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_after = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
         assert_eq!(team_c_history_after, team_c_history_before);
 
         // BG league should be unchanged (no fixtures regenerated)
@@ -1095,12 +1208,22 @@ mod tests {
         let mut configs = HashMap::new();
         configs.insert("lck".to_string(), sample_schedule_config());
 
-        let team_c_history_before = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_before = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
 
         process_background_seasons(&mut game, &configs);
 
         // History IS still recorded
-        let team_c_history_after = game.teams.iter().find(|t| t.id == "team_c").map(|t| t.history.len()).unwrap_or(0);
+        let team_c_history_after = game
+            .teams
+            .iter()
+            .find(|t| t.id == "team_c")
+            .map(|t| t.history.len())
+            .unwrap_or(0);
         assert_eq!(team_c_history_after, team_c_history_before + 1);
 
         // But no schedule regeneration — fixtures should remain unchanged (the original ones)

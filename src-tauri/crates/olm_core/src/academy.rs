@@ -708,8 +708,11 @@ pub fn acquire_academy(
             kind: FinancialTransactionKind::AcademyAcquisition,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "academy".to_string(),
+            source_id: Some(source_team_id.to_string()),
+            correlation_id: Some(format!("academy-acquisition:{parent_team_id}:{source_team_id}")),
         },
-    );
+    ).map_err(|err| format!("Failed to record academy acquisition: {err:?}"))?;
     game.teams[pidx].academy_team_id = Some(source_team_id.to_string());
 
     if let Some(idx) = game.teams.iter().position(|t| t.id == source_team_id && t.team_kind == TeamKind::Academy) {

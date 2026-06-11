@@ -28,6 +28,17 @@ export interface SeasonNetSummary {
   net: number;
 }
 
+export interface LedgerFilters {
+  search: string;
+  kind: FinancialTransactionData["kind"] | "all";
+  source: string;
+}
+
+export interface LedgerDateGroup {
+  date: string;
+  entries: FinancialTransactionData[];
+}
+
 const HEALTH_PRIORITY: Record<FinanceHealthLevel, number> = {
   stable: 0,
   watch: 1,
@@ -41,6 +52,62 @@ export function safeFinanceNumber(value: unknown, fallback = 0): number {
 
 export function getFinancialLedger(team: Pick<TeamData, "financial_ledger">): FinancialTransactionData[] {
   return team.financial_ledger ?? [];
+}
+
+export function getLedgerEntrySource(entry: Pick<FinancialTransactionData, "source">): string {
+  const source = entry.source?.trim();
+  return source ? source : "legacy";
+}
+
+export function getLedgerEntrySourceLabelKey(entry: Pick<FinancialTransactionData, "source">): string {
+  return `finances.ledgerSource.${getLedgerEntrySource(entry)}`;
+}
+
+export function getLedgerEntryBalanceAfter(
+  entry: Pick<FinancialTransactionData, "balance_after">,
+): number | null {
+  return typeof entry.balance_after === "number" && Number.isFinite(entry.balance_after)
+    ? entry.balance_after
+    : null;
+}
+
+export function filterLedgerEntries(
+  entries: readonly FinancialTransactionData[],
+  filters: LedgerFilters,
+): FinancialTransactionData[] {
+  const normalizedSearch = filters.search.trim().toLowerCase();
+  return entries.filter((entry) => {
+    if (filters.kind !== "all" && entry.kind !== filters.kind) {
+      return false;
+    }
+    if (filters.source !== "all" && getLedgerEntrySource(entry) !== filters.source) {
+      return false;
+    }
+    if (!normalizedSearch) {
+      return true;
+    }
+    return [entry.date, entry.description, entry.kind, getLedgerEntrySource(entry)]
+      .join(" ")
+      .toLowerCase()
+      .includes(normalizedSearch);
+  });
+}
+
+export function groupLedgerEntriesByDate(entries: readonly FinancialTransactionData[]): LedgerDateGroup[] {
+  const groups = new Map<string, FinancialTransactionData[]>();
+  for (const entry of entries) {
+    const current = groups.get(entry.date) ?? [];
+    current.push(entry);
+    groups.set(entry.date, current);
+  }
+
+  return Array.from(groups.entries())
+    .sort(([left], [right]) => right.localeCompare(left))
+    .map(([date, groupEntries]) => ({ date, entries: groupEntries }));
+}
+
+export function getLedgerSources(entries: readonly FinancialTransactionData[]): string[] {
+  return Array.from(new Set(entries.map(getLedgerEntrySource))).sort((left, right) => left.localeCompare(right));
 }
 
 export function getSeasonNetSummary(team: Pick<TeamData, "season_income" | "season_expenses">): SeasonNetSummary {

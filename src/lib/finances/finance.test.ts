@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import type { PlayerData, StaffData, TeamData } from "../../store/gameStore";
+import type { FinancialTransactionData, PlayerData, StaffData, TeamData } from "../../store/gameStore";
 import {
   annualAmountToMonthlyCommitment,
   getFinancialLedger,
+  groupLedgerEntriesByDate,
   getAnnualWageBill,
   getCashRunwayMonths,
+  getLedgerEntryBalanceAfter,
+  getLedgerEntrySourceLabelKey,
+  filterLedgerEntries,
   getSeasonNetSummary,
   getTeamFinanceSnapshot,
   getTransferBudgetSummary,
@@ -215,12 +219,18 @@ describe("finance helpers", () => {
           description: "Signed mid laner",
           amount: -250000,
           kind: "TransferPurchase",
+          balance_before: 500000,
+          balance_after: 250000,
+          source: "transfer",
         },
         {
           date: "2026-01-04",
           description: "Sold academy player",
           amount: 125000,
           kind: "TransferSale",
+          balance_before: 250000,
+          balance_after: 375000,
+          source: "transfer",
         },
       ],
     });
@@ -231,18 +241,54 @@ describe("finance helpers", () => {
         description: "Signed mid laner",
         amount: -250000,
         kind: "TransferPurchase",
+        balance_before: 500000,
+        balance_after: 250000,
+        source: "transfer",
       },
       {
         date: "2026-01-04",
         description: "Sold academy player",
         amount: 125000,
         kind: "TransferSale",
+        balance_before: 250000,
+        balance_after: 375000,
+        source: "transfer",
       },
     ]);
   });
 
   it("normalizes missing financial ledger to an empty readable history", () => {
     expect(getFinancialLedger(createTeam())).toEqual([]);
+  });
+
+  it("filters and groups ledger entries by search, kind, and source", () => {
+    const entries = [
+      { date: "2026-01-03", description: "Signed mid laner", amount: -250000, kind: "TransferPurchase", source: "transfer", balance_after: 750000 },
+      { date: "2026-01-03", description: "Sponsor payout", amount: 100000, kind: "Sponsorship", source: "sponsor", balance_after: 850000 },
+      { date: "2026-01-04", description: "Monthly salary", amount: -50000, kind: "Salary", source: "monthly", balance_after: 800000 },
+    ] as const;
+
+    const filtered = filterLedgerEntries(entries, {
+      search: "sponsor",
+      kind: "Sponsorship",
+      source: "sponsor",
+    });
+
+    expect(filtered.map((entry) => entry.description)).toEqual(["Sponsor payout"]);
+    expect(groupLedgerEntriesByDate(entries).map((group) => [group.date, group.entries.length])).toEqual([
+      ["2026-01-04", 1],
+      ["2026-01-03", 2],
+    ]);
+  });
+
+  it("provides legacy source and running balance fallbacks", () => {
+    const legacyEntry: FinancialTransactionData = { date: "2026-01-03", description: "Old save", amount: -250000, kind: "Other" };
+    const accountedEntry = { ...legacyEntry, source: "facility", balance_after: 750000 };
+
+    expect(getLedgerEntrySourceLabelKey(legacyEntry)).toBe("finances.ledgerSource.legacy");
+    expect(getLedgerEntrySourceLabelKey(accountedEntry)).toBe("finances.ledgerSource.facility");
+    expect(getLedgerEntryBalanceAfter(legacyEntry)).toBeNull();
+    expect(getLedgerEntryBalanceAfter(accountedEntry)).toBe(750000);
   });
 
   it("summarizes transfer spending against transfer budget remaining", () => {

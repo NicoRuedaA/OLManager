@@ -55,7 +55,7 @@ pub fn next_main_hub_expansion_cost(team: &Team) -> i64 {
     i64::from(team.facilities.as_main_facility_hub().level) * BASE_MAIN_HUB_EXPANSION_COST
 }
 
-pub fn expand_main_facility_hub(team: &mut Team) -> Result<i64, String> {
+pub fn expand_main_facility_hub(team: &mut Team, date: &str) -> Result<i64, String> {
     let cost = next_main_hub_expansion_cost(team);
     if team.finance < cost {
         return Err(format!(
@@ -67,14 +67,17 @@ pub fn expand_main_facility_hub(team: &mut Team) -> Result<i64, String> {
     record_transaction(
         team,
         FinanceTransactionInput {
-            date: String::new(),
+            date: date.to_string(),
             description: "Main facility hub expansion".to_string(),
             amount: -cost,
             kind: FinancialTransactionKind::FacilityUpgrade,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "facility".to_string(),
+            source_id: Some("main-hub".to_string()),
+            correlation_id: Some(format!("facility:{}:{date}:main-hub", team.id)),
         },
-    );
+    ).map_err(|err| format!("Failed to record facility expansion: {err:?}"))?;
     team.facilities.main_hub_level = team
         .facilities
         .as_main_facility_hub()
@@ -87,6 +90,7 @@ pub fn expand_main_facility_hub(team: &mut Team) -> Result<i64, String> {
 pub fn upgrade_main_facility_module(
     team: &mut Team,
     module: MainFacilityModuleKind,
+    date: &str,
 ) -> Result<i64, String> {
     if !team.facilities.can_upgrade_main_facility_module(module) {
         return Err("Main facility hub must be expanded before upgrading this module".to_string());
@@ -104,14 +108,17 @@ pub fn upgrade_main_facility_module(
     record_transaction(
         team,
         FinanceTransactionInput {
-            date: String::new(),
+            date: date.to_string(),
             description: format!("Facility module upgrade: {module:?}"),
             amount: -cost,
             kind: FinancialTransactionKind::FacilityUpgrade,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "facility".to_string(),
+            source_id: Some(format!("{module:?}")),
+            correlation_id: Some(format!("facility:{}:{date}:{module:?}", team.id)),
         },
-    );
+    ).map_err(|err| format!("Failed to record facility module upgrade: {err:?}"))?;
     set_module_level(
         &mut team.facilities,
         module,
@@ -121,7 +128,7 @@ pub fn upgrade_main_facility_module(
     Ok(cost)
 }
 
-pub fn upgrade_facility(team: &mut Team, facility_type: FacilityType) -> Result<i64, String> {
+pub fn upgrade_facility(team: &mut Team, facility_type: FacilityType, date: &str) -> Result<i64, String> {
     let cost = next_upgrade_cost(team, &facility_type);
     if team.finance < cost {
         return Err(format!(
@@ -139,14 +146,17 @@ pub fn upgrade_facility(team: &mut Team, facility_type: FacilityType) -> Result<
     record_transaction(
         team,
         FinanceTransactionInput {
-            date: String::new(),
+            date: date.to_string(),
             description: format!("Facility upgrade: {facility_type:?}"),
             amount: -cost,
             kind: FinancialTransactionKind::FacilityUpgrade,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "facility".to_string(),
+            source_id: Some(format!("{facility_type:?}")),
+            correlation_id: Some(format!("facility:{}:{date}:{facility_type:?}", team.id)),
         },
-    );
+    ).map_err(|err| format!("Failed to record facility upgrade: {err:?}"))?;
 
     match facility_type {
         FacilityType::Training => {

@@ -71,8 +71,11 @@ fn hire_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, Str
                 kind: FinancialTransactionKind::StaffWage,
                 budget_impact: BudgetImpact::None,
                 affects_season_totals: true,
+                source: "staff".to_string(),
+                source_id: Some(staff.id.clone()),
+                correlation_id: Some(format!("staff-hire:{}:{}", team_id, staff.id)),
             },
-        );
+        ).map_err(|err| format!("Failed to record staff hiring transaction: {err:?}"))?;
     }
 
     state.set_game(game.clone());

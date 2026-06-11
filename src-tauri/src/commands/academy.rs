@@ -302,8 +302,11 @@ pub(crate) fn acquire_academy_team_in_game(
                 kind: olm_core::domain::team::FinancialTransactionKind::AcademyAcquisition,
                 budget_impact: BudgetImpact::None,
                 affects_season_totals: true,
+                source: "academy".to_string(),
+                source_id: Some(academy_id.clone()),
+                correlation_id: Some(format!("academy-acquisition:{}:{}", request.parent_team_id, academy_id)),
             },
-        );
+        ).map_err(|err| format!("Failed to record academy acquisition: {err:?}"))?;
         parent.academy_team_id = Some(academy_id.clone());
     }
 
@@ -720,5 +723,4 @@ mod tests {
         );
     }
 }
-
 

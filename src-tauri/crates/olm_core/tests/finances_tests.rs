@@ -11,7 +11,7 @@ use olm_core::domain::team::{
     Facilities, FinancialTransaction, FinancialTransactionKind, MainFacilityModuleKind,
     Sponsorship, SponsorshipBonusCriterion, Team,
 };
-use olm_core::finances::{self, BudgetImpact, FinanceTransactionInput};
+use olm_core::finances::{self, BudgetImpact, FinanceTransactionError, FinanceTransactionInput};
 use olm_core::game::Game;
 
 // ---------------------------------------------------------------------------
@@ -106,6 +106,16 @@ fn make_first_of_month_game() -> Game {
     make_game_on(2025, 6, 1)
 }
 
+fn finance_snapshot(team: &Team) -> (i64, i64, i64, i64, usize) {
+    (
+        team.finance,
+        team.season_income,
+        team.season_expenses,
+        team.transfer_budget,
+        team.financial_ledger.len(),
+    )
+}
+
 // ---------------------------------------------------------------------------
 // record_transaction — atomic helper
 // ---------------------------------------------------------------------------
@@ -116,7 +126,7 @@ fn record_transaction_applies_income_to_cash_season_totals_and_ledger() {
     team.finance = 100_000;
     team.season_income = 20_000;
 
-    finances::record_transaction(
+    let transaction = finances::record_transaction(
         &mut team,
         FinanceTransactionInput {
             date: "2026-01-15".to_string(),
@@ -125,8 +135,12 @@ fn record_transaction_applies_income_to_cash_season_totals_and_ledger() {
             kind: FinancialTransactionKind::Sponsorship,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "sponsor".to_string(),
+            source_id: Some("sponsor-acme".to_string()),
+            correlation_id: Some("sponsor-acme:2026-01".to_string()),
         },
-    );
+    )
+    .expect("valid sponsorship transaction should record");
 
     assert_eq!(team.finance, 135_000);
     assert_eq!(team.season_income, 55_000);
@@ -142,6 +156,15 @@ fn record_transaction_applies_income_to_cash_season_totals_and_ledger() {
         team.financial_ledger[0].kind,
         FinancialTransactionKind::Sponsorship
     );
+    assert_eq!(transaction.balance_before, 100_000);
+    assert_eq!(transaction.balance_after, 135_000);
+    assert_eq!(transaction.source, "sponsor");
+    assert_eq!(transaction.source_id.as_deref(), Some("sponsor-acme"));
+    assert_eq!(
+        transaction.correlation_id.as_deref(),
+        Some("sponsor-acme:2026-01")
+    );
+    assert!(transaction.id.contains("team1"));
 }
 
 #[test]
@@ -160,8 +183,12 @@ fn record_transaction_applies_expense_and_signed_budget_impact_atomically() {
             kind: FinancialTransactionKind::TransferPurchase,
             budget_impact: BudgetImpact::Transfer(-40_000),
             affects_season_totals: true,
+            source: "transfer".to_string(),
+            source_id: Some("player-9".to_string()),
+            correlation_id: Some("transfer:player-9".to_string()),
         },
-    );
+    )
+    .expect("valid transfer transaction should record");
 
     assert_eq!(team.finance, 210_000);
     assert_eq!(team.season_income, 0);
@@ -173,6 +200,76 @@ fn record_transaction_applies_expense_and_signed_budget_impact_atomically() {
         team.financial_ledger[0].kind,
         FinancialTransactionKind::TransferPurchase
     );
+}
+
+#[test]
+fn record_transaction_rejects_invalid_input_without_partial_mutation() {
+    let mut team = make_team("team1", "Test FC");
+    team.finance = 250_000;
+    team.season_expenses = 12_000;
+    team.transfer_budget = 90_000;
+    let original = finance_snapshot(&team);
+
+    let result = finances::record_transaction(
+        &mut team,
+        FinanceTransactionInput {
+            date: "".to_string(),
+            description: " ".to_string(),
+            amount: -40_000,
+            kind: FinancialTransactionKind::TransferSale,
+            budget_impact: BudgetImpact::Transfer(-40_000),
+            affects_season_totals: true,
+            source: "transfer".to_string(),
+            source_id: Some("player-9".to_string()),
+            correlation_id: Some("transfer:player-9".to_string()),
+        },
+    );
+
+    assert!(matches!(result, Err(FinanceTransactionError::InvalidDate)));
+    assert_eq!(finance_snapshot(&team), original);
+}
+
+#[test]
+fn record_transaction_rejects_zero_and_sign_kind_mismatch_without_ledger_entry() {
+    let mut team = make_team("team1", "Test FC");
+    let original = finance_snapshot(&team);
+
+    let zero = finances::record_transaction(
+        &mut team,
+        FinanceTransactionInput {
+            date: "2026-03-01".to_string(),
+            description: "Zero noop".to_string(),
+            amount: 0,
+            kind: FinancialTransactionKind::Other,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+            source: "manual".to_string(),
+            source_id: None,
+            correlation_id: None,
+        },
+    );
+    assert!(matches!(zero, Err(FinanceTransactionError::ZeroAmount)));
+    assert_eq!(finance_snapshot(&team), original);
+
+    let mismatch = finances::record_transaction(
+        &mut team,
+        FinanceTransactionInput {
+            date: "2026-03-01".to_string(),
+            description: "Sale should be positive".to_string(),
+            amount: -15_000,
+            kind: FinancialTransactionKind::TransferSale,
+            budget_impact: BudgetImpact::Transfer(15_000),
+            affects_season_totals: true,
+            source: "transfer".to_string(),
+            source_id: None,
+            correlation_id: None,
+        },
+    );
+    assert!(matches!(
+        mismatch,
+        Err(FinanceTransactionError::SignKindMismatch)
+    ));
+    assert_eq!(finance_snapshot(&team), original);
 }
 
 #[test]
@@ -189,6 +286,225 @@ fn financial_transaction_kind_deserializes_old_prize_money_entries() {
 
     assert_eq!(entry.kind, FinancialTransactionKind::PrizeMoney);
     assert_eq!(entry.amount, 800_000);
+    assert_eq!(entry.id, "");
+    assert_eq!(entry.balance_before, 0);
+    assert_eq!(entry.balance_after, 0);
+    assert_eq!(entry.source, "legacy");
+    assert_eq!(entry.source_id, None);
+    assert_eq!(entry.correlation_id, None);
+}
+
+#[test]
+fn finance_mail_builder_uses_finance_category_route_keys_and_dedupes_by_correlation() {
+    let mut game = make_first_of_month_game();
+
+    let first = finances::push_finance_mail_once(
+        &mut game,
+        "team1",
+        "sponsor-payout:team1:2025-06",
+        "sponsorPayout",
+        "be.msg.finance.sponsorPayout.subject",
+        "be.msg.finance.sponsorPayout.body",
+        [("amount".to_string(), "10K".to_string())]
+            .into_iter()
+            .collect(),
+        "2025-06-01",
+    );
+    let second = finances::push_finance_mail_once(
+        &mut game,
+        "team1",
+        "sponsor-payout:team1:2025-06",
+        "sponsorPayout",
+        "be.msg.finance.sponsorPayout.subject",
+        "be.msg.finance.sponsorPayout.body",
+        [("amount".to_string(), "10K".to_string())]
+            .into_iter()
+            .collect(),
+        "2025-06-01",
+    );
+
+    assert!(first);
+    assert!(!second);
+    assert_eq!(game.messages.len(), 1);
+    let message = &game.messages[0];
+    assert_eq!(
+        message.id,
+        "finance:sponsor-payout:team1:2025-06:sponsorPayout"
+    );
+    assert_eq!(
+        message.category,
+        olm_core::domain::message::MessageCategory::Finance
+    );
+    assert_eq!(
+        message.subject_key.as_deref(),
+        Some("be.msg.finance.sponsorPayout.subject")
+    );
+    assert_eq!(
+        message.body_key.as_deref(),
+        Some("be.msg.finance.sponsorPayout.body")
+    );
+    assert!(message.actions.iter().any(|action| matches!(
+        &action.action_type,
+        olm_core::domain::message::ActionType::NavigateTo { route } if route == "/dashboard?tab=Finances"
+    )));
+}
+
+#[test]
+fn scoped_finance_mail_helpers_use_localized_payloads_route_and_correlation_dedupe() {
+    let mut game = make_first_of_month_game();
+
+    assert!(finances::push_sponsor_accepted_mail(
+        &mut game,
+        "team1",
+        "Acme Corp",
+        120_000,
+        "2025-06-01",
+    ));
+    assert!(!finances::push_sponsor_accepted_mail(
+        &mut game,
+        "team1",
+        "Acme Corp",
+        120_000,
+        "2025-06-01",
+    ));
+    assert!(finances::push_sponsor_expired_mail(
+        &mut game,
+        "team1",
+        "Acme Corp",
+        "2025-06-01",
+    ));
+    assert!(finances::push_prize_payout_mail(
+        &mut game,
+        "team1",
+        1,
+        2,
+        500_000,
+        "2025-06-01",
+    ));
+    assert!(finances::push_board_financial_health_mail(
+        &mut game,
+        "team1",
+        4_000_000,
+        -25_000,
+        Some(160),
+        "2025-06-01",
+    ));
+
+    let finance_messages: Vec<_> = game
+        .messages
+        .iter()
+        .filter(|message| message.category == olm_core::domain::message::MessageCategory::Finance)
+        .collect();
+    assert_eq!(finance_messages.len(), 4);
+
+    let expected = [
+        (
+            "finance:sponsor-accepted:team1:Acme Corp:2025-06-01:sponsorAccepted",
+            "be.msg.finance.sponsorAccepted.subject",
+            "be.msg.finance.sponsorAccepted.body",
+        ),
+        (
+            "finance:sponsor-expired:team1:Acme Corp:2025-06-01:sponsorExpired",
+            "be.msg.finance.sponsorExpired.subject",
+            "be.msg.finance.sponsorExpired.body",
+        ),
+        (
+            "finance:prize:team1:1:2:prizePayout",
+            "be.msg.finance.prizePayout.subject",
+            "be.msg.finance.prizePayout.body",
+        ),
+        (
+            "finance:board-health:team1:2025-06-01:boardFinancialHealth",
+            "be.msg.finance.boardFinancialHealth.subject",
+            "be.msg.finance.boardFinancialHealth.body",
+        ),
+    ];
+
+    for (id, subject_key, body_key) in expected {
+        let message = finance_messages
+            .iter()
+            .find(|message| message.id == id)
+            .unwrap_or_else(|| panic!("missing finance message {id}"));
+        assert_eq!(message.subject_key.as_deref(), Some(subject_key));
+        assert_eq!(message.body_key.as_deref(), Some(body_key));
+        assert_eq!(message.context.team_id.as_deref(), Some("team1"));
+        assert!(message.actions.iter().any(|action| matches!(
+            &action.action_type,
+            olm_core::domain::message::ActionType::NavigateTo { route } if route == "/dashboard?tab=Finances"
+        )));
+    }
+}
+
+#[test]
+fn accepting_sponsor_offer_sends_finance_mail_and_dedupes() {
+    let mut game = make_first_of_month_game();
+    let mut offer = olm_core::domain::message::InboxMessage::new(
+        "sponsor_2025-06-01".to_string(),
+        "Sponsor offer".to_string(),
+        "Offer body".to_string(),
+        "Financial Director".to_string(),
+        "2025-06-01".to_string(),
+    )
+    .with_category(olm_core::domain::message::MessageCategory::Finance)
+    .with_i18n(
+        "be.msg.sponsorOffer.subject",
+        "be.msg.sponsorOffer.body",
+        [
+            ("sponsor".to_string(), "Acme Corp".to_string()),
+            ("amount".to_string(), "120K".to_string()),
+        ]
+        .into_iter()
+        .collect(),
+    );
+    offer
+        .actions
+        .push(olm_core::domain::message::MessageAction {
+            id: "respond".to_string(),
+            label: "Respond".to_string(),
+            action_type: olm_core::domain::message::ActionType::ChooseOption { options: vec![] },
+            resolved: false,
+            label_key: Some("be.msg.event.ack".to_string()),
+        });
+    game.messages.push(offer);
+
+    let first = olm_core::random_events::apply_event_response(
+        &mut game,
+        "sponsor_2025-06-01",
+        "respond",
+        "accept",
+    );
+    let second = olm_core::random_events::apply_event_response(
+        &mut game,
+        "sponsor_2025-06-01",
+        "respond",
+        "accept",
+    );
+
+    assert!(first.is_some());
+    assert!(second.is_some());
+    assert_eq!(
+        game.messages
+            .iter()
+            .filter(|message| message.id
+                == "finance:sponsor-accepted:team1:Acme Corp:2025-06-01:sponsorAccepted")
+            .count(),
+        1
+    );
+    let message = game
+        .messages
+        .iter()
+        .find(|message| {
+            message.id == "finance:sponsor-accepted:team1:Acme Corp:2025-06-01:sponsorAccepted"
+        })
+        .expect("accepted sponsor finance mail should exist");
+    assert_eq!(
+        message.subject_key.as_deref(),
+        Some("be.msg.finance.sponsorAccepted.subject")
+    );
+    assert_eq!(
+        message.i18n_params.get("sponsorName").map(String::as_str),
+        Some("Acme Corp")
+    );
 }
 
 #[test]
@@ -426,16 +742,22 @@ fn monthly_recurring_expenses_create_categorized_ledger_entries() {
         entry.date == "2025-06-01"
             && entry.amount == -player_wages
             && entry.kind == FinancialTransactionKind::Salary
+            && entry.source == "monthly"
+            && entry.source_id.as_deref() == Some("player-wages")
     }));
     assert!(game.teams[0].financial_ledger.iter().any(|entry| {
         entry.date == "2025-06-01"
             && entry.amount == -staff_wages
             && entry.kind == FinancialTransactionKind::StaffWage
+            && entry.source == "monthly"
+            && entry.source_id.as_deref() == Some("staff-wages")
     }));
     assert!(game.teams[0].financial_ledger.iter().any(|entry| {
         entry.date == "2025-06-01"
             && entry.amount == -upkeep
             && entry.kind == FinancialTransactionKind::FacilityUpkeep
+            && entry.source == "facility"
+            && entry.source_id.as_deref() == Some("monthly-upkeep")
     }));
 }
 
@@ -475,6 +797,59 @@ fn monthly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
     assert_eq!(sponsorship_entries.len(), 1);
     assert_eq!(sponsorship_entries[0].date, "2025-06-01");
     assert_eq!(sponsorship_entries[0].amount, expected_sponsor_income);
+    assert_eq!(sponsorship_entries[0].source, "sponsor");
+    assert_eq!(
+        sponsorship_entries[0].source_id.as_deref(),
+        Some("Acme Corp")
+    );
+}
+
+#[test]
+fn monthly_finance_hooks_send_sponsor_upkeep_bonus_and_expiry_mail_once() {
+    let mut game = make_first_of_month_game();
+    game.teams[0].facilities = Facilities {
+        main_hub_level: 4,
+        training: 3,
+        medical: 2,
+        scouting: 1,
+        ..Default::default()
+    };
+    game.teams[0].form = vec!["W".to_string(), "D".to_string(), "W".to_string()];
+    game.teams[0].sponsorship = Some(Sponsorship {
+        sponsor_name: "Acme Corp".to_string(),
+        base_value: 120_000,
+        remaining_months: 1,
+        bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
+            required_matches: 3,
+            bonus_amount: 24_000,
+        }],
+    });
+
+    finances::process_monthly_finances(&mut game);
+    finances::process_monthly_finances(&mut game);
+
+    let finance_ids: Vec<_> = game
+        .messages
+        .iter()
+        .filter(|message| message.category == olm_core::domain::message::MessageCategory::Finance)
+        .map(|message| message.id.as_str())
+        .collect();
+
+    assert!(finance_ids.contains(&"finance:sponsor-payout:team1:2025-06-01:sponsorPayout"));
+    assert!(finance_ids.contains(&"finance:sponsor-bonus:team1:Acme Corp:2025-06-01:sponsorBonus"));
+    assert!(
+        finance_ids.contains(&"finance:sponsor-expired:team1:Acme Corp:2025-06-01:sponsorExpired")
+    );
+    assert!(finance_ids.contains(&"finance:facility-upkeep:team1:2025-06-01:facilityUpkeepSummary"));
+    assert!(
+        finance_ids.contains(&"finance:facility-upkeep-spike:team1:2025-06-01:facilityUpkeepSpike")
+    );
+
+    let sponsor_payout_count = finance_ids
+        .iter()
+        .filter(|id| **id == "finance:sponsor-payout:team1:2025-06-01:sponsorPayout")
+        .count();
+    assert_eq!(sponsor_payout_count, 1);
 }
 
 #[test]

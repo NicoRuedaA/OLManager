@@ -639,6 +639,12 @@ fn release_player_contract_records_release_penalty_ledger_entry() {
         FinancialTransactionKind::ReleasePenalty
     );
     assert_eq!(team.financial_ledger[0].amount, -48_000);
+    assert_eq!(team.financial_ledger[0].date, "2026-08-01");
+    assert_eq!(team.financial_ledger[0].source, "transfer");
+    assert_eq!(
+        team.financial_ledger[0].source_id.as_deref(),
+        Some("player-release")
+    );
     assert!(released.team_id.is_none());
     assert_eq!(released.wage, 0);
 }
@@ -690,6 +696,12 @@ fn accepting_pending_offer_executes_transfer_even_for_reluctant_player() {
         FinancialTransactionKind::TransferSale
     );
     assert_eq!(seller.financial_ledger[0].amount, 950_000);
+    assert_eq!(seller.financial_ledger[0].date, "2026-08-01");
+    assert_eq!(seller.financial_ledger[0].source, "transfer");
+    assert_eq!(
+        seller.financial_ledger[0].source_id.as_deref(),
+        Some("player-accept-reluctant")
+    );
     assert_eq!(buyer.finance, 5_050_000);
     assert_eq!(buyer.transfer_budget, 2_050_000);
     assert_eq!(buyer.financial_ledger.len(), 1);
@@ -698,6 +710,12 @@ fn accepting_pending_offer_executes_transfer_even_for_reluctant_player() {
         FinancialTransactionKind::TransferPurchase
     );
     assert_eq!(buyer.financial_ledger[0].amount, -950_000);
+    assert_eq!(buyer.financial_ledger[0].date, "2026-08-01");
+    assert_eq!(buyer.financial_ledger[0].source, "transfer");
+    assert_eq!(
+        buyer.financial_ledger[0].source_id.as_deref(),
+        Some("player-accept-reluctant")
+    );
 }
 
 #[test]

@@ -1,4 +1,5 @@
 use super::format_money;
+use crate::finances::push_sponsor_accepted_mail;
 use crate::game::Game;
 use crate::domain::team::{Sponsorship, SponsorshipBonusCriterion};
 use rand::RngExt;
@@ -55,7 +56,7 @@ pub fn apply_event_response(
                     .unwrap_or_else(|| "Sponsor".to_string());
                 if let Some(team) = game.teams.iter_mut().find(|t| t.id == user_team_id) {
                     team.sponsorship = Some(Sponsorship {
-                        sponsor_name,
+                        sponsor_name: sponsor_name.clone(),
                         base_value: amount as i64,
                         remaining_months: 3,
                         bonus_criteria: vec![SponsorshipBonusCriterion::UnbeatenRun {
@@ -64,6 +65,14 @@ pub fn apply_event_response(
                         }],
                     });
                 }
+                let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+                push_sponsor_accepted_mail(
+                    game,
+                    &user_team_id,
+                    &sponsor_name,
+                    amount as i64,
+                    &today,
+                );
                 // Mark resolved
                 if let Some(msg) = game.messages.iter_mut().find(|m| m.id == message_id) {
                     for a in msg.actions.iter_mut() {
@@ -212,4 +221,3 @@ pub fn apply_event_response(
         None
     }
 }
-

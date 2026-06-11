@@ -1485,8 +1485,11 @@ fn execute_free_agent_signing_with_payer(
                 kind: FinancialTransactionKind::TransferPurchase,
                 budget_impact: BudgetImpact::Transfer(-(fee as i64)),
                 affects_season_totals: false,
+                source: "transfer".to_string(),
+                source_id: Some(player_id.to_string()),
+                correlation_id: Some(format!("transfer:{payer_team_id}:{player_id}:free-agent")),
             },
-        );
+        ).ok();
     }
 
     let players_snapshot = game.players.clone();
@@ -2285,8 +2288,11 @@ fn complete_transfer_with_wage(
                 kind: FinancialTransactionKind::TransferPurchase,
                 budget_impact: BudgetImpact::Transfer(-(fee as i64)),
                 affects_season_totals: false,
+                source: "transfer".to_string(),
+                source_id: Some(player_id.to_string()),
+                correlation_id: Some(format!("transfer:{payer_team_id}:{player_id}:{date}:purchase")),
             },
-        );
+        ).ok();
     }
 
     if let Some(from_id) = from_team_id {
@@ -2305,8 +2311,11 @@ fn complete_transfer_with_wage(
                         (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100,
                     ),
                     affects_season_totals: false,
+                    source: "transfer".to_string(),
+                    source_id: Some(player_id.to_string()),
+                    correlation_id: Some(format!("transfer:{from_id}:{player_id}:{date}:sale")),
                 },
-            );
+            ).ok();
         }
     }
 
@@ -2681,8 +2690,11 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
             kind: FinancialTransactionKind::ReleasePenalty,
             budget_impact: BudgetImpact::None,
             affects_season_totals: true,
+            source: "transfer".to_string(),
+            source_id: Some(player_id.to_string()),
+            correlation_id: Some(format!("release:{owning_team_id}:{player_id}:{today}")),
         },
-    );
+    ).map_err(|err| format!("Failed to record release penalty: {err:?}"))?;
     remove_player_from_team_references(team, player_id);
 
     if let Some(player) = game
@@ -2956,8 +2968,11 @@ fn execute_transfer_with_payer(
                 kind: FinancialTransactionKind::TransferPurchase,
                 budget_impact: BudgetImpact::Transfer(-(fee as i64)),
                 affects_season_totals: false,
+                source: "transfer".to_string(),
+                source_id: Some(player_id.to_string()),
+                correlation_id: Some(format!("transfer:{payer_team_id}:{player_id}:{today}:purchase")),
             },
-        );
+        ).ok();
     }
 
     let players_snapshot = game.players.clone();
@@ -2986,8 +3001,11 @@ fn execute_transfer_with_payer(
                     (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100,
                 ),
                 affects_season_totals: false,
+                source: "transfer".to_string(),
+                source_id: Some(player_id.to_string()),
+                correlation_id: Some(format!("transfer:{credit_target_id}:{player_id}:{today}:sale")),
             },
-        );
+        ).ok();
     }
 
     if selling_team_is_academy {

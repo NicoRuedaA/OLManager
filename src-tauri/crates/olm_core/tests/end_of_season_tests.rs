@@ -4,6 +4,7 @@ use olm_core::domain::league::{
     Fixture, FixtureStatus, League, LeagueKind, MatchResult, MatchType, StandingEntry,
 };
 use olm_core::domain::manager::Manager;
+use olm_core::domain::message::MessageCategory;
 use olm_core::domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
 use olm_core::domain::stats::LolRole;
 use olm_core::domain::team::{FinancialTransactionKind, Team, TeamKind};
@@ -668,6 +669,12 @@ fn champion_receives_prize_money_and_ledger_entry() {
         FinancialTransactionKind::PrizeMoney
     );
     assert_eq!(team1.financial_ledger[0].amount, 800_000);
+    assert_eq!(team1.financial_ledger[0].date, "2025-06-01");
+    assert_eq!(team1.financial_ledger[0].source, "prize");
+    assert_eq!(
+        team1.financial_ledger[0].source_id.as_deref(),
+        Some("season-1-position-1")
+    );
 }
 
 #[test]
@@ -753,6 +760,53 @@ fn prize_money_message_sent_once_per_season() {
         .count();
 
     assert_eq!(payout_messages, 1);
+}
+
+#[test]
+fn season_end_sends_scoped_prize_and_board_health_finance_mail_once() {
+    let mut game = make_completed_season_game();
+    game.teams[0].finance = 3_500_000;
+
+    process_end_of_season(&mut game);
+    process_end_of_season(&mut game);
+
+    assert_eq!(
+        game.messages
+            .iter()
+            .filter(|message| message.id == "finance:prize:team1:1:1:prizePayout")
+            .count(),
+        1
+    );
+    assert_eq!(
+        game.messages
+            .iter()
+            .filter(|message| message.id
+                == "finance:board-health:team1:2025-06-01:boardFinancialHealth")
+            .count(),
+        1
+    );
+
+    let prize = game
+        .messages
+        .iter()
+        .find(|message| message.id == "finance:prize:team1:1:1:prizePayout")
+        .expect("prize finance mail should exist");
+    assert_eq!(prize.category, MessageCategory::Finance);
+    assert_eq!(
+        prize.subject_key.as_deref(),
+        Some("be.msg.finance.prizePayout.subject")
+    );
+
+    let board_health = game
+        .messages
+        .iter()
+        .find(|message| message.id == "finance:board-health:team1:2025-06-01:boardFinancialHealth")
+        .expect("board health finance mail should exist");
+    assert_eq!(board_health.category, MessageCategory::Finance);
+    assert_eq!(
+        board_health.subject_key.as_deref(),
+        Some("be.msg.finance.boardFinancialHealth.subject")
+    );
 }
 
 #[test]

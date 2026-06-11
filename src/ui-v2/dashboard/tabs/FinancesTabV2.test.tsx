@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import type { GameStateData, PlayerData, StaffData, TeamData } from "@/store/gameStore";
@@ -54,6 +54,17 @@ vi.mock("react-i18next", () => ({
         "finances.facilities": "Facilities",
         "finances.recentLedger": "Recent ledger",
         "finances.ledgerEmpty": "No financial ledger entries yet.",
+        "finances.ledgerSearchLabel": "Search ledger",
+        "finances.ledgerSearchPlaceholder": "Search transactions",
+        "finances.ledgerKindFilter": "Transaction type",
+        "finances.ledgerSourceFilter": "Source",
+        "finances.ledgerAllKinds": "All types",
+        "finances.ledgerAllSources": "All sources",
+        "finances.ledgerSource.transfer": "Transfer",
+        "finances.ledgerSource.monthly": "Monthly",
+        "finances.ledgerSource.legacy": "Legacy",
+        "finances.ledgerRunningBalance": "Balance",
+        "finances.ledgerNoMatches": "No transactions match your filters.",
       };
 
       if (options && typeof options === "object" && "defaultValue" in options) {
@@ -92,8 +103,22 @@ function createTeam(overrides: Partial<TeamData> = {}): TeamData {
     season_income: 900_000,
     season_expenses: 650_000,
     financial_ledger: [
-      { date: "2026-01-03", description: "Transfer purchase", amount: -250_000, kind: "TransferPurchase" },
-      { date: "2026-01-04", description: "Monthly salary", amount: -999_999, kind: "Salary" },
+      {
+        date: "2026-01-03",
+        description: "Transfer purchase",
+        amount: -250_000,
+        kind: "TransferPurchase",
+        source: "transfer",
+        balance_after: 750_000,
+      },
+      {
+        date: "2026-01-04",
+        description: "Monthly salary",
+        amount: -999_999,
+        kind: "Salary",
+        source: "monthly",
+        balance_after: -249_999,
+      },
     ],
     draft_strategy: "Balanced",
     training_focus: "Physical",
@@ -182,11 +207,27 @@ describe("FinancesTabV2 summary semantics", () => {
 
     expect(screen.getByText("Recent ledger")).toBeInTheDocument();
     expect(screen.getByText("2026-01-03")).toBeInTheDocument();
-    expect(screen.getByText("Transfer purchase")).toBeInTheDocument();
+    expect(screen.getAllByText("Transfer purchase").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Transfer").length).toBeGreaterThan(0);
+    expect(screen.getByText("Balance: €750K")).toBeInTheDocument();
     expect(screen.getByText("-€250K")).toBeInTheDocument();
     expect(screen.getByText("2026-01-04")).toBeInTheDocument();
-    expect(screen.getByText("Salary")).toBeInTheDocument();
+    expect(screen.getAllByText("Salary").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Monthly").length).toBeGreaterThan(0);
     expect(screen.getByText("-€999,999")).toBeInTheDocument();
+  });
+
+  it("filters ledger rows by localized search and shows a useful empty result", async () => {
+    const { FinancesTabV2 } = await import("./FinancesTabV2");
+
+    render(<FinancesTabV2 gameState={createGameState()} onGameUpdate={vi.fn()} />);
+
+    fireEvent.change(screen.getByLabelText("Search ledger"), { target: { value: "transfer" } });
+    expect(screen.getAllByText("Transfer purchase").length).toBeGreaterThan(0);
+    expect(screen.queryByText("Monthly salary")).not.toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText("Search ledger"), { target: { value: "no-match" } });
+    expect(screen.getByText("No transactions match your filters.")).toBeInTheDocument();
   });
 
   it("renders an empty financial ledger state when the team has no entries", async () => {

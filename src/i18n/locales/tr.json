@@ -1330,6 +1330,15 @@
     "staffWages": "Staff Wages",
     "standardSponsor": "Standard Sponsor",
     "recentLedger": "Son Kayıtlar",
+    "ledgerSearchLabel": "Kayıtlarda ara",
+    "ledgerSearchPlaceholder": "İşlem ara",
+    "ledgerKindFilter": "İşlem türü",
+    "ledgerSourceFilter": "Kaynak",
+    "ledgerAllKinds": "Tüm türler",
+    "ledgerAllSources": "Tüm kaynaklar",
+    "ledgerRunningBalance": "Bakiye",
+    "ledgerNoMatches": "Filtrelerle eşleşen işlem yok.",
+    "ledgerSource": { "legacy": "Eski", "monthly": "Aylık", "transfer": "Transfer", "staff": "Staff", "academy": "Akademi", "facility": "Tesis", "sponsor": "Sponsor", "prize": "Ödül", "board": "Yönetim", "manual": "Manuel" },
     "ledgerEmpty": "Henüz finansal kayıt yok."
   },
   "inbox": {
@@ -2614,11 +2623,21 @@
       },
       "financeWarning": {
         "subject": "Finansal Uyarı — Düşük Rezervler",
-        "body": "Finansal rezervlerimiz tükeniyor. Mevcut harcama hızıyla (yıllık €{{annualWages}} maaş), yaklaşık {{weeksLeft}} haftalık fonumuz kaldı.\n\nMaaş bordrosunu gözden geçirmenizi ve geliri artırmanın yollarını aramanızı tavsiye ederim."
+        "body": "Finansal rezervlerimiz tükeniyor. Mevcut harcama hızıyla (yıllık €{{annualWages}} maaş), yaklaşık {{monthsLeft}} aylık fonumuz kaldı.\n\nMaaş bordrosunu gözden geçirmenizi ve geliri artırmanın yollarını aramanızı tavsiye ederim."
       },
       "wageOverBudget": {
         "subject": "Maaş Gideri Bütçeyi Aşıyor",
         "body": "Yıllık maaş faturamız (€{{annualWages}}) şu anda ayrılan maaş bütçesini (€{{wageBudget}}) aşıyor.\n\nKısa vadede bunu sürdürebilsek de, yönetim maaş giderinin kontrol altına alınmasını tercih eder."
+      },
+      "finance": {
+        "sponsorAccepted": { "subject": "Sponsorluk anlaşması imzalandı", "body": "{{sponsorName}} sponsorluğu kabul edildi. Anlaşmanın yıllık değeri €{{amount}} ve aylık olarak ödenecek." },
+        "sponsorPayout": { "subject": "Sponsorluk ödemesi alındı", "body": "{{sponsorName}} bu ay kulüp hesabına €{{amount}} yatırdı." },
+        "sponsorBonus": { "subject": "Sponsorluk bonusu tetiklendi", "body": "{{sponsorName}} bonus kriterleri karşılandı. Bu ayki €{{totalAmount}} sponsorluk ödemesine €{{bonusAmount}} dahil edildi." },
+        "sponsorExpired": { "subject": "Sponsorluk anlaşması sona erdi", "body": "{{sponsorName}} sponsorluğu sona erdi. Yeni bir anlaşma için piyasayı kontrol edin." },
+        "facilityUpkeepSummary": { "subject": "Tesis bakım ödemesi yapıldı", "body": "€{{amount}} tutarındaki aylık tesis bakımı kulüp hesabından ödendi." },
+        "facilityUpkeepSpike": { "subject": "Tesis bakım maliyeti arttı", "body": "Tesis bakımı bu ay €{{amount}} seviyesine ulaştı. Son yükseltmeler işletme maliyetlerini artırıyor." },
+        "prizePayout": { "subject": "Ödül parası onaylandı", "body": "{{season}}. sezon için {{position}}. sıra karşılığında €{{amount}} ödül verildi." },
+        "boardFinancialHealth": { "subject": "Yönetim finansal durum özeti", "body": "Mevcut bakiye: €{{balance}}. Aylık net eğilim: €{{monthlyNet}}. Tahmini dayanma süresi: {{monthsLeft}} ay." }
       },
       "seasonPayout": {
         "subject": "Sezon {{season}} Ödül Parası Yatırıldı",

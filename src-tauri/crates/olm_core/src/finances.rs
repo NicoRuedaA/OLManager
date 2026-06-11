@@ -4,8 +4,9 @@ use crate::domain::team::{
     MainFacilityModuleKind, Sponsorship, SponsorshipBonusCriterion, Team,
 };
 use crate::game::Game;
-use chrono::Datelike;
+use chrono::{Datelike, NaiveDate};
 use rand::RngExt;
+use std::collections::{HashMap, HashSet};
 
 const MAIN_HUB_UPKEEP_PER_EXTRA_LEVEL: i64 = 20_000;
 const ESPORTS_SPONSOR_THEME_MULTIPLIER: f64 = 1.15;
@@ -23,6 +24,32 @@ struct MonthlyTeamExpenses {
     facility_upkeep: i64,
 }
 
+enum MonthlyFinanceMailEvent {
+    SponsorPayout {
+        team_id: String,
+        sponsor_name: String,
+        amount: i64,
+    },
+    SponsorBonus {
+        team_id: String,
+        sponsor_name: String,
+        bonus_amount: i64,
+        total_amount: i64,
+    },
+    SponsorExpired {
+        team_id: String,
+        sponsor_name: String,
+    },
+    FacilityUpkeepSummary {
+        team_id: String,
+        amount: i64,
+    },
+    FacilityUpkeepSpike {
+        team_id: String,
+        amount: i64,
+    },
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BudgetImpact {
     None,
@@ -38,14 +65,40 @@ pub struct FinanceTransactionInput {
     pub kind: FinancialTransactionKind,
     pub budget_impact: BudgetImpact,
     pub affects_season_totals: bool,
+    pub source: String,
+    pub source_id: Option<String>,
+    pub correlation_id: Option<String>,
 }
 
-pub fn record_transaction(team: &mut Team, input: FinanceTransactionInput) {
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum FinanceTransactionError {
+    InvalidDate,
+    BlankDescription,
+    BlankSource,
+    ZeroAmount,
+    SignKindMismatch,
+}
+
+pub fn record_transaction(
+    team: &mut Team,
+    input: FinanceTransactionInput,
+) -> Result<FinancialTransaction, FinanceTransactionError> {
+    validate_transaction_input(&input)?;
+
+    let balance_before = team.finance;
+    let balance_after = balance_before + input.amount;
+    let ledger_len = team.financial_ledger.len();
+    let source_id_part = input.source_id.as_deref().unwrap_or("none");
+    let id = format!(
+        "tx:{}:{}:{}:{}:{}:{}",
+        team.id, input.date, input.source, source_id_part, input.amount, ledger_len
+    );
+
     if input.amount == 0 {
-        return;
+        return Err(FinanceTransactionError::ZeroAmount);
     }
 
-    team.finance += input.amount;
+    team.finance = balance_after;
 
     if input.affects_season_totals {
         if input.amount > 0 {
@@ -61,12 +114,290 @@ pub fn record_transaction(team: &mut Team, input: FinanceTransactionInput) {
         BudgetImpact::Wage(delta) => team.wage_budget += delta,
     }
 
-    team.financial_ledger.push(FinancialTransaction {
+    let transaction = FinancialTransaction {
+        id,
         date: input.date,
         description: input.description,
         amount: input.amount,
         kind: input.kind,
-    });
+        balance_before,
+        balance_after,
+        source: input.source,
+        source_id: input.source_id,
+        correlation_id: input.correlation_id,
+    };
+    team.financial_ledger.push(transaction.clone());
+    Ok(transaction)
+}
+
+fn validate_transaction_input(
+    input: &FinanceTransactionInput,
+) -> Result<(), FinanceTransactionError> {
+    if NaiveDate::parse_from_str(&input.date, "%Y-%m-%d").is_err() {
+        return Err(FinanceTransactionError::InvalidDate);
+    }
+    if input.description.trim().is_empty() {
+        return Err(FinanceTransactionError::BlankDescription);
+    }
+    if input.source.trim().is_empty() {
+        return Err(FinanceTransactionError::BlankSource);
+    }
+    if input.amount == 0 {
+        return Err(FinanceTransactionError::ZeroAmount);
+    }
+    if !kind_matches_amount_sign(input.kind.clone(), input.amount) {
+        return Err(FinanceTransactionError::SignKindMismatch);
+    }
+    Ok(())
+}
+
+fn kind_matches_amount_sign(kind: FinancialTransactionKind, amount: i64) -> bool {
+    match kind {
+        FinancialTransactionKind::Salary
+        | FinancialTransactionKind::StaffWage
+        | FinancialTransactionKind::FacilityUpkeep
+        | FinancialTransactionKind::FacilityUpgrade
+        | FinancialTransactionKind::TransferPurchase
+        | FinancialTransactionKind::ReleasePenalty
+        | FinancialTransactionKind::AcademyAcquisition => amount < 0,
+        FinancialTransactionKind::TransferSale
+        | FinancialTransactionKind::Sponsorship
+        | FinancialTransactionKind::MatchdayRevenue
+        | FinancialTransactionKind::PrizeMoney
+        | FinancialTransactionKind::BudgetRefresh => amount > 0,
+        FinancialTransactionKind::Other => true,
+    }
+}
+
+pub fn push_finance_mail_once(
+    game: &mut Game,
+    team_id: &str,
+    correlation_id: &str,
+    event: &str,
+    subject_key: &str,
+    body_key: &str,
+    params: HashMap<String, String>,
+    date: &str,
+) -> bool {
+    let id = format!("finance:{correlation_id}:{event}");
+    if game.messages.iter().any(|message| message.id == id) {
+        return false;
+    }
+
+    let mut message = InboxMessage::new(
+        id,
+        "Finance update".to_string(),
+        "A finance update is available.".to_string(),
+        "Financial Director".to_string(),
+        date.to_string(),
+    )
+    .with_category(MessageCategory::Finance)
+    .with_priority(MessagePriority::Normal)
+    .with_sender_role("Financial Director")
+    .with_i18n(subject_key, body_key, params)
+    .with_sender_i18n("be.sender.financialDirector", "be.role.financialDirector")
+    .with_action(action(
+        "view_finances",
+        "View Finances",
+        "be.msg.event.ack",
+        ActionType::NavigateTo {
+            route: "/dashboard?tab=Finances".to_string(),
+        },
+    ));
+    message.context.team_id = Some(team_id.to_string());
+    game.messages.push(message);
+    true
+}
+
+pub fn push_sponsor_accepted_mail(
+    game: &mut Game,
+    team_id: &str,
+    sponsor_name: &str,
+    annual_amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("sponsor-accepted:{team_id}:{sponsor_name}:{date}"),
+        "sponsorAccepted",
+        "be.msg.finance.sponsorAccepted.subject",
+        "be.msg.finance.sponsorAccepted.body",
+        params(&[
+            ("sponsorName", sponsor_name.to_string()),
+            ("amount", format_money(annual_amount.unsigned_abs())),
+        ]),
+        date,
+    )
+}
+
+pub fn push_sponsor_payout_mail(
+    game: &mut Game,
+    team_id: &str,
+    sponsor_name: &str,
+    amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("sponsor-payout:{team_id}:{date}"),
+        "sponsorPayout",
+        "be.msg.finance.sponsorPayout.subject",
+        "be.msg.finance.sponsorPayout.body",
+        params(&[
+            ("sponsorName", sponsor_name.to_string()),
+            ("amount", format_money(amount.unsigned_abs())),
+        ]),
+        date,
+    )
+}
+
+pub fn push_sponsor_bonus_mail(
+    game: &mut Game,
+    team_id: &str,
+    sponsor_name: &str,
+    bonus_amount: i64,
+    total_amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("sponsor-bonus:{team_id}:{sponsor_name}:{date}"),
+        "sponsorBonus",
+        "be.msg.finance.sponsorBonus.subject",
+        "be.msg.finance.sponsorBonus.body",
+        params(&[
+            ("sponsorName", sponsor_name.to_string()),
+            ("bonusAmount", format_money(bonus_amount.unsigned_abs())),
+            ("totalAmount", format_money(total_amount.unsigned_abs())),
+        ]),
+        date,
+    )
+}
+
+pub fn push_sponsor_expired_mail(
+    game: &mut Game,
+    team_id: &str,
+    sponsor_name: &str,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("sponsor-expired:{team_id}:{sponsor_name}:{date}"),
+        "sponsorExpired",
+        "be.msg.finance.sponsorExpired.subject",
+        "be.msg.finance.sponsorExpired.body",
+        params(&[("sponsorName", sponsor_name.to_string())]),
+        date,
+    )
+}
+
+pub fn push_facility_upkeep_summary_mail(
+    game: &mut Game,
+    team_id: &str,
+    amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("facility-upkeep:{team_id}:{date}"),
+        "facilityUpkeepSummary",
+        "be.msg.finance.facilityUpkeepSummary.subject",
+        "be.msg.finance.facilityUpkeepSummary.body",
+        params(&[("amount", format_money(amount.unsigned_abs()))]),
+        date,
+    )
+}
+
+pub fn push_facility_upkeep_spike_mail(
+    game: &mut Game,
+    team_id: &str,
+    amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("facility-upkeep-spike:{team_id}:{date}"),
+        "facilityUpkeepSpike",
+        "be.msg.finance.facilityUpkeepSpike.subject",
+        "be.msg.finance.facilityUpkeepSpike.body",
+        params(&[("amount", format_money(amount.unsigned_abs()))]),
+        date,
+    )
+}
+
+pub fn push_prize_payout_mail(
+    game: &mut Game,
+    team_id: &str,
+    season: u32,
+    position: u32,
+    amount: i64,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("prize:{team_id}:{season}:{position}"),
+        "prizePayout",
+        "be.msg.finance.prizePayout.subject",
+        "be.msg.finance.prizePayout.body",
+        params(&[
+            ("season", season.to_string()),
+            ("position", position.to_string()),
+            ("amount", format_money(amount.unsigned_abs())),
+        ]),
+        date,
+    )
+}
+
+pub fn push_board_financial_health_mail(
+    game: &mut Game,
+    team_id: &str,
+    balance: i64,
+    monthly_net: i64,
+    months_left: Option<i64>,
+    date: &str,
+) -> bool {
+    push_finance_mail_once(
+        game,
+        team_id,
+        &format!("board-health:{team_id}:{date}"),
+        "boardFinancialHealth",
+        "be.msg.finance.boardFinancialHealth.subject",
+        "be.msg.finance.boardFinancialHealth.body",
+        params(&[
+            ("balance", format_money(balance.unsigned_abs())),
+            ("monthlyNet", signed_money(monthly_net)),
+            (
+                "monthsLeft",
+                months_left
+                    .map(|value| value.to_string())
+                    .unwrap_or_else(|| "stable".to_string()),
+            ),
+        ]),
+        date,
+    )
+}
+
+fn params(pairs: &[(&str, String)]) -> HashMap<String, String> {
+    pairs
+        .iter()
+        .map(|(key, value)| ((*key).to_string(), value.clone()))
+        .collect()
+}
+
+fn signed_money(amount: i64) -> String {
+    let formatted = format_money(amount.unsigned_abs());
+    if amount < 0 {
+        format!("-{formatted}")
+    } else {
+        formatted
+    }
 }
 
 fn action(id: &str, label: &str, label_key: &str, action_type: ActionType) -> MessageAction {
@@ -272,6 +603,8 @@ pub fn process_monthly_finances(game: &mut Game) {
     }
 
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
+    let user_team_id = game.manager.team_id.clone();
+    let mut mail_events = Vec::new();
     let team_expenses: Vec<MonthlyTeamExpenses> = game
         .teams
         .iter()
@@ -325,8 +658,12 @@ pub fn process_monthly_finances(game: &mut Game) {
                     kind: FinancialTransactionKind::Salary,
                     budget_impact: BudgetImpact::None,
                     affects_season_totals: true,
+                    source: "monthly".to_string(),
+                    source_id: Some("player-wages".to_string()),
+                    correlation_id: Some(format!("monthly:{}:{}:player-wages", team.id, today)),
                 },
-            );
+            )
+            .ok();
             record_transaction(
                 team,
                 FinanceTransactionInput {
@@ -336,8 +673,12 @@ pub fn process_monthly_finances(game: &mut Game) {
                     kind: FinancialTransactionKind::StaffWage,
                     budget_impact: BudgetImpact::None,
                     affects_season_totals: true,
+                    source: "monthly".to_string(),
+                    source_id: Some("staff-wages".to_string()),
+                    correlation_id: Some(format!("monthly:{}:{}:staff-wages", team.id, today)),
                 },
-            );
+            )
+            .ok();
             record_transaction(
                 team,
                 FinanceTransactionInput {
@@ -347,8 +688,25 @@ pub fn process_monthly_finances(game: &mut Game) {
                     kind: FinancialTransactionKind::FacilityUpkeep,
                     budget_impact: BudgetImpact::None,
                     affects_season_totals: true,
+                    source: "facility".to_string(),
+                    source_id: Some("monthly-upkeep".to_string()),
+                    correlation_id: Some(format!("facility-upkeep:{}:{}", team.id, today)),
                 },
-            );
+            )
+            .ok();
+
+            if expenses.facility_upkeep > 0 && Some(team.id.as_str()) == user_team_id.as_deref() {
+                mail_events.push(MonthlyFinanceMailEvent::FacilityUpkeepSummary {
+                    team_id: team.id.clone(),
+                    amount: expenses.facility_upkeep,
+                });
+                if expenses.facility_upkeep >= 100_000 {
+                    mail_events.push(MonthlyFinanceMailEvent::FacilityUpkeepSpike {
+                        team_id: team.id.clone(),
+                        amount: expenses.facility_upkeep,
+                    });
+                }
+            }
         }
 
         let current_position = team_positions
@@ -356,16 +714,24 @@ pub fn process_monthly_finances(game: &mut Game) {
             .find(|(team_id, _)| team_id == &team.id)
             .and_then(|(_, position)| *position);
 
-        let sponsorship_income = team
-            .sponsorship
+        let sponsorship_context = team.sponsorship.as_ref().map(|sponsorship| {
+            let base_income = calc_sponsorship_income(current_position, &team.form, sponsorship);
+            let bonus_income =
+                evaluate_sponsorship_bonus(current_position, &team.form, sponsorship);
+            let facility_mult = facility_module_sponsorship_multiplier(&team.facilities);
+            // base_value is annual, divide by 12 for monthly payment
+            let monthly_income = ((base_income as f64 * facility_mult) / 12.0).round() as i64;
+            let monthly_bonus = ((bonus_income as f64 * facility_mult) / 12.0).round() as i64;
+            (
+                sponsorship.sponsor_name.clone(),
+                monthly_income,
+                monthly_bonus,
+                sponsorship.remaining_months,
+            )
+        });
+        let sponsorship_income = sponsorship_context
             .as_ref()
-            .map(|sponsorship| {
-                let base_income =
-                    calc_sponsorship_income(current_position, &team.form, sponsorship);
-                let facility_mult = facility_module_sponsorship_multiplier(&team.facilities);
-                // base_value is annual, divide by 12 for monthly payment
-                ((base_income as f64 * facility_mult) / 12.0).round() as i64
-            })
+            .map(|(_, monthly_income, _, _)| *monthly_income)
             .unwrap_or(0);
 
         if sponsorship_income > 0 {
@@ -378,14 +744,82 @@ pub fn process_monthly_finances(game: &mut Game) {
                     kind: FinancialTransactionKind::Sponsorship,
                     budget_impact: BudgetImpact::None,
                     affects_season_totals: true,
+                    source: "sponsor".to_string(),
+                    source_id: team.sponsorship.as_ref().map(|s| s.sponsor_name.clone()),
+                    correlation_id: Some(format!("sponsor-payout:{}:{}", team.id, today)),
                 },
-            );
+            )
+            .ok();
+            if Some(team.id.as_str()) == user_team_id.as_deref() {
+                if let Some((sponsor_name, monthly_income, monthly_bonus, _)) = &sponsorship_context
+                {
+                    mail_events.push(MonthlyFinanceMailEvent::SponsorPayout {
+                        team_id: team.id.clone(),
+                        sponsor_name: sponsor_name.clone(),
+                        amount: *monthly_income,
+                    });
+                    if *monthly_bonus > 0 {
+                        mail_events.push(MonthlyFinanceMailEvent::SponsorBonus {
+                            team_id: team.id.clone(),
+                            sponsor_name: sponsor_name.clone(),
+                            bonus_amount: *monthly_bonus,
+                            total_amount: *monthly_income,
+                        });
+                    }
+                }
+            }
         }
 
         if let Some(sponsorship) = team.sponsorship.as_mut() {
+            let sponsor_name = sponsorship.sponsor_name.clone();
             sponsorship.remaining_months = sponsorship.remaining_months.saturating_sub(1);
             if sponsorship.remaining_months == 0 {
                 team.sponsorship = None;
+                if Some(team.id.as_str()) == user_team_id.as_deref() {
+                    mail_events.push(MonthlyFinanceMailEvent::SponsorExpired {
+                        team_id: team.id.clone(),
+                        sponsor_name,
+                    });
+                }
+            }
+        }
+    }
+
+    for event in mail_events {
+        match event {
+            MonthlyFinanceMailEvent::SponsorPayout {
+                team_id,
+                sponsor_name,
+                amount,
+            } => {
+                push_sponsor_payout_mail(game, &team_id, &sponsor_name, amount, &today);
+            }
+            MonthlyFinanceMailEvent::SponsorBonus {
+                team_id,
+                sponsor_name,
+                bonus_amount,
+                total_amount,
+            } => {
+                push_sponsor_bonus_mail(
+                    game,
+                    &team_id,
+                    &sponsor_name,
+                    bonus_amount,
+                    total_amount,
+                    &today,
+                );
+            }
+            MonthlyFinanceMailEvent::SponsorExpired {
+                team_id,
+                sponsor_name,
+            } => {
+                push_sponsor_expired_mail(game, &team_id, &sponsor_name, &today);
+            }
+            MonthlyFinanceMailEvent::FacilityUpkeepSummary { team_id, amount } => {
+                push_facility_upkeep_summary_mail(game, &team_id, amount, &today);
+            }
+            MonthlyFinanceMailEvent::FacilityUpkeepSpike { team_id, amount } => {
+                push_facility_upkeep_spike_mail(game, &team_id, amount, &today);
             }
         }
     }
@@ -425,8 +859,12 @@ pub fn process_monthly_finances(game: &mut Game) {
                         kind: FinancialTransactionKind::MatchdayRevenue,
                         budget_impact: BudgetImpact::None,
                         affects_season_totals: true,
+                        source: "monthly".to_string(),
+                        source_id: Some("matchday".to_string()),
+                        correlation_id: Some(format!("matchday:{}:{}", team.id, today)),
                     },
-                );
+                )
+                .ok();
             }
         }
     }
@@ -447,8 +885,7 @@ fn generate_financial_warnings(game: &mut Game, today: &str) {
         None => return,
     };
 
-    let existing_ids: std::collections::HashSet<String> =
-        game.messages.iter().map(|m| m.id.clone()).collect();
+    let existing_ids: HashSet<String> = game.messages.iter().map(|m| m.id.clone()).collect();
 
     let mut new_messages: Vec<InboxMessage> = Vec::new();
 

@@ -41,13 +41,14 @@ fn upgrade_facility_internal(state: &StateManager, facility: &str) -> Result<Gam
         _ => return Err(format!("Unknown facility type: {}", facility)),
     };
 
+    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     let team = game
         .teams
         .iter_mut()
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    olm_core::club::upgrade_facility(team, facility_type)?;
+    olm_core::club::upgrade_facility(team, facility_type, &today)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -78,13 +79,14 @@ fn upgrade_main_facility_module_internal(
         _ => return Err(format!("Unknown facility module: {}", module)),
     };
 
+    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     let team = game
         .teams
         .iter_mut()
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    olm_core::club::upgrade_main_facility_module(team, module_kind)?;
+    olm_core::club::upgrade_main_facility_module(team, module_kind, &today)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -102,13 +104,14 @@ fn expand_main_facility_hub_internal(state: &StateManager) -> Result<Game, Strin
         .clone()
         .ok_or("No team assigned".to_string())?;
 
+    let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     let team = game
         .teams
         .iter_mut()
         .find(|team| team.id == team_id)
         .ok_or("Managed team not found".to_string())?;
 
-    olm_core::club::expand_main_facility_hub(team)?;
+    olm_core::club::expand_main_facility_hub(team, &today)?;
 
     state.set_game(game.clone());
     Ok(game)
@@ -178,5 +181,4 @@ mod tests {
         assert_eq!(stored_team.finance, 750_000);
     }
 }
-
 

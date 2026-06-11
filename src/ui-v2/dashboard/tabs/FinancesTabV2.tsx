@@ -17,8 +17,7 @@ import {
   User,
 } from "lucide-react";
 
-import type { GameStateData, MessageAction, MessageData, PlayerSelectionOptions } from "@/store/gameStore";
-import { resolveMessage } from "@/lib/i18n/backendI18n";
+import type { GameStateData, PlayerSelectionOptions } from "@/store/gameStore";
 import {
   formatVal,
   getContractRiskLevel,
@@ -26,6 +25,12 @@ import {
 } from "@/lib/common/helpers";
 import {
   getFinancialLedger,
+  filterLedgerEntries,
+  getLedgerEntryBalanceAfter,
+  getLedgerEntrySource,
+  getLedgerEntrySourceLabelKey,
+  getLedgerSources,
+  groupLedgerEntriesByDate,
   safeFinanceNumber,
   getTeamFinanceSnapshot,
   getTransferBudgetSummary,
@@ -68,18 +73,6 @@ function getFacilityUpgradeCost(level: number): number {
 
 function getMainHubExpansionCost(level: number): number {
   return level * 500_000;
-}
-
-function isChooseOptionAction(actionType: MessageAction["action_type"]) {
-  return typeof actionType === "object" && "ChooseOption" in actionType;
-}
-
-function isPendingSponsorOffer(message: MessageData): boolean {
-  return (
-    message.id.startsWith("sponsor_") &&
-    message.category === "Finance" &&
-    message.actions.some((a) => !a.resolved && isChooseOptionAction(a.action_type))
-  );
 }
 
 type SortKey = "name" | "position" | "wage" | "value" | "contract";
@@ -135,6 +128,9 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
   const [selectedRiskPlayerIds, setSelectedRiskPlayerIds] = useState<string[]>([]);
   const [sortKey, setSortKey] = useState<SortKey>("wage");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [ledgerSearch, setLedgerSearch] = useState("");
+  const [ledgerKindFilter, setLedgerKindFilter] = useState<FinancialTransactionKind | "all">("all");
+  const [ledgerSourceFilter, setLedgerSourceFilter] = useState("all");
 
   const toggleSort = (key: SortKey) => {
     if (sortKey === key) setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
@@ -153,6 +149,16 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
     ? getTransferBudgetSummary(myTeam)
     : { spend: 0, remaining: 0, total: 0, usagePercent: 0 };
   const financialLedger = myTeam ? getFinancialLedger(myTeam) : [];
+  const ledgerSources = useMemo(() => getLedgerSources(financialLedger), [financialLedger]);
+  const filteredLedger = useMemo(
+    () => filterLedgerEntries(financialLedger, {
+      search: ledgerSearch,
+      kind: ledgerKindFilter,
+      source: ledgerSourceFilter,
+    }),
+    [financialLedger, ledgerSearch, ledgerKindFilter, ledgerSourceFilter],
+  );
+  const ledgerGroups = useMemo(() => groupLedgerEntriesByDate(filteredLedger), [filteredLedger]);
   const totalValue = roster.reduce((s, p) => s + safeFinanceNumber(p.market_value), 0);
 
   const financeSnapshot = myTeam
@@ -176,8 +182,6 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
   const nextHubExpansionCost = getMainHubExpansionCost(mainHubLevel);
   const canExpandMainHub = teamBalance >= nextHubExpansionCost;
   const activeSponsorship = getSponsorshipContractView(myTeam?.sponsorship);
-  const sponsorOffers = gameState.messages.filter(isPendingSponsorOffer).map(resolveMessage);
-
   const contractRiskPlayers = useMemo(
     () =>
       roster
@@ -259,23 +263,6 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
       );
     } catch (err) {
       console.error("Failed to delegate renewals:", err);
-    } finally {
-      setActionLoading(null);
-    }
-  };
-
-  const handleSponsorOption = async (messageId: string, actionId: string, optionId: string) => {
-    const loadingKey = `sponsor:${messageId}:${optionId}`;
-    setActionLoading(loadingKey);
-    try {
-      const result = await invoke<{ game: GameStateData }>("resolve_message_action", {
-        messageId,
-        actionId,
-        optionId,
-      });
-      onGameUpdate(result.game);
-    } catch (err) {
-      console.error("Failed to resolve sponsor offer:", err);
     } finally {
       setActionLoading(null);
     }
@@ -472,16 +459,69 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
         </CardHeader>
         <CardContent>
           {financialLedger.length > 0 ? (
-            <div className="space-y-2">
-              {financialLedger.map((entry, index) => (
-                <div key={`${entry.date}-${entry.kind}-${index}`} className="grid grid-cols-[7rem_1fr_auto] items-center gap-3 rounded-lg bg-muted/40 px-3 py-2 text-sm">
-                  <span className="tabular-nums text-muted-foreground">{entry.date}</span>
-                  <span className="truncate text-foreground">{LEDGER_KIND_LABELS[entry.kind] ?? entry.kind}</span>
-                  <span className={cn("font-heading font-bold tabular-nums", entry.amount < 0 ? "text-red-400" : "text-emerald-400")}>
-                    {formatLedgerAmount(entry.amount)}
-                  </span>
-                </div>
-              ))}
+            <div className="space-y-3">
+              <div className="grid gap-2 md:grid-cols-[1fr_auto_auto]">
+                <label className="sr-only" htmlFor="ledger-search">{t("finances.ledgerSearchLabel")}</label>
+                <input
+                  id="ledger-search"
+                  value={ledgerSearch}
+                  onChange={(event) => setLedgerSearch(event.target.value)}
+                  placeholder={t("finances.ledgerSearchPlaceholder")}
+                  className="rounded-md border border-border bg-muted/30 px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+                />
+                <label className="sr-only" htmlFor="ledger-kind-filter">{t("finances.ledgerKindFilter")}</label>
+                <select
+                  id="ledger-kind-filter"
+                  value={ledgerKindFilter}
+                  onChange={(event) => setLedgerKindFilter(event.target.value as FinancialTransactionKind | "all")}
+                  className="rounded-md border border-border bg-muted/30 px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
+                >
+                  <option value="all">{t("finances.ledgerAllKinds")}</option>
+                  {(Object.keys(LEDGER_KIND_LABELS) as FinancialTransactionKind[]).map((kind) => (
+                    <option key={kind} value={kind}>{LEDGER_KIND_LABELS[kind]}</option>
+                  ))}
+                </select>
+                <label className="sr-only" htmlFor="ledger-source-filter">{t("finances.ledgerSourceFilter")}</label>
+                <select
+                  id="ledger-source-filter"
+                  value={ledgerSourceFilter}
+                  onChange={(event) => setLedgerSourceFilter(event.target.value)}
+                  className="rounded-md border border-border bg-muted/30 px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
+                >
+                  <option value="all">{t("finances.ledgerAllSources")}</option>
+                  {ledgerSources.map((source) => (
+                    <option key={source} value={source}>{t(`finances.ledgerSource.${source}`)}</option>
+                  ))}
+                </select>
+              </div>
+              {ledgerGroups.length > 0 ? ledgerGroups.map((group) => (
+                <section key={group.date} className="space-y-2">
+                  <h4 className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground tabular-nums">{group.date}</h4>
+                  {group.entries.map((entry, index) => {
+                    const balanceAfter = getLedgerEntryBalanceAfter(entry);
+                    return (
+                      <div key={`${entry.id ?? entry.date}-${entry.kind}-${index}`} className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-lg bg-muted/40 px-3 py-2 text-sm md:grid-cols-[1fr_8rem_auto]">
+                        <div className="min-w-0">
+                          <span className="block truncate text-foreground">{entry.description || (LEDGER_KIND_LABELS[entry.kind] ?? entry.kind)}</span>
+                          <span className="mt-0.5 inline-flex gap-2 text-[11px] text-muted-foreground">
+                            <span>{LEDGER_KIND_LABELS[entry.kind] ?? entry.kind}</span>
+                            <span>·</span>
+                            <span>{t(getLedgerEntrySourceLabelKey(entry), getLedgerEntrySource(entry))}</span>
+                          </span>
+                        </div>
+                        <span className="hidden text-xs tabular-nums text-muted-foreground md:inline">
+                          {balanceAfter === null ? "—" : `${t("finances.ledgerRunningBalance")}: ${formatVal(balanceAfter)}`}
+                        </span>
+                        <span className={cn("font-heading font-bold tabular-nums", entry.amount < 0 ? "text-red-400" : "text-emerald-400")}>
+                          {formatLedgerAmount(entry.amount)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </section>
+              )) : (
+                <p className="text-sm text-muted-foreground">{t("finances.ledgerNoMatches")}</p>
+              )}
             </div>
           ) : (
             <p className="text-sm text-muted-foreground">

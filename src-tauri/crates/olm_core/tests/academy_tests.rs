@@ -1,9 +1,13 @@
+use chrono::{TimeZone, Utc};
 use olm_core::academy::{
-    eligible_academy_acquisition_options, validate_academy_acquisition,
-    validate_parent_academy_link, AcademyAcquisitionOption, AcademyError, ErlAcademyCandidate,
-    ErlAssignmentRule, ErlLeagueDefinition,
+    acquire_academy, eligible_academy_acquisition_options, get_acquisition_options,
+    validate_academy_acquisition, validate_parent_academy_link, AcademyAcquisitionOption,
+    AcademyError, ErlAcademyCandidate, ErlAssignmentRule, ErlLeagueDefinition,
 };
-use olm_core::domain::team::{Team, TeamKind};
+use olm_core::clock::GameClock;
+use olm_core::domain::manager::Manager;
+use olm_core::domain::team::{FinancialTransactionKind, Team, TeamKind};
+use olm_core::game::Game;
 
 fn team(id: &str, country: &str, finance: i64) -> Team {
     let mut team = Team::new(
@@ -172,5 +176,52 @@ fn unrelated_parent_academy_movement_is_rejected() {
             parent_team_id: "lec-team".to_string(),
             academy_team_id: "other-academy".to_string(),
         })
+    );
+}
+
+#[test]
+fn academy_acquisition_records_canonical_ledger_date_and_source() {
+    let repo_root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .ancestors()
+        .nth(3)
+        .expect("repo root should be above olm_core crate");
+    std::env::set_current_dir(repo_root).expect("test can use repo data catalog");
+
+    let clock = GameClock::new(Utc.with_ymd_and_hms(2026, 3, 15, 12, 0, 0).unwrap());
+    let mut manager = Manager::new(
+        "manager-1".to_string(),
+        "Jane".to_string(),
+        "Doe".to_string(),
+        "1980-01-01".to_string(),
+        "FR".to_string(),
+    );
+    manager.hire("lec-team".to_string());
+    let parent = team("lec-team", "FR", 2_000_000);
+    let mut game = Game::new(clock, manager, vec![parent], vec![], vec![], vec![]);
+    let (options, _) = get_acquisition_options(&game, "lec-team");
+    let source_team_id = options
+        .first()
+        .expect("at least one academy option should be available")
+        .source_team_id
+        .clone();
+
+    acquire_academy(&mut game, "lec-team", &source_team_id, None, None)
+        .expect("academy acquisition succeeds");
+
+    let parent = game
+        .teams
+        .iter()
+        .find(|team| team.id == "lec-team")
+        .expect("parent team exists");
+    assert_eq!(parent.financial_ledger.len(), 1);
+    let entry = &parent.financial_ledger[0];
+    assert_eq!(entry.date, "2026-03-15");
+    assert_eq!(entry.kind, FinancialTransactionKind::AcademyAcquisition);
+    assert_eq!(entry.source, "academy");
+    assert_eq!(entry.source_id.as_deref(), Some(source_team_id.as_str()));
+    let expected_correlation = format!("academy-acquisition:lec-team:{source_team_id}");
+    assert_eq!(
+        entry.correlation_id.as_deref(),
+        Some(expected_correlation.as_str())
     );
 }
