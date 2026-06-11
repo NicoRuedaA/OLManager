@@ -14,7 +14,7 @@ use crate::domain::transfer_history::TransferHistory;
 #[cfg(feature = "typescript")]
 use ts_rs::TS;
 
-use crate::generator::definitions::ScheduleConfig;
+use crate::generator::definitions::CompetitionManifest;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -133,7 +133,7 @@ pub struct Game {
     #[serde(default)]
     pub stats_state: StatsState,
     #[serde(default)]
-    pub competition_configs: HashMap<String, ScheduleConfig>,
+    pub competition_configs: HashMap<String, CompetitionManifest>,
     #[serde(default)]
     pub transfer_history: TransferHistory,
 }

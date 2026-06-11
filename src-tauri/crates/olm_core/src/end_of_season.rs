@@ -7,11 +7,9 @@ use crate::finances::{
     FinanceTransactionInput,
 };
 use crate::game::Game;
-use crate::generator::definitions::ScheduleConfig;
+use crate::generator::definitions::CompetitionManifest;
 use crate::schedule::{
     append_fixtures, generate_preseason_friendlies, generate_schedule_from_config,
-    generate_single_round_league_with_offsets_and_bo_with_id, parse_lec_split, regular_best_of,
-    LecSplit,
 };
 use crate::season_awards::compute_season_awards;
 use chrono::{Datelike, TimeZone, Utc};
@@ -75,41 +73,6 @@ pub fn is_league_complete(league: &League) -> bool {
     regular_complete && playoffs_complete
 }
 
-fn next_lec_split(
-    current_name: &str,
-    current_season: u32,
-) -> (String, u32, LecSplit, chrono::DateTime<Utc>, [i64; 9]) {
-    match parse_lec_split(current_name) {
-        Some(LecSplit::Winter) => (
-            "LEC Spring".to_string(),
-            current_season,
-            LecSplit::Spring,
-            Utc.with_ymd_and_hms(current_season as i32, 3, 29, 0, 0, 0)
-                .unwrap(),
-            [0, 7, 14, 21, 28, 35, 42, 49, 56],
-        ),
-        Some(LecSplit::Spring) => (
-            "LEC Summer".to_string(),
-            current_season,
-            LecSplit::Summer,
-            Utc.with_ymd_and_hms(current_season as i32, 8, 2, 0, 0, 0)
-                .unwrap(),
-            [0, 7, 14, 21, 28, 35, 42, 49, 56],
-        ),
-        _ => {
-            let next_season = current_season + 1;
-            (
-                "LEC Winter".to_string(),
-                next_season,
-                LecSplit::Winter,
-                Utc.with_ymd_and_hms(next_season as i32, 1, 18, 0, 0, 0)
-                    .unwrap(),
-                [0, 1, 2, 7, 8, 9, 14, 15, 16],
-            )
-        }
-    }
-}
-
 /// Check if the season is complete (all fixtures played).
 pub fn is_season_complete(game: &Game) -> bool {
     game.active_league().is_some_and(is_league_complete)
@@ -149,25 +112,79 @@ fn refresh_hiring_cycle_budgets(team: &mut crate::domain::team::Team) {
 
 /// Process end-of-season: record history, compute awards, reset stats, generate next season.
 /// Returns a summary struct for the frontend to display.
-/// Accepts an optional ScheduleConfig for manifest-driven schedule generation.
+/// Accepts an optional CompetitionManifest for manifest-driven schedule generation.
 pub fn process_end_of_season(game: &mut Game) -> EndOfSeasonSummary {
     process_end_of_season_inner(game, None)
 }
 
-/// Like `process_end_of_season` but accepts a ScheduleConfig for manifest-driven
+/// Like `process_end_of_season` but accepts a CompetitionManifest for manifest-driven
 /// schedule generation in the next split.
 pub fn process_end_of_season_with_config(
     game: &mut Game,
-    schedule_config: Option<&crate::generator::definitions::ScheduleConfig>,
+    manifest: Option<&CompetitionManifest>,
 ) -> EndOfSeasonSummary {
-    process_end_of_season_inner(game, schedule_config)
+    process_end_of_season_inner(game, manifest)
+}
+
+/// Process end-of-split: generate next split's schedule using the league's
+/// current `split_index`. Caller is responsible for:
+///   - Calling `process_end_of_season` first when the split wraps the season
+///   - Setting `split_index = 0` and `season += 1` before calling this
+///     function for the new season's first split
+/// Unlike end_of_season, this does NOT record history, award prizes,
+/// reset player stats, or send board messages — only fixtures are created.
+pub fn process_end_of_split(game: &mut Game, manifest: &CompetitionManifest) {
+    let league = match game.active_league() {
+        Some(l) => l,
+        None => return,
+    };
+    let split_index = league.split_index;
+    let season = league.season;
+    let team_ids: Vec<String> = league
+        .standings
+        .iter()
+        .map(|s| s.team_id.clone())
+        .collect();
+    let user_team_id = game.manager.team_id.clone().unwrap_or_default();
+
+    let mut new_league = generate_schedule_from_config(manifest, season, &team_ids, split_index);
+
+    if !user_team_id.is_empty() {
+        let opponents: Vec<String> = team_ids
+            .iter()
+            .filter(|tid| tid.as_str() != user_team_id)
+            .cloned()
+            .collect();
+        let split = &manifest.schedule.splits[split_index];
+        let next_start = Utc
+            .with_ymd_and_hms(
+                season as i32,
+                split.season_start.month,
+                split.season_start.day,
+                0,
+                0,
+                0,
+            )
+            .unwrap();
+        let friendlies = generate_preseason_friendlies(
+            &user_team_id,
+            &opponents,
+            next_start,
+            manifest.schedule.preseason_friendlies as usize,
+        );
+        append_fixtures(&mut new_league, friendlies);
+    }
+
+    if let Some(active) = game.active_league_mut() {
+        *active = new_league;
+    }
 }
 
 /// Process end-of-season for background leagues (game.leagues[1..]).
 /// Records team history for completed bg leagues and generates next season via
-/// the competition manifest's ScheduleConfig (looked up by competition_id).
+/// the competition manifest (looked up by competition_id).
 /// Skips bg leagues that are not complete, or have no competition_id.
-pub fn process_background_seasons(game: &mut Game, configs: &HashMap<String, ScheduleConfig>) {
+pub fn process_background_seasons(game: &mut Game, manifests: &HashMap<String, CompetitionManifest>) {
     // First pass: identify complete bg leagues (avoiding borrow conflicts)
     let complete_indices: Vec<usize> = (1..game.leagues.len())
         .filter(|i| is_league_complete(&game.leagues[*i]))
@@ -182,36 +199,45 @@ pub fn process_background_seasons(game: &mut Game, configs: &HashMap<String, Sch
             .iter()
             .map(|entry| entry.team_id.clone())
             .collect();
-        let league_name = game.leagues[i].name.clone();
 
-        // Record TeamSeasonRecord for each team (no prize money, no messages)
-        for (idx, standing) in final_standings.iter().enumerate() {
-            if let Some(team) = game.teams.iter_mut().find(|t| t.id == standing.team_id) {
-                team.history.push(TeamSeasonRecord {
-                    season,
-                    league_position: (idx + 1) as u32,
-                    played: standing.played,
-                    won: standing.won,
-                    lost: standing.lost,
-                    kills_for: standing.maps_won,
-                    kills_against: standing.maps_lost,
-                });
-                // Reset form
-                team.form.clear();
+        // Determine if this split wraps the season (last split → new year)
+        let is_end_of_season = competition_id
+            .as_ref()
+            .and_then(|cid| manifests.get(cid))
+            .is_some_and(|manifest| game.leagues[i].split_index + 1 >= manifest.schedule.splits.len());
+
+        if is_end_of_season {
+            // Record TeamSeasonRecord for each team (no prize money, no messages)
+            for (idx, standing) in final_standings.iter().enumerate() {
+                if let Some(team) = game.teams.iter_mut().find(|t| t.id == standing.team_id) {
+                    team.history.push(TeamSeasonRecord {
+                        season,
+                        league_position: (idx + 1) as u32,
+                        played: standing.played,
+                        won: standing.won,
+                        lost: standing.lost,
+                        kills_for: standing.maps_won,
+                        kills_against: standing.maps_lost,
+                    });
+                    team.form.clear();
+                }
             }
         }
 
-        // Generate next season schedule if competition_id is available
+        // Generate next split/season schedule
         if let Some(ref cid) = competition_id {
-            if let Some(config) = configs.get(cid) {
-                let next_season = season + 1;
+            if let Some(manifest) = manifests.get(cid) {
+                let next_idx = game.leagues[i].split_index + 1;
+                let (ns, split_idx) = if next_idx >= manifest.schedule.splits.len() {
+                    (season + 1, 0)
+                } else {
+                    (season, next_idx)
+                };
                 let new_league = generate_schedule_from_config(
-                    cid,
-                    &league_name,
-                    next_season,
+                    manifest,
+                    ns,
                     &team_ids,
-                    config,
-                    0,
+                    split_idx,
                 );
                 game.leagues[i] = new_league;
             }
@@ -221,7 +247,7 @@ pub fn process_background_seasons(game: &mut Game, configs: &HashMap<String, Sch
 
 fn process_end_of_season_inner(
     game: &mut Game,
-    schedule_config: Option<&crate::generator::definitions::ScheduleConfig>,
+    _manifest: Option<&CompetitionManifest>,
 ) -> EndOfSeasonSummary {
     crate::board_objectives::update_objective_progress(game);
 
@@ -230,13 +256,14 @@ fn process_end_of_season_inner(
         None => return EndOfSeasonSummary::default(),
     };
 
-    let league_id = league
+    let _league_id = league
         .competition_id
         .as_deref()
         .unwrap_or(&league.id)
         .to_string();
     let season = league.season;
     let league_name = league.name.clone();
+    let _current_split_index = league.split_index;
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     // Messages should be dated on the last match day, not on the clock date
     // (which may already be one day ahead due to process_day advancing the clock).
@@ -464,128 +491,27 @@ fn process_end_of_season_inner(
     // 6c. Clear old news articles from the previous season
     game.news.clear();
 
-    // 7. Generate next season schedule
-    let team_ids: Vec<String> = final_standings
-        .iter()
-        .map(|standing| standing.team_id.clone())
-        .collect();
-
-    // Determine next season number (may be used by both manifest and legacy paths)
-    let next_season_num: u32;
-
-    let new_league = if let Some(config) = schedule_config {
-        // Manifest-driven schedule generation
-        let current_split_name = parse_lec_split(&league_name)
-            .map(|s| match s {
-                LecSplit::Winter => "Winter",
-                LecSplit::Spring => "Spring",
-                LecSplit::Summer => "Summer",
-            })
-            .unwrap_or("Winter");
-
-        // Find the current split index
-        let current_idx = config
-            .splits
-            .iter()
-            .position(|s| s.name.eq_ignore_ascii_case(current_split_name))
-            .unwrap_or(0);
-
-        // Next split index (wrap with year increment)
-        let next_idx = current_idx + 1;
-        let (ns, split_idx) = if next_idx >= config.splits.len() {
-            (season + 1, 0) // Next year, first split
-        } else {
-            (season, next_idx)
-        };
-        next_season_num = ns;
-
-        let mut league = crate::schedule::generate_schedule_from_config(
-            &league_id,
-            &config.splits[split_idx].name,
-            next_season_num,
-            &team_ids,
-            config,
-            split_idx,
-        );
-
-        if !user_team_id.is_empty() {
-            let opponents: Vec<String> = team_ids
-                .iter()
-                .filter(|tid| tid.as_str() != user_team_id)
-                .cloned()
-                .collect();
-            let split = &config.splits[split_idx];
-            let next_start = Utc
-                .with_ymd_and_hms(
-                    next_season_num as i32,
-                    split.season_start.month,
-                    split.season_start.day,
-                    0,
-                    0,
-                    0,
-                )
-                .unwrap();
-            let friendlies = generate_preseason_friendlies(
-                &user_team_id,
-                &opponents,
-                next_start,
-                config.preseason_friendlies as usize,
-            );
-            append_fixtures(&mut league, friendlies);
-        }
-
-        league
-    } else {
-        // Legacy LEC hardcoded schedule generation
-        let (next_league_name, ns, next_split, next_start, round_offsets) =
-            next_lec_split(&league_name, season);
-        next_season_num = ns;
-        let expected_round_count = team_ids.len().saturating_sub(1);
-        let next_round_offsets = if round_offsets.len() == expected_round_count {
-            Some(round_offsets.as_slice())
-        } else {
-            None
-        };
-        let mut league = generate_single_round_league_with_offsets_and_bo_with_id(
-            &league_id,
-            &next_league_name,
-            next_season_num,
-            &team_ids,
-            next_start,
-            next_round_offsets,
-            regular_best_of(next_split),
-        );
-        if !user_team_id.is_empty() {
-            let opponents: Vec<String> = team_ids
-                .iter()
-                .filter(|tid| tid.as_str() != user_team_id)
-                .cloned()
-                .collect();
-            let friendlies =
-                generate_preseason_friendlies(&user_team_id, &opponents, next_start, 3);
-            append_fixtures(&mut league, friendlies);
-        }
-        league
-    };
+    // 7. Advance to next season: increment year, reset split.
+    // Schedule generation is handled by the caller (process_end_of_split).
+    let next_season_num = season + 1;
     if let Some(active) = game.active_league_mut() {
-        *active = new_league;
+        active.season = next_season_num;
+        active.split_index = 0;
     }
 
-    let next_season = next_season_num;
-
-    let preview_date = game.clock.current_date.to_rfc3339();
-    let team_names: Vec<String> = team_ids
+    let team_names: Vec<String> = final_standings
         .iter()
-        .filter_map(|team_id| {
+        .map(|s| {
             game.teams
                 .iter()
-                .find(|team| &team.id == team_id)
-                .map(|team| team.name.clone())
+                .find(|t| t.id == s.team_id)
+                .map(|t| t.name.clone())
+                .unwrap_or_default()
         })
         .collect();
     game.news.push(crate::news::season_preview_article(
         &team_names,
-        &preview_date,
+        &game.clock.current_date.to_rfc3339(),
     ));
 
     // 8. Send end-of-season messages
@@ -766,33 +692,31 @@ fn process_end_of_season_inner(
         game.messages.push(msg);
     }
 
-    let sched_msg_id = format!("new_season_{}", next_season);
-    if !existing_ids.contains(&sched_msg_id) {
-        let mut sched_params = std::collections::HashMap::new();
-        sched_params.insert("season".to_string(), next_season.to_string());
-        let sched_msg = InboxMessage::new(
-            sched_msg_id,
-            format!("Season {} — New Schedule Released", next_season),
-            format!(
-                "The schedule for Season {} has been released! The new campaign kicks off in 4 weeks.\n\n\
-                Use this break to assess your squad, make any necessary changes, and prepare for the challenges ahead.\n\n\
-                Good luck!",
-                next_season
-            ),
-            "League Office".to_string(),
-            last_fixture_date,
-        )
-        .with_category(MessageCategory::LeagueInfo)
-        .with_priority(MessagePriority::Normal)
-        .with_sender_role("Competition Secretary")
-        .with_i18n(
-            "be.msg.newSeasonSchedule.subject",
-            "be.msg.newSeasonSchedule.body",
-            sched_params,
-        )
-        .with_sender_i18n("be.sender.leagueOffice", "be.role.match_typeSecretary");
-        game.messages.push(sched_msg);
-    }
+    let sched_msg_id = format!("new_season_{}", next_season_num);
+    let mut sched_params = std::collections::HashMap::new();
+    sched_params.insert("season".to_string(), next_season_num.to_string());
+    let sched_msg = InboxMessage::new(
+        sched_msg_id,
+        format!("Season {} — New Schedule Released", next_season_num),
+        format!(
+            "The schedule for Season {} has been released! The new campaign kicks off in 4 weeks.\n\n\
+            Use this break to assess your squad, make any necessary changes, and prepare for the challenges ahead.\n\n\
+            Good luck!",
+            next_season_num
+        ),
+        "League Office".to_string(),
+        last_fixture_date,
+    )
+    .with_category(MessageCategory::LeagueInfo)
+    .with_priority(MessagePriority::Normal)
+    .with_sender_role("Competition Secretary")
+    .with_i18n(
+        "be.msg.newSeasonSchedule.subject",
+        "be.msg.newSeasonSchedule.body",
+        sched_params,
+    )
+    .with_sender_i18n("be.sender.leagueOffice", "be.role.match_typeSecretary");
+    game.messages.push(sched_msg);
 
     crate::season_context::refresh_game_context(game);
 

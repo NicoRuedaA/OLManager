@@ -24,6 +24,8 @@ pub struct League {
     pub logo: Option<String>,
     #[serde(default)]
     pub league_kind: LeagueKind,
+    #[serde(default)]
+    pub split_index: usize,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
@@ -200,6 +202,7 @@ impl League {
             competition_id,
             logo: None,
             league_kind: LeagueKind::Main,
+            split_index: 0,
         }
     }
 

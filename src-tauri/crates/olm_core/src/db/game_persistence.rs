@@ -145,13 +145,43 @@ impl GamePersistenceReader {
         // Load ALL competitions (background leagues survive save/load)
         let (all_leagues, config_jsons) = competition_repo::load_competitions(conn).map_err(|e| format!("competitions: {}", e))?;
 
-        // Parse schedule_config JSON strings into ScheduleConfig objects
-        use crate::generator::definitions::ScheduleConfig;
+        // Parse schedule_config JSON strings into CompetitionManifest objects.
+        // Old saves stored bare ScheduleConfig — wrap them in a minimal manifest.
+        use crate::generator::definitions::{CompetitionManifest, ScheduleConfig};
         let mut competition_configs = std::collections::HashMap::new();
         for (cid, json_str) in &config_jsons {
-            if let Ok(config) = serde_json::from_str::<ScheduleConfig>(json_str) {
-                competition_configs.insert(cid.clone(), config);
-            }
+            let manifest = match serde_json::from_str::<CompetitionManifest>(json_str) {
+                Ok(m) => m,
+                Err(_) => {
+                    // Old format: just a ScheduleConfig. Build a minimal manifest.
+                    if let Ok(config) = serde_json::from_str::<ScheduleConfig>(json_str) {
+                        // We don't have the real name here, but the league struct in the
+                        // DB has it on its own `name` field, so this is only used for
+                        // schedule config lookups.
+                        CompetitionManifest {
+                            id: cid.clone(),
+                            name: cid.clone(),
+                            region: String::new(),
+                            full_name: None,
+                            country: None,
+                            tier: None,
+                            logo: None,
+                            schedule: config,
+                            teams_file: "teams.json".to_string(),
+                            players_file: "players.json".to_string(),
+                            staff_file: None,
+                            championships_file: None,
+                            erls: Vec::new(),
+                            reputation: None,
+                            nearby_country_codes: Vec::new(),
+                            legacy: false,
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+            };
+            competition_configs.insert(cid.clone(), manifest);
         }
 
         let league = league_repo::load_league(conn)?;

@@ -1,6 +1,7 @@
 use log::info;
 use tauri::State;
 
+use olm_core::generator::definitions::CompetitionManifest;
 use olm_core::state::StateManager;
 
 #[tauri::command]
@@ -12,15 +13,12 @@ pub fn check_season_complete(state: State<'_, StateManager>) -> Result<bool, Str
     Ok(olm_core::end_of_season::is_season_complete(&game))
 }
 
-/// Try to load the competition manifest from the game's league data.
-/// If available, return the ScheduleConfig for manifest-driven schedule generation.
-fn resolve_schedule_config(
+/// Try to load the competition manifest from disk.
+fn resolve_competition_manifest(
     game: &olm_core::game::Game,
-) -> Option<olm_core::generator::definitions::ScheduleConfig> {
-    // Use the active competition's ID, not the first team's (which may be unrelated)
+) -> Option<CompetitionManifest> {
     let competition_id = game.user_competition_id.as_deref()?;
 
-    // First try: data dir relative to the executable (Tauri build)
     let exe_dir = std::env::current_exe().ok()?.parent()?.to_path_buf();
     let relative_paths = [
         exe_dir.join("data").join("competitions").join(competition_id).join("manifest.json"),
@@ -28,13 +26,12 @@ fn resolve_schedule_config(
     ];
     for p in &relative_paths {
         if let Ok(json) = std::fs::read_to_string(p) {
-            if let Ok(manifest) = serde_json::from_str::<olm_core::generator::definitions::CompetitionManifest>(&json) {
-                return Some(manifest.schedule);
+            if let Ok(manifest) = serde_json::from_str::<CompetitionManifest>(&json) {
+                return Some(manifest);
             }
         }
     }
 
-    // Fallback: try current working directory paths (dev mode)
     if let Ok(cwd) = std::env::current_dir() {
         let cwd_paths = [
             cwd.join("data").join("competitions").join(competition_id).join("manifest.json"),
@@ -42,8 +39,8 @@ fn resolve_schedule_config(
         ];
         for p in &cwd_paths {
             if let Ok(json) = std::fs::read_to_string(p) {
-                if let Ok(manifest) = serde_json::from_str::<olm_core::generator::definitions::CompetitionManifest>(&json) {
-                    return Some(manifest.schedule);
+                if let Ok(manifest) = serde_json::from_str::<CompetitionManifest>(&json) {
+                    return Some(manifest);
                 }
             }
         }
@@ -63,27 +60,61 @@ pub fn advance_to_next_season(state: State<'_, StateManager>) -> Result<serde_js
         return Err("Season is not yet complete".to_string());
     }
 
-    // Try to resolve schedule config for manifest-driven flow
-    let schedule_config = resolve_schedule_config(&game);
+    // Try to resolve competition manifest for manifest-driven flow
+    let manifest = resolve_competition_manifest(&game);
+    let mut was_season_end: bool;
 
-    let summary = if let Some(ref config) = schedule_config {
-        info!(
-            "[cmd] advance_to_next_season: using manifest-driven schedule",
-        );
-        olm_core::end_of_season::process_end_of_season_with_config(&mut game, Some(config))
+    let summary = if let Some(ref manifest) = manifest {
+        let is_wrapping = game
+            .active_league()
+            .is_some_and(|league| league.split_index + 1 >= manifest.schedule.splits.len());
+
+        was_season_end = is_wrapping;
+
+        if is_wrapping {
+            info!(
+                "[cmd] advance_to_next_season: season complete, running full end-of-season"
+            );
+            let summary = olm_core::end_of_season::process_end_of_season_with_config(
+                &mut game, Some(manifest),
+            );
+            // After season-end processing, generate split 0 of the new season
+            olm_core::end_of_season::process_end_of_split(&mut game, manifest);
+            summary
+        } else {
+            was_season_end = false;
+            info!(
+                "[cmd] advance_to_next_season: split complete, advancing to next split"
+            );
+            // Increment split, then generate its schedule
+            if let Some(l) = game.active_league_mut() {
+                l.split_index += 1;
+            }
+            olm_core::end_of_season::process_end_of_split(&mut game, manifest);
+            // Return a minimal summary — no awards/history/reset on mid-year splits
+            let league = game.active_league().cloned();
+            olm_core::end_of_season::EndOfSeasonSummary {
+                season: league.as_ref().map(|l| l.season).unwrap_or(0),
+                league_name: league.as_ref().map(|l| l.name.clone()).unwrap_or_default(),
+                ..Default::default()
+            }
+        }
     } else {
+        was_season_end = true;
         info!("[cmd] advance_to_next_season: using legacy schedule");
         olm_core::end_of_season::process_end_of_season(&mut game)
     };
 
     // Process background league seasons
     {
-        let configs = game.competition_configs.clone();
-        olm_core::end_of_season::process_background_seasons(&mut game, &configs);
+        let manifests = game.competition_configs.clone();
+        olm_core::end_of_season::process_background_seasons(&mut game, &manifests);
     }
 
     // End-of-season objective evaluation may have dropped satisfaction — check firing
-    olm_core::firing::check_manager_firing(&mut game);
+    if was_season_end {
+        olm_core::firing::check_manager_firing(&mut game);
+    }
 
     state.set_game(game.clone());
 

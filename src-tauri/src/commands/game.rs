@@ -352,7 +352,7 @@ pub async fn select_team(
             continue;
         }
         let mut league = olm_core::schedule::generate_schedule_from_config(
-            cid, &manifest.name, season_year as u32, &team_ids, schedule_config, 0,
+            manifest, season_year as u32, &team_ids, 0,
         );
 
         // Generate preseason friendlies for ALL competitions
@@ -399,7 +399,7 @@ pub async fn select_team(
     // Populate competition_configs from all manifests for bg season cycling
     for manifest in all_manifests.iter().filter(|m| !m.legacy) {
         game.competition_configs
-            .insert(manifest.id.clone(), manifest.schedule.clone());
+            .insert(manifest.id.clone(), (*manifest).clone());
     }
 
     game.leagues = all_leagues;
@@ -414,7 +414,7 @@ pub async fn select_team(
     let league_display_name = user_cid
         .and_then(|cid| crate::commands::competitions::load_competition_manifest(&app_handle, cid).ok())
         .map(|m| format!("{} {}", m.name, m.schedule.splits.first().map(|s| s.name.as_str()).unwrap_or("")))
-        .unwrap_or_else(|| "LEC Winter".to_string());
+        .unwrap_or_else(|| "Competition.error".to_string());
 
     // Initialize message template store
     {

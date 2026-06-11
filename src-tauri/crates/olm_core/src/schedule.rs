@@ -1,5 +1,6 @@
 use chrono::{DateTime, Duration, TimeZone, Utc};
 use crate::domain::league::{Fixture, FixtureStatus, League, MatchType};
+use crate::generator::definitions::CompetitionManifest;
 use uuid::Uuid;
 
 fn build_fixture(
@@ -277,30 +278,30 @@ pub fn generate_single_round_league_with_offsets_and_bo_with_id(
     league
 }
 
-/// Generate a league schedule from a competition manifest's `ScheduleConfig`.
-/// Uses the first split's configuration (season_start, superweek_offsets, best_of).
-/// Supports "single_round_robin" format (others may be added later).
+/// Generate a league schedule from a competition manifest.
+/// Supports "single_round_robin" and "double_round_robin" formats.
+/// League name is set to the manifest's name (no split suffix).
 pub fn generate_schedule_from_config(
-    competition_id: &str,
-    competition_name: &str,
+    manifest: &CompetitionManifest,
     year: u32,
     team_ids: &[String],
-    config: &crate::generator::definitions::ScheduleConfig,
     split_index: usize,
 ) -> League {
+    let config = &manifest.schedule;
     // Defensive: a manifest with no schedule splits cannot produce a calendar.
     // Return an empty league (id + teams, no fixtures) instead of panicking on
     // an out-of-bounds index. Callers that need a real schedule should skip
     // such competitions beforehand.
     if config.splits.get(split_index).is_none() {
         let mut league = League::new(
-            competition_id.to_string(),
-            competition_name.to_string(),
+            manifest.id.clone(),
+            manifest.name.clone(),
             year,
             team_ids,
             None,
         );
-        league.competition_id = Some(competition_id.to_string());
+        league.competition_id = Some(manifest.id.clone());
+        league.split_index = split_index;
         return league;
     }
     let split = &config.splits[split_index];
@@ -315,13 +316,11 @@ pub fn generate_schedule_from_config(
         )
         .unwrap();
 
-    let split_name = format!("{} {}", competition_name, split.name);
-
     let mut league = match config.format.as_str() {
         "single_round_robin" => {
             generate_single_round_league_with_offsets_and_bo_with_id(
-                competition_id,
-                &split_name,
+                &manifest.id,
+                &manifest.name,
                 year,
                 team_ids,
                 season_start,
@@ -335,8 +334,8 @@ pub fn generate_schedule_from_config(
         }
         "double_round_robin" => {
             let mut l = generate_single_round_league_with_offsets_and_bo_with_id(
-                competition_id,
-                &split_name,
+                &manifest.id,
+                &manifest.name,
                 year,
                 team_ids,
                 season_start,
@@ -350,7 +349,7 @@ pub fn generate_schedule_from_config(
             let last_offset = split.superweek_offsets.last().copied().unwrap_or(7 * (team_ids.len() as i64 - 1));
             let return_start = season_start + Duration::days(last_offset + 7);
             let return_league = generate_single_round_league_with_offsets_and_bo(
-                &format!("{} (Return)", split_name),
+                &format!("{} (Return)", manifest.name),
                 year,
                 team_ids,
                 return_start,
@@ -380,7 +379,7 @@ pub fn generate_schedule_from_config(
                 config.format
             );
             generate_single_round_league_with_offsets_and_bo(
-                &split_name,
+                &manifest.name,
                 year,
                 team_ids,
                 season_start,
@@ -393,7 +392,8 @@ pub fn generate_schedule_from_config(
             )
         }
     };
-    league.competition_id = Some(competition_id.to_string());
+    league.competition_id = Some(manifest.id.clone());
+    league.split_index = split_index;
     league
 }
 

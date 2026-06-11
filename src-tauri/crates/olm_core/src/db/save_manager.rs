@@ -257,7 +257,31 @@ impl SaveManager {
             save_path
         );
 
-        let game = Self::read_olsave(&save_path)?;
+        let mut game = Self::read_olsave(&save_path)?;
+
+        // Migration: re-derive `competition_id` for leagues where it was
+        // lost (old saves before the field existed).  Try to find any team
+        // in the league's standings that has a known competition_id and
+        // propagate it back to the league.
+        for league in &mut game.leagues {
+            if league.competition_id.is_some() {
+                continue;
+            }
+            if let Some(tid) = league.standings.first().map(|s| s.team_id.as_str()) {
+                if let Some(cid) = game
+                    .teams
+                    .iter()
+                    .find(|t| t.id == tid)
+                    .and_then(|t| t.competition_id.clone())
+                {
+                    league.competition_id = Some(cid);
+                    info!(
+                        "[save_manager] migrated competition_id={:?} for league '{}'",
+                        league.competition_id, league.name
+                    );
+                }
+            }
+        }
 
         info!(
             "[save_manager] load_game: loaded, players={}, teams={}",
