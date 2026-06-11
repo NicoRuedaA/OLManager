@@ -88,7 +88,9 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
       <CardContent className="flex-1">
         <div className="grid h-full gap-2 lg:grid-cols-5">
           {lineup.map(({ role, player }) => {
-            const photo = player ? resolvePlayerPhoto(player.id, player.match_name) : null;
+            const photo = player
+              ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url)
+              : null;
             const ovr = player ? calculateLolOvr(player) : null;
             const condition = player?.condition ?? null;
             const morale = player?.morale ?? null;
