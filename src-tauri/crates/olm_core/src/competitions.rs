@@ -142,8 +142,10 @@ pub fn load_staff(
         Some(path) => data_base.join(path),
         None => return Ok(Vec::new()),
     };
+    eprintln!("[competitions] loading staff for '{}' from {:?}", manifest.id, staff_path);
     info!("[competitions] loading staff for '{}' from {:?}", manifest.id, staff_path);
     let json = std::fs::read_to_string(&staff_path).map_err(|e| {
+        eprintln!("[competitions] FAILED to read staff file {:?}: {}", staff_path, e);
         format!(
             "Failed to read staff file '{}' for '{}': {}",
             manifest.staff_file.as_deref().unwrap_or("?"),
@@ -190,8 +192,20 @@ fn competition_summary(
     data_base: &Path,
     manifest: CompetitionManifest,
 ) -> Option<CompetitionSummary> {
-    let teams = load_teams(data_base, &manifest).ok()?;
-    let player_count_by_team = load_player_count_by_team(data_base, &manifest).unwrap_or_default();
+    let teams = match load_teams(data_base, &manifest) {
+        Ok(t) => t,
+        Err(err) => {
+            info!("[competitions] competition_summary: failed to load teams for '{}': {}", manifest.id, err);
+            return None;
+        }
+    };
+    let player_count_by_team = match load_player_count_by_team(data_base, &manifest) {
+        Ok(counts) => counts,
+        Err(err) => {
+            info!("[competitions] competition_summary: failed to load player counts for '{}': {}", manifest.id, err);
+            HashMap::new()
+        }
+    };
     let prefix = format!("{}-", manifest.id);
 
     let team_summaries: Vec<TeamSummary> = teams
@@ -236,11 +250,24 @@ fn competition_summary(
 /// This is read-only and does not require game state.
 pub fn build_league_selection(data_base: &Path) -> LeagueSelectionData {
     let competitions_base = data_base.join("competitions");
+    info!("[LeagueDebug] data_base={:?}, competitions_base={:?}", data_base, competitions_base);
     let manifests = scan_competitions(&competitions_base);
 
-    let competitions: Vec<CompetitionSummary> = manifests
+    for m in &manifests {
+        info!("[LeagueDebug] manifest: id={}, name={}, legacy={}, tier={:?}", m.id, m.name, m.legacy, m.tier);
+    }
+
+    let filtered_manifests: Vec<_> = manifests
         .into_iter()
         .filter(|m| !m.legacy && m.tier.unwrap_or(1) == 1)
+        .collect();
+
+    for m in &filtered_manifests {
+        info!("[LeagueDebug] PASSED filter: id={}, name={}", m.id, m.name);
+    }
+
+    let competitions: Vec<CompetitionSummary> = filtered_manifests
+        .into_iter()
         .filter_map(|manifest| competition_summary(data_base, manifest))
         .collect();
 
