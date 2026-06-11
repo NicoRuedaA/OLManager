@@ -21,6 +21,8 @@ export type {
   AcademyCreationOptionData,
   AcademyCreationOptionsResponseData,
   LolTacticsData,
+  FinancialTransactionKind,
+  FinancialTransactionData,
   TeamData,
   MatchOutcome,
   TeamSide,

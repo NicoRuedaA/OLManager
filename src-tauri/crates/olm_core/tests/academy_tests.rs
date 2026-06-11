@@ -1,9 +1,9 @@
-use domain::team::{Team, TeamKind};
-use ofm_core::academy::{
-    AcademyAcquisitionOption, AcademyError, ErlAcademyCandidate, ErlAssignmentRule,
-    ErlLeagueDefinition, eligible_academy_acquisition_options, validate_academy_acquisition,
-    validate_parent_academy_link,
+use olm_core::academy::{
+    eligible_academy_acquisition_options, validate_academy_acquisition,
+    validate_parent_academy_link, AcademyAcquisitionOption, AcademyError, ErlAcademyCandidate,
+    ErlAssignmentRule, ErlLeagueDefinition,
 };
+use olm_core::domain::team::{Team, TeamKind};
 
 fn team(id: &str, country: &str, finance: i64) -> Team {
     let mut team = Team::new(
@@ -71,11 +71,9 @@ fn acquisition_options_include_candidates_from_all_configured_erl_leagues() {
 
     assert_eq!(options.len(), 2);
     assert!(options.iter().any(|option| option.source_team_id == "kcb"));
-    assert!(
-        options
-            .iter()
-            .any(|option| option.source_team_id == "heretics")
-    );
+    assert!(options
+        .iter()
+        .any(|option| option.source_team_id == "heretics"));
 }
 
 #[test]

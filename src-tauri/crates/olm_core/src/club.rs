@@ -1,4 +1,7 @@
-use crate::domain::team::{Facilities, FacilityType, MainFacilityModuleKind, Team};
+use crate::domain::team::{
+    Facilities, FacilityType, FinancialTransactionKind, MainFacilityModuleKind, Team,
+};
+use crate::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 
 pub const BASE_FACILITY_UPGRADE_COST: i64 = 250_000;
 pub const BASE_MAIN_HUB_EXPANSION_COST: i64 = 500_000;
@@ -61,8 +64,17 @@ pub fn expand_main_facility_hub(team: &mut Team) -> Result<i64, String> {
         ));
     }
 
-    team.finance -= cost;
-    team.season_expenses += cost;
+    record_transaction(
+        team,
+        FinanceTransactionInput {
+            date: String::new(),
+            description: "Main facility hub expansion".to_string(),
+            amount: -cost,
+            kind: FinancialTransactionKind::FacilityUpgrade,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
     team.facilities.main_hub_level = team
         .facilities
         .as_main_facility_hub()
@@ -89,8 +101,17 @@ pub fn upgrade_main_facility_module(
         ));
     }
 
-    team.finance -= cost;
-    team.season_expenses += cost;
+    record_transaction(
+        team,
+        FinanceTransactionInput {
+            date: String::new(),
+            description: format!("Facility module upgrade: {module:?}"),
+            amount: -cost,
+            kind: FinancialTransactionKind::FacilityUpgrade,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
     set_module_level(
         &mut team.facilities,
         module,
@@ -115,8 +136,17 @@ pub fn upgrade_facility(team: &mut Team, facility_type: FacilityType) -> Result<
         team.facilities.main_hub_level = target_level;
     }
 
-    team.finance -= cost;
-    team.season_expenses += cost;
+    record_transaction(
+        team,
+        FinanceTransactionInput {
+            date: String::new(),
+            description: format!("Facility upgrade: {facility_type:?}"),
+            amount: -cost,
+            kind: FinancialTransactionKind::FacilityUpgrade,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
 
     match facility_type {
         FacilityType::Training => {
@@ -140,4 +170,3 @@ pub fn upgrade_facility(team: &mut Team, facility_type: FacilityType) -> Result<
 
     Ok(cost)
 }
-

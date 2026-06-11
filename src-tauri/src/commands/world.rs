@@ -318,7 +318,7 @@ mod tests {
         );
         manager.hire("team-1".to_string());
 
-        let mut team = Team::new(
+        let team = Team::new(
             "team-1".to_string(),
             "London FC".to_string(),
             "LFC".to_string(),
@@ -354,7 +354,7 @@ mod tests {
 
         let written_path = export_world_database_internal(&state, &export_path).unwrap();
         let json = fs::read_to_string(&written_path).unwrap();
-        let world: WorldData = serde_json::from_str(&json).unwrap();
+        let _world: WorldData = serde_json::from_str(&json).unwrap();
     }
 
     #[test]
@@ -434,7 +434,7 @@ mod tests {
 
         let written_path = write_database_json_to_dir(temp_dir.path(), json).unwrap();
         let stored_json = fs::read_to_string(&written_path).unwrap();
-        let world: WorldData = serde_json::from_str(&stored_json).unwrap();
+        let _world: WorldData = serde_json::from_str(&stored_json).unwrap();
     }
 
     #[test]

@@ -29,7 +29,7 @@ import { resolvePlayerCurrentLolRole } from "@/lib/players/lolIdentity";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 import { countryName } from "@/lib/common/countries";
 import { resolveSeasonContext } from "@/lib/season/seasonContext";
-import { annualAmountToMonthlyCommitment } from "@/lib/finances/finance";
+import { getAnnualWageBill, getTransferBudgetSummary } from "@/lib/finances/finance";
 import {
   counterOffer,
   makeTransferBid,
@@ -137,7 +137,7 @@ export function TransfersTabV2({
   const managedTeamIds = [myTeam?.id, academyTeam?.id].filter(Boolean) as string[];
 
   const myRoster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
-  const totalWages = myRoster.reduce((sum, p) => sum + annualAmountToMonthlyCommitment(p.wage), 0);
+  const totalAnnualWages = getAnnualWageBill(myRoster);
 
   // ─── View + Sort + Filter state ───
   const [view, setView] = useState<TransferTabView>("my_list");
@@ -453,8 +453,14 @@ export function TransfersTabV2({
     }
   };
 
+  const transferBudgetSummary = myTeam
+    ? getTransferBudgetSummary(myTeam)
+    : { spend: 0, remaining: 0, total: 0, usagePercent: 0 };
+  const annualSuffix = t("finances.perYearSuffix", { defaultValue: "/yr" });
   const annualWageBudget = myTeam ? myTeam.wage_budget : 0;
-  const weeklyWageBudget = annualAmountToMonthlyCommitment(annualWageBudget);
+  const wageBudgetUsagePercent = Math.round(
+    (totalAnnualWages / Math.max(1, annualWageBudget)) * 100,
+  );
 
   // ─── Render helpers ───
   const renderEmptyState = (icon: React.ReactNode, message: string, action?: React.ReactNode) => (
@@ -510,30 +516,45 @@ export function TransfersTabV2({
             <div className="flex gap-3">
               <div className="min-w-[100px] rounded-lg bg-muted/30 px-3 py-2 text-center">
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {t("finances.transferBudget")}
+                  {t("finances.transferBudgetRemaining", "Transfer budget remaining")}
                 </p>
-                <p className="font-heading text-lg font-bold tabular-nums text-primary">{formatVal(myTeam.transfer_budget)}</p>
-                {myTeam.season_expenses > 0 && (
-                  <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
+                <p className="font-heading text-lg font-bold tabular-nums text-primary">{formatVal(transferBudgetSummary.remaining)}</p>
+                <p className="mt-0.5 text-[10px] text-muted-foreground">
+                  {t("finances.transferSpendThisSeason", "Transfer spend this season")}
+                </p>
+                <p className="text-[10px] tabular-nums text-muted-foreground">
+                  {t("finances.transferSpentAmount", {
+                    amount: formatVal(transferBudgetSummary.spend),
+                    defaultValue: `${formatVal(transferBudgetSummary.spend)} spent`,
+                  })}
+                </p>
+                {transferBudgetSummary.total > 0 && (
+                  <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
                     <div
                       className="h-full rounded-full bg-primary/60"
-                      style={{ width: `${Math.min(100, (myTeam.season_expenses / Math.max(1, myTeam.transfer_budget)) * 100)}%` }}
+                      style={{ width: `${Math.min(100, transferBudgetSummary.usagePercent)}%` }}
                     />
                   </div>
                 )}
               </div>
               <div className="min-w-[100px] rounded-lg bg-muted/30 px-3 py-2 text-center">
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {t("finances.wageBudget")}
+                  {t("finances.annualWageBudget", "Annual wage budget")}
                 </p>
                 <p className="font-heading text-lg font-bold tabular-nums text-foreground">
-                  €{formatVal(annualWageBudget)}
+                  {formatVal(annualWageBudget)} {annualSuffix}
                 </p>
-                {totalWages > 0 && (
+                <p className="mt-0.5 text-[10px] text-muted-foreground">
+                  {t("finances.annualWageBill", "Annual wage bill")}
+                </p>
+                <p className="text-[10px] tabular-nums text-muted-foreground">
+                  {formatVal(totalAnnualWages)} {annualSuffix}
+                </p>
+                {totalAnnualWages > 0 && (
                   <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted">
                     <div
                       className="h-full rounded-full bg-emerald-400/60"
-                      style={{ width: `${Math.min(100, (totalWages / Math.max(1, weeklyWageBudget)) * 100)}%` }}
+                      style={{ width: `${Math.min(100, wageBudgetUsagePercent)}%` }}
                     />
                   </div>
                 )}

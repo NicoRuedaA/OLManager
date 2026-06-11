@@ -517,7 +517,7 @@ export default function TransfersTab({
   const safePage = Math.min(page, totalPages - 1);
   const paginatedList = filteredList.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
   const annualWageBudget = myTeam ? myTeam.wage_budget : 0;
-  const weeklyWageBudget = annualAmountToMonthlyCommitment(annualWageBudget);
+  const monthlyWageBudget = annualAmountToMonthlyCommitment(annualWageBudget);
   const bidAmountValue = Number.parseFloat(bidAmount);
   const bidFee = Number.isFinite(bidAmountValue)
     ? Math.round(bidAmountValue)
@@ -618,7 +618,7 @@ export default function TransfersTab({
                 </p>
                 {totalWages > 0 && (
                   <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden mt-1">
-                    <div className="h-full rounded-full bg-success-400/60" style={{ width: `${Math.min(100, (totalWages / Math.max(1, weeklyWageBudget)) * 100)}%` }} />
+                    <div className="h-full rounded-full bg-success-400/60" style={{ width: `${Math.min(100, (totalWages / Math.max(1, monthlyWageBudget)) * 100)}%` }} />
                   </div>
                 )}
               </div>
@@ -1179,4 +1179,3 @@ export default function TransfersTab({
     </div>
   );
 }
-

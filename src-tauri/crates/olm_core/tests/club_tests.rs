@@ -1,9 +1,11 @@
 use chrono::{TimeZone, Utc};
-use domain::manager::Manager;
-use domain::team::{Facilities, FacilityType, MainFacilityModuleKind, Team};
-use ofm_core::clock::GameClock;
-use ofm_core::club;
-use ofm_core::game::Game;
+use olm_core::clock::GameClock;
+use olm_core::club;
+use olm_core::domain::manager::Manager;
+use olm_core::domain::team::{
+    Facilities, FacilityType, FinancialTransactionKind, MainFacilityModuleKind, Team,
+};
+use olm_core::game::Game;
 
 fn make_team(id: &str, name: &str) -> Team {
     let mut team = Team::new(
@@ -45,6 +47,13 @@ fn upgrade_facility_deducts_funds_and_increments_level() {
 
     assert_eq!(cost, 250_000);
     assert_eq!(game.teams[0].finance, initial_finance - cost);
+    assert_eq!(game.teams[0].season_expenses, cost);
+    assert_eq!(game.teams[0].financial_ledger.len(), 1);
+    assert_eq!(
+        game.teams[0].financial_ledger[0].kind,
+        FinancialTransactionKind::FacilityUpgrade
+    );
+    assert_eq!(game.teams[0].financial_ledger[0].amount, -cost);
     assert_eq!(game.teams[0].facilities.medical, 2);
 }
 
@@ -76,13 +85,18 @@ fn expand_main_facility_hub_deducts_funds_and_unlocks_next_module_level() {
 
     assert_eq!(cost, 500_000);
     assert_eq!(game.teams[0].finance, initial_finance - cost);
+    assert_eq!(game.teams[0].season_expenses, cost);
+    assert_eq!(game.teams[0].financial_ledger.len(), 1);
+    assert_eq!(
+        game.teams[0].financial_ledger[0].kind,
+        FinancialTransactionKind::FacilityUpgrade
+    );
+    assert_eq!(game.teams[0].financial_ledger[0].amount, -cost);
     assert_eq!(game.teams[0].facilities.as_main_facility_hub().level, 2);
     assert_eq!(game.teams[0].facilities.training, 1);
-    assert!(
-        game.teams[0]
-            .facilities
-            .can_upgrade_main_facility_module(MainFacilityModuleKind::RecoverySuite)
-    );
+    assert!(game.teams[0]
+        .facilities
+        .can_upgrade_main_facility_module(MainFacilityModuleKind::RecoverySuite));
 }
 
 #[test]

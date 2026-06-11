@@ -3,9 +3,12 @@ import { describe, expect, it } from "vitest";
 import type { PlayerData, StaffData, TeamData } from "../../store/gameStore";
 import {
   annualAmountToMonthlyCommitment,
+  getFinancialLedger,
   getAnnualWageBill,
   getCashRunwayMonths,
+  getSeasonNetSummary,
   getTeamFinanceSnapshot,
+  getTransferBudgetSummary,
   safeFinanceNumber,
 } from "./finance";
 
@@ -159,6 +162,26 @@ describe("finance helpers", () => {
     expect(snapshot.overallStatus).toBe("critical");
   });
 
+  it("compares annual wage bill against annual wage budget for usage", () => {
+    const team = createTeam({ wage_budget: 120000 });
+    const players = [createPlayer({ wage: 60000 })];
+    const staff = [createStaff({ wage: 60000 })];
+
+    const snapshot = getTeamFinanceSnapshot(team, players, staff);
+
+    expect(snapshot.annualWageBill).toBe(120000);
+    expect(snapshot.annualWageBudget).toBe(120000);
+    expect(snapshot.wageBudgetUsagePercent).toBe(100);
+    expect(snapshot.wageBudgetStatus).toBe("watch");
+  });
+
+  it("exposes annual wage budget as a monthly commitment without weekly naming", () => {
+    const snapshot = getTeamFinanceSnapshot(createTeam({ wage_budget: 120000 }), []);
+
+    expect(snapshot.monthlyWageBudget).toBe(10000);
+    expect("weeklyWageBudget" in snapshot).toBe(false);
+  });
+
   it("normalizes incomplete imported finance values", () => {
     const team = createTeam({
       finance: undefined as unknown as number,
@@ -183,5 +206,84 @@ describe("finance helpers", () => {
     expect(snapshot.annualSponsorIncome).toBe(0);
     expect(snapshot.cashRunwayMonths).toBeNull();
   });
-});
 
+  it("exposes readable financial ledger entries from team data", () => {
+    const team = createTeam({
+      financial_ledger: [
+        {
+          date: "2026-01-03",
+          description: "Signed mid laner",
+          amount: -250000,
+          kind: "TransferPurchase",
+        },
+        {
+          date: "2026-01-04",
+          description: "Sold academy player",
+          amount: 125000,
+          kind: "TransferSale",
+        },
+      ],
+    });
+
+    expect(getFinancialLedger(team)).toEqual([
+      {
+        date: "2026-01-03",
+        description: "Signed mid laner",
+        amount: -250000,
+        kind: "TransferPurchase",
+      },
+      {
+        date: "2026-01-04",
+        description: "Sold academy player",
+        amount: 125000,
+        kind: "TransferSale",
+      },
+    ]);
+  });
+
+  it("normalizes missing financial ledger to an empty readable history", () => {
+    expect(getFinancialLedger(createTeam())).toEqual([]);
+  });
+
+  it("summarizes transfer spending against transfer budget remaining", () => {
+    const summary = getTransferBudgetSummary(
+      createTeam({
+        transfer_budget: 750000,
+        season_expenses: 2_000_000,
+        financial_ledger: [
+          { date: "2026-01-03", description: "Purchase", amount: -250000, kind: "TransferPurchase" },
+          { date: "2026-01-04", description: "Sale", amount: 100000, kind: "TransferSale" },
+          { date: "2026-01-05", description: "Wages", amount: -999999, kind: "Salary" },
+        ],
+      }),
+    );
+
+    expect(summary.spend).toBe(250000);
+    expect(summary.remaining).toBe(750000);
+    expect(summary.total).toBe(1_000_000);
+    expect(summary.usagePercent).toBe(25);
+  });
+
+  it("does not compare all season expenses against transfer budget", () => {
+    const summary = getTransferBudgetSummary(
+      createTeam({
+        transfer_budget: 750000,
+        season_expenses: 2_000_000,
+        financial_ledger: [],
+      }),
+    );
+
+    expect(summary.spend).toBe(0);
+    expect(summary.remaining).toBe(750000);
+    expect(summary.total).toBe(750000);
+    expect(summary.usagePercent).toBe(0);
+  });
+
+  it("summarizes season net from season income and season expenses", () => {
+    expect(getSeasonNetSummary(createTeam({ season_income: 900000, season_expenses: 650000 }))).toEqual({
+      income: 900000,
+      expenses: 650000,
+      net: 250000,
+    });
+  });
+});

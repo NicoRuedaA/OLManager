@@ -131,7 +131,7 @@ export default function FinancesTab({
         annualWageBill: 0,
         annualWageBudget: 0,
         annualSponsorIncome: 0,
-        weeklyWageBudget: 0,
+        monthlyWageBudget: 0,
         projectedAnnualNet: 0,
         cashRunwayMonths: null,
         wageBudgetUsagePercent: 0,
@@ -984,4 +984,3 @@ export default function FinancesTab({
     </div>
   );
 }
-

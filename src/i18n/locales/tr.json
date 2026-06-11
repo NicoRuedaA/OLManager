@@ -457,7 +457,8 @@
       "detail": "Financial Overview",
       "seasonNet": "Season Net",
       "title": "Finances",
-      "wageBudget": "Wage Budget"
+      "wageBudget": "Maaş bütçesi",
+      "annualWageBudget": "Yıllık maaş bütçesi"
     },
     "homeVenue": "Home",
     "matchDay": "Match Day",
@@ -1260,10 +1261,17 @@
     "squadValue": "Kadro Değeri",
     "clubBalance": "Kulüp Bakiyesi",
     "wageBudget": "Maaş Bütçesi",
+    "annualWageBudget": "Yıllık Maaş Bütçesi",
+    "monthlyCommitment": "Aylık Taahhüt",
     "transferBudget": "Transfer Bütçesi",
+    "transferBudgetRemaining": "Kalan Transfer Bütçesi",
+    "transferSpendThisSeason": "Bu Sezon Transfer Harcaması",
+    "transferSpentAmount": "{{amount}} harcandı",
     "seasonIncome": "Sezonluk Gelir",
     "seasonExpenses": "Sezonluk Gider",
+    "seasonNet": "Sezon Neti",
     "perWeekSuffix": "/hf",
+    "perMonthSuffix": "/ay",
     "wagePerWeek": "Maaş/hf",
     "marketValue": "Piyasa Değeri",
     "until": "{{year}} yılına kadar",
@@ -1296,6 +1304,7 @@
     "noPendingSponsorOffers": "Bekleyen sponsor teklifi yok",
     "cashFlow": "Nakit Akışı",
     "perYearSuffix": "/yıl",
+    "annualWageBill": "Yıllık Maaş Gideri",
     "annualWageSpend": "Yıllık Maaş Gideri",
     "annualSponsorIncome": "Yıllık Sponsor Geliri",
     "projectedAnnualNet": "Öngörülen Yıllık Net",
@@ -1319,7 +1328,9 @@
     "mainHub": "Main Hub",
     "playerWages": "Player Wages",
     "staffWages": "Staff Wages",
-    "standardSponsor": "Standard Sponsor"
+    "standardSponsor": "Standard Sponsor",
+    "recentLedger": "Son Kayıtlar",
+    "ledgerEmpty": "Henüz finansal kayıt yok."
   },
   "inbox": {
     "title": "Gelen Kutusu",

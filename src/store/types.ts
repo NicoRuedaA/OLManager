@@ -23,6 +23,28 @@ export interface SponsorshipData {
   bonus_criteria: unknown[];
 }
 
+export type FinancialTransactionKind =
+  | "Salary"
+  | "StaffWage"
+  | "FacilityUpkeep"
+  | "FacilityUpgrade"
+  | "TransferPurchase"
+  | "TransferSale"
+  | "ReleasePenalty"
+  | "AcademyAcquisition"
+  | "Sponsorship"
+  | "MatchdayRevenue"
+  | "PrizeMoney"
+  | "BudgetRefresh"
+  | "Other";
+
+export interface FinancialTransactionData {
+  date: string;
+  description: string;
+  amount: number;
+  kind: FinancialTransactionKind;
+}
+
 export interface TeamSeasonRecord {
   season: number;
   league_position: number;
@@ -146,6 +168,7 @@ export interface TeamData {
   transfer_budget: number;
   season_income: number;
   season_expenses: number;
+  financial_ledger?: FinancialTransactionData[];
   installations?: FacilitiesData;
   draft_strategy: string;
   lol_tactics?: LolTacticsData;

@@ -1,5 +1,6 @@
 use crate::domain::message::{InboxMessage, MessageCategory, MessageContext, MessagePriority};
-use crate::domain::team::{AcademyLifecycle, AcademyMetadata, ErlAssignment, Team, TeamKind};
+use crate::domain::team::{AcademyLifecycle, AcademyMetadata, ErlAssignment, FinancialTransactionKind, Team, TeamKind};
+use crate::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 use crate::game::Game;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -698,8 +699,17 @@ pub fn acquire_academy(
         return Err("Insufficient funds".to_string());
     }
 
-    game.teams[pidx].finance -= opt.acquisition_cost;
-    game.teams[pidx].season_expenses += opt.acquisition_cost;
+    record_transaction(
+        &mut game.teams[pidx],
+        FinanceTransactionInput {
+            date: game.clock.current_date.format("%Y-%m-%d").to_string(),
+            description: format!("Academy acquisition: {}", opt.name),
+            amount: -opt.acquisition_cost,
+            kind: FinancialTransactionKind::AcademyAcquisition,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
     game.teams[pidx].academy_team_id = Some(source_team_id.to_string());
 
     if let Some(idx) = game.teams.iter().position(|t| t.id == source_team_id && t.team_kind == TeamKind::Academy) {
@@ -730,4 +740,3 @@ pub fn acquire_academy(
 
     Ok(())
 }
-

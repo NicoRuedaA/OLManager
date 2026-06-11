@@ -154,6 +154,25 @@ function minimalGameState(overrides: Partial<GameStateData> = {}): GameStateData
 // ─── Tests ───────────────────────────────────────────────────────────────
 
 describe("HomeTabV2 child components", () => {
+  it("does not render the retained finance summary card in the active home grid", async () => {
+    const { HomeTabV2 } = await import("./HomeTabV2");
+    const gs = minimalGameState({
+      teams: [
+        createTeam({
+          wage_budget: 500_000,
+          season_income: 900_000,
+          season_expenses: 650_000,
+        }),
+      ],
+    });
+
+    render(<HomeTabV2 gameState={gs} />);
+
+    expect(screen.getByText("Arranque del día")).toBeInTheDocument();
+    expect(screen.queryByText("Finanzas")).not.toBeInTheDocument();
+    expect(screen.queryByText("Neto temporada")).not.toBeInTheDocument();
+  });
+
   describe("NextOpponentCard", () => {
     it("renders title and home/away badge when data is present", async () => {
       const { HomeTabV2 } = await import("./HomeTabV2");

@@ -24,7 +24,14 @@ import {
   getContractRiskLevel,
   getContractYearsRemaining,
 } from "@/lib/common/helpers";
-import { safeFinanceNumber, getTeamFinanceSnapshot } from "@/lib/finances/finance";
+import {
+  getFinancialLedger,
+  safeFinanceNumber,
+  getTeamFinanceSnapshot,
+  getTransferBudgetSummary,
+  getSeasonNetSummary,
+} from "@/lib/finances/finance";
+import type { FinancialTransactionKind } from "@/store/types";
 import type { FacilityUpgradeId } from "@/lib/finances/lolFinanceContracts";
 import {
   getClubInstallationContract,
@@ -77,6 +84,31 @@ function isPendingSponsorOffer(message: MessageData): boolean {
 
 type SortKey = "name" | "position" | "wage" | "value" | "contract";
 
+const LEDGER_KIND_LABELS: Record<FinancialTransactionKind, string> = {
+  Salary: "Salary",
+  StaffWage: "Staff wage",
+  FacilityUpkeep: "Facility upkeep",
+  FacilityUpgrade: "Facility upgrade",
+  TransferPurchase: "Transfer purchase",
+  TransferSale: "Transfer sale",
+  ReleasePenalty: "Release penalty",
+  AcademyAcquisition: "Academy acquisition",
+  Sponsorship: "Sponsorship",
+  MatchdayRevenue: "Matchday revenue",
+  PrizeMoney: "Prize money",
+  BudgetRefresh: "Budget refresh",
+  Other: "Other",
+};
+
+function formatLedgerAmount(amount: number): string {
+  const sign = amount < 0 ? "-" : "+";
+  const absoluteAmount = Math.abs(amount);
+  const formattedAmount = absoluteAmount % 1_000 === 0
+    ? formatVal(absoluteAmount)
+    : `€${absoluteAmount.toLocaleString()}`;
+  return `${sign}${formattedAmount}`;
+}
+
 const FACILITY_ICONS: Record<string, React.ReactNode> = {
   ScrimsRoom: <Monitor className="size-5" />,
   AnalysisRoom: <Search className="size-5" />,
@@ -89,6 +121,7 @@ const FACILITY_ICONS: Record<string, React.ReactNode> = {
 export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: FinancesTabV2Props) {
   const { t } = useTranslation();
   const annualSuffix = t("finances.perYearSuffix", "/yr");
+  const monthlySuffix = t("finances.perMonthSuffix", "/mo");
 
   const myTeam = gameState.teams.find((tm) => tm.id === gameState.manager.team_id);
   const roster = myTeam ? gameState.players.filter((p) => p.team_id === myTeam.id) : [];
@@ -112,17 +145,21 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
   };
 
   const teamBalance = safeFinanceNumber(myTeam?.finance);
-  const teamWageBudget = safeFinanceNumber(myTeam?.wage_budget);
   const teamTransferBudget = safeFinanceNumber(myTeam?.transfer_budget);
-  const teamSeasonIncome = safeFinanceNumber(myTeam?.season_income);
-  const teamSeasonExpenses = safeFinanceNumber(myTeam?.season_expenses);
+  const seasonNetSummary = myTeam
+    ? getSeasonNetSummary(myTeam)
+    : { income: 0, expenses: 0, net: 0 };
+  const transferBudgetSummary = myTeam
+    ? getTransferBudgetSummary(myTeam)
+    : { spend: 0, remaining: 0, total: 0, usagePercent: 0 };
+  const financialLedger = myTeam ? getFinancialLedger(myTeam) : [];
   const totalValue = roster.reduce((s, p) => s + safeFinanceNumber(p.market_value), 0);
 
   const financeSnapshot = myTeam
     ? getTeamFinanceSnapshot(myTeam, roster, teamStaff)
     : {
         annualWageBill: 0, annualWageBudget: 0, annualSponsorIncome: 0,
-        weeklyWageBudget: 0, projectedAnnualNet: 0, cashRunwayMonths: null,
+        monthlyWageBudget: 0, projectedAnnualNet: 0, cashRunwayMonths: null,
         wageBudgetUsagePercent: 0, wageBudgetStatus: "stable" as const,
         runwayStatus: "stable" as const, overallStatus: "stable" as const,
       };
@@ -289,30 +326,37 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
               <p className={cn("mt-1 font-heading text-lg font-bold tabular-nums", teamBalance >= 0 ? "text-emerald-400" : "text-red-400")}>{formatVal(teamBalance)}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3 text-center">
-              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.wageBudget")}</p>
-              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(teamWageBudget)}</p>
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.annualWageBudget", "Annual wage budget")}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(annualWageBudget)}</p>
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                {t("finances.monthlyCommitment", "Monthly commitment")}: €{financeSnapshot.monthlyWageBudget.toLocaleString()}{monthlySuffix}
+              </p>
               <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
                 <div className={cn("h-full rounded-full transition-all", wageBudgetUsagePercent > 100 ? "bg-red-400" : "bg-primary")} style={{ width: `${Math.min(100, wageBudgetUsagePercent)}%` }} />
               </div>
             </div>
             <div className="rounded-lg bg-muted/50 p-3 text-center">
-              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.transferBudget")}</p>
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.transferBudgetRemaining", "Transfer budget remaining")}</p>
               <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(teamTransferBudget)}</p>
+              <p className="mt-1 text-[10px] text-muted-foreground">
+                {t("finances.transferSpendThisSeason", "Transfer spend this season")}: {formatVal(transferBudgetSummary.spend)} spent
+              </p>
               <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-muted">
-                <div className={cn("h-full rounded-full transition-all", teamTransferBudget > 0 && totalValue / teamTransferBudget > 1 ? "bg-amber-400" : "bg-primary/60")} style={{ width: `${Math.min(100, teamTransferBudget > 0 ? (totalValue / teamTransferBudget) * 100 : 0)}%` }} />
+                <div className="h-full rounded-full bg-primary/60 transition-all" style={{ width: `${Math.min(100, transferBudgetSummary.usagePercent)}%` }} />
               </div>
             </div>
             <div className="rounded-lg bg-muted/50 p-3 text-center">
               <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.seasonIncome")}</p>
-              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-emerald-400">{formatVal(teamSeasonIncome)}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-emerald-400">{formatVal(seasonNetSummary.income)}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3 text-center">
               <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.seasonExpenses")}</p>
-              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-red-400">{formatVal(teamSeasonExpenses)}</p>
+              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-red-400">{formatVal(seasonNetSummary.expenses)}</p>
             </div>
             <div className="rounded-lg bg-muted/50 p-3 text-center">
-              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.squadValue")}</p>
-              <p className="mt-1 font-heading text-lg font-bold tabular-nums text-foreground">{formatVal(totalValue)}</p>
+              <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("finances.seasonNet", "Season net")}</p>
+              <p className={cn("mt-1 font-heading text-lg font-bold tabular-nums", seasonNetSummary.net >= 0 ? "text-emerald-400" : "text-red-400")}>{formatVal(seasonNetSummary.net)}</p>
+              <p className="mt-1 text-[10px] text-muted-foreground">{t("finances.squadValue")}: {formatVal(totalValue)}</p>
             </div>
           </div>
         </CardContent>
@@ -323,7 +367,7 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
         <Card>
           <CardHeader className="space-y-0">
             <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
-              {t("finances.wageBill")}
+              {t("finances.annualWageBill", "Annual wage bill")}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -419,6 +463,33 @@ export function FinancesTabV2({ gameState, onGameUpdate, onSelectPlayer }: Finan
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader className="space-y-0">
+          <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+            {t("finances.recentLedger", "Recent ledger")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {financialLedger.length > 0 ? (
+            <div className="space-y-2">
+              {financialLedger.map((entry, index) => (
+                <div key={`${entry.date}-${entry.kind}-${index}`} className="grid grid-cols-[7rem_1fr_auto] items-center gap-3 rounded-lg bg-muted/40 px-3 py-2 text-sm">
+                  <span className="tabular-nums text-muted-foreground">{entry.date}</span>
+                  <span className="truncate text-foreground">{LEDGER_KIND_LABELS[entry.kind] ?? entry.kind}</span>
+                  <span className={cn("font-heading font-bold tabular-nums", entry.amount < 0 ? "text-red-400" : "text-emerald-400")}>
+                    {formatLedgerAmount(entry.amount)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              {t("finances.ledgerEmpty", "No financial ledger entries yet.")}
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Sponsors + Contract Risk */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

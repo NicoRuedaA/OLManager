@@ -313,7 +313,8 @@
       "detail": "Financial Overview",
       "seasonNet": "Season Net",
       "title": "Finances",
-      "wageBudget": "Wage Budget"
+      "wageBudget": "Budget stipendi",
+      "annualWageBudget": "Budget stipendi annuale"
     },
     "homeVenue": "Home",
     "matchDay": "Match Day",
@@ -1116,10 +1117,17 @@
     "squadValue": "Valore rosa",
     "clubBalance": "Bilancio club",
     "wageBudget": "Budget stipendi",
+    "annualWageBudget": "Budget stipendi annuale",
+    "monthlyCommitment": "Impegno mensile",
     "transferBudget": "Budget trasferimenti",
+    "transferBudgetRemaining": "Budget trasferimenti rimanente",
+    "transferSpendThisSeason": "Spesa trasferimenti stagionale",
+    "transferSpentAmount": "{{amount}} spesi",
     "seasonIncome": "Entrate stagionali",
     "seasonExpenses": "Spese stagionali",
+    "seasonNet": "Saldo stagionale",
     "perWeekSuffix": "/sett",
+    "perMonthSuffix": "/mese",
     "wagePerWeek": "Stipendio/sett",
     "marketValue": "Valore di mercato",
     "until": "Fino al {{year}}",
@@ -1151,6 +1159,7 @@
     "noPendingSponsorOffers": "Nessuna offerta di sponsorizzazione in sospeso",
     "cashFlow": "Flusso di cassa",
     "perYearSuffix": "/anno",
+    "annualWageBill": "Monte ingaggi annuale",
     "annualWageSpend": "Spesa salariale annuale",
     "annualSponsorIncome": "Entrate annuali da sponsor",
     "projectedAnnualNet": "Netto annuale previsto",
@@ -1175,7 +1184,9 @@
     "mainHub": "Main Hub",
     "playerWages": "Player Wages",
     "staffWages": "Staff Wages",
-    "standardSponsor": "Standard Sponsor"
+    "standardSponsor": "Standard Sponsor",
+    "recentLedger": "Registro recente",
+    "ledgerEmpty": "Nessun movimento finanziario registrato."
   },
   "inbox": {
     "title": "Posta",

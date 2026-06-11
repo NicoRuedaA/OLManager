@@ -485,7 +485,8 @@
       "detail": "Financial Overview",
       "seasonNet": "Season Net",
       "title": "Finances",
-      "wageBudget": "Wage Budget"
+      "wageBudget": "Wage Budget",
+      "annualWageBudget": "Annual wage budget"
     },
     "homeVenue": "Home",
     "matchDay": "Match Day",
@@ -1386,9 +1387,16 @@
     "squadValue": "Squad Value",
     "clubBalance": "Club Balance",
     "wageBudget": "Wage Budget",
+    "annualWageBudget": "Annual Wage Budget",
+    "monthlyCommitment": "Monthly commitment",
     "transferBudget": "Transfer Budget",
+    "transferBudgetRemaining": "Transfer Budget Remaining",
+    "transferSpendThisSeason": "Transfer spend this season",
+    "transferSpentAmount": "{{amount}} spent",
     "seasonIncome": "Season Income",
     "seasonExpenses": "Season Expenses",
+    "seasonNet": "Season Net",
+    "perMonthSuffix": "/mo",
     "perWeekSuffix": "/wk",
     "wagePerWeek": "Wage/wk",
     "marketValue": "Market Value",
@@ -1422,6 +1430,7 @@
     "noPendingSponsorOffers": "No pending sponsor offers",
     "cashFlow": "Cash Flow",
     "perYearSuffix": "/yr",
+    "annualWageBill": "Annual Wage Bill",
     "annualWageSpend": "Annual Wage Bill",
     "annualSponsorIncome": "Annual Sponsor Income",
     "projectedAnnualNet": "Projected Annual Net",
@@ -1445,7 +1454,9 @@
     "mainHub": "Main Hub",
     "playerWages": "Player Wages",
     "staffWages": "Staff Wages",
-    "standardSponsor": "Standard Sponsor"
+    "standardSponsor": "Standard Sponsor",
+    "recentLedger": "Recent Ledger",
+    "ledgerEmpty": "No financial ledger entries yet."
   },
   "inbox": {
     "title": "Inbox",

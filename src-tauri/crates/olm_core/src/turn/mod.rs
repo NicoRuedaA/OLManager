@@ -109,6 +109,10 @@ pub fn finish_live_match_day(game: &mut Game) {
 
     crate::contracts::process_contract_expiries(game);
 
+    // Match normal day advancement: monthly finances are evaluated on the
+    // current date before the clock advances.
+    crate::finances::process_monthly_finances(game);
+
     board_objectives::generate_objectives(game);
     board_objectives::update_objective_progress(game);
 
@@ -1831,5 +1835,4 @@ mod tests {
         assert_eq!(game.leagues[1].fixtures[0].status, FixtureStatus::Scheduled);
     }
 }
-
 

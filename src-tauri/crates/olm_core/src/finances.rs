@@ -1,10 +1,10 @@
-use crate::game::Game;
-use chrono::Datelike;
 use crate::domain::message::*;
 use crate::domain::team::{
-    Facilities, MainFacilityModuleKind, Sponsorship, SponsorshipBonusCriterion, Team,
-    main_facility_module_catalog,
+    main_facility_module_catalog, Facilities, FinancialTransaction, FinancialTransactionKind,
+    MainFacilityModuleKind, Sponsorship, SponsorshipBonusCriterion, Team,
 };
+use crate::game::Game;
+use chrono::Datelike;
 use rand::RngExt;
 
 const MAIN_HUB_UPKEEP_PER_EXTRA_LEVEL: i64 = 20_000;
@@ -14,6 +14,59 @@ pub struct FacilityUpkeepBreakdown {
     pub monthly_total: i64,
     pub hub_extra_level_total: i64,
     pub module_extra_level_total: i64,
+}
+
+struct MonthlyTeamExpenses {
+    team_id: String,
+    player_wages: i64,
+    staff_wages: i64,
+    facility_upkeep: i64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BudgetImpact {
+    None,
+    Transfer(i64),
+    Wage(i64),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct FinanceTransactionInput {
+    pub date: String,
+    pub description: String,
+    pub amount: i64,
+    pub kind: FinancialTransactionKind,
+    pub budget_impact: BudgetImpact,
+    pub affects_season_totals: bool,
+}
+
+pub fn record_transaction(team: &mut Team, input: FinanceTransactionInput) {
+    if input.amount == 0 {
+        return;
+    }
+
+    team.finance += input.amount;
+
+    if input.affects_season_totals {
+        if input.amount > 0 {
+            team.season_income += input.amount;
+        } else {
+            team.season_expenses += input.amount.abs();
+        }
+    }
+
+    match input.budget_impact {
+        BudgetImpact::None => {}
+        BudgetImpact::Transfer(delta) => team.transfer_budget += delta,
+        BudgetImpact::Wage(delta) => team.wage_budget += delta,
+    }
+
+    team.financial_ledger.push(FinancialTransaction {
+        date: input.date,
+        description: input.description,
+        amount: input.amount,
+        kind: input.kind,
+    });
 }
 
 fn action(id: &str, label: &str, label_key: &str, action_type: ActionType) -> MessageAction {
@@ -219,18 +272,36 @@ pub fn process_monthly_finances(game: &mut Game) {
     }
 
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
-    let team_expenses: Vec<(String, i64)> = game
+    let team_expenses: Vec<MonthlyTeamExpenses> = game
         .teams
         .iter()
         .map(|team| {
-            let wages = calc_annual_wages(game, &team.id) / 12;
+            let player_wages: i64 = game
+                .players
+                .iter()
+                .filter(|player| player.team_id.as_deref() == Some(team.id.as_str()))
+                .map(|player| player.wage as i64)
+                .sum::<i64>()
+                / 12;
+            let staff_wages: i64 = game
+                .staff
+                .iter()
+                .filter(|staff_member| staff_member.team_id.as_deref() == Some(team.id.as_str()))
+                .map(|staff_member| staff_member.wage as i64)
+                .sum::<i64>()
+                / 12;
             let upkeep = if should_apply_upkeep(game) {
                 calc_upkeep(team)
             } else {
                 0
             };
 
-            (team.id.clone(), wages + upkeep)
+            MonthlyTeamExpenses {
+                team_id: team.id.clone(),
+                player_wages,
+                staff_wages,
+                facility_upkeep: upkeep,
+            }
         })
         .collect();
     let team_positions: Vec<(String, Option<u32>)> = game
@@ -240,14 +311,45 @@ pub fn process_monthly_finances(game: &mut Game) {
         .collect();
 
     for team in game.teams.iter_mut() {
-        let total_expenses = team_expenses
+        let monthly_expenses = team_expenses
             .iter()
-            .find(|(team_id, _)| team_id == &team.id)
-            .map(|(_, total)| *total)
-            .unwrap_or(0);
+            .find(|expenses| expenses.team_id == team.id);
 
-        team.finance -= total_expenses;
-        team.season_expenses += total_expenses;
+        if let Some(expenses) = monthly_expenses {
+            record_transaction(
+                team,
+                FinanceTransactionInput {
+                    date: today.clone(),
+                    description: "Monthly player wages".to_string(),
+                    amount: -expenses.player_wages,
+                    kind: FinancialTransactionKind::Salary,
+                    budget_impact: BudgetImpact::None,
+                    affects_season_totals: true,
+                },
+            );
+            record_transaction(
+                team,
+                FinanceTransactionInput {
+                    date: today.clone(),
+                    description: "Monthly staff wages".to_string(),
+                    amount: -expenses.staff_wages,
+                    kind: FinancialTransactionKind::StaffWage,
+                    budget_impact: BudgetImpact::None,
+                    affects_season_totals: true,
+                },
+            );
+            record_transaction(
+                team,
+                FinanceTransactionInput {
+                    date: today.clone(),
+                    description: "Monthly facility upkeep".to_string(),
+                    amount: -expenses.facility_upkeep,
+                    kind: FinancialTransactionKind::FacilityUpkeep,
+                    budget_impact: BudgetImpact::None,
+                    affects_season_totals: true,
+                },
+            );
+        }
 
         let current_position = team_positions
             .iter()
@@ -267,8 +369,17 @@ pub fn process_monthly_finances(game: &mut Game) {
             .unwrap_or(0);
 
         if sponsorship_income > 0 {
-            team.finance += sponsorship_income;
-            team.season_income += sponsorship_income;
+            record_transaction(
+                team,
+                FinanceTransactionInput {
+                    date: today.clone(),
+                    description: "Monthly sponsorship income".to_string(),
+                    amount: sponsorship_income,
+                    kind: FinancialTransactionKind::Sponsorship,
+                    budget_impact: BudgetImpact::None,
+                    affects_season_totals: true,
+                },
+            );
         }
 
         if let Some(sponsorship) = team.sponsorship.as_mut() {
@@ -305,8 +416,17 @@ pub fn process_monthly_finances(game: &mut Game) {
                     avg_ticket,
                 );
 
-                team.finance += total_revenue;
-                team.season_income += total_revenue;
+                record_transaction(
+                    team,
+                    FinanceTransactionInput {
+                        date: today.clone(),
+                        description: "Monthly matchday revenue".to_string(),
+                        amount: total_revenue,
+                        kind: FinancialTransactionKind::MatchdayRevenue,
+                        budget_impact: BudgetImpact::None,
+                        affects_season_totals: true,
+                    },
+                );
             }
         }
     }
@@ -469,4 +589,3 @@ fn format_money(amount: u64) -> String {
         amount.to_string()
     }
 }
-

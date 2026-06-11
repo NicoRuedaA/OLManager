@@ -18,7 +18,7 @@ pub struct SimLiveStoreState {
 pub struct SimLiveSession {
     pub id: String,
     pub seed: String,
-    pub state: RuntimeState,
+    pub(crate) state: RuntimeState,
     pub tick_index: u64,
     pub wave_spawn_at: f64,
     pub next_minion_id: u64,

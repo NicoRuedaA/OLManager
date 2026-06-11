@@ -1,19 +1,19 @@
 use chrono::{TimeZone, Utc};
-use domain::manager::Manager;
-use domain::message::MessageCategory;
-use domain::news::{NewsArticle, NewsCategory};
-use domain::player::{
+use olm_core::clock::GameClock;
+use olm_core::domain::manager::Manager;
+use olm_core::domain::message::MessageCategory;
+use olm_core::domain::news::{NewsArticle, NewsCategory};
+use olm_core::domain::player::{
     Player, PlayerAttributes, PlayerIssueCategory, TransferOffer, TransferOfferStatus,
     WageNegotiationStatus,
 };
-use domain::season::TransferWindowStatus;
-use domain::stats::LolRole;
-use domain::team::{Team, TeamKind};
-use ofm_core::clock::GameClock;
-use ofm_core::game::Game;
-use ofm_core::transfers::{
-    TransferDestination, TransferNegotiationDecision, counter_offer,
-    generate_incoming_transfer_offers, make_transfer_bid, respond_to_offer,
+use olm_core::domain::season::TransferWindowStatus;
+use olm_core::domain::stats::LolRole;
+use olm_core::domain::team::{FinancialTransactionKind, Team, TeamKind};
+use olm_core::game::Game;
+use olm_core::transfers::{
+    counter_offer, generate_incoming_transfer_offers, make_transfer_bid, release_player_contract,
+    respond_to_offer, TransferDestination, TransferNegotiationDecision,
 };
 
 fn default_attrs() -> PlayerAttributes {
@@ -615,6 +615,35 @@ fn rejecting_pending_offer_closes_the_negotiation_cleanly() {
 }
 
 #[test]
+fn release_player_contract_records_release_penalty_ledger_entry() {
+    let mut player = make_user_player("player-release");
+    player.contract_end = Some("2027-08-01".to_string());
+    player.wage = 120_000;
+
+    let mut game = make_game_with_player(player, vec![], 5_000_000, 2_000_000);
+
+    let penalty = release_player_contract(&mut game, "player-release").expect("release succeeds");
+
+    let team = game.teams.iter().find(|team| team.id == "team-1").unwrap();
+    let released = game
+        .players
+        .iter()
+        .find(|player| player.id == "player-release")
+        .unwrap();
+    assert_eq!(penalty, 48_000);
+    assert_eq!(team.finance, 4_952_000);
+    assert_eq!(team.season_expenses, 48_000);
+    assert_eq!(team.financial_ledger.len(), 1);
+    assert_eq!(
+        team.financial_ledger[0].kind,
+        FinancialTransactionKind::ReleasePenalty
+    );
+    assert_eq!(team.financial_ledger[0].amount, -48_000);
+    assert!(released.team_id.is_none());
+    assert_eq!(released.wage, 0);
+}
+
+#[test]
 fn accepting_pending_offer_executes_transfer_even_for_reluctant_player() {
     let mut player = make_user_player("player-accept-reluctant");
     player.contract_end = Some("2028-06-30".to_string());
@@ -650,6 +679,25 @@ fn accepting_pending_offer_executes_transfer_even_for_reluctant_player() {
         player.transfer_offers[0].status,
         TransferOfferStatus::Accepted
     );
+
+    let seller = game.teams.iter().find(|team| team.id == "team-1").unwrap();
+    let buyer = game.teams.iter().find(|team| team.id == "team-2").unwrap();
+    assert_eq!(seller.finance, 5_950_000);
+    assert_eq!(seller.transfer_budget, 2_570_000);
+    assert_eq!(seller.financial_ledger.len(), 1);
+    assert_eq!(
+        seller.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferSale
+    );
+    assert_eq!(seller.financial_ledger[0].amount, 950_000);
+    assert_eq!(buyer.finance, 5_050_000);
+    assert_eq!(buyer.transfer_budget, 2_050_000);
+    assert_eq!(buyer.financial_ledger.len(), 1);
+    assert_eq!(
+        buyer.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferPurchase
+    );
+    assert_eq!(buyer.financial_ledger[0].amount, -950_000);
 }
 
 #[test]
@@ -860,8 +908,7 @@ fn selling_key_player_can_reduce_remaining_starters_morale() {
 
 #[test]
 fn accepted_sale_reconciles_lol_lineup_slots_without_shifting_roles() {
-    let mut sold_mid =
-        make_player_with_position("sold-mid", LolRole::Mid, Some("team-1"), 900_000);
+    let mut sold_mid = make_player_with_position("sold-mid", LolRole::Mid, Some("team-1"), 900_000);
     sold_mid
         .transfer_offers
         .push(make_pending_incoming_offer("offer-sold-mid", 1_100_000));
@@ -1205,6 +1252,14 @@ fn ai_free_agent_signing_prioritizes_missing_role() {
 
     assert_eq!(ai_adc_signed, Some("team-2"));
     assert_ne!(ai_mid_signed, Some("team-2"));
+
+    let ai_team = game.teams.iter().find(|team| team.id == "team-2").unwrap();
+    assert_eq!(ai_team.financial_ledger.len(), 1);
+    assert_eq!(
+        ai_team.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferPurchase
+    );
+    assert_eq!(ai_team.financial_ledger[0].amount, -210_000);
 }
 
 #[test]
@@ -1294,4 +1349,19 @@ fn ai_club_transfer_prioritizes_missing_role() {
 
     assert_eq!(adc_team, Some("team-2"));
     assert_eq!(mid_team, Some("team-3"));
+
+    let buyer = game.teams.iter().find(|team| team.id == "team-2").unwrap();
+    let seller = game.teams.iter().find(|team| team.id == "team-3").unwrap();
+    assert_eq!(buyer.financial_ledger.len(), 1);
+    assert_eq!(
+        buyer.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferPurchase
+    );
+    assert_eq!(buyer.financial_ledger[0].amount, -779_000);
+    assert_eq!(seller.financial_ledger.len(), 1);
+    assert_eq!(
+        seller.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferSale
+    );
+    assert_eq!(seller.financial_ledger[0].amount, 779_000);
 }

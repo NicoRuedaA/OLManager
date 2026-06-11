@@ -1,17 +1,18 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{
-    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
+use olm_core::clock::GameClock;
+use olm_core::domain::league::{
+    Fixture, FixtureStatus, League, LeagueKind, MatchResult, MatchType, StandingEntry,
 };
-use domain::manager::Manager;
-use domain::player::{Player, PlayerAttributes};
-use domain::staff::{Staff, StaffAttributes, StaffRole};
-use domain::stats::LolRole;
-use domain::team::{
-    Facilities, MainFacilityModuleKind, Sponsorship, SponsorshipBonusCriterion, Team,
+use olm_core::domain::manager::Manager;
+use olm_core::domain::player::{Player, PlayerAttributes};
+use olm_core::domain::staff::{Staff, StaffAttributes, StaffRole};
+use olm_core::domain::stats::LolRole;
+use olm_core::domain::team::{
+    Facilities, FinancialTransaction, FinancialTransactionKind, MainFacilityModuleKind,
+    Sponsorship, SponsorshipBonusCriterion, Team,
 };
-use ofm_core::clock::GameClock;
-use ofm_core::finances;
-use ofm_core::game::Game;
+use olm_core::finances::{self, BudgetImpact, FinanceTransactionInput};
+use olm_core::game::Game;
 
 // ---------------------------------------------------------------------------
 // Test helpers
@@ -103,6 +104,122 @@ fn make_game_on(year: i32, month: u32, day: u32) -> Game {
 fn make_first_of_month_game() -> Game {
     // 2025-06-01 is the 1st of June
     make_game_on(2025, 6, 1)
+}
+
+// ---------------------------------------------------------------------------
+// record_transaction — atomic helper
+// ---------------------------------------------------------------------------
+
+#[test]
+fn record_transaction_applies_income_to_cash_season_totals_and_ledger() {
+    let mut team = make_team("team1", "Test FC");
+    team.finance = 100_000;
+    team.season_income = 20_000;
+
+    finances::record_transaction(
+        &mut team,
+        FinanceTransactionInput {
+            date: "2026-01-15".to_string(),
+            description: "Winter sponsorship payment".to_string(),
+            amount: 35_000,
+            kind: FinancialTransactionKind::Sponsorship,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
+
+    assert_eq!(team.finance, 135_000);
+    assert_eq!(team.season_income, 55_000);
+    assert_eq!(team.season_expenses, 0);
+    assert_eq!(team.financial_ledger.len(), 1);
+    assert_eq!(team.financial_ledger[0].date, "2026-01-15");
+    assert_eq!(
+        team.financial_ledger[0].description,
+        "Winter sponsorship payment"
+    );
+    assert_eq!(team.financial_ledger[0].amount, 35_000);
+    assert_eq!(
+        team.financial_ledger[0].kind,
+        FinancialTransactionKind::Sponsorship
+    );
+}
+
+#[test]
+fn record_transaction_applies_expense_and_signed_budget_impact_atomically() {
+    let mut team = make_team("team1", "Test FC");
+    team.finance = 250_000;
+    team.season_expenses = 12_000;
+    team.transfer_budget = 90_000;
+
+    finances::record_transaction(
+        &mut team,
+        FinanceTransactionInput {
+            date: "2026-02-02".to_string(),
+            description: "Transfer purchase".to_string(),
+            amount: -40_000,
+            kind: FinancialTransactionKind::TransferPurchase,
+            budget_impact: BudgetImpact::Transfer(-40_000),
+            affects_season_totals: true,
+        },
+    );
+
+    assert_eq!(team.finance, 210_000);
+    assert_eq!(team.season_income, 0);
+    assert_eq!(team.season_expenses, 52_000);
+    assert_eq!(team.transfer_budget, 50_000);
+    assert_eq!(team.financial_ledger.len(), 1);
+    assert_eq!(team.financial_ledger[0].amount, -40_000);
+    assert_eq!(
+        team.financial_ledger[0].kind,
+        FinancialTransactionKind::TransferPurchase
+    );
+}
+
+#[test]
+fn financial_transaction_kind_deserializes_old_prize_money_entries() {
+    let entry: FinancialTransaction = serde_json::from_str(
+        r#"{
+            "date": "2025-12-31",
+            "description": "League prize",
+            "amount": 800000,
+            "kind": "PrizeMoney"
+        }"#,
+    )
+    .expect("old prize money ledger entry should deserialize");
+
+    assert_eq!(entry.kind, FinancialTransactionKind::PrizeMoney);
+    assert_eq!(entry.amount, 800_000);
+}
+
+#[test]
+fn financial_transaction_kind_deserializes_unknown_entries_as_other() {
+    let entry: FinancialTransaction = serde_json::from_str(
+        r#"{
+            "date": "2027-01-01",
+            "description": "Future accounting event",
+            "amount": 12345,
+            "kind": "FutureKindFromNewerSave"
+        }"#,
+    )
+    .expect("unknown future ledger kind should not crash loading");
+
+    assert_eq!(entry.kind, FinancialTransactionKind::Other);
+    assert_eq!(entry.amount, 12_345);
+}
+
+#[test]
+fn financial_transaction_deserializes_partial_entries_with_missing_kind_as_other() {
+    let entry: FinancialTransaction = serde_json::from_str(
+        r#"{
+            "date": "2027-01-02",
+            "description": "Partial legacy accounting event",
+            "amount": -7500
+        }"#,
+    )
+    .expect("partial ledger entry without kind should not crash loading");
+
+    assert_eq!(entry.kind, FinancialTransactionKind::Other);
+    assert_eq!(entry.amount, -7_500);
 }
 
 // ---------------------------------------------------------------------------
@@ -280,6 +397,49 @@ fn calc_sponsorship_income_leaves_generic_brands_unmodified() {
 }
 
 #[test]
+fn monthly_recurring_expenses_create_categorized_ledger_entries() {
+    let mut game = make_game_on(2025, 6, 1);
+    game.teams[0].facilities = Facilities {
+        main_hub_level: 4,
+        training: 3,
+        medical: 2,
+        scouting: 1,
+        ..Default::default()
+    };
+    let initial_finance = game.teams[0].finance;
+
+    finances::process_monthly_finances(&mut game);
+
+    let player_wages = (52_000 + 26_000) / 12;
+    let staff_wages = 10_400 / 12;
+    let upkeep = 155_000;
+    assert_eq!(
+        game.teams[0].finance,
+        initial_finance - player_wages - staff_wages - upkeep
+    );
+    assert_eq!(
+        game.teams[0].season_expenses,
+        player_wages + staff_wages + upkeep
+    );
+    assert_eq!(game.teams[0].financial_ledger.len(), 3);
+    assert!(game.teams[0].financial_ledger.iter().any(|entry| {
+        entry.date == "2025-06-01"
+            && entry.amount == -player_wages
+            && entry.kind == FinancialTransactionKind::Salary
+    }));
+    assert!(game.teams[0].financial_ledger.iter().any(|entry| {
+        entry.date == "2025-06-01"
+            && entry.amount == -staff_wages
+            && entry.kind == FinancialTransactionKind::StaffWage
+    }));
+    assert!(game.teams[0].financial_ledger.iter().any(|entry| {
+        entry.date == "2025-06-01"
+            && entry.amount == -upkeep
+            && entry.kind == FinancialTransactionKind::FacilityUpkeep
+    }));
+}
+
+#[test]
 fn monthly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
     let mut game = make_first_of_month_game();
     let initial_finance = game.teams[0].finance;
@@ -297,7 +457,7 @@ fn monthly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
     finances::process_monthly_finances(&mut game);
 
     let wages = (52_000 + 26_000 + 10_400) / 12;
-    let expected_sponsor_income = 2_404; // 125_000 annual / 12
+    let expected_sponsor_income = 10_417; // 125_000 annual / 12, rounded
     assert_eq!(
         game.teams[0].finance,
         initial_finance - wages + expected_sponsor_income
@@ -307,6 +467,14 @@ fn monthly_sponsorship_payout_is_applied_and_duration_decrements_on_monday() {
         game.teams[0].sponsorship.as_ref().unwrap().remaining_months,
         1
     );
+    let sponsorship_entries: Vec<_> = game.teams[0]
+        .financial_ledger
+        .iter()
+        .filter(|entry| entry.kind == FinancialTransactionKind::Sponsorship)
+        .collect();
+    assert_eq!(sponsorship_entries.len(), 1);
+    assert_eq!(sponsorship_entries[0].date, "2025-06-01");
+    assert_eq!(sponsorship_entries[0].amount, expected_sponsor_income);
 }
 
 #[test]
@@ -435,8 +603,8 @@ fn critical_warning_when_in_debt() {
 #[test]
 fn warning_when_low_runway() {
     let mut game = make_first_of_month_game();
-    // Set finance to ~2 weeks of wages (monthly wages ~1700, so ~3400)
-    game.teams[0].finance = 3400;
+    // Set finance low enough to warn after monthly wages, but still above debt.
+    game.teams[0].finance = 14_700;
 
     finances::process_monthly_finances(&mut game);
 
@@ -445,7 +613,7 @@ fn warning_when_low_runway() {
         .iter()
         .filter(|m| m.id.starts_with("finance_warning_"))
         .collect();
-    // After deducting wages (1700), finance=1700, months_left=1700/1700=1 → < 4
+    // After deducting wages (7366), finance=7334, runway rounds down below threshold.
     assert_eq!(warning_msgs.len(), 1, "Should send low reserves warning");
 }
 
@@ -542,16 +710,18 @@ fn home_match_generates_income() {
     let mut game = make_first_of_month_game();
     let initial_finance = game.teams[0].finance;
 
-    // Add a completed home fixture within the last 7 days
+    // Add a completed home fixture within the last 28 days.
     let league = League {
         id: "l1".to_string(),
         name: "Test League".to_string(),
         season: 1,
         competition_id: None,
+        logo: None,
+        league_kind: LeagueKind::Main,
         fixtures: vec![Fixture {
             id: "f1".to_string(),
             matchday: 1,
-            date: "2025-06-14".to_string(), // Saturday, within ~28 days of Monday 2025-06-16
+            date: "2025-05-30".to_string(), // Friday, within ~28 days of 2025-06-01
             home_team_id: "team1".to_string(),
             away_team_id: "team2".to_string(),
             match_type: MatchType::League,
@@ -584,6 +754,19 @@ fn home_match_generates_income() {
         initial_finance,
         wages
     );
+    let matchday_entries: Vec<_> = game.teams[0]
+        .financial_ledger
+        .iter()
+        .filter(|entry| entry.kind == FinancialTransactionKind::MatchdayRevenue)
+        .collect();
+    assert_eq!(matchday_entries.len(), 1);
+    assert_eq!(matchday_entries[0].date, "2025-06-01");
+    assert!(matchday_entries[0].amount > 0);
+    assert_eq!(
+        final_finance,
+        initial_finance - wages + matchday_entries[0].amount
+    );
+    assert_eq!(game.teams[0].season_income, matchday_entries[0].amount);
 }
 
 #[test]
@@ -596,6 +779,8 @@ fn away_match_no_income() {
         name: "Test League".to_string(),
         season: 1,
         competition_id: None,
+        logo: None,
+        league_kind: LeagueKind::Main,
         fixtures: vec![Fixture {
             id: "f1".to_string(),
             matchday: 1,

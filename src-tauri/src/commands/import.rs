@@ -512,7 +512,7 @@ fn import_zip(
     let mut summary = ImportSummary::default();
     let total = zip.len();
 
-    for i in 0..zip.len() {
+    for i in 0..total {
         let mut entry = zip.by_index(i).map_err(|e| format!("zip entry {i}: {e}"))?;
         if entry.is_dir() {
             continue;

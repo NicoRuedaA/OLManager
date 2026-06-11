@@ -6,6 +6,7 @@ use olm_core::academy::{
     validate_academy_acquisition, AcademyAcquisitionOption,
 };
 use olm_core::game::Game;
+use olm_core::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 use olm_core::state::StateManager;
 use serde::{Deserialize, Serialize};
 use tauri::State;
@@ -292,8 +293,17 @@ pub(crate) fn acquire_academy_team_in_game(
             .teams
             .get_mut(parent_index)
             .ok_or("Parent team not found".to_string())?;
-        parent.finance -= option.acquisition_cost;
-        parent.season_expenses += option.acquisition_cost;
+        record_transaction(
+            parent,
+            FinanceTransactionInput {
+                date: game.clock.current_date.format("%Y-%m-%d").to_string(),
+                description: format!("Academy acquisition: {}", option.name),
+                amount: -option.acquisition_cost,
+                kind: olm_core::domain::team::FinancialTransactionKind::AcademyAcquisition,
+                budget_impact: BudgetImpact::None,
+                affects_season_totals: true,
+            },
+        );
         parent.academy_team_id = Some(academy_id.clone());
     }
 
@@ -396,7 +406,7 @@ mod tests {
     use chrono::{TimeZone, Utc};
     use olm_core::domain::manager::Manager;
     use olm_core::domain::team::{
-        AcademyLifecycle, AcademyMetadata, ErlAssignment, ErlAssignmentRule, Team, TeamKind,
+        AcademyLifecycle, AcademyMetadata, ErlAssignment, ErlAssignmentRule, FinancialTransactionKind, Team, TeamKind,
     };
     use olm_core::clock::GameClock;
     use olm_core::game::Game;
@@ -681,15 +691,21 @@ mod tests {
             metadata.current_logo_url.as_deref(),
             Some("logos/mad-academy.svg")
         );
-        assert_eq!(metadata.acquisition_cost, 300_000);
+        assert_eq!(metadata.acquisition_cost, 260_000);
         assert_eq!(metadata.acquired_at, "2026-01-01T12:00:00+00:00");
         assert_eq!(metadata.erl_assignment.erl_league_id, "les");
         assert_eq!(
             metadata.erl_assignment.country_rule,
             ErlAssignmentRule::Domestic
         );
-        assert_eq!(parent.finance, 700_000);
-        assert_eq!(parent.season_expenses, 300_000);
+        assert_eq!(parent.finance, 740_000);
+        assert_eq!(parent.season_expenses, 260_000);
+        assert_eq!(parent.financial_ledger.len(), 1);
+        assert_eq!(
+            parent.financial_ledger[0].kind,
+            FinancialTransactionKind::AcademyAcquisition
+        );
+        assert_eq!(parent.financial_ledger[0].amount, -260_000);
         assert!(updated
             .messages
             .iter()
@@ -704,6 +720,5 @@ mod tests {
         );
     }
 }
-
 
 

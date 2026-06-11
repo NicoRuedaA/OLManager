@@ -704,11 +704,77 @@ pub struct TeamSeasonRecord {
     pub kills_against: u32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub enum FinancialTransactionKind {
+    Salary,
+    StaffWage,
+    FacilityUpkeep,
+    FacilityUpgrade,
+    TransferPurchase,
+    TransferSale,
+    ReleasePenalty,
+    AcademyAcquisition,
+    Sponsorship,
+    MatchdayRevenue,
     PrizeMoney,
+    BudgetRefresh,
+    Other,
+}
+
+impl Serialize for FinancialTransactionKind {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(match self {
+            FinancialTransactionKind::Salary => "Salary",
+            FinancialTransactionKind::StaffWage => "StaffWage",
+            FinancialTransactionKind::FacilityUpkeep => "FacilityUpkeep",
+            FinancialTransactionKind::FacilityUpgrade => "FacilityUpgrade",
+            FinancialTransactionKind::TransferPurchase => "TransferPurchase",
+            FinancialTransactionKind::TransferSale => "TransferSale",
+            FinancialTransactionKind::ReleasePenalty => "ReleasePenalty",
+            FinancialTransactionKind::AcademyAcquisition => "AcademyAcquisition",
+            FinancialTransactionKind::Sponsorship => "Sponsorship",
+            FinancialTransactionKind::MatchdayRevenue => "MatchdayRevenue",
+            FinancialTransactionKind::PrizeMoney => "PrizeMoney",
+            FinancialTransactionKind::BudgetRefresh => "BudgetRefresh",
+            FinancialTransactionKind::Other => "Other",
+        })
+    }
+}
+
+impl<'de> Deserialize<'de> for FinancialTransactionKind {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let value = String::deserialize(deserializer)?;
+        Ok(match value.as_str() {
+            "Salary" => FinancialTransactionKind::Salary,
+            "StaffWage" => FinancialTransactionKind::StaffWage,
+            "FacilityUpkeep" => FinancialTransactionKind::FacilityUpkeep,
+            "FacilityUpgrade" => FinancialTransactionKind::FacilityUpgrade,
+            "TransferPurchase" => FinancialTransactionKind::TransferPurchase,
+            "TransferSale" => FinancialTransactionKind::TransferSale,
+            "ReleasePenalty" => FinancialTransactionKind::ReleasePenalty,
+            "AcademyAcquisition" => FinancialTransactionKind::AcademyAcquisition,
+            "Sponsorship" => FinancialTransactionKind::Sponsorship,
+            "MatchdayRevenue" => FinancialTransactionKind::MatchdayRevenue,
+            "PrizeMoney" => FinancialTransactionKind::PrizeMoney,
+            "BudgetRefresh" => FinancialTransactionKind::BudgetRefresh,
+            "Other" => FinancialTransactionKind::Other,
+            _ => FinancialTransactionKind::Other,
+        })
+    }
+}
+
+impl Default for FinancialTransactionKind {
+    fn default() -> Self {
+        FinancialTransactionKind::Other
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -718,6 +784,7 @@ pub struct FinancialTransaction {
     pub date: String,
     pub description: String,
     pub amount: i64,
+    #[serde(default)]
     pub kind: FinancialTransactionKind,
 }
 
@@ -1280,4 +1347,3 @@ impl Team {
         }
     }
 }
-

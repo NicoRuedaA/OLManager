@@ -1,11 +1,11 @@
-use crate::finances::calc_annual_wages;
+use crate::finances::{calc_annual_wages, record_transaction, BudgetImpact, FinanceTransactionInput};
 use crate::game::Game;
 use chrono::{Datelike, NaiveDate};
 use crate::domain::negotiation::{NegotiationFeedback, NegotiationMood};
 use crate::domain::player::{PlayerOfferItem, TransferOfferStatus, WageNegotiationStatus};
 use crate::domain::season::TransferWindowStatus;
 use crate::domain::stats::LolRole;
-use crate::domain::team::TeamKind;
+use crate::domain::team::{FinancialTransactionKind, TeamKind};
 use crate::domain::transfer_history::{IncludedPlayerEntry, TransferHistoryEntry};
 use rand_08::Rng;
 use serde::{Deserialize, Serialize};
@@ -1476,8 +1476,17 @@ fn execute_free_agent_signing_with_payer(
     }
 
     if let Some(team) = game.teams.iter_mut().find(|team| team.id == payer_team_id) {
-        team.finance -= fee as i64;
-        team.transfer_budget -= fee as i64;
+        record_transaction(
+            team,
+            FinanceTransactionInput {
+                date: game.clock.current_date.format("%Y-%m-%d").to_string(),
+                description: format!("Free agent signing fee for {player_id}"),
+                amount: -(fee as i64),
+                kind: FinancialTransactionKind::TransferPurchase,
+                budget_impact: BudgetImpact::Transfer(-(fee as i64)),
+                affects_season_totals: false,
+            },
+        );
     }
 
     let players_snapshot = game.players.clone();
@@ -2267,8 +2276,17 @@ fn complete_transfer_with_wage(
     }
 
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == payer_team_id) {
-        t.finance -= fee as i64;
-        t.transfer_budget -= fee as i64;
+        record_transaction(
+            t,
+            FinanceTransactionInput {
+                date: date.to_string(),
+                description: format!("Transfer purchase fee for {player_id}"),
+                amount: -(fee as i64),
+                kind: FinancialTransactionKind::TransferPurchase,
+                budget_impact: BudgetImpact::Transfer(-(fee as i64)),
+                affects_season_totals: false,
+            },
+        );
     }
 
     if let Some(from_id) = from_team_id {
@@ -2276,9 +2294,19 @@ fn complete_transfer_with_wage(
             if let Some(pos) = t.active_lineup_ids.iter().position(|id| id == player_id) {
                 t.active_lineup_ids.remove(pos);
             }
-            t.finance += fee as i64;
-            t.transfer_budget +=
-                (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100;
+            record_transaction(
+                t,
+                FinanceTransactionInput {
+                    date: date.to_string(),
+                    description: format!("Transfer sale fee for {player_id}"),
+                    amount: fee as i64,
+                    kind: FinancialTransactionKind::TransferSale,
+                    budget_impact: BudgetImpact::Transfer(
+                        (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100,
+                    ),
+                    affects_season_totals: false,
+                },
+            );
         }
     }
 
@@ -2644,8 +2672,17 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
         ));
     }
 
-    team.finance -= penalty;
-    team.season_expenses += penalty;
+    record_transaction(
+        team,
+        FinanceTransactionInput {
+            date: today.clone(),
+            description: format!("Contract termination penalty for {player_name}"),
+            amount: -penalty,
+            kind: FinancialTransactionKind::ReleasePenalty,
+            budget_impact: BudgetImpact::None,
+            affects_season_totals: true,
+        },
+    );
     remove_player_from_team_references(team, player_id);
 
     if let Some(player) = game
@@ -2910,8 +2947,17 @@ fn execute_transfer_with_payer(
 
     // Debit the paying club; user academy signings are funded by the parent club.
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == payer_team_id) {
-        t.finance -= fee as i64;
-        t.transfer_budget -= fee as i64;
+        record_transaction(
+            t,
+            FinanceTransactionInput {
+                date: today.clone(),
+                description: format!("Transfer purchase fee for {}", player_snapshot.match_name),
+                amount: -(fee as i64),
+                kind: FinancialTransactionKind::TransferPurchase,
+                budget_impact: BudgetImpact::Transfer(-(fee as i64)),
+                affects_season_totals: false,
+            },
+        );
     }
 
     let players_snapshot = game.players.clone();
@@ -2929,8 +2975,19 @@ fn execute_transfer_with_payer(
     // Credit selling team or academy owner
     let credit_target_id = academy_owner_id.as_deref().unwrap_or(from_team_id);
     if let Some(t) = game.teams.iter_mut().find(|t| t.id == credit_target_id) {
-        t.finance += fee as i64;
-        t.transfer_budget += (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100;
+        record_transaction(
+            t,
+            FinanceTransactionInput {
+                date: today.clone(),
+                description: format!("Transfer sale fee for {}", player_snapshot.match_name),
+                amount: fee as i64,
+                kind: FinancialTransactionKind::TransferSale,
+                budget_impact: BudgetImpact::Transfer(
+                    (fee as i64 * TRANSFER_BUDGET_SELLING_REALLOCATION_PCT) / 100,
+                ),
+                affects_season_totals: false,
+            },
+        );
     }
 
     if selling_team_is_academy {
@@ -2987,4 +3044,3 @@ fn execute_transfer_with_payer(
 
     Ok(())
 }
-

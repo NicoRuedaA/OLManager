@@ -1,17 +1,21 @@
-use chrono::{TimeZone, Utc};
-use domain::league::{Fixture, FixtureStatus, League, MatchType, StandingEntry};
-use domain::manager::Manager;
-use domain::player::{
+use chrono::{Datelike, TimeZone, Utc};
+use olm_core::champions::ChampionMasteryEntry;
+use olm_core::clock::GameClock;
+use olm_core::domain::league::{
+    Fixture, FixtureStatus, League, LeagueKind, MatchType, StandingEntry,
+};
+use olm_core::domain::manager::Manager;
+use olm_core::domain::player::{
     Player, PlayerAttributes, PlayerIssue, PlayerIssueCategory, PlayerPromise, PlayerPromiseKind,
 };
-use domain::stats::LolRole;
-use domain::team::Team;
-use engine::Side;
-use engine::report::{KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats};
-use ofm_core::champions::ChampionMasteryEntry;
-use ofm_core::clock::GameClock;
-use ofm_core::game::Game;
-use ofm_core::turn;
+use olm_core::domain::stats::LolRole;
+use olm_core::domain::team::Team;
+use olm_core::engine::Side;
+use olm_core::engine::report::{
+    KillDetail, MatchReport, MatchReportEndReason, PlayerMatchStats, TeamStats,
+};
+use olm_core::game::Game;
+use olm_core::turn;
 use std::collections::HashMap;
 
 // ---------------------------------------------------------------------------
@@ -141,6 +145,8 @@ fn make_game_with_match() -> Game {
         name: "Test League".to_string(),
         season: 1,
         competition_id: None,
+        logo: None,
+        league_kind: LeagueKind::Main,
         fixtures: vec![Fixture {
             id: "fix1".to_string(),
             matchday: 1,
@@ -420,6 +426,66 @@ fn finish_live_match_day_advances_clock() {
     assert_eq!((game.clock.current_date - before).num_days(), 1);
 }
 
+#[test]
+fn finish_live_match_day_processes_monthly_finances_on_month_boundary_once() {
+    let mut game = make_game_with_match();
+    game.clock.current_date = Utc.with_ymd_and_hms(2025, 7, 1, 12, 0, 0).unwrap();
+
+    let team = game
+        .teams
+        .iter_mut()
+        .find(|team| team.id == "team1")
+        .unwrap();
+    team.finance = 100_000;
+    team.season_expenses = 0;
+
+    for player in game
+        .players
+        .iter_mut()
+        .filter(|player| player.team_id.as_deref() == Some("team1"))
+        .take(2)
+    {
+        player.wage = 12_000;
+    }
+
+    turn::finish_live_match_day(&mut game);
+
+    let team = game.teams.iter().find(|team| team.id == "team1").unwrap();
+    assert_eq!(team.finance, 98_000);
+    assert_eq!(team.season_expenses, 2_000);
+    assert_eq!(game.clock.current_date.day(), 2);
+}
+
+#[test]
+fn finish_live_match_day_does_not_process_monthly_finances_off_month_boundary() {
+    let mut game = make_game_with_match();
+    game.clock.current_date = Utc.with_ymd_and_hms(2025, 7, 2, 12, 0, 0).unwrap();
+
+    let team = game
+        .teams
+        .iter_mut()
+        .find(|team| team.id == "team1")
+        .unwrap();
+    team.finance = 100_000;
+    team.season_expenses = 0;
+
+    for player in game
+        .players
+        .iter_mut()
+        .filter(|player| player.team_id.as_deref() == Some("team1"))
+        .take(2)
+    {
+        player.wage = 12_000;
+    }
+
+    turn::finish_live_match_day(&mut game);
+
+    let team = game.teams.iter().find(|team| team.id == "team1").unwrap();
+    assert_eq!(team.finance, 100_000);
+    assert_eq!(team.season_expenses, 0);
+    assert_eq!(game.clock.current_date.day(), 3);
+}
+
 // ---------------------------------------------------------------------------
 // simulate_other_matches tests
 // ---------------------------------------------------------------------------
@@ -477,13 +543,13 @@ fn simulate_other_matches_applies_match_mastery_progress() {
         player.champion_training_targets = vec!["Azir".to_string(), String::new(), String::new()];
     }
 
-    let before_home = ofm_core::champions::mastery_for_player_champion(&game, "t1_fwd0", "Azir");
-    let before_away = ofm_core::champions::mastery_for_player_champion(&game, "t2_fwd0", "Azir");
+    let before_home = olm_core::champions::mastery_for_player_champion(&game, "t1_fwd0", "Azir");
+    let before_away = olm_core::champions::mastery_for_player_champion(&game, "t2_fwd0", "Azir");
 
     turn::simulate_other_matches(&mut game, &today, None);
 
-    let after_home = ofm_core::champions::mastery_for_player_champion(&game, "t1_fwd0", "Azir");
-    let after_away = ofm_core::champions::mastery_for_player_champion(&game, "t2_fwd0", "Azir");
+    let after_home = olm_core::champions::mastery_for_player_champion(&game, "t1_fwd0", "Azir");
+    let after_away = olm_core::champions::mastery_for_player_champion(&game, "t2_fwd0", "Azir");
     assert!(
         after_home > before_home || after_away > before_away,
         "auto-sim should progress mastery for at least one side (home {}->{}, away {}->{})",
@@ -590,7 +656,7 @@ fn apply_match_report_gk_clean_sheet() {
     };
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
 
-    let gk = game.players.iter().find(|p| p.id == "t1_gk").unwrap();
+    let _gk = game.players.iter().find(|p| p.id == "t1_gk").unwrap();
     // clean_sheets removed in LoL migration
 }
 
@@ -612,7 +678,7 @@ fn apply_match_report_gk_no_clean_sheet_on_conceding() {
     };
     turn::apply_match_report(&mut game, 0, "team1", "team2", &report);
 
-    let gk = game.players.iter().find(|p| p.id == "t1_gk").unwrap();
+    let _gk = game.players.iter().find(|p| p.id == "t1_gk").unwrap();
     // clean_sheets removed in LoL migration
 }
 
@@ -1274,6 +1340,8 @@ fn make_round_summary_game() -> Game {
         name: "Test League".to_string(),
         season: 1,
         competition_id: None,
+        logo: None,
+        league_kind: LeagueKind::Main,
         fixtures: vec![
             Fixture {
                 id: "fix1".to_string(),
@@ -1284,7 +1352,7 @@ fn make_round_summary_game() -> Game {
                 match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
-                result: Some(domain::league::MatchResult {
+                result: Some(olm_core::domain::league::MatchResult {
                     home_wins: 0,
                     away_wins: 1,
                     ended_by: Default::default(),
@@ -1301,7 +1369,7 @@ fn make_round_summary_game() -> Game {
                 match_type: MatchType::League,
                 best_of: 1,
                 status: FixtureStatus::Completed,
-                result: Some(domain::league::MatchResult {
+                result: Some(olm_core::domain::league::MatchResult {
                     home_wins: 2,
                     away_wins: 0,
                     ended_by: Default::default(),

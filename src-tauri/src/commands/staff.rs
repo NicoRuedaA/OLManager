@@ -2,6 +2,8 @@ use chrono::Datelike;
 use log::info;
 use tauri::State;
 
+use olm_core::domain::team::FinancialTransactionKind;
+use olm_core::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 use olm_core::game::Game;
 use olm_core::state::StateManager;
 
@@ -57,8 +59,20 @@ fn hire_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, Str
         if team.finance < staff.wage as i64 {
             return Err("Insufficient club funds to hire this staff member".to_string());
         }
-        team.finance -= staff.wage as i64;
-        team.season_expenses += staff.wage as i64;
+        record_transaction(
+            team,
+            FinanceTransactionInput {
+                date: game.clock.current_date.format("%Y-%m-%d").to_string(),
+                description: format!(
+                    "Staff hiring cost: {} {}",
+                    staff.first_name, staff.last_name
+                ),
+                amount: -(staff.wage as i64),
+                kind: FinancialTransactionKind::StaffWage,
+                budget_impact: BudgetImpact::None,
+                affects_season_totals: true,
+            },
+        );
     }
 
     state.set_game(game.clone());
@@ -69,10 +83,10 @@ fn hire_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, Str
 mod tests {
     use super::{hire_staff_internal, release_staff_internal};
     use chrono::{TimeZone, Utc};
+    use olm_core::clock::GameClock;
     use olm_core::domain::manager::Manager;
     use olm_core::domain::staff::{Staff, StaffAttributes, StaffRole};
-    use olm_core::domain::team::Team;
-    use olm_core::clock::GameClock;
+    use olm_core::domain::team::{FinancialTransactionKind, Team};
     use olm_core::game::Game;
     use olm_core::state::StateManager;
 
@@ -177,6 +191,12 @@ mod tests {
         assert_eq!(staff.team_id.as_deref(), Some("team-1"));
         assert_eq!(team.finance, 188_000);
         assert_eq!(team.season_expenses, 12_000);
+        assert_eq!(team.financial_ledger.len(), 1);
+        assert_eq!(
+            team.financial_ledger[0].kind,
+            FinancialTransactionKind::StaffWage
+        );
+        assert_eq!(team.financial_ledger[0].amount, -12_000);
 
         let stored_game = state.get_game(|game| game.clone()).expect("stored game");
         let stored_staff = stored_game
@@ -192,6 +212,12 @@ mod tests {
         assert_eq!(stored_staff.team_id.as_deref(), Some("team-1"));
         assert_eq!(stored_team.finance, 188_000);
         assert_eq!(stored_team.season_expenses, 12_000);
+        assert_eq!(stored_team.financial_ledger.len(), 1);
+        assert_eq!(
+            stored_team.financial_ledger[0].kind,
+            FinancialTransactionKind::StaffWage
+        );
+        assert_eq!(stored_team.financial_ledger[0].amount, -12_000);
     }
 
     #[test]
@@ -274,5 +300,3 @@ fn release_staff_internal(state: &StateManager, staff_id: &str) -> Result<Game, 
     state.set_game(game.clone());
     Ok(game)
 }
-
-

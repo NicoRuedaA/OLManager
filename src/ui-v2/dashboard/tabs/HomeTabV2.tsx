@@ -27,6 +27,7 @@ import {
   getTeamShort,
 } from "@/lib/common/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
+import { getSeasonNetSummary } from "@/lib/finances/finance";
 import {
   getLineupByRole,
   ROLE_ORDER,
@@ -607,7 +608,7 @@ function FinancesCard({
   onNavigate?: (tab: string) => void;
 }) {
   const { t } = useTranslation();
-  const monthlyNet = team.season_income - team.season_expenses;
+  const seasonNet = getSeasonNetSummary(team);
   return (
     <Card className="h-full">
       <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -631,29 +632,14 @@ function FinancesCard({
           </div>
         </div>
 
-        {/* Budget usage bar */}
+        {/* Annual wage budget */}
         {team.wage_budget > 0 && (
           <div>
             <div className="mb-1 flex items-center justify-between text-xs">
-              <span className="uppercase tracking-wider text-muted-foreground">{t("home.finances.wageBudget")}</span>
+              <span className="uppercase tracking-wider text-muted-foreground">{t("home.finances.annualWageBudget", "Annual wage budget")}</span>
               <span className="tabular-nums text-muted-foreground/70">
-                {((team.season_expenses / team.wage_budget) * 100).toFixed(0)}%
+                {formatBalance(team.wage_budget)} /yr
               </span>
-            </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-              <div
-                className={cn(
-                  "h-full rounded-full transition-all",
-                  team.season_expenses > team.wage_budget
-                    ? "bg-destructive"
-                    : team.season_expenses > team.wage_budget * 0.85
-                      ? "bg-amber-500"
-                      : "bg-emerald-500",
-                )}
-                style={{
-                  width: `${Math.min(100, (team.season_expenses / team.wage_budget) * 100)}%`,
-                }}
-              />
             </div>
           </div>
         )}
@@ -663,13 +649,13 @@ function FinancesCard({
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground">{t("home.income")}</div>
             <div className="text-emerald-400 tabular-nums">
-              {formatCompactCurrency(team.season_income)}
+              {formatCompactCurrency(seasonNet.income)}
             </div>
           </div>
           <div>
             <div className="text-xs uppercase tracking-wider text-muted-foreground">{t("home.expenses")}</div>
             <div className="text-red-400 tabular-nums">
-              {formatCompactCurrency(-team.season_expenses)}
+              {formatCompactCurrency(-seasonNet.expenses)}
             </div>
           </div>
           <div className="col-span-2">
@@ -677,10 +663,10 @@ function FinancesCard({
             <div
               className={cn(
                 "font-heading text-lg tabular-nums",
-                monthlyNet >= 0 ? "text-emerald-400" : "text-red-400",
+                seasonNet.net >= 0 ? "text-emerald-400" : "text-red-400",
               )}
             >
-              {formatCompactCurrency(monthlyNet)}
+              {formatCompactCurrency(seasonNet.net)}
             </div>
           </div>
         </div>
@@ -1006,7 +992,6 @@ function TodayPhaseCard({
     </Card>
   );
 }
-
 
 
 

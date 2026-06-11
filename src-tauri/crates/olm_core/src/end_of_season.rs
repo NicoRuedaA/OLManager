@@ -1,4 +1,5 @@
 use crate::game::Game;
+use crate::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 use crate::generator::definitions::ScheduleConfig;
 use crate::schedule::{
     LecSplit, append_fixtures, generate_preseason_friendlies,
@@ -10,7 +11,7 @@ use chrono::{Datelike, TimeZone, Utc};
 use crate::domain::league::{MatchType, FixtureStatus, League};
 use crate::domain::message::*;
 use crate::domain::player::PlayerSeasonStats;
-use crate::domain::team::{FinancialTransaction, FinancialTransactionKind, TeamSeasonRecord};
+use crate::domain::team::{FinancialTransactionKind, TeamSeasonRecord};
 use std::collections::HashMap;
 
 pub fn expected_fixture_count(team_count: usize) -> Option<usize> {
@@ -345,19 +346,22 @@ fn process_end_of_season_inner(
             team.form.clear();
 
             if prize_money > 0 {
-                team.finance += prize_money;
-                team.season_income += prize_money;
-                team.financial_ledger.push(FinancialTransaction {
-                    date: last_fixture_date.clone(),
-                    description: format!(
-                        "Season {} prize money for {}{} place",
-                        season,
-                        position,
-                        position_suffix(position)
-                    ),
-                    amount: prize_money,
-                    kind: FinancialTransactionKind::PrizeMoney,
-                });
+                record_transaction(
+                    team,
+                    FinanceTransactionInput {
+                        date: last_fixture_date.clone(),
+                        description: format!(
+                            "Season {} prize money for {}{} place",
+                            season,
+                            position,
+                            position_suffix(position)
+                        ),
+                        amount: prize_money,
+                        kind: FinancialTransactionKind::PrizeMoney,
+                        budget_impact: BudgetImpact::None,
+                        affects_season_totals: true,
+                    },
+                );
             }
 
             refresh_hiring_cycle_budgets(team);
@@ -1121,4 +1125,3 @@ mod tests {
         assert_eq!(game.leagues[0].id, "active");
     }
 }
-

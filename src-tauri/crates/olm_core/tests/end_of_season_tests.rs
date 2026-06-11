@@ -1,14 +1,14 @@
 use chrono::{TimeZone, Utc};
-use domain::league::{
-    Fixture, MatchType, FixtureStatus, League, MatchResult, StandingEntry,
+use olm_core::clock::GameClock;
+use olm_core::domain::league::{
+    Fixture, FixtureStatus, League, LeagueKind, MatchResult, MatchType, StandingEntry,
 };
-use domain::manager::Manager;
-use domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
-use domain::stats::LolRole;
-use domain::team::{FinancialTransactionKind, Team, TeamKind};
-use ofm_core::clock::GameClock;
-use ofm_core::end_of_season::{is_season_complete, process_end_of_season};
-use ofm_core::game::{BoardObjective, Game, ObjectiveType};
+use olm_core::domain::manager::Manager;
+use olm_core::domain::player::{Player, PlayerAttributes, PlayerSeasonStats};
+use olm_core::domain::stats::LolRole;
+use olm_core::domain::team::{FinancialTransactionKind, Team, TeamKind};
+use olm_core::end_of_season::{is_season_complete, process_end_of_season};
+use olm_core::game::{BoardObjective, Game, ObjectiveType};
 
 // ---------------------------------------------------------------------------
 // Test helpers
@@ -142,8 +142,10 @@ fn make_completed_season_game() -> Game {
     let league = League {
         id: "league1".to_string(),
         name: "Test League".to_string(),
+        logo: None,
         season: 1,
-                competition_id: None,
+        competition_id: None,
+        league_kind: LeagueKind::Main,
         fixtures,
         standings,
     };
@@ -442,7 +444,7 @@ fn manager_career_history_entry_updated_on_second_season() {
     // Add pre-existing career history entry
     game.manager
         .career_history
-        .push(domain::manager::ManagerCareerEntry {
+        .push(olm_core::domain::manager::ManagerCareerEntry {
             team_id: "team1".to_string(),
             team_name: "Test FC".to_string(),
             start_date: "2025-08-01".to_string(),
@@ -611,13 +613,13 @@ fn board_objective_review_message_reports_result_and_satisfaction_delta() {
 #[test]
 fn news_cleared() {
     let mut game = make_completed_season_game();
-    game.news.push(domain::news::NewsArticle::new(
+    game.news.push(olm_core::domain::news::NewsArticle::new(
         "n1".to_string(),
         "Old news".to_string(),
         "...".to_string(),
         "Source".to_string(),
         "2025-01-01".to_string(),
-        domain::news::NewsCategory::MatchReport,
+        olm_core::domain::news::NewsCategory::MatchReport,
     ));
 
     process_end_of_season(&mut game);
@@ -629,7 +631,7 @@ fn news_cleared() {
     assert_ne!(game.news[0].id, "n1");
     assert_eq!(
         game.news[0].category,
-        domain::news::NewsCategory::SeasonPreview
+        olm_core::domain::news::NewsCategory::SeasonPreview
     );
 }
 
@@ -733,13 +735,14 @@ fn lower_table_finish_receives_expected_prize_money() {
 #[test]
 fn prize_money_message_sent_once_per_season() {
     let mut game = make_completed_season_game();
-    game.messages.push(domain::message::InboxMessage::new(
-        "season_payout_1".to_string(),
-        "Already exists".to_string(),
-        "...".to_string(),
-        "Board".to_string(),
-        "2026-05-20".to_string(),
-    ));
+    game.messages
+        .push(olm_core::domain::message::InboxMessage::new(
+            "season_payout_1".to_string(),
+            "Already exists".to_string(),
+            "...".to_string(),
+            "Board".to_string(),
+            "2026-05-20".to_string(),
+        ));
 
     process_end_of_season(&mut game);
 
@@ -778,20 +781,22 @@ fn new_season_schedule_message_sent() {
 fn messages_not_duplicated() {
     let mut game = make_completed_season_game();
     // Pre-add the messages
-    game.messages.push(domain::message::InboxMessage::new(
-        "season_end_1".to_string(),
-        "Already exists".to_string(),
-        "...".to_string(),
-        "Board".to_string(),
-        "2026-05-20".to_string(),
-    ));
-    game.messages.push(domain::message::InboxMessage::new(
-        "new_season_2".to_string(),
-        "Already exists".to_string(),
-        "...".to_string(),
-        "League".to_string(),
-        "2026-05-20".to_string(),
-    ));
+    game.messages
+        .push(olm_core::domain::message::InboxMessage::new(
+            "season_end_1".to_string(),
+            "Already exists".to_string(),
+            "...".to_string(),
+            "Board".to_string(),
+            "2026-05-20".to_string(),
+        ));
+    game.messages
+        .push(olm_core::domain::message::InboxMessage::new(
+            "new_season_2".to_string(),
+            "Already exists".to_string(),
+            "...".to_string(),
+            "League".to_string(),
+            "2026-05-20".to_string(),
+        ));
 
     process_end_of_season(&mut game);
 
@@ -926,12 +931,10 @@ fn next_season_generation_ignores_academy_team_ids() {
 
     let next_league = game.leagues.first().expect("next league should exist");
     assert_eq!(next_league.standings.len(), 10);
-    assert!(
-        !next_league
-            .standings
-            .iter()
-            .any(|entry| entry.team_id == "academy-1")
-    );
+    assert!(!next_league
+        .standings
+        .iter()
+        .any(|entry| entry.team_id == "academy-1"));
 }
 
 // ---------------------------------------------------------------------------
