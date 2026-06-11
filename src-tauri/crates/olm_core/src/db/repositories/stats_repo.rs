@@ -13,6 +13,9 @@ fn match_type_to_string(match_type: &MatchType) -> String {
         MatchType::Friendly => "Friendly".to_string(),
         MatchType::PreseasonTournament => "PreseasonTournament".to_string(),
         MatchType::Playoffs => "Playoffs".to_string(),
+        MatchType::International => "International".to_string(),
+        MatchType::Knockout => "Knockout".to_string(),
+        MatchType::Swiss => "Swiss".to_string(),
     }
 }
 

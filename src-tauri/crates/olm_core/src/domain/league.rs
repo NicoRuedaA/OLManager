@@ -9,6 +9,46 @@ pub enum LeagueKind {
     #[default]
     Main,
     Academy,
+    International,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub enum TournamentFormat {
+    GroupsThenSingleElim {
+        groups: u32,
+        teams_per_group: u32,
+        knockout_teams: u32,
+        group_best_of: u8,
+        knockout_best_of: u8,
+    },
+    DoubleElimination {
+        teams: u32,
+        best_of: u8,
+        grand_finals_best_of: u8,
+    },
+    SwissThenKnockout {
+        swiss_teams: u32,
+        swiss_rounds: u32,
+        knockout_teams: u32,
+        knockout_best_of: u8,
+        has_play_in: bool,
+    },
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct BracketMatch {
+    pub id: String,
+    pub round: u32,
+    pub match_index: u32,
+    pub home_team_id: Option<String>,
+    pub away_team_id: Option<String>,
+    pub winner_to: Option<String>,
+    pub loser_to: Option<String>,
+    pub result: Option<MatchResult>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -24,6 +64,8 @@ pub struct League {
     pub logo: Option<String>,
     #[serde(default)]
     pub league_kind: LeagueKind,
+    #[serde(default)]
+    pub tournament_format: Option<TournamentFormat>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
@@ -35,6 +77,9 @@ pub enum MatchType {
     Friendly,
     PreseasonTournament,
     Playoffs,
+    International,
+    Knockout,
+    Swiss,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -180,7 +225,7 @@ impl StandingEntry {
 
 impl Fixture {
     pub fn counts_for_league_standings(&self) -> bool {
-        matches!(self.match_type, MatchType::League)
+        matches!(self.match_type, MatchType::League | MatchType::International)
     }
 }
 
@@ -200,6 +245,33 @@ impl League {
             competition_id,
             logo: None,
             league_kind: LeagueKind::Main,
+            tournament_format: None,
+        }
+    }
+
+    pub fn new_international(
+        id: String,
+        name: String,
+        season: u32,
+        team_ids: &[String],
+        competition_id: Option<String>,
+        tournament_format: TournamentFormat,
+    ) -> Self {
+        let standings = team_ids
+            .iter()
+            .map(|tid| StandingEntry::new(tid.clone()))
+            .collect();
+
+        Self {
+            id,
+            name,
+            season,
+            fixtures: Vec::new(),
+            standings,
+            competition_id,
+            logo: None,
+            league_kind: LeagueKind::International,
+            tournament_format: Some(tournament_format),
         }
     }
 

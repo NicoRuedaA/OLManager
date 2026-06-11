@@ -1,5 +1,5 @@
 use chrono::{DateTime, Duration, TimeZone, Utc};
-use crate::domain::league::{Fixture, FixtureStatus, League, MatchType};
+use crate::domain::league::{Fixture, FixtureStatus, League, MatchType, TournamentFormat};
 use uuid::Uuid;
 
 fn build_fixture(
@@ -550,6 +550,287 @@ pub fn append_fixtures(league: &mut League, mut additional_fixtures: Vec<Fixture
             .then(left.matchday.cmp(&right.matchday))
             .then(left.id.cmp(&right.id))
     });
+}
+
+/// Generate a single-elimination bracket from seeded teams.
+/// Seeded order: seed[0] vs seed[N-1], seed[1] vs seed[N-2], etc.
+pub fn generate_single_elim_bracket(
+    seeded_team_ids: &[String],
+    start_date: DateTime<Utc>,
+    start_matchday: u32,
+    best_of: u8,
+    days_between_rounds: i64,
+) -> Vec<Fixture> {
+    let n = seeded_team_ids.len();
+    assert!(n.is_power_of_two(), "Single elim requires power-of-two teams: {}", n);
+
+    let rounds = (n as f64).log2() as u32;
+    let mut fixtures = Vec::new();
+
+    for round in 0..rounds {
+        let matches_in_round = n / (2_usize.pow(round + 1));
+        let matchday = start_matchday + round;
+        let round_date = start_date + Duration::days(round as i64 * days_between_rounds);
+        let date_str = round_date.format("%Y-%m-%d").to_string();
+        let is_final = round == rounds - 1;
+
+        for m in 0..matches_in_round {
+            let (home_idx, away_idx) = if round == 0 {
+                // First round: seed highest vs lowest
+                let pair_start = m * 2;
+                (pair_start, n - 1 - pair_start)
+            } else {
+                // Subsequent rounds: placeholder pairings (updated by results)
+                (m * 2, m * 2 + 1)
+            };
+
+            fixtures.push(build_fixture(
+                matchday,
+                date_str.clone(),
+                seeded_team_ids[home_idx].clone(),
+                seeded_team_ids[away_idx].clone(),
+                MatchType::Knockout,
+                if is_final { best_of.max(5) } else { best_of },
+            ));
+        }
+    }
+
+    fixtures
+}
+
+/// Generate a double-elimination bracket.
+/// Seeded order determines initial pairings.
+pub fn generate_double_elim_bracket(
+    seeded_team_ids: &[String],
+    start_date: DateTime<Utc>,
+    start_matchday: u32,
+    best_of: u8,
+    grand_finals_best_of: u8,
+    days_between_rounds: i64,
+) -> Vec<Fixture> {
+    let n = seeded_team_ids.len();
+    assert!(n.is_power_of_two(), "Double elim requires power-of-two teams: {}", n);
+
+    let s = seeded_team_ids;
+    let rounds: Vec<Vec<(String, String)>> = match n {
+        4 => vec![
+            // UB R1
+            vec![(s[0].clone(), s[3].clone()), (s[1].clone(), s[2].clone())],
+            // LB R1
+            vec![(s[3].clone(), s[2].clone())],
+            // UB Final
+            vec![(s[0].clone(), s[1].clone())],
+            // LB R2
+            vec![(s[3].clone(), s[1].clone())],
+            // Grand Final
+            vec![(s[0].clone(), s[3].clone())],
+        ],
+        8 => vec![
+            // UB R1
+            vec![(s[0].clone(), s[7].clone()), (s[3].clone(), s[4].clone()),
+                 (s[1].clone(), s[6].clone()), (s[2].clone(), s[5].clone())],
+            // LB R1
+            vec![(s[4].clone(), s[7].clone()), (s[5].clone(), s[6].clone())],
+            // UB R2
+            vec![(s[0].clone(), s[3].clone()), (s[1].clone(), s[2].clone())],
+            // LB R2
+            vec![(s[4].clone(), s[2].clone()), (s[5].clone(), s[3].clone())],
+            // UB Final
+            vec![(s[0].clone(), s[1].clone())],
+            // LB R3
+            vec![(s[4].clone(), s[5].clone())],
+            // LB Final
+            vec![(s[2].clone(), s[4].clone())],
+            // Grand Final
+            vec![(s[0].clone(), s[2].clone())],
+        ],
+        _ => panic!("Double elim only implemented for 4 or 8 teams, got {}", n),
+    };
+
+    let mut fixtures = Vec::new();
+    for (round_idx, pairings) in rounds.iter().enumerate() {
+        let matchday = start_matchday + round_idx as u32;
+        let round_date = start_date + Duration::days(round_idx as i64 * days_between_rounds);
+        let date_str = round_date.format("%Y-%m-%d").to_string();
+        let is_grand_final = round_idx == rounds.len() - 1;
+
+        for (home_id, away_id) in pairings {
+            fixtures.push(build_fixture(
+                matchday,
+                date_str.clone(),
+                home_id.clone(),
+                away_id.clone(),
+                MatchType::Knockout,
+                if is_grand_final { grand_finals_best_of } else { best_of },
+            ));
+        }
+    }
+
+    fixtures
+}
+
+/// Generate a Swiss-system stage.
+/// Produces round-by-round fixtures with initial seeding.
+/// Dynamic re-pairing (by record) happens during simulation, but we pre-generate
+/// the fixture shells for Round 1 based on seeding; subsequent rounds use placeholders.
+pub fn generate_swiss_stage(
+    team_ids: &[String],
+    start_date: DateTime<Utc>,
+    start_matchday: u32,
+    swiss_rounds: u32,
+    best_of: u8,
+    elimination_best_of: u8,
+    days_between_rounds: i64,
+) -> Vec<Fixture> {
+    let n = team_ids.len();
+    let mut fixtures = Vec::new();
+
+    for round in 0..swiss_rounds {
+        let matchday = start_matchday + round;
+        let round_date = start_date + Duration::days(round as i64 * days_between_rounds);
+        let date_str = round_date.format("%Y-%m-%d").to_string();
+
+        if round == 0 {
+            // Round 1: seed-based pairing (highest vs lowest)
+            for i in 0..n / 2 {
+                fixtures.push(build_fixture(
+                    matchday,
+                    date_str.clone(),
+                    team_ids[i].clone(),
+                    team_ids[n - 1 - i].clone(),
+                    MatchType::Swiss,
+                    if round >= swiss_rounds - 2 { elimination_best_of } else { best_of },
+                ));
+            }
+        } else {
+            // Subsequent rounds: placeholder teams, re-paired dynamically during simulation
+            // We create empty fixture shells that get filled during simulation
+            for i in 0..n / 2 {
+                fixtures.push(build_fixture(
+                    matchday,
+                    date_str.clone(),
+                    String::new(),  // filled dynamically
+                    String::new(),  // filled dynamically
+                    MatchType::Swiss,
+                    if round >= swiss_rounds - 2 { elimination_best_of } else { best_of },
+                ));
+            }
+        }
+    }
+
+    fixtures
+}
+
+/// Generate a full international tournament league based on the given format.
+pub fn generate_international_tournament(
+    id: &str,
+    name: &str,
+    season: u32,
+    team_ids: &[String],
+    format: &TournamentFormat,
+    start_date: DateTime<Utc>,
+) -> League {
+    let mut league = League::new_international(
+        id.to_string(),
+        name.to_string(),
+        season,
+        team_ids,
+        Some(id.to_string()),
+        format.clone(),
+    );
+
+    let fixtures = match format {
+        TournamentFormat::GroupsThenSingleElim {
+            groups,
+            teams_per_group,
+            knockout_teams: _,
+            group_best_of,
+            knockout_best_of,
+        } => {
+            let total_teams = (groups * teams_per_group) as usize;
+            assert!(
+                team_ids.len() >= total_teams,
+                "Not enough teams for groups format"
+            );
+
+            // Group stage: single round-robin within each group
+            let group_size = *teams_per_group as usize;
+            let mut all_fixtures = Vec::new();
+            let group_start = start_date;
+
+            for g in 0..*groups {
+                let group_teams: Vec<String> = team_ids
+                    [g as usize * group_size..(g as usize + 1) * group_size]
+                    .to_vec();
+                let group_league = generate_single_round_league_with_offsets_and_bo(
+                    &format!("{} Group {}", name, (b'A' + g as u8) as char),
+                    season,
+                    &group_teams,
+                    group_start + Duration::days((g * 14) as i64),
+                    None,
+                    *group_best_of,
+                );
+                all_fixtures.extend(group_league.fixtures);
+            }
+
+            all_fixtures
+        }
+        TournamentFormat::DoubleElimination {
+            teams,
+            best_of,
+            grand_finals_best_of,
+        } => {
+            let seeded: Vec<String> = team_ids.iter().take(*teams as usize).cloned().collect();
+            generate_double_elim_bracket(
+                &seeded,
+                start_date,
+                1,
+                *best_of as u8,
+                *grand_finals_best_of as u8,
+                7,
+            )
+        }
+        TournamentFormat::SwissThenKnockout {
+            swiss_teams,
+            swiss_rounds,
+            knockout_teams,
+            knockout_best_of,
+            has_play_in,
+        } => {
+            let swiss_team_ids: Vec<String> =
+                team_ids.iter().take(*swiss_teams as usize).cloned().collect();
+            let mut f = generate_swiss_stage(
+                &swiss_team_ids,
+                start_date,
+                1,
+                *swiss_rounds,
+                1,
+                *knockout_best_of,
+                2,
+            );
+
+            if *knockout_teams > 0 {
+                let knockout_start = start_date
+                    + Duration::days(*swiss_rounds as i64 * 2 + (if *has_play_in { 7 } else { 0 }));
+                let knockout_seeds: Vec<String> = (0..*knockout_teams)
+                    .map(|i| format!("swiss_seed_{}", i + 1))
+                    .collect();
+                let knockout_fixtures = generate_single_elim_bracket(
+                    &knockout_seeds,
+                    knockout_start,
+                    *swiss_rounds + 1,
+                    *knockout_best_of,
+                    7,
+                );
+                f.extend(knockout_fixtures);
+            }
+
+            f
+        }
+    };
+
+    append_fixtures(&mut league, fixtures);
+    league
 }
 
 #[cfg(test)]

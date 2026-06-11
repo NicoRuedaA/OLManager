@@ -50,6 +50,12 @@ pub struct CompetitionManifest {
     /// Legacy competitions are hidden from selection and skipped during world assembly.
     #[serde(default)]
     pub legacy: bool,
+    /// Competition type: "domestic" (default), "international"
+    #[serde(default)]
+    pub competition_type: Option<String>,
+    /// Tournament format config for international competitions
+    #[serde(default)]
+    pub tournament_format: Option<crate::domain::league::TournamentFormat>,
 }
 
 fn default_teams_file() -> String {
