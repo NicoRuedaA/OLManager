@@ -1,8 +1,6 @@
-use chrono::Datelike;
 use crate::game::Game;
-use crate::domain::player::Player;
 use crate::domain::stats::LolRole;
-use crate::domain::team::{DraftStrategy, ScrimFocus, Team, TeamKind, TrainingFocus, TrainingIntensity, TrainingSchedule};
+use crate::domain::team::{DraftStrategy, ScrimFocus, TrainingFocus, TrainingIntensity, TrainingSchedule};
 use crate::domain::transfer_history::TransferHistoryEntry;
 
 // ── Training ────────────────────────────────────────────────
@@ -242,81 +240,5 @@ pub fn delegate_champion_training(game: &mut Game) {
 
 pub fn create_social_post(_game: &mut Game, _text: &str) {
     // Placeholder - creates a social post
-}
-
-// ── Select Team (world assembly) ────────────────────────────
-
-pub fn select_team(game: &mut Game, team_id: &str, comp_id: &str,
-                   assembled_teams: Vec<Team>, assembled_players: Vec<Player>,
-                   assembled_staff: Vec<crate::domain::staff::Staff>,
-                   manifests: Vec<crate::generator::definitions::CompetitionManifest>) {
-    game.manager.hire(team_id.to_string());
-    if let Some(t) = game.teams.iter_mut().find(|t| t.id == team_id) {
-        t.manager_id = Some(game.manager.id.clone());
-    }
-
-    if game.teams.is_empty() {
-        game.teams = assembled_teams;
-        game.players = assembled_players;
-        game.staff = assembled_staff;
-    }
-
-    let season_year = game.clock.current_date.year();
-    let mut all_leagues = Vec::new();
-
-    for manifest in manifests.iter().filter(|m| !m.legacy) {
-        let team_ids: Vec<String> = game.teams.iter()
-            .filter(|t| t.team_kind != TeamKind::Academy && t.competition_id.as_deref() == Some(manifest.id.as_str()))
-            .map(|t| t.id.clone()).collect();
-        if team_ids.len() < 2 { continue; }
-
-        let mut league = crate::schedule::generate_schedule_from_config(
-            &manifest.id, &manifest.name, season_year as u32, &team_ids, &manifest.schedule, 0);
-        league.competition_id = Some(manifest.id.clone());
-        league.logo = manifest.logo.clone();
-        all_leagues.push(league);
-    }
-
-    game.leagues = all_leagues;
-    game.user_competition_id = Some(comp_id.to_string());
-    crate::champions::bootstrap_champion_state(game);
-    crate::season_context::refresh_game_context(game);
-
-    // ── Welcome messages ─────────────────────────────────────
-    let date_str = game.clock.current_date.to_rfc3339();
-    let team_name = game.teams.iter().find(|t| t.id == team_id)
-        .map(|t| t.name.clone()).unwrap_or_default();
-
-    game.messages.push(crate::messages::welcome_message(&team_name, team_id, &date_str, "en"));
-
-    if let Some(parent) = game.teams.iter().find(|t| t.id == team_id) {
-        if let Some(aid) = parent.academy_team_id.as_deref() {
-            if let Some(academy) = game.teams.iter().find(|t| t.id == aid) {
-                let count = game.players.iter().filter(|p| p.team_id.as_deref() == Some(aid)).count();
-                game.messages.push(crate::game_setup::academy_overview_message(parent, academy, count, &date_str));
-            }
-        }
-    }
-
-    let season_start_str = if let Some(manifest) = manifests.iter().find(|m| m.id == comp_id) {
-        let split = &manifest.schedule.splits[0];
-        format!("{} {}, {}", chrono::Month::try_from(split.season_start.month as u8)
-            .map(|m| m.name()).unwrap_or("January"), split.season_start.day, season_year)
-    } else {
-        format!("January 18, {}", season_year)
-    };
-    let league_display_name = manifests.iter().find(|m| m.id == comp_id)
-        .map(|m| format!("{} {}", m.name, m.schedule.splits.first().map(|s| s.name.as_str()).unwrap_or("")))
-        .unwrap_or_else(|| "LEC Winter".to_string());
-
-    game.messages.push(crate::messages::season_schedule_message(&league_display_name, &season_start_str, &date_str));
-    game.messages.push(crate::messages::staff_advice_message(&team_name, team_id, &date_str));
-
-    let team_names: Vec<String> = game.teams.iter()
-        .filter(|t| t.team_kind != TeamKind::Academy)
-        .map(|t| t.name.clone()).collect();
-    game.news.push(crate::news::season_preview_article(&team_names, &date_str));
-
-    crate::player_events::generate_contract_concern_messages(game, false);
 }
 
