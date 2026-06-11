@@ -277,11 +277,20 @@ export default function HomeTodayPlanCard({
   const handleReviewDecision = async (decision: DailyScrimAction) => {
     if (!unresolvedReviewReport) return;
     if (decision === "CancelScrims") {
-      setShowCancelFollowups(true);
-      setDecisionFeedback({
-        title: t("home.scrimFeedback.cancelledTitle"),
-        detail: t("home.scrimFeedback.cancelledDetail"),
-      });
+      setDecisionSaving(decision);
+      try {
+        const updated = await chooseDailyScrimAction(unresolvedReviewReport.slot_index, "CancelScrims");
+        onGameUpdate?.(updated);
+        setShowCancelFollowups(true);
+        setDecisionFeedback({
+          title: t("home.scrimFeedback.cancelledTitle"),
+          detail: t("home.scrimFeedback.cancelledDetail"),
+        });
+      } catch (error) {
+        console.error("Failed to cancel scrims:", error);
+      } finally {
+        setDecisionSaving(null);
+      }
       return;
     }
     setDecisionSaving(decision);

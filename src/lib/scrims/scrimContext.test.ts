@@ -91,7 +91,7 @@ describe("scrimContext", () => {
 
   it("returns PlayedNeedsReview when report has no decision", () => {
     const myTeam = team({ scrim_reports: [report()] });
-    const context = deriveTodayScrimContext(gameState(myTeam, { day_phase: "ScrimBlock" }), myTeam);
+    const context = deriveTodayScrimContext(gameState(myTeam, { day_phase: "ReviewBlock" }), myTeam);
     expect(context.state).toBe("PlayedNeedsReview");
     expect(context.canCancel).toBe(false);
     expect(context.canReview).toBe(false);

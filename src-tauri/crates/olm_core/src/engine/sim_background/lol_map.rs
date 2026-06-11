@@ -143,6 +143,9 @@ pub struct LolUnitState {
     pub damage_dealt: f64,
     #[serde(default)]
     pub item_tier: u8,
+    /// 0-100 — affects damage, speed, pressure, etc. during the match.
+    #[serde(default = "default_condition")]
+    pub condition: u8,
 }
 
 fn default_unit_hp() -> f64 {
@@ -155,6 +158,10 @@ fn default_wave() -> f64 {
 
 fn default_level() -> u8 {
     1
+}
+
+fn default_condition() -> u8 {
+    100
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -291,6 +298,7 @@ impl LolMapState {
                 gold: 500.0,
                 damage_dealt: 0.0,
                 item_tier: 0,
+                condition: player.condition,
             });
         }
 
@@ -319,6 +327,7 @@ impl LolMapState {
                 gold: 500.0,
                 damage_dealt: 0.0,
                 item_tier: 0,
+                condition: player.condition,
             });
         }
     }
@@ -532,7 +541,7 @@ impl LiveMatchState {
                 unit.target_x = target.0;
                 unit.target_y = target.1;
 
-                let speed = movement_speed(unit.role, unit.level, unit.item_tier);
+                let speed = movement_speed(unit.role, unit.level, unit.item_tier, unit.condition);
                 move_unit_with_walls(unit, target, speed, rng);
 
                 if distance((unit.x, unit.y), target) < 0.025 {
@@ -548,11 +557,15 @@ impl LiveMatchState {
             return;
         }
 
-        let snapshot: Vec<(Side, bool, f64, f64, LolRole, u8, u8)> = self
+        let snapshot: Vec<(Side, bool, f64, f64, LolRole, u8, u8, u8)> = self
             .lol_map
             .units
             .iter()
-            .map(|u| (u.side, u.alive, u.x, u.y, u.role, u.level, u.item_tier))
+            .map(|u| {
+                (
+                    u.side, u.alive, u.x, u.y, u.role, u.level, u.item_tier, u.condition,
+                )
+            })
             .collect();
 
         let mut incoming = vec![0.0_f64; n];
@@ -560,7 +573,7 @@ impl LiveMatchState {
         let mut highest = vec![0.0_f64; n];
 
         for i in 0..n {
-            let (side, alive, x, y, role, level, items) = snapshot[i];
+            let (side, alive, x, y, role, level, items, condition) = snapshot[i];
             if !alive {
                 continue;
             }
@@ -582,6 +595,7 @@ impl LiveMatchState {
             let scale = 1.0 + (level.saturating_sub(1) as f64) * 0.06 + items as f64 * 0.10;
             let damage = role_power(role)
                 * scale
+                * condition_factor(condition)
                 * game_damage_scale(minute, self.config.late_game_damage_scale)
                 * rng.random_range(0.88..1.16)
                 * (1.0 - best_dist / 0.095).clamp(0.45, 1.0);
@@ -923,7 +937,7 @@ fn role_route(
     }
 }
 
-fn movement_speed(role: LolRole, level: u8, item_tier: u8) -> f64 {
+fn movement_speed(role: LolRole, level: u8, item_tier: u8, condition: u8) -> f64 {
     let base = match role {
         LolRole::Top => 0.0068,
         LolRole::Jungle => 0.0078,
@@ -931,7 +945,7 @@ fn movement_speed(role: LolRole, level: u8, item_tier: u8) -> f64 {
         LolRole::Adc => 0.0070,
         LolRole::Support => 0.0072,
     };
-    base * (1.0 + level.saturating_sub(1) as f64 * 0.004 + item_tier as f64 * 0.01)
+    base * (1.0 + level.saturating_sub(1) as f64 * 0.004 + item_tier as f64 * 0.01) * condition_factor(condition)
 }
 
 fn role_power(role: LolRole) -> f64 {
@@ -942,6 +956,12 @@ fn role_power(role: LolRole) -> f64 {
         LolRole::Adc => 7.3,
         LolRole::Support => 4.7,
     }
+}
+
+/// Maps condition (0–100) to a performance multiplier.
+/// At 100 → 1.0 (full strength), at 0 → 0.60 (gimp).
+fn condition_factor(condition: u8) -> f64 {
+    0.60 + (condition as f64 / 100.0) * 0.40
 }
 
 fn game_damage_scale(minute: u8, late_game_scale: f64) -> f64 {
@@ -999,7 +1019,7 @@ fn lane_presence(units: &[LolUnitState], side: Side, lane: LaneKey, anchor: (f64
                 (_, LolRole::Jungle) => 0.70,
                 _ => 0.55,
             };
-            role_weight * (1.0 - dist / 0.22)
+            role_weight * condition_factor(u.condition) * (1.0 - dist / 0.22)
         })
         .sum()
 }
@@ -1066,7 +1086,7 @@ fn objective_presence(units: &[LolUnitState], side: Side, anchor: (f64, f64), ra
             if d > radius {
                 0.0
             } else {
-                (1.0 + u.level as f64 * 0.03 + u.item_tier as f64 * 0.06) * (1.0 - d / radius)
+                condition_factor(u.condition) * (1.0 + u.level as f64 * 0.03 + u.item_tier as f64 * 0.06) * (1.0 - d / radius)
             }
         })
         .sum()
@@ -1106,7 +1126,7 @@ fn lane_pressure(state: &LolMapState, attacker: Side, lane: LaneKey, minute: u8)
                 LolRole::Jungle => 0.95,
                 LolRole::Support => 0.80,
             };
-            role * (1.0 + u.level as f64 * 0.03 + u.item_tier as f64 * 0.08) * (1.0 - d / 0.18)
+            condition_factor(u.condition) * role * (1.0 + u.level as f64 * 0.03 + u.item_tier as f64 * 0.08) * (1.0 - d / 0.18)
         })
         .sum();
 
@@ -1135,7 +1155,7 @@ fn team_scaling(units: &[LolUnitState], side: Side) -> f64 {
     let mut sum = 0.0;
     let mut count = 0.0;
     for u in units.iter().filter(|u| u.alive && u.side == side) {
-        sum += u.level as f64 + u.item_tier as f64 * 1.5;
+        sum += (u.level as f64 + u.item_tier as f64 * 1.5) * condition_factor(u.condition);
         count += 1.0;
     }
     if count <= 0.0 {

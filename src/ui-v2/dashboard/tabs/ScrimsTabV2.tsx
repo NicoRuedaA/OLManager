@@ -62,12 +62,14 @@ function scrimFocusImpactText(t: ReturnType<typeof useTranslation>["t"], focus: 
   return t(key);
 }
 
-type RiskLevel = "high" | "medium" | "low";
-
-function riskLevel(opponentOvr: number, ownOvr: number, repGap: number): RiskLevel {
-  if (opponentOvr >= 80) return "high";
-  if (opponentOvr >= 77) return "medium";
-  return Math.max(opponentOvr - ownOvr, Math.round(repGap / 4)) >= 4 ? "high" : Math.max(opponentOvr - ownOvr, Math.round(repGap / 4)) >= 2 ? "medium" : "low";
+<<<<<<< Updated upstream
+function riskBand(opponentOvr: number, ownOvr: number, repGap: number): string {
+  if (opponentOvr >= 80) return "Alto";
+  if (opponentOvr >= 77) return "Medio";
+  const gap = Math.max(opponentOvr - ownOvr, Math.round(repGap / 4));
+  if (gap >= 4) return "Alto";
+  if (gap >= 2) return "Medio";
+  return "Bajo";
 }
 
 function riskColor(risk: RiskLevel): string {
@@ -231,7 +233,17 @@ export function ScrimsTabV2({ gameState, onGameUpdate }: ScrimsTabV2Props) {
 
   const handleReviewDecision = async (decision: DailyScrimAction) => {
     if (!todayContext.report) return;
-    if (decision === "CancelScrims") { setShowCancelFollowups(true); setDecisionFeedback("Scrims cancelled. Pick follow-up."); return; }
+    if (decision === "CancelScrims") {
+      setDecisionSaving(decision);
+      try {
+        const updated = await chooseDailyScrimAction(todayContext.report.slot_index, "CancelScrims");
+        onGameUpdate(updated);
+        setShowCancelFollowups(true);
+        setDecisionFeedback("Scrims cancelled. Pick follow-up.");
+      } catch (e) { console.error(e); }
+      finally { setDecisionSaving(null); }
+      return;
+    }
     setDecisionSaving(decision);
     setDecisionFeedback(null);
     try {

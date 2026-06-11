@@ -288,8 +288,17 @@ export default function ScrimsTab({
   const handleReviewDecision = async (decision: DailyScrimAction) => {
     if (!todayContext.report) return;
     if (decision === "CancelScrims") {
-      setShowCancelFollowups(true);
-      setDecisionFeedback("Scrims cancelled. Pick VOD Review, Mental Reset, or Targeted Drills to close the day.");
+      setDecisionSaving(decision);
+      try {
+        const updated = await chooseDailyScrimAction(todayContext.report.slot_index, "CancelScrims");
+        onGameUpdate?.(updated);
+        setShowCancelFollowups(true);
+        setDecisionFeedback("Scrims cancelled. Pick VOD Review, Mental Reset, or Targeted Drills to close the day.");
+      } catch (error) {
+        console.error("Failed to cancel scrims:", error);
+      } finally {
+        setDecisionSaving(null);
+      }
       return;
     }
     setDecisionSaving(decision);
