@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { ThemeProvider } from "./context/ThemeContext";
 import "./i18n";
 import "./App.css";
 import AppV2 from "./ui-v2/AppV2";
@@ -17,11 +16,7 @@ function Boot() {
     getApiClient().then(() => setReady(true));
   }, []);
   if (!ready) return null;
-  return (
-    <ThemeProvider>
-      <AppV2 />
-    </ThemeProvider>
-  );
+  return <AppV2 />;
 }
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
