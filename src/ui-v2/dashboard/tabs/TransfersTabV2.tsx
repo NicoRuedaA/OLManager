@@ -155,7 +155,7 @@ export function TransfersTabV2({
   const [bidLoading, setBidLoading] = useState(false);
   const [bidResult, setBidResult] = useState<NegotiationResult>(null);
   const [bidFeedback, setBidFeedback] = useState<NegotiationFeedbackPanelData | null>(null);
-  const [, setBidError] = useState<string | null>(null);
+  const [bidError, setBidError] = useState<string | null>(null);
   const [bidProjection, setBidProjection] = useState<
     TransferBidProjectionData["projection"] | null
   >(null);
@@ -203,8 +203,9 @@ export function TransfersTabV2({
     () => sortTransferPlayers(
       filterTransferPlayers(currentList, search, posFilter, competitionTeamIds),
       sort,
+      gameState.clock.current_date,
     ),
-    [currentList, search, posFilter, competitionTeamIds, sort],
+    [currentList, search, posFilter, competitionTeamIds, sort, gameState.clock.current_date],
   );
 
   const totalPages = Math.max(1, Math.ceil(filteredList.length / PAGE_SIZE));
@@ -288,7 +289,7 @@ export function TransfersTabV2({
     let cancelled = false;
     previewTransferBidFinancialImpact(bidTarget.id, bidFee, bidDestination)
       .then((result) => { if (!cancelled) setBidProjection(result.projection ?? null); })
-      .catch(() => { if (!cancelled) setBidProjection(null); });
+      .catch(() => { if (!cancelled) { setBidProjection(null); setBidError(t("transfers.transferOfferFailed")); } });
     return () => { cancelled = true; };
   }, [bidTarget, bidFee, bidDestination]);
 
@@ -899,11 +900,13 @@ export function TransfersTabV2({
           onClose={() => {
             setBidTarget(null);
             setBidFeedback(null);
+            setBidError(null);
             setBidResult(null);
             setBidProjection(null);
             setBidSelectedPlayerIds([]);
           }}
           isFreeAgent={!bidTarget.team_id}
+          bidError={bidError}
         />
       )}
       {counterTarget && (

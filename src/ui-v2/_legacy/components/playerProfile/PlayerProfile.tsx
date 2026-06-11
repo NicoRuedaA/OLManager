@@ -218,7 +218,7 @@ function buildTopChampionMasteries(
     {
       championId: insignia.championId,
       championName: insignia.championName,
-      mastery: insignia.persisted ? insignia.mastery : Math.max(100, insignia.mastery),
+      mastery: Math.max(25, Math.min(100, insignia.mastery)),
       rank: "insignia" as const,
       wr: championPerformance.get(insignia.championId)?.wr ?? 0,
       games: championPerformance.get(insignia.championId)?.games ?? 0,

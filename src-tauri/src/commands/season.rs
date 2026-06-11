@@ -85,6 +85,9 @@ pub fn advance_to_next_season(state: State<'_, StateManager>) -> Result<serde_js
     // End-of-season objective evaluation may have dropped satisfaction — check firing
     olm_core::firing::check_manager_firing(&mut game);
 
+    // Check if an international tournament should be created
+    olm_core::end_of_season::check_international_qualification(&mut game);
+
     state.set_game(game.clone());
 
     if game.manager.team_id.is_none() {

@@ -2,13 +2,13 @@ use crate::game::Game;
 use crate::finances::{record_transaction, BudgetImpact, FinanceTransactionInput};
 use crate::generator::definitions::ScheduleConfig;
 use crate::schedule::{
-    LecSplit, append_fixtures, generate_preseason_friendlies,
+    LecSplit, append_fixtures, generate_international_tournament, generate_preseason_friendlies,
     generate_schedule_from_config, generate_single_round_league_with_offsets_and_bo_with_id,
     parse_lec_split, regular_best_of,
 };
 use crate::season_awards::compute_season_awards;
 use chrono::{Datelike, TimeZone, Utc};
-use crate::domain::league::{MatchType, FixtureStatus, League};
+use crate::domain::league::{FixtureStatus, League, MatchType, TournamentFormat};
 use crate::domain::message::*;
 use crate::domain::player::PlayerSeasonStats;
 use crate::domain::team::{FinancialTransactionKind, TeamSeasonRecord};
@@ -928,6 +928,87 @@ fn replenish_depleted_rosters(game: &mut Game) {
             );
         }
     }
+}
+
+fn pick_teams_for_international(game: &Game, champion_id: &str, count: usize) -> Vec<String> {
+    let mut picked: Vec<String> = vec![champion_id.to_string()];
+    for team in &game.teams {
+        if picked.len() >= count {
+            break;
+        }
+        if team.id != champion_id {
+            picked.push(team.id.clone());
+        }
+    }
+    while picked.len() < count {
+        picked.push(format!("synthetic_team_{}", picked.len()));
+    }
+    picked
+}
+
+/// After a domestic split finishes, check whether an international tournament
+/// should be created. Creates the tournament League and pushes it into
+/// game.leagues as a background league.
+pub fn check_international_qualification(game: &mut Game) {
+    let active = match game.active_league() {
+        Some(l) => l.clone(),
+        None => return,
+    };
+
+    let final_standings = active.sorted_standings();
+    let champion_id = match final_standings.first() {
+        Some(s) => s.team_id.clone(),
+        None => return,
+    };
+
+    let split = parse_lec_split(&active.name);
+    let start_date = game.clock.current_date;
+
+    let (tournament_name, format, qualified_count, start_day_offset) = match split {
+        Some(LecSplit::Winter) => {
+            ("First Stand".to_string(),
+             TournamentFormat::GroupsThenSingleElim {
+                groups: 1, teams_per_group: 5, knockout_teams: 4,
+                group_best_of: 3, knockout_best_of: 5,
+             }, 5, 14)
+        }
+        Some(LecSplit::Spring) => {
+            ("MSI".to_string(),
+             TournamentFormat::DoubleElimination {
+                teams: 8, best_of: 5, grand_finals_best_of: 5,
+             }, 8, 14)
+        }
+        Some(LecSplit::Summer) => {
+            ("Worlds".to_string(),
+             TournamentFormat::SwissThenKnockout {
+                swiss_teams: 16, swiss_rounds: 5, knockout_teams: 8,
+                knockout_best_of: 5, has_play_in: true,
+             }, 8, 14)
+        }
+        None => return,
+    };
+
+    let team_ids = pick_teams_for_international(game, &champion_id, qualified_count);
+    let season_start = start_date + chrono::Duration::days(start_day_offset);
+
+    let tournament_id = format!("intl_{}", tournament_name.to_lowercase().replace(' ', "_"));
+    let year = game.clock.current_date.year() as u32;
+
+    let league = generate_international_tournament(
+        &tournament_id,
+        &format!("{} {}", year, tournament_name),
+        year,
+        &team_ids,
+        &format,
+        Utc.from_utc_datetime(&season_start.naive_utc()),
+    );
+
+    log::info!(
+        "[international] created {} with {} teams",
+        tournament_name,
+        team_ids.len()
+    );
+    game.leagues.push(league);
 }
 
 #[cfg(test)]

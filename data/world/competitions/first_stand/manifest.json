@@ -1,0 +1,26 @@
+{
+  "id": "first_stand",
+  "name": "First Stand",
+  "full_name": "First Stand",
+  "region": "INTL",
+  "tier": 1,
+  "logo": "/competitions-icons/worlds.webp",
+  "schedule": {
+    "format": "tournament",
+    "splits": [
+      {
+        "name": "First Stand",
+        "best_of": 3,
+        "playoffs": null,
+        "season_start": {
+          "day": 10,
+          "month": 3
+        },
+        "superweek_offsets": []
+      }
+    ],
+    "team_count": 5,
+    "preseason_friendlies": 0
+  },
+  "competition_type": "international"
+}

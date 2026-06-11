@@ -137,14 +137,18 @@ export function deriveTransferCollections(
     marketPlayers,
     erlPlayers,
     loanPlayers,
-    playersWithOffers: gameState.players.filter(
-      (player) =>
-        player.transfer_offers.length > 0 &&
-        (player.team_id === userTeamId ||
-          player.transfer_offers.some(
-            (offer) => offer.from_team_id === userTeamId,
-          )),
-    ),
+    playersWithOffers: gameState.players.filter((player) => {
+      const hasPendingOffer = player.transfer_offers.some(
+        (o) => o.status === "Pending",
+      );
+      if (!hasPendingOffer) return false;
+      return (
+        player.team_id === userTeamId ||
+        player.transfer_offers.some(
+          (o) => o.from_team_id === userTeamId && o.status === "Pending",
+        )
+      );
+    }),
   };
 }
 
@@ -208,10 +212,12 @@ export interface TransferSortState {
 export function sortTransferPlayers(
   players: PlayerData[],
   sort: TransferSortState | null,
+  currentDate?: string,
 ): PlayerData[] {
   if (!sort) return players;
 
   const factor = sort.direction === "asc" ? 1 : -1;
+  const refDate = currentDate ?? new Date().toISOString();
 
   const sorted = [...players].sort((a, b) => {
     switch (sort.key) {
@@ -230,7 +236,7 @@ export function sortTransferPlayers(
         return ((order[roleA] ?? 0) - (order[roleB] ?? 0)) * factor;
       }
       case "age":
-        return (calcAge(a.date_of_birth, new Date().toISOString()) - calcAge(b.date_of_birth, new Date().toISOString())) * factor;
+        return (calcAge(a.date_of_birth, refDate) - calcAge(b.date_of_birth, refDate)) * factor;
       case "team": {
         const teamA = a.team_id ?? "";
         const teamB = b.team_id ?? "";

@@ -703,14 +703,13 @@ pub fn generate_swiss_stage(
                 ));
             }
         } else {
-            // Subsequent rounds: placeholder teams, re-paired dynamically during simulation
-            // We create empty fixture shells that get filled during simulation
-            for _i in 0..n / 2 {
+            // Subsequent rounds: sequential pairings (simplified Swiss, not re-paired by record)
+            for i in 0..n / 2 {
                 fixtures.push(build_fixture(
                     matchday,
                     date_str.clone(),
-                    String::new(),  // filled dynamically
-                    String::new(),  // filled dynamically
+                    team_ids[i].clone(),
+                    team_ids[n - 1 - i].clone(),
                     MatchType::Swiss,
                     if round >= swiss_rounds - 2 { elimination_best_of } else { best_of },
                 ));

@@ -92,12 +92,6 @@ const SOLOQ_POINTS_MIN = 3000;
 const SOLOQ_POINTS_MAX = 7000;
 const SOLOQ_GRANDMASTER_LP_CUTOFF = 800;
 const SOLOQ_CHALLENGER_LP_CUTOFF = 1300;
-const SCHEDULE_TRAINING_DAYS: Record<string, number[]> = {
-  Intense: [0, 1, 2, 3, 4, 5],
-  Balanced: [0, 1, 3, 4],
-  Light: [1, 3],
-};
-
 function hashText(value: string): number {
   let hash = 0;
   for (let i = 0; i < value.length; i += 1) {
@@ -113,28 +107,6 @@ function daysBetween(startIso: string, endIso: string): number {
   return Math.max(0, Math.floor((end - start) / (24 * 60 * 60 * 1000)));
 }
 
-function addDays(iso: string, days: number): string {
-  const date = new Date(iso);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString();
-}
-
-function weekdayFromIso(iso: string): number {
-  const date = new Date(iso);
-  return (date.getUTCDay() + 6) % 7;
-}
-
-function isSoloQDay(dateIso: string, schedule: string): boolean {
-  const activeDays = SCHEDULE_TRAINING_DAYS[schedule] ?? SCHEDULE_TRAINING_DAYS.Balanced;
-  return activeDays.includes(weekdayFromIso(dateIso));
-}
-
-function intensityMultiplier(intensity: string): number {
-  if (intensity === "High") return 1.25;
-  if (intensity === "Low") return 0.75;
-  return 1.0;
-}
-
 function getFocusMultiplier(focus: string | null | undefined): number {
   if (!focus) return 0.85;
   if (focus === "ChampionPoolPractice") return 1.25;
@@ -145,27 +117,26 @@ function getFocusMultiplier(focus: string | null | undefined): number {
   return 0.85;
 }
 
+function pseudoRandom(seed: string): number {
+  return (hashText(seed) % 10000) / 10000;
+}
+
 function computeSoloQ(
   player: GameStateData["players"][number],
   gameState: GameStateData,
   masterySignal: number,
-  focus: string | null | undefined,
-  intensity: string,
-  schedule: string,
 ): { tier: SoloQTier; lp: number; delta: number } {
   const ovr = calculateLolOvr(player);
   const dayIndex = daysBetween(gameState.clock.start_date, gameState.clock.current_date);
   const baseline = 3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);
 
   let points = baseline;
-  const focusMult = getFocusMultiplier(focus);
-  const intensityMultVar = intensityMultiplier(intensity);
   for (let day = 1; day <= dayIndex; day += 1) {
-    const currentIso = addDays(gameState.clock.start_date, day);
-    if (!isSoloQDay(currentIso, schedule)) continue;
-    const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
-    const gain = Math.round(baseGain * intensityMultVar * focusMult);
-    points += Math.max(-20, Math.min(30, gain));
+    const rand = pseudoRandom(`${player.id}:${day}`);
+    const randDelta = Math.round(rand * 48 - 24);
+    const skillDrift = Math.round((ovr - 78) * 0.35);
+    const masteryDrift = Math.round(masterySignal * 0.2);
+    points += randDelta + skillDrift + masteryDrift;
     points = Math.max(SOLOQ_POINTS_MIN, Math.min(SOLOQ_POINTS_MAX, points));
   }
 
@@ -173,11 +144,11 @@ function computeSoloQ(
 
   let yesterdayDelta = 0;
   if (dayIndex > 0) {
-    const yesterdayIso = addDays(gameState.clock.start_date, dayIndex);
-    if (isSoloQDay(yesterdayIso, schedule)) {
-      const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
-      yesterdayDelta = Math.max(-20, Math.min(30, Math.round(baseGain * intensityMultVar * focusMult)));
-    }
+    const rand = pseudoRandom(`${player.id}:${dayIndex}`);
+    const randDelta = Math.round(rand * 48 - 24);
+    const skillDrift = Math.round((ovr - 78) * 0.35);
+    const masteryDrift = Math.round(masterySignal * 0.2);
+    yesterdayDelta = randDelta + skillDrift + masteryDrift;
   }
 
   if (lp >= SOLOQ_CHALLENGER_LP_CUTOFF) return { tier: "Challenger", lp, delta: yesterdayDelta };
@@ -613,15 +584,10 @@ export function MetaTabV2({ gameState, onGameUpdate, onViewChampion }: MetaTabV2
             const legacy = player.champion_training_target ?? "";
             const targets = [targetsRaw[0] ?? legacy, targetsRaw[1] ?? "", targetsRaw[2] ?? ""];
             const effectiveFocus = player.training_focus ?? managerTeam?.training_focus ?? null;
-            const effectiveIntensity = managerTeam?.training_intensity ?? "Medium";
-            const effectiveSchedule = managerTeam?.training_schedule ?? "Balanced";
             const soloQ = computeSoloQ(
               player,
               gameState,
               masterySignalByPlayer.get(player.id) ?? 0,
-              effectiveFocus,
-              effectiveIntensity,
-              effectiveSchedule,
             );
             const soloQMult = soloQMasteryMultiplier(soloQ.tier);
 

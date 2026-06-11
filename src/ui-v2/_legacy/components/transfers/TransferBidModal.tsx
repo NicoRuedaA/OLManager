@@ -47,6 +47,7 @@ interface TransferBidModalProps {
   onSubmit: () => void;
   onClose: () => void;
   isFreeAgent: boolean;
+  bidError?: string | null;
 }
 
 export default function TransferBidModal({
@@ -73,6 +74,7 @@ export default function TransferBidModal({
   onSubmit,
   onClose,
   isFreeAgent,
+  bidError,
 }: TransferBidModalProps) {
   const { t } = useTranslation();
   const lolRole = getLolRoleForPlayer(bidTarget);
@@ -277,6 +279,9 @@ export default function TransferBidModal({
                   ? t("transfers.bidCountered")
                   : bidResult}
           </div>
+        ) : null}
+        {bidError ? (
+          <p className="mb-3 text-xs text-red-500">{bidError}</p>
         ) : null}
         <div className="flex gap-2">
           <button

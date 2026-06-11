@@ -1,0 +1,26 @@
+{
+  "id": "worlds",
+  "name": "Worlds",
+  "full_name": "World Championship",
+  "region": "INTL",
+  "tier": 1,
+  "logo": "/competitions-icons/worlds.webp",
+  "schedule": {
+    "format": "tournament",
+    "splits": [
+      {
+        "name": "Worlds",
+        "best_of": 1,
+        "playoffs": null,
+        "season_start": {
+          "day": 1,
+          "month": 10
+        },
+        "superweek_offsets": []
+      }
+    ],
+    "team_count": 17,
+    "preseason_friendlies": 0
+  },
+  "competition_type": "international"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "msi",
+  "name": "MSI",
+  "full_name": "Mid-Season Invitational",
+  "region": "INTL",
+  "tier": 1,
+  "logo": "/competitions-icons/worlds.webp",
+  "schedule": {
+    "format": "tournament",
+    "splits": [
+      {
+        "name": "MSI",
+        "best_of": 5,
+        "playoffs": null,
+        "season_start": {
+          "day": 1,
+          "month": 7
+        },
+        "superweek_offsets": []
+      }
+    ],
+    "team_count": 10,
+    "preseason_friendlies": 0
+  },
+  "competition_type": "international"
+}
