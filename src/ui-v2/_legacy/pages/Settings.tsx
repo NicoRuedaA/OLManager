@@ -177,43 +177,6 @@ export default function Settings() {
         content: (
           <>
             <GameRow
-              label={t("settings.theme")}
-              description={t("settings.themeDesc")}
-            >
-              <GameSegmented
-                options={[
-                  { value: "light" },
-                  { value: "dark", icon: <Moon className="w-4 h-4" /> },
-                  { value: "system", icon: <Monitor className="w-4 h-4" /> },
-                ]}
-                value={settings.theme}
-                onChange={(v) =>
-                  handleUpdate({ theme: v as AppSettings["theme"] })
-                }
-              />
-            </GameRow>
-
-            <GameRow
-              label={t("settings.uiVersion", {
-                defaultValue: "Versión de la interfaz",
-              })}
-              description={t("settings.uiVersionDesc", {
-                defaultValue:
-                  "Cambia entre la UI clásica (v1) y la nueva (v2). La aplicación se recarga automáticamente.",
-              })}
-            >
-              <Select
-                value={uiVersion}
-                variant="glass"
-                onChange={(e) => setUIVersion(e.target.value as UIVersion)}
-                className="min-w-40"
-              >
-                <option value="v1">Clásica (v1)</option>
-                <option value="v2">Nueva (v2)</option>
-              </Select>
-            </GameRow>
-
-            <GameRow
               label={t("settings.language")}
               description={t("settings.languageDesc")}
             >
@@ -617,39 +580,6 @@ export default function Settings() {
       icon: <Monitor className="w-5 h-5" />,
       content: (
         <>
-          <SettingRow
-            label={t("settings.theme")}
-            description={t("settings.themeDesc")}
-          >
-            <SegmentedControl
-              options={[
-                { value: "light", icon: <span className="w-4 h-4 text-center leading-none text-xs font-bold" aria-hidden="true">☀</span> },
-                { value: "dark", icon: <Moon className="w-4 h-4" /> },
-                { value: "system", icon: <Monitor className="w-4 h-4" /> },
-              ]}
-              value={settings.theme}
-              onChange={(v) =>
-                handleUpdate({ theme: v as AppSettings["theme"] })
-              }
-            />
-          </SettingRow>
-
-          <SettingRow
-            label={t("settings.uiVersion", { defaultValue: "Versión de la interfaz" })}
-            description={t("settings.uiVersionDesc", {
-              defaultValue: "Cambia entre la UI clásica (v1) y la nueva (v2). La aplicación se recarga automáticamente.",
-            })}
-          >
-            <Select
-              value={uiVersion}
-              onChange={(e) => setUIVersion(e.target.value as UIVersion)}
-              className="min-w-40"
-            >
-              <option value="v1">Clásica (v1)</option>
-              <option value="v2">Nueva (v2)</option>
-            </Select>
-          </SettingRow>
-
           <SettingRow
             label={t("settings.language")}
             description={t("settings.languageDesc")}
