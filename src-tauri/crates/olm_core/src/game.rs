@@ -132,10 +132,33 @@ pub struct Game {
     pub champion_patch: ChampionPatchState,
     #[serde(default)]
     pub stats_state: StatsState,
-    #[serde(default)]
+    #[serde(default, deserialize_with = "deserialize_competition_configs_lenient")]
     pub competition_configs: HashMap<String, CompetitionManifest>,
     #[serde(default)]
     pub transfer_history: TransferHistory,
+}
+
+/// Lenient deserializer for `competition_configs`.
+///
+/// Saves created before the `ScheduleConfig` -> `CompetitionManifest` migration
+/// stored values without the fields a manifest requires (e.g. `id`), which would
+/// otherwise fail the entire save load with "missing field `id`". Parse each
+/// entry independently and drop any that no longer match the manifest shape; the
+/// map is repopulated from the on-disk manifests when the game is loaded.
+fn deserialize_competition_configs_lenient<'de, D>(
+    deserializer: D,
+) -> Result<HashMap<String, CompetitionManifest>, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let raw = HashMap::<String, serde_json::Value>::deserialize(deserializer)?;
+    let mut configs = HashMap::with_capacity(raw.len());
+    for (key, value) in raw {
+        if let Ok(manifest) = serde_json::from_value::<CompetitionManifest>(value) {
+            configs.insert(key, manifest);
+        }
+    }
+    Ok(configs)
 }
 
 impl Game {

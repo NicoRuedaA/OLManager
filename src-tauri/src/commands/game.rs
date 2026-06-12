@@ -596,6 +596,18 @@ pub async fn load_game(
         game.staff.len()
     );
 
+    // Repopulate competition_configs from current manifests. Saves created
+    // before the ScheduleConfig -> CompetitionManifest migration lose their
+    // legacy-shaped entries during lenient deserialization; rebuilding here
+    // (as new-game setup does) keeps the config set correct and complete.
+    for manifest in crate::commands::competitions::scan_competitions(&app_handle)
+        .into_iter()
+        .filter(|manifest| !manifest.legacy)
+    {
+        game.competition_configs
+            .insert(manifest.id.clone(), manifest);
+    }
+
     // Bootstrap champion state so the Champions tab has data
     info!("[cmd] load_game: bootstrapping champion state...");
     olm_core::champions::bootstrap_champion_state(&mut game);
