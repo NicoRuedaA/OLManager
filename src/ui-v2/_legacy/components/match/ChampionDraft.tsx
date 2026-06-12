@@ -280,7 +280,7 @@ const META_CHAMPION_SCORES: Record<string, number> = {
 };
 
 const ROLE_ORDER: Role[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
-const ASSISTANT_COACH_PLACEHOLDER = "/player-photos/103935359525547325.webp";
+const ASSISTANT_COACH_PLACEHOLDER = "";
 const LEC_LOGO_URL = "/lec-logo.svg";
 const EMPTY_LOCKED_CHAMPION_IDS: string[] = [];
 const ROLE_ICON_URLS: Record<Role, string> = ROLE_ICON_PATHS;
@@ -384,11 +384,11 @@ function inferRoleHints(tags: string[]): Role[] {
 }
 
 function splashUrl(championId: string): string {
-  return `/champion-splash/${championId}.webp`;
+  return `/champion-tiles/${championId}.webp`;
 }
 
 function loadingUrl(championId: string): string {
-  return `/champion-splash/${championId}.webp`;
+  return `/champion-loading/${championId}.webp`;
 }
 
 const TEAM_BRAND_MAP: Record<string, { tricode: string; logo: string | null }> = {
@@ -2021,9 +2021,9 @@ export default function ChampionDraft({
       return [
         {
           sourceType: "coach",
-          sourceName: t("match.draft.assistantCoach"),
+          sourceName: coachName,
           sourceRole: t("match.draft.assistantCoach"),
-          sourceImage: ASSISTANT_COACH_PLACEHOLDER,
+          sourceImage: coachImage,
           type: "warn",
           text: t("match.draft.completed", { defaultValue: "Draft completed." }),
         },
@@ -2067,13 +2067,14 @@ export default function ChampionDraft({
       assistantCoach && (assistantCoach.first_name || assistantCoach.last_name)
         ? `${assistantCoach.first_name ?? ""} ${assistantCoach.last_name ?? ""}`.trim()
         : t("match.draft.assistantCoach");
+    const coachImage = assistantCoach?.profile_image_url ?? ASSISTANT_COACH_PLACEHOLDER;
 
     const addCoachTip = (type: "ban" | "pick" | "warn", text: string, champion?: ChampionData) => {
       tips.push({
         sourceType: "coach",
         sourceName: coachName,
         sourceRole: t("match.draft.assistantCoach"),
-        sourceImage: ASSISTANT_COACH_PLACEHOLDER,
+        sourceImage: coachImage,
         type,
         text,
       champion,
@@ -2795,7 +2796,11 @@ export default function ChampionDraft({
                             loading="lazy"
                             onError={(event) => {
                               const target = event.currentTarget;
-                              if (target.src.endsWith(ASSISTANT_COACH_PLACEHOLDER)) return;
+                              if (!ASSISTANT_COACH_PLACEHOLDER) {
+                                target.style.display = "none";
+                                return;
+                              }
+                              if (target.src === ASSISTANT_COACH_PLACEHOLDER || target.src.endsWith(ASSISTANT_COACH_PLACEHOLDER)) return;
                               target.src = ASSISTANT_COACH_PLACEHOLDER;
                             }}
                           />
@@ -3024,7 +3029,7 @@ export default function ChampionDraft({
                 ) : visibleChampions.length === 0 ? (
                   <p className="relative text-sm text-muted-foreground/50">{t("match.draft.noChampionsForFilters")}</p>
                 ) : (
-                  <div className="relative grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-20 gap-1">
+                  <div className="relative grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-10 gap-2">
                     {visibleChampions.map((champion) => {
                       const isUsed = usedChampionIds.has(champion.id);
                       const showMastery = roleFilter !== "ALL";
@@ -3040,7 +3045,7 @@ export default function ChampionDraft({
                           key={champion.id}
                           onClick={() => handleChampionTileClick(champion)}
                           disabled={finished || !isUserTurn || isUsed}
-                          className={`rounded-sm border transition-colors p-0.5 text-left overflow-hidden ${isUsed ? "border-white/10 bg-background" : pendingChampionId === champion.id ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-card hover:border-orange-400"}`}
+                          className={`rounded-sm border transition-colors p-1 text-left overflow-hidden ${isUsed ? "border-white/10 bg-background" : pendingChampionId === champion.id ? "border-orange-400 bg-orange-500/10" : "border-white/15 bg-card hover:border-orange-400"}`}
                         >
                           <img
                             src={champion.image}
@@ -3049,12 +3054,12 @@ export default function ChampionDraft({
                             loading="lazy"
                           />
                           <p
-                            className={`px-1 py-0.5 text-2xs font-semibold truncate border-t ${isUsed ? "bg-background border-white/5 text-gray-500" : "bg-background border-white/10"}`}
+                            className={`px-2 py-1 text-xs font-semibold truncate border-t ${isUsed ? "bg-background border-white/5 text-gray-500" : "bg-background border-white/10"}`}
                           >
                             {champion.name}
                           </p>
-                          <div className="px-1 pb-1">
-                            <div className="flex items-center justify-between text-2xs font-bold">
+                          <div className="px-2 pb-1.5">
+                            <div className="flex items-center justify-between text-xs font-bold">
                               <span className={metaTier === "?" ? "text-gray-500" : metaTier === "S" ? "text-red-400" : metaTier === "A" ? "text-orange-300" : "text-slate-300"}>{metaTier}</span>
                               {showMastery ? <span className="text-gray-400">{mastery}</span> : null}
                             </div>
