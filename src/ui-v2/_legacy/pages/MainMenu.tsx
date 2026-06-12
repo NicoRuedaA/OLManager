@@ -117,7 +117,6 @@ export default function MainMenu() {
   const navigate = useNavigate();
   const setGameActive = useGameStore((state) => state.setGameActive);
   const { t, i18n } = useTranslation();
-  const isWebSession = false;
   const [menuState, setMenuState] = useState<
     "main" | "create" | "load" | "community" | "patchnotes"
   >("main");
@@ -380,11 +379,9 @@ export default function MainMenu() {
       { icon: <Users />, label: t("menu.community", "Comunidad"), active: menuState === "community", onClick: () => setMenuState("community") },
       { icon: <Newspaper />, tone: "muted" as const, label: t("menu.patchNotes", "Novedades"), active: menuState === "patchnotes", onClick: () => setMenuState("patchnotes") },
     ];
-    if (!isWebSession) {
-      items.push({ icon: <Power />, tone: "danger" as const, label: t("menu.exitGame"), onClick: () => { void handleExitApp(); } });
-    }
+    items.push({ icon: <Power />, tone: "danger" as const, label: t("menu.exitGame"), onClick: () => { void handleExitApp(); } });
     return items;
-  }, [t, menuState, isWebSession, navigate, handleOpenLoadMenu, handleExitApp]);
+  }, [t, menuState, navigate, handleOpenLoadMenu, handleExitApp]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);

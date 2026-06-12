@@ -44,9 +44,7 @@ function manualChunks(id: string): string | undefined {
 }
 
 // https://vite.dev/config/
-export default defineConfig(async ({ mode }) => {
-  const isWeb = mode === "web";
-
+export default defineConfig(async () => {
   return {
     define: {
       __APP_VERSION__: JSON.stringify(pkg.version),
@@ -55,11 +53,6 @@ export default defineConfig(async ({ mode }) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        ...(isWeb
-          ? {
-
-            }
-          : {}),
       },
     },
     test: {
@@ -85,8 +78,8 @@ export default defineConfig(async ({ mode }) => {
     },
     // 2. tauri expects a fixed port, fail if that port is not available
     server: {
-      port: isWeb ? 5173 : 1420,
-      strictPort: !isWeb,
+      port: 1420,
+      strictPort: true,
       host: host || false,
       hmr: host
         ? {
@@ -110,14 +103,6 @@ export default defineConfig(async ({ mode }) => {
           "**/data/**",
         ],
       },
-      proxy: isWeb
-        ? {
-            "/api": {
-              target: "http://localhost:3001",
-              changeOrigin: true,
-            },
-          }
-        : undefined,
     },
   };
 });

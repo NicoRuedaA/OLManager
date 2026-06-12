@@ -21,7 +21,6 @@ C4Context
     System(app, "Application services", "src-tauri/src/application/")
     System(sm, "StateManager", "olm_core::state (unified Session)")
     System(core, "olm_core", "Domain, engine, gameplay, persistence")
-    System_Ext(srv, "server", "Web HTTP API (optional)")
   }
 
   System_Ext(leaguepedia, "Leaguepedia API", "External data (optional)")
@@ -34,7 +33,6 @@ C4Context
   Rel(cmd, core, "loads/saves game")
   Rel(cmd, core, "orchestrates gameplay")
   Rel(ui, leaguepedia, "fetches champion data", "optional")
-  Rel(frontend, srv, "HTTP /api/* (web mode)")
 
   UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="2")
 ```
@@ -75,7 +73,7 @@ The backend keeps process-level state with Tauri-managed objects:
 
 ## Rust workspace and module responsibilities
 
-The Rust backend is a workspace declared in `src-tauri/Cargo.toml` with two crates: `olm_core` and `server`.
+The Rust backend is a workspace declared in `src-tauri/Cargo.toml` with a single crate: `olm_core`.
 
 ### `olm_core`
 
@@ -87,12 +85,7 @@ The Rust backend is a workspace declared in `src-tauri/Cargo.toml` with two crat
 - **`game.rs`** — Central career object (`Game`), clock, club systems, contracts, finances, training, scouting, transfers, schedules.
 - **`state.rs`** — Runtime session state (`StateManager` with unified `Mutex<Session>`).
 - **`sim_live.rs` / `sim_live/`** — Live match engine (25+ submodules).
-- **`commands.rs`** — Command dispatch for web/server mode.
 - Plus modules for: academy, champions, social, news, messages, turn logic, time blockers, player events, scrims, season awards, etc.
-
-### `server`
-
-`src-tauri/crates/server` provides an optional HTTP API for web/SaaS mode. It depends on `olm_core` and serves the same gameplay commands via HTTP endpoints proxied through vite in web mode.
 
 ### Tauri app crate
 
