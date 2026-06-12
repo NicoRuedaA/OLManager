@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search, User } from "lucide-react";
 
@@ -7,8 +7,9 @@ import championsSeed from "../../../../assets/simulation/champions.json";
 import {
   setPlayerChampionTrainingTarget,
   delegateChampionTraining,
+  getSoloQStatuses,
+  type SoloQStatus,
 } from "@/services/playerService";
-import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import {
   formatStaffEffectPercent,
   getLolStaffEffectsForTeam,
@@ -87,53 +88,15 @@ function championDisplayName(championId: string): string {
 
 type SoloQTier = "Challenger" | "Grandmaster" | "Master";
 
-const SOLOQ_POINTS_BASELINE = 3000;
-const SOLOQ_POINTS_MIN = 3000;
-const SOLOQ_POINTS_MAX = 7000;
-const SOLOQ_GRANDMASTER_LP_CUTOFF = 800;
-const SOLOQ_CHALLENGER_LP_CUTOFF = 1300;
-const SCHEDULE_TRAINING_DAYS: Record<string, number[]> = {
-  Intense: [0, 1, 2, 3, 4, 5],
-  Balanced: [0, 1, 3, 4],
-  Light: [1, 3],
+// SoloQ standing comes from the backend (single source of truth) — see
+// `get_soloq_statuses`. This default renders until the fetch resolves.
+const DEFAULT_SOLOQ: SoloQStatus = {
+  player_id: "",
+  tier: "Master",
+  lp: 0,
+  delta: 0,
+  multiplier: 0.8,
 };
-
-function hashText(value: string): number {
-  let hash = 0;
-  for (let i = 0; i < value.length; i += 1) {
-    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
-  }
-  return hash;
-}
-
-function daysBetween(startIso: string, endIso: string): number {
-  const start = new Date(startIso).getTime();
-  const end = new Date(endIso).getTime();
-  if (!Number.isFinite(start) || !Number.isFinite(end)) return 0;
-  return Math.max(0, Math.floor((end - start) / (24 * 60 * 60 * 1000)));
-}
-
-function addDays(iso: string, days: number): string {
-  const date = new Date(iso);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString();
-}
-
-function weekdayFromIso(iso: string): number {
-  const date = new Date(iso);
-  return (date.getUTCDay() + 6) % 7;
-}
-
-function isSoloQDay(dateIso: string, schedule: string): boolean {
-  const activeDays = SCHEDULE_TRAINING_DAYS[schedule] ?? SCHEDULE_TRAINING_DAYS.Balanced;
-  return activeDays.includes(weekdayFromIso(dateIso));
-}
-
-function intensityMultiplier(intensity: string): number {
-  if (intensity === "High") return 1.25;
-  if (intensity === "Low") return 0.75;
-  return 1.0;
-}
 
 function getFocusMultiplier(focus: string | null | undefined): number {
   if (!focus) return 0.85;
@@ -143,52 +106,6 @@ function getFocusMultiplier(focus: string | null | undefined): number {
   if (focus === "MacroSystems") return 0.75;
   if (focus === "VODReview") return 0.7;
   return 0.85;
-}
-
-function computeSoloQ(
-  player: GameStateData["players"][number],
-  gameState: GameStateData,
-  masterySignal: number,
-  focus: string | null | undefined,
-  intensity: string,
-  schedule: string,
-): { tier: SoloQTier; lp: number; delta: number } {
-  const ovr = calculateLolOvr(player);
-  const dayIndex = daysBetween(gameState.clock.start_date, gameState.clock.current_date);
-  const baseline = 3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);
-
-  let points = baseline;
-  const focusMult = getFocusMultiplier(focus);
-  const intensityMultVar = intensityMultiplier(intensity);
-  for (let day = 1; day <= dayIndex; day += 1) {
-    const currentIso = addDays(gameState.clock.start_date, day);
-    if (!isSoloQDay(currentIso, schedule)) continue;
-    const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
-    const gain = Math.round(baseGain * intensityMultVar * focusMult);
-    points += Math.max(-20, Math.min(30, gain));
-    points = Math.max(SOLOQ_POINTS_MIN, Math.min(SOLOQ_POINTS_MAX, points));
-  }
-
-  const lp = Math.max(0, Math.round(points - SOLOQ_POINTS_BASELINE));
-
-  let yesterdayDelta = 0;
-  if (dayIndex > 0) {
-    const yesterdayIso = addDays(gameState.clock.start_date, dayIndex);
-    if (isSoloQDay(yesterdayIso, schedule)) {
-      const baseGain = 10 + ((ovr - 75) * 0.8) + (masterySignal * 0.08);
-      yesterdayDelta = Math.max(-20, Math.min(30, Math.round(baseGain * intensityMultVar * focusMult)));
-    }
-  }
-
-  if (lp >= SOLOQ_CHALLENGER_LP_CUTOFF) return { tier: "Challenger", lp, delta: yesterdayDelta };
-  if (lp >= SOLOQ_GRANDMASTER_LP_CUTOFF) return { tier: "Grandmaster", lp, delta: yesterdayDelta };
-  return { tier: "Master", lp, delta: yesterdayDelta };
-}
-
-function soloQMasteryMultiplier(tier: SoloQTier): number {
-  if (tier === "Challenger") return 1.2;
-  if (tier === "Grandmaster") return 1.0;
-  return 0.8;
 }
 
 function expectedGainBadge(slotIndex: number, focus: string | null | undefined): {
@@ -264,22 +181,25 @@ export function MetaTabV2({ gameState, onGameUpdate, onViewChampion }: MetaTabV2
     return map;
   }, [gameState.champion_masteries]);
 
-  const masterySignalByPlayer = useMemo(() => {
-    const bucket = new Map<string, number[]>();
-    (gameState.champion_masteries ?? []).forEach((entry) => {
-      const list = bucket.get(entry.player_id) ?? [];
-      list.push(Number(entry.mastery ?? 25));
-      bucket.set(entry.player_id, list);
-    });
-
-    const signal = new Map<string, number>();
-    bucket.forEach((values, playerId) => {
-      const top = [...values].sort((a, b) => b - a).slice(0, 3);
-      const avg = top.length > 0 ? top.reduce((sum, value) => sum + value, 0) / top.length : 25;
-      signal.set(playerId, Math.max(0, avg - 60));
-    });
-    return signal;
-  }, [gameState.champion_masteries]);
+  const [soloqByPlayer, setSoloqByPlayer] = useState<Map<string, SoloQStatus>>(new Map());
+  useEffect(() => {
+    let cancelled = false;
+    void getSoloQStatuses()
+      .then((list) => {
+        if (cancelled) return;
+        setSoloqByPlayer(new Map(list.map((status) => [status.player_id, status])));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    gameState.clock.current_date,
+    managerTeamId,
+    managerTeam?.training_focus,
+    managerTeam?.training_intensity,
+    managerTeam?.training_schedule,
+  ]);
 
   const discoveredSet = useMemo(
     () => new Set((patch?.discovered_champion_ids ?? []).map(normalizeKey)),
@@ -613,17 +533,8 @@ export function MetaTabV2({ gameState, onGameUpdate, onViewChampion }: MetaTabV2
             const legacy = player.champion_training_target ?? "";
             const targets = [targetsRaw[0] ?? legacy, targetsRaw[1] ?? "", targetsRaw[2] ?? ""];
             const effectiveFocus = player.training_focus ?? managerTeam?.training_focus ?? null;
-            const effectiveIntensity = managerTeam?.training_intensity ?? "Medium";
-            const effectiveSchedule = managerTeam?.training_schedule ?? "Balanced";
-            const soloQ = computeSoloQ(
-              player,
-              gameState,
-              masterySignalByPlayer.get(player.id) ?? 0,
-              effectiveFocus,
-              effectiveIntensity,
-              effectiveSchedule,
-            );
-            const soloQMult = soloQMasteryMultiplier(soloQ.tier);
+            const soloQ = soloqByPlayer.get(player.id) ?? DEFAULT_SOLOQ;
+            const soloQMult = soloQ.multiplier;
 
             return (
               <div

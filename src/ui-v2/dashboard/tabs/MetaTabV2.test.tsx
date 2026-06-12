@@ -46,6 +46,7 @@ vi.mock("@/lib/teams/lolStaffEffects", () => ({
 vi.mock("@/services/playerService", () => ({
   setPlayerChampionTrainingTarget: vi.fn(),
   delegateChampionTraining: vi.fn(),
+  getSoloQStatuses: vi.fn(() => Promise.resolve([])),
 }));
 
 const ES_TRANSLATIONS: Record<string, string> = {

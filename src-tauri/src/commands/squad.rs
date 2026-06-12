@@ -1738,6 +1738,28 @@ pub fn delegate_champion_training(state: State<'_, StateManager>) -> Result<Game
     Ok(game)
 }
 
+/// Current SoloQ standing (tier / LP / daily delta / mastery multiplier) for the
+/// manager team's players. Single source of truth so the Meta and Training tabs
+/// display the same value the simulation uses for mastery gains.
+#[tauri::command]
+pub fn get_soloq_statuses(
+    state: State<'_, StateManager>,
+) -> Result<Vec<champions::SoloQStatus>, String> {
+    let game = state
+        .get_game(|g| g.clone())
+        .ok_or("No active game session".to_string())?;
+
+    let manager_team_id = game.manager.team_id.clone();
+    let statuses = game
+        .players
+        .iter()
+        .filter(|player| player.team_id == manager_team_id)
+        .map(|player| champions::soloq_status_for_player(&game, player))
+        .collect();
+
+    Ok(statuses)
+}
+
 #[tauri::command]
 pub fn start_potential_research(
     state: State<'_, StateManager>,

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
   AlertTriangle,
@@ -24,6 +24,10 @@ import {
   setTrainingGroups,
   type TrainingGroupData,
 } from "@/services/trainingService";
+import {
+  getSoloQStatuses,
+  type SoloQStatus,
+} from "@/services/playerService";
 import { getTrainingStaffAdvice } from "@/lib/training/advice";
 import {
   buildPlayerGroupMap,
@@ -77,32 +81,15 @@ import { cn } from "@/ui-v2/lib/utils";
 
 type SoloQTier = "Challenger" | "Grandmaster" | "Master";
 
-const SOLOQ_POINTS_BASELINE = 3000;
-const SOLOQ_POINTS_MIN = 3000;
-const SOLOQ_POINTS_MAX = 7000;
-const SOLOQ_GRANDMASTER_LP_CUTOFF = 800;
-const SOLOQ_CHALLENGER_LP_CUTOFF = 1300;
-
-function hashText(value: string): number {
-  let hash = 0;
-  for (let i = 0; i < value.length; i++) {
-    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
-  }
-  return hash;
-}
-
-function daysBetween(startIso: string, endIso: string): number {
-  const start = new Date(startIso).getTime();
-  const end = new Date(endIso).getTime();
-  if (!Number.isFinite(start) || !Number.isFinite(end)) return 0;
-  return Math.max(0, Math.floor((end - start) / (24 * 60 * 60 * 1000)));
-}
-
-function addDays(iso: string, days: number): string {
-  const date = new Date(iso);
-  date.setUTCDate(date.getUTCDate() + days);
-  return date.toISOString();
-}
+// SoloQ standing comes from the backend (single source of truth) — see
+// `get_soloq_statuses`. This default renders until the fetch resolves.
+const DEFAULT_SOLOQ: SoloQStatus = {
+  player_id: "",
+  tier: "Master",
+  lp: 0,
+  delta: 0,
+  multiplier: 0.8,
+};
 
 function weekdayFromIso(iso: string): number {
   const date = new Date(iso);
@@ -114,87 +101,6 @@ const SCHEDULE_TRAINING_DAYS: Record<string, number[]> = {
   Balanced: [0, 1, 3, 4],
   Light: [1, 3],
 };
-
-function isSoloQDay(dateIso: string, schedule: string): boolean {
-  const activeDays =
-    SCHEDULE_TRAINING_DAYS[schedule] ?? SCHEDULE_TRAINING_DAYS.Balanced;
-  return activeDays.includes(weekdayFromIso(dateIso));
-}
-
-function intensityMultiplier(intensity: string): number {
-  if (intensity === "High") return 1.25;
-  if (intensity === "Low") return 0.75;
-  return 1.0;
-}
-
-function focusMultiplier(focus: string | null | undefined): number {
-  if (!focus) return 0.85;
-  if (focus === "ChampionPoolPractice") return 1.25;
-  if (focus === "IndividualCoaching") return 1.0;
-  if (focus === "Scrims") return 0.85;
-  if (focus === "MacroSystems") return 0.75;
-  if (focus === "VODReview") return 0.7;
-  return 0.85;
-}
-
-function computeSoloQ(
-  player: GameStateData["players"][number],
-  gameState: GameStateData,
-  masterySignal: number,
-  focus: string | null | undefined,
-  intensity: string,
-  schedule: string,
-): { tier: SoloQTier; lp: number; delta: number } {
-  const ovr = Math.round(
-    (player.attributes.mechanics +
-      player.attributes.laning +
-      player.attributes.teamfighting +
-      player.attributes.macro_play +
-      player.attributes.consistency +
-      player.attributes.shotcalling +
-      player.attributes.champion_pool +
-      player.attributes.discipline +
-      player.attributes.mental_resilience) /
-      9,
-  );
-  const dayIndex = daysBetween(
-    gameState.clock.start_date,
-    gameState.clock.current_date,
-  );
-  const baseline =
-    3520 + (ovr - 76) * 52 + ((hashText(player.id) % 121) - 60);
-
-  let points = baseline;
-  const focusMult = focusMultiplier(focus);
-  const intensityMult = intensityMultiplier(intensity);
-  for (let day = 1; day <= dayIndex; day++) {
-    const currentIso = addDays(gameState.clock.start_date, day);
-    if (!isSoloQDay(currentIso, schedule)) continue;
-    const baseGain = 10 + (ovr - 75) * 0.8 + masterySignal * 0.08;
-    const gain = Math.round(baseGain * intensityMult * focusMult);
-    points += Math.max(-20, Math.min(30, gain));
-    points = Math.max(SOLOQ_POINTS_MIN, Math.min(SOLOQ_POINTS_MAX, points));
-  }
-
-  const lp = Math.max(0, Math.round(points - SOLOQ_POINTS_BASELINE));
-  let delta = 0;
-  if (dayIndex > 0) {
-    const yesterdayIso = addDays(gameState.clock.start_date, dayIndex - 1);
-    if (isSoloQDay(yesterdayIso, schedule)) {
-      const baseGain = 10 + (ovr - 75) * 0.8 + masterySignal * 0.08;
-      delta = Math.max(
-        -20,
-        Math.min(30, Math.round(baseGain * intensityMult * focusMult)),
-      );
-    }
-  }
-
-  if (lp >= SOLOQ_CHALLENGER_LP_CUTOFF)
-    return { tier: "Challenger", lp, delta };
-  if (lp >= SOLOQ_GRANDMASTER_LP_CUTOFF)
-    return { tier: "Grandmaster", lp, delta };
-  return { tier: "Master", lp, delta };
-}
 
 function soloQTierClass(tier: SoloQTier): string {
   if (tier === "Challenger") return "text-yellow-300";
@@ -268,25 +174,30 @@ export function TrainingTabV2({
     (tm) => tm.id === gameState.manager.team_id,
   );
 
-  // ─── Mastery signal (can compute before team guard) ─────────────
-  const masterySignalByPlayer = useMemo(() => {
-    const bucket = new Map<string, number[]>();
-    (gameState.champion_masteries ?? []).forEach((entry) => {
-      const list = bucket.get(entry.player_id) ?? [];
-      list.push(Number(entry.mastery ?? 25));
-      bucket.set(entry.player_id, list);
-    });
-    const signal = new Map<string, number>();
-    bucket.forEach((values, playerId) => {
-      const top = [...values].sort((a, b) => b - a).slice(0, 3);
-      const avg =
-        top.length > 0
-          ? top.reduce((sum, value) => sum + value, 0) / top.length
-          : 25;
-      signal.set(playerId, Math.max(0, avg - 60));
-    });
-    return signal;
-  }, [gameState.champion_masteries]);
+  // ─── SoloQ standing (backend = single source of truth) ──────────
+  const [soloqByPlayer, setSoloqByPlayer] = useState<Map<string, SoloQStatus>>(
+    new Map(),
+  );
+  useEffect(() => {
+    let cancelled = false;
+    void getSoloQStatuses()
+      .then((list) => {
+        if (cancelled) return;
+        setSoloqByPlayer(
+          new Map(list.map((status) => [status.player_id, status])),
+        );
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    gameState.clock.current_date,
+    gameState.manager.team_id,
+    myTeam?.training_focus,
+    myTeam?.training_intensity,
+    myTeam?.training_schedule,
+  ]);
 
   // ─── Edge: no active team ───────────────────────────────────────
   if (!myTeam) {
@@ -481,17 +392,7 @@ export function TrainingTabV2({
           <div className="space-y-2">
             {sortedRoster.map((player) => {
               const role = resolvePlayerCurrentLolRole(player, myTeam);
-              const playerFocus = normalizeTrainingFocus(
-                player.training_focus ?? currentFocus,
-              );
-              const soloQ = computeSoloQ(
-                player,
-                gameState,
-                masterySignalByPlayer.get(player.id) ?? 0,
-                playerFocus,
-                currentIntensity,
-                currentSchedule,
-              );
+              const soloQ = soloqByPlayer.get(player.id) ?? DEFAULT_SOLOQ;
               const photo = resolvePlayerPhoto(
                 player.id,
                 player.match_name,

@@ -233,43 +233,169 @@ fn mastery_signal_for_player(game: &Game, player_id: &str) -> f64 {
 }
 
 const SOLOQ_POINTS_BASELINE: f64 = 3000.0;
-const SOLOQ_POINTS_MIN: f64 = 3000.0;
 const SOLOQ_POINTS_MAX: f64 = 7000.0;
 const SOLOQ_GRANDMASTER_LP_CUTOFF: f64 = 800.0;
 const SOLOQ_CHALLENGER_LP_CUTOFF: f64 = 1300.0;
 
-fn soloq_points_for_player(game: &Game, player: &crate::domain::player::Player) -> f64 {
-    let ovr = f64::from(crate::potential::calculate_lol_ovr(player));
-    let day_index = days_between(game.clock.start_date, game.clock.current_date);
-    let mastery_signal = mastery_signal_for_player(game, &player.id);
-    let baseline = 3520.0 + (ovr - 76.0) * 52.0 + (f64::from(hash_text(&player.id) % 121) - 60.0);
+/// Maximum LP-points swing the training regime can add or subtract on top of the
+/// skill baseline — roughly one tier of movement, so smart grinding lifts a
+/// player a tier and neglect can cost one, but skill still sets the center.
+const SOLOQ_TRAINING_SWING: f64 = 600.0;
+/// Days for the training modifier to ramp to full effect: a fresh save starts at
+/// the pure skill baseline and the grind compounds over ~2 months.
+const SOLOQ_TRAINING_RAMP_DAYS: f64 = 60.0;
+/// How far below the skill baseline neglect can drag a player (about half a tier).
+const SOLOQ_SKILL_FLOOR_DROP: f64 = 350.0;
 
-    let mut points = baseline;
-    for day in 1..=day_index {
-        let rand = pseudo_random(&format!("{}:{}", player.id, day));
-        let rand_delta = (rand * 48.0 - 24.0).round();
-        let skill_drift = ((ovr - 78.0) * 0.35).round();
-        let mastery_drift = (mastery_signal * 0.20).round();
-        points += rand_delta + skill_drift + mastery_drift;
-        points = points.clamp(SOLOQ_POINTS_MIN, SOLOQ_POINTS_MAX);
+fn soloq_focus_multiplier(focus: Option<crate::domain::team::TrainingFocus>) -> f64 {
+    use crate::domain::team::TrainingFocus;
+    match focus {
+        Some(TrainingFocus::ChampionPoolPractice) => 1.25,
+        Some(TrainingFocus::IndividualCoaching) => 1.0,
+        Some(TrainingFocus::Scrims) => 0.85,
+        Some(TrainingFocus::MacroSystems) => 0.75,
+        Some(TrainingFocus::VODReview) | Some(TrainingFocus::MentalResetRecovery) => 0.7,
+        None => 0.85,
     }
+}
 
-    points
+fn soloq_intensity_multiplier(intensity: crate::domain::team::TrainingIntensity) -> f64 {
+    use crate::domain::team::TrainingIntensity;
+    match intensity {
+        TrainingIntensity::High => 1.25,
+        TrainingIntensity::Medium => 1.0,
+        TrainingIntensity::Low => 0.75,
+    }
+}
+
+fn soloq_schedule_multiplier(schedule: crate::domain::team::TrainingSchedule) -> f64 {
+    use crate::domain::team::TrainingSchedule;
+    match schedule {
+        TrainingSchedule::Intense => 1.3,
+        TrainingSchedule::Balanced => 1.0,
+        TrainingSchedule::Light => 0.6,
+    }
+}
+
+/// Resolve the training regime for a player and collapse it into a single grind
+/// quality factor centered on 1.0 (Balanced / Medium / IndividualCoaching). The
+/// player's personal focus overrides the team default; intensity and schedule
+/// come from the team. Mirrors the inputs the Meta/Training tabs surface.
+fn soloq_grind_quality(game: &Game, player: &crate::domain::player::Player) -> f64 {
+    let team = player
+        .team_id
+        .as_deref()
+        .and_then(|team_id| game.teams.iter().find(|team| team.id == team_id));
+
+    let focus = player
+        .training_focus
+        .clone()
+        .or_else(|| team.map(|team| team.training_focus.clone()));
+    let intensity = team
+        .map(|team| team.training_intensity.clone())
+        .unwrap_or_default();
+    let schedule = team
+        .map(|team| team.training_schedule.clone())
+        .unwrap_or_default();
+
+    soloq_focus_multiplier(focus)
+        * soloq_intensity_multiplier(intensity)
+        * soloq_schedule_multiplier(schedule)
+}
+
+/// Hybrid SoloQ points at a given day index: a skill baseline (OVR + champion
+/// mastery) fixes the expected tier, a bounded training modifier ramps in over
+/// time, and a small daily drift keeps the number alive. Clamped so neglect
+/// can't sink a player far below their skill and the grind can't run away.
+fn soloq_points_at(game: &Game, player: &crate::domain::player::Player, day_index: i64) -> f64 {
+    let ovr = f64::from(crate::potential::calculate_lol_ovr(player));
+    let mastery_signal = mastery_signal_for_player(game, &player.id);
+    let id_jitter = f64::from(hash_text(&player.id) % 121) - 60.0;
+
+    let skill_base = 3520.0 + (ovr - 76.0) * 52.0 + mastery_signal * 4.0 + id_jitter;
+    let skill_floor = skill_base - SOLOQ_SKILL_FLOOR_DROP;
+
+    let grind_quality = soloq_grind_quality(game, player);
+    let ramp = (day_index.max(0) as f64 / SOLOQ_TRAINING_RAMP_DAYS).min(1.0);
+    let training_mod = (grind_quality - 1.0) * SOLOQ_TRAINING_SWING * ramp;
+
+    let drift = (pseudo_random(&format!("{}:{}", player.id, day_index)) * 90.0 - 45.0).round();
+
+    (skill_base + training_mod + drift).clamp(skill_floor, SOLOQ_POINTS_MAX)
+}
+
+fn soloq_points_for_player(game: &Game, player: &crate::domain::player::Player) -> f64 {
+    let day_index = days_between(game.clock.start_date, game.clock.current_date);
+    soloq_points_at(game, player, day_index)
 }
 
 fn soloq_lp_for_player(game: &Game, player: &crate::domain::player::Player) -> f64 {
     (soloq_points_for_player(game, player) - SOLOQ_POINTS_BASELINE).max(0.0)
 }
 
-pub fn soloq_tier_for_player(game: &Game, player: &crate::domain::player::Player) -> SoloQTier {
-    let lp = soloq_lp_for_player(game, player);
-
+fn soloq_tier_from_lp(lp: f64) -> SoloQTier {
     if lp >= SOLOQ_CHALLENGER_LP_CUTOFF {
         SoloQTier::Challenger
     } else if lp >= SOLOQ_GRANDMASTER_LP_CUTOFF {
         SoloQTier::Grandmaster
     } else {
         SoloQTier::Master
+    }
+}
+
+pub fn soloq_tier_for_player(game: &Game, player: &crate::domain::player::Player) -> SoloQTier {
+    soloq_tier_from_lp(soloq_lp_for_player(game, player))
+}
+
+fn soloq_tier_label(tier: SoloQTier) -> &'static str {
+    match tier {
+        SoloQTier::Challenger => "Challenger",
+        SoloQTier::Grandmaster => "Grandmaster",
+        SoloQTier::Master => "Master",
+    }
+}
+
+fn soloq_multiplier_for_tier(tier: SoloQTier) -> f64 {
+    match tier {
+        SoloQTier::Challenger => 1.2,
+        SoloQTier::Grandmaster => 1.0,
+        SoloQTier::Master => 0.8,
+    }
+}
+
+/// SoloQ standing for one player, ready to serialize to the UI. This is the
+/// single source of truth: the Meta and Training tabs render this instead of
+/// recomputing the formula (which previously diverged from the simulation).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "typescript", derive(TS))]
+#[cfg_attr(feature = "typescript", ts(export))]
+pub struct SoloQStatus {
+    pub player_id: String,
+    pub tier: String,
+    pub lp: u32,
+    pub delta: i32,
+    pub multiplier: f64,
+}
+
+pub fn soloq_status_for_player(game: &Game, player: &crate::domain::player::Player) -> SoloQStatus {
+    let day_index = days_between(game.clock.start_date, game.clock.current_date);
+    let lp = (soloq_points_at(game, player, day_index) - SOLOQ_POINTS_BASELINE).max(0.0);
+    let tier = soloq_tier_from_lp(lp);
+
+    let delta = if day_index > 0 {
+        let lp_yesterday =
+            (soloq_points_at(game, player, day_index - 1) - SOLOQ_POINTS_BASELINE).max(0.0);
+        (lp - lp_yesterday).round() as i32
+    } else {
+        0
+    };
+
+    SoloQStatus {
+        player_id: player.id.clone(),
+        tier: soloq_tier_label(tier).to_string(),
+        lp: lp.round() as u32,
+        delta,
+        multiplier: soloq_multiplier_for_tier(tier),
     }
 }
 
@@ -281,11 +407,7 @@ pub fn mastery_gain_multiplier_for_player(game: &Game, player_id: &str) -> f64 {
     else {
         return 1.0;
     };
-    match soloq_tier_for_player(game, player) {
-        SoloQTier::Challenger => 1.2,
-        SoloQTier::Grandmaster => 1.0,
-        SoloQTier::Master => 0.8,
-    }
+    soloq_multiplier_for_tier(soloq_tier_for_player(game, player))
 }
 
 fn two_digit_year(game: &Game) -> u16 {
@@ -411,6 +533,24 @@ pub(crate) fn ensure_patch_seed(state: &mut ChampionPatchState) {
     if state.rng_seed == 0 {
         state.rng_seed = rand::rng().random();
     }
+}
+
+/// Derive a deterministic but time-varying seed from the persistent base seed
+/// and a salt that changes over time (patch number, date, week key).
+///
+/// The persistent `rng_seed` is fixed for the lifetime of a save, so reseeding
+/// an RNG straight from it makes every patch roll, every daily discovery and
+/// every weekly mastery tick replay the identical sequence forever. Mixing in a
+/// time-varying salt keeps the result reproducible per save while letting the
+/// outcome actually move between patches/days/weeks.
+pub(crate) fn derived_seed(base: u64, salt: &str) -> u64 {
+    // FNV-1a 64-bit hash of the salt, XOR-folded into the base seed.
+    let mut hash = 0xcbf2_9ce4_8422_2325u64;
+    for byte in salt.bytes() {
+        hash ^= u64::from(byte);
+        hash = hash.wrapping_mul(0x0000_0100_0000_01b3);
+    }
+    base ^ hash
 }
 
 fn ensure_multirole_meta_shape(game: &mut Game) {
@@ -1080,7 +1220,14 @@ fn pick_unique_indices(rng: &mut impl Rng, candidates: &[usize], count: usize) -
 
 fn apply_patch(game: &mut Game) {
     ensure_patch_seed(&mut game.champion_patch);
-    let mut rng = StdRng::seed_from_u64(game.champion_patch.rng_seed);
+    // Salt with the (pre-increment) patch number + roll date so each fortnight's
+    // drift and buff/nerf picks differ instead of replaying the same sequence.
+    let patch_salt = format!(
+        "patch:{}:{}",
+        game.champion_patch.current_patch,
+        today_str(game)
+    );
+    let mut rng = StdRng::seed_from_u64(derived_seed(game.champion_patch.rng_seed, &patch_salt));
     let catalog = champion_catalog();
     if catalog.is_empty() {
         return;
@@ -1297,7 +1444,10 @@ fn process_meta_discovery(game: &mut Game) {
     reveals += (avg_potential / 50.0).floor() as usize;
     reveals = ((reveals as f64) * staff_effects.meta_discovery).round() as usize;
 
-    let mut rng = StdRng::seed_from_u64(game.champion_patch.rng_seed);
+    // Discovery runs every day, so salt with the date to vary the random reveal
+    // count and the picks instead of repeating the same draw every single day.
+    let discovery_salt = format!("discovery:{}", today_str(game));
+    let mut rng = StdRng::seed_from_u64(derived_seed(game.champion_patch.rng_seed, &discovery_salt));
     reveals += rng.random_range(0..=4);
 
     let discovered_set: HashSet<String> = game

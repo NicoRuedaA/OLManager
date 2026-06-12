@@ -1,4 +1,5 @@
 import { getApiClientSync } from "../api/client";
+import type { SoloQStatus } from "../api/types";
 import type { GameStateData } from "../store/gameStore";
 
 export async function startPotentialResearch(
@@ -22,3 +23,9 @@ export async function setPlayerChampionTrainingTarget(
 export async function delegateChampionTraining(): Promise<GameStateData> {
   return getApiClientSync().players.delegateChampionTraining();
 }
+
+export async function getSoloQStatuses(): Promise<SoloQStatus[]> {
+  return getApiClientSync().players.getSoloQStatuses();
+}
+
+export type { SoloQStatus };

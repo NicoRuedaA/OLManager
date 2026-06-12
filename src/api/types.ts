@@ -100,10 +100,19 @@ export interface SocialRepository {
   relocalize(args: { language: string }): Promise<GameStateData>
 }
 
+export interface SoloQStatus {
+  player_id: string
+  tier: "Challenger" | "Grandmaster" | "Master"
+  lp: number
+  delta: number
+  multiplier: number
+}
+
 export interface PlayerRepository {
   startPotentialResearch(args: { playerId: string }): Promise<GameStateData>
   setChampionTrainingTarget(args: { playerId: string; priorityIndex: number; championId: string }): Promise<GameStateData>
   delegateChampionTraining(): Promise<GameStateData>
+  getSoloQStatuses(): Promise<SoloQStatus[]>
 }
 
 export interface StaffRepository {

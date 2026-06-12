@@ -80,6 +80,7 @@ export const httpAdapter: ApiClient = {
     startPotentialResearch: (args) => apiFetch("/players/potential-research", args),
     setChampionTrainingTarget: (args) => apiFetch("/players/champion-training-target", args),
     delegateChampionTraining: () => apiFetch("/players/delegate-champion-training"),
+    getSoloQStatuses: () => apiFetch("/players/soloq-statuses"),
   },
 
   staff: {
