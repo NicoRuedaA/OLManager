@@ -5,9 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:web": "vite --mode web",
     "build": "vite build",
-    "build:web": "vite build --mode web",
     "build:types": "tsc -p tsconfig.release.json",
     "preview": "vite preview",
     "generate:splash-manifest": "tsx scripts/generate-splash-manifest.ts",
@@ -24,7 +22,6 @@
     "@fontsource/barlow-condensed": "^5.2.8",
     "@fontsource/inter": "^5.2.8",
     "@fontsource/oswald": "^5.2.8",
-    "@supabase/supabase-js": "^2.106.2",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-updater": "^2.10.1",

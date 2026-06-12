@@ -17,8 +17,12 @@ export async function getApiClient(): Promise<ApiClient> {
     const { tauriAdapter } = await import("./adapters/tauri.adapter")
     _client = tauriAdapter
   } else {
-    const { httpAdapter } = await import("./adapters/http.adapter")
-    _client = httpAdapter
+    // Web mode was removed in 0.3.6 and will be rebuilt from scratch. The
+    // adapter seam is intentionally kept so a future web adapter can plug in
+    // here without touching call sites or the test harness.
+    throw new Error(
+      "[ApiClient] Web mode is not supported. OLManager currently runs only under Tauri (desktop).",
+    )
   }
 
   return _client
