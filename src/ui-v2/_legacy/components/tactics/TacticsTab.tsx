@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import type { TFunction } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import {
@@ -604,7 +605,7 @@ function CoherenceSummary({
   roleMetaLabels: Record<string, string>;
   maxAbsModifier: number;
   gameState: GameStateData;
-  t: (key: string, fallback?: string) => string;
+  t: TFunction;
 }) {
   const size = 64;
   const strokeWidth = 6;

@@ -127,7 +127,7 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
               title={t("manager.changeAvatar")}
             >
               <img
-                src={assetUrl(mgr.avatar_path ?? DEFAULT_MANAGER_ICON_PATH)}
+                src={assetUrl(mgr.avatar_path ?? DEFAULT_MANAGER_ICON_PATH) ?? ""}
                 alt={displayName}
                 className="size-full object-cover"
                 loading="lazy"
