@@ -28,6 +28,7 @@ import { PlayerAvatar } from "@/ui-v2/_legacy/components/ui/PlayerAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 
 import { cn } from "@/ui-v2/lib/utils";
+import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 
 // ─── Types ──────────────────────────────────────────────────────
 
@@ -41,14 +42,12 @@ const LOL_ROLE_ORDER: Record<LolRoleTag, number> = {
   SUPPORT: 5,
 };
 
-const ROLE_ICON_URLS: Record<LolRoleTag, string> = {
-  TOP: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-top.png",
-  JUNGLE:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-jungle.png",
-  MID: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-middle.png",
-  ADC: "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-bottom.png",
-  SUPPORT:
-    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-clash/global/default/assets/images/position-selector/positions/icon-position-utility.png",
+const ROLE_ICON_URLS: Record<string, string> = {
+  TOP: ROLE_ICON_PATHS.TOP,
+  JUNGLE: ROLE_ICON_PATHS.JUNGLE,
+  MID: ROLE_ICON_PATHS.MID,
+  ADC: ROLE_ICON_PATHS.ADC,
+  SUPPORT: ROLE_ICON_PATHS.SUPPORT,
 };
 
 function clampBar(value: number): number {
@@ -362,9 +361,12 @@ export function SquadTabV2({
                         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Energía</span>
                         <span className="font-heading text-[11px] font-bold text-amber-400 tabular-nums">{condition}</span>
                       </div>
-                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                        <div className={cn("h-full rounded-full transition-all", condition <= 0 ? "bg-amber-400/30" : "bg-amber-400")}
-                          style={{ width: `${clampBar(condition)}%` }} />
+                      <div className="relative h-1.5 w-full overflow-hidden rounded-full">
+                        <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
+                        <div
+                          className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                          style={{ width: `${100 - clampBar(condition)}%` }}
+                        />
                       </div>
                     </div>
                     <div className="hidden w-28 shrink-0 lg:block">
@@ -372,9 +374,12 @@ export function SquadTabV2({
                         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Moral</span>
                         <span className="font-heading text-[11px] font-bold text-emerald-400 tabular-nums">{morale}</span>
                       </div>
-                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                        <div className={cn("h-full rounded-full transition-all", morale <= 0 ? "bg-emerald-400/30" : "bg-emerald-400")}
-                          style={{ width: `${clampBar(morale)}%` }} />
+                      <div className="relative h-1.5 w-full overflow-hidden rounded-full">
+                        <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #3b82f6, #38bdf8)' }} />
+                        <div
+                          className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                          style={{ width: `${100 - clampBar(morale)}%` }}
+                        />
                       </div>
                     </div>
                     <div className="hidden w-28 shrink-0 lg:block">
@@ -382,9 +387,12 @@ export function SquadTabV2({
                         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Fitness</span>
                         <span className="font-heading text-[11px] font-bold text-green-400 tabular-nums">{fitness}</span>
                       </div>
-                      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-                        <div className={cn("h-full rounded-full transition-all", fitness <= 0 ? "bg-green-400/30" : "bg-green-400")}
-                          style={{ width: `${clampBar(fitness)}%` }} />
+                      <div className="relative h-1.5 w-full overflow-hidden rounded-full">
+                        <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #14b8a6, #2dd4bf 25%, #5eead4 50%)' }} />
+                        <div
+                          className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                          style={{ width: `${100 - clampBar(fitness)}%` }}
+                        />
                       </div>
                     </div>
                     <div className="hidden w-12 shrink-0 text-center lg:block">

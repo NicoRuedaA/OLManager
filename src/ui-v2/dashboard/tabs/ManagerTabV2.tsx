@@ -8,9 +8,9 @@ import { formatDate, getTeamName } from "@/lib/common/helpers";
 import { countryName, allNationalities } from "@/lib/common/countries";
 import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
-import { resolveStaffPhoto } from "@/lib/players/playerPhotos";
+import { assetUrl } from "@/lib/assetUrl";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
-import { MANAGER_ICON_PATHS } from "@/lib/common/managerAvatars";
+import { MANAGER_ICON_PATHS, DEFAULT_MANAGER_ICON_PATH } from "@/lib/common/managerAvatars";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";
@@ -127,7 +127,7 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
               title={t("manager.changeAvatar")}
             >
               <img
-                src={resolveStaffPhoto(mgr.avatar_path) ?? ""}
+                src={assetUrl(mgr.avatar_path ?? DEFAULT_MANAGER_ICON_PATH)}
                 alt={displayName}
                 className="size-full object-cover"
                 loading="lazy"
@@ -140,9 +140,13 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
               <div className="flex items-center justify-center gap-1">
                 <span className="font-heading text-3xl font-bold tabular-nums text-primary">{mgr.reputation}</span>
               </div>
-              <div className="mx-auto mt-1 h-1.5 w-20 overflow-hidden rounded-full bg-muted">
-                <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.min(100, (mgr.reputation / 1000) * 100)}%` }} />
-              </div>
+              <div className="relative mx-auto mt-1 h-1.5 w-20 overflow-hidden rounded-full">
+                  <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #14b8a6, #2dd4bf 25%, #5eead4 50%)' }} />
+                  <div
+                    className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                    style={{ width: `${100 - Math.min(100, (mgr.reputation / 1000) * 100)}%` }}
+                  />
+                </div>
               <p className="mt-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground">{t("manager.reputation")}</p>
             </div>
             <button
@@ -210,13 +214,11 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
                   <span className="font-heading text-xs uppercase tracking-wider text-muted-foreground">{t("manager.board")}</span>
                   <span className="font-heading text-sm font-bold tabular-nums text-foreground">{mgr.satisfaction}%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-muted">
+                <div className="relative h-2 overflow-hidden rounded-full">
+                  <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #3b82f6, #38bdf8)' }} />
                   <div
-                    className={cn(
-                      "h-full rounded-full transition-all",
-                      mgr.satisfaction >= 80 ? "bg-emerald-400" : mgr.satisfaction >= 50 ? "bg-primary" : mgr.satisfaction >= 30 ? "bg-amber-400" : "bg-red-400",
-                    )}
-                    style={{ width: `${mgr.satisfaction}%` }}
+                    className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                    style={{ width: `${100 - mgr.satisfaction}%` }}
                   />
                 </div>
                 <Badge
@@ -239,18 +241,14 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
                   <span className="font-heading text-xs uppercase tracking-wider text-muted-foreground">{t("manager.fans")}</span>
                   <span className="font-heading text-sm font-bold tabular-nums text-foreground">{mgr.fan_approval ?? 50}%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={cn(
-                      "h-full rounded-full transition-all",
-                      (mgr.fan_approval ?? 50) >= 80 ? "bg-emerald-400" :
-                      (mgr.fan_approval ?? 50) >= 60 ? "bg-primary" :
-                      (mgr.fan_approval ?? 50) >= 40 ? "bg-amber-400" : "bg-red-400",
-                    )}
-                    style={{ width: `${mgr.fan_approval ?? 50}%` }}
-                  />
-                </div>
-                <Badge
+                <div className="relative h-2 overflow-hidden rounded-full">
+                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #3b82f6, #38bdf8)' }} />
+                    <div
+                      className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                      style={{ width: `${100 - (mgr.fan_approval ?? 50)}%` }}
+                    />
+                  </div>
+                  <Badge
                   className={cn(
                     "mt-1.5",
                     (mgr.fan_approval ?? 50) >= 80 ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400" :

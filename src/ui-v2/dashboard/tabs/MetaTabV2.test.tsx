@@ -106,7 +106,7 @@ describe("MetaTabV2 section titles", () => {
   it("renders Patch Meta card title", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     // Patch Meta title is rendered somewhere in the card header
     const allPatchMeta = screen.getAllByText("Patch Meta");
     expect(allPatchMeta.length).toBeGreaterThanOrEqual(1);
@@ -115,14 +115,14 @@ describe("MetaTabV2 section titles", () => {
   it("renders Discovery Stats card title", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     expect(screen.getByText("Discovery Stats")).toBeInTheDocument();
   });
 
   it("renders Mastery card title", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     expect(screen.getByText("Champion Mastery Training")).toBeInTheDocument();
   });
 });
@@ -131,14 +131,14 @@ describe("MetaTabV2 empty state", () => {
   it("shows unknown patch when no patch data", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     expect(screen.getByText("Unknown Patch")).toBeInTheDocument();
   });
 
   it("shows no players message when team has no players", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     expect(screen.getByText("No players on your team.")).toBeInTheDocument();
   });
 });
@@ -147,7 +147,7 @@ describe("MetaTabV2 delegate button", () => {
   it("renders delegate to coach button", async () => {
     const { MetaTabV2 } = await import("./MetaTabV2");
     const gs = minimalGameState();
-    render(<MetaTabV2 gameState={gs} onGameUpdate={vi.fn()} onViewChampion={vi.fn()} />);
+    render(<MetaTabV2 gameState={gs} onViewChampion={vi.fn()} />);
     expect(screen.getByText("Delegate to Coach")).toBeInTheDocument();
   });
 });

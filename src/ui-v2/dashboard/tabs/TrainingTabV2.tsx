@@ -110,12 +110,12 @@ function soloQTierClass(tier: SoloQTier): string {
 
 function soloQEmblemUrl(tier: SoloQTier): string {
   if (tier === "Challenger") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/challenger.png";
+    return "/ladder-icons/challenger.webp";
   }
   if (tier === "Grandmaster") {
-    return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/grandmaster.png";
+    return "/ladder-icons/grandmaster.webp";
   }
-  return "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-mini-crests/master.png";
+  return "/ladder-icons/master.webp";
 }
 
 // ─── UI constants ────────────────────────────────────────────
@@ -156,6 +156,7 @@ const TRAINING_FOCUS_ICONS: Record<string, ReactNode> = {
 interface TrainingTabV2Props {
   gameState: GameStateData;
   onGameUpdate: (state: GameStateData) => void;
+  onSelectPlayer?: (id: string) => void;
 }
 
 // ─── Component ───────────────────────────────────────────────
@@ -163,6 +164,7 @@ interface TrainingTabV2Props {
 export function TrainingTabV2({
   gameState,
   onGameUpdate,
+  onSelectPlayer,
 }: TrainingTabV2Props) {
   const { t } = useTranslation();
   const [isSaving, setIsSaving] = useState(false);
@@ -402,7 +404,8 @@ export function TrainingTabV2({
               return (
                 <div
                   key={player.id}
-                  className="flex items-center gap-3 rounded-lg border border-border px-3 py-2"
+                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-border px-3 py-2 transition-colors hover:border-primary/50 hover:bg-muted/30"
+                  onClick={() => onSelectPlayer?.(player.id)}
                 >
                   {/* Avatar + role badge */}
                   <div className="relative size-9 shrink-0 overflow-hidden rounded-lg border border-border bg-muted">
@@ -606,15 +609,17 @@ export function TrainingTabV2({
 
               <p className="mt-4 text-xs text-muted-foreground">
                 {t(`training.schedules.${currentSchedule}.detail`)}{" "}
-                {t("training.todayIs", {
-                  defaultValue: "Today is {{day}} — {{type}}",
-                  day: dayShortLabels[todayWeekday],
-                  type: isTodayTraining
-                    ? t("training.aTrainingDay", {
-                        defaultValue: "training day",
-                      })
-                    : t("training.aRestDay", { defaultValue: "rest day" }),
-                })}
+                <span dangerouslySetInnerHTML={{
+                  __html: t("training.todayIs", {
+                    defaultValue: "Today is <strong>{{day}}</strong> — {{type}}",
+                    day: dayShortLabels[todayWeekday],
+                    type: isTodayTraining
+                      ? t("training.aTrainingDay", {
+                          defaultValue: "training day",
+                        })
+                      : t("training.aRestDay", { defaultValue: "rest day" }),
+                  }),
+                }} />
               </p>
             </CardContent>
           </Card>
@@ -723,16 +728,18 @@ export function TrainingTabV2({
                   {activeFocusAttrs.length > 0 && (
                     <>
                       {" "}
-                      {t("training.currentlyTraining", {
-                        defaultValue:
-                          "Currently training {{attrs}} at {{intensity}} intensity.",
-                        attrs: activeFocusAttrs
-                          .map((a) => statLabel(a))
-                          .join(", "),
-                        intensity: t(
-                          `training.intensities.${currentIntensity}.label`,
-                        ),
-                      })}
+                      <span dangerouslySetInnerHTML={{
+                        __html: t("training.currentlyTraining", {
+                          defaultValue:
+                            "Currently training: <strong>{{attrs}}</strong> at <strong>{{intensity}}</strong> intensity.",
+                          attrs: activeFocusAttrs
+                            .map((a) => statLabel(a))
+                            .join(", "),
+                          intensity: t(
+                            `training.intensities.${currentIntensity}.label`,
+                          ),
+                        }),
+                      }} />
                     </>
                   )}
                   {currentFocus === RECOVERY_TRAINING_FOCUS && (
@@ -806,17 +813,11 @@ export function TrainingTabV2({
                       {avgCondition}%
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                  <div className="relative h-2 w-full overflow-hidden rounded-full">
+                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
                     <div
-                      className={cn(
-                        "h-full rounded-full transition-all",
-                        avgCondition > 70
-                          ? "bg-emerald-500"
-                          : avgCondition > 40
-                            ? "bg-amber-500"
-                            : "bg-red-500",
-                      )}
-                      style={{ width: `${avgCondition}%` }}
+                      className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                      style={{ width: `${100 - avgCondition}%` }}
                     />
                   </div>
                 </div>
@@ -833,17 +834,11 @@ export function TrainingTabV2({
                       {avgMorale}%
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                  <div className="relative h-2 w-full overflow-hidden rounded-full">
+                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
                     <div
-                      className={cn(
-                        "h-full rounded-full transition-all",
-                        avgMorale > 70
-                          ? "bg-emerald-500"
-                          : avgMorale > 40
-                            ? "bg-amber-500"
-                            : "bg-red-500",
-                      )}
-                      style={{ width: `${avgMorale}%` }}
+                      className="absolute inset-y-0 right-0 bg-muted transition-all duration-500"
+                      style={{ width: `${100 - avgMorale}%` }}
                     />
                   </div>
                 </div>
