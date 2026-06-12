@@ -17,7 +17,9 @@ use std::path::{Component, Path, PathBuf};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use log::info;
+use olm_core::domain::player::Player;
 use olm_core::domain::staff::Staff;
+use olm_core::domain::team::Team;
 use olm_core::game::Game;
 use olm_core::generator::definitions::StaffDataFile;
 use olm_core::state::StateManager;
@@ -262,8 +264,8 @@ pub async fn auto_import_database(
         summary.staff_count,
         summary.skipped
     );
-    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
-        log::warn!("[cmd] auto_import_database: active staff rehydrate skipped: {err}");
+    if let Err(err) = rehydrate_active_game(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] auto_import_database: active rehydrate skipped: {err}");
     }
     Ok(summary)
 }
@@ -287,8 +289,8 @@ pub async fn import_export_zip(
     })
     .await
     .map_err(|e| format!("import task panicked: {e}"))??;
-    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
-        log::warn!("[cmd] import_export_zip: active staff rehydrate skipped: {err}");
+    if let Err(err) = rehydrate_active_game(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] import_export_zip: active rehydrate skipped: {err}");
     }
     Ok(summary)
 }
@@ -311,8 +313,8 @@ pub async fn import_cached_export(
     })
     .await
     .map_err(|e| format!("import task panicked: {e}"))??;
-    if let Err(err) = rehydrate_active_game_staff(&app_handle, &state, &sm_state) {
-        log::warn!("[cmd] import_cached_export: active staff rehydrate skipped: {err}");
+    if let Err(err) = rehydrate_active_game(&app_handle, &state, &sm_state) {
+        log::warn!("[cmd] import_cached_export: active rehydrate skipped: {err}");
     }
     Ok(summary)
 }
@@ -735,6 +737,165 @@ fn collect_runtime_staff(app_handle: &tauri::AppHandle) -> Vec<Staff> {
         .collect()
 }
 
+/// Load every non-legacy competition's players and apply the SAME namespacing
+/// the new-game world assembly does (`assemble_world_from_modular_data`):
+/// prefix `team_id` with the competition id and backfill default morale /
+/// condition. Deduplicated by player id so multi-competition overlaps collapse.
+fn collect_runtime_players(app_handle: &tauri::AppHandle) -> Vec<Player> {
+    let mut players: Vec<Player> = Vec::new();
+
+    for manifest in crate::commands::competitions::scan_competitions(app_handle)
+        .iter()
+        .filter(|manifest| !manifest.legacy)
+    {
+        let cid = &manifest.id;
+        let prefix = format!("{}-", cid);
+        match crate::commands::competitions::load_competition_players(app_handle, manifest) {
+            Ok(comp_players) => {
+                for mut player in comp_players {
+                    if let Some(team_id) = player.team_id.clone() {
+                        if team_id != "fa"
+                            && team_id != "freeagent"
+                            && !team_id.starts_with(&prefix)
+                        {
+                            player.team_id = Some(format!("{}-{team_id}", cid));
+                        }
+                    }
+                    if player.morale == 0 {
+                        player.morale = 68;
+                    }
+                    if player.condition == 0 {
+                        player.condition = 100;
+                    }
+                    players.push(player);
+                }
+            }
+            Err(err) => {
+                log::debug!("[import] players unavailable for '{cid}' during rehydrate: {err}");
+            }
+        }
+    }
+
+    let mut seen = HashSet::new();
+    players
+        .into_iter()
+        .filter(|player| seen.insert(player.id.clone()))
+        .collect()
+}
+
+/// Load every non-legacy competition's teams and apply the SAME namespacing the
+/// new-game world assembly does: prefix the team id with the competition id and
+/// stamp `competition_id`. Deduplicated by team id.
+fn collect_runtime_teams(app_handle: &tauri::AppHandle) -> Vec<Team> {
+    let mut teams: Vec<Team> = Vec::new();
+
+    for manifest in crate::commands::competitions::scan_competitions(app_handle)
+        .iter()
+        .filter(|manifest| !manifest.legacy)
+    {
+        let cid = &manifest.id;
+        let prefix = format!("{}-", cid);
+        match crate::commands::competitions::load_competition_teams(app_handle, manifest) {
+            Ok(mut comp_teams) => {
+                for team in &mut comp_teams {
+                    if !team.id.starts_with(&prefix) {
+                        team.id = format!("{prefix}{}", team.id);
+                    }
+                    team.competition_id = Some(cid.to_string());
+                }
+                teams.extend(comp_teams);
+            }
+            Err(err) => {
+                log::debug!("[import] teams unavailable for '{cid}' during rehydrate: {err}");
+            }
+        }
+    }
+
+    let mut seen = HashSet::new();
+    teams
+        .into_iter()
+        .filter(|team| seen.insert(team.id.clone()))
+        .collect()
+}
+
+/// Append catalog players whose id is absent from the save. Existing players are
+/// never mutated, so transfers and in-save edits are preserved — only genuinely
+/// missing players (e.g. roster slots added to the source data after the save
+/// was generated) are backfilled.
+fn merge_missing_players(game: &mut Game, imported_players: Vec<Player>) -> usize {
+    let mut existing_ids: HashSet<String> =
+        game.players.iter().map(|player| player.id.clone()).collect();
+    let before = game.players.len();
+    for player in imported_players {
+        if existing_ids.insert(player.id.clone()) {
+            game.players.push(player);
+        }
+    }
+    game.players.len().saturating_sub(before)
+}
+
+/// Player ids with an in-save transfer record (user-made or simulated). Their
+/// team assignment was changed during play and must be preserved against the
+/// catalog. Includes players swapped in as part of a transfer.
+fn transfer_protected_player_ids(game: &Game) -> HashSet<String> {
+    let mut ids = HashSet::new();
+    for entry in &game.transfer_history.entries {
+        ids.insert(entry.player_id.clone());
+        for included in &entry.included_players {
+            ids.insert(included.player_id.clone());
+        }
+    }
+    ids
+}
+
+/// Correct stale team assignments: when a player already exists in the save but
+/// the catalog (updated source data) now places them on a different team, move
+/// them to the catalog team — UNLESS they have an in-save transfer record, in
+/// which case the in-game move (user or simulated) wins. Matched by id; only
+/// reassigned when the catalog provides a concrete team_id (never released to
+/// free agency on a catalog gap).
+fn reassign_stale_player_teams(game: &mut Game, imported_players: &[Player]) -> usize {
+    let protected = transfer_protected_player_ids(game);
+    let catalog_team: std::collections::HashMap<&str, &str> = imported_players
+        .iter()
+        .filter_map(|player| {
+            player
+                .team_id
+                .as_deref()
+                .map(|team_id| (player.id.as_str(), team_id))
+        })
+        .collect();
+
+    let mut reassigned = 0;
+    for player in game.players.iter_mut() {
+        if protected.contains(&player.id) {
+            continue;
+        }
+        let Some(&catalog_tid) = catalog_team.get(player.id.as_str()) else {
+            continue;
+        };
+        if player.team_id.as_deref() != Some(catalog_tid) {
+            player.team_id = Some(catalog_tid.to_string());
+            reassigned += 1;
+        }
+    }
+    reassigned
+}
+
+/// Append catalog teams whose id is absent from the save. Existing teams are
+/// never mutated — only teams missing entirely from the save are backfilled.
+fn merge_missing_teams(game: &mut Game, imported_teams: Vec<Team>) -> usize {
+    let mut existing_ids: HashSet<String> =
+        game.teams.iter().map(|team| team.id.clone()).collect();
+    let before = game.teams.len();
+    for team in imported_teams {
+        if existing_ids.insert(team.id.clone()) {
+            game.teams.push(team);
+        }
+    }
+    game.teams.len().saturating_sub(before)
+}
+
 fn merge_missing_staff(game: &mut Game, imported_staff: Vec<Staff>) -> usize {
     // Backfill display fields (nickname) onto staff that already exist in the
     // game/save but predate the field — older saves persisted nickname as "".
@@ -762,21 +923,57 @@ fn merge_missing_staff(game: &mut Game, imported_staff: Vec<Staff>) -> usize {
     game.staff.len().saturating_sub(before)
 }
 
-pub fn rehydrate_game_staff_from_catalog(app_handle: &tauri::AppHandle, game: &mut Game) -> usize {
-    merge_missing_staff(game, collect_runtime_staff(app_handle))
+/// Counts of catalog changes applied to a save during rehydration.
+#[derive(Debug, Default, Clone, Copy)]
+pub struct RehydrateCounts {
+    pub teams: usize,
+    pub players: usize,
+    /// Existing players whose stale team assignment was corrected to the catalog.
+    pub players_reassigned: usize,
+    pub staff: usize,
 }
 
-fn rehydrate_active_game_staff(
+impl RehydrateCounts {
+    pub fn total(&self) -> usize {
+        self.teams + self.players + self.players_reassigned + self.staff
+    }
+}
+
+/// Reconcile a save with the imported catalog:
+/// - backfill teams, players and staff missing from the save;
+/// - correct stale player team assignments left behind by source-data updates,
+///   while preserving in-game transfers (see `reassign_stale_player_teams`).
+///
+/// Existing entities are otherwise never mutated, so saves generated before a
+/// data update pick up new roster slots and team moves without losing progress.
+pub fn rehydrate_game_from_catalog(app_handle: &tauri::AppHandle, game: &mut Game) -> RehydrateCounts {
+    let teams = merge_missing_teams(game, collect_runtime_teams(app_handle));
+
+    let catalog_players = collect_runtime_players(app_handle);
+    let players_reassigned = reassign_stale_player_teams(game, &catalog_players);
+    let players = merge_missing_players(game, catalog_players);
+
+    let staff = merge_missing_staff(game, collect_runtime_staff(app_handle));
+
+    RehydrateCounts {
+        teams,
+        players,
+        players_reassigned,
+        staff,
+    }
+}
+
+fn rehydrate_active_game(
     app_handle: &tauri::AppHandle,
     state: &State<'_, StateManager>,
     sm_state: &State<'_, SaveManagerState>,
-) -> Result<usize, String> {
+) -> Result<RehydrateCounts, String> {
     let Some(mut game) = state.get_game(|game| game.clone()) else {
-        return Ok(0);
+        return Ok(RehydrateCounts::default());
     };
-    let added = rehydrate_game_staff_from_catalog(app_handle, &mut game);
-    if added == 0 {
-        return Ok(0);
+    let added = rehydrate_game_from_catalog(app_handle, &mut game);
+    if added.total() == 0 {
+        return Ok(added);
     }
 
     let save_id = state.get_save_id();
@@ -790,7 +987,10 @@ fn rehydrate_active_game_staff(
         sm.save_game(&game, &save_id)?;
     }
 
-    info!("[cmd] auto_import_database: rehydrated active game with {added} missing staff");
+    info!(
+        "[cmd] auto_import_database: rehydrated active game with {} missing teams, {} players, {} reassigned players, {} staff",
+        added.teams, added.players, added.players_reassigned, added.staff
+    );
     Ok(added)
 }
 
