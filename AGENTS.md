@@ -90,3 +90,9 @@ Branch: `feat/ui-v2`. Commit style: `feat(ui-v2): …`, `fix(ui-v2): …`.
 
 - Portar los wrappers `_legacy/` a v2 nativo (NewsTab, SocialTab, PlayerProfile, TeamProfile, transfer modals)
 - Separar chunks grandes (MatchSimulation, _legacy) con lazy loading
+
+---
+
+## ⚠️ Reglas críticas de operación
+
+- **NUNCA usar `git checkout HEAD` sin permiso explícito del usuario.** Ni para revertir cambios, ni para nada. Preguntar siempre antes. Esta regla no tiene excepciones.
