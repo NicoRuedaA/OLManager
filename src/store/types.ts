@@ -328,6 +328,8 @@ export interface TeamMatchStatsRecord {
 
 export interface CareerEntry {
   season: number;
+  split_index: number;
+  split_name: string;
   team_id: string;
   team_name: string;
   appearances: number;

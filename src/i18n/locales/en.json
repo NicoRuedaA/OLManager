@@ -1750,7 +1750,14 @@
     "statPts": "Pts",
     "statRep": "Rep",
     "statSquad": "Squad",
-    "statValue": "Value"
+    "statValue": "Value",
+    "colPos": "#",
+    "colTeam": "Team",
+    "colOvr": "OVR",
+    "colRep": "Rep",
+    "colValue": "Value",
+    "colWr": "WR",
+    "colPlayers": "Players"
   },
   "playersList": {
     "searchPlaceholder": "Search by name or nationality...",
@@ -1924,7 +1931,10 @@
     "loanListed": "Loan Listed",
     "potentialResearchProgress": "Research progress ({{total}} stages)",
     "startPotentialResearch": "Start Potential Research",
-    "transferListed": "Transfer Listed"
+    "transferListed": "Transfer Listed",
+    "noMatchesThisSeason": "No matches played this season",
+    "teamHistory": "Team History",
+    "currentTeam": "Current team: {{team}}"
   },
   "teamProfile": {
     "clubInfo": "Team Information",

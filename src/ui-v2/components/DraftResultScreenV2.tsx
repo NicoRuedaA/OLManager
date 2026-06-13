@@ -326,7 +326,7 @@ export default function DraftResultScreenV2({
   };
 
   return (
-    <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 scrollbar-v2">
+    <div className="flex h-full flex-col gap-4 overflow-y-auto p-6 scrollbar-v2 bg-background">
       <Card size="sm">
         <CardContent className="flex flex-col items-center gap-3 py-5">
           <p className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-muted-foreground/70">{t("match.matchOver")}</p>

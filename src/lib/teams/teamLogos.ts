@@ -17,6 +17,7 @@ export function resolveTeamLogo(teamName?: string | null, logoUrl?: string | nul
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]/g, "");
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
   return slug ? assetUrl(`/teams-icons/${slug}.webp`) : null;
 }

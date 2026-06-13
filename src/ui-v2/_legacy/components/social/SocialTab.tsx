@@ -111,7 +111,7 @@ function academyLogoFromMetadata(team: TeamData): string | null {
 }
 
 function teamLogoSrc(team: TeamData): string {
-  return resolveTeamLogo(team.name) ?? defaultTeamLogoSrc(team.id) ?? academyLogoFromMetadata(team) ?? "";
+  return resolveTeamLogo(team.name, team.logo_url) ?? defaultTeamLogoSrc(team.id) ?? academyLogoFromMetadata(team) ?? "";
 }
 
 function findPostTeam(post: SocialPostData, teams: TeamData[]): TeamData | null {
@@ -178,7 +178,7 @@ function Avatar({
 
   return (
     <div className={`relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br ${authorRing(post)} font-heading text-sm font-bold text-white`}>
-      <span>{displayAuthorName(post).slice(0, 2).toUpperCase()}</span>
+      {!src ? <span>{displayAuthorName(post).slice(0, 2).toUpperCase()}</span> : null}
       {src ? (
         <img
           src={src}
