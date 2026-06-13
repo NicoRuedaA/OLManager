@@ -1,17 +1,5 @@
-import {
-    Activity,
-    Briefcase,
-    Calendar,
-    DollarSign,
-    Heart,
-    TrendingUp,
-} from "lucide-react";
-import {
-    formatDate,
-    getContractRiskBadgeVariant,
-    getContractYearsRemaining,
-} from "@/lib/common/helpers";
-import { formatPlayerMarketValue, formatPlayerWage } from "@/ui-v2/_legacy/components/playerProfile/PlayerProfile.helpers";
+import { Briefcase, Calendar } from "lucide-react";
+import { formatDate, getContractRiskBadgeVariant, getContractYearsRemaining } from "@/lib/common/helpers";
 import { Badge, Button, Card, CardBody, CardHeader } from "@/ui-v2/_legacy/components/ui";
 
 type TranslateFn = (
@@ -23,12 +11,6 @@ interface PlayerProfileContractCardProps {
     dateOfBirth: string;
     contractEnd: string | null;
     currentDate: string;
-    condition: number;
-    fitness: number;
-    morale: number;
-    marketValue: number;
-    wage: number;
-    annualSuffix: string;
     language: string;
     contractRiskLevel: "critical" | "warning" | "stable";
     contractRiskLabel: string;
@@ -45,12 +27,6 @@ export default function PlayerProfileContractCard({
     dateOfBirth,
     contractEnd,
     currentDate,
-    condition,
-    fitness,
-    morale,
-    marketValue,
-    wage,
-    annualSuffix,
     language,
     contractRiskLevel,
     contractRiskLabel,
@@ -63,9 +39,9 @@ export default function PlayerProfileContractCard({
     t,
 }: PlayerProfileContractCardProps) {
     return (
-        <Card>
+        <Card className="flex flex-col h-full">
             <CardHeader>{t("playerProfile.contractInfo")}</CardHeader>
-            <CardBody>
+            <CardBody className="min-h-0 flex-1 overflow-y-auto scrollbar-v2">
                 <div className="flex flex-col gap-3">
                     <InfoRow
                         icon={<Calendar className="w-4 h-4" />}
@@ -95,58 +71,9 @@ export default function PlayerProfileContractCard({
                             </Badge>
                         }
                     />
-                    <InfoRow
-                        icon={<DollarSign className="w-4 h-4" />}
-                        label={t("finances.marketValue")}
-                        value={formatPlayerMarketValue(marketValue)}
-                    />
-                    <InfoRow
-                        icon={<TrendingUp className="w-4 h-4" />}
-                        label={t("playerProfile.annualWage")}
-                        value={formatPlayerWage(wage, annualSuffix)}
-                    />
-                    <InfoRow
-                        icon={<Heart className="w-4 h-4" />}
-                        label={t("common.condition")}
-                        value={
-                            <div className="flex items-center gap-1.5 flex-1 max-w-40">
-                                <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
-                                    <div className="absolute inset-y-0 right-0 bg-muted transition-all duration-500" style={{ width: `${100 - condition}%` }} />
-                                </div>
-                                <span className="font-heading text-xs font-bold tabular-nums">{condition}%</span>
-                            </div>
-                        }
-                    />
-                    <InfoRow
-                        icon={<Activity className="w-4 h-4" />}
-                        label={t("common.fitness")}
-                        value={
-                            <div className="flex items-center gap-1.5 flex-1 max-w-40">
-                                <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
-                                    <div className="absolute inset-y-0 right-0 bg-muted transition-all duration-500" style={{ width: `${100 - fitness}%` }} />
-                                </div>
-                                <span className="font-heading text-xs font-bold tabular-nums">{fitness}%</span>
-                            </div>
-                        }
-                    />
-                    <InfoRow
-                        icon={<Activity className="w-4 h-4" />}
-                        label={t("common.morale")}
-                        value={
-                            <div className="flex items-center gap-1.5 flex-1 max-w-40">
-                                <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
-                                    <div className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, #f59e0b, #22c55e)' }} />
-                                    <div className="absolute inset-y-0 right-0 bg-muted transition-all duration-500" style={{ width: `${100 - morale}%` }} />
-                                </div>
-                                <span className="font-heading text-xs font-bold tabular-nums">{morale}%</span>
-                            </div>
-                        }
-                    />
                 </div>
                 {isOwnClub ? (
-                    <div className="pt-3 flex flex-wrap gap-2">
+                    <div className="pt-3 flex flex-wrap gap-2 justify-center">
                         <Button size="sm" variant="outline" onClick={onOpenRenewal}>
                             {t("common.renewContract")}
                         </Button>

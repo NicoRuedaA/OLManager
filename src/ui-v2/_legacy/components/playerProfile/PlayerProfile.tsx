@@ -35,9 +35,8 @@ import {
   type PlayerProfileScoutStatus,
 } from "@/ui-v2/_legacy/components/playerProfile/PlayerProfile.scouting";
 import PlayerProfileChampionsCard from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileChampionsCard";
-import PlayerProfileStatsCard from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileStatsCard";
-import PlayerProfileCareerCard from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileCareerCard";
 import PlayerProfileMatchHistoryCard from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileMatchHistoryCard";
+import PlayerProfileTeamHistoryCard from "@/ui-v2/_legacy/components/playerProfile/PlayerProfileTeamHistoryCard";
 import championsSeed from "../../../../../assets/simulation/champions.json";
 import NegotiationFeedbackPanel from "@/ui-v2/_legacy/components/NegotiationFeedbackPanel";
 import TransferNegotiationHistory from "@/ui-v2/_legacy/components/transfers/TransferNegotiationHistory";
@@ -57,8 +56,6 @@ import {
   type TransferBidProjectionData,
   type WageNegotiationResponseData,
 } from "@/services/transfersService";
-
-type LolRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
 interface TransferOfferFeedbackState {
   decision: "accepted" | "rejected" | "counter_offer";
@@ -282,7 +279,6 @@ export default function PlayerProfile({
   );
   const [academyActionSubmitting, setAcademyActionSubmitting] = useState(false);
   const [playerHistory, setPlayerHistory] = useState<PlayerMatchHistoryEntryData[]>([]);
-  const [rerollingRole, setRerollingRole] = useState(false);
   const [potentialResearchSubmitting, setPotentialResearchSubmitting] = useState(false);
   const [scoutError, setScoutError] = useState<string | null>(null);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
@@ -451,7 +447,7 @@ export default function PlayerProfile({
     championPerformance,
     gameState.champion_masteries ?? [],
     visibleChampionMasteryCount,
-  );
+  ).map((c) => ({ ...c, condition: player.condition, morale: player.morale }));
   const activePotentialResearchPlayer = gameState.players.find(
     (candidate) => (candidate.potential_research_eta_days ?? 0) > 0,
   );
@@ -480,25 +476,6 @@ export default function PlayerProfile({
       cancelled = true;
     };
   }, [player.id]);
-
-  async function handleRerollRole(role: LolRole): Promise<void> {
-    if (!actualIsOwnClub || !onGameUpdate || rerollingRole) {
-      return;
-    }
-
-    setRerollingRole(true);
-    try {
-      const updated = await invoke<GameStateData>("reroll_player_lol_role", {
-        playerId: player.id,
-        role,
-      });
-      onGameUpdate(updated);
-    } catch {
-      return;
-    } finally {
-      setRerollingRole(false);
-    }
-  }
 
   function handleRequestReleaseContract(): void {
     if (!isTransferWindowOpen || !actualIsOwnClub || transferActionSubmitting) {
@@ -894,176 +871,134 @@ export default function PlayerProfile({
   }
 
   return (
-    <div className="w-[92%] max-w-[2000px] mx-auto">
-      <PlayerProfileHeroCardV2
-        player={player}
-        ovr={ovr}
-        primaryRole={primaryRole}
-        age={age}
-        teamName={teamName}
-        teamLogoUrl={teamLogoUrl}
-        annualSuffix={annualSuffix}
-        language={i18n.language}
-        isOwnClub={actualIsOwnClub || !onGameUpdate}
-        soloqTier={soloqTier}
-        scoutAvailability={scoutAvailability}
-        scoutStatus={scoutStatus}
-        scoutError={scoutError}
-        onScout={() => {
-          const availableScout = scoutAvailability.availableScout;
-          if (!availableScout || !onGameUpdate) {
-            return;
-          }
-
-          void (async () => {
-            setScoutStatus("sending");
-            setScoutError(null);
-
-            try {
-              const updated = await invoke<GameStateData>("send_scout", {
-                scoutId: availableScout.id,
-                playerId: player.id,
-              });
-              onGameUpdate(updated);
-              setScoutStatus("sent");
-            } catch (err) {
-              setScoutError(String(err));
-              setScoutStatus("error");
+    <div className="w-[92%] max-w-[2000px] mx-auto min-h-0 flex-1 flex flex-col py-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-[auto_1fr_1fr] gap-5 min-h-0 flex-1">
+        {/* Row 1: Hero card */}
+        <div className="xl:col-span-4">
+          <PlayerProfileHeroCardV2
+            player={player}
+            ovr={ovr}
+            primaryRole={primaryRole}
+            age={age}
+            teamName={teamName}
+            teamLogoUrl={teamLogoUrl}
+            annualSuffix={annualSuffix}
+            language={i18n.language}
+            isOwnClub={actualIsOwnClub || !onGameUpdate}
+            scoutAvailability={scoutAvailability}
+            scoutStatus={scoutStatus}
+            scoutError={scoutError}
+            onScout={() => {
+              const availableScout = scoutAvailability.availableScout;
+              if (!availableScout || !onGameUpdate) return;
+              void (async () => {
+                setScoutStatus("sending");
+                setScoutError(null);
+                try {
+                  const updated = await invoke<GameStateData>("send_scout", { scoutId: availableScout.id, playerId: player.id });
+                  onGameUpdate(updated);
+                  setScoutStatus("sent");
+                } catch (err) {
+                  setScoutError(String(err));
+                  setScoutStatus("error");
+                }
+              })();
+            }}
+            insigniaChampionId={topChampions[0]?.championId ?? null}
+            onSelectTeam={onSelectTeam}
+            academyActionLabel={
+              isOwnAcademyPlayer
+                ? t("playerProfile.promoteToMain")
+                : isOwnMainPlayer && managerAcademyTeam
+                  ? t("playerProfile.demoteToAcademy")
+                  : null
             }
-          })();
-        }}
-        onRerollRole={(role) => {
-          void handleRerollRole(role);
-        }}
-        rerollingRole={rerollingRole}
-        insigniaChampionId={topChampions[0]?.championId ?? null}
-        onSelectTeam={onSelectTeam}
-        academyActionLabel={
-          isOwnAcademyPlayer
-            ? t("playerProfile.promoteToMain")
-            : isOwnMainPlayer && managerAcademyTeam
-              ? t("playerProfile.demoteToAcademy")
-              : null
-        }
-        academyActionLoading={academyActionSubmitting}
-        onAcademyAction={
-          isOwnAcademyPlayer || (isOwnMainPlayer && managerAcademyTeam)
-            ? () => {
-                if (!onGameUpdate || academyActionSubmitting) {
-                  return;
-                }
-
-                void (async () => {
-                  setAcademyActionSubmitting(true);
-                  try {
-                    const updated = isOwnAcademyPlayer
-                      ? await promoteAcademyPlayer(player.id)
-                      : await demoteMainPlayerToAcademy(player.id);
-                    onGameUpdate(updated);
-                  } catch {
-                    return;
-                  } finally {
-                    setAcademyActionSubmitting(false);
+            academyActionLoading={academyActionSubmitting}
+            onAcademyAction={
+              isOwnAcademyPlayer || (isOwnMainPlayer && managerAcademyTeam)
+                ? () => {
+                    if (!onGameUpdate || academyActionSubmitting) return;
+                    void (async () => {
+                      setAcademyActionSubmitting(true);
+                      try {
+                        const updated = isOwnAcademyPlayer
+                          ? await promoteAcademyPlayer(player.id)
+                          : await demoteMainPlayerToAcademy(player.id);
+                        onGameUpdate(updated);
+                      } catch { return; }
+                      finally { setAcademyActionSubmitting(false); }
+                    })();
                   }
-                })();
-              }
-            : null
-        }
-        onStartPotentialResearch={
-          onGameUpdate
-            ? () => {
-                if (potentialResearchSubmitting) {
-                  return;
-                }
-
-                void (async () => {
-                  setPotentialResearchSubmitting(true);
-                  try {
-                    const updated = await startPotentialResearch(player.id);
-                    onGameUpdate(updated);
-                  } catch {
-                    return;
-                  } finally {
-                    setPotentialResearchSubmitting(false);
+                : null
+            }
+            onStartPotentialResearch={
+              onGameUpdate
+                ? () => {
+                    if (potentialResearchSubmitting) return;
+                    void (async () => {
+                      setPotentialResearchSubmitting(true);
+                      try {
+                        const updated = await startPotentialResearch(player.id);
+                        onGameUpdate(updated);
+                      } catch { return; }
+                      finally { setPotentialResearchSubmitting(false); }
+                    })();
                   }
-                })();
-              }
-            : undefined
-        }
-        potentialResearchSubmitting={potentialResearchSubmitting}
-        isPotentialResearchBlockedByOther={isPotentialResearchBlockedByOther}
-        onToggleTransferList={
-          onGameUpdate && actualIsOwnClub
-            ? () => {
-                void (async () => {
-                  try {
-                    const updated = await invoke<GameStateData>("toggle_transfer_list", { playerId: player.id });
-                    onGameUpdate(updated);
-                  } catch { /* silent */ }
-                })();
-              }
-            : undefined
-        }
-        onToggleLoanList={
-          onGameUpdate && actualIsOwnClub
-            ? () => {
-                void (async () => {
-                  try {
-                    const updated = await invoke<GameStateData>("toggle_loan_list", { playerId: player.id });
-                    onGameUpdate(updated);
-                  } catch { /* silent */ }
-                })();
-              }
-            : undefined
-        }
-        t={t}
-      />
-
-      {/* Main content grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <PlayerProfileContractCard
-          dateOfBirth={player.date_of_birth}
-          contractEnd={player.contract_end}
-          currentDate={gameState.clock.current_date}
-          condition={player.condition}
-          fitness={player.fitness ?? 75}
-          morale={player.morale}
-          marketValue={player.market_value}
-          wage={player.wage}
-          annualSuffix={annualSuffix}
-          language={i18n.language}
-          contractRiskLevel={contractRiskLevel}
-          contractRiskLabel={contractRiskLabel}
-          isOwnClub={actualIsOwnClub}
-          isTransferWindowOpen={isTransferWindowOpen}
-          transferActionSubmitting={transferActionSubmitting}
-          onOpenRenewal={openRenewalModal}
-          onReleaseContract={handleRequestReleaseContract}
-          onOpenTransferBid={handleOpenTransferOfferModal}
-          t={t}
-        />
-
-        <div className="lg:col-span-2 flex flex-col gap-5">
-          <PlayerProfileAttributesCardV2
-            attrGroups={attrGroups}
-            canViewAttributes={canViewAttributes}
-            title={t("playerProfile.attributes")}
-            averageLabel={t("common.average")}
-            hiddenTitle={t("playerProfile.attributesHidden")}
-            hiddenBody={t("playerProfile.scoutToView")}
+                : undefined
+            }
+            potentialResearchSubmitting={potentialResearchSubmitting}
+            isPotentialResearchBlockedByOther={isPotentialResearchBlockedByOther}
+            onToggleTransferList={
+              onGameUpdate && actualIsOwnClub
+                ? () => { void (async () => { try { const updated = await invoke<GameStateData>("toggle_transfer_list", { playerId: player.id }); onGameUpdate(updated); } catch { /* silent */ } })(); }
+                : undefined
+            }
+            onToggleLoanList={
+              onGameUpdate && actualIsOwnClub
+                ? () => { void (async () => { try { const updated = await invoke<GameStateData>("toggle_loan_list", { playerId: player.id }); onGameUpdate(updated); } catch { /* silent */ } })(); }
+                : undefined
+            }
+            soloqTier={soloqTier}
+            t={t}
           />
-
-          {topChampions.length > 0 ? (
-            <PlayerProfileChampionsCard champions={topChampions} onViewChampion={onViewChampion} />
-          ) : null}
         </div>
 
-      </div>
+        {/* Row 2 */}
+        <div className="xl:row-span-2 xl:col-start-1 xl:row-start-2 grid grid-rows-[1fr] min-h-0 overflow-y-auto">
+          <PlayerProfileChampionsCard champions={topChampions} onViewChampion={onViewChampion} />
+        </div>
 
-      {/* ── Extra info cards ─────────────────────────────── */}
-      <div className="mt-5 space-y-5">
-        {/* Traits */}
-        {player.traits && player.traits.length > 0 && (
+        <div className="xl:col-span-2 xl:col-start-2 xl:row-start-2 grid grid-rows-[1fr] min-h-0 overflow-y-auto">
+          <PlayerProfileAttributesCardV2
+              attrGroups={attrGroups}
+              canViewAttributes={canViewAttributes}
+              title={t("playerProfile.attributes")}
+              averageLabel={t("common.average")}
+              hiddenTitle={t("playerProfile.attributesHidden")}
+              hiddenBody={t("playerProfile.scoutToView")}
+            />
+        </div>
+
+        <div className="xl:col-start-4 xl:row-start-3 grid grid-rows-[1fr] min-h-0 overflow-y-auto rounded-xl border border-border bg-card p-5">
+          <PlayerProfileTeamHistoryCard
+              gameState={gameState}
+              t={t}
+              career={player.career}
+              currentTeamName={teamName}
+            />
+        </div>
+
+        {/* Row 3 */}
+        <div className="xl:col-span-2 xl:col-start-2 xl:row-start-3 grid grid-rows-[1fr] min-h-0 overflow-y-auto">
+          <PlayerProfileMatchHistoryCard
+              history={playerHistory}
+              gameState={gameState}
+              t={t}
+              language={i18n.language}
+            />
+        </div>
+
+        {player.traits && player.traits.length > 0 ? (
           <div className="rounded-xl border border-border bg-card p-5">
             <h4 className="mb-3 font-heading text-sm font-bold uppercase tracking-wider text-muted-foreground">
               {t("playerProfile.traits", { defaultValue: "Rasgos" })}
@@ -1079,27 +1014,25 @@ export default function PlayerProfile({
               ))}
             </div>
           </div>
-        )}
+        ) : null}
 
-        {/* Season stats */}
-        {player.stats && (
-          <PlayerProfileStatsCard stats={player.stats} t={t} />
-        )}
-
-        {/* Career history */}
-        {player.career && player.career.length > 0 && (
-          <PlayerProfileCareerCard career={player.career} gameState={gameState} t={t} />
-        )}
-
-        {/* Match history */}
-        {playerHistory.length > 0 && (
-          <PlayerProfileMatchHistoryCard
-            history={playerHistory}
-            gameState={gameState}
-            t={t}
+        <div className="xl:col-start-4 xl:row-start-2 min-h-0">
+          <PlayerProfileContractCard
+            dateOfBirth={player.date_of_birth}
+            contractEnd={player.contract_end}
+            currentDate={gameState.clock.current_date}
             language={i18n.language}
+            contractRiskLevel={contractRiskLevel}
+            contractRiskLabel={contractRiskLabel}
+            isOwnClub={actualIsOwnClub}
+            isTransferWindowOpen={isTransferWindowOpen}
+            transferActionSubmitting={transferActionSubmitting}
+            onOpenRenewal={openRenewalModal}
+            onReleaseContract={handleRequestReleaseContract}
+            onOpenTransferBid={handleOpenTransferOfferModal}
+            t={t}
           />
-        )}
+        </div>
       </div>
 
       <PlayerProfileRenewalModal

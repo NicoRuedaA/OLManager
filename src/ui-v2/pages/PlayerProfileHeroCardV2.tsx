@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EyeOff, Pencil, Shield, User } from "lucide-react";
+import { EyeOff, Repeat, Search, Shield, ShoppingCart, User } from "lucide-react";
 import type { PlayerData } from "@/store/gameStore";
 import { formatPlayerMarketValue, formatPlayerWage } from "@/lib/playerProfile/helpers";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
@@ -27,8 +27,6 @@ interface PlayerProfileHeroCardV2Props {
   scoutStatus: PlayerProfileScoutStatus;
   scoutError: string | null;
   onScout: () => void;
-  onRerollRole?: (role: UiRole) => void;
-  rerollingRole?: boolean;
   insigniaChampionId?: string | null;
   onSelectTeam?: (id: string) => void;
   onStartPotentialResearch?: () => void;
@@ -56,8 +54,6 @@ export default function PlayerProfileHeroCardV2({
   scoutStatus,
   scoutError,
   onScout,
-  onRerollRole,
-  rerollingRole = false,
   insigniaChampionId = null,
   onSelectTeam,
   onStartPotentialResearch,
@@ -76,7 +72,6 @@ export default function PlayerProfileHeroCardV2({
   const role = primaryRole;
   const playerPhoto = resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url);
   const [insigniaBackground, setInsigniaBackground] = useState<string | null>(null);
-  const [editingRole, setEditingRole] = useState(false);
   const potentialRevealed = player.potential_revealed ?? null;
   const potentialEta = player.potential_research_eta_days ?? null;
   const potentialActive = potentialEta !== null && potentialEta > 0;
@@ -90,7 +85,7 @@ export default function PlayerProfileHeroCardV2({
   }, [insigniaChampionId]);
 
   return (
-    <Card className="mb-5 overflow-hidden">
+    <Card className="overflow-hidden">
       <div className="relative">
         {insigniaBackground ? (
           <>
@@ -101,7 +96,7 @@ export default function PlayerProfileHeroCardV2({
           <div className="absolute inset-0 bg-linear-to-r from-muted/80 to-muted/40" />
         )}
 
-        <CardContent className="relative z-10 flex flex-col gap-5 p-5 md:flex-row">
+        <CardContent className="relative z-10 flex flex-col gap-5 p-5 md:flex-row md:items-center">
           {/* Left: photo + ovr */}
           <div className="flex shrink-0 flex-col items-center gap-2">
             <div className="relative">
@@ -152,44 +147,10 @@ export default function PlayerProfileHeroCardV2({
 
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <img src={ROLE_ICON_PATHS[role]} alt={role} className="size-5 object-contain" title={role} />
-              {player.alternate_positions && player.alternate_positions.length > 0 && (
-                <span className="text-muted-foreground/70">{t("playerProfile.alsoPlays")} {player.alternate_positions.join(", ")}</span>
-              )}
-              {isOwnClub && (
-                <button
-                  type="button"
-                  onClick={() => setEditingRole((prev) => !prev)}
-                  className="inline-flex size-6 items-center justify-center rounded-md border border-white/15 text-foreground/90 transition-colors hover:border-primary/60 hover:text-primary"
-                  title={t("playerProfile.editPosition")}
-                >
-                  <Pencil className="size-3.5" />
-                </button>
-              )}
-              <span className="text-muted-foreground/70">{t("common.age")} {age}</span>
+              {player.alternate_positions && player.alternate_positions.length > 0 && player.alternate_positions.map((altRole) => (
+                <img key={altRole} src={ROLE_ICON_PATHS[altRole as keyof typeof ROLE_ICON_PATHS] ?? ""} alt={altRole} className="size-5 object-contain opacity-40" title={altRole} />
+              ))}
             </div>
-
-            {isOwnClub && editingRole && (
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
-                <p className="mb-2 text-xs text-amber-200">{t("playerProfile.rerollWarning")}</p>
-                <div className="flex flex-wrap gap-2">
-                  {(["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"] as const).map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      disabled={rerollingRole}
-                      onClick={() => { onRerollRole?.(r); setEditingRole(false); }}
-                      className={cn(
-                        "rounded-md border px-2.5 py-1 text-xs font-heading font-bold uppercase tracking-wide transition-colors",
-                        r === role ? "border-primary bg-primary/15 text-primary" : "border-white/15 text-foreground/90 hover:border-primary/60",
-                        rerollingRole && "cursor-not-allowed opacity-60",
-                      )}
-                    >
-                      {r}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
 
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground/70">
               <span className="flex items-center gap-1">
@@ -203,36 +164,43 @@ export default function PlayerProfileHeroCardV2({
                   <span>{teamName}</span>
                 )}
               </span>
-              <button type="button" onClick={onToggleTransferList} disabled={!onToggleTransferList}
-                className={cn("rounded px-1.5 py-0.5 text-[10px] font-heading font-bold uppercase tracking-wider border transition-colors",
-                  player.transfer_listed
-                    ? "border-red-500/30 bg-red-500/10 text-red-400"
-                    : "border-border text-muted-foreground/60 hover:border-red-500/30 hover:text-red-400"
-                )}>
-                {player.transfer_listed ? t("playerProfile.transferListed") : t("squad.addToTransferList", { defaultValue: "Añadir a transferibles" })}
-              </button>
-              <button type="button" onClick={onToggleLoanList} disabled={!onToggleLoanList}
-                className={cn("rounded px-1.5 py-0.5 text-[10px] font-heading font-bold uppercase tracking-wider border transition-colors",
-                  player.loan_listed
-                    ? "border-blue-500/30 bg-blue-500/10 text-blue-400"
-                    : "border-border text-muted-foreground/60 hover:border-blue-500/30 hover:text-blue-400"
-                )}>
-                {player.loan_listed ? t("playerProfile.loanListed") : t("squad.addToLoanList", { defaultValue: "Añadir a cesión" })}
-              </button>
             </div>
 
             {isOwnClub && (
-              <div className="inline-flex items-center gap-3 rounded-lg border border-white/15 bg-black/20 px-3 py-2 text-sm">
+              <div className="inline-flex w-fit items-center gap-3 rounded-lg border border-white/15 bg-black/20 px-3 py-2 text-sm">
                 <span className="font-heading font-bold uppercase tracking-wider text-muted-foreground/70">{t("common.potential")}</span>
                 <span className="font-heading font-bold text-primary">{potentialValueLabel}</span>
                 {potentialActive ? (
                   <span className="text-xs text-muted-foreground/80">{t("playerProfile.potentialResearchProgress", { current: potentialProgress, total: 7 })}</span>
                 ) : canStartPotentialResearch ? (
                   <button type="button" onClick={onStartPotentialResearch} disabled={potentialResearchSubmitting}
-                    className="rounded-md border border-primary/60 px-2 py-1 text-xs font-heading font-bold uppercase tracking-wide text-primary/80 hover:bg-primary/20 disabled:opacity-60">
-                    {t("playerProfile.startPotentialResearch")}
+                    className="rounded-md border border-primary/60 p-1.5 text-primary/80 hover:bg-primary/20 disabled:opacity-60"
+                    title={t("playerProfile.startPotentialResearch")}
+                  >
+                    <Search className="size-3.5" />
                   </button>
                 ) : null}
+                <span className="text-border">|</span>
+                <button type="button" onClick={onToggleTransferList} disabled={!onToggleTransferList}
+                  className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                    player.transfer_listed
+                      ? "border-red-500/30 bg-red-500/10 text-red-400"
+                      : "border-border text-muted-foreground/50 hover:border-red-500/30 hover:text-red-400"
+                  )}
+                  title={t("squad.addToTransferList", { defaultValue: "Add to transfer list" })}
+                >
+                  <ShoppingCart className="size-3.5" />
+                </button>
+                <button type="button" onClick={onToggleLoanList} disabled={!onToggleLoanList}
+                  className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
+                    player.loan_listed
+                      ? "border-blue-500/30 bg-blue-500/10 text-blue-400"
+                      : "border-border text-muted-foreground/50 hover:border-blue-500/30 hover:text-blue-400"
+                  )}
+                  title={t("squad.addToLoanList", { defaultValue: "Add to loan list" })}
+                >
+                  <Repeat className="size-3.5" />
+                </button>
               </div>
             )}
 
@@ -241,7 +209,7 @@ export default function PlayerProfileHeroCardV2({
 
           {/* Right: quick stats */}
           <div className="hidden md:block">
-            <div className="grid grid-cols-2 gap-2">
+             <div className="grid grid-cols-4 gap-2">
               <QuickStatV2 label={t("common.ovr")} value={String(ovr)} color="text-primary" />
               <QuickStatV2 label={t("common.condition")} value={`${player.condition}%`} color={player.condition >= 70 ? "text-emerald-400" : "text-red-400"} />
               <QuickStatV2 label={t("common.fitness")} value={`${player.fitness ?? 75}%`} color={player.fitness != null && player.fitness >= 70 ? "text-emerald-400" : "text-red-400"} />
@@ -249,6 +217,7 @@ export default function PlayerProfileHeroCardV2({
               <QuickStatV2 label={t("common.potential")} value={potentialValueLabel} color="text-foreground/90" icon={potentialRevealed === null ? <EyeOff className="size-4" /> : undefined} />
               <QuickStatV2 label={t("common.value")} value={formatPlayerMarketValue(player.market_value)} color="text-foreground" />
               <QuickStatV2 label={t("common.wage")} value={formatPlayerWage(player.wage, annualSuffix)} color="text-foreground" />
+              <QuickStatV2 label={t("common.age")} value={String(age)} color="text-foreground" />
             </div>
           </div>
         </CardContent>

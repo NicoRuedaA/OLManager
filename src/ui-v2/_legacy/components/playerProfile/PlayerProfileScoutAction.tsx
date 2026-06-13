@@ -21,9 +21,7 @@ export default function PlayerProfileScoutAction({
     const { t } = useTranslation();
 
     if (availability.scouts.length === 0) {
-        return (
-            <p className="text-xs text-muted-foreground">{t("scouting.noScoutsHint")}</p>
-        );
+        return null;
     }
 
     if (availability.alreadyScouting || scoutStatus === "sent") {
