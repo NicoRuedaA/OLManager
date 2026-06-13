@@ -397,32 +397,42 @@ pub fn role_to_canonical(role: &str) -> String {
 pub fn academy_seed_catalog() -> &'static Vec<AcademyTeamSeed> {
     static CATALOG: OnceLock<Vec<AcademyTeamSeed>> = OnceLock::new();
     CATALOG.get_or_init(|| {
-        let cwd = match std::env::current_dir().ok() {
-            Some(d) => d,
-            None => return vec![],
-        };
-        let comps_dir = {
-            let mut d = cwd.clone();
-            d.push("data");
-            d.push("competitions");
-            if d.is_dir() { d }
-            else {
-                d = cwd;
-                d.push("..");
-                d.push("data");
-                d.push("competitions");
-                if d.is_dir() { d } else { return vec![] }
+        let (comps_dir, data_base) = match crate::state::RESOURCE_DATA_DIR.get() {
+            Some(base) => {
+                let mut comps = base.clone();
+                comps.push("competitions");
+                if !comps.is_dir() { return vec![] }
+                (comps, base.clone())
+            }
+            None => {
+                let cwd = match std::env::current_dir().ok() {
+                    Some(d) => d,
+                    None => return vec![],
+                };
+                let comps = {
+                    let mut d = cwd.clone();
+                    d.push("data");
+                    d.push("competitions");
+                    if d.is_dir() { d }
+                    else {
+                        d = cwd;
+                        d.push("..");
+                        d.push("data");
+                        d.push("competitions");
+                        if d.is_dir() { d } else { return vec![] }
+                    }
+                };
+                let data = comps.parent().and_then(|p| {
+                    let d = p.to_path_buf();
+                    if d.join("teams").is_dir() { Some(d) } else { None }
+                }).unwrap_or_else(|| {
+                    let mut d = comps.clone();
+                    d.pop();
+                    d
+                });
+                (comps, data)
             }
         };
-
-        let data_base = comps_dir.parent().and_then(|p| {
-            let d = p.to_path_buf();
-            if d.join("teams").is_dir() { Some(d) } else { None }
-        }).unwrap_or_else(|| {
-            let mut d = comps_dir.clone();
-            d.pop();
-            d
-        });
 
         let entries = match std::fs::read_dir(&comps_dir) {
             Ok(e) => e,
@@ -522,21 +532,28 @@ pub fn academy_erl_catalog() -> &'static [ErlLeagueDefinition] {
 fn catalogs_from_tier2_manifests() -> Vec<ErlLeagueDefinition> {
     use crate::generator::definitions::CompetitionManifest;
 
-    let cwd = match std::env::current_dir().ok() {
-        Some(d) => d,
-        None => return vec![],
-    };
-    let comps_dir = {
-        let mut d = cwd.clone();
-        d.push("data");
-        d.push("competitions");
-        if d.is_dir() { d }
-        else {
-            d = cwd;
-            d.push("..");
-            d.push("data");
+    let comps_dir = match crate::state::RESOURCE_DATA_DIR.get() {
+        Some(base) => {
+            let mut d = base.clone();
             d.push("competitions");
             if d.is_dir() { d } else { return vec![] }
+        }
+        None => {
+            let cwd = match std::env::current_dir().ok() {
+                Some(d) => d,
+                None => return vec![],
+            };
+            let mut d = cwd.clone();
+            d.push("data");
+            d.push("competitions");
+            if d.is_dir() { d }
+            else {
+                d = cwd;
+                d.push("..");
+                d.push("data");
+                d.push("competitions");
+                if d.is_dir() { d } else { return vec![] }
+            }
         }
     };
 

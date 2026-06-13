@@ -580,6 +580,14 @@ pub async fn load_game(
         .map_err(|e| format!("Lock error: {}", e))?;
 
     info!("[cmd] load_game: loading game data from save");
+
+    // Initialize shared resource directory so static catalog functions
+    // (academy, game_setup) can find bundled data in production builds.
+    olm_core::state::RESOURCE_DATA_DIR.get_or_init(|| {
+        crate::commands::competitions::resolve_data_base(&app_handle)
+            .unwrap_or_else(|| PathBuf::from("data"))
+    });
+
     let mut game = sm.load_game(&save_id)?;
     let rehydrated =
         crate::commands::import::rehydrate_game_from_catalog(&app_handle, &mut game);
