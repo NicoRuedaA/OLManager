@@ -166,6 +166,7 @@ pub fn start_potential_research(game: &mut Game, player_id: &str) {
 pub fn release_player_contract(game: &mut Game, player_id: &str) {
     if let Some(p) = game.players.iter_mut().find(|p| p.id == player_id) {
         p.team_id = None;
+        p.was_released = true;
         p.transfer_listed = false;
     }
 }

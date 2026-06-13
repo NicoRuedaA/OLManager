@@ -97,6 +97,11 @@ pub struct Player {
     pub champion_training_targets: Vec<String>,
     #[serde(default)]
     pub can_be_transferred_until: Option<String>,
+    /// Whether this player was released via `release_player_contract`.
+    /// Used to exclude them from end-of-season free agent re-assignment.
+    #[serde(default)]
+    pub was_released: bool,
+
     /// Pre-computed LoL OVR (average of 9 visible stats, 1-99).
     /// Computed by olm_core::potential::calculate_lol_ovr and serialized to frontend.
     #[serde(default)]
@@ -629,6 +634,7 @@ impl Player {
             potential_research_eta_days: None,
             champion_training_targets: Vec::new(),
             can_be_transferred_until: None,
+            was_released: false,
             lol_ovr: 0,
             soloq_lp: 0.0,
         }
@@ -724,6 +730,74 @@ mod tests {
             player.alternate_positions,
             vec![LolRole::Jungle, LolRole::Mid]
         );
+    }
+
+    #[test]
+    fn was_released_flag_serde_roundtrip() {
+        // Serialize a player with was_released=true, deserialize, verify it survives
+        let mut player: Player = serde_json::from_value(serde_json::json!({
+            "id": "p-wr",
+            "match_name": "W. Released",
+            "full_name": "Will Released",
+            "date_of_birth": "2000-01-15",
+            "nationality": "GB",
+            "position": "Top",
+            "natural_position": "Top",
+            "alternate_positions": [],
+            "attributes": sample_attributes(),
+            "condition": 100,
+            "morale": 100,
+            "team_id": null,
+            "traits": [],
+            "contract_end": null,
+            "wage": 0,
+            "market_value": 0,
+            "stats": {},
+            "career": [],
+            "transfer_listed": false,
+            "loan_listed": false,
+            "transfer_offers": [],
+            "morale_core": {},
+            "was_released": true
+        }))
+        .expect("player with was_released=true should deserialize");
+
+        assert!(player.was_released, "was_released should be true after deserialization");
+
+        // Roundtrip through serde
+        let json = serde_json::to_string(&player).expect("should serialize");
+        let restored: Player = serde_json::from_str(&json).expect("should deserialize roundtrip");
+
+        assert!(restored.was_released, "was_released should survive serde roundtrip");
+
+        // Default (missing field) should be false
+        let default_player: Player = serde_json::from_value(serde_json::json!({
+            "id": "p-dflt",
+            "match_name": "D. Fault",
+            "full_name": "Default Fault",
+            "date_of_birth": "2000-01-15",
+            "nationality": "GB",
+            "position": "Top",
+            "natural_position": "Top",
+            "alternate_positions": [],
+            "attributes": sample_attributes(),
+            "condition": 100,
+            "morale": 100,
+            "team_id": null,
+            "traits": [],
+            "contract_end": null,
+            "wage": 0,
+            "market_value": 0,
+            "stats": {},
+            "career": [],
+            "transfer_listed": false,
+            "loan_listed": false,
+            "transfer_offers": [],
+            "morale_core": {}
+        }))
+        .expect("player without was_released should deserialize");
+
+        assert!(!default_player.was_released, "was_released should default to false");
     }
 }
 

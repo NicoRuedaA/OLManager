@@ -1383,3 +1383,162 @@ fn ai_club_transfer_prioritizes_missing_role() {
     );
     assert_eq!(seller.financial_ledger[0].amount, 779_000);
 }
+
+// ---------------------------------------------------------------------------
+// Tests: release_player_contract — was_released flag & academy scenarios
+// ---------------------------------------------------------------------------
+
+#[test]
+fn release_player_contract_sets_was_released_flag() {
+    let mut player = make_user_player("release-test-1");
+    player.wage = 100_000; // non-zero wage so penalty logic is exercised
+
+    let mut game = make_game_with_player(player, vec![], 10_000_000, 5_000_000);
+
+    let penalty = release_player_contract(&mut game, "release-test-1")
+        .expect("release should succeed");
+
+    assert!(penalty > 0, "release penalty should be > 0 for non-zero wage");
+
+    let released = game
+        .players
+        .iter()
+        .find(|p| p.id == "release-test-1")
+        .expect("released player should still be in game");
+
+    assert!(released.was_released, "was_released should be true after release");
+    assert!(released.team_id.is_none(), "team_id should be None after release");
+    assert!(released.contract_end.is_none(), "contract_end should be None after release");
+    assert_eq!(released.wage, 0, "wage should be 0 after release");
+    assert!(!released.transfer_listed, "should not be transfer listed");
+    assert!(!released.loan_listed, "should not be loan listed");
+    assert!(released.transfer_offers.is_empty(), "transfer offers should be cleared");
+}
+
+#[test]
+fn release_player_contract_rejects_non_academy_player_without_contract() {
+    let mut player = make_user_player("release-no-contract");
+    player.contract_end = None; // no active contract
+    player.wage = 100_000;
+
+    let mut game = make_game_with_player(player, vec![], 10_000_000, 5_000_000);
+
+    let err = release_player_contract(&mut game, "release-no-contract")
+        .expect_err("release without contract should fail for non-academy player");
+
+    assert_eq!(err, "Player has no active contract");
+}
+
+#[test]
+fn release_academy_player_without_parent_team_id_succeeds() {
+    let mut player = make_player("academy-no-parent");
+    player.team_id = Some("academy-team".to_string());
+    player.contract_end = Some("2028-06-30".to_string());
+    player.wage = 50_000;
+
+    let clock = GameClock::new(Utc.with_ymd_and_hms(2026, 8, 1, 12, 0, 0).unwrap());
+
+    let mut manager = Manager::new(
+        "manager-1".to_string(),
+        "Jane".to_string(),
+        "Doe".to_string(),
+        "1980-01-01".to_string(),
+        "England".to_string(),
+    );
+    manager.hire("team-1".to_string());
+
+    let mut user_team = make_user_team(10_000_000, 5_000_000);
+    user_team.academy_team_id = Some("academy-team".to_string());
+
+    let mut academy_team = Team::new(
+        "academy-team".to_string(),
+        "Test Academy".to_string(),
+        "TAC".to_string(),
+        "England".to_string(),
+        "London".to_string(),
+        "Academy Ground".to_string(),
+        5_000,
+    );
+    academy_team.team_kind = TeamKind::Academy;
+    // Intentionally do NOT set parent_team_id — this is the bug scenario
+    academy_team.finance = 1_000_000;
+
+    let mut game = Game::new(
+        clock,
+        manager,
+        vec![user_team, academy_team],
+        vec![player],
+        vec![],
+        vec![],
+    );
+    game.season_context.transfer_window.status = TransferWindowStatus::Open;
+
+    let _penalty = release_player_contract(&mut game, "academy-no-parent")
+        .expect("academy player without parent_team_id should be releasable");
+
+    let released = game
+        .players
+        .iter()
+        .find(|p| p.id == "academy-no-parent")
+        .expect("released player should exist");
+
+    assert!(released.was_released);
+    assert!(released.team_id.is_none());
+}
+
+#[test]
+fn release_academy_player_without_contract_end_succeeds() {
+    let mut player = make_player("academy-no-contract");
+    player.team_id = Some("academy-team".to_string());
+    player.contract_end = None; // youth intake — no contract
+    player.wage = 0;
+
+    let clock = GameClock::new(Utc.with_ymd_and_hms(2026, 8, 1, 12, 0, 0).unwrap());
+
+    let mut manager = Manager::new(
+        "manager-1".to_string(),
+        "Jane".to_string(),
+        "Doe".to_string(),
+        "1980-01-01".to_string(),
+        "England".to_string(),
+    );
+    manager.hire("team-1".to_string());
+
+    let mut user_team = make_user_team(10_000_000, 5_000_000);
+    user_team.academy_team_id = Some("academy-team".to_string());
+
+    let mut academy_team = Team::new(
+        "academy-team".to_string(),
+        "Test Academy".to_string(),
+        "TAC".to_string(),
+        "England".to_string(),
+        "London".to_string(),
+        "Academy Ground".to_string(),
+        5_000,
+    );
+    academy_team.team_kind = TeamKind::Academy;
+    academy_team.parent_team_id = Some("team-1".to_string());
+    academy_team.finance = 1_000_000;
+
+    let mut game = Game::new(
+        clock,
+        manager,
+        vec![user_team, academy_team],
+        vec![player],
+        vec![],
+        vec![],
+    );
+    game.season_context.transfer_window.status = TransferWindowStatus::Open;
+
+    let _penalty = release_player_contract(&mut game, "academy-no-contract")
+        .expect("academy player without contract_end should be releasable");
+
+    let released = game
+        .players
+        .iter()
+        .find(|p| p.id == "academy-no-contract")
+        .expect("released player should exist");
+
+    assert!(released.was_released);
+    assert!(released.team_id.is_none());
+}

@@ -338,7 +338,7 @@ pub fn ensure_compatible_schema(conn: &Connection) -> rusqlite::Result<()> {
 }
 
 /// Number of migrations defined. Keep in sync with the vec in `all_migrations`.
-pub const MIGRATION_COUNT: usize = 59;
+pub const MIGRATION_COUNT: usize = 60;
 
 /// All migrations for a per-save game database.
 /// Each save `.db` file gets this schema applied via `rusqlite_migration`.
@@ -464,6 +464,8 @@ pub fn all_migrations() -> Migrations<'static> {
         M::up(include_str!("sql/v044_transfer_history.sql")),
         // V56: Add nickname column to staff (esports handle from import)
         M::up(include_str!("sql/v056_add_staff_nickname.sql")),
+        // V57: Add was_released flag to players (tracks contract termination)
+        M::up(include_str!("sql/v057_add_was_released.sql")),
     ])
 }
 

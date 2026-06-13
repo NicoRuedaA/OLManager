@@ -147,6 +147,7 @@ fn make_completed_season_game() -> Game {
         season: 1,
         competition_id: None,
         league_kind: LeagueKind::Main,
+        split_index: 0,
         fixtures,
         standings,
     };
@@ -1232,5 +1233,147 @@ fn season_end_board_message_top_four_uses_correct_body_key() {
     assert!(
         msg.i18n_params.contains_key("suffix"),
         "topFour key must include suffix param"
+    );
+}
+
+// ---------------------------------------------------------------------------
+// was_released filter tests
+// ---------------------------------------------------------------------------
+
+#[test]
+fn replenish_depleted_rosters_excludes_was_released_players() {
+    // Build a game where team1 has only 2 players (needs 3 free agents)
+    // and adds: 1 with was_released=true, 2 without. Only non-released should
+    // be assigned.
+    let date = Utc.with_ymd_and_hms(2026, 6, 1, 12, 0, 0).unwrap();
+    let clock = GameClock::new(date);
+
+    let mut manager = Manager::new(
+        "mgr-wr".to_string(),
+        "Test".to_string(),
+        "Manager".to_string(),
+        "1980-01-01".to_string(),
+        "England".to_string(),
+    );
+    manager.hire("team1".to_string());
+
+    fn make_free_agent(id: &str, was_released: bool) -> Player {
+        let attrs = PlayerAttributes {
+            mental_resilience: 60, champion_pool: 60, laning: 60,
+            mechanics: 60, macro_play: 60, consistency: 60,
+            discipline: 60, teamfighting: 60, shotcalling: 60,
+        };
+        let mut p = Player::new(
+            id.to_string(),
+            id.to_string(),
+            format!("Full {}", id),
+            "2000-01-01".to_string(),
+            "GB".to_string(),
+            LolRole::Adc,
+            attrs,
+        );
+        p.team_id = None;
+        p.contract_end = None;
+        p.wage = 0;
+        p.morale = 70;
+        p.condition = 90;
+        p.was_released = was_released;
+        p
+    }
+
+    // team1 only has 2 players — needs 3 more
+    let mut p1 = make_player("p-existing-1", "Existing1", "team1", LolRole::Top);
+    p1.contract_end = Some("2027-06-30".to_string());
+    p1.wage = 100_000;
+    let mut p2 = make_player("p-existing-2", "Existing2", "team1", LolRole::Jungle);
+    p2.contract_end = Some("2027-06-30".to_string());
+    p2.wage = 100_000;
+
+    // team2 has 5 players — won't need free agents
+    let mut team2_players = Vec::new();
+    for i in 0..5 {
+        let mut p = make_player(
+            &format!("p-team2-{}", i),
+            &format!("Team2Player{}", i),
+            "team2",
+            LolRole::Adc,
+        );
+        p.contract_end = Some("2027-06-30".to_string());
+        p.wage = 100_000;
+        team2_players.push(p);
+    }
+
+    // Free agents: 3 total — 1 released, 2 available
+    let mut players = vec![p1, p2];
+    players.extend(team2_players);
+    players.push(make_free_agent("fa-released", true));
+    players.push(make_free_agent("fa-available-1", false));
+    players.push(make_free_agent("fa-available-2", false));
+
+    let team1 = make_team("team1", "Needy FC");
+    let team2 = make_team("team2", "Full FC");
+
+    let mut game = Game::new(
+        clock,
+        manager,
+        vec![team1, team2],
+        players,
+        vec![],
+        vec![],
+    );
+
+    // Add a completed league so process_end_of_season runs fully
+    let fixtures = vec![
+        make_completed_fixture("f1", "team1", "team2", 2, 1),
+        make_completed_fixture("f2", "team2", "team1", 0, 1),
+    ];
+    let standings = vec![
+        make_standing("team1", 2, 0, 3, 1),
+        make_standing("team2", 0, 2, 1, 3),
+    ];
+    game.leagues = vec![League {
+        id: "league-wr".to_string(),
+        name: "Test League".to_string(),
+        logo: None,
+        season: 2026,
+        competition_id: None,
+        league_kind: LeagueKind::Main,
+        split_index: 0,
+        fixtures,
+        standings,
+    }];
+
+    process_end_of_season(&mut game);
+
+    // was_released player should NOT be assigned
+    let fa_released = game
+        .players
+        .iter()
+        .find(|p| p.id == "fa-released")
+        .expect("released free agent should exist");
+    assert!(
+        fa_released.team_id.is_none(),
+        "was_released=true free agent should NOT be assigned"
+    );
+
+    // Non-released free agents SHOULD be assigned (needy team needs 3)
+    let fa_avail_1 = game
+        .players
+        .iter()
+        .find(|p| p.id == "fa-available-1")
+        .expect("available free agent 1 should exist");
+    let fa_avail_2 = game
+        .players
+        .iter()
+        .find(|p| p.id == "fa-available-2")
+        .expect("available free agent 2 should exist");
+
+    assert!(
+        fa_avail_1.team_id.is_some(),
+        "was_released=false free agent 1 SHOULD be assigned"
+    );
+    assert!(
+        fa_avail_2.team_id.is_some(),
+        "was_released=false free agent 2 SHOULD be assigned"
     );
 }

@@ -838,6 +838,7 @@ fn replenish_depleted_rosters(game: &mut Game) {
                 p.team_id.is_none()
                     && p.contract_end.is_none()
                     && p.wage == 0
+                    && !p.was_released
                     && p.transfer_offers.is_empty()
             });
 

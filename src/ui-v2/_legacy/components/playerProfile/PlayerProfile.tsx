@@ -287,6 +287,7 @@ export default function PlayerProfile({
   const [scoutError, setScoutError] = useState<string | null>(null);
   const [showRenewalModal, setShowRenewalModal] = useState(false);
   const [showReleaseContractModal, setShowReleaseContractModal] = useState(false);
+  const [releaseContractError, setReleaseContractError] = useState<string | null>(null);
   const [showTransferOfferModal, setShowTransferOfferModal] = useState(false);
   const [transferActionSubmitting, setTransferActionSubmitting] = useState(false);
   const [transferOfferAmount, setTransferOfferAmount] = useState("");
@@ -514,13 +515,17 @@ export default function PlayerProfile({
     }
 
     setTransferActionSubmitting(true);
+    setReleaseContractError(null);
     try {
       const updated = await releasePlayerContract(player.id);
       onGameUpdate(updated);
       setShowReleaseContractModal(false);
       onClose();
     } catch (error) {
-      console.error("Failed to release player contract:", error);
+      const msg = typeof error === "string"
+        ? error
+        : error instanceof Error ? error.message : String(error);
+      setReleaseContractError(msg);
     } finally {
       setTransferActionSubmitting(false);
     }
@@ -1135,6 +1140,11 @@ export default function PlayerProfile({
             <p className="text-sm text-foreground/70">
               {t("playerProfile.releaseContractConfirm")}
             </p>
+            {releaseContractError ? (
+              <p className="rounded-md border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-200">
+                {releaseContractError}
+              </p>
+            ) : null}
             <div className="rounded-lg border border-border bg-muted/40 p-3">
               <p className="text-xs font-heading font-bold uppercase tracking-wider text-muted-foreground">
                 {t("playerProfile.releasePenalty", { defaultValue: "Termination cost" })}
@@ -1146,7 +1156,7 @@ export default function PlayerProfile({
             <div className="flex gap-2 justify-end">
               <Button
                 variant="ghost"
-                onClick={() => setShowReleaseContractModal(false)}
+                onClick={() => { setShowReleaseContractModal(false); setReleaseContractError(null); }}
                 disabled={transferActionSubmitting}
               >
                 {t("common.cancel")}

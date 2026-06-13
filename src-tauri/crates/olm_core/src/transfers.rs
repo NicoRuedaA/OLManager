@@ -2631,9 +2631,7 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
     let mut managed_team_ids = std::collections::HashSet::new();
     managed_team_ids.insert(user_team_id.clone());
     for team in &game.teams {
-        if team.team_kind == TeamKind::Academy
-            && team.parent_team_id.as_deref() == Some(&user_team_id)
-        {
+        if team.team_kind == TeamKind::Academy {
             managed_team_ids.insert(team.id.clone());
         }
     }
@@ -2657,7 +2655,13 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
             return Err("Player not found or not yours".to_string());
         }
 
-        if player.contract_end.is_none() {
+        // Academy players (youth intake) may have no contract_end — skip guard.
+        let is_academy = game
+            .teams
+            .iter()
+            .any(|t| t.id == owning_team_id && t.team_kind == TeamKind::Academy);
+
+        if !is_academy && player.contract_end.is_none() {
             return Err("Player has no active contract".to_string());
         }
 
@@ -2674,27 +2678,29 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
         .find(|team| team.id == owning_team_id)
         .ok_or_else(|| "Owning team not found".to_string())?;
 
-    if team.finance < penalty {
-        return Err(format!(
-            "Insufficient funds for contract termination: need €{}",
-            penalty
-        ));
-    }
+    if penalty > 0 {
+        if team.finance < penalty {
+            return Err(format!(
+                "Insufficient funds for contract termination: need €{}",
+                penalty
+            ));
+        }
 
-    record_transaction(
-        team,
-        FinanceTransactionInput {
-            date: today.clone(),
-            description: format!("Contract termination penalty for {player_name}"),
-            amount: -penalty,
-            kind: FinancialTransactionKind::ReleasePenalty,
-            budget_impact: BudgetImpact::None,
-            affects_season_totals: true,
-            source: "transfer".to_string(),
-            source_id: Some(player_id.to_string()),
-            correlation_id: Some(format!("release:{owning_team_id}:{player_id}:{today}")),
-        },
-    ).map_err(|err| format!("Failed to record release penalty: {err:?}"))?;
+        record_transaction(
+            team,
+            FinanceTransactionInput {
+                date: today.clone(),
+                description: format!("Contract termination penalty for {player_name}"),
+                amount: -penalty,
+                kind: FinancialTransactionKind::ReleasePenalty,
+                budget_impact: BudgetImpact::None,
+                affects_season_totals: true,
+                source: "transfer".to_string(),
+                source_id: Some(player_id.to_string()),
+                correlation_id: Some(format!("release:{owning_team_id}:{player_id}:{today}")),
+            },
+        ).map_err(|err| format!("Failed to record release penalty: {err:?}"))?;
+    }
     remove_player_from_team_references(team, player_id);
 
     if let Some(player) = game
@@ -2705,6 +2711,7 @@ pub fn release_player_contract(game: &mut Game, player_id: &str) -> Result<i64, 
         player.team_id = None;
         player.contract_end = None;
         player.wage = 0;
+        player.was_released = true;
         player.transfer_listed = false;
         player.loan_listed = false;
         player.transfer_offers.clear();

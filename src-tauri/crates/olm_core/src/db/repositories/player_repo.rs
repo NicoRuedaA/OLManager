@@ -29,8 +29,9 @@ pub fn upsert_player(conn: &Connection, p: &Player) -> Result<(), String> {
            contract_end, wage, market_value, stats, career,
            transfer_listed, loan_listed, transfer_offers, alternate_positions,
            natural_position, training_focus, morale_core, footedness, fitness,
-           potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url)
-           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31)",
+            potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url,
+            was_released)
+            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26, ?27, ?28, ?29, ?30, ?31, ?32)",
         params![
             p.id,
             p.match_name,
@@ -63,6 +64,7 @@ pub fn upsert_player(conn: &Connection, p: &Player) -> Result<(), String> {
             p.potential_research_started_on,
             p.potential_research_eta_days,
             p.profile_image_url,
+            p.was_released as i32,
         ],
     )
     .map_err(|e| format!("Failed to upsert player: {}", e))?;
@@ -130,7 +132,8 @@ pub fn load_all_players(conn: &Connection) -> Result<Vec<Player>, String> {
                     contract_end, wage, market_value, stats, career,
                     transfer_listed, loan_listed, transfer_offers, alternate_positions,
                     natural_position, training_focus, morale_core, footedness, weak_foot, fitness,
-                    potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url
+                    potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url,
+                    was_released
              FROM players",
         )
         .map_err(|e| {
@@ -180,7 +183,8 @@ pub fn load_players_by_team(conn: &Connection, team_id: &str) -> Result<Vec<Play
                     contract_end, wage, market_value, stats, career,
                     transfer_listed, loan_listed, transfer_offers, alternate_positions,
                     natural_position, training_focus, morale_core, footedness, weak_foot, fitness,
-                    potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url
+                    potential_base, potential_revealed, potential_research_started_on, potential_research_eta_days, profile_image_url,
+                    was_released
              FROM players WHERE team_id = ?1",
         )
         .map_err(|e| format!("Failed to prepare players query: {}", e))?;
@@ -215,6 +219,7 @@ fn row_to_player(row: &rusqlite::Row) -> rusqlite::Result<Player> {
     let potential_research_started_on: Option<String> = row.get(29).unwrap_or(None);
     let potential_research_eta_days: Option<u8> = row.get(30).unwrap_or(None);
     let profile_image_url: Option<String> = row.get(31).unwrap_or(None);
+    let was_released_int: i32 = row.get(32).unwrap_or(0);
     let transfer_listed_int: i32 = row.get(17)?;
     let loan_listed_int: i32 = row.get(18)?;
     let market_value_i64: i64 = row.get(14)?;
@@ -267,6 +272,7 @@ fn row_to_player(row: &rusqlite::Row) -> rusqlite::Result<Player> {
         potential_revealed,
         potential_research_started_on,
         potential_research_eta_days,
+        was_released: was_released_int != 0,
         champion_training_targets: Vec::new(),
         can_be_transferred_until: None,
         lol_ovr: 0,
