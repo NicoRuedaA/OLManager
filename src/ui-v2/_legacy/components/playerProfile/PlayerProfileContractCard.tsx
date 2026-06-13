@@ -41,15 +41,15 @@ export default function PlayerProfileContractCard({
     return (
         <Card className="flex flex-col h-full">
             <CardHeader>{t("playerProfile.contractInfo")}</CardHeader>
-            <CardBody className="min-h-0 flex-1 overflow-y-auto scrollbar-v2">
+            <CardBody className="min-h-0 flex-1">
                 <div className="flex flex-col gap-3">
                     <InfoRow
-                        icon={<Calendar className="w-4 h-4" />}
+                        icon={<Calendar className="w-3.5 h-3.5" />}
                         label={t("playerProfile.dateOfBirth")}
                         value={formatDate(dateOfBirth, language)}
                     />
                     <InfoRow
-                        icon={<Briefcase className="w-4 h-4" />}
+                        icon={<Briefcase className="w-3.5 h-3.5" />}
                         label={t("common.contract")}
                         value={
                             contractEnd
@@ -58,15 +58,15 @@ export default function PlayerProfileContractCard({
                         }
                     />
                     <InfoRow
-                        icon={<Calendar className="w-4 h-4" />}
+                        icon={<Calendar className="w-3.5 h-3.5" />}
                         label={t("playerProfile.yearsRemaining")}
                         value={getContractYearsRemaining(contractEnd, currentDate)}
                     />
                     <InfoRow
-                        icon={<Briefcase className="w-4 h-4" />}
+                        icon={<Briefcase className="w-3.5 h-3.5" />}
                         label={t("playerProfile.contractRisk")}
                         value={
-                            <Badge variant={getContractRiskBadgeVariant(contractRiskLevel)}>
+                            <Badge variant={getContractRiskBadgeVariant(contractRiskLevel)} className="text-[10px]">
                                 {contractRiskLabel}
                             </Badge>
                         }
@@ -74,18 +74,19 @@ export default function PlayerProfileContractCard({
                 </div>
                 {isOwnClub ? (
                     <div className="pt-3 flex flex-wrap gap-2 justify-center">
-                        <Button size="sm" variant="outline" onClick={onOpenRenewal}>
-                            {t("common.renewContract")}
-                        </Button>
-                        {isTransferWindowOpen ? (
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={onReleaseContract}
-                                disabled={transferActionSubmitting}
-                            >
-                                {t("playerProfile.releaseContract")}
+<Button size="sm" variant="outline" onClick={onOpenRenewal} className="text-[10px]">
+                                {t("common.renewContract")}
                             </Button>
+                            {isTransferWindowOpen ? (
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={onReleaseContract}
+                                    disabled={transferActionSubmitting}
+                                    className="text-[10px]"
+                                >
+                                    {t("playerProfile.releaseContract")}
+                                </Button>
                         ) : null}
                     </div>
                 ) : isTransferWindowOpen ? (
@@ -95,6 +96,7 @@ export default function PlayerProfileContractCard({
                             variant="outline"
                             onClick={onOpenTransferBid}
                             disabled={transferActionSubmitting}
+                            className="text-[10px]"
                         >
                             {t("playerProfile.makeTransferOffer")}
                         </Button>
@@ -117,10 +119,10 @@ function InfoRow({
     return (
         <div className="flex items-center gap-3 py-2 border-b border-border/60 last:border-0">
             <div className="text-muted-foreground/70">{icon}</div>
-            <span className="text-sm text-muted-foreground flex-1">
+            <span className="text-xs text-muted-foreground flex-1">
                 {label}
             </span>
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-xs font-semibold text-foreground">
                 {value}
             </span>
         </div>
