@@ -85,8 +85,8 @@ export default function PlayerProfileHeroCardV2({
   }, [insigniaChampionId]);
 
   return (
-    <Card className="overflow-hidden">
-      <div className="relative">
+    <Card className="overflow-hidden h-full">
+      <div className="relative flex flex-1 flex-col">
         {insigniaBackground ? (
           <>
             <div className="absolute inset-0 bg-cover" style={{ backgroundImage: `url(${insigniaBackground})`, backgroundPosition: "center 12%" }} />
@@ -96,7 +96,7 @@ export default function PlayerProfileHeroCardV2({
           <div className="absolute inset-0 bg-linear-to-r from-muted/80 to-muted/40" />
         )}
 
-        <CardContent className="relative z-10 flex flex-col gap-5 p-5 md:flex-row md:items-center">
+        <CardContent className="relative z-10 flex flex-1 flex-col justify-center gap-5 px-9 py-5 md:flex-row md:items-center">
           {/* Left: photo + ovr */}
           <div className="flex shrink-0 flex-col items-center gap-2">
             <div className="relative">
@@ -118,20 +118,7 @@ export default function PlayerProfileHeroCardV2({
                   </div>
                 )}
               </div>
-              <div className="absolute -bottom-2 right-0 rounded-lg border border-border bg-card px-2 py-0.5 font-heading text-lg font-bold leading-none text-primary">
-                {ovr}
-              </div>
             </div>
-            {isOwnClub && academyActionLabel && onAcademyAction && (
-              <button
-                type="button"
-                onClick={onAcademyAction}
-                disabled={academyActionLoading}
-                className="rounded-md border border-primary/30 bg-primary/10 px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
-              >
-                {academyActionLoading ? "..." : academyActionLabel}
-              </button>
-            )}
           </div>
 
           {/* Center: name + details */}
@@ -180,6 +167,16 @@ export default function PlayerProfileHeroCardV2({
                     <Search className="size-3.5" />
                   </button>
                 ) : null}
+                {isOwnClub && academyActionLabel && onAcademyAction && (
+                  <>
+                    <span className="text-border">|</span>
+                    <button type="button" onClick={onAcademyAction} disabled={academyActionLoading}
+                      className="rounded-md border border-primary/30 bg-primary/10 px-2 py-1 text-[10px] font-heading font-bold uppercase tracking-wider text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
+                    >
+                      {academyActionLoading ? "..." : academyActionLabel}
+                    </button>
+                  </>
+                )}
                 <span className="text-border">|</span>
                 <button type="button" onClick={onToggleTransferList} disabled={!onToggleTransferList}
                   className={cn("flex size-7 items-center justify-center rounded-md border transition-colors",
