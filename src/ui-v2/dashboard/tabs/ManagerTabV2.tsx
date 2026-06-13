@@ -29,7 +29,6 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
   const displayName = mgr.nickname?.trim() || fullName;
 
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [isSavingAvatar, setIsSavingAvatar] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({ nickname: "", firstName: "", lastName: "", dob: "", nationality: "" });
@@ -88,13 +87,15 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
   );
 
   const handleSelectAvatar = async (avatarPath: string) => {
-    setIsSavingAvatar(true);
+    const previousPath = mgr.avatar_path;
+    setGameState({ ...gameState, manager: { ...mgr, avatar_path: avatarPath } });
+    setShowAvatarPicker(false);
     try {
       await invoke("update_manager_profile", { nickname: null, firstName: null, lastName: null, dob: null, nationality: null, avatarPath });
-      setGameState({ ...gameState, manager: { ...mgr, avatar_path: avatarPath } });
-      setShowAvatarPicker(false);
-    } catch (e) { console.error("Failed to update avatar:", e); }
-    finally { setIsSavingAvatar(false); }
+    } catch (e) {
+      console.error("Failed to update avatar:", e);
+      setGameState({ ...gameState, manager: { ...mgr, avatar_path: previousPath } });
+    }
   };
 
   const handleOpenSettings = () => {
@@ -470,9 +471,6 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
                 <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
               </button>
             </div>
-            {isSavingAvatar ? (
-              <p className="py-8 text-center text-sm text-muted-foreground">{t("common.saving")}</p>
-            ) : (
               <div className="grid max-h-80 grid-cols-6 gap-3 overflow-y-auto p-1">
                 {MANAGER_ICON_PATHS.map((path) => (
                   <button
@@ -488,7 +486,6 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
                   </button>
                 ))}
               </div>
-            )}
           </div>
         </div>
       )}

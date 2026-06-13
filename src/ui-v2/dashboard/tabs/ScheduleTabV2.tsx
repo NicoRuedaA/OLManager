@@ -252,6 +252,10 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
                     return f.home_team_id === userTeamId ? score.home > score.away : score.away > score.home;
                   })();
 
+                  const killScore = completed && f.result?.report
+                    ? { home: f.result.report.home_stats.kills, away: f.result.report.away_stats.kills }
+                    : null;
+
                   return (
                     <div key={f.id}
                       className={cn(
@@ -278,7 +282,14 @@ export function ScheduleTabV2({ gameState, onSelectTeam }: Props) {
 
                       {/* Score / VS */}
                       <div className="flex w-16 shrink-0 items-center justify-center md:w-20">
-                        {score ? (
+                        {killScore ? (
+                          <span className={cn(
+                            "font-heading text-xl font-black tabular-nums md:text-2xl",
+                            userWon === true ? "text-emerald-400" : userWon === false ? "text-red-400" : "text-foreground",
+                          )}>
+                            {killScore.home} - {killScore.away}
+                          </span>
+                        ) : score ? (
                           <span className={cn(
                             "font-heading text-xl font-black tabular-nums md:text-2xl",
                             userWon === true ? "text-emerald-400" : userWon === false ? "text-red-400" : "text-foreground",

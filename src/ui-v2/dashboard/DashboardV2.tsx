@@ -403,7 +403,6 @@ export default function DashboardV2() {
         activeTab={profileNavigation.activeTab}
         onNavClick={handleNavClick}
         unreadMessagesCount={unreadMessagesCount}
-        managerFullName={`${gameState?.manager.first_name ?? ""} ${gameState?.manager.last_name ?? ""}`.trim() || null}
         managerName={liveManagerName}
         managerAvatar={managerAvatar}
         teamName={myTeamName}
@@ -463,7 +462,7 @@ export default function DashboardV2() {
         !profileNavigation.selectedTeamId &&
         !seasonComplete ? (
           <div className="flex-1 overflow-y-auto scrollbar-v2">
-            <HomeTabV2 gameState={gameState} onNavigate={handleNavigate} onSelectPlayer={selectPlayer} />
+            <HomeTabV2 gameState={gameState} onNavigate={handleNavigate} onSelectPlayer={selectPlayer} onSelectTeam={selectTeam} />
           </div>
         ) : profileNavigation.activeTab === "Inbox" &&
           !viewingChampionKey &&

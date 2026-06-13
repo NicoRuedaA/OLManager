@@ -460,7 +460,7 @@ export function SoloqTabV2({ gameState, onGameUpdate, onSelectPlayer }: SoloqTab
                 </div>
               </div>
 
-              <div className="grid gap-2 md:grid-cols-3">
+              <div className="grid gap-2 md:grid-cols-3" onClick={(e) => e.stopPropagation()}>
                 {targets.map((target, slotIndex) => {
                   const masteryValue = target
                     ? masteryMap.get(`${player.id}:${normalizeKey(target)}`) ?? 25
@@ -530,6 +530,17 @@ export function SoloqTabV2({ gameState, onGameUpdate, onSelectPlayer }: SoloqTab
                       <div className="mt-1 flex gap-2 text-[10px] text-muted-foreground">
                         <span className="tabular-nums">M{masteryValue}</span>
                         <span className="tabular-nums">SoloQ x{soloQMult.toFixed(1)}</span>
+                      </div>
+
+                      <div className="mt-3 grid grid-cols-2 gap-1">
+                        <div className="rounded-md bg-black/40 px-2 py-1 text-center">
+                          <div className="text-[10px] uppercase tracking-wider text-white/60">{t("common.condition")}</div>
+                          <div className="font-heading text-sm font-bold tabular-nums text-emerald-400">{player.condition}%</div>
+                        </div>
+                        <div className="rounded-md bg-black/40 px-2 py-1 text-center">
+                          <div className="text-[10px] uppercase tracking-wider text-white/60">{t("common.morale")}</div>
+                          <div className="font-heading text-sm font-bold tabular-nums text-amber-400">{player.morale}%</div>
+                        </div>
                       </div>
                     </div>
                     </div>

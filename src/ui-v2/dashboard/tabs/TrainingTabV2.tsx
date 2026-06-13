@@ -7,7 +7,6 @@ import {
   Crosshair,
   Feather,
   Flame,
-  Gauge,
   HeartPulse,
   Info,
   Scale,
@@ -167,7 +166,8 @@ export function TrainingTabV2({
   onSelectPlayer,
 }: TrainingTabV2Props) {
   const { t } = useTranslation();
-  const [isSaving, setIsSaving] = useState(false);
+  const [scheduleSaving, setScheduleSaving] = useState(false);
+  const [trainingSaving, setTrainingSaving] = useState(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
   const [newGroupFocus, setNewGroupFocus] = useState(DEFAULT_TRAINING_FOCUS);
@@ -301,39 +301,39 @@ export function TrainingTabV2({
 
   // ─── Handlers ─────────────────────────────────────────────────
   const handleSetTraining = async (focus: string, intensity: string) => {
-    setIsSaving(true);
+    setTrainingSaving(true);
     try {
       const updated = await setTraining(focus, intensity);
       onGameUpdate(updated);
     } catch (error) {
       console.error("Failed to set training:", error);
     } finally {
-      setIsSaving(false);
+      setTrainingSaving(false);
     }
   };
 
   const handleSetSchedule = async (schedule: string) => {
-    setIsSaving(true);
+    setScheduleSaving(true);
     try {
       const updated = await setTrainingSchedule(schedule);
       onGameUpdate(updated);
     } catch (error) {
       console.error("Failed to set schedule:", error);
     } finally {
-      setIsSaving(false);
+      setScheduleSaving(false);
     }
   };
 
   const saveGroups = useCallback(
     async (nextGroups: TrainingGroupData[]) => {
-      setIsSaving(true);
+      setTrainingSaving(true);
       try {
         const updated = await setTrainingGroups(nextGroups);
         onGameUpdate(updated);
       } catch (error) {
         console.error("Failed to save training groups:", error);
       } finally {
-        setIsSaving(false);
+        setTrainingSaving(false);
       }
     },
     [onGameUpdate],
@@ -485,9 +485,6 @@ export function TrainingTabV2({
           <TabsTrigger value="training">
             {t("training.tab.training", { defaultValue: "Entrenamiento" })}
           </TabsTrigger>
-          <TabsTrigger value="soloq">
-            {t("training.tab.soloq", { defaultValue: "SoloQ" })}
-          </TabsTrigger>
         </TabsList>
 
         {/* ═══ Tab: Training Settings ═══ */}
@@ -559,43 +556,42 @@ export function TrainingTabV2({
                     <button
                       key={scheduleId}
                       type="button"
-                      disabled={isSaving}
+                      disabled={scheduleSaving}
                       onClick={() => handleSetSchedule(scheduleId)}
                       className={cn(
-                        "flex flex-1 flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all",
+                        "flex flex-1 flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
                         isActive
-                          ? "border-primary bg-primary/10"
+                          ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
-                        isSaving && "pointer-events-none opacity-60",
+                        scheduleSaving && "pointer-events-none opacity-60",
                       )}
                     >
-                      <div
-                        className={cn(
-                          "text-primary",
-                          isActive && "text-primary",
-                        )}
-                      >
-                        {SCHEDULE_ICONS[scheduleId]}
+                      <div className="flex items-center gap-2">
+                        <div className={cn("text-primary", isActive && "text-primary")}>
+                          {SCHEDULE_ICONS[scheduleId]}
+                        </div>
+                        <div className="flex-1">
+                          <p className="font-heading text-sm font-bold uppercase tracking-wider text-foreground">
+                            {t(`training.schedules.${scheduleId}.label`)}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {dayCount}{" "}
+                            {t("training.daysPerWeek", {
+                              defaultValue: "days/week",
+                            })}
+                          </p>
+                        </div>
                       </div>
-                      <p className="font-heading text-sm font-bold uppercase tracking-wider text-foreground">
-                        {t(`training.schedules.${scheduleId}.label`)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {dayCount}{" "}
-                        {t("training.daysPerWeek", {
-                          defaultValue: "days/week",
-                        })}
-                      </p>
                       {/* Day indicator dots */}
-                      <div className="flex gap-1">
+                      <div className="flex gap-1.5">
                         {dayShortLabels.map((label, idx) => (
                           <span
                             key={idx}
                             className={cn(
-                              "flex size-4 items-center justify-center rounded-full text-[8px] font-heading font-bold",
+                              "flex size-5 items-center justify-center rounded-full text-[9px] font-heading font-bold transition-all",
                               activeDays.includes(idx)
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted text-muted-foreground/50",
+                                ? "bg-primary text-primary-foreground shadow-sm shadow-primary/30"
+                                : "bg-muted text-muted-foreground/40",
                             )}
                           >
                             {label}
@@ -644,19 +640,19 @@ export function TrainingTabV2({
                     <button
                       key={focusId}
                       type="button"
-                      disabled={isSaving}
+                      disabled={trainingSaving}
                       onClick={() =>
                         handleSetTraining(focusId, currentIntensity)
                       }
                       className={cn(
-                        "flex flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all",
+                        "flex flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
                         isActive
-                          ? "border-primary bg-primary/10"
+                          ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
-                        isSaving && "pointer-events-none opacity-60",
+                        trainingSaving && "pointer-events-none opacity-60",
                       )}
                     >
-                      <div className="text-muted-foreground">
+                      <div className={cn("transition-colors", isActive ? "text-primary" : "text-muted-foreground")}>
                         {TRAINING_FOCUS_ICONS[focusId]}
                       </div>
                       <p className="font-heading text-sm font-bold uppercase tracking-wider text-foreground">
@@ -670,7 +666,10 @@ export function TrainingTabV2({
                           {attrs.map((attr) => (
                             <span
                               key={attr}
-                              className="rounded bg-muted px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider text-muted-foreground"
+                              className={cn(
+                                "rounded px-1.5 py-0.5 font-heading text-[10px] uppercase tracking-wider transition-colors",
+                                isActive ? "bg-primary/15 text-primary/90" : "bg-muted text-muted-foreground",
+                              )}
                             >
                               {statLabel(attr)}
                             </span>
@@ -681,30 +680,32 @@ export function TrainingTabV2({
                   );
                 })}
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Intensity row */}
-              <div className="mt-5 border-t border-border pt-4">
-                <div className="mb-3 flex items-center gap-2">
-                  <Gauge className="size-4 text-muted-foreground" />
-                  <span className="font-heading text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                    {t("training.intensity", { defaultValue: "Intensity" })}
-                  </span>
-                </div>
-                <div className="flex gap-3">
-                  {INTENSITY_IDS.map((intensityId) => (
+          {/* ── Intensity Card ────────────────────────────────────── */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-heading text-sm uppercase tracking-widest text-muted-foreground">
+                {t("training.intensity", { defaultValue: "Intensity" })}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-3">
+                {INTENSITY_IDS.map((intensityId) => (
                     <button
                       key={intensityId}
                       type="button"
-                      disabled={isSaving}
+                      disabled={trainingSaving}
                       onClick={() =>
                         handleSetTraining(currentFocus, intensityId)
                       }
                       className={cn(
-                        "flex-1 rounded-lg border-2 py-5 px-3 text-left transition-all",
+                        "flex-1 rounded-lg border-2 py-4 px-3 text-left transition-all duration-150",
                         currentIntensity === intensityId
-                          ? "border-primary bg-primary/10"
+                          ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
-                        isSaving && "pointer-events-none opacity-60",
+                        trainingSaving && "pointer-events-none opacity-60",
                       )}
                     >
                       <p
@@ -751,7 +752,6 @@ export function TrainingTabV2({
                     </>
                   )}
                 </p>
-              </div>
             </CardContent>
           </Card>
         </div>
@@ -902,7 +902,7 @@ export function TrainingTabV2({
                       <button
                         type="button"
                         onClick={() => handleDeleteGroup(group.id)}
-                        disabled={isSaving}
+                        disabled={trainingSaving}
                         className="ml-1 flex size-4 items-center justify-center rounded-full text-muted-foreground/50 hover:bg-red-500/20 hover:text-red-400 transition-colors"
                       >
                         <X className="size-3" />
@@ -1033,11 +1033,11 @@ export function TrainingTabV2({
                               onChange={(e) =>
                                 setPlayerGroup(player.id, e.target.value)
                               }
-                              disabled={isSaving}
+                              disabled={trainingSaving}
                                 className={cn(
                                   "w-full max-w-[130px] rounded-md border bg-transparent pl-2 pr-8 py-1 font-heading text-xs uppercase tracking-wider text-foreground transition-colors",
                                 "border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
-                                isSaving && "pointer-events-none opacity-50",
+                                trainingSaving && "pointer-events-none opacity-50",
                               )}
                             >
                               <option value="">

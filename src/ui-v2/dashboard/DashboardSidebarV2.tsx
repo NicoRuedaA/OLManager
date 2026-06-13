@@ -36,7 +36,6 @@ interface Props {
   onNavClick: (tab: string) => void;
   unreadMessagesCount: number;
   managerName: string | null;
-  managerFullName?: string | null;
   managerAvatar?: string | null;
   teamName: string | null;
   teamLogo: string | null;
@@ -53,7 +52,6 @@ export function DashboardSidebarV2({
   onNavClick,
   unreadMessagesCount,
   managerName,
-  managerFullName,
   managerAvatar,
   teamName,
   teamLogo,
@@ -143,7 +141,7 @@ export function DashboardSidebarV2({
       <button
         onClick={() => onNavClick("Manager")}
         className={cn(
-          "flex items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-sidebar-accent",
+          "flex flex-col items-center gap-1.5 px-4 py-4 w-full text-center transition-colors hover:bg-sidebar-accent",
           activeTab === "Manager" && "bg-sidebar-accent",
         )}
       >
@@ -152,10 +150,7 @@ export function DashboardSidebarV2({
         ) : (
           <div className="size-9 rounded-full bg-muted ring-2 ring-primary/60" />
         )}
-        <div className="min-w-0">
-          <div className="truncate text-sm font-medium">{managerName ?? "—"}</div>
-          {managerFullName && <div className="truncate text-xs text-muted-foreground">{managerFullName}</div>}
-        </div>
+        <div className="truncate text-sm font-medium">{managerName ?? "—"}</div>
       </button>
 
       <Separator />

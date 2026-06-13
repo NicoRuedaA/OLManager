@@ -53,9 +53,10 @@ interface Props {
   gameState: GameStateData;
   onNavigate?: (tab: string) => void;
   onSelectPlayer?: (id: string) => void;
+  onSelectTeam?: (id: string) => void;
 }
 
-export function HomeTabV2({ gameState, onNavigate, onSelectPlayer }: Props) {
+export function HomeTabV2({ gameState, onNavigate, onSelectPlayer, onSelectTeam }: Props) {
   const myTeamId = gameState.manager.team_id;
   const myTeam = gameState.teams.find((tm) => tm.id === myTeamId);
   const roster = myTeam
@@ -106,7 +107,10 @@ export function HomeTabV2({ gameState, onNavigate, onSelectPlayer }: Props) {
   const cardHover = "h-full hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5";
 
   return (
-    <div className="relative grid auto-rows-min grid-flow-dense gap-3 p-4 sm:gap-4 sm:p-6 lg:grid-cols-4">
+    <div
+      className="relative grid auto-rows-min grid-flow-dense gap-3 p-4 sm:gap-4 sm:p-6 lg:grid-cols-4 min-h-full"
+      style={{ gridTemplateRows: "auto auto minmax(0, 1fr)" }}
+    >
       {/* Noise texture background */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
@@ -121,7 +125,7 @@ export function HomeTabV2({ gameState, onNavigate, onSelectPlayer }: Props) {
       {/* Row: Next opponent (left), Standings (right) */}
       <div className="lg:col-span-4 flex gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "25ms", animationFillMode: "forwards" }}>
         <div className="flex flex-1 flex-col gap-4 min-w-0">
-          <NextOpponentCard gameState={gameState} data={next} onNavigate={onNavigate} />
+          <NextOpponentCard gameState={gameState} data={next} onNavigate={onNavigate} onSelectPlayer={onSelectPlayer} onSelectTeam={onSelectTeam} />
         </div>
         <div className="w-72 shrink-0 hidden lg:flex lg:flex-col">
           <div className={cn(cardHover, "flex-1")}>
@@ -157,10 +161,14 @@ function NextOpponentCard({
   gameState,
   data,
   onNavigate,
+  onSelectPlayer,
+  onSelectTeam,
 }: {
   gameState: GameStateData;
   data: ReturnType<typeof getNextOpponentWidgetData>;
   onNavigate?: (tab: string) => void;
+  onSelectPlayer?: (id: string) => void;
+  onSelectTeam?: (id: string) => void;
 }) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
@@ -247,12 +255,16 @@ function NextOpponentCard({
         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
           <div className="flex items-center gap-3">
             {homeLogo ? (
-              <img src={homeLogo} alt={homeShort} className="size-14 shrink-0 object-contain" />
+              <button type="button" onClick={() => onSelectTeam?.(nextFixture.home_team_id)} className="shrink-0">
+                <img src={homeLogo} alt={homeShort} className="size-14 shrink-0 object-contain" />
+              </button>
             ) : (
               <div className="size-14 shrink-0 rounded-md bg-muted" />
             )}
             <div className="min-w-0">
-              <div className="truncate font-heading text-xl font-bold">{homeShort}</div>
+              <button type="button" onClick={() => onSelectTeam?.(nextFixture.home_team_id)} className="truncate font-heading text-xl font-bold hover:text-primary transition-colors text-left">
+                {homeShort}
+              </button>
               <div className="text-xs text-muted-foreground">
                 {data.isHome ? t("home.yourTeam") : data.fixture.match_type}
               </div>
@@ -266,13 +278,17 @@ function NextOpponentCard({
 
           <div className="flex items-center justify-end gap-3 text-right">
             <div className="min-w-0">
-              <div className="truncate font-heading text-xl font-bold">{awayShort}</div>
+              <button type="button" onClick={() => onSelectTeam?.(nextFixture.away_team_id)} className="truncate font-heading text-xl font-bold hover:text-primary transition-colors text-right">
+                {awayShort}
+              </button>
               <div className="text-xs text-muted-foreground">
                 {!data.isHome ? t("home.yourTeam") : data.opponent.name}
               </div>
             </div>
             {awayLogo ? (
-              <img src={awayLogo} alt={awayShort} className="size-14 shrink-0 object-contain" />
+              <button type="button" onClick={() => onSelectTeam?.(nextFixture.away_team_id)} className="shrink-0">
+                <img src={awayLogo} alt={awayShort} className="size-14 shrink-0 object-contain" />
+              </button>
             ) : (
               <div className="size-14 shrink-0 rounded-md bg-muted" />
             )}
@@ -310,9 +326,9 @@ function NextOpponentCard({
                   ) : (
                     <div className="size-6 shrink-0 rounded-full bg-muted" />
                   )}
-                  <span className="truncate font-medium">
+                  <button type="button" onClick={() => onSelectPlayer?.(home?.id ?? "")} className="truncate font-medium hover:text-primary transition-colors text-left">
                     {home?.match_name ?? "—"}
-                  </span>
+                  </button>
                 </div>
 
                 <div className="px-2 text-center font-heading text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -320,9 +336,9 @@ function NextOpponentCard({
                 </div>
 
                 <div className="flex min-w-0 items-center justify-end gap-2">
-                  <span className="truncate font-medium">
+                  <button type="button" onClick={() => onSelectPlayer?.(away?.id ?? "")} className="truncate font-medium hover:text-primary transition-colors text-right">
                     {away?.match_name ?? "—"}
-                  </span>
+                  </button>
                   {awayPhoto ? (
                     <img
                       src={awayPhoto}

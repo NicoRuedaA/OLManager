@@ -20,6 +20,14 @@ interface Props {
 type SortKey = "position" | "name" | "ovr" | "value" | "rep" | "wr" | "players";
 const PAGE_SIZE = 20;
 
+function teamColor(team: { id: string; colors?: { primary?: string; secondary?: string } | null }): string | null {
+  if (team.colors?.primary && team.colors.primary !== "#000000") return team.colors.primary;
+  let hash = 0;
+  for (let i = 0; i < team.id.length; i++) hash = ((hash << 5) - hash) + team.id.charCodeAt(i);
+  const hue = Math.abs(hash) % 360;
+  return `hsl(${hue}, 55%, 35%)`;
+}
+
 export function TeamsTabV2({ gameState, onSelectTeam }: Props) {
   const { t } = useTranslation();
   const userTeamId = gameState.manager.team_id;
@@ -132,7 +140,8 @@ export function TeamsTabV2({ gameState, onSelectTeam }: Props) {
         {pageData.map(({ team, roster, avgOvr, totalValue, leaguePos, standing, wr }) => {
           const isUser = team.id === userTeamId;
           const logo = resolveTeamLogo(team.name, team.logo_url);
-          const hasColor = team.colors?.primary && team.colors.primary !== "#000000";
+          const primary = teamColor(team);
+          const secondary = team.colors?.secondary ?? "#ffffff";
 
           return (
             <button key={team.id} type="button" onClick={() => onSelectTeam(team.id)}
@@ -143,12 +152,9 @@ export function TeamsTabV2({ gameState, onSelectTeam }: Props) {
                   : "border-border hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5",
               )}>
               {/* Header */}
-              <div className={cn("flex items-center gap-4 px-5 py-4",
-                hasColor ? "text-white" : "bg-gradient-to-br from-muted/90 to-muted/30 text-foreground",
-              )}
-                style={hasColor ? { backgroundImage: `linear-gradient(135deg, ${team.colors.primary}, ${team.colors.secondary}40)` } : undefined}>
-                <div className={cn("flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl",
-                  hasColor ? "border-2 border-white/30" : "border border-border bg-card")}>
+              <div className="flex items-center gap-4 px-5 py-4 text-white"
+                style={{ backgroundImage: `linear-gradient(135deg, ${primary}, ${secondary}40)` }}>
+                <div className="flex size-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border-2 border-white/30">
                   {logo && <img src={logo} alt={team.name} className="size-10 object-contain" loading="lazy" />}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -156,15 +162,15 @@ export function TeamsTabV2({ gameState, onSelectTeam }: Props) {
                     {team.name}
                     {isUser && <Badge className="text-[9px]">{t("teams.yourTeam")}</Badge>}
                   </h3>
-                  <p className={cn("mt-0.5 flex items-center gap-1 text-xs", hasColor ? "text-white/70" : "text-muted-foreground")}>
+                  <p className="mt-0.5 flex items-center gap-1 text-xs text-white/70">
                     <span>{t(`countries.${team.country}`, team.country)}</span>
                     {team.city && <><span>·</span><span>{team.city}</span></>}
                   </p>
                 </div>
                 {leaguePos > 0 && (
-                  <div className={cn("rounded-lg px-3 py-1.5 text-center", hasColor ? "bg-black/20 backdrop-blur" : "bg-muted/50")}>
-                    <p className={cn("font-heading text-[10px] uppercase tracking-wider", hasColor ? "text-white/60" : "text-muted-foreground/60")}>#{t("common.position")}</p>
-                    <p className={cn("font-heading text-xl font-bold", hasColor ? "text-white" : "text-foreground")}>{leaguePos}</p>
+                  <div className="rounded-lg px-3 py-1.5 text-center bg-black/20 backdrop-blur">
+                    <p className="font-heading text-[10px] uppercase tracking-wider text-white/60">#{t("common.position")}</p>
+                    <p className="font-heading text-xl font-bold text-white">{leaguePos}</p>
                   </div>
                 )}
               </div>

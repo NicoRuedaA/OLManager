@@ -92,8 +92,6 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
               ? resolvePlayerPhoto(player.id, player.match_name, player.profile_image_url)
               : null;
             const ovr = player ? calculateLolOvr(player) : null;
-            const condition = player?.condition ?? null;
-            const morale = player?.morale ?? null;
             const topChampion = player
               ? topMasteryByPlayer.get(player.id) ??
                 TOP_CHAMPION_BY_IGN.get(normalizeKey(player.match_name)) ??
@@ -109,7 +107,7 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
                 key={role}
                 onClick={() => player && onSelectPlayer?.(player.id)}
                 className={cn(
-                  "relative overflow-hidden rounded-lg border border-border bg-card",
+                  "relative h-full overflow-hidden rounded-lg border border-border bg-card",
                   player && "cursor-pointer transition-colors hover:border-primary/50",
                 )}
               >
@@ -152,11 +150,6 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
                       )}
                     </div>
                   </div>
-
-                  <div className="mt-3 grid grid-cols-2 gap-1">
-                    <StatBox label={t("common.condition")} value={condition} accent="emerald" />
-                    <StatBox label={t("common.morale")} value={morale} accent="amber" />
-                  </div>
                 </div>
               </div>
             );
@@ -167,27 +160,6 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
   );
 }
 
-function StatBox({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: number | null;
-  accent: "emerald" | "amber";
-}) {
-  const colorMap = {
-    emerald: "text-emerald-400",
-    amber: "text-amber-400",
-  };
-  return (
-    <div className="rounded-md bg-black/40 px-2 py-1 text-center">
-      <div className="text-[10px] uppercase tracking-wider text-white/60">{label}</div>
-      <div className={cn("font-heading text-sm font-bold tabular-nums", colorMap[accent])}>
-        {value !== null ? `${value}%` : "—"}
-      </div>
-    </div>
-  );
-}
+
 
 

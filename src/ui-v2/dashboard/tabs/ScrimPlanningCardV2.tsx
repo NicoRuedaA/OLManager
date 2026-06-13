@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { CalendarDays, ChevronRight, Swords, WandSparkles, type LucideIcon } from "lucide-react";
+import { CalendarCheck, CalendarClock, CalendarDays, ChevronRight, Swords, WandSparkles, type LucideIcon } from "lucide-react";
 
 import {
   buildTeamLolOvrMap,
@@ -28,6 +28,12 @@ function teamLogo(teams: GameStateData["teams"], teamId: string): string | null 
   return resolveTeamLogo(team.short_name ?? team.name, team.logo_url) ??
     resolveTeamLogo(team.name, team.logo_url);
 }
+
+const DAY_ICONS: Record<number, { icon: LucideIcon; bg: string; color: string }> = {
+  2: { icon: CalendarDays, bg: "bg-primary/10", color: "text-primary" },
+  3: { icon: CalendarClock, bg: "bg-amber-500/10", color: "text-amber-400" },
+  4: { icon: CalendarCheck, bg: "bg-emerald-500/10", color: "text-emerald-400" },
+};
 
 export default function ScrimPlanningCardV2({
   gameState,
@@ -159,8 +165,11 @@ export default function ScrimPlanningCardV2({
               >
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                      <CalendarDays className="size-4 text-primary" />
+                    <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", DAY_ICONS[slotContext?.labelDay ?? -1]?.bg ?? "bg-primary/10")}>
+                      {(() => {
+                        const DayIcon = DAY_ICONS[slotContext?.labelDay ?? -1]?.icon ?? CalendarDays;
+                        return <DayIcon className={cn("size-4", DAY_ICONS[slotContext?.labelDay ?? -1]?.color ?? "text-primary")} />;
+                      })()}
                     </div>
                     <div>
                       <p className="font-heading text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
