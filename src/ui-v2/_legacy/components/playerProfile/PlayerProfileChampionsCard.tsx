@@ -27,10 +27,10 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
   const TOTAL_SLOTS = 6;
 
   return (
-    <Card className="lg:col-span-2 min-h-[304px]">
+    <Card className="lg:col-span-2 h-full flex flex-col">
       <CardHeader>{t("playerProfile.championPoolTitle")}</CardHeader>
-      <CardBody className="py-4 px-5">
-        <div className="grid grid-cols-2 gap-2.5 max-h-[616px] overflow-y-auto scrollbar-v2">
+      <CardBody className="py-4 px-5 flex-1">
+        <div className="grid grid-cols-2 grid-rows-3 gap-2.5 h-full min-h-0">
           {Array.from({ length: TOTAL_SLOTS }).map((_, i) => {
             const champion = champions[i];
 
@@ -40,7 +40,7 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
                   type="button"
                   key={champion.championId}
                   onClick={() => handleChampionClick(champion.championId)}
-                  className="relative h-full rounded-xl overflow-hidden border border-border min-h-[192px] bg-card text-left cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(251,191,36,0.2)] hover:border-yellow-400"
+                  className="relative h-full rounded-xl overflow-hidden border border-border bg-card text-left cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(251,191,36,0.2)] hover:border-yellow-400"
                 >
                   <div
                     className="absolute inset-0 bg-cover bg-center"
@@ -89,12 +89,9 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
             return (
               <div
                 key={`empty-${i}`}
-                className="relative min-h-[192px] overflow-hidden rounded-xl border border-border/40 bg-card"
+                className="relative h-full overflow-hidden rounded-xl border border-border/40 bg-card"
               >
                 <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/50 to-black/65" />
-                <div className="relative z-10 flex h-full items-center justify-center">
-                  <Search className="size-8 animate-pulse text-muted-foreground/40" />
-                </div>
               </div>
             );
           })}
