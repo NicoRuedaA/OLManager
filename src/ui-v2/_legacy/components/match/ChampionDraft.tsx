@@ -235,7 +235,14 @@ interface ChampionDraftProps {
   redSeriesWins?: number;
   lockedChampionIds?: string[];
   gameState?: GameStateData;
+  matchType?: string;
 }
+
+const MATCH_TYPE_LOGOS: Record<string, string> = {
+  Friendly: "/competition-icons/friendly.webp",
+  PreseasonTournament: "/competition-icons/friendly.webp",
+};
+const DEFAULT_MATCH_LOGO = "/lec-logo.svg";
 
 
 // This should be put in another place. Cruncky to edit and test. Should we get real mastery and meta scores? This will be removed anyway.
@@ -281,7 +288,7 @@ const META_CHAMPION_SCORES: Record<string, number> = {
 
 const ROLE_ORDER: Role[] = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
 const ASSISTANT_COACH_PLACEHOLDER = "";
-const LEC_LOGO_URL = "/lec-logo.svg";
+
 const EMPTY_LOCKED_CHAMPION_IDS: string[] = [];
 const ROLE_ICON_URLS: Record<Role, string> = ROLE_ICON_PATHS;
 
@@ -731,6 +738,7 @@ export default function ChampionDraft({
   redSeriesWins = 0,
   lockedChampionIds = EMPTY_LOCKED_CHAMPION_IDS,
   gameState,
+  matchType,
 }: ChampionDraftProps) {
   const { t } = useTranslation();
   const debugToolsEnabled = useSettingsStore(
@@ -2577,25 +2585,9 @@ export default function ChampionDraft({
                 {blueHeader}
               </p>
               <div className="flex gap-1">
-                {blueBanDisplay.map((championId, index) => {
-                  const champion = championId ? championById.get(championId) : null;
-                  return (
-                    <button
-                      key={`top-blue-ban-${index}`}
-                      disabled
-                      className="relative border border-border/50 bg-background overflow-hidden w-8 h-8"
-                    >
-                      {champion ? (
-                        <img
-                          src={champion.image}
-                          alt={champion.name}
-                          className="w-full h-full object-cover grayscale opacity-70"
-                        />
-                      ) : null}
-                      <span className="absolute top-1/2 -left-[10%] w-[120%] h-px bg-orange-500 -rotate-45" />
-                    </button>
-                  );
-                })}
+                {blueBanDisplay.map((championId, index) => (
+                  <DraftBanButton key={`top-blue-ban-${index}`} champion={championId} championById={championById} />
+                ))}
               </div>
             </div>
 
@@ -2624,9 +2616,35 @@ export default function ChampionDraft({
                 </div>
               ) : null}
 
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 font-semibold">
-                {t("match.draft.championSelection")}
-              </p>
+              <div className="flex w-full items-center justify-center gap-3">
+                {!finished ? (
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/50 font-semibold">
+                    {t("match.draft.championSelection")}
+                  </p>
+                ) : null}
+                {finished ? (
+                  <button
+                    onClick={() =>
+                      onComplete({
+                        blue: {
+                          picks: blueOrderedPicks.filter((pick): pick is DraftPick => pick !== null),
+                          bans: blueBans,
+                          score: blueScore,
+                        },
+                        red: {
+                          picks: redOrderedPicks.filter((pick): pick is DraftPick => pick !== null),
+                          bans: redBans,
+                          score: redScore,
+                        },
+                        history: draftHistory,
+                      })
+                    }
+                    className="rounded-md bg-orange-500 hover:bg-orange-400 text-primary-foreground px-5 py-1 text-sm font-heading font-bold uppercase tracking-wide"
+                  >
+                    {t("match.draft.finalizeDraft")}
+                  </button>
+                ) : null}
+              </div>
             </div>
 
             <div className="relative z-10 text-right border-t-2 border-orange-500/80 bg-background/40 w-[250px] p-2.5">
@@ -2634,25 +2652,9 @@ export default function ChampionDraft({
                 {redHeader}
               </p>
               <div className="flex gap-1 justify-end">
-                  {redBanDisplay.map((championId, index) => {
-                  const champion = championId ? championById.get(championId) : null;
-                  return (
-                    <button
-                      key={`top-red-ban-${index}`}
-                      disabled
-                      className="relative border border-border/50 bg-background overflow-hidden w-11 h-11"
-                    >
-                      {champion ? (
-                        <img
-                          src={champion.image}
-                          alt={champion.name}
-                          className="w-full h-full object-cover grayscale opacity-70"
-                        />
-                      ) : null}
-                      <span className="absolute top-1/2 -left-[10%] w-[120%] h-px bg-orange-500 -rotate-45" />
-                    </button>
-                  );
-                })}
+                  {redBanDisplay.map((championId, index) => (
+                  <DraftBanButton key={`top-red-ban-${index}`} champion={championId} championById={championById} />
+                ))}
               </div>
             </div>
           </div>
@@ -2745,7 +2747,7 @@ export default function ChampionDraft({
               {!isCompactLayout ? (
                 <div className="size-10 overflow-hidden rounded-md mt-1">
                   <img
-                    src={LEC_LOGO_URL}
+                    src={MATCH_TYPE_LOGOS[matchType ?? ""] ?? DEFAULT_MATCH_LOGO}
                     alt={t("match.draft.leagueLogoAlt")}
                     className="size-full object-cover"
                   />
@@ -2784,11 +2786,9 @@ export default function ChampionDraft({
                   <p className="font-heading uppercase tracking-wide text-xs text-foreground mb-2">
                     {t("match.draft.tipsTitle")}
                   </p>
-                  {(() => {
-                    const tip = assistantCoachTips[0];
-                    if (!tip) return null;
-                    return (
-                      <article className="rounded-md border border-white/10 bg-[#070915] px-2.5 py-2">
+                  <div className="flex flex-col gap-2">
+                    {assistantCoachTips.map((tip, i) => (
+                      <article key={i} className="rounded-md border border-white/10 bg-[#070915] px-2.5 py-2">
                         <div className="flex items-start gap-2">
                           <img
                             src={tip.sourceImage}
@@ -2849,8 +2849,8 @@ export default function ChampionDraft({
                           </div>
                         ) : null}
                       </article>
-                    );
-                  })()}
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <div className="rounded-md border border-primary/25 bg-background p-3 text-xs text-gray-200">
@@ -2863,50 +2863,6 @@ export default function ChampionDraft({
                 </div>
               )}
 
-              <div className="rounded-md border border-orange-400/30 bg-background p-3 text-xs text-gray-200">
-                <p className="font-heading uppercase tracking-wide text-xs text-foreground mb-2">
-                  {t("match.draft.scoreTitle")}
-                </p>
-                <div className="mb-2 text-xs text-muted-foreground/50">
-                  <p>
-                    {t("match.draft.winProb")} <span className="text-cyan-300 font-semibold">{controlledTriCode} {blueWinProb}%</span>
-                  </p>
-                </div>
-                <div className="space-y-1 text-xs">
-                  {scoreRows.map((row) => (
-                    <p key={row.label} className="text-muted-foreground/50">
-                      {row.label}
-                      <span className={`float-right font-semibold ${row.value >= 0 ? "text-cyan-300" : "text-red-400"}`}>
-                        {row.value >= 0 ? `+${row.value}` : row.value}
-                      </span>
-                    </p>
-                  ))}
-                </div>
-                {controlledScrimBonusTotal > 0 ? (
-                  <div className="mt-2 rounded border border-primary/20 bg-primary/5 px-2 py-1.5 text-2xs text-primary">
-                    <p className="font-semibold uppercase tracking-wide">
-                      {t("match.draft.scrimSignalTitle", { defaultValue: "Scrim prep" })} +{controlledScrimBonusTotal}
-                    </p>
-                    <p className="mt-1 text-primary/80">
-                      {controlledScrimSignal.reasons.join(" · ")}
-                    </p>
-                  </div>
-                ) : null}
-                <div className="mt-2 pt-2 border-t border-white/10 text-xs">
-                  <p className="text-muted-foreground/50">
-                    {t("match.draft.total")} <span className="float-right font-bold text-foreground">{controlledScore.total}</span>
-                  </p>
-                  <p className="text-muted-foreground/50 mt-1">
-                    {t("match.draft.rivalTotal")} <span className="float-right font-bold text-gray-200">{rivalScore.total}</span>
-                  </p>
-                  <p className="text-muted-foreground/50 mt-1">
-                    {t("match.draft.scoreDelta")} <span className={`float-right font-bold ${scoreDelta >= 0 ? "text-cyan-300" : "text-red-400"}`}>{formattedScoreDelta}</span>
-                  </p>
-                  <p className="text-muted-foreground/50 mt-1">
-                    {t("match.draft.grade")} <span className="float-right font-bold text-orange-300">{grade}</span>
-                  </p>
-                </div>
-              </div>
             </aside>
 
             <div className={`rounded-md border border-primary/25 bg-background/95 p-3 space-y-2 relative shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)] flex flex-col ${isCompactLayout ? "h-auto min-h-[60dvh] overflow-visible" : "h-full min-h-0 overflow-hidden"}`}>
@@ -2955,13 +2911,34 @@ export default function ChampionDraft({
                   ))}
                 </div>
 
+              </div>
+
+              <div className="flex items-center justify-between gap-2">
                 <input
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
                   className="rounded-md bg-card border border-white/15 px-2 py-1 text-xs md:py-1.5 md:text-xs w-36 md:w-44"
                   placeholder={t("match.draft.searchPlaceholder")}
                 />
-
+                {!finished && isUserTurn ? (
+                  <div className="flex items-center gap-2 rounded-md border border-primary/20 bg-card px-2 py-1.5 shrink-0">
+                    <p className="text-xs text-muted-foreground/50 truncate">
+                      {pendingChampionId
+                        ? `${t("match.draft.selected")}: ${championById.get(pendingChampionId)?.name ?? pendingChampionId}`
+                        : t("match.draft.selectThenConfirm")}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleConfirmPendingAction}
+                      disabled={!pendingChampionId}
+                      className="rounded-md bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-primary-foreground px-3 py-1 text-xs font-heading font-bold uppercase tracking-wide"
+                    >
+                      {currentStep?.type === "ban"
+                        ? t("match.draft.actions.ban")
+                        : t("match.draft.actions.pick")}
+                    </button>
+                  </div>
+                ) : null}
               </div>
 
               <div className="relative text-center text-gray-200 text-xs">
@@ -2993,32 +2970,12 @@ export default function ChampionDraft({
                 </div>
               ) : null}
 
-              <div className="relative w-full h-1.5 rounded-full bg-navy-900 overflow-hidden">
+              <div className="relative w-full h-1.5 rounded-full bg-muted overflow-hidden">
                 <div
                   className={`h-full transition-[width] duration-100 ease-linear ${currentStep?.side === "blue" ? "bg-primary" : "bg-orange-500"}`}
                   style={{ width: `${Math.max(0, Math.min(100, (turnRemainingMs / Math.max(1, turnDurationMs)) * 100))}%` }}
                 />
               </div>
-
-              {!finished && isUserTurn ? (
-                <div className="relative flex items-center justify-between gap-2 rounded-md border border-white/12 bg-navy-900 px-2 py-1.5">
-                  <p className="text-xs text-muted-foreground/50 truncate">
-                    {pendingChampionId
-                      ? `${t("match.draft.selected")}: ${championById.get(pendingChampionId)?.name ?? pendingChampionId}`
-                      : t("match.draft.selectThenConfirm")}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleConfirmPendingAction}
-                    disabled={!pendingChampionId}
-                    className="rounded-md bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-navy-900 px-3 py-1 text-xs font-heading font-bold uppercase tracking-wide"
-                  >
-                    {currentStep?.type === "ban"
-                      ? t("match.draft.actions.ban")
-                      : t("match.draft.actions.pick")}
-                  </button>
-                </div>
-              ) : null}
 
                 <div className="relative min-h-0 flex-1 overflow-y-auto scrollbar-draft pr-1">
                 {loading ? (
@@ -3215,32 +3172,55 @@ export default function ChampionDraft({
                   </div>
                 </>
               )}
+
+              <div className="rounded-md border border-orange-400/30 bg-background p-3 text-xs text-gray-200">
+                <p className="font-heading uppercase tracking-wide text-xs text-foreground mb-2">
+                  {t("match.draft.scoreTitle")}
+                </p>
+                <div className="mb-2 text-xs text-muted-foreground/50">
+                  <p>
+                    {t("match.draft.winProb")} <span className="text-cyan-300 font-semibold">{controlledTriCode} {blueWinProb}%</span>
+                  </p>
+                </div>
+                <div className="space-y-1 text-xs">
+                  {scoreRows.map((row) => (
+                    <p key={row.label} className="text-muted-foreground/50">
+                      {row.label}
+                      <span className={`float-right font-semibold ${row.value >= 0 ? "text-cyan-300" : "text-red-400"}`}>
+                        {row.value >= 0 ? `+${row.value}` : row.value}
+                      </span>
+                    </p>
+                  ))}
+                </div>
+                {controlledScrimBonusTotal > 0 ? (
+                  <div className="mt-2 rounded border border-primary/20 bg-primary/5 px-2 py-1.5 text-2xs text-primary">
+                    <p className="font-semibold uppercase tracking-wide">
+                      {t("match.draft.scrimSignalTitle", { defaultValue: "Scrim prep" })} +{controlledScrimBonusTotal}
+                    </p>
+                    <p className="mt-1 text-primary/80">
+                      {controlledScrimSignal.reasons.join(" · ")}
+                    </p>
+                  </div>
+                ) : null}
+                <div className="mt-2 pt-2 border-t border-white/10 text-xs">
+                  <p className="text-muted-foreground/50">
+                    {t("match.draft.total")} <span className="float-right font-bold text-foreground">{controlledScore.total}</span>
+                  </p>
+                  <p className="text-muted-foreground/50 mt-1">
+                    {t("match.draft.rivalTotal")} <span className="float-right font-bold text-gray-200">{rivalScore.total}</span>
+                  </p>
+                  <p className="text-muted-foreground/50 mt-1">
+                    {t("match.draft.scoreDelta")} <span className={`float-right font-bold ${scoreDelta >= 0 ? "text-cyan-300" : "text-red-400"}`}>{formattedScoreDelta}</span>
+                  </p>
+                  <p className="text-muted-foreground/50 mt-1">
+                    {t("match.draft.grade")} <span className="float-right font-bold text-orange-300">{grade}</span>
+                  </p>
+                </div>
+              </div>
             </aside>
           </div>
         </section>
 
-        {finished ? (
-          <button
-            className="w-full md:w-80 self-center rounded-md bg-orange-500 hover:bg-orange-400 text-navy-900 py-2 font-heading font-bold uppercase tracking-wide"
-            onClick={() =>
-              onComplete({
-                blue: {
-                  picks: blueOrderedPicks.filter((pick): pick is DraftPick => pick !== null),
-                  bans: blueBans,
-                  score: blueScore,
-                },
-                red: {
-                  picks: redOrderedPicks.filter((pick): pick is DraftPick => pick !== null),
-                  bans: redBans,
-                  score: redScore,
-                },
-                history: draftHistory,
-              })
-            }
-          >
-            {t("match.draft.finalizeDraft")}
-          </button>
-        ) : null}
       </div>
     </div>
   );
@@ -3273,16 +3253,17 @@ function DraftSlot({
   reorderFxActive: boolean;
   compact?: boolean;
 }) {
-  const { t } = useTranslation();
   const champion = pick ? championById.get(pick.championId) : null;
 
   return (
     <div
       onClick={() => {
-        if (!showSwapControls || !swapTargetable) return;
-        onSwapTarget();
+        if (!showSwapControls) return;
+        if (swapArmed) { onSwapArm(); return; }
+        if (swapTargetable) { onSwapTarget(); return; }
+        onSwapArm();
       }}
-      className={`relative bg-background overflow-hidden border-r border-white/10 text-left transition-all duration-300 ${side === "blue" ? "border-t-4 border-t-cyan-400" : "border-t-4 border-t-orange-500"} ${swapTargetable ? "ring-1 ring-orange-300/70" : ""} ${swapArmed ? "ring-2 ring-cyan-300" : ""} ${reorderFxActive ? "shadow-[0_0_16px_rgba(34,211,238,0.45)] scale-[1.01]" : ""}`}
+      className={`relative bg-background overflow-hidden border-r border-white/10 text-left transition-all duration-300 cursor-pointer ${side === "blue" ? "border-t-4 border-t-cyan-400" : "border-t-4 border-t-orange-500"} ${swapTargetable ? "ring-1 ring-orange-300/70" : ""} ${swapArmed ? "ring-2 ring-cyan-300" : ""} ${reorderFxActive ? "shadow-[0_0_16px_rgba(34,211,238,0.45)] scale-[1.01]" : ""}`}
     >
       {champion ? (
         <>
@@ -3311,33 +3292,20 @@ function DraftSlot({
         className={`absolute ${compact ? "bottom-1 w-[12px]" : "bottom-2 w-[18px]"} invert opacity-70 ${side === "blue" ? "right-2" : "left-2"}`}
       />
 
-      {showSwapControls ? (
-        <div className={`absolute bottom-2 z-30 flex flex-col gap-1 ${side === "blue" ? "left-10" : "right-10"}`}>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              onSwapArm();
-            }}
-            className={`w-5 h-5 rounded border text-2xs leading-none text-foreground ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-background/65 border-border/50"}`}
-            title={t("match.draft.swapTargetTitle")}
-          >
-            ▲
-          </button>
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              onSwapArm();
-            }}
-            className={`w-5 h-5 rounded border text-2xs leading-none text-foreground ${swapArmed ? "bg-cyan-500/35 border-cyan-300/80" : "bg-background/65 border-border/50"}`}
-            title={t("match.draft.swapTargetTitle")}
-          >
-            ▼
-          </button>
-        </div>
-      ) : null}
+
     </div>
+  );
+}
+
+function DraftBanButton({ champion, championById }: { champion: string | null; championById: Map<string, ChampionData> }) {
+  const champ = champion ? championById.get(champion) : null;
+  return (
+    <button disabled className="relative border border-border/50 bg-background overflow-hidden w-11 h-11">
+      {champ ? (
+        <img src={champ.image} alt={champ.name} className="w-full h-full object-cover grayscale opacity-70" />
+      ) : null}
+      <span className="absolute top-1/2 -left-[10%] w-[120%] h-px bg-orange-500 -rotate-45" />
+    </button>
   );
 }
 

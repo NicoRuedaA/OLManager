@@ -128,7 +128,7 @@ export default function ChampionsGridV2({ champions, onChampionClick }: Champion
                   "hover:z-10 hover:scale-[1.08] hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10",
                   visible && "animate-fade-in-up",
                 )}
-                style={{ animationDelay: `${(i % 20) * 25}ms` }}
+                style={{ animationDelay: `${i * 25}ms` }}
               >
                 {tile && (
                   <img
