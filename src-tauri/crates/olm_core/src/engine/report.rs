@@ -50,6 +50,7 @@ pub struct PlayerMatchStats {
     #[serde(default, skip_serializing)]
     pub interceptions: u16,
     pub role: Option<LolRole>,
+    pub champion_id: Option<String>,
     pub duration_seconds: u32,
     pub kills: u16,
     pub deaths: u16,

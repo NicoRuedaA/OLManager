@@ -175,6 +175,38 @@ pub fn process_end_of_split(game: &mut Game, manifest: &CompetitionManifest) {
         append_fixtures(&mut new_league, friendlies);
     }
 
+    // Create/update career entries for every player on teams in this league
+    let split_name = manifest.schedule.splits[split_index].name.clone();
+    for player in game.players.iter_mut() {
+        if let Some(ref tid) = player.team_id {
+            if team_ids.iter().any(|t| t == tid) {
+                // Don't duplicate if an entry for this split already exists
+                let already_exists = player.career.iter().any(|e|
+                    e.season == season && e.split_index == split_index as u32
+                );
+                if !already_exists {
+                    let team_name = game.teams.iter()
+                        .find(|t| &t.id == tid)
+                        .map(|t| t.name.clone())
+                        .unwrap_or_else(|| "Unknown".to_string());
+
+                    player.career.push(crate::domain::player::CareerEntry {
+                        season,
+                        split_index: split_index as u32,
+                        split_name: split_name.clone(),
+                        team_id: Some(tid.clone()),
+                        team_name,
+                        appearances: 0,
+                        kills: 0,
+                        deaths: 0,
+                        assists: 0,
+                        avg_rating: 0.0,
+                    });
+                }
+            }
+        }
+    }
+
     if let Some(active) = game.active_league_mut() {
         *active = new_league;
     }
@@ -263,7 +295,7 @@ fn process_end_of_season_inner(
         .to_string();
     let season = league.season;
     let league_name = league.name.clone();
-    let _current_split_index = league.split_index;
+    let current_split_index = league.split_index;
     let today = game.clock.current_date.format("%Y-%m-%d").to_string();
     // Messages should be dated on the last match day, not on the clock date
     // (which may already be one day ahead due to process_day advancing the clock).
@@ -414,8 +446,15 @@ fn process_end_of_season_inner(
                 .unwrap_or_else(|| "Free Agent".to_string());
             let team_id = player.team_id.clone();
 
+            let split_name = _manifest
+                .and_then(|m| m.schedule.splits.get(current_split_index))
+                .map(|s| s.name.clone())
+                .unwrap_or_else(|| format!("Split {}", current_split_index + 1));
+
             player.career.push(crate::domain::player::CareerEntry {
                 season,
+                split_index: current_split_index as u32,
+                split_name,
                 team_id,
                 team_name,
                 appearances: player.stats.appearances,

@@ -407,6 +407,46 @@ pub async fn select_team(
 
     game.leagues = all_leagues;
     game.user_competition_id = user_cid.map(String::from);
+
+    // Seed initial career entries for players with no career history
+    for player in game.players.iter_mut() {
+        if player.team_id.is_some() && player.career.is_empty() {
+            let (season, split_index, split_name) = player.team_id.as_ref()
+                .and_then(|tid| game.teams.iter().find(|t| t.id == *tid))
+                .and_then(|team| team.competition_id.as_ref())
+                .and_then(|cid| {
+                    game.competition_configs.get(cid).and_then(|m| {
+                        game.leagues.iter().find(|l| l.competition_id.as_deref() == Some(cid))
+                            .map(|l| {
+                                let name = m.schedule.splits.first()
+                                    .map(|s| s.name.clone())
+                                    .unwrap_or_else(|| "Split 1".to_string());
+                                (l.season, l.split_index as u32, name)
+                            })
+                    })
+                })
+                .unwrap_or((game.leagues.first().map_or(1, |l| l.season), 0, "Split 1".to_string()));
+
+            let team_name = game.teams.iter()
+                .find(|t| t.id.as_str() == player.team_id.as_deref().unwrap_or(""))
+                .map(|t| t.name.clone())
+                .unwrap_or_else(|| "Unknown".to_string());
+
+            player.career.push(olm_core::domain::player::CareerEntry {
+                season,
+                split_index,
+                split_name,
+                team_id: player.team_id.clone(),
+                team_name,
+                appearances: 0,
+                kills: 0,
+                deaths: 0,
+                assists: 0,
+                avg_rating: 0.0,
+            });
+        }
+    }
+
     olm_core::champions::bootstrap_champion_state(&mut game);
     olm_core::season_context::refresh_game_context(&mut game);
 

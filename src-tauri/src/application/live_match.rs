@@ -339,6 +339,7 @@ pub fn finish_live_match(
         &home_team_id,
         &away_team_id,
         &report,
+        &[],
         &mut |capture| captures.push(capture),
     );
     for capture in captures {

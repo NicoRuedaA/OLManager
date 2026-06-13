@@ -216,6 +216,7 @@ pub fn advance_time_with_mode(
                 &home_team_id,
                 &away_team_id,
                 &report,
+                &[],
                 &mut |capture| captures.push(capture),
             );
 

@@ -385,6 +385,10 @@ pub struct PlayerSeasonStats {
 #[cfg_attr(feature = "typescript", ts(export))]
 pub struct CareerEntry {
     pub season: u32,
+    #[serde(default)]
+    pub split_index: u32,
+    #[serde(default)]
+    pub split_name: String,
     pub team_id: Option<String>,
     pub team_name: String,
     #[serde(default)]

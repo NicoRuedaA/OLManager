@@ -1292,7 +1292,7 @@ where
         champions::apply_match_mastery_progress(game, &winner_team_id, &mastery_picks);
     }
 
-    apply_match_report_with_capture(game, idx, &home_team_id, &away_team_id, &report, on_capture);
+    apply_match_report_with_capture(game, idx, &home_team_id, &away_team_id, &report, &mastery_picks, on_capture);
 }
 
 fn auto_sim_mastery_picks(

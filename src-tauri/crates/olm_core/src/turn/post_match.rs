@@ -107,6 +107,7 @@ pub fn apply_match_report(
         home_team_id,
         away_team_id,
         report,
+        &[],
         &mut |_| {},
     );
 }
@@ -117,6 +118,7 @@ pub fn apply_match_report_with_capture<F>(
     home_team_id: &str,
     away_team_id: &str,
     report: &crate::engine::MatchReport,
+    mastery_picks: &[(String, String)],
     on_capture: &mut F,
 ) where
     F: FnMut(StatsState),
@@ -167,6 +169,7 @@ pub fn apply_match_report_with_capture<F>(
         home_team_id,
         away_team_id,
         report,
+        &mastery_picks,
     ));
 
     // Update player season stats from the engine report
@@ -266,6 +269,7 @@ fn build_stats_state_capture(
     home_team_id: &str,
     away_team_id: &str,
     report: &crate::engine::MatchReport,
+    picks: &[(String, String)],
 ) -> StatsState {
     let Some(league) = game.active_league() else {
         return StatsState::default();
@@ -284,8 +288,10 @@ fn build_stats_state_capture(
                 .map(|team_id| (player.id.as_str(), team_id))
         })
         .collect();
-    let champion_by_player_id: std::collections::HashMap<&str, &str> =
-        std::collections::HashMap::new();
+    let champion_by_player_id: std::collections::HashMap<&str, &str> = picks
+        .iter()
+        .map(|(player_id, champion_id)| (player_id.as_str(), champion_id.as_str()))
+        .collect();
 
     let player_matches = report
         .player_stats
@@ -317,7 +323,8 @@ fn build_stats_state_capture(
                 role: domain_role(stats.role),
                 champion: champion_by_player_id
                     .get(player_id.as_str())
-                    .map(|champion_id| (*champion_id).to_string()),
+                    .map(|champion_id| (*champion_id).to_string())
+                    .or_else(|| stats.champion_id.clone()),
                 duration_seconds: stats.duration_seconds,
                 kills: stats.kills,
                 deaths: stats.deaths,

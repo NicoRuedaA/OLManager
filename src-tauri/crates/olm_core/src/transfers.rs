@@ -1471,6 +1471,45 @@ fn execute_free_agent_signing_with_payer(
             let renewal_year = game.clock.current_date.year() + 2;
             player.contract_end = Some(format!("{}-11-30", renewal_year));
         }
+
+        // Record career entry for the new team
+        if let Some(league) = game.leagues.first() {
+            let season = league.season;
+            let split_index = league.split_index;
+            let split_name = league
+                .competition_id
+                .as_ref()
+                .and_then(|cid| game.competition_configs.get(cid))
+                .and_then(|m| m.schedule.splits.get(split_index))
+                .map(|s| s.name.clone())
+                .unwrap_or_else(|| format!("Split {}", split_index + 1));
+
+            let team_name = game.teams.iter()
+                .find(|t| t.id == to_team_id)
+                .map(|t| t.name.clone())
+                .unwrap_or_else(|| "Unknown".to_string());
+
+            // Don't duplicate if already has entry for this split+team
+            let already_exists = player.career.iter().any(|e|
+                e.season == season
+                && e.split_index == split_index as u32
+                && e.team_id.as_deref() == Some(to_team_id)
+            );
+            if !already_exists {
+                player.career.push(crate::domain::player::CareerEntry {
+                    season,
+                    split_index: split_index as u32,
+                    split_name,
+                    team_id: Some(to_team_id.to_string()),
+                    team_name,
+                    appearances: 0,
+                    kills: 0,
+                    deaths: 0,
+                    assists: 0,
+                    avg_rating: 0.0,
+                });
+            }
+        }
     } else {
         return Err("Player not found".to_string());
     }
