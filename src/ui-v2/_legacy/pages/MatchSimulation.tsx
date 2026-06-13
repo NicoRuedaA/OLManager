@@ -1414,6 +1414,21 @@ export default function MatchSimulation() {
             console.error("[MatchSimulation] apply_champion_mastery_from_draft failed", error);
           }
         })();
+
+        void (async () => {
+          try {
+            await invoke("record_fixture_champion_picks", {
+              fixtureId: currentFixture?.id ?? "",
+              winnerTeamId,
+              picks: masteryPicks,
+              bans: draftPayload
+                ? [...draftPayload.blue.bans, ...draftPayload.red.bans]
+                : [],
+            });
+          } catch (error) {
+            console.error("[MatchSimulation] record_fixture_champion_picks failed", error);
+          }
+        })();
       }
 
       homeSeriesWins = Math.min(
@@ -1836,6 +1851,7 @@ export default function MatchSimulation() {
           redSeriesWins={redSeriesWins}
           lockedChampionIds={seriesLength > 1 ? seriesUsedChampionIds : []}
           gameState={gameState}
+          matchType={currentFixture?.match_type}
         />
       );
 
