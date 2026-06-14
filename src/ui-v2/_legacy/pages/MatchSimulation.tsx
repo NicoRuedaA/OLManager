@@ -1281,7 +1281,7 @@ export default function MatchSimulation() {
     setStage("first_half");
   }, []);
 
-  const finalizeMatch = useCallback(async (lolReport?: LolSimV1MatchReportInput): Promise<boolean> => {
+  const finalizeMatch = useCallback(async (lolReport?: LolSimV1MatchReportInput, masteryPicks: Array<{ playerId: string; championId: string }> = []): Promise<boolean> => {
     if (hasFinalizedMatch) {
       return true;
     }
@@ -1289,7 +1289,10 @@ export default function MatchSimulation() {
     try {
       console.info("[MatchSimulation] finalizeMatch:start");
       const response =
-        await invoke<FinishLiveMatchResponse>("finish_live_match", { lolReport });
+        await invoke<FinishLiveMatchResponse>("finish_live_match", {
+          lolReport,
+          masteryPicks: masteryPicks.map((p) => [p.playerId, p.championId] as [string, string]),
+        });
       console.info("[MatchSimulation] finalizeMatch:success", {
         hasRoundSummary: !!response.round_summary,
         hasUpdatedGame: !!response.game,
@@ -1370,6 +1373,7 @@ export default function MatchSimulation() {
     let opponentSeriesWins = 0;
     let seriesComplete = seriesLength === 1;
     let nextSeriesUsedChampionIds = seriesLength > 1 ? seriesUsedChampionIds : [];
+    let masteryPicks: Array<{ playerId: string; championId: string }> = [];
 
     if (currentFixture?.id) {
       const stored = readStoredFixtureDraftResult(currentFixture.id);
@@ -1389,7 +1393,7 @@ export default function MatchSimulation() {
           ? snapshotForResult.home_team.id
           : snapshotForResult.away_team.id;
 
-      const masteryPicks = [
+      masteryPicks = [
         ...(draftPayload?.blue.picks ?? []).map((pick, idx) => ({
           playerId: snapshotForResult.home_team.players[idx]?.id ?? "",
           championId: pick.championId,
@@ -1412,21 +1416,6 @@ export default function MatchSimulation() {
             }
           } catch (error) {
             console.error("[MatchSimulation] apply_champion_mastery_from_draft failed", error);
-          }
-        })();
-
-        void (async () => {
-          try {
-            await invoke("record_fixture_champion_picks", {
-              fixtureId: currentFixture?.id ?? "",
-              winnerTeamId,
-              picks: masteryPicks,
-              bans: draftPayload
-                ? [...draftPayload.blue.bans, ...draftPayload.red.bans]
-                : [],
-            });
-          } catch (error) {
-            console.error("[MatchSimulation] record_fixture_champion_picks failed", error);
           }
         })();
       }
@@ -1537,7 +1526,7 @@ export default function MatchSimulation() {
 
     if (seriesComplete) {
       void (async () => {
-        const finalized = await finalizeMatch(buildLolMatchReport(runtimeForFinalize));
+        const finalized = await finalizeMatch(buildLolMatchReport(runtimeForFinalize), masteryPicks);
         if (finalized) {
           setStage("draft_result");
         }

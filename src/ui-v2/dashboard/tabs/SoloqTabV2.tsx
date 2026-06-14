@@ -14,7 +14,7 @@ import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 import { resolvePlayerCurrentLolRole } from "@/lib/players/lolIdentity";
 import { normalizeChampionKey } from "@/lib/champions/championIds";
-import { resolveChampionTile } from "@/lib/champions/championImages";
+import { asset } from "@/lib/asset";
 
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
@@ -178,7 +178,7 @@ export function SoloqTabV2({ gameState, onGameUpdate, onSelectPlayer }: SoloqTab
   useEffect(() => {
     Object.values(CHAMPIONS_BY_ROLE).flat().forEach((id) => {
       const img = new Image();
-      img.src = resolveChampionTile(id) ?? "";
+      img.src = asset(`/champion-tiles/${id}.webp`, "champion") ?? "";
     });
   }, []);
 
@@ -477,7 +477,7 @@ export function SoloqTabV2({ gameState, onGameUpdate, onSelectPlayer }: SoloqTab
                     <div
                       key={`${player.id}-slot-${slotIndex}`}
                       className="relative rounded-lg border border-border bg-muted/30 p-2.5 transition-all hover:border-muted-foreground/30"
-                      style={target ? { backgroundImage: `url(${resolveChampionTile(target) ?? ""})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+                      style={target ? { backgroundImage: `url(${asset(`/champion-tiles/${target}.webp`, "champion") ?? ""})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
                     >
                       {target && <div className="absolute inset-0 rounded-lg bg-muted/80 transition-opacity duration-300" />}
                       <div className="relative z-10">
