@@ -48,7 +48,7 @@ pub struct Staff {
 pub enum StaffRole {
     #[serde(rename = "Assistant", alias = "AssistantManager")]
     Assistant,
-    #[serde(rename = "Head Coach", alias = "Coach")]
+    #[serde(rename = "Head Coach", alias = "Coach", alias = "HeadCoach")]
     HeadCoach,
     #[serde(rename = "Analyst", alias = "Scout")]
     Analyst,
