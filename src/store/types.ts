@@ -490,7 +490,7 @@ export interface StaffData {
   date_of_birth: string;
   nationality: string;
   profile_image_url?: string | null;
-  role: "AssistantManager" | "Coach" | "Scout" | "Physio";
+  role: "Assistant" | "Head Coach" | "Analyst" | "Performance Coach" | "Owner";
   attributes: {
     coaching: number;
     judging_ability: number;

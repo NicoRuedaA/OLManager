@@ -239,7 +239,7 @@ mod tests {
             "Alex".to_string(),
             "Assistant".to_string(),
             "1985-01-01".to_string(),
-            StaffRole::AssistantManager,
+            StaffRole::Assistant,
             StaffAttributes {
                 coaching: 82,
                 judging_ability: 76,

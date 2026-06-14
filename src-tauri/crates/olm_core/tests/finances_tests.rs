@@ -66,7 +66,7 @@ fn make_staff(id: &str, team_id: &str, wage: u32) -> Staff {
         "Staff".to_string(),
         id.to_string(),
         "1980-01-01".to_string(),
-        StaffRole::Coach,
+        StaffRole::HeadCoach,
         StaffAttributes {
             coaching: 70,
             judging_ability: 50,

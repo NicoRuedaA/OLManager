@@ -46,12 +46,14 @@ pub struct Staff {
 #[cfg_attr(feature = "typescript", derive(TS))]
 #[cfg_attr(feature = "typescript", ts(export))]
 pub enum StaffRole {
-    #[serde(alias = "Assistant")]
-    AssistantManager,
-    #[serde(alias = "HeadCoach", alias = "Analyst", alias = "Performance Coach")]
-    Coach,
-    Scout,
-    Physio,
+    #[serde(rename = "Assistant", alias = "AssistantManager")]
+    Assistant,
+    #[serde(rename = "Head Coach", alias = "Coach")]
+    HeadCoach,
+    #[serde(rename = "Analyst", alias = "Scout")]
+    Analyst,
+    #[serde(rename = "Performance Coach", alias = "Physio")]
+    PerformanceCoach,
     Owner,
 }
 
@@ -119,7 +121,7 @@ mod tests {
         assert_eq!(staff.first_name, "");
         assert_eq!(staff.last_name, "");
         assert_eq!(staff.date_of_birth, "");
-        assert_eq!(staff.role, StaffRole::AssistantManager);
+        assert_eq!(staff.role, StaffRole::Assistant);
         assert_eq!(staff.wage, 0);
         assert_eq!(staff.attributes.coaching, 79);
         assert_eq!(staff.attributes.judging_ability, 0);

@@ -60,7 +60,7 @@ pub fn send_scout(game: &mut Game, scout_id: &str, player_id: &str) -> Result<()
         .iter()
         .find(|s| s.id == scout_id)
         .ok_or("Scout not found")?;
-    if scout.role != StaffRole::Scout {
+    if scout.role != StaffRole::Analyst {
         return Err("Staff member is not a scout".to_string());
     }
     if scout.team_id.as_ref() != Some(user_team_id) {

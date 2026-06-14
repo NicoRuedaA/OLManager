@@ -34,7 +34,7 @@ pub fn delegate_renewals(
         .iter()
         .find(|staff| {
             staff.team_id.as_deref() == Some(team.id.as_str())
-                && staff.role == StaffRole::AssistantManager
+                && staff.role == StaffRole::Assistant
         })
         .ok_or("No assistant manager assigned to your team".to_string())?;
     let current_date = game.clock.current_date.date_naive();

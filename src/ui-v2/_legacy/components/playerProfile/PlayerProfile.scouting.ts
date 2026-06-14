@@ -31,7 +31,7 @@ export function getScoutAvailability({
 }: ScoutAvailabilityArgs): ScoutAvailability {
     const scouts = staff.filter(
         (member) =>
-            member.role === "Scout" && member.team_id === managerTeamId,
+            member.role === "Analyst" && member.team_id === managerTeamId,
     );
     const alreadyScouting = scoutingAssignments.some(
         (assignment) => assignment.player_id === playerId,

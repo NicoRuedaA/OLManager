@@ -46,9 +46,9 @@ export function getLolStaffEffectsForTeam(gameState: GameStateData | null | unde
   const teamStaff = gameState.staff.filter((member) => member.team_id === teamId);
   if (teamStaff.length === 0) return DEFAULT_LOL_STAFF_EFFECTS;
 
-  const coaches = teamStaff.filter((member) => member.role === "Coach" || member.role === "AssistantManager");
-  const scouts = teamStaff.filter((member) => member.role === "Scout");
-  const physios = teamStaff.filter((member) => member.role === "Physio");
+  const coaches = teamStaff.filter((member) => member.role === "Head Coach" || member.role === "Assistant");
+  const scouts = teamStaff.filter((member) => member.role === "Analyst");
+  const physios = teamStaff.filter((member) => member.role === "Performance Coach");
 
   const coachingAvg = average(coaches.map((member) => member.attributes.coaching));
   const abilityAvg = average(scouts.map((member) => member.attributes.judging_ability));

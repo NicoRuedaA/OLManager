@@ -1,5 +1,5 @@
 import path from "node:path";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -49,7 +49,29 @@ export default defineConfig(async () => {
     define: {
       __APP_VERSION__: JSON.stringify(pkg.version),
     },
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      {
+        name: "es-toolkit-mjs",
+        resolveId(id) {
+          if (!id.startsWith("es-toolkit/compat/")) return;
+          const name = id.replace("es-toolkit/compat/", "");
+          for (const dir of ["object", "array", "function", "predicate", "string", "math", "util"]) {
+            const mjs = path.resolve(__dirname, "node_modules", "es-toolkit", "dist", "compat", dir, name + ".mjs");
+            if (existsSync(mjs)) return mjs;
+          }
+        },
+        transform(code, id) {
+          if (!id.includes("es-toolkit") || !id.endsWith(".mjs")) return;
+          const name = path.basename(id, ".mjs");
+          if (!name || code.includes("export default")) return;
+          if (code.includes(`export { ${name} }`)) {
+            return code + `\nexport default ${name};`;
+          }
+        },
+      },
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
@@ -68,6 +90,9 @@ export default defineConfig(async () => {
     // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
     //
     // 1. prevent Vite from obscuring rust errors
+    optimizeDeps: {
+      exclude: ["es-toolkit"],
+    },
     clearScreen: false,
     build: {
       rollupOptions: {

@@ -425,7 +425,7 @@ mod tests {
             "Alice".to_string(),
             "Coach".to_string(),
             "1980-05-10".to_string(),
-            StaffRole::Coach,
+            StaffRole::HeadCoach,
             StaffAttributes {
                 coaching: 75,
                 judging_ability: 60,

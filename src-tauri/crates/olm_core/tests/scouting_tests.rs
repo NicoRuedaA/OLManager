@@ -61,7 +61,7 @@ fn make_scout(id: &str, team_id: &str, judging_ability: u8, judging_potential: u
         "Scout".to_string(),
         format!("Nr{}", id),
         "1985-01-01".to_string(),
-        StaffRole::Scout,
+        StaffRole::Analyst,
         StaffAttributes {
             coaching: 30,
             judging_ability,
@@ -164,7 +164,7 @@ fn send_scout_rejects_duplicate_assignment() {
 fn send_scout_rejects_non_scout_staff() {
     let mut game = make_game();
     // Replace scout with a coach
-    game.staff[0].role = StaffRole::Coach;
+    game.staff[0].role = StaffRole::HeadCoach;
     let result = send_scout(&mut game, "scout1", "p2");
     assert!(result.is_err());
     assert!(result.unwrap_err().contains("not a scout"));

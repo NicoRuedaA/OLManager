@@ -248,7 +248,7 @@ mod tests {
             "A".to_string(),
             "Coach".to_string(),
             "1980-01-01".to_string(),
-            StaffRole::Coach,
+            StaffRole::HeadCoach,
             StaffAttributes {
                 coaching: 50,
                 judging_ability: 50,

@@ -60,17 +60,17 @@ impl LolStaffEffects {
         let coaches: Vec<&Staff> = team_staff
             .iter()
             .copied()
-            .filter(|member| matches!(member.role, StaffRole::Coach | StaffRole::AssistantManager))
+            .filter(|member| matches!(member.role, StaffRole::HeadCoach | StaffRole::Assistant))
             .collect();
         let scouts: Vec<&Staff> = team_staff
             .iter()
             .copied()
-            .filter(|member| member.role == StaffRole::Scout)
+            .filter(|member| member.role == StaffRole::Analyst)
             .collect();
         let physios: Vec<&Staff> = team_staff
             .iter()
             .copied()
-            .filter(|member| member.role == StaffRole::Physio)
+            .filter(|member| member.role == StaffRole::PerformanceCoach)
             .collect();
 
         let coaching_avg = avg(&coaches
@@ -163,9 +163,9 @@ mod tests {
 
     #[test]
     fn strong_staff_improves_multiple_preparation_surfaces_with_caps() {
-        let coach = staff("coach", StaffRole::Coach, 92, 30, 30, 20);
-        let scout = staff("scout", StaffRole::Scout, 20, 90, 86, 20);
-        let physio = staff("physio", StaffRole::Physio, 20, 20, 20, 88);
+        let coach = staff("coach", StaffRole::HeadCoach, 92, 30, 30, 20);
+        let scout = staff("scout", StaffRole::Analyst, 20, 90, 86, 20);
+        let physio = staff("physio", StaffRole::PerformanceCoach, 20, 20, 20, 88);
         let effects = LolStaffEffects::for_team(&[coach, scout, physio], "team-1");
 
         assert!(effects.coaching > 1.15 && effects.coaching <= 1.25);

@@ -155,7 +155,7 @@ function createStaff(overrides: Partial<StaffData> = {}): StaffData {
     first_name: "Staff",
     last_name: "Coach",
     nationality: "BR",
-    role: "Coach",
+    role: "Head Coach",
     team_id: "team-1",
     wage: 60_000,
     contract_end: null,

@@ -59,7 +59,7 @@ export default function ScoutingTab({
     ? gameState.players.filter((player) => player.team_id === academyTeam.id).length
     : 0;
   const scouts = gameState.staff.filter(
-    (s) => s.role === "Scout" && s.team_id === myTeamId,
+    (s) => s.role === "Analyst" && s.team_id === myTeamId,
   );
   const assignments = gameState.scouting_assignments || [];
   const availableScouts = calculateAvailableScouts(scouts, assignments);

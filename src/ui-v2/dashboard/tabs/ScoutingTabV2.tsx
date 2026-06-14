@@ -36,7 +36,7 @@ export function ScoutingTabV2({ gameState, onGameUpdate, onSelectPlayer, onNavig
   const academyRosterCount = academyTeam
     ? gameState.players.filter((p) => p.team_id === academyTeam.id).length
     : 0;
-  const scouts = gameState.staff.filter((s) => s.role === "Scout" && s.team_id === myTeamId);
+  const scouts = gameState.staff.filter((s) => s.role === "Analyst" && s.team_id === myTeamId);
   const assignments = gameState.scouting_assignments || [];
   const availableScouts = calculateAvailableScouts(scouts, assignments);
   const totalCapacity = scouts.reduce((s, scout) => s + scoutMaxSlots(scout.attributes.judging_ability), 0);

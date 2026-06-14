@@ -95,8 +95,8 @@ function createStaff(overrides: Partial<StaffData> = {}): StaffData {
     last_name: "Coach",
     date_of_birth: "1980-01-01",
     nationality: "GB",
-    role: "Coach",
-    attributes: {
+            role: "Head Coach",
+            attributes: {
       coaching: 70,
       judging_ability: 50,
       judging_potential: 55,
@@ -159,14 +159,14 @@ describe("StaffTab", () => {
       <StaffTab
         gameState={createGameState([
           createStaff(),
-          createStaff({ id: "staff-2", first_name: "Sam", last_name: "Scout", role: "Scout", team_id: null }),
-          createStaff({ id: "staff-3", first_name: "Pat", last_name: "Physio", role: "Physio", team_id: null }),
+          createStaff({ id: "staff-2", first_name: "Sam", last_name: "Scout",           role: "Analyst", team_id: null }),
+          createStaff({ id: "staff-3", first_name: "Pat", last_name: "Physio",           role: "Performance Coach", team_id: null }),
         ])}
       />,
     );
 
     fireEvent.click(screen.getByRole("button", { name: /Available 2/i }));
-    fireEvent.click(screen.getByRole("button", { name: /Scout/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Analyst/i }));
     fireEvent.change(screen.getByPlaceholderText("Search staff"), {
       target: { value: "sam" },
     });
@@ -183,7 +183,7 @@ describe("StaffTab", () => {
     render(
       <StaffTab
         gameState={createGameState([
-          createStaff({ id: "staff-2", first_name: "Sam", last_name: "Scout", role: "Scout", team_id: null }),
+          createStaff({ id: "staff-2", first_name: "Sam", last_name: "Scout",           role: "Analyst", team_id: null }),
         ])}
         onGameUpdate={onGameUpdate}
       />,
@@ -206,7 +206,7 @@ describe("StaffTab", () => {
             id: "coach-1",
             first_name: "Mina",
             last_name: "Coach",
-            role: "Coach",
+    role: "Head Coach",
             attributes: {
               coaching: 80,
               judging_ability: 40,
@@ -218,7 +218,7 @@ describe("StaffTab", () => {
             id: "scout-1",
             first_name: "Sam",
             last_name: "Scout",
-            role: "Scout",
+            role: "Analyst",
             attributes: {
               coaching: 35,
               judging_ability: 80,
@@ -230,7 +230,7 @@ describe("StaffTab", () => {
             id: "physio-1",
             first_name: "Pat",
             last_name: "Physio",
-            role: "Physio",
+            role: "Performance Coach",
             attributes: {
               coaching: 45,
               judging_ability: 35,

@@ -42,12 +42,12 @@ pub fn upsert_staff_list(conn: &Connection, staff: &[Staff]) -> Result<(), Strin
 
 fn parse_role(s: &str) -> StaffRole {
     match s {
-        "AssistantManager" => StaffRole::AssistantManager,
-        "Coach" => StaffRole::Coach,
-        "Scout" => StaffRole::Scout,
-        "Physio" => StaffRole::Physio,
+        "Assistant" | "AssistantManager" => StaffRole::Assistant,
+        "HeadCoach" | "Coach" => StaffRole::HeadCoach,
+        "Analyst" | "Scout" => StaffRole::Analyst,
+        "PerformanceCoach" | "Physio" => StaffRole::PerformanceCoach,
         "Owner" => StaffRole::Owner,
-        _ => StaffRole::Coach,
+        _ => StaffRole::HeadCoach,
     }
 }
 
@@ -130,7 +130,7 @@ mod tests {
     #[test]
     fn test_upsert_and_load_staff() {
         let db = test_db();
-        let mut staff = sample_staff("staff-001", StaffRole::Coach);
+        let mut staff = sample_staff("staff-001", StaffRole::HeadCoach);
         staff.nationality = "Scottish".to_string();
         staff.birth_country = Some("SCO".to_string());
 
@@ -138,7 +138,7 @@ mod tests {
         let all = load_all_staff(db.conn()).unwrap();
         assert_eq!(all.len(), 1);
         assert_eq!(all[0].id, "staff-001");
-        assert_eq!(all[0].role, StaffRole::Coach);
+        assert_eq!(all[0].role, StaffRole::HeadCoach);
         assert_eq!(all[0].attributes.coaching, 75);
         assert_eq!(all[0].wage, 3000);
         assert_eq!(all[0].birth_country, Some("SCO".to_string()));
@@ -148,10 +148,10 @@ mod tests {
     fn test_upsert_staff_list() {
         let db = test_db();
         let list = vec![
-            sample_staff("s-001", StaffRole::Coach),
-            sample_staff("s-002", StaffRole::Scout),
-            sample_staff("s-003", StaffRole::Physio),
-            sample_staff("s-004", StaffRole::AssistantManager),
+            sample_staff("s-001", StaffRole::HeadCoach),
+            sample_staff("s-002", StaffRole::Analyst),
+            sample_staff("s-003", StaffRole::PerformanceCoach),
+            sample_staff("s-004", StaffRole::Assistant),
         ];
 
         upsert_staff_list(db.conn(), &list).unwrap();
@@ -162,15 +162,15 @@ mod tests {
     #[test]
     fn test_staff_roundtrip_different_roles() {
         let db = test_db();
-        let coach = sample_staff("s-001", StaffRole::Coach);
-        let physio = sample_staff("s-002", StaffRole::Physio);
+        let coach = sample_staff("s-001", StaffRole::HeadCoach);
+        let physio = sample_staff("s-002", StaffRole::PerformanceCoach);
 
         upsert_staff(db.conn(), &coach).unwrap();
         upsert_staff(db.conn(), &physio).unwrap();
         let all = load_all_staff(db.conn()).unwrap();
         assert_eq!(all.len(), 2);
-        assert_eq!(all[0].role, StaffRole::Coach);
-        assert_eq!(all[1].role, StaffRole::Physio);
+        assert_eq!(all[0].role, StaffRole::HeadCoach);
+        assert_eq!(all[1].role, StaffRole::PerformanceCoach);
     }
 }
 

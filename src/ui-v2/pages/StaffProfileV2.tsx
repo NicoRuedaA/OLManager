@@ -33,10 +33,10 @@ import { Card, CardContent } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 
 const ROLE_ICONS: Record<string, React.ReactNode> = {
-  AssistantManager: <Briefcase className="size-5" />,
-  Coach: <GraduationCap className="size-5" />,
-  Scout: <Eye className="size-5" />,
-  Physio: <Stethoscope className="size-5" />,
+  Assistant: <Briefcase className="size-5" />,
+  "Head Coach": <GraduationCap className="size-5" />,
+  Analyst: <Eye className="size-5" />,
+  "Performance Coach": <Stethoscope className="size-5" />,
   Owner: <Star className="size-5" />,
 };
 

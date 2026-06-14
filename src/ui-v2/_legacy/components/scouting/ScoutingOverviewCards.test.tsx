@@ -11,7 +11,7 @@ function createScout(overrides: Partial<StaffData> = {}): StaffData {
     last_name: "Scout",
     date_of_birth: "1985-01-01",
     nationality: "GB",
-    role: "Scout",
+    role: "Analyst",
     attributes: {
       coaching: 20,
       judging_ability: 65,

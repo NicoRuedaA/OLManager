@@ -161,8 +161,8 @@ fn make_game() -> Game {
     // Old player (age ~35)
     let p3 = make_player("p3", "Veteran", "team1", "1990-01-01");
 
-    let coach = make_staff("coach1", "team1", StaffRole::Coach, 80, 30);
-    let physio = make_staff("physio1", "team1", StaffRole::Physio, 30, 80);
+    let coach = make_staff("coach1", "team1", StaffRole::HeadCoach, 80, 30);
+    let physio = make_staff("physio1", "team1", StaffRole::PerformanceCoach, 30, 80);
 
     Game::new(
         clock,
@@ -834,7 +834,7 @@ fn warning_uses_physio_sender_when_available() {
 fn warning_uses_assistant_manager_when_no_physio() {
     let mut game = make_game();
     // Remove physio
-    game.staff.retain(|s| !matches!(s.role, StaffRole::Physio));
+    game.staff.retain(|s| !matches!(s.role, StaffRole::PerformanceCoach));
     for p in game.players.iter_mut() {
         p.condition = 40;
     }

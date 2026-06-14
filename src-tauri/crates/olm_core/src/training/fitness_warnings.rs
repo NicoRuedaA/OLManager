@@ -53,7 +53,7 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
     // Determine if we need a physio/staff role sender
     let has_physio = game.staff.iter().any(|s| {
         s.team_id.as_deref() == Some(&user_team_id)
-            && matches!(s.role, crate::domain::staff::StaffRole::Physio)
+            && matches!(s.role, crate::domain::staff::StaffRole::PerformanceCoach)
     });
 
     let sender = if has_physio {
@@ -66,7 +66,7 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
             .iter()
             .find(|s| {
                 s.team_id.as_deref() == Some(&user_team_id)
-                    && matches!(s.role, crate::domain::staff::StaffRole::Physio)
+                    && matches!(s.role, crate::domain::staff::StaffRole::PerformanceCoach)
             })
             .map(|s| format!("{} {}", s.first_name, s.last_name))
             .unwrap_or_else(|| "Medical Staff".to_string())
@@ -75,7 +75,7 @@ pub fn check_squad_fitness_warnings(game: &mut Game) {
             .iter()
             .find(|s| {
                 s.team_id.as_deref() == Some(&user_team_id)
-                    && matches!(s.role, crate::domain::staff::StaffRole::AssistantManager)
+                    && matches!(s.role, crate::domain::staff::StaffRole::Assistant)
             })
             .map(|s| format!("{} {}", s.first_name, s.last_name))
             .unwrap_or_else(|| "Assistant Manager".to_string())

@@ -84,7 +84,7 @@ function computeIntelQuality(gameState: GameStateData): IntelQualityProfile {
   }
 
   const teamStaff = (gameState.staff ?? []).filter((member) => member.team_id === userTeamId);
-  const analystPool = teamStaff.filter((member) => member.role === "Scout" || member.role === "AssistantManager");
+  const analystPool = teamStaff.filter((member) => member.role === "Analyst" || member.role === "Assistant");
   if (analystPool.length === 0) {
     return { revealRatio: 0.45, masteryNoise: 16, metaNoise: 6, qualityLabel: "low" };
   }
@@ -93,9 +93,9 @@ function computeIntelQuality(gameState: GameStateData): IntelQualityProfile {
     const analysis = member.attributes.judging_ability;
     const potential = member.attributes.judging_potential;
     const coaching = member.attributes.coaching;
-    const weight = member.role === "AssistantManager" ? 0.6 : 1.0;
+    const weight = member.role === "Assistant" ? 0.6 : 1.0;
     return acc + ((analysis * 0.5) + (potential * 0.3) + (coaching * 0.2)) * weight;
-  }, 0) / analystPool.reduce((acc, member) => acc + (member.role === "AssistantManager" ? 0.6 : 1.0), 0);
+  }, 0) / analystPool.reduce((acc, member) => acc + (member.role === "Assistant" ? 0.6 : 1.0), 0);
 
   if (score >= 78) {
     return { revealRatio: 0.95, masteryNoise: 4, metaNoise: 1, qualityLabel: "high" };

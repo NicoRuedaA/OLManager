@@ -2027,7 +2027,7 @@ export default function ChampionDraft({
 
     const userTeamId = controlledSide === "blue" ? snapshot.home_team.id : snapshot.away_team.id;
     const assistantCoach = gameState.staff.find(
-      (staff) => staff.team_id === userTeamId && staff.role === "AssistantManager",
+      (staff) => staff.team_id === userTeamId && staff.role === "Assistant",
     );
     const coachName =
       assistantCoach && (assistantCoach.first_name || assistantCoach.last_name)

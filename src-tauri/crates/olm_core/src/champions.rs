@@ -686,7 +686,7 @@ fn seed_initial_discovery(game: &mut Game) {
             .iter()
             .filter(|staff| {
                 staff.team_id.as_deref() == Some(manager_team_id)
-                    && staff.role == StaffRole::Scout
+                    && staff.role == StaffRole::Analyst
             })
             .collect();
 
@@ -1496,7 +1496,7 @@ fn process_meta_discovery(game: &mut Game) {
         .staff
         .iter()
         .filter(|staff| {
-            staff.team_id.as_deref() == Some(manager_team_id) && staff.role == StaffRole::Scout
+            staff.team_id.as_deref() == Some(manager_team_id) && staff.role == StaffRole::Analyst
         })
         .collect();
 

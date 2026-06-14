@@ -33,17 +33,17 @@ interface StaffTabProps {
 }
 
 const ROLE_ICONS: Record<string, React.ReactNode> = {
-  AssistantManager: <Briefcase className="w-4 h-4" />,
-  Coach: <GraduationCap className="w-4 h-4" />,
-  Scout: <Eye className="w-4 h-4" />,
-  Physio: <Stethoscope className="w-4 h-4" />,
+  Assistant: <Briefcase className="w-4 h-4" />,
+  "Head Coach": <GraduationCap className="w-4 h-4" />,
+  Analyst: <Eye className="w-4 h-4" />,
+  "Performance Coach": <Stethoscope className="w-4 h-4" />,
   Owner: <Star className="w-4 h-4" />,
 };
 const ROLE_COLORS: Record<string, string> = {
-  AssistantManager: "text-blue-500",
-  Coach: "text-primary-500",
-  Scout: "text-accent-500",
-  Physio: "text-red-400",
+  Assistant: "text-blue-500",
+  "Head Coach": "text-primary-500",
+  Analyst: "text-accent-500",
+  "Performance Coach": "text-red-400",
   Owner: "text-yellow-500",
 };
 
@@ -86,10 +86,10 @@ function bestAttr(s: StaffData): { key: string; value: number } {
 function ovrRating(s: StaffData): number {
   const { coaching, judging_ability, judging_potential, physiotherapy } = s.attributes;
   const weights: Record<string, [number, number, number, number]> = {
-    Coach: [0.7, 0.15, 0.1, 0.05],
-    AssistantManager: [0.35, 0.25, 0.25, 0.15],
-    Scout: [0.1, 0.45, 0.4, 0.05],
-    Physio: [0.15, 0.05, 0.05, 0.75],
+    "Head Coach": [0.7, 0.15, 0.1, 0.05],
+    Assistant: [0.35, 0.25, 0.25, 0.15],
+    Analyst: [0.1, 0.45, 0.4, 0.05],
+    "Performance Coach": [0.15, 0.05, 0.05, 0.75],
   };
   const [coachW, abilityW, potentialW, physioW] = weights[s.role] ?? [0.25, 0.25, 0.25, 0.25];
   return Math.round(
@@ -108,35 +108,35 @@ function getStaffImpactRows(s: StaffData): ImpactRow[] {
   const potential = qualityMult(s.attributes.judging_potential, 0.98, 1.16);
   const recovery = qualityMult(s.attributes.physiotherapy, 1, 1.2);
   const morale = qualityMult(
-    s.role === "Physio" ? s.attributes.physiotherapy : s.attributes.coaching,
+    s.role === "Performance Coach" ? s.attributes.physiotherapy : s.attributes.coaching,
     0.96,
     1.12,
   );
   const metaDiscovery = clamp(analysis * 0.75 + potential * 0.25, 0.9, 1.2);
   const execution = clamp((tactics + analysis) / 2, 0.96, 1.1);
 
-  if (s.role === "Coach") {
+  if (s.role === "Head Coach") {
     return [
       { labelKey: "staff.lolImpact.development", value: development },
       { labelKey: "staff.lolImpact.tactics", value: tactics },
       { labelKey: "staff.lolImpact.execution", value: execution },
     ];
   }
-  if (s.role === "AssistantManager") {
+  if (s.role === "Assistant") {
     return [
       { labelKey: "staff.lolImpact.development", value: coaching },
       { labelKey: "staff.lolImpact.tactics", value: tactics },
       { labelKey: "staff.lolImpact.analysis", value: analysis },
     ];
   }
-  if (s.role === "Scout") {
+  if (s.role === "Analyst") {
     return [
       { labelKey: "staff.lolImpact.analysis", value: analysis },
       { labelKey: "staff.lolImpact.draftAnalysis", value: execution },
       { labelKey: "staff.lolImpact.futureMeta", value: metaDiscovery },
     ];
   }
-  if (s.role === "Physio") {
+  if (s.role === "Performance Coach") {
     return [
       { labelKey: "staff.lolImpact.recovery", value: recovery },
       { labelKey: "staff.lolImpact.tiltControl", value: morale },

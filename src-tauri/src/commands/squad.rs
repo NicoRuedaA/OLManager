@@ -1967,7 +1967,7 @@ mod tests {
             "Pat".to_string(),
             "Coach".to_string(),
             "1988-01-01".to_string(),
-            StaffRole::Coach,
+            StaffRole::HeadCoach,
             StaffAttributes {
                 coaching: 99,
                 judging_ability: 50,

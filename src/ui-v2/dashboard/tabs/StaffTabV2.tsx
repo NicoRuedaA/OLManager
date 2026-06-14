@@ -40,10 +40,10 @@ interface StaffTabV2Props {
 }
 
 const ROLE_ICONS: Record<string, React.ReactNode> = {
-  AssistantManager: <Briefcase className="size-4" />,
-  Coach: <GraduationCap className="size-4" />,
-  Scout: <Eye className="size-4" />,
-  Physio: <Stethoscope className="size-4" />,
+  Assistant: <Briefcase className="size-4" />,
+  "Head Coach": <GraduationCap className="size-4" />,
+  Analyst: <Eye className="size-4" />,
+  "Performance Coach": <Stethoscope className="size-4" />,
   Owner: <Star className="size-4" />,
 };
 
