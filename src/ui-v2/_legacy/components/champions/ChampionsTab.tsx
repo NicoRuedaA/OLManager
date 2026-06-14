@@ -11,7 +11,7 @@ import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 import { t } from "i18next";
 import { resolvePlayerCurrentLolRole } from "@/lib/players/lolIdentity";
 import { normalizeChampionKey } from "@/lib/champions/championIds";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile } from "@/lib/champions/championImages";
 
 interface ChampionsTabProps {
   gameState: GameStateData;
@@ -492,7 +492,7 @@ export default function ChampionsTab({ gameState, onGameUpdate, onViewChampion }
                         >
                           <div className="h-14 w-24 rounded-md border border-navy-500/80 bg-navy-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-yellow-300 overflow-hidden">
                             <img
-                              src={asset(`/champion-tiles/${entry.champion_id}.webp`, "champion") ?? ""}
+                              src={resolveChampionTile(entry.champion_id) ?? ""}
                               alt={championDisplayName(entry.champion_id)}
                               className="h-full w-full object-cover"
                               loading="lazy"

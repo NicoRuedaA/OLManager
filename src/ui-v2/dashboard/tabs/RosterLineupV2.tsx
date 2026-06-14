@@ -6,7 +6,7 @@ import type { ChampionMasteryEntryData, PlayerData } from "@/store/gameStore";
 import { fallbackChampionForRole, resolvePlayerLolRole } from "@/lib/players/lolIdentity";
 import { resolvePlayerPhoto } from "@/lib/players/playerPhotos";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
-import { asset } from "@/lib/asset";
+import { resolveChampionSplash } from "@/lib/champions/championImages";
 import { normalizeChampionKey } from "@/lib/champions/championIds";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
@@ -99,7 +99,7 @@ export function RosterLineupV2({ roster, championMasteries = [], onNavigate, onS
                 ""
               : "";
             const splash = topChampion
-              ? asset(`/champion-splash/${normalizeChampionKey(topChampion)}.webp`, "champion")
+              ? resolveChampionSplash(normalizeChampionKey(topChampion))
               : null;
 
             return (

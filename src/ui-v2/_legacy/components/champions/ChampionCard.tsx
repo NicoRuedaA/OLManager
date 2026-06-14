@@ -1,5 +1,5 @@
 import { memo, useState, useEffect, useRef } from "react";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile } from "@/lib/champions/championImages";
 
 export interface ChampionCardProps {
   id: number;
@@ -82,7 +82,7 @@ export const ChampionCard = memo(function ChampionCard({
   imageTileUrl,
   onClick,
 }: ChampionCardProps) {
-  const displayImage = imageTileUrl || asset(`/champion-tiles/${championKey}.webp`, "champion") || "";
+  const displayImage = imageTileUrl || resolveChampionTile(championKey) || "";
 
   return (
     <button

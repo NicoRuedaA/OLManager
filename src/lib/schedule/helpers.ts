@@ -1,7 +1,6 @@
 import { GameStateData, FixtureData } from "../../store/gameStore";
 import type { MatchSnapshot } from "@/ui-v2/_legacy/components/match/types";
 import type { DraftMatchResult } from "@/ui-v2/_legacy/components/match/draftResultSimulator";
-import { asset } from "@/lib/asset";
 
 export interface StoredSeriesGameResult {
   gameIndex: number;
@@ -135,12 +134,11 @@ export function getTeamLogoPath(teams: GameStateData["teams"], teamId: string): 
   const team = teams.find((candidate) => candidate.id === teamId);
   if (!team) return null;
 
-  if (team.logo_url) return asset(team.logo_url);
+  // Use logo_url from backend if available (already mapped to /teams-icons/)
+  if (team.logo_url) return team.logo_url;
 
   const normalizedName = normalizeKey(team.name);
-  const hardcoded = TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName];
-  if (hardcoded) return asset(hardcoded);
-  return asset(`/teams-icons/${team.name}.webp`, "slug");
+  return TEAM_LOGO_BY_NORMALIZED_NAME[normalizedName] ?? null;
 }
 
 export function readStoredFixtureDraftResult(fixtureId: string): StoredFixtureDraftResult | null {

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useGameStore } from "@/store/gameStore";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 import { Card, CardBody, CardHeader } from "@/ui-v2/_legacy/components/ui";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile, resolveChampionSplash } from "@/lib/champions/championImages";
 
 export interface ChampionPageProps {
   championKey: string;
@@ -202,11 +202,11 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
   // Determine image URLs — local webp only
   const splashUrl =
     champion.image_splash_url
-    || asset(`/champion-splash/${champion.champion_key}.webp`, "champion")
+    || resolveChampionSplash(champion.champion_key)
     || "";
   const tileUrl =
     champion.image_tile_url
-    || asset(`/champion-tiles/${champion.champion_key}.webp`, "champion")
+    || resolveChampionTile(champion.champion_key)
     || "";
 
   return (
@@ -342,7 +342,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                   {counterpicks.map((item, idx) => {
                     const champKey = extractOpponentKey(item, champion.champion_key);
                     const imgUrl = champKey
-                      ? (asset(`/champion-tiles/${champKey}.webp`, "champion") ?? "")
+                      ? (resolveChampionTile(champKey) ?? "")
                       : "";
                     return (
                       <div
@@ -395,7 +395,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                     {synergies.map((item, idx) => {
                       const champKey = extractOpponentKey(item, champion.champion_key);
                       const imgUrl = champKey
-                        ? (asset(`/champion-tiles/${champKey}.webp`, "champion") ?? "")
+                        ? (resolveChampionTile(champKey) ?? "")
                         : "";
                       return (
                         <div
@@ -505,7 +505,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                       {stats.best_against.map((m, idx) => (
                         <div key={`bm-${idx}`} className="flex items-center gap-2 rounded-lg border border-green-400/20 bg-navy-800/50 p-2">
                           <img
-                            src={asset(`/champion-tiles/${m.vs_champion_key}.webp`, "champion") ?? ""}
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
                             alt={m.vs_champion_name}
                             className="h-10 w-10 rounded object-cover"
                           />
@@ -532,7 +532,7 @@ export default function ChampionPage({ championKey, onClose }: ChampionPageProps
                       {stats.worst_against.map((m, idx) => (
                         <div key={`wm-${idx}`} className="flex items-center gap-2 rounded-lg border border-red-400/20 bg-navy-800/50 p-2">
                           <img
-                            src={asset(`/champion-tiles/${m.vs_champion_key}.webp`, "champion") ?? ""}
+                            src={resolveChampionTile(m.vs_champion_key) ?? ""}
                             alt={m.vs_champion_name}
                             className="h-10 w-10 rounded object-cover"
                           />

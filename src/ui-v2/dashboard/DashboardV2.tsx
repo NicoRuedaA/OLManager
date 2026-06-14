@@ -11,7 +11,7 @@ import { useAdvanceTime, type MatchModeType } from "@/hooks/useAdvanceTime";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
 import { isAcademyTeam } from "@/store/academySelectors";
 import TeamProfileV2 from "@/ui-v2/pages/TeamProfileV2";
-import { asset } from "@/lib/asset";
+import { assetUrl } from "@/lib/assetUrl";
 import { DEFAULT_MANAGER_ICON_PATH } from "@/lib/common/managerAvatars";
 
 import {
@@ -342,7 +342,7 @@ export default function DashboardV2() {
     ? gameState.manager.nickname?.trim() ||
       `${gameState.manager.first_name} ${gameState.manager.last_name}`
     : managerName;
-  const managerAvatar = useMemo(() => gameState?.manager?.avatar_path ? asset(gameState.manager.avatar_path) : asset(DEFAULT_MANAGER_ICON_PATH), [gameState?.manager?.avatar_path]);
+  const managerAvatar = useMemo(() => gameState?.manager?.avatar_path ? assetUrl(gameState.manager.avatar_path) : assetUrl(DEFAULT_MANAGER_ICON_PATH), [gameState?.manager?.avatar_path]);
   const teamLogo = useMemo(() => resolveTeamLogo(myTeamName, myTeam?.logo_url), [myTeamName, myTeam?.logo_url]);
   const hasProfileHistory = hasDashboardProfileHistory(profileNavigation);
   const activeTabLabel = TAB_TRANSLATION_KEYS[profileNavigation.activeTab]

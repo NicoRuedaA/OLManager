@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Search, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter } from "lucide-react";
 import type { ChampionData } from "@/store/types";
 import { Card, CardBody } from "@/ui-v2/_legacy/components/ui";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile } from "@/lib/champions/championImages";
 import championsSeed from "../../../../../assets/simulation/champions.json";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 
@@ -145,7 +145,7 @@ export default function ChampionsGrid({ champions, onChampionClick }: ChampionsG
                     >
                       <td className="py-2.5 px-4">
                         <img
-                          src={asset(`/champion-tiles/${champion.champion_key}.webp`, "champion") ?? ""}
+                          src={resolveChampionTile(champion.champion_key) ?? ""}
                           alt={champion.name}
                           className="w-8 h-8 rounded-lg object-cover bg-gray-200 dark:bg-navy-600"
                           loading="lazy"

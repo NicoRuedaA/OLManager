@@ -52,7 +52,7 @@ const ROLE_META: Record<DraftRole, { nameKey: string; icon: string; defaultName:
   TOP: { nameKey: "tactics.lol.roles.TOP", icon: "🛡️", defaultName: "Top lane" },
   JUNGLE: { nameKey: "tactics.lol.roles.JUNGLE", icon: "🌲", defaultName: "Jungle" },
   MID: { nameKey: "tactics.lol.roles.MID", icon: "⚡", defaultName: "Mid lane" },
-  ADC: { nameKey: "tactics.lol.roles.ADC", icon: "🎯", defaultName: "ADC" },
+  ADC: { nameKey: "tactics.lol.roles.ADC", icon: "🎯", defaultName: "Bot lane (ADC)" },
   SUPPORT: { nameKey: "tactics.lol.roles.SUPPORT", icon: "🤝", defaultName: "Support" },
 };
 

@@ -8,7 +8,7 @@ import { formatDate, getTeamName } from "@/lib/common/helpers";
 import { countryName, allNationalities } from "@/lib/common/countries";
 import { CountryFlag } from "@/ui-v2/_legacy/components/ui/CountryFlag";
 import { resolveTeamLogo } from "@/lib/teams/teamLogos";
-import { asset } from "@/lib/asset";
+import { assetUrl } from "@/lib/assetUrl";
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import { MANAGER_ICON_PATHS, DEFAULT_MANAGER_ICON_PATH } from "@/lib/common/managerAvatars";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
@@ -128,7 +128,7 @@ export function ManagerTabV2({ gameState }: ManagerTabV2Props) {
               title={t("manager.changeAvatar")}
             >
               <img
-                src={asset(mgr.avatar_path ?? DEFAULT_MANAGER_ICON_PATH) ?? ""}
+                src={assetUrl(mgr.avatar_path ?? DEFAULT_MANAGER_ICON_PATH) ?? ""}
                 alt={displayName}
                 className="size-full object-cover"
                 loading="lazy"

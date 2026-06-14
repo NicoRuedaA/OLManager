@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { countryName, allNationalities } from "@/lib/common/countries";
 import DashboardModalFrame from "@/ui-v2/_legacy/components/dashboard/DashboardModalFrame";
 import { Settings, X, ChevronDown, Check, ImagePlus } from "lucide-react";
-import { asset } from "@/lib/asset";
+import { assetUrl } from "@/lib/assetUrl";
 import { MANAGER_ICON_PATHS } from "@/lib/common/managerAvatars";
 
 interface ManagerTabProps {
@@ -157,7 +157,7 @@ export default function ManagerTab({ gameState }: ManagerTabProps) {
             title={t("manager.changeAvatar", "Cambiar avatar")}
           >
             <img
-              src={asset(mgr.avatar_path) ?? ""}
+              src={assetUrl(mgr.avatar_path) ?? ""}
               alt={displayName}
               className="w-full h-full object-cover"
               loading="lazy"

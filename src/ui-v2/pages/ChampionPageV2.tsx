@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { invoke } from "@tauri-apps/api/core";
 import { Swords, Shield, Crosshair, Zap, TrendingUp, Crown, BarChart3, Activity } from "lucide-react";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile, resolveChampionSplash } from "@/lib/champions/championImages";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
 import { cn } from "@/ui-v2/lib/utils";
@@ -34,8 +34,8 @@ const ROLE_META: Record<string, { icon: typeof Shield; color: string; label: str
 export default function ChampionPageV2({ championKey }: Props) {
   const { t } = useTranslation();
   const [s, setS] = useState<Stats | null>(null);
-  const splash = asset(`/champion-splash/${championKey}.webp`, "champion");
-  const tile = asset(`/champion-tiles/${championKey}.webp`, "champion");
+  const splash = resolveChampionSplash(championKey);
+  const tile = resolveChampionTile(championKey);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -263,7 +263,7 @@ function MatchupBlock({ title, items, type }: {
         {items && items.length > 0 ? (
           <div className="divide-y divide-border/30">
             {items.slice(0, 5).map((item) => {
-              const tile = asset(`/champion-tiles/${item.vs_champion_key}.webp`, "champion");
+              const tile = resolveChampionTile(item.vs_champion_key);
               const wrColor = item.win_rate >= 50 ? "#34d399" : "#f87171";
               return (
                 <div key={item.vs_champion_key}

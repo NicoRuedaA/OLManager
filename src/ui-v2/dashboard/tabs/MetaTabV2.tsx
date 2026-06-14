@@ -8,7 +8,7 @@ import {
   getLolStaffEffectsForTeam,
 } from "@/lib/teams/lolStaffEffects";
 import { normalizeChampionKey } from "@/lib/champions/championIds";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile } from "@/lib/champions/championImages";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui-v2/components/ui/card";
@@ -227,7 +227,7 @@ export function MetaTabV2({ gameState, onViewChampion }: MetaTabV2Props) {
                           >
                             <div className="size-[52px] overflow-hidden rounded-md border border-border transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary">
                               <img
-                                src={asset(`/champion-tiles/${entry.champion_id}.webp`, "champion") ?? ""}
+                                src={resolveChampionTile(entry.champion_id) ?? ""}
                                 alt={championDisplayName(entry.champion_id)}
                                 className="size-full object-cover"
                                 loading="lazy"

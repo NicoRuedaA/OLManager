@@ -27,7 +27,7 @@ import {
   type MessageSortOrder,
 } from "@/lib/inbox/helpers";
 import { formatDateShort } from "@/lib/common/helpers";
-import { asset } from "@/lib/asset";
+import { assetUrl } from "@/lib/assetUrl";
 
 import { Card, CardContent } from "@/ui-v2/components/ui/card";
 import { Badge } from "@/ui-v2/components/ui/badge";
@@ -356,7 +356,7 @@ function MessageRow({
         >
           {message.sender_icon ? (
             <img
-              src={asset(`/messages-icons/${message.sender_icon}`) ?? ""}
+              src={assetUrl(`/messages-icons/${message.sender_icon}`) ?? ""}
               alt={message.sender}
               className="size-full object-cover"
               onError={(e) => {
@@ -438,7 +438,7 @@ function DetailPane({
         <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
           {message.sender_icon && (
             <img
-              src={asset(`/messages-icons/${message.sender_icon}`) ?? ""}
+              src={assetUrl(`/messages-icons/${message.sender_icon}`) ?? ""}
               alt=""
               className="size-5 rounded object-contain bg-muted"
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}

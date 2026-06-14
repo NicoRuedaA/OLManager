@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Search, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import type { ChampionData } from "@/store/types";
-import { asset } from "@/lib/asset";
+import { resolveChampionTile } from "@/lib/champions/championImages";
 import { cn } from "@/ui-v2/lib/utils";
 import championsSeed from "../../../assets/simulation/champions.json";
 import { ROLE_ICON_PATHS } from "@/lib/players/roleIcons";
@@ -117,7 +117,7 @@ export default function ChampionsGridV2({ champions, onChampionClick }: Champion
           >
           {paginated.map((champion, i) => {
             const roles = CHAMPION_ROLES[champion.champion_key] ?? [];
-            const tile = asset(`/champion-tiles/${champion.champion_key}.webp`, "champion");
+            const tile = resolveChampionTile(champion.champion_key);
             return (
               <button
                 key={champion.id}

@@ -168,8 +168,6 @@ export function TrainingTabV2({
   const { t } = useTranslation();
   const [scheduleSaving, setScheduleSaving] = useState(false);
   const [trainingSaving, setTrainingSaving] = useState(false);
-  const [focusSaving, setFocusSaving] = useState(false);
-  const [intensitySaving, setIntensitySaving] = useState(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
   const [newGroupFocus, setNewGroupFocus] = useState(DEFAULT_TRAINING_FOCUS);
@@ -214,9 +212,9 @@ export function TrainingTabV2({
                 defaultValue: "Sin equipo activo",
               })}
             </p>
-            </CardContent>
-          </Card>
-        </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -302,27 +300,15 @@ export function TrainingTabV2({
     t(LOL_VISIBLE_STAT_LABEL_KEYS[statId], { defaultValue: statId });
 
   // ─── Handlers ─────────────────────────────────────────────────
-  const handleSetFocus = async (focus: string) => {
-    setFocusSaving(true);
+  const handleSetTraining = async (focus: string, intensity: string) => {
+    setTrainingSaving(true);
     try {
-      const updated = await setTraining(focus, currentIntensity);
+      const updated = await setTraining(focus, intensity);
       onGameUpdate(updated);
     } catch (error) {
-      console.error("Failed to set training focus:", error);
+      console.error("Failed to set training:", error);
     } finally {
-      setFocusSaving(false);
-    }
-  };
-
-  const handleSetIntensity = async (intensity: string) => {
-    setIntensitySaving(true);
-    try {
-      const updated = await setTraining(currentFocus, intensity);
-      onGameUpdate(updated);
-    } catch (error) {
-      console.error("Failed to set training intensity:", error);
-    } finally {
-      setIntensitySaving(false);
+      setTrainingSaving(false);
     }
   };
 
@@ -506,6 +492,47 @@ export function TrainingTabV2({
           <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-3 lg:grid-rows-[1fr]">
             {/* ── Left column: Settings ─────────────────────────────── */}
             <div className="flex flex-col gap-4 lg:col-span-2 h-full">
+          {/* ── Staff Advice Banner ────────────────────────────── */}
+          {staffAdvice && (
+            <div
+              className={cn(
+                "flex items-start gap-3 rounded-xl border-2 p-4",
+                staffAdvice.level === "critical" &&
+                  "border-red-500/40 bg-red-500/10",
+                staffAdvice.level === "warn" &&
+                  "border-amber-500/40 bg-amber-500/10",
+                staffAdvice.level === "ok" &&
+                  "border-emerald-500/40 bg-emerald-500/10",
+              )}
+            >
+              {staffAdvice.level === "critical" ? (
+                <AlertTriangle className="mt-0.5 size-5 shrink-0 text-red-400" />
+              ) : staffAdvice.level === "warn" ? (
+                <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-400" />
+              ) : (
+                <Info className="mt-0.5 size-5 shrink-0 text-emerald-400" />
+              )}
+              <div>
+                <p
+                  className={cn(
+                    "mb-0.5 font-heading text-xs font-bold uppercase tracking-wider",
+                    staffAdvice.level === "critical" && "text-red-400",
+                    staffAdvice.level === "warn" && "text-amber-400",
+                    staffAdvice.level === "ok" && "text-emerald-400",
+                  )}
+                >
+                  {staffAdvice.level === "critical"
+                    ? t("training.staffAlert", { defaultValue: "Alerta" })
+                    : staffAdvice.level === "warn"
+                      ? t("training.staffWarning", { defaultValue: "Advertencia" })
+                      : t("training.staffSuggestion", { defaultValue: "Sugerencia" })}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {staffAdvice.message}
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* ── Schedule Card ───────────────────────────────────── */}
           <Card>
@@ -517,7 +544,7 @@ export function TrainingTabV2({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-3 min-h-[185px]">
+              <div className="flex gap-3">
                 {SCHEDULE_IDS.map((scheduleId) => {
                   const isActive = currentSchedule === scheduleId;
                   const dayCount = SCHEDULE_DAY_COUNT[scheduleId];
@@ -532,7 +559,7 @@ export function TrainingTabV2({
                       disabled={scheduleSaving}
                       onClick={() => handleSetSchedule(scheduleId)}
                       className={cn(
-                        "flex h-full flex-1 flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
+                        "flex flex-1 flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
                         isActive
                           ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
@@ -613,14 +640,16 @@ export function TrainingTabV2({
                     <button
                       key={focusId}
                       type="button"
-                      disabled={focusSaving}
-                      onClick={() => handleSetFocus(focusId)}
+                      disabled={trainingSaving}
+                      onClick={() =>
+                        handleSetTraining(focusId, currentIntensity)
+                      }
                       className={cn(
-                        "flex h-full flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
+                        "flex flex-col gap-2 rounded-xl border-2 p-3 text-left transition-all duration-150",
                         isActive
                           ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
-                        focusSaving && "pointer-events-none opacity-60",
+                        trainingSaving && "pointer-events-none opacity-60",
                       )}
                     >
                       <div className={cn("transition-colors", isActive ? "text-primary" : "text-muted-foreground")}>
@@ -662,19 +691,21 @@ export function TrainingTabV2({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex gap-3 min-h-[185px]">
+              <div className="flex gap-3">
                 {INTENSITY_IDS.map((intensityId) => (
                     <button
                       key={intensityId}
                       type="button"
-                      disabled={intensitySaving}
-                      onClick={() => handleSetIntensity(intensityId)}
+                      disabled={trainingSaving}
+                      onClick={() =>
+                        handleSetTraining(currentFocus, intensityId)
+                      }
                       className={cn(
-                        "h-full flex-1 rounded-lg border-2 py-4 px-3 text-left transition-all duration-150",
+                        "flex-1 rounded-lg border-2 py-4 px-3 text-left transition-all duration-150",
                         currentIntensity === intensityId
                           ? "border-primary bg-primary/10 shadow-sm shadow-primary/10"
                           : "border-border hover:border-primary/50",
-                        intensitySaving && "pointer-events-none opacity-60",
+                        trainingSaving && "pointer-events-none opacity-60",
                       )}
                     >
                       <p
@@ -1049,61 +1080,6 @@ export function TrainingTabV2({
               </p>
             </CardContent>
           </Card>
-
-          {/* ── Staff Advice ────────────────────────────────────── */}
-          <div
-            className={cn(
-              "flex items-start gap-3 rounded-xl border-2 p-4",
-              staffAdvice?.level === "critical" &&
-                "border-red-500/40 bg-red-500/10",
-              staffAdvice?.level === "warn" &&
-                "border-amber-500/40 bg-amber-500/10",
-              staffAdvice?.level === "ok" &&
-                "border-emerald-500/40 bg-emerald-500/10",
-              !staffAdvice && "border-border/40 bg-muted/20 opacity-70",
-            )}
-          >
-            {staffAdvice ? (
-              <>
-                {staffAdvice.level === "critical" ? (
-                  <AlertTriangle className="mt-0.5 size-5 shrink-0 text-red-400" />
-                ) : staffAdvice.level === "warn" ? (
-                  <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-400" />
-                ) : (
-                  <Info className="mt-0.5 size-5 shrink-0 text-emerald-400" />
-                )}
-                <div>
-                  <p
-                    className={cn(
-                      "mb-0.5 font-heading text-xs font-bold uppercase tracking-wider",
-                      staffAdvice.level === "critical" && "text-red-400",
-                      staffAdvice.level === "warn" && "text-amber-400",
-                      staffAdvice.level === "ok" && "text-emerald-400",
-                    )}
-                  >
-                    {staffAdvice.level === "critical"
-                      ? t("training.staffAlert", { defaultValue: "Alerta" })
-                      : staffAdvice.level === "warn"
-                        ? t("training.staffWarning", { defaultValue: "Advertencia" })
-                        : t("training.staffSuggestion", { defaultValue: "Sugerencia" })}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {staffAdvice.message}
-                  </p>
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center gap-3 w-full">
-                <Info className="mt-0.5 size-5 shrink-0 text-muted-foreground/50" />
-                <div>
-                  <p className="mb-0.5 font-heading text-xs font-bold uppercase tracking-wider text-muted-foreground/50">
-                    {t("training.staffSuggestion", { defaultValue: "Sugerencia" })}
-                  </p>
-                  <p className="text-sm text-muted-foreground/50">&mdash;</p>
-                </div>
-              </div>
-            )}
-          </div>
         </div>
       </div>
       </TabsContent>
