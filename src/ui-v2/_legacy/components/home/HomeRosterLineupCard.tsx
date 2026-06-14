@@ -8,7 +8,7 @@ import { fallbackChampionForRole, resolvePlayerLolRole } from "@/lib/players/lol
 
 import { calculateLolOvr } from "@/lib/players/lolPlayerStats";
 import { normalizeChampionKey } from "@/lib/champions/championIds";
-import { resolveChampionSplash } from "@/lib/champions/championImages";
+import { asset } from "@/lib/asset";
 
 type DraftRole = "TOP" | "JUNGLE" | "MID" | "ADC" | "SUPPORT";
 
@@ -115,7 +115,7 @@ export default function HomeRosterLineupCard({
               : "";
             const canonicalKey = topChampion ? normalizeChampionKey(topChampion) : "";
             const championSplash = canonicalKey
-              ? resolveChampionSplash(canonicalKey)
+              ? asset(`/champion-splash/${canonicalKey}.webp`, "champion")
               : null;
 
             return (
