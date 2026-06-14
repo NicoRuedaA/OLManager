@@ -1,10 +1,10 @@
 import lesPlayersData from "../../../data/players/les_players.json";
 import lflPlayersData from "../../../data/players/lfl_players.json";
 import primeLeaguePlayersData from "../../../data/players/prm_players.json";
-import { assetUrl } from "../assetUrl";
+import { asset } from "../asset";
 
-const FALLBACK_PLAYER_PHOTO = "/default/defaultplayer.webp";
-const FALLBACK_STAFF_PHOTO = "/default/defaultstaff.webp";
+const FALLBACK_PLAYER_PHOTO = asset("/default/defaultplayer.webp");
+const FALLBACK_STAFF_PHOTO = asset("/default/defaultstaff.webp");
 
 function normalizeKey(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -59,10 +59,10 @@ export function resolvePlayerPhoto(
   matchName?: string,
   profileImageUrl?: string | null,
 ): string | null {
-  return assetUrl(resolvePlayerPhotoRaw(playerId, matchName, profileImageUrl));
+  return asset(resolvePlayerPhotoRaw(playerId, matchName, profileImageUrl));
 }
 
 export function resolveStaffPhoto(profileImageUrl?: string | null): string | null {
-  if (profileImageUrl) return assetUrl(profileImageUrl);
+  if (profileImageUrl) return asset(profileImageUrl);
   return FALLBACK_STAFF_PHOTO;
 }
