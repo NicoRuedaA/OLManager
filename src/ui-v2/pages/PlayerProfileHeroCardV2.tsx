@@ -91,17 +91,6 @@ export default function PlayerProfileHeroCardV2({
     }
   }, [insigniaChampionId]);
 
-  const stats = [
-    { label: t("common.ovr"), value: String(ovr), color: "text-primary" },
-    { label: t("common.condition"), value: `${player.condition}%`, color: player.condition >= 70 ? "text-emerald-400" : "text-red-400" },
-    { label: t("common.fitness"), value: `${player.fitness ?? 75}%`, color: player.fitness != null && player.fitness >= 70 ? "text-emerald-400" : "text-red-400" },
-    { label: t("common.morale"), value: `${player.morale}%`, color: player.morale >= 70 ? "text-primary" : "text-red-400" },
-    { label: t("common.potential"), value: potentialValueLabel, color: "text-foreground/90", icon: potentialRevealed === null ? <EyeOff className="size-4" /> : undefined },
-    { label: t("common.value"), value: formatPlayerMarketValue(player.market_value), color: "text-foreground" },
-    { label: t("common.wage"), value: formatPlayerWage(player.wage, annualSuffix), color: "text-foreground" },
-    { label: t("common.age"), value: String(age), color: "text-foreground" },
-  ];
-
   return (
     <Card className="overflow-hidden h-full py-0 shadow-[0_0_0_1px_rgba(249,115,22,0.15),inset_0_0_30px_rgba(249,115,22,0.05)]">
       <div className="relative flex flex-1 flex-col">
@@ -113,7 +102,6 @@ export default function PlayerProfileHeroCardV2({
         ) : (
           <div className="absolute inset-0 bg-linear-to-r from-muted/80 to-muted/40" />
         )}
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`, backgroundSize: "256px 256px" }} />
 
         <CardContent className="relative z-10 flex flex-1 flex-col justify-center gap-5 px-9 py-5 md:flex-row md:items-center">
           {/* Left: photo + ovr */}
@@ -223,21 +211,32 @@ export default function PlayerProfileHeroCardV2({
             <PlayerProfileScoutAction availability={scoutAvailability} scoutStatus={scoutStatus} scoutError={scoutError} onScout={onScout} />
           </div>
 
-          {/* Right: quick stats carousel */}
-          <div className="hidden md:block relative max-w-[260px]">
-            <div className="flex gap-2 overflow-x-auto scrollbar-none snap-x snap-mandatory [-webkit-overflow-scrolling:touch] [mask-image:linear-gradient(to_right,transparent_0%,black_8%,black_92%,transparent_100%)]">
-              {stats.map((stat, i) => (
-                <div key={i} className="snap-start shrink-0 min-w-20 rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-center backdrop-blur-xs">
-                  <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground/70 whitespace-nowrap">{stat.label}</p>
-                  <p className={cn("mt-0.5 inline-flex items-center justify-center gap-1 font-heading text-lg font-bold whitespace-nowrap", stat.color)}>
-                    {stat.icon ?? stat.value}
-                  </p>
-                </div>
-              ))}
+          {/* Right: quick stats */}
+          <div className="hidden md:block">
+             <div className="grid grid-cols-4 gap-2">
+              <QuickStatV2 label={t("common.ovr")} value={String(ovr)} color="text-primary" />
+              <QuickStatV2 label={t("common.condition")} value={`${player.condition}%`} color={player.condition >= 70 ? "text-emerald-400" : "text-red-400"} />
+              <QuickStatV2 label={t("common.fitness")} value={`${player.fitness ?? 75}%`} color={player.fitness != null && player.fitness >= 70 ? "text-emerald-400" : "text-red-400"} />
+              <QuickStatV2 label={t("common.morale")} value={`${player.morale}%`} color={player.morale >= 70 ? "text-primary" : "text-red-400"} />
+              <QuickStatV2 label={t("common.potential")} value={potentialValueLabel} color="text-foreground/90" icon={potentialRevealed === null ? <EyeOff className="size-4" /> : undefined} />
+              <QuickStatV2 label={t("common.value")} value={formatPlayerMarketValue(player.market_value)} color="text-foreground" />
+              <QuickStatV2 label={t("common.wage")} value={formatPlayerWage(player.wage, annualSuffix)} color="text-foreground" />
+              <QuickStatV2 label={t("common.age")} value={String(age)} color="text-foreground" />
             </div>
           </div>
         </CardContent>
       </div>
     </Card>
+  );
+}
+
+function QuickStatV2({ label, value, color, icon }: { label: string; value: string; color: string; icon?: React.ReactNode }) {
+  return (
+    <div className="min-w-20 rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-center backdrop-blur-xs">
+      <p className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground/70">{label}</p>
+      <p className={cn("mt-0.5 inline-flex items-center justify-center gap-1 font-heading text-lg font-bold", color)}>
+        {icon ?? value}
+      </p>
+    </div>
   );
 }

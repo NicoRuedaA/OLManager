@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { CareerEntry, GameStateData } from "@/store/gameStore";
 import { getTeamLogoPath } from "@/lib/schedule/helpers";
+import ProfileCardShell from "@/ui-v2/pages/ProfileCardShell";
 
 interface Props {
   gameState: GameStateData;
@@ -16,12 +17,8 @@ export default function PlayerProfileTeamHistoryCard({ gameState, t, career, cur
   );
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <h4 className="font-heading text-sm font-bold uppercase tracking-wider text-muted-foreground">
-        {t("playerProfile.teamHistory", { defaultValue: "Historial de equipos" })}
-      </h4>
-
-      {sorted.length === 0 ? (
+    <ProfileCardShell title={t("playerProfile.teamHistory", { defaultValue: "Historial de equipos" })}>
+        {sorted.length === 0 ? (
         currentTeamName ? (
           <p className="mt-4 text-sm text-foreground/80">
             {t("playerProfile.currentTeam", { defaultValue: "Current team: {{team}}", team: currentTeamName })}
@@ -78,8 +75,8 @@ export default function PlayerProfileTeamHistoryCard({ gameState, t, career, cur
               </div>
             );
           })}
-        </div>
-      )}
-    </div>
+          </div>
+        )}
+    </ProfileCardShell>
   );
 }

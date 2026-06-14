@@ -1,6 +1,7 @@
 import { Briefcase, Calendar } from "lucide-react";
 import { formatDate, getContractRiskBadgeVariant, getContractYearsRemaining } from "@/lib/common/helpers";
-import { Badge, Button, Card, CardBody, CardHeader } from "@/ui-v2/_legacy/components/ui";
+import { Badge, Button } from "@/ui-v2/_legacy/components/ui";
+import ProfileCardShell from "@/ui-v2/pages/ProfileCardShell";
 
 type TranslateFn = (
     key: string,
@@ -39,10 +40,8 @@ export default function PlayerProfileContractCard({
     t,
 }: PlayerProfileContractCardProps) {
     return (
-        <Card className="flex flex-col h-full">
-            <CardHeader>{t("playerProfile.contractInfo")}</CardHeader>
-            <CardBody className="min-h-0 flex-1">
-                <div className="flex flex-col gap-3">
+        <ProfileCardShell title={t("playerProfile.contractInfo")}>
+            <div className="flex flex-col gap-3">
                     <InfoRow
                         icon={<Calendar className="w-3.5 h-3.5" />}
                         label={t("playerProfile.dateOfBirth")}
@@ -102,8 +101,7 @@ export default function PlayerProfileContractCard({
                         </Button>
                     </div>
                 ) : null}
-            </CardBody>
-        </Card>
+        </ProfileCardShell>
     );
 }
 

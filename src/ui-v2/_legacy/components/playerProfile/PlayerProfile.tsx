@@ -979,7 +979,7 @@ export default function PlayerProfile({
             />
         </div>
 
-        <div className="xl:col-start-4 xl:row-start-3 grid grid-rows-[1fr] min-h-0 overflow-y-auto rounded-xl border border-border bg-card p-5">
+        <div className="xl:col-start-4 xl:row-start-3 grid grid-rows-[1fr] min-h-0 overflow-y-auto">
           <PlayerProfileTeamHistoryCard
               gameState={gameState}
               t={t}

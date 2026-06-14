@@ -1,7 +1,7 @@
 import { Crown, Search } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Card, CardBody, CardHeader } from "@/ui-v2/_legacy/components/ui";
-import { resolveChampionTile } from "@/lib/champions/championImages";
+import ProfileCardShell from "@/ui-v2/pages/ProfileCardShell";
+import { asset } from "@/lib/asset";
 
 interface ChampionMasteryItem {
   championId: string;
@@ -27,9 +27,7 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
   const TOTAL_SLOTS = 6;
 
   return (
-    <Card className="lg:col-span-2 h-full flex flex-col">
-      <CardHeader>{t("playerProfile.championPoolTitle")}</CardHeader>
-      <CardBody className="py-4 px-5 flex-1">
+    <ProfileCardShell title={t("playerProfile.championPoolTitle")}>
         <div className="grid grid-cols-2 grid-rows-3 gap-2.5 h-full min-h-0">
           {Array.from({ length: TOTAL_SLOTS }).map((_, i) => {
             const champion = champions[i];
@@ -44,7 +42,7 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
                 >
                   <div
                     className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${resolveChampionTile(champion.championId) ?? ""})` }}
+                    style={{ backgroundImage: `url(${asset(`/champion-tiles/${champion.championId}.webp`, "champion") ?? ""})` }}
                   />
                   <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/50 to-black/65" />
 
@@ -96,8 +94,7 @@ export default function PlayerProfileChampionsCard({ champions, onViewChampion }
             );
           })}
         </div>
-      </CardBody>
-    </Card>
+    </ProfileCardShell>
   );
 }
 
