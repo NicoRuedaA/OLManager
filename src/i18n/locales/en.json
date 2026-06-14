@@ -1015,7 +1015,7 @@
         "TOP": "Top lane",
         "JUNGLE": "Jungle",
         "MID": "Mid lane",
-        "ADC": "Bot lane (ADC)",
+        "ADC": "ADC",
         "SUPPORT": "Support"
       },
       "sections": {
